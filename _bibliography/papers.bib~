@@ -1,0 +1,45 @@
+---
+---
+
+@string{aps = {American Physical Society,}}
+
+
+
+
+@article{john2020bio,
+  title={Bio-decolorization of synthetic dyes by a halophilic bacterium Salinivibrio sp.},
+  author={John, Jojy and Dineshram, Ramadoss and Hemalatha, Kaveripakam Raman and Dhassiah, Magesh Peter and Gopal, Dharani and Kumar, Amit},
+  journal={Frontiers in Microbiology},
+  volume={11},
+  pages={594011},
+  year={2020},
+  publisher={Frontiers Media SA}
+}
+
+@article{john2020unveiling,
+  title={Unveiling cultivable and uncultivable halophilic bacteria inhabiting Marakkanam saltpan, India and their potential for biotechnological applications},
+  author={John, Jojy and Siva, Vinu and Kumari, Richa and Arya, Aditya and Kumar, Amit},
+  journal={Geomicrobiology Journal},
+  volume={37},
+  number={8},
+  pages={691--701},
+  year={2020},
+  publisher={Taylor \& Francis}
+}
+
+@article{john2019life,
+  title={Life in high salt concentrations with changing environmental conditions: insights from genomic and phenotypic analysis of Salinivibrio sp.},
+  author={John, Jojy and Siva, Vinu and Richa, Kumari and Arya, Aditya and Kumar, Amit},
+  journal={Microorganisms},
+  volume={7},
+  number={11},
+  pages={577},
+  year={2019},
+  publisher={MDPI}
+}
+
+@article{john2017physiological,
+  title={Physiological tolerance of the early life history stages of fresh water prawn (Macrobrachium rosenbergiiDe Man, 1879) to environmental stress},
+  author={John, J and Siva, VS and Kumar, A and Ebenezer, V and Raika, P and Khalifa, U and Thanumalya, S and Sanjeevi, P},
+  year={2017}
+}
