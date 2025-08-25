@@ -12,8 +12,7 @@ related_publications: true
 
 I am an expert in microbial ecology, bioinformatics, and bio-computational analysis. I support researchers by helping them piece together missing elements in their data or workflows. Below are some of my recent collaborations
 
-
-*******************************************************************************************************************
+---
 
 ## 1. Nanoplastics and Human gut microbiota
 

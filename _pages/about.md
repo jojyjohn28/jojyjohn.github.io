@@ -34,7 +34,7 @@ Here are some of the key skills that define my research and expertise:
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        <img src="{{ site.baseurl }}/assets/img/jj_skill.jpg" alt="Example Image" class="img-fluid rounded z-depth-1" loading="eager">
+        <img src="/assets/img/jj_skill.jpg" alt="Example Image" class="img-fluid rounded z-depth-1" loading="eager">
     </div>
 </div>
 ---
