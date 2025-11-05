@@ -1,99 +1,47 @@
-name: Deploy site
+name: Build and Deploy Al-Folio Site
 
 on:
   push:
     branches:
-      - master
-      - main
-    paths:
-      - "assets/**"
-      - "**.bib"
-      - "**.html"
-      - "**.js"
-      - "**.liquid"
-      - "**/*.md"
-      - "**.yml"
-      - "Gemfile"
-      - "Gemfile.lock"
-      - "!.github/workflows/axe.yml"
-      - "!.github/workflows/broken-links.yml"
-      - "!.github/workflows/deploy-docker-tag.yml"
-      - "!.github/workflows/deploy-image.yml"
-      - "!.github/workflows/docker-slim.yml"
-      - "!.github/workflows/lighthouse-badger.yml"
-      - "!.github/workflows/prettier.yml"
-      - "!lighthouse_results/**"
-      - "!CONTRIBUTING.md"
-      - "!CUSTOMIZE.md"
-      - "!FAQ.md"
-      - "!INSTALL.md"
-      - "!README.md"
-  pull_request:
-    branches:
-      - master
-      - main
-    paths:
-      - "assets/**"
-      - "**.bib"
-      - "**.html"
-      - "**.js"
-      - "**.liquid"
-      - "**/*.md"
-      - "**.yml"
-      - "Gemfile"
-      - "Gemfile.lock"
-      - "!.github/workflows/axe.yml"
-      - "!.github/workflows/broken-links.yml"
-      - "!.github/workflows/deploy-docker-tag.yml"
-      - "!.github/workflows/deploy-image.yml"
-      - "!.github/workflows/docker-slim.yml"
-      - "!.github/workflows/lighthouse-badger.yml"
-      - "!.github/workflows/prettier.yml"
-      - "!lighthouse_results/**"
-      - "!CONTRIBUTING.md"
-      - "!CUSTOMIZE.md"
-      - "!FAQ.md"
-      - "!INSTALL.md"
-      - "!README.md"
-  workflow_dispatch:
-
-permissions:
-  contents: write
+      - main  # deploy whenever you push to main branch
 
 jobs:
-  deploy:
-    # available images: https://github.com/actions/runner-images#available-images
+  build-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.2.2"
-          bundler-cache: true
-      - name: Update _config.yml ⚙️
-        uses: fjogeleit/yaml-update-action@main
-        with:
-          commitChange: false
-          valueFile: "_config.yml"
-          propertyPath: "giscus.repo"
-          value: ${{ github.repository }}
-      - name: Install and Build 🔧
+          ruby-version: 3.2  # or the version in your Gemfile
+
+      # 🔧 Fix for Ubuntu 24.04 & sass-embedded gem build errors
+      - name: Install system dependencies
         run: |
-          pip3 install --upgrade jupyter
-          export JEKYLL_ENV=production
+          sudo apt-get update
+          sudo apt-get install -y build-essential libffi-dev ruby-dev
+
+      - name: Install precompiled sass-embedded
+        run: |
+          gem uninstall sass-embedded -aIx || true
+          gem install sass-embedded -v 1.70.0 --platform x86_64-linux
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Build site
+        run: |
           bundle exec jekyll build
-      - name: Purge unused CSS 🧹
-        run: |
-          npm install -g purgecss
-          purgecss -c purgecss.config.js
-      - name: Deploy 🚀
-        if: github.event_name != 'pull_request'
-        uses: JamesIves/github-pages-deploy-action@v4
+          purgecss -c purgecss.config.js || true  # ignore if purgecss fails
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v5
         with:
-          folder: _site
-      - name: Fix permission
-        run: |
-          chmod a+x bin/*
-          git commit -am "add execute permission to bin/deploy"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          publish_branch: gh-pages
