@@ -54,7 +54,7 @@ layout: default
         {{ page.title }}
         {% if page.cv_pdf %}
           <a
-            href="{{ page.cv_pdf | prepend: 'assets/pdf/' | relative_url}}"
+            href="{{ page.cv_pdf | relative_url }}"
             target="_blank"
             rel="noopener noreferrer"
             class="float-right"
@@ -106,7 +106,6 @@ layout: default
                 {% when 'references' %}
                   {% include resume/references.liquid %}
                 {% else %}
-
               {% endcase %}
             </div>
           </div>
