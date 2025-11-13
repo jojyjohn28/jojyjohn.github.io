@@ -3,45 +3,32 @@ name: Build and Deploy Al-Folio Site
 on:
   push:
     branches:
-      - main  # deploy whenever you push to main branch
+      - main
+      - master
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2  # or the version in your Gemfile
-
-      # 🔧 Fix for Ubuntu 24.04 & sass-embedded gem build errors
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libffi-dev ruby-dev
-
-      - name: Install precompiled sass-embedded
-        run: |
-          gem uninstall sass-embedded -aIx || true
-          gem install sass-embedded -v 1.70.0 --platform x86_64-linux
+          ruby-version: 3.1
+          bundler-cache: true
 
       - name: Install dependencies
-        run: |
-          gem install bundler
-          bundle install
+        run: bundle install
 
-      - name: Build site
-        run: |
-          bundle exec jekyll build
-          purgecss -c purgecss.config.js || true  # ignore if purgecss fails
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v5
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
           publish_branch: gh-pages
+
