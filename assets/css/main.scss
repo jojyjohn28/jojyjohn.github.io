@@ -1,4 +1,6 @@
-# Only the main Sass file needs front matter (the dashes are enough)
+---
+# Only the main Sass file needs front matter.
+# The dashes above are enough.
 ---
 @charset "utf-8";
 
@@ -27,14 +29,26 @@ $max-content-width: {{ site.max_width }};
    CUSTOM BLOG BANNER STYLES
    =========================== */
 
+/* Outer wrapper for spacing */
 .blog-banner-container {
   text-align: center;
-  margin: 30px 0;
+  margin: 25px 0 35px 0;
 }
 
+/* Actual banner styling */
 .blog-banner {
-  max-width: 100%;
-  height: auto;
-  border-radius: 6px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+  width: 100%;            /* Full width on all screens */
+  max-height: 280px;       /* Adjust height here (220–320px works best) */
+  object-fit: cover;       /* Ensures the banner fills width and crops height */
+  display: block;
+  margin: 0 auto;
+  border-radius: 6px;      /* Soft rounded corners */
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18); /* Nice soft shadow */
+}
+
+/* Optional: improve mobile banner look */
+@media (max-width: 600px) {
+  .blog-banner {
+    max-height: 220px;
+  }
 }
