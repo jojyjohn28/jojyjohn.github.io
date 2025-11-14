@@ -6,4 +6,4 @@ inline: true
 related_posts: false
 ---
 
-Abstract got accepted for ASM25 see at LA, USA in June :sparkles: :smile:
+Abstract got accepted for ASM25 see at LA, USA in June.

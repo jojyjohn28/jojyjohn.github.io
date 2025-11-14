@@ -6,4 +6,4 @@ inline: true
 related_posts: false
 ---
 
-Abstract got accepted for ASLO 25 see at Charlotte, USA in March :sparkles: :smile:
+Abstract got accepted for ASLO 25 see at Charlotte, USA in March.
