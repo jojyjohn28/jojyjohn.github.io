@@ -14,6 +14,21 @@ layout: default
 
 {% assign url_beginning = page.url | slice: 0, 6 %}
 
+<!-- ========================= -->
+<!-- BLOG BANNER AREA -->
+<!-- (Can disable with -->
+<!-- banner: false in post) -->
+<!-- ========================= -->
+{% if page.banner != false %}
+  <div class="blog-banner-container">
+    <img
+      src="{{ '/assets/img/blog-banner.png' | relative_url }}"
+      class="blog-banner"
+      alt="Daily Bioinformatics Banner"
+    >
+  </div>
+{% endif %}
+
 <div class="post">
   <header class="post-header">
     <h1 class="post-title">{{ page.title }}</h1>
@@ -23,12 +38,14 @@ layout: default
       {% if page.last_updated %}, last updated in {{ page.last_updated | date: '%B %d, %Y' }}{% endif %}
       {% if page.meta %}• {{ page.meta }}{% endif %}
     </p>
+
     <p class="post-tags">
       {% if url_beginning == '/blog/' %}
         <a href="{{ year | prepend: '/blog/' | prepend: site.baseurl}}"> <i class="fa-solid fa-calendar fa-sm"></i> {{ year }} </a>
       {% else %}
         <i class="fa-solid fa-calendar fa-sm"></i> {{ year }}
       {% endif %}
+
       {% if tags != '' %}
         &nbsp; &middot; &nbsp;
         {% for tag in page.tags %}
@@ -62,10 +79,6 @@ layout: default
   </header>
 
   <article class="post-content">
-    {% comment %}
-      Table of contents (toc) tag is unsupported on GitHub Pages
-      {% toc %}
-    {% endcomment %}
     <div id="markdown-content">
       {{ content }}
     </div>
@@ -80,6 +93,7 @@ layout: default
     <div class="publications">
       {% bibliography --cited_in_order %}
     </div>
+    </h2>
   {% endif %}
 
   {% if site.related_blog_posts.enabled %}
