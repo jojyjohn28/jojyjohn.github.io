@@ -198,11 +198,35 @@
             
           
             
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
               
                 
                 <li class="nav-item ">
                   
                   <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/blog/">Blog
                     
                   </a>
                 </li>
@@ -322,6 +346,17 @@
 
 
 
+<!-- ========================= -->
+<!-- BLOG BANNER AREA -->
+<!-- (Can disable with -->
+<!-- banner: false in post) -->
+<!-- ========================= -->
+
+  <div class="blog-banner-container">
+    <img src="/assets/img/blog-banner.png" class="blog-banner" alt="Daily Bioinformatics Banner">
+  </div>
+
+
 <div class="post">
   <header class="post-header">
     <h1 class="post-title">a post with tabs</h1>
@@ -331,10 +366,12 @@
       
       
     </p>
+
     <p class="post-tags">
       
         <i class="fa-solid fa-calendar fa-sm"></i> 2024
       
+
       
           ·  
         
@@ -365,7 +402,6 @@
   </header>
 
   <article class="post-content">
-    
     <div id="markdown-content">
       <p>This is how a post with <a href="https://github.com/Ovski4/jekyll-tabs" rel="external nofollow noopener" target="_blank">tabs</a> looks like. Note that the tabs could be used for different purposes, not only for code.</p>
 
@@ -392,7 +428,7 @@ Content 2
 
 <p>With this you can generate visualizations like:</p>
 
-<ul id="log" class="tab" data-tab="5bf7d478-82f2-4ef5-8b7b-621ecbe5958a" data-name="log">
+<ul id="log" class="tab" data-tab="c406cc2b-3a67-4d24-8971-45fa006a6d49" data-name="log">
   
       <li class="active" id="log-php">
           <a href="#">php </a>
@@ -407,7 +443,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="5bf7d478-82f2-4ef5-8b7b-621ecbe5958a" data-name="log">
+<ul class="tab-content" id="c406cc2b-3a67-4d24-8971-45fa006a6d49" data-name="log">
   
       <li class="active">
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">var_dump</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">);</span>
@@ -431,7 +467,7 @@ Content 2
 
 <h2 id="another-example">Another example</h2>
 
-<ul id="data-struct" class="tab" data-tab="816a41ff-f46e-4b0a-91e6-556b9d131b2a" data-name="data-struct">
+<ul id="data-struct" class="tab" data-tab="a5ff2b14-5ab0-4c72-b022-063a87374239" data-name="data-struct">
   
       <li class="active" id="data-struct-yaml">
           <a href="#">yaml </a>
@@ -442,7 +478,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="816a41ff-f46e-4b0a-91e6-556b9d131b2a" data-name="data-struct">
+<ul class="tab-content" id="a5ff2b14-5ab0-4c72-b022-063a87374239" data-name="data-struct">
   
       <li class="active">
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">hello</span><span class="pi">:</span>
@@ -464,7 +500,7 @@ Content 2
 
 <h2 id="tabs-for-something-else">Tabs for something else</h2>
 
-<ul id="something-else" class="tab" data-tab="b38bb74b-f12f-4948-8937-cc858c0df755" data-name="something-else">
+<ul id="something-else" class="tab" data-tab="21194674-35f2-445b-bd51-9d3cfdce9691" data-name="something-else">
   
       <li class="active" id="something-else-text">
           <a href="#">text </a>
@@ -479,7 +515,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="b38bb74b-f12f-4948-8937-cc858c0df755" data-name="something-else">
+<ul class="tab-content" id="21194674-35f2-445b-bd51-9d3cfdce9691" data-name="something-else">
   
       <li class="active">
 <p>Regular text</p>
@@ -756,6 +792,13 @@ Content 2
               handler: () => {
                 window.location.href = "/publications/";
               },
+            },{id: "nav-blog",
+              title: "Blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
             },{id: "nav-projects",
               title: "Projects",
               description: "A growing collection of your cool projects.",
@@ -791,7 +834,18 @@ Content 2
                   handler: () => {
                     window.location.href = "";
                   },
-                },{id: "post-a-post-with-tabs",
+                },{id: "post-my-journey-into-microbiology-the-deep-sea-and-bioinformatics",
+          
+            title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics",
+          
+          description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/story/personal/science/2025/01/01/my-journey-into-microbiology-and-bioinformatics.md.html";
+            
+          },
+        },{id: "post-a-post-with-tabs",
           
             title: "a post with tabs",
           

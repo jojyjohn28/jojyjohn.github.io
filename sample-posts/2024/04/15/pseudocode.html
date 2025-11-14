@@ -200,11 +200,35 @@
             
           
             
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
               
                 
                 <li class="nav-item ">
                   
                   <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/blog/">Blog
                     
                   </a>
                 </li>
@@ -324,6 +348,17 @@
 
 
 
+<!-- ========================= -->
+<!-- BLOG BANNER AREA -->
+<!-- (Can disable with -->
+<!-- banner: false in post) -->
+<!-- ========================= -->
+
+  <div class="blog-banner-container">
+    <img src="/assets/img/blog-banner.png" class="blog-banner" alt="Daily Bioinformatics Banner">
+  </div>
+
+
 <div class="post">
   <header class="post-header">
     <h1 class="post-title">a post with pseudo code</h1>
@@ -333,10 +368,12 @@
       
       
     </p>
+
     <p class="post-tags">
       
         <i class="fa-solid fa-calendar fa-sm"></i> 2024
       
+
       
           ·  
         
@@ -367,7 +404,6 @@
   </header>
 
   <article class="post-content">
-    
     <div id="markdown-content">
       <p>This is an example post with some pseudo code rendered by <a href="https://github.com/SaswatPadhi/pseudocode.js" rel="external nofollow noopener" target="_blank">pseudocode</a>. The example presented here is the same as the one in the <a href="https://saswat.padhi.me/pseudocode.js/" rel="external nofollow noopener" target="_blank">pseudocode.js</a> documentation, with only one simple but important change: everytime you would use <code class="language-plaintext highlighter-rouge">$</code>, you should use <code class="language-plaintext highlighter-rouge">$$</code> instead. Also, note that the <code class="language-plaintext highlighter-rouge">pseudocode</code> key in the front matter is set to <code class="language-plaintext highlighter-rouge">true</code> to enable the rendering of pseudo code. As an example, using this code:</p>
 
@@ -704,6 +740,13 @@
               handler: () => {
                 window.location.href = "/publications/";
               },
+            },{id: "nav-blog",
+              title: "Blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
             },{id: "nav-projects",
               title: "Projects",
               description: "A growing collection of your cool projects.",
@@ -739,7 +782,18 @@
                   handler: () => {
                     window.location.href = "";
                   },
-                },{id: "post-a-post-with-tabs",
+                },{id: "post-my-journey-into-microbiology-the-deep-sea-and-bioinformatics",
+          
+            title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics",
+          
+          description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/story/personal/science/2025/01/01/my-journey-into-microbiology-and-bioinformatics.md.html";
+            
+          },
+        },{id: "post-a-post-with-tabs",
           
             title: "a post with tabs",
           

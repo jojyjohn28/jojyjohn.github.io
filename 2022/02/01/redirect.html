@@ -201,11 +201,35 @@
             
           
             
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
               
                 
                 <li class="nav-item ">
                   
                   <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/blog/">Blog
                     
                   </a>
                 </li>
@@ -325,6 +349,17 @@
 
 
 
+<!-- ========================= -->
+<!-- BLOG BANNER AREA -->
+<!-- (Can disable with -->
+<!-- banner: false in post) -->
+<!-- ========================= -->
+
+  <div class="blog-banner-container">
+    <img src="/assets/img/blog-banner.png" class="blog-banner" alt="Daily Bioinformatics Banner">
+  </div>
+
+
 <div class="post">
   <header class="post-header">
     <h1 class="post-title">a post with redirect</h1>
@@ -334,10 +369,12 @@
       
       
     </p>
+
     <p class="post-tags">
       
         <i class="fa-solid fa-calendar fa-sm"></i> 2022
       
+
       
 
       
@@ -345,7 +382,6 @@
   </header>
 
   <article class="post-content">
-    
     <div id="markdown-content">
       <p>Redirecting to another page.</p>
 
@@ -595,6 +631,13 @@
               handler: () => {
                 window.location.href = "/publications/";
               },
+            },{id: "nav-blog",
+              title: "Blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
             },{id: "nav-projects",
               title: "Projects",
               description: "A growing collection of your cool projects.",
@@ -630,7 +673,18 @@
                   handler: () => {
                     window.location.href = "";
                   },
-                },{id: "post-a-post-with-tabs",
+                },{id: "post-my-journey-into-microbiology-the-deep-sea-and-bioinformatics",
+          
+            title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics",
+          
+          description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/story/personal/science/2025/01/01/my-journey-into-microbiology-and-bioinformatics.md.html";
+            
+          },
+        },{id: "post-a-post-with-tabs",
           
             title: "a post with tabs",
           

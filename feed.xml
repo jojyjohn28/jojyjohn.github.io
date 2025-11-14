@@ -1,5 +1,166 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-11-13T19:41:49+00:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">a post with tabs</title><link href="https://jojyjohn28.github.io/sample-posts/2024/05/01/tabs.html" rel="alternate" type="text/html" title="a post with tabs" /><published>2024-05-01T00:32:13+00:00</published><updated>2024-05-01T00:32:13+00:00</updated><id>https://jojyjohn28.github.io/sample-posts/2024/05/01/tabs</id><content type="html" xml:base="https://jojyjohn28.github.io/sample-posts/2024/05/01/tabs.html"><![CDATA[<p>This is how a post with <a href="https://github.com/Ovski4/jekyll-tabs">tabs</a> looks like. Note that the tabs could be used for different purposes, not only for code.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-11-14T18:28:18+00:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">My Journey into Microbiology, the Deep Sea, and Bioinformatics</title><link href="https://jojyjohn28.github.io/story/personal/science/2025/01/01/my-journey-into-microbiology-and-bioinformatics.md.html" rel="alternate" type="text/html" title="My Journey into Microbiology, the Deep Sea, and Bioinformatics" /><published>2025-01-01T00:00:00+00:00</published><updated>2025-01-01T00:00:00+00:00</updated><id>https://jojyjohn28.github.io/story/personal/science/2025/01/01/my-journey-into-microbiology-and-bioinformatics.md</id><content type="html" xml:base="https://jojyjohn28.github.io/story/personal/science/2025/01/01/my-journey-into-microbiology-and-bioinformatics.md.html"><![CDATA[<p><img src="/assets/img/blog-banner.jpg" alt="Blog Banner" /></p>
+
+<p>Hello and welcome!<br />
+I’m <strong>Jojy John</strong> — a researcher, postdoctoral scholar, wife, and mother of two little ones.<br />
+This is the first post of my blog <strong>Daily Bioinformatics from Jojy’s Desk</strong>, where I share my daily work, learning, troubleshooting, and thoughts as a microbial ecologist and bioinformatician.</p>
+
+<hr />
+
+<h2 id="-where-it-all-began">🌱 Where it all began</h2>
+
+<p>My journey started during my <strong>Bachelor’s in Microbiology at MG University</strong> in Kerala, India.<br />
+Growing up in a family that valued traditional medicine, I was fascinated by the healing ability of plants. My early research focused on <strong>antibacterial and anticancer activities of medicinal plants</strong>, hoping to connect traditional knowledge to scientific evidence.</p>
+
+<p>During my Master’s, I worked on:</p>
+
+<p><strong>“Analysis of cell death patterns of THP-1 cells infected with <em>Mycobacterium tuberculosis</em> H37Ra and H37Rv.”</strong></p>
+
+<p>Tuberculosis holds a personal place in my heart — many in the older generation lost their lives to this disease. Understanding its biology felt meaningful and necessary.</p>
+
+<hr />
+
+<h2 id="-a-question-that-shaped-my-phd">🌊 A question that shaped my PhD</h2>
+
+<p>In 2016, during my PhD field visit to the <strong>Marakkanam salt pans</strong>, I held salt crystals in my hand under the blazing sun and wondered:</p>
+
+<h3 id="can-anything-survive-in-this"><strong>“Can anything survive in this?”</strong></h3>
+
+<p>That question led to my PhD:</p>
+
+<p><strong>“Diversity, genomic studies, and resistance mechanisms of moderately halophilic bacteria: insights from <em>Salinivibrio</em> spp. from Marakkanam salt pan.”</strong></p>
+
+<p>I explored:</p>
+
+<ul>
+  <li>Extreme salinity environments (120–380 PPT)</li>
+  <li>Cultivable and uncultivable bacterial diversity</li>
+  <li>Whole-genome sequencing</li>
+  <li>Adaptation to salinity stress</li>
+  <li>16S amplicon analysis</li>
+  <li>Biotechnological potentials:
+    <ul>
+      <li>enzyme production</li>
+      <li>heavy metal tolerance</li>
+      <li>UV resistance</li>
+      <li>plant growth promotion</li>
+      <li>azo dye degradation</li>
+    </ul>
+  </li>
+</ul>
+
+<p>My findings were published in <strong>Geomicrobiology Journal, Microorganisms</strong>, and <strong>Frontiers in Microbiology</strong>.</p>
+
+<hr />
+
+<h2 id="-deep-sea-expeditions-and-ocean-microbiomes">🚢 Deep-sea expeditions and ocean microbiomes</h2>
+
+<p>As a Project Associate at the <strong>National Institute of Oceanography, Goa</strong>, I contributed to the <strong>Environmental Impact Assessment (EIA)</strong> of polymetallic nodule mining.</p>
+
+<p>This included:</p>
+
+<ul>
+  <li>A <strong>36-day deep-sea research cruise</strong></li>
+  <li>Sampling sediment and water using beam trawls, bongo nets, multiple corers, and more</li>
+  <li>Studying bacterial communities associated with deep-sea sediments and nodules</li>
+  <li>Isolation and identification of heavy-metal-tolerant bacteria</li>
+  <li>16S metagenome analysis</li>
+  <li>hypoxia and microbiome</li>
+  <li>shot gun metagenome</li>
+</ul>
+
+<p>I also contributed to a project on the <strong>hypoxic Arabian Sea</strong>, working from sample collection to <strong>whole-metagenome sequencing and analysis</strong>.</p>
+
+<hr />
+
+<h2 id="-becoming-a-computational-microbial-ecologist">🧬 Becoming a computational microbial ecologist</h2>
+
+<p>Over time, I transitioned fully from wet lab to computational biology.<br />
+Today, my work focuses on:</p>
+
+<h3 id="-metagenomes">🧫 Metagenomes</h3>
+
+<ul>
+  <li>Quality filtering</li>
+  <li>Assembly &amp; co-assembly</li>
+  <li>MAG binning and refinement</li>
+  <li>Annotation &amp; functional profiling</li>
+</ul>
+
+<h3 id="-metatranscriptomes">🧬 Metatranscriptomes</h3>
+
+<ul>
+  <li>Assembly</li>
+  <li>Expression profiling</li>
+</ul>
+
+<h3 id="-whole-genome-sequencing--hybrid-assembly">🧬 Whole-genome sequencing &amp; hybrid assembly</h3>
+
+<h3 id="-multi-omics-integration">🔗 Multi-omics integration</h3>
+
+<h3 id="-statistics--modeling">📊 Statistics &amp; modeling</h3>
+
+<ul>
+  <li>Functional redundancy</li>
+  <li>Ecological niche modeling</li>
+  <li>Differential expression</li>
+</ul>
+
+<h3 id="-my-daily-toolbox">💻 My daily toolbox</h3>
+
+<p><strong>Linux, R, Python, Bash, SLURM</strong>, and a lot of troubleshooting!</p>
+
+<hr />
+
+<h2 id="-mentorship-and-life-as-a-postdoc">👩‍🏫 Mentorship and life as a postdoc</h2>
+
+<p>As a postdoc, I mentor students, collaborate with labs, manage HPC workflows, and help design analytical pipelines.</p>
+
+<p>But as my workload increased, I realized something important:</p>
+
+<blockquote>
+  <p>So much learning gets lost — in notebooks, terminals, text files, or Slack messages.</p>
+</blockquote>
+
+<p>And yes… I still break conda environments.<br />
+I still troubleshoot silly errors for days.<br />
+And I still learn something new every day.</p>
+
+<hr />
+
+<h2 id="️-why-i-created-this-blog">✍️ Why I created this blog</h2>
+
+<p>I created this space because:</p>
+
+<ul>
+  <li>Paper-writing is slow, but daily learning is fast.</li>
+  <li>I wanted a place to <strong>document my real work</strong>.</li>
+  <li>I want to help students and colleagues.</li>
+  <li>I want future collaborators and hiring committees to see my <strong>actual skills</strong>, not just my publication list.</li>
+</ul>
+
+<p>This blog is for:</p>
+
+<ul>
+  <li>Microbial ecologists</li>
+  <li>Bioinformaticians</li>
+  <li>Students learning metagenomics</li>
+  <li>Anyone using HPC for microbiome research</li>
+  <li>Future collaborators</li>
+  <li>Curious readers</li>
+</ul>
+
+<hr />
+
+<h2 id="-thank-you-for-being-here">💛 Thank you for being here</h2>
+
+<p>Thank you for reading my story and joining the journey.<br />
+Thank you to everyone who inspired and supported me.</p>
+
+<p>This blog is for all of us — learning, experimenting, fixing, failing, and growing.</p>
+
+<p>Stay tuned for daily updates from my desk.<br />
+<strong>— Jojy</strong></p>]]></content><author><name></name></author><category term="story" /><category term="personal" /><category term="science" /><category term="career" /><category term="microbiology" /><category term="bioinformatics" /><category term="research-journey" /><summary type="html"><![CDATA[From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.]]></summary></entry><entry><title type="html">a post with tabs</title><link href="https://jojyjohn28.github.io/sample-posts/2024/05/01/tabs.html" rel="alternate" type="text/html" title="a post with tabs" /><published>2024-05-01T00:32:13+00:00</published><updated>2024-05-01T00:32:13+00:00</updated><id>https://jojyjohn28.github.io/sample-posts/2024/05/01/tabs</id><content type="html" xml:base="https://jojyjohn28.github.io/sample-posts/2024/05/01/tabs.html"><![CDATA[<p>This is how a post with <a href="https://github.com/Ovski4/jekyll-tabs">tabs</a> looks like. Note that the tabs could be used for different purposes, not only for code.</p>
 
 <h2 id="first-tabs">First tabs</h2>
 
@@ -24,7 +185,7 @@ Content 2
 
 <p>With this you can generate visualizations like:</p>
 
-<ul id="log" class="tab" data-tab="5bf7d478-82f2-4ef5-8b7b-621ecbe5958a" data-name="log">
+<ul id="log" class="tab" data-tab="c406cc2b-3a67-4d24-8971-45fa006a6d49" data-name="log">
   
       <li class="active" id="log-php">
           <a href="#">php </a>
@@ -39,7 +200,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="5bf7d478-82f2-4ef5-8b7b-621ecbe5958a" data-name="log">
+<ul class="tab-content" id="c406cc2b-3a67-4d24-8971-45fa006a6d49" data-name="log">
   
       <li class="active">
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">var_dump</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">);</span>
@@ -63,7 +224,7 @@ Content 2
 
 <h2 id="another-example">Another example</h2>
 
-<ul id="data-struct" class="tab" data-tab="816a41ff-f46e-4b0a-91e6-556b9d131b2a" data-name="data-struct">
+<ul id="data-struct" class="tab" data-tab="a5ff2b14-5ab0-4c72-b022-063a87374239" data-name="data-struct">
   
       <li class="active" id="data-struct-yaml">
           <a href="#">yaml </a>
@@ -74,7 +235,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="816a41ff-f46e-4b0a-91e6-556b9d131b2a" data-name="data-struct">
+<ul class="tab-content" id="a5ff2b14-5ab0-4c72-b022-063a87374239" data-name="data-struct">
   
       <li class="active">
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">hello</span><span class="pi">:</span>
@@ -96,7 +257,7 @@ Content 2
 
 <h2 id="tabs-for-something-else">Tabs for something else</h2>
 
-<ul id="something-else" class="tab" data-tab="b38bb74b-f12f-4948-8937-cc858c0df755" data-name="something-else">
+<ul id="something-else" class="tab" data-tab="21194674-35f2-445b-bd51-9d3cfdce9691" data-name="something-else">
   
       <li class="active" id="something-else-text">
           <a href="#">text </a>
@@ -111,7 +272,7 @@ Content 2
       </li>
   
 </ul>
-<ul class="tab-content" id="b38bb74b-f12f-4948-8937-cc858c0df755" data-name="something-else">
+<ul class="tab-content" id="21194674-35f2-445b-bd51-9d3cfdce9691" data-name="something-else">
   
       <li class="active">
 <p>Regular text</p>
@@ -1087,176 +1248,4 @@ index 3bb754ac..a34839c0 100644
 }
 </code></pre>
 
-<p>Note that this library offer support for both light and dark themes. You can switch between them using the theme switcher in the top right corner of the page.</p>]]></content><author><name></name></author><category term="sample-posts" /><category term="formatting" /><category term="charts" /><summary type="html"><![CDATA[this is what included echarts code could look like]]></summary></entry><entry><title type="html">a post with chart.js</title><link href="https://jojyjohn28.github.io/sample-posts/2024/01/26/chartjs.html" rel="alternate" type="text/html" title="a post with chart.js" /><published>2024-01-26T01:04:00+00:00</published><updated>2024-01-26T01:04:00+00:00</updated><id>https://jojyjohn28.github.io/sample-posts/2024/01/26/chartjs</id><content type="html" xml:base="https://jojyjohn28.github.io/sample-posts/2024/01/26/chartjs.html"><![CDATA[<p>This is an example post with some <a href="https://www.chartjs.org/">chart.js</a> code.</p>
-
-<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">chartjs
-</span><span class="sb">{
-  "type": "line",
-  "data": {
-    "labels": [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July"
-    ],
-    "datasets": [
-      {
-        "label": "# of bugs",
-        "fill": false,
-        "lineTension": 0.1,
-        "backgroundColor": "rgba(75,192,192,0.4)",
-        "borderColor": "rgba(75,192,192,1)",
-        "borderCapStyle": "butt",
-        "borderDash": [],
-        "borderDashOffset": 0,
-        "borderJoinStyle": "miter",
-        "pointBorderColor": "rgba(75,192,192,1)",
-        "pointBackgroundColor": "#fff",
-        "pointBorderWidth": 1,
-        "pointHoverRadius": 5,
-        "pointHoverBackgroundColor": "rgba(75,192,192,1)",
-        "pointHoverBorderColor": "rgba(220,220,220,1)",
-        "pointHoverBorderWidth": 2,
-        "pointRadius": 1,
-        "pointHitRadius": 10,
-        "data": [
-          65,
-          59,
-          80,
-          81,
-          56,
-          55,
-          40
-        ],
-        "spanGaps": false
-      }
-    ]
-  },
-  "options": {}
-}</span>
-<span class="p">```</span>
-</code></pre></div></div>
-
-<p>This is how it looks like:</p>
-
-<pre><code class="language-chartjs">{
-  "type": "line",
-  "data": {
-    "labels": [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July"
-    ],
-    "datasets": [
-      {
-        "label": "# of bugs",
-        "fill": false,
-        "lineTension": 0.1,
-        "backgroundColor": "rgba(75,192,192,0.4)",
-        "borderColor": "rgba(75,192,192,1)",
-        "borderCapStyle": "butt",
-        "borderDash": [],
-        "borderDashOffset": 0,
-        "borderJoinStyle": "miter",
-        "pointBorderColor": "rgba(75,192,192,1)",
-        "pointBackgroundColor": "#fff",
-        "pointBorderWidth": 1,
-        "pointHoverRadius": 5,
-        "pointHoverBackgroundColor": "rgba(75,192,192,1)",
-        "pointHoverBorderColor": "rgba(220,220,220,1)",
-        "pointHoverBorderWidth": 2,
-        "pointRadius": 1,
-        "pointHitRadius": 10,
-        "data": [
-          65,
-          59,
-          80,
-          81,
-          56,
-          55,
-          40
-        ],
-        "spanGaps": false
-      }
-    ]
-  },
-  "options": {}
-}
-</code></pre>
-
-<p>Also another example chart.</p>
-
-<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">chartjs
-</span><span class="sb">{
-  "type": "doughnut",
-  "data": {
-    "labels": [
-      "Red",
-      "Blue",
-      "Yellow"
-    ],
-    "datasets": [
-      {
-        "data": [
-          300,
-          50,
-          100
-        ],
-        "backgroundColor": [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56"
-        ],
-        "hoverBackgroundColor": [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56"
-        ]
-      }
-    ]
-  },
-  "options": {}
-}</span>
-<span class="p">```</span>
-</code></pre></div></div>
-
-<p>Which generates:</p>
-
-<pre><code class="language-chartjs">{
-  "type": "doughnut",
-  "data": {
-    "labels": [
-      "Red",
-      "Blue",
-      "Yellow"
-    ],
-    "datasets": [
-      {
-        "data": [
-          300,
-          50,
-          100
-        ],
-        "backgroundColor": [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56"
-        ],
-        "hoverBackgroundColor": [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56"
-        ]
-      }
-    ]
-  },
-  "options": {}
-}
-</code></pre>]]></content><author><name></name></author><category term="sample-posts" /><category term="formatting" /><category term="charts" /><summary type="html"><![CDATA[this is what included chart.js code could look like]]></summary></entry></feed>
+<p>Note that this library offer support for both light and dark themes. You can switch between them using the theme switcher in the top right corner of the page.</p>]]></content><author><name></name></author><category term="sample-posts" /><category term="formatting" /><category term="charts" /><summary type="html"><![CDATA[this is what included echarts code could look like]]></summary></entry></feed>

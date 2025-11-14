@@ -1,0 +1,40 @@
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+// Dimensions
+$max-content-width: {{ site.max_width }};
+
+@import
+  "variables",
+  "themes",
+  "layout",
+  "base",
+  "distill",
+  "cv",
+  "tabs",
+  "typograms",
+  "font-awesome/fontawesome",
+  "font-awesome/brands",
+  "font-awesome/solid",
+  "font-awesome/regular",
+  "tabler-icons/tabler-icons.scss",
+  "tabler-icons/tabler-icons-filled.scss",
+  "tabler-icons/tabler-icons-outline.scss"
+;
+
+/* ===========================
+   CUSTOM BLOG BANNER STYLES
+   =========================== */
+
+.blog-banner-container {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.blog-banner {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+}

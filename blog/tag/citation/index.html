@@ -201,11 +201,35 @@
             
           
             
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
               
                 
                 <li class="nav-item ">
                   
                   <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -575,6 +599,13 @@
               handler: () => {
                 window.location.href = "/publications/";
               },
+            },{id: "nav-blog",
+              title: "Blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
             },{id: "nav-projects",
               title: "Projects",
               description: "A growing collection of your cool projects.",
@@ -610,7 +641,18 @@
                   handler: () => {
                     window.location.href = "";
                   },
-                },{id: "post-a-post-with-tabs",
+                },{id: "post-my-journey-into-microbiology-the-deep-sea-and-bioinformatics",
+          
+            title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics",
+          
+          description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/story/personal/science/2025/01/01/my-journey-into-microbiology-and-bioinformatics.md.html";
+            
+          },
+        },{id: "post-a-post-with-tabs",
           
             title: "a post with tabs",
           
