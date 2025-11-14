@@ -1,52 +1,52 @@
 ---
 layout: about
-title: About
+title: Jojy John
 permalink: /
 subtitle: Exploring Microbial Ecology through OMICs Technologies
 
 profile:
   align: right
   image: prof_pic.jpg
-  image_circular: false # crops the image to make it circular
+  image_circular: false
   more_info: >
     <p>155 B, Life Science Building</p>
-    <p>Department of Biological Science</p>
+    <p>Department of Biological Sciences</p>
     <p>Clemson University, South Carolina</p>
-news: true # includes a list of news items
-selected_papers: true # includes a list of papers marked as "selected={true}"
-social: true # includes social icons at the bottom of the page
+
+news: true
+selected_papers: true
+social: true
 ---
 
 ## Welcome to My Website
 
-I am a passionate researcher in **Microbial Ecology/ Ecophysiology**, with a focus on studying how microbes interact within their ecosystems using **OMICs technologies**. I love to study how bacterial community recover from the stress or extreme environments.
+I am a passionate researcher in **Microbial Ecology/Ecophysiology**, focusing on how microbes interact within their ecosystems using **multi-OMICs technologies**. I study how microbial communities recover from environmental stress and extreme conditions.
 
 ---
 
-### Skills
+## Skills
 
-Here are some of the key skills that define my research and expertise:
-
-- **Microbial Ecology**: Expertise in analyzing microbial communities and their ecosystems.
-- **Multi-OMICs Integration**: Proficient in combining genomic and transcriptomic data.
-- **Bioinformatics**: Skilled in developing pipelines for complex data analysis.
-- **Molecular Biology Techniques**: Experienced with various molecular biology methods.
+- **Microbial Ecology** – analyzing microbial communities and ecosystem function
+- **Multi-OMICs Integration** – combining genomics & transcriptomics
+- **Bioinformatics** – custom pipelines, HPC workflows, genome analysis
+- **Molecular Biology Techniques** – broad wet-lab experience
 
 <div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        <img src="/assets/img/jj_skill.jpg" alt="Example Image" class="img-fluid rounded z-depth-1" loading="eager">
-    </div>
+  <div class="col-sm mt-3 mt-md-0">
+    <img src="/assets/img/jj_skill.jpg" alt="Skills" class="img-fluid rounded z-depth-1" loading="eager">
+  </div>
 </div>
+
 ---
 
-### Current Research & Projects
+## Current Research & Projects
 
-#### Investigating Functional Redundancy Across Microbiomes
+### Investigating Functional Redundancy Across Microbiomes
 
-Currently working on a multidisciplinary project that explores the **Drivers of Functional Redundancy** in microbiomes. This project focuses on:
+I explore the **drivers of functional redundancy (FRed)** across ecosystems using multi-OMICs approaches. This includes:
 
-- Understanding functional redundancy through **multi-OMICs approaches**.
-- Studying microbial stability and resilience in diverse ecosystems.
-- Exploring the role of Fred in recovery of microbiome after a irreversible distrubence in the ecosytem
+- Functional redundancy (potential vs expressed)
+- Microbial stability and resilience
+- Recovery after ecological disturbance
 
-Explore my [Projects](/projects/) page for more details on other research endeavors.
+Explore my [Projects](/projects/) page for more details.
