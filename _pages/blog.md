@@ -1,4 +1,3 @@
----
 layout: default
 permalink: /blog/
 title: Blog
@@ -6,25 +5,19 @@ nav: true
 nav_order: 3
 
 pagination:
-  enabled: false
-  collection: posts
-  permalink: /page/:num/
-  per_page: 5
-  sort_field: date
-  sort_reverse: true
-  trail:
-    before: 1
-    after: 3
+enabled: false
+collection: posts
+permalink: /page/:num/
+per_page: 5
+sort_field: date
+sort_reverse: true
+trail:
+before: 1
+after: 3
+
 ---
 
 <div class="post">
-
-<!-- ===== Blog Banner ===== -->
-<div style="text-align:center; margin-bottom: 30px;">
-  <img src="/assets/img/blog_banner.png" style="width:100%; border-radius:12px;" alt="Daily Bioinformatics from Jojy's Desk">
-</div>
-
-<!-- ===== Blog Header (Title + Description from _config.yml) ===== -->
 
 {% assign blog_name_size = site.blog_name | size %}
 {% assign blog_description_size = site.blog_description | size %}
@@ -37,167 +30,34 @@ pagination:
   </div>
 {% endif %}
 
-<!-- ===== About the Blog (Short intro) ===== -->
 <div class="card p-3 mb-4">
   <h2>About This Blog</h2>
   <p>
-    Welcome to <strong>Daily Bioinformatics from Jojy’s Desk</strong> — a living notebook of my 
-    daily work in microbial ecology, bioinformatics, and high-performance computing.
+    Welcome to <strong>Daily Bioinformatics from Jojy’s Desk</strong> — my living notebook of 
+    daily bioinformatics work, microbial ecology, MAGs, MTX/MG, HPC troubleshooting, and coding.
   </p>
 
-  <p>This blog includes:</p>
   <ul>
     <li>Metagenome & metatranscriptome analysis</li>
-    <li>MAGs, viromes, CAZymes, energy metabolism markers</li>
+    <li>MAGs, viruses, CAZymes, energy metabolism markers</li>
     <li>Functional redundancy (FRed) modeling</li>
-    <li>Hybrid assembly and whole-genome workflows</li>
-    <li>Machine-learning MAG binning (GPU/CPU on Palmetto)</li>
-    <li>Daily troubleshooting, R visualizations, Python scripts</li>
-    <li>Scientific figure design & Adobe Illustrator tips</li>
+    <li>Hybrid-assembly & whole-genome workflows</li>
+    <li>Machine-learning MAG binning (GPU/CPU)</li>
+    <li>Daily troubleshooting, R/Python tips, figures</li>
   </ul>
 
-  <p>
-    I aim to post <strong>daily</strong> — sharing either a workflow, snippet, plot, solution, or reflection.
-  </p>
+  <p>I post short updates daily. Scroll down for the latest posts ↓</p>
 </div>
 
-<!-- ===== Tags & Categories ===== -->
-
-{% if site.display_tags and site.display_tags.size > 0 or site.display_categories and site.display_categories.size > 0 %}
-
-  <div class="tag-category-list">
-    <ul class="p-0 m-0">
-      {% for tag in site.display_tags %}
-        <li>
-          <i class="fa-solid fa-hashtag fa-sm"></i>
-          <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag }}</a>
-        </li>
-        {% unless forloop.last %}
-          <p>&bull;</p>
-        {% endunless %}
-      {% endfor %}
-
-      {% if site.display_categories.size > 0 and site.display_tags.size > 0 %}
-        <p>&bull;</p>
-      {% endif %}
-
-      {% for category in site.display_categories %}
-        <li>
-          <i class="fa-solid fa-tag fa-sm"></i>
-          <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">{{ category }}</a>
-        </li>
-        {% unless forloop.last %}
-          <p>&bull;</p>
-        {% endunless %}
-      {% endfor %}
-    </ul>
-
-  </div>
-{% endif %}
-
-<!-- ===== Featured Posts ===== -->
-
-{% assign featured_posts = site.posts | where: "featured", "true" %}
-{% if featured_posts.size > 0 %}
-<br>
-
-<div class="container featured-posts">
-  {% assign is_even = featured_posts.size | modulo: 2 %}
-  <div class="row row-cols-{% if featured_posts.size <= 2 or is_even == 0 %}2{% else %}3{% endif %}">
-    {% for post in featured_posts %}
-      <div class="col mb-4">
-        <a href="{{ post.url | relative_url }}">
-          <div class="card hoverable">
-            <div class="card-body">
-              <div class="float-right"><i class="fa-solid fa-thumbtack fa-xs"></i></div>
-              <h3 class="card-title text-lowercase">{{ post.title }}</h3>
-              <p class="card-text">{{ post.description }}</p>
-
-              {% if post.external_source == blank %}
-                {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
-              {% else %}
-                {% assign read_time = post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 %}
-              {% endif %}
-              {% assign year = post.date | date: "%Y" %}
-
-              <p class="post-meta">
-                {{ read_time }} min read &nbsp; &middot; &nbsp;
-                <a href="{{ year | prepend: '/blog/' | prepend: site.baseurl}}">
-                  <i class="fa-solid fa-calendar fa-sm"></i> {{ year }}
-                </a>
-              </p>
-            </div>
-          </div>
-        </a>
-      </div>
-    {% endfor %}
-
-  </div>
-</div>
-<hr>
-{% endif %}
-
-<!-- ===== List of All Posts ===== -->
 <ul class="post-list">
-
-{% if page.pagination.enabled %}
-{% assign postlist = paginator.posts %}
-{% else %}
-{% assign postlist = site.posts %}
-{% endif %}
-
-{% for post in postlist %}
-{% if post.external_source == blank %}
-{% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
-{% else %}
-{% assign read_time = post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 %}
-{% endif %}
-
-{% assign year = post.date | date: "%Y" %}
-{% assign tags = post.tags | join: "" %}
-{% assign categories = post.categories | join: "" %}
-
-  <li>
-    <h3>
-      <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    </h3>
-    <p>{{ post.description }}</p>
-
-    <p class="post-meta">
-      {{ read_time }} min read &nbsp; &middot; &nbsp;
-      {{ post.date | date: '%B %d, %Y' }}
-    </p>
-
-    <p class="post-tags">
-      <a href="{{ year | prepend: '/blog/' | prepend: site.baseurl}}">
-        <i class="fa-solid fa-calendar fa-sm"></i> {{ year }}
-      </a>
-
-      {% if tags != "" %}
-        &nbsp; &middot; &nbsp;
-        {% for tag in post.tags %}
-          <a href="{{ tag | slugify | prepend: '/blog/tag/' | prepend: site.baseurl}}">
-            <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag }}</a>
-        {% endfor %}
-      {% endif %}
-
-      {% if categories != "" %}
-        &nbsp; &middot; &nbsp;
-        {% for category in post.categories %}
-          <a href="{{ category | slugify | prepend: '/blog/category/' | prepend: site.baseurl}}">
-            <i class="fa-solid fa-tag fa-sm"></i> {{ category }}</a>
-        {% endfor %}
-      {% endif %}
-    </p>
-
-  </li>
-
-{% endfor %}
-
+  {% assign postlist = site.posts %}
+  {% for post in postlist %}
+    <li>
+      <h3><a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+      <p>{{ post.description }}</p>
+      <p class="post-meta">{{ post.date | date: '%B %d, %Y' }}</p>
+    </li>
+  {% endfor %}
 </ul>
-
-{% if page.pagination.enabled %}
-{% include pagination.liquid %}
-{% endif %}
 
 </div>
