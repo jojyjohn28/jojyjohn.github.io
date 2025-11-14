@@ -4,6 +4,8 @@ title: Jojy John
 permalink: /
 subtitle: Exploring Microbial Ecology through OMICs Technologies
 
+show_profile: true
+
 profile:
   align: right
   image: prof_pic.jpg
