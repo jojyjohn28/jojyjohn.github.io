@@ -1,14 +1,12 @@
 ---
 layout: post
 title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics"
+date: 2025-11-14
 description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story."
-categories: [story, personal, science]
-tags: [career, microbiology, bioinformatics, research-journey]
+comments: true
 featured: true
 giscus_comments: true
 ---
-
-![Blog Banner](/assets/img/blog-banner.jpg)
 
 Hello and welcome!  
 I’m **Jojy John** — a researcher, postdoctoral scholar, wife, and mother of two little ones.  

@@ -1,4 +1,6 @@
-layout: default ---
+---
+layout: default
+---
 {% assign year = page.date | date: '%Y' %}
 {% assign tags = page.tags | join: '' %}
 {% assign categories = page.categories | join: '' %}
@@ -21,6 +23,7 @@ layout: default ---
       {% if page.last_updated %}, last updated in {{ page.last_updated | date: '%B %d, %Y' }}{% endif %}
       {% if page.meta %}• {{ page.meta }}{% endif %}
     </p>
+
     <p class="post-tags">
       {% if url_beginning == '/blog/' %}
         <a href="{{ year | prepend: '/blog/' | prepend: site.baseurl}}"> <i class="fa-solid fa-calendar fa-sm"></i> {{ year }} </a>
@@ -75,7 +78,8 @@ layout: default ---
   {% if site.disqus_shortname and page.disqus_comments %}
     {% include disqus.liquid %}
   {% endif %}
+
   {% if page.giscus_comments %}
-    {% include giscus.liquid %}
+    {% include giscus.html %}
   {% endif %}
 </div>

@@ -59,44 +59,22 @@ serve_schema_org: false
 og_image:
 
 # -----------------------------------------------------------------------------
-# Social integration (REQUIRED BLOCK ADDED)
+# Social integration (FIXED)
 # -----------------------------------------------------------------------------
 
-social:
-  - icon: github
-    name: GitHub
-    link: "https://github.com/jojyjohn28"
-
-  - icon: google-scholar
-    name: Google Scholar
-    link: "https://scholar.google.com/citations?user=w74rUUAAAAAJ"
-
-  - icon: linkedin
-    name: LinkedIn
-    link: "https://www.linkedin.com/in/jojy-john/"
-
-  - icon: x
-    name: Twitter / X
-    link: "https://twitter.com/JojyJon"
-
-  - icon: envelope
-    name: Email
-    link: "mailto:jojyj@clemson.edu"
-
-# legacy fields
+# These fields generate the About-page social icons:
 github_username: jojyjohn28
 x_username: JojyJon
+linkedin_username: jojy-john
 scholar_userid: w74rUUAAAAAJ
+orcid_id: 0000-0002-8739-9741 # <-- replace with your actual ORCID
 mail: jojyj@clemson.edu
 
-contact_note: >
-
-# -----------------------------------------------------------------------------
-# CV SECTION (ADDED)
-# -----------------------------------------------------------------------------
-
+# CV button
 cv:
   pdf: assets/pdf/CV_Jojy.pdf
+
+contact_note: >
 
 # -----------------------------------------------------------------------------
 # Analytics
@@ -152,7 +130,7 @@ newsletter:
   endpoint:
 
 # -----------------------------------------------------------------------------
-# Collections (FIXED — ADDED posts)
+# Collections
 # -----------------------------------------------------------------------------
 
 collections:
@@ -360,7 +338,6 @@ enable_video_embedding: false
 
 third_party_libraries:
   download: false
-  # (content unchanged from your original file…)
 
 # -----------------------------------------------------------------------------
 # External JSON Data

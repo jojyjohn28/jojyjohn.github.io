@@ -6,6 +6,15 @@ nav: true
 nav_order: 3
 ---
 
+<!-- =============================== -->
+<!-- FULL-WIDTH BLOG BANNER SECTION -->
+<!-- =============================== -->
+<div style="width: 100%; overflow: hidden; margin-bottom: 2rem;">
+  <img src="/assets/img/blog-banner.png"
+       alt="Blog Banner"
+       style="width: 100%; height: auto; border-radius: 12px;">
+</div>
+
 <div class="post">
 
 {% assign blog_name_size = site.blog_name | size %}
