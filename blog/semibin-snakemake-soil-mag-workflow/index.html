@@ -17,12 +17,12 @@
   
   
     
-      Bacteriophages and Auxiliary Metabolic Genes of Chesapeake ​and Delaware Bays   ​ | Jojy John
+      Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes) | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="Combining genomics, metagenome and metatranscriptome we study virome taxonomy, auxillary metabolic genes, host prediction and comparison with existing viral data.">
+<meta name="description" content="How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/projects/Estury_Virome/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -158,9 +158,11 @@
             
               
                 
-                <li class="nav-item ">
+                <li class="nav-item active">
                   
                   <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -170,11 +172,9 @@
             
               
                 
-                <li class="nav-item active">
+                <li class="nav-item ">
                   
                   <a class="nav-link" href="/projects/">Projects
-                    
-                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -276,37 +276,262 @@
       
         
 
+
+
+
+
+
+
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Bacteriophages and Auxiliary Metabolic Genes of Chesapeake ​and Delaware Bays   ​</h1>
-    <p class="post-description">Combining genomics, metagenome and metatranscriptome we study virome taxonomy, auxillary metabolic genes, host prediction and comparison with existing viral data.</p>
+    <h1 class="post-title">Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)</h1>
+    <p class="post-meta">
+      Created in November 17, 2025
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
+      
+
+      
+
+      
+    </p>
   </header>
 
-  <article>
-    <h2 id="background">Background</h2>
+  <article class="post-content">
+    <div id="markdown-content">
+      <p>Today’s post is about one of my favorite combinations right now:<br>
+<strong>machine-learning–guided binning with SemiBin2</strong> + <strong>a fully automated Snakemake workflow</strong> for recovering MAGs from <strong>highly complex soil metagenomes</strong>.</p>
 
-<p>Viruses play an essential role in ecosystem homeostasis via expression of auxiliary metabolic genes (AMGs), encoding proteins for the same metabolic functions of their hosts that support viral replication and the resulting release of nutrients to the broader microbial community.</p>
+<p>This is part of my broader goal of <strong>machine-learning–guided multi-omics analysis</strong>.</p>
 
-<p>Therefore, the acquisition of AMGs likely supports the marine microbial community in adaption to ecosystem fluctuations and climate change. We analyzed viruses and assemblies of 20 seasonal metagenomes and metatranscriptomes from surface waters of the Chesapeake and Delaware Bays to determine the taxonomy and abundance of both DNA and RNA viruses, and the identity of AMGs present.</p>
+<hr>
 
-<p>Here, we used metagenomics and metatranscriptomics of 20 seasonal samples to determine the taxonomy and abundance of both DNA and RNA viruses, and the identity of AMGs present and compare it with alreday available viral data from same sampling locations.</p>
+<h2 id="-why-soil-metagenomes-are-painful-and-exciting">🧬 Why soil metagenomes are painful (and exciting)</h2>
 
-<h2 id="relevant-publications">Relevant Publications</h2>
+<p>I’m working with <strong>soil metagenomes</strong>, which are notoriously challenging:</p>
 
-<p>under preparation</p>
+<ul>
+  <li>1 g of soil can harbor <strong>millions of bacterial, archaeal, and fungal cells</strong>
+</li>
+  <li>Community richness and evenness are extremely high</li>
+  <li>Assemblies become <strong>highly fragmented</strong> with <strong>low N50</strong>
+</li>
+  <li>Short contigs make binning much harder</li>
+</ul>
 
-<h2 id="abstracts">Abstracts</h2>
+<p>After exploring different strategies, I moved to a <strong>co-assembly</strong> approach:</p>
 
-<p>Barbara J. Campbell, Kasey Kiser, Sam Stuckert and Jojy John (2025) Bacteriophages and Auxiliary Metabolic Gene interactions in microbial adaptations in the Chesapeake and Delaware Bay, ASM 25, LA, USA</p>
+<ul>
+  <li>Co-assembly with <strong>MEGAHIT</strong> of ~30 samples</li>
+  <li>Producing a single <code class="language-plaintext highlighter-rouge">final.contigs.fa</code>
+</li>
+</ul>
 
+<p>(I will post separate details on MEGAHIT parameters.)</p>
+
+<hr>
+
+<h2 id="-classical-binners-what-failed-and-what-worked">🧱 Classical binners: what failed and what worked</h2>
+
+<p>I initially tested the usual multi-binner approaches:</p>
+
+<h3 id="-concoct">❌ <strong>CONCOCT</strong>
+</h3>
+
+<p>Likely failed because:</p>
+
+<ul>
+  <li>Assembly extremely large</li>
+  <li>Could not consistently segment into 10 kb fragments</li>
+  <li>Coverage patterns too noisy</li>
+</ul>
+
+<h3 id="-maxbin2">❌ <strong>MaxBin2</strong>
+</h3>
+
+<p>Struggled due to:</p>
+
+<ul>
+  <li>Too many contigs</li>
+  <li>Sparse coverage across samples</li>
+</ul>
+
+<h3 id="️-metabat2-worked-partially">⚠️ <strong>MetaBAT2 (worked partially)</strong>
+</h3>
+
+<ul>
+  <li>Produced ~500 bins</li>
+  <li>Good, but clearly <strong>under-represented soil diversity</strong>
+</li>
+  <li>Bins were fragmented and incomplete</li>
+</ul>
+
+<p>To do better, I needed something that:</p>
+
+<ol>
+  <li>Scales to <strong>large, fragmented assemblies</strong>
+</li>
+  <li>Leverages <strong>machine learning</strong> rather than fixed heuristics</li>
+</ol>
+
+<hr>
+
+<h2 id="-enter-semibin2-machine-learningguided-binning">🤖 Enter SemiBin2: machine-learning–guided binning</h2>
+
+<p>SemiBin2 integrates:</p>
+
+<ol>
+  <li><strong>Sequence composition (k-mers)</strong></li>
+  <li><strong>Coverage profiles from multiple samples</strong></li>
+  <li><strong>Deep-learning-based embeddings</strong></li>
+  <li>Density-based clustering for final bins</li>
+</ol>
+
+<p>🔗 Repo: https://github.com/BigDataBiology/SemiBin</p>
+
+<p>For complex and diverse soil data, this ML approach provides a huge improvement.</p>
+
+<p>I automated everything through <strong>Snakemake</strong> so the full workflow runs with one command.</p>
+
+<hr>
+
+<h2 id="-my-semibin2--snakemake-workflow-high-level">🔁 My SemiBin2 + Snakemake workflow (high-level)</h2>
+
+<h3 id="inputs"><strong>Inputs</strong></h3>
+
+<ul>
+  <li>Co-assembly: <code class="language-plaintext highlighter-rouge">final.contigs.fa</code>
+</li>
+  <li>Paired-end reads: <code class="language-plaintext highlighter-rouge">sample_R1_nodup.fq</code>, <code class="language-plaintext highlighter-rouge">sample_R2_nodup.fq</code>
+</li>
+</ul>
+
+<h3 id="workflow-steps"><strong>Workflow steps</strong></h3>
+
+<ol>
+  <li>Build <strong>Bowtie2 index</strong>
+</li>
+  <li>Map each sample → <strong>sorted BAM</strong>
+</li>
+  <li>Create <code class="language-plaintext highlighter-rouge">bam_list.txt</code>
+</li>
+  <li>SemiBin2 <strong>generate features</strong>
+</li>
+  <li>SemiBin2 <strong>train_self</strong> (machine-learning step)</li>
+  <li>SemiBin2 <strong>bin</strong> (produces bins)</li>
+  <li>
+<strong>Unzip</strong> and convert <code class="language-plaintext highlighter-rouge">.fa.gz → .fa</code>
+</li>
+  <li><strong>MetaWRAP refinement</strong></li>
+  <li><strong>dRep dereplication</strong></li>
+</ol>
+
+<p>All managed by Snakemake.</p>
+
+<hr>
+
+<h2 id="-running-the-workflow">🚀 Running the workflow</h2>
+
+<p>Once the Snakefile is created:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>snakemake <span class="nt">-j</span> 32
+</code></pre></div></div>
+
+<p>Snakemake will:</p>
+
+<ul>
+  <li>Detect required jobs</li>
+  <li>Build the DAG</li>
+  <li>Run everything in parallel</li>
+  <li>Restart only failed steps</li>
+  <li>Ensure reproducibility</li>
+</ul>
+
+<hr>
+
+<h2 id="-results-from-this-workflow">📈 Results from this workflow</h2>
+
+<h3 id="-semibin2-initial-output">⭐ <strong>SemiBin2 initial output</strong>
+</h3>
+
+<p><strong>6,563 bins</strong> generated from the co-assembly.</p>
+
+<h3 id="-after-refinement--dereplication">⭐ <strong>After refinement + dereplication</strong>
+</h3>
+
+<p>Using:</p>
+
+<ul>
+  <li>MetaWRAP bin refinement</li>
+  <li>dRep dereplication</li>
+  <li>≥ <strong>70% completeness</strong>
+</li>
+  <li>≤ <strong>5% contamination</strong>
+</li>
+</ul>
+
+<p>I recovered:</p>
+
+<p>🔥 <strong>~1,000 high-quality MAGs</strong></p>
+
+<p>A major improvement over the <strong>~500 bins from MetaBAT2</strong> alone.</p>
+
+<p>These high-quality MAGs will be used for:</p>
+
+<ul>
+  <li>Taxonomy</li>
+  <li>Functional annotation</li>
+  <li>CAZyme profiling</li>
+  <li>Energy metabolism markers</li>
+  <li>MG–MTX expression integration</li>
+  <li>Functional redundancy modeling (future post)</li>
+</ul>
+
+<hr>
+
+<h2 id="-wrap-up">🔚 Wrap-up</h2>
+
+<p>This combined SemiBin2 + Snakemake workflow gave me:</p>
+
+<ul>
+  <li>A reproducible, automated MAG recovery pipeline</li>
+  <li>Better binning in extremely complex soil metagenomes</li>
+  <li>A strong foundation for multi-omics integration</li>
+  <li>ML-powered binning without manual tuning</li>
+</ul>
+
+<hr>
+
+<h2 id="-full-workflow-on-github">💾 Full workflow on GitHub</h2>
+
+<p>I’ll maintain and update the full Snakemake pipeline here:</p>
+
+<p>👉 https://github.com/jojyjohn28/semibin2-soil-mag-workflow</p>
+
+    </div>
   </article>
 
   
-    <h2>References</h2>
-    <div class="publications">
-      
-    </div>
+
   
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
 
   
 </div>
