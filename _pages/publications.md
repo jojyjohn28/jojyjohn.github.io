@@ -9,12 +9,77 @@ nav_order: 2
 
 <!-- _pages/publications.md -->
 
+# 📄 Manuscripts Under Review & In Preparation
+
+## 🟣 Under Review / Under Revision
+
+### **1. Functional redundancy and metabolic flexibility of microbial communities in two Mid-Atlantic bays**
+
+**Jojy John**, Maximiliano Ortiz, Pierre Ramond, and Barbara J. Campbell (2025)  
+_Status: Under review in **ISME Communications**_  
+**Keywords:** Metagenomes, Metatranscriptomes, Statistical modeling
+
+---
+
+### **2. Comparative genomic and phenotypic analysis of _Streptomyces rochei_ SOSIST-3 isolated from the Southern Ocean**
+
+**Jojy John†**, Manigundan K.†, Radhakrishnan M., Amit Kumar, Abirami B., Parli V. B. (2025)  
+_Status: Under review in **Molecular Biology Reports**_  
+**Keywords:** Whole-genome analysis, Gene annotation
+
+---
+
+### **3. Nanoliposome co-delivery of Amoxicillin and Tazobactam remediates intracellular infection by multidrug-resistant _Salmonella enterica_ serovar Typhimurium**
+
+Trisha S., Unnikrishnan K., Satwik M., **Jojy John**, Charles V., Zhixuan F., Marie B., Jennifer R., Saji George (2025)  
+_Status: Under review in **Nature – Journal of Antibiotics**_  
+**Keywords:** Whole-genome sequencing, Plasmid analysis
+
+---
+
+### **4. Phototrophy and chemolithotrophy drive microbial resilience to monsoon hypoxia in the Arabian Sea**
+
+**Jojy John**, R. Dineshram (2025)  
+_Status: Under review in **Frontiers in Microbiology**_  
+**Keywords:** Metagenomics, Hypoxia, Arabian Sea
+
+---
+
+## 🟡 Ready for Submission / In Preparation
+
+### **5. Ecological distribution and environmental drivers of Actinobacteriota in two Mid-Atlantic estuaries**
+
+Mir Alvee Ahmed, **Jojy John**, Barbara J. Campbell (2025)  
+_Target Journal: **Applied and Environmental Microbiology (AEM)**_  
+**Keywords:** Metagenomes, Metatranscriptomes, Estuarine microbiomes
+
+---
+
+### **6. Microbial hydrocarbon degradation shaped by spatial and temporal changes in estuarine environments**
+
+Dinuka Lakmali Jayasuriya Patabandige, **Jojy John**, Maximiliano Ortiz, Barbara J. Campbell (2025)  
+_Target Journal: **mSphere**_  
+**Keywords:** Metagenomes, Metatranscriptomes, Hydrocarbon degradation
+
+---
+
+### **7. Genome assemblies of 200 marine bacterial isolates reveal extensive functional diversity**
+
+(2025)  
+_Status: Manuscript in preparation; genomes submitted to NCBI_  
+_Target Journal: **Microbiology Resource Announcements**_  
+**Keywords:** Whole-genome sequencing, Hybrid assembly, Marine biofilms
+
+---
+
+<br>
+
+# 📚 Published Papers
+
 <!-- Bibsearch Feature -->
 
 {% include bib_search.liquid %}
 
 <div class="publications">
-
 {% bibliography %}
-
 </div>
