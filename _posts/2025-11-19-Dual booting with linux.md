@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Installing & Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions & Persistence"
-date: 2025-11-25
+date: 2025-11-19
 description: "A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue."
 comments: true
 giscus_comments: true
@@ -65,35 +65,28 @@ On Windows, I also recommend:
 
 👉 Rufus
 
-Select the ISO
+-Select the ISO
+-Partition scheme = GPT
+-Target = UEFI
+-File system = FAT32
 
-Partition scheme = GPT
-
-Target = UEFI
-
-File system = FAT32
-
-Everything looked smooth — until the installer crashed mid-way with:
+## Everything looked smooth — until the installer crashed mid-way with:
 
 ❌ curtin command install
-
 ❌ rsync error 23
-
 ❌ “System error detected. Installation failed.”
 
 Root cause:
 👉 My USB stick was corrupted.
 
-A bad pendrive = a lot of wasted time.
+# A bad pendrive = a lot of wasted time.
 
-I grabbed a new 64 GB USB, reflashed, rebooted…
-and finally everything started working again.
+I grabbed a new 64 GB USB, reflashed, rebooted… and finally everything started working again.
 
 🧭 Step 3 — Installer Could Not Recognize My Partitions
 (The Tricky Part)
 
 Inside the Ubuntu installer → Manual Installation, I saw:
-
 p1 → EFI (FAT32)
 p2 → Microsoft Reserved
 p3 → Windows (NTFS)
@@ -192,4 +185,8 @@ But in the end, I now have:
 
 If you're a researcher considering dual-booting Linux, don’t worry if things break —it’s part of the learning process.
 
-![welcome messege ubuntu 24.04](/assets/img/welcome_image.png)
+![welcome_Ubuntu_24.04](/assets/img/welcome_image.png)
+
+```
+
+```
