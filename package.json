@@ -1,6 +1,24 @@
 {
   "devDependencies": {
     "@shopify/prettier-plugin-liquid": "^1.10.0",
-    "prettier": "3.6.2"
-  }
+    "prettier": "^3.6.2"
+  },
+  "name": "jojyjohn.github.io",
+  "description": "<div align=\"center\">",
+  "version": "1.0.0",
+  "main": "purgecss.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jojyjohn28/jojyjohn.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jojyjohn28/jojyjohn.github.io/issues"
+  },
+  "homepage": "https://github.com/jojyjohn28/jojyjohn.github.io#readme"
 }
