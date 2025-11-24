@@ -17,12 +17,12 @@
   
   
     
-      Microbial Functional Redudnacy of Esturine Microbiome | Jojy John
+      Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp; Persistence | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="Combining genomics, metagenome and metatranscriptome we study metabolic flexibility and microbial functional Redudnacy">
+<meta name="description" content="A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/projects/FREd/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/Dual_booting_with_linux/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -158,9 +158,11 @@
             
               
                 
-                <li class="nav-item ">
+                <li class="nav-item active">
                   
                   <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -170,11 +172,9 @@
             
               
                 
-                <li class="nav-item active">
+                <li class="nav-item ">
                   
                   <a class="nav-link" href="/projects/">Projects
-                    
-                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -276,41 +276,266 @@
       
         
 
+
+
+
+
+
+
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Microbial Functional Redudnacy of Esturine Microbiome</h1>
-    <p class="post-description">Combining genomics, metagenome and metatranscriptome we study metabolic flexibility and microbial functional Redudnacy</p>
+    <h1 class="post-title">Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp; Persistence</h1>
+    <p class="post-meta">
+      Created in November 19, 2025
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
+      
+
+      
+
+      
+    </p>
   </header>
 
-  <article>
-    <h2 id="background">Background</h2>
+  <article class="post-content">
+    <div id="markdown-content">
+      <p>Today’s entry is a special one — not about metagenomics, CAZymes, MAGs, or FRed models —<br>
+but about something equally important for any computational biologist:</p>
 
-<p>Species respond in diverse ways to the challenges in their habitat. The strength and formation of this response depend on the extent of redundancy within the community or system. ​Differences in microbial communities, how they respond under stress, and their composition become apparent when comparing two geographically similar and biologically distinct systems. ​</p>
+<p>👉 <strong>setting up a reliable Linux machine.</strong></p>
 
-<p>Estuaries are dynamic ecosystems where rapidly changing environmental factors, including extreme climate and human activities, cause irreversible degradation, making them ideal models to study microbial responses to variations or disturbances.​</p>
+<p>If you’ve ever tried installing Ubuntu alongside Windows on a modern NVMe laptop<br>
+(especially Dell Inspiron or XPS), you know the process can be…</p>
 
-<p>Here, we used metagenomics and metatranscriptomics of 20 seasonal samples combined with a genome-resolved approach, whose genomes represented between 46 to 92% of the bacterial and archaeal community to profile microbial composition, metabolic potential, and microbial functional redundancy (FRed) in the Chesapeake and Delaware Bays, USA.</p>
+<p><strong>fascinating + frustrating + educational.</strong></p>
 
-<h2 id="relevant-publications">Relevant Publications</h2>
+<p>Here’s how my day went.</p>
 
-<p>FUNCTIONAL REDUNDANCY AND METABOLIC FLEXIBILITY OF MICROBIAL COMMUNITIES IN TWO MID-ATLANTIC BAYS under preparation</p>
+<hr>
 
-<h2 id="abstracts">Abstracts</h2>
+<h5 id="-step-1--preparing-windows-for-dual-boot">🔧 Step 1 — Preparing Windows for Dual-Boot</h5>
 
-<p>Jojy John, Maximiliano Ortiz, and Barbara J Campbell 2025. Functional Redudancy and metabolic flexibility of microbial communities in two mid Atlantic Bays. ASLO Aquatic Sciences Metting, Charloette, USA</p>
+<p>Before touching Linux, I fixed Windows first.</p>
 
-<p>Jojy John, Maximiliano Ortiz, Pierre Ramond and Barbara J. Campbell (2024) Microbial functional redundancy in response to substrate and energy utilization in estuarine ecosystems 19th International Symposium on Microbial Ecology (ISME19). · Cape Town, South Africa.</p>
+<h3 id="-disabled-fast-startup">✔ Disabled Fast Startup</h3>
 
-<p>Jojy John, Maximiliano Ortiz, Barbara J. Campbell 2024. Does Microbiome Insure? Clemson University 3rd postdoctoral symposium; Clemson, South Carolina, USA</p>
+<p>Fast Startup locks the NTFS filesystem and blocks Linux installers from modifying disks.<br>
+(For dual-boot, it <em>must</em> be off.)</p>
 
+<h3 id="-created-unallocated-space">✔ Created Unallocated Space</h3>
+
+<p>Using <strong>Windows Disk Management → Shrink Volume</strong>, I freed:</p>
+
+<p>➡️ <strong>~1 TB of unallocated space</strong></p>
+
+<p>This will later become:</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">/</code> (root)</li>
+  <li><code class="language-plaintext highlighter-rouge">/home</code></li>
+  <li>swap</li>
+</ul>
+
+<p>Everything looked good… <strong>until things got interesting.</strong></p>
+
+<hr>
+
+<h5 id="-step-2--creating-the-bootable-usb">💽 Step 2 — Creating the Bootable USB</h5>
+
+<p>(and discovering the importance of a <em>good</em> USB drive)</p>
+
+<p>Downloaded <strong>Ubuntu 24.04.3 LTS</strong>, then flashed the installer.</p>
+
+<h3 id="on-linux-preferred">On Linux (preferred):</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo dd </span><span class="k">if</span><span class="o">=</span>ubuntu.iso <span class="nv">of</span><span class="o">=</span>/dev/sdb <span class="nv">bs</span><span class="o">=</span>4M <span class="nv">status</span><span class="o">=</span>progress <span class="nv">oflag</span><span class="o">=</span><span class="nb">sync</span>
+</code></pre></div></div>
+
+<p><strong>On Windows, I recommend:</strong>
+Rufus
+Select ISO
+Partition scheme = GPT
+Target = UEFI
+File system = FAT32</p>
+
+<p>➤ Everything looked smooth — until the installer suddenly failed with:</p>
+
+<p>❌ curtin command install
+❌ rsync error 23
+❌ “System error detected. Installation failed.”</p>
+
+<p>Root cause:
+👉 My USB stick was corrupted.It was partioned into many small fragments while creating the USB disk.
+➜A bad USB = hours wasted.
+➜So I grabbed a new 64 GB drive, reflashed, rebooted… and finally reached the installer correctly.</p>
+
+<h5 id="-step-3--installer-could-not-recognize-my-partitions">🧭 Step 3 — Installer Could Not Recognize My Partitions</h5>
+
+<p>(The tricky part begins)
+Inside the Ubuntu installer (Manual Installation), I saw:</p>
+
+<p>● p1 → EFI (FAT32)
+● p2 → Microsoft Reserved
+● p3 → Windows (NTFS)
+● p5 → WINRETOOLS</p>
+
+<p>Free space → 953 GB
+But the installer did NOT show the “+” button to create new partitions.
+<strong>Meaning: I could not proceed.</strong></p>
+
+<p>🔍 The Fix
+Boot into Try Ubuntu, open GParted, and create the partitions manually.</p>
+
+<h5 id="-step-4--manual-partitioning-in-gparted">🧱 Step 4 — Manual Partitioning in GParted</h5>
+
+<p>(The correct final layout)
+Here’s exactly what I created:
+1️⃣ Root /
+105 GB
+ext4
+Mount: /</p>
+
+<p>2️⃣ Swap
+With 64 GB RAM, I created:
+17 GB swap</p>
+
+<p>3️⃣ Home /home
+~902 GB
+ext4
+Mount: /home</p>
+
+<p>4️⃣ EFI (existing Windows EFI)</p>
+
+<p>Never create a new EFI partition when dual-booting.
+I reused:
+/dev/nvme0n1p1
+FAT32
+Mount: /boot/efi
+<strong>Do NOT format</strong></p>
+
+<h4 id="-final-partition-table">📊 Final Partition Table</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Partition</th>
+      <th>Type</th>
+      <th>Mount</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>nvme0n1p1</td>
+      <td>VFAT</td>
+      <td>/boot/efi</td>
+      <td>Windows + Ubuntu bootloader</td>
+    </tr>
+    <tr>
+      <td>nvme0n1p4</td>
+      <td>ext4</td>
+      <td>/</td>
+      <td>Ubuntu root</td>
+    </tr>
+    <tr>
+      <td>nvme0n1p6</td>
+      <td>swap</td>
+      <td>—</td>
+      <td>Swap</td>
+    </tr>
+    <tr>
+      <td>nvme0n1p7</td>
+      <td>ext4</td>
+      <td>/home</td>
+      <td>User home</td>
+    </tr>
+    <tr>
+      <td>nvme0n1p3</td>
+      <td>NTFS</td>
+      <td>—</td>
+      <td>Windows C: drive</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="-step-5--running-the-installer-again">🚀 Step 5 — Running the Installer Again</h5>
+
+<p>I re-opened the Ubuntu installer.
+This time the “Review Your Choices” screen looked perfect:</p>
+
+<p>✔ EFI correctly detected
+✔ Root, swap, home all mapped
+✔ No formatting of Windows partitions
+✔ Bootloader target = nvme0n1</p>
+
+<p>I clicked Install and…</p>
+
+<p><strong>🎉 It finally completed successfully!</strong></p>
+
+<h5 id="-step-6--first-boot--initial-setup">🧵 Step 6 — First Boot &amp; Initial Setup</h5>
+
+<p>After reboot:
+GRUB menu appeared (Ubuntu + Windows Boot Manager)
+Ubuntu booted cleanly
+/home and / mounted correctly
+Swap active</p>
+
+<p><strong>First software installed:</strong>
+● VS Code
+● RStudio
+● Conda / Mamba
+● Git
+● Jupyter, pandas, biopython
+● GCC, g++, make
+● Browsers &amp; utilities</p>
+
+<h4 id="my-system-is-officially-ready-for-serious-computational-biology-work"><strong>My system is officially ready for serious computational biology work.</strong></h4>
+
+<p><strong>🎉 Final Thoughts</strong></p>
+
+<p>This installation was a journey involving:</p>
+
+<p>● corrupted USB drives
+● missing partition options
+● EFI confusion
+● manual fixes in GParted
+● several reinstall attempts</p>
+
+<p>But in the end, I now have:</p>
+
+<p>💻 A stable dual-boot Linux system
+📦 Clean partitions optimized for bioinformatics
+🧬 A fast environment ready for MAGs, CAZymes, MTX, and more</p>
+
+<p>If you’re a researcher switching to Linux or setting up dual-boot for the first time, don’t worry if things break — it’s all part of learning.</p>
+
+<p><img src="/assets/img/welcome_image.png" alt="ncbi_submission"></p>
+
+    </div>
   </article>
 
   
-    <h2>References</h2>
-    <div class="publications">
-      
-    </div>
+
   
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
 
   
 </div>
