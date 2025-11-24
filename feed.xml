@@ -1,5 +1,366 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-11-22T02:07:02+00:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence</title><link href="https://jojyjohn28.github.io/blog/Dual-booting-with-linux/" rel="alternate" type="text/html" title="Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence" /><published>2025-11-19T00:00:00+00:00</published><updated>2025-11-19T00:00:00+00:00</updated><id>https://jojyjohn28.github.io/blog/Dual%20booting%20with%20linux</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/Dual-booting-with-linux/"><![CDATA[<p>Today’s entry is a special one — not about metagenomics, CAZymes, MAGs, or FRed models —<br />
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-11-24T21:10:35+00:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow</title><link href="https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/" rel="alternate" type="text/html" title="Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow" /><published>2025-11-21T00:00:00+00:00</published><updated>2025-11-21T00:00:00+00:00</updated><id>https://jojyjohn28.github.io/blog/NCBI-submission-cleaning</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/"><![CDATA[<p>🧬 <strong>Cleaning and Preparing Genomes for NCBI Submission</strong></p>
+
+<p>Today’s post documents the complete workflow I used to prepare <strong>12 bacterial genomes</strong> for NCBI submission.<br />
+Out of <strong>205 genomes</strong> submitted, <strong>12 failed the NCBI contamination screen</strong>:</p>
+
+<ul>
+  <li><strong>2 genomes</strong> failed due to <em>unexpected genome size</em></li>
+  <li><strong>10 genomes</strong> failed due to <em>adapter sequences</em></li>
+</ul>
+
+<p>I systematically fixed all issues using <strong>seqkit</strong>, <strong>bedtools</strong>, <strong>awk</strong>, and shell scripting on the <strong>Palmetto HPC cluster</strong>.</p>
+
+<hr />
+
+<h5 id="️-step-1--generate-adapter-and-contamination-reports">⚙️ <strong>Step 1 — Generate Adapter and Contamination Reports</strong></h5>
+
+<p>Each genome was screened using NCBI’s contamination check.<br />
+The report includes two sections:</p>
+
+<h4 id="-trim-section-mask-these-regions"><strong>🔹 Trim Section (mask these regions)</strong></h4>
+
+<p>Example:
+Sequence name | length | span | source
+contig02 6271 6238..6271 adaptor:NGB02000.1</p>
+
+<h4 id="-exclude-section-remove-these-contigs-completely"><strong>🔹 Exclude Section (remove these contigs completely)</strong></h4>
+
+<p>Example:
+contig05 3946 prok:g-proteobacteria</p>
+
+<p>Goal:<br />
+✔ Mask adapter regions<br />
+✔ Remove contaminant contigs</p>
+
+<hr />
+
+<h5 id="-step-2--create-bed-files-for-adapter-spans">🧱 <strong>Step 2 — Create BED Files for Adapter Spans</strong></h5>
+
+<p>I extracted adapter coordinates directly from reports:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>rep <span class="k">in </span>reports/<span class="k">*</span>.csv<span class="p">;</span> <span class="k">do
+  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$rep</span><span class="s2">"</span> _report.csv<span class="si">)</span>
+  <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">','</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="nt">-v</span> <span class="nv">g</span><span class="o">=</span><span class="s2">"</span><span class="nv">$base</span><span class="s2">"</span> <span class="s1">'
+    NR &gt; 1 &amp;&amp; $3 ~ /[0-9]+\.\.[0-9]+/ {
+      split($3,a,"..");
+      print g"_"$1, a[1]-1, a[2];
+    }'</span> <span class="s2">"</span><span class="nv">$rep</span><span class="s2">"</span> <span class="o">&gt;</span> beds/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_adapters.bed
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>These .bed files define adapter segments for masking.</p>
+
+<h5 id="-step-3--mask-adapter-regions-with-ns">🧬 Step 3 — Mask Adapter Regions with Ns</h5>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>assemblies/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
+  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> .fa<span class="si">)</span>
+  <span class="nv">bed</span><span class="o">=</span><span class="s2">"beds/</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="s2">_adapters.bed"</span>
+  bedtools maskfasta <span class="nt">-fi</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="nt">-bed</span> <span class="s2">"</span><span class="nv">$bed</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-fo</span> cleaned/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_masked.fa <span class="nt">-mc</span> N
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>This replaces adapter sequences with Ns (usually 10–40 bases long).</p>
+
+<h5 id="-step-4--remove-contaminant-contigs">🚫 Step 4 — Remove Contaminant Contigs</h5>
+
+<p>From the Exclude section, I created lists of contigs to delete.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>cleaned/<span class="k">*</span>_masked.fa<span class="p">;</span> <span class="k">do
+  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> _masked.fa<span class="si">)</span>
+  <span class="nv">excl</span><span class="o">=</span><span class="s2">"exclude_lists/</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="s2">_exclude.txt"</span>
+  seqkit <span class="nb">grep</span> <span class="nt">-v</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$excl</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="o">&gt;</span> final_ncbi_ready/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_clean.fa
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>Result:
+✔ All contaminated contigs removed safely.</p>
+
+<h5 id="-step-5--restore-ncbi-metadata-headers">🧾 Step 5 — Restore NCBI Metadata Headers</h5>
+
+<p>NCBI FASTA headers include metadata such as strain and organism.
+Example correct header:</p>
+
+<blockquote>
+  <p>contig01 [organism=Staphylococcus ureilyticus] [strain=ABD2_031]
+I restored them using mapping files:</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seqkit replace <span class="nt">-p</span> <span class="s2">"^(contig[0-9]+)"</span> <span class="nt">-r</span> <span class="s2">"{kv}"</span> <span class="se">\</span>
+  <span class="nt">--kv-file</span> rename_maps_fixed/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_map.txt <span class="nt">--keep-key</span> <span class="se">\</span>
+  <span class="nt">-o</span> final_ncbi_ready_renamed/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_clean_renamed.fa <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<h5 id="-step-6--renumber-contigs-sequentially">🔢 Step 6 — Renumber Contigs Sequentially</h5>
+
+<p>Since filtering removes contigs, renumbering ensures they start from 1 again:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>final_ncbi_ready_renamed/<span class="k">*</span>_clean_renamed.fa<span class="p">;</span> <span class="k">do
+  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> _clean_renamed.fa<span class="si">)</span>
+  <span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">base</span><span class="o">=</span><span class="s2">"</span><span class="nv">$base</span><span class="s2">"</span> <span class="s1">'
+    /^&gt;/ {count++; sub(/^&gt;contig[0-9]+/, "&gt;contig" count, $0); print; next}
+    {print}
+  '</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="o">&gt;</span> final_ncbi_ready_renumbered/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_renumbered.fa
+<span class="k">done</span>
+</code></pre></div></div>
+
+<h5 id="-step-7--qc-for-ns-and-percent-n">🧮 Step 7 — QC for Ns and Percent N</h5>
+
+<p>I counted Ns and genome length:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>final_ncbi_ready_renumbered/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
+  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span><span class="si">)</span>
+  <span class="nv">totalN</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"&gt;"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> | <span class="nb">tr</span> <span class="nt">-cd</span> <span class="s1">'Nn'</span> | <span class="nb">wc</span> <span class="nt">-c</span><span class="si">)</span>
+  <span class="nv">totalLen</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"&gt;"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s1">'\n'</span> | <span class="nb">wc</span> <span class="nt">-c</span><span class="si">)</span>
+  <span class="nv">perc</span><span class="o">=</span><span class="si">$(</span><span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">n</span><span class="o">=</span><span class="nv">$totalN</span> <span class="nt">-v</span> <span class="nv">l</span><span class="o">=</span><span class="nv">$totalLen</span> <span class="s1">'BEGIN{printf "%.3f", (n/l)*100}'</span><span class="si">)</span>
+  <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">totalN</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">totalLen</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">perc</span><span class="k">}</span><span class="s2">%"</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>Example:
+AWM4_233_renumbered.fa 5807 5927574 0.098%
+✔ All genomes were safely below NCBI’s ≤5% Ns requirement (mine were ≤0.1%).</p>
+
+<h5 id="-step-8--gap-summary-runs-of-n-10">📊 Step 8 — Gap Summary (Runs of N ≥10)</h5>
+
+<p>ABD2_031_renumbered.fa 10 391
+ABF4_148_renumbered.fa 2 63
+AWM4_233_renumbered.fa 182 5807
+<strong>This confirms masking was minimal and acceptable.</strong></p>
+
+<h5 id="-final-thoughts">🧭 Final Thoughts</h5>
+
+<p>This workflow converts problematic assemblies into clean, polished FASTA files ready for NCBI:</p>
+
+<p>✔ Adapter regions masked
+✔ Contaminant contigs removed
+✔ Metadata restored
+✔ Contigs renumbered
+✔ QC verified</p>
+
+<p>✨ Result:
+12 high-quality genomes successfully resubmitted to NCBI.</p>
+
+<p><img src="/assets/img/ncbi_submission.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.]]></summary></entry><entry><title type="html">Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates</title><link href="https://jojyjohn28.github.io/blog/PanX_pangenome_analysis/" rel="alternate" type="text/html" title="Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates" /><published>2025-11-21T00:00:00+00:00</published><updated>2025-11-21T00:00:00+00:00</updated><id>https://jojyjohn28.github.io/blog/PanX_pangenome_analysis</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/PanX_pangenome_analysis/"><![CDATA[<p><strong>🧬 Exploring the Pan-Genome with panX</strong></p>
+
+<p>Today’s post walks through the complete setup and execution of <strong>panX</strong>, a powerful tool for analyzing bacterial pan-genomes.</p>
+
+<p>One of my Master’s students is working on a project involving <strong>DARPA isolate genomes</strong>, focusing on:</p>
+
+<ul>
+  <li>Abiotic stress adaptation</li>
+  <li>Niche classification (generalist vs specialist)</li>
+  <li>Functional redundancy</li>
+</ul>
+
+<p>As part of the analysis, she selected <strong>20 isolates</strong> and classified them using:</p>
+
+<ul>
+  <li>Genome size</li>
+  <li>Total gene count</li>
+  <li>CAZyme profiles</li>
+  <li>Transporters</li>
+  <li>Growth on carbon sources</li>
+</ul>
+
+<p>But after carbon utilization assays, we realized there was still a missing piece:<br />
+👉 <strong>The pangenome perspective</strong><br />
+So we turned to <strong>panX</strong>.</p>
+
+<p>panX (Neher et al., 2016) integrates:</p>
+
+<ul>
+  <li>Ortholog clustering</li>
+  <li>Gene presence/absence matrix</li>
+  <li>Phylogenetic inference</li>
+  <li>Interactive web visualization</li>
+</ul>
+
+<p>I often use <strong>Anvi’o</strong>, but because of time constraints, panX was the best choice:<br />
+✔ Fast<br />
+✔ Lightweight<br />
+✔ Clear cluster outputs<br />
+✔ Better suited for quick exploratory analysis</p>
+
+<hr />
+
+<h5 id="️-step-1--cloning-and-setup">⚙️ Step 1 — Cloning and Setup</h5>
+
+<p>Clone the official repository:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/neherlab/pan-genome-analysis.git
+<span class="nb">cd </span>pan-genome-analysis
+</code></pre></div></div>
+
+<h5 id="-step-2--install-panx-dependencies-conda">🧱 Step 2 — Install panX Dependencies (Conda)</h5>
+
+<p>The documentation suggests Miniconda2, but Miniconda3 works perfectly.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+<span class="nb">source</span> ~/miniconda3/etc/profile.d/conda.sh
+</code></pre></div></div>
+
+<p>Create the panX environment:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">env </span>create <span class="nt">-f</span> panX-environment.yml
+conda activate panX
+</code></pre></div></div>
+
+<p>***If you see dependency conflicts: conda env create -f panX-environment.yml –solver=libmamba
+Test your installation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh run-TestSet.sh
+</code></pre></div></div>
+
+<h5 id="-step-3--preparing-genomes-with-prokka">🧬 Step 3 — Preparing Genomes with Prokka</h5>
+
+<p>panX requires GenBank (.gbk) files.
+So I annotated all genomes using Prokka.
+Install Prokka:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> prokka_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge prokka
+conda activate prokka_env
+</code></pre></div></div>
+
+<p>Batch annotation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
+  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> .fa<span class="si">)</span>
+  prokka <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--outdir</span> ../prokka_out/<span class="k">${</span><span class="nv">base</span><span class="k">}</span> <span class="se">\</span>
+    <span class="nt">--prefix</span> <span class="k">${</span><span class="nv">base</span><span class="k">}</span> <span class="se">\</span>
+    <span class="nt">--cpus</span> 8 <span class="se">\</span>
+    <span class="nt">--force</span> <span class="se">\</span>
+    <span class="nt">--rnammer</span> off
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>Collect all .gbk files:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> ../panx_input
+find ../prokka_out <span class="nt">-name</span> <span class="s2">"*.gbk"</span> <span class="nt">-exec</span> <span class="nb">cp</span> <span class="o">{}</span> ../panx_input/ <span class="se">\;</span>
+</code></pre></div></div>
+
+<h5 id="-step-4--running-panx">🚀 Step 4 — Running panX</h5>
+
+<p>Move into the panX project directory:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/pan-genome-analysis/projects
+<span class="nb">mkdir </span>DARPA_20
+<span class="nb">cp</span> /project/bcampb7/camplab/Alisha/pangenome_analysis/panx_input/<span class="k">*</span>.gbk DARPA_20/
+<span class="nb">cd </span>DARPA_20
+</code></pre></div></div>
+
+<p>Run the full pipeline:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python ../../scripts/run-pipeline.py <span class="se">\</span>
+    <span class="nt">-fn</span> <span class="nb">.</span> <span class="se">\</span>
+    <span class="nt">-sl</span> all <span class="se">\</span>
+    <span class="nt">-st</span> 13456 <span class="se">\</span>
+    <span class="nt">--threads</span> 32 <span class="se">\</span>
+    <span class="nt">--diamond</span>
+</code></pre></div></div>
+
+<p>You will get output folders like:
+● 1_parsed_input/
+● 2_clusters/
+● 3_alignments/
+● 4_trees/
+● 5_statistics/
+● summary/</p>
+
+<h5 id="-step-5--interactive-visualization-optional">🌐 Step 5 — Interactive Visualization (Optional)</h5>
+
+<p>panX includes a full browser-based viewer using Node.js.
+Clone visualization module:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/neherlab/pan-genome-visualization
+<span class="nb">cd </span>pan-genome-visualization
+npm <span class="nb">install</span> <span class="nt">--legacy-peer-deps</span>
+git submodule update <span class="nt">--init</span> <span class="nt">--recursive</span>
+</code></pre></div></div>
+
+<p>Build and launch:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">DATA_ROOT_URL</span><span class="o">=</span>/dataset/
+npm run build
+npm start
+</code></pre></div></div>
+
+<p>Open:👉 http://localhost:8000
+<strong>📂 Linking Your Dataset to the Viewer</strong>
+Edit:
+public/dataset/all_downloads_table.json
+{
+“panX link”: “gbk”,
+“species name”: “GBK dataset”,
+“source”: “Local”,
+“gene cluster json”: “dataset/gbk/geneCluster.json”,
+“metadata table”: “dataset/gbk/metainfo.tsv”,
+“strain/species tree”: “dataset/gbk/strain_tree.nwk”
+}
+Refresh the page → your dataset appears in the menu.</p>
+
+<h5 id="-step-6--extracting-core-and-pan-genes-without-visualization">🧬 Step 6 — Extracting Core and Pan Genes Without Visualization</h5>
+
+<p><strong>Often on HPC (like Palmetto) you only need:</strong></p>
+
+<p>● Core gene count
+● Pan gene count
+● Accessory genes per genome
+● PanX provides allclusters_final.tsv which we can parse directly.</p>
+
+<p>👉 Here is the Python script:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+</span><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="n">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="n">infile</span> <span class="o">=</span> <span class="sh">"</span><span class="s">allclusters_final.tsv</span><span class="sh">"</span>
+<span class="n">outfile</span> <span class="o">=</span> <span class="sh">"</span><span class="s">core_pan_gene_counts_per_genome.tsv</span><span class="sh">"</span>
+
+<span class="n">clusters</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">genes</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">line</span><span class="p">.</span><span class="nf">strip</span><span class="p">().</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">.</span><span class="nf">strip</span><span class="p">()]</span>
+        <span class="n">clusters</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">genes</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">genome_name</span><span class="p">(</span><span class="n">g</span><span class="p">):</span> <span class="k">return</span> <span class="n">g</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">|</span><span class="sh">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">cluster_genomes</span> <span class="o">=</span> <span class="p">[</span><span class="nf">list</span><span class="p">(</span><span class="nf">set</span><span class="p">(</span><span class="nf">genome_name</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">cl</span><span class="p">))</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">]</span>
+<span class="n">all_genomes</span> <span class="o">=</span> <span class="nf">sorted</span><span class="p">({</span><span class="n">g</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">cluster_genomes</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">cl</span><span class="p">})</span>
+
+<span class="n">core_clusters</span> <span class="o">=</span> <span class="p">[</span><span class="n">cl</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">cluster_genomes</span> <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span> <span class="o">==</span> <span class="nf">len</span><span class="p">(</span><span class="n">all_genomes</span><span class="p">)]</span>
+<span class="n">genome_counter</span> <span class="o">=</span> <span class="nc">Counter</span><span class="p">(</span><span class="n">g</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">cluster_genomes</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">cl</span><span class="p">)</span>
+
+<span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span>
+    <span class="sh">"</span><span class="s">Genome</span><span class="sh">"</span><span class="p">:</span> <span class="n">all_genomes</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">Pan_genes</span><span class="sh">"</span><span class="p">:</span> <span class="p">[</span><span class="n">genome_counter</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">all_genomes</span><span class="p">],</span>
+<span class="p">})</span>
+<span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Core_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">core_clusters</span><span class="p">)</span>
+<span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Accessory_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Pan_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">-</span> <span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Core_genes</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Core_fraction(%)</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Core_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">/</span> <span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Pan_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">).</span><span class="nf">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">summary</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">✅ Saved:</span><span class="sh">"</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Run with:python core_pan_from_list.py
+Output file: core_pan_gene_counts_per_genome.tsv
+<strong>Contains:</strong></p>
+
+<p>● Core genes
+● Pan genes
+● Accessory genes
+● Core gene % per genome</p>
+
+<p><strong>Perfect for downstream comparative genomics.</strong></p>
+
+<p>For more details on PanX visit :https://pangenome.org/</p>
+
+<p><img src="/assets/img/panx_analysis.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.]]></summary></entry><entry><title type="html">Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence</title><link href="https://jojyjohn28.github.io/blog/Dual_booting_with_linux/" rel="alternate" type="text/html" title="Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence" /><published>2025-11-19T00:00:00+00:00</published><updated>2025-11-19T00:00:00+00:00</updated><id>https://jojyjohn28.github.io/blog/Dual_booting_with_linux</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/Dual_booting_with_linux/"><![CDATA[<p>Today’s entry is a special one — not about metagenomics, CAZymes, MAGs, or FRed models —<br />
 but about something equally important for any computational biologist:</p>
 
 <p>👉 <strong>setting up a reliable Linux machine.</strong></p>
