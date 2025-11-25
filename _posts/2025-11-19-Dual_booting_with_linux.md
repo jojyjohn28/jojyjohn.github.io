@@ -182,4 +182,4 @@ But in the end, I now have:
 
 If you're a researcher switching to Linux or setting up dual-boot for the first time, don’t worry if things break — it’s all part of learning.
 
-![ncbi_submission](/assets/img/welcome_image.png)
+![welcome to Ubuntu 24.04](/assets/img/welcome_image.png)
