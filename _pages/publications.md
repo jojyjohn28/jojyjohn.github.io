@@ -9,53 +9,59 @@ nav_order: 2
 
 <!-- _pages/publications.md -->
 
-# 📄 Manuscripts Under Review & In Preparation
+#### 📄 **Manuscripts Under Review & In Preparation**
 
-## 🟣 Under Review / Under Revision
+### Preprints available\_**Under review** (biorxiv/uponrequest)
 
-### **1. Functional redundancy and metabolic flexibility of microbial communities in two Mid-Atlantic bays**
+##### **1. Functional redundancy and metabolic flexibility of microbial communities in two Mid-Atlantic bays**
 
 **Jojy John**, Maximiliano Ortiz, Pierre Ramond, and Barbara J. Campbell (2025)  
 _Status: Under review in **ISME Communications**_  
-**Keywords:** Metagenomes, Metatranscriptomes, Statistical modeling
+**Keywords:** Metagenomes, Metatranscriptomes, Statistical modeling_preprint available on request
 
 ---
 
-### **2. Comparative genomic and phenotypic analysis of _Streptomyces rochei_ SOSIST-3 isolated from the Southern Ocean**
+##### **2. Ecological distribution and environmental drivers of Actinobacteriota in two Mid-Atlantic estuaries**
+
+Mir Alvee Ahmed, **Jojy John**, Barbara J. Campbell (2025)  
+_Target Journal: **Applied and Environmental Microbiology (AEM)**_  
+**Keywords:** Metagenomes, Metatranscriptomes, Estuarine microbiomes see preprint at :https://www.biorxiv.org/content/10.1101/2025.11.21.689735v1
+
+---
+
+#### **3. Comparative genomic and phenotypic analysis of _Streptomyces rochei_ SOSIST-3 isolated from the Southern Ocean**
 
 **Jojy John†**, Manigundan K.†, Radhakrishnan M., Amit Kumar, Abirami B., Parli V. B. (2025)  
-_Status: Under review in **Molecular Biology Reports**_  
+\_Status: Under review in **Molecular Biology Reports**\_preprint available on request  
 **Keywords:** Whole-genome analysis, Gene annotation
 
 ---
 
-### **3. Nanoliposome co-delivery of Amoxicillin and Tazobactam remediates intracellular infection by multidrug-resistant _Salmonella enterica_ serovar Typhimurium**
+##### **4. Nanoliposome co-delivery of Amoxicillin and Tazobactam remediates intracellular infection by multidrug-resistant _Salmonella enterica_ serovar Typhimurium**
 
 Trisha S., Unnikrishnan K., Satwik M., **Jojy John**, Charles V., Zhixuan F., Marie B., Jennifer R., Saji George (2025)  
 _Status: Under review in **Nature – Journal of Antibiotics**_  
-**Keywords:** Whole-genome sequencing, Plasmid analysis
+**Keywords:** Whole-genome sequencing, Plasmid analysis-preprint available on request
 
 ---
 
-### **4. Phototrophy and chemolithotrophy drive microbial resilience to monsoon hypoxia in the Arabian Sea**
+##### **5. Phototrophy and chemolithotrophy drive microbial resilience to monsoon hypoxia in the Arabian Sea**
 
 **Jojy John**, R. Dineshram (2025)  
 _Status: Under review in **Frontiers in Microbiology**_  
-**Keywords:** Metagenomics, Hypoxia, Arabian Sea
+**Keywords:** Metagenomics, Hypoxia, Arabian Sea-preprint available on request
 
 ---
+
+##### **6. Genomic Insights into Carbohydrate-Active Enzymes and Antimicrobial Potential of a Novel Species of Radiobacillus Isolated from the Antarctic Red Macroalgae Pyropia endiviifolia**
+
+**Jojy John1**, Amit Kumar, Matias Goddard, Radhakrishnan Manikkam, Javiera Molina, Sergio Leiva
+\_Status:under review in World Journal of Microbiology and Biotechnology
+**Keywords:** Whole genome sequencing, Novel strain, Carageenase degradation-preprint available on request
 
 ## 🟡 Ready for Submission / In Preparation
 
-### **5. Ecological distribution and environmental drivers of Actinobacteriota in two Mid-Atlantic estuaries**
-
-Mir Alvee Ahmed, **Jojy John**, Barbara J. Campbell (2025)  
-_Target Journal: **Applied and Environmental Microbiology (AEM)**_  
-**Keywords:** Metagenomes, Metatranscriptomes, Estuarine microbiomes
-
----
-
-### **6. Microbial hydrocarbon degradation shaped by spatial and temporal changes in estuarine environments**
+##### **7. Microbial hydrocarbon degradation shaped by spatial and temporal changes in estuarine environments**
 
 Dinuka Lakmali Jayasuriya Patabandige, **Jojy John**, Maximiliano Ortiz, Barbara J. Campbell (2025)  
 _Target Journal: **mSphere**_  
@@ -63,7 +69,7 @@ _Target Journal: **mSphere**_
 
 ---
 
-### **7. Genome assemblies of 200 marine bacterial isolates reveal extensive functional diversity**
+##### **8. Genome assemblies of 200 marine bacterial isolates reveal extensive functional diversity**
 
 (2025)  
 _Status: Manuscript in preparation; genomes submitted to NCBI_  
