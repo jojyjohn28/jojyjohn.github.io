@@ -17,12 +17,12 @@
   
   
     
-      Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow | Jojy John
+      Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.">
+<meta name="description" content="Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/reworking-a-figure-manuscript-revision-story/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -284,9 +284,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow</h1>
+    <h1 class="post-title">Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity</h1>
     <p class="post-meta">
-      Created in November 20, 2025
+      Created in November 18, 2025
       
       
       
@@ -305,156 +305,151 @@
 
   <article class="post-content">
     <div id="markdown-content">
-      <p>🧬 <strong>Cleaning and Preparing Genomes for NCBI Submission</strong></p>
-
-<p>Today’s post documents the complete workflow I used to prepare <strong>12 bacterial genomes</strong> for NCBI submission.<br>
-Out of <strong>205 genomes</strong> submitted, <strong>12 failed the NCBI contamination screen</strong>:</p>
+      <p>Today I worked on the <strong>final revision of one of the main figures</strong> (Figure 5) in my manuscript on microbial functional redundancy (FRed).<br>
+The goal was to create a <strong>clean, publication-quality visualization</strong> comparing:</p>
 
 <ul>
-  <li>
-<strong>2 genomes</strong> failed due to <em>unexpected genome size</em>
+  <li><strong>Potential vs. Expressed FRed (R*)</strong></li>
+  <li>Across <strong>Chesapeake vs Delaware Bay</strong>
 </li>
-  <li>
-<strong>10 genomes</strong> failed due to <em>adapter sequences</em>
+  <li>Separated by <strong>Spring vs Summer</strong>
+</li>
+  <li>Points colored by <strong>salinity (Low / Medium / High)</strong>
+</li>
+  <li>Boxplots grouped by <strong>Bay</strong>
+</li>
+  <li>And significance letters (<strong>a, b, c</strong>) added manually</li>
+</ul>
+
+<hr>
+
+<h2 id="-step-1--data-cleaning--long-format-setup">🔧 Step 1 — Data Cleaning &amp; Long Format Setup</h2>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"pot_Fred_and_exp_Fred.xlsx"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">df2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">rename</span><span class="p">(</span><span class="w">
+    </span><span class="n">Bay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bays</span><span class="p">,</span><span class="w">
+    </span><span class="n">Potential</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">potential</span><span class="p">,</span><span class="w">
+    </span><span class="n">Expressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Expressed</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Expressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">Expressed</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">Expressed</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="w">
+    </span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Potential"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Expressed"</span><span class="p">),</span><span class="w">
+    </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Type"</span><span class="p">,</span><span class="w">
+    </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"FRed"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">Type</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">Type</span><span class="p">,</span><span class="w">   </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Potential"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Expressed"</span><span class="p">)),</span><span class="w">
+    </span><span class="n">Season</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">Season</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Summer"</span><span class="p">)),</span><span class="w">
+    </span><span class="n">Bay</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">Bay</span><span class="p">,</span><span class="w">    </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Chesapeake"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Delaware"</span><span class="p">))</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="-step-2--final-figure-boxplots--salinity-colors--significance-letters">🔧 Step 2 — Final Figure (Boxplots + Salinity Colors + Significance Letters)</h2>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pd</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">position_dodge</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w">
+
+</span><span class="n">sig_letters</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">Season</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="p">,</span><span class="s2">"Spring"</span><span class="p">,</span><span class="s2">"Summer"</span><span class="p">,</span><span class="s2">"Summer"</span><span class="p">),</span><span class="w">
+                  </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="p">,</span><span class="s2">"Summer"</span><span class="p">)),</span><span class="w">
+  </span><span class="n">Type</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Potential"</span><span class="p">,</span><span class="s2">"Expressed"</span><span class="p">,</span><span class="s2">"Potential"</span><span class="p">,</span><span class="s2">"Expressed"</span><span class="p">),</span><span class="w">
+                  </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Potential"</span><span class="p">,</span><span class="s2">"Expressed"</span><span class="p">)),</span><span class="w">
+  </span><span class="n">label</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"c"</span><span class="p">,</span><span class="s2">"b"</span><span class="p">,</span><span class="s2">"c"</span><span class="p">),</span><span class="w">
+  </span><span class="n">y_pos</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1.02</span><span class="p">,</span><span class="m">1.02</span><span class="p">,</span><span class="m">1.02</span><span class="p">,</span><span class="m">1.02</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Type</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FRed</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bay</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="w">
+    </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.55</span><span class="p">,</span><span class="w">
+    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w">
+    </span><span class="n">outlier.shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="w">
+    </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pd</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Salinity</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bay</span><span class="p">),</span><span class="w">
+    </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w">
+    </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w">
+    </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">,</span><span class="w">
+    </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_jitterdodge</span><span class="p">(</span><span class="w">
+      </span><span class="n">jitter.width</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="m">0.10</span><span class="p">,</span><span class="w">
+      </span><span class="n">jitter.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">
+      </span><span class="n">dodge.width</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="w">
+    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sig_letters</span><span class="p">,</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Type</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y_pos</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label</span><span class="p">),</span><span class="w">
+    </span><span class="n">inherit.aes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+    </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+    </span><span class="n">fontface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"Chesapeake"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#f3c892"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Delaware"</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"#7ba7ff"</span><span class="w">
+  </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="w">
+    </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"High"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Medium"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Low"</span><span class="p">),</span><span class="w">
+    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+      </span><span class="s2">"High"</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"#2ca02c"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Medium"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"purple4"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Low"</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">Season</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_cartesian</span><span class="p">(</span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="m">1.05</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Functional Redundancy (R*)"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">strip.text</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">18</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">legend.text</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">guides</span><span class="p">(</span><span class="w">
+    </span><span class="n">fill</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">guide_legend</span><span class="p">(</span><span class="n">override.aes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">),</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w">
+    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">guide_legend</span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="-step-3--final-touches-in-adobe-illustrator">🎨 Step 3 — Final Touches in Adobe Illustrator</h2>
+
+<p>After saving as an SVG, I edited:</p>
+
+<ul>
+  <li>Font sizes</li>
+  <li>Gridlines</li>
+  <li>Box spacing</li>
+  <li>Alignment</li>
+  <li>Exported at <strong>300 dpi</strong>
 </li>
 </ul>
 
-<p>I systematically fixed all issues using <strong>seqkit</strong>, <strong>bedtools</strong>, <strong>awk</strong>, and shell scripting on the <strong>Palmetto HPC cluster</strong>.</p>
+<hr>
+
+<h2 id="-summary">📌 Summary</h2>
+
+<p>This workflow produced a clean, publication-ready figure:</p>
+
+<ul>
+  <li>Chesapeake vs Delaware</li>
+  <li>Seasonal contrast</li>
+  <li>Salinity structure</li>
+  <li>Potential vs expressed redundancy</li>
+  <li>Added significance letters (a, b, c)</li>
+</ul>
 
 <hr>
 
-<h5 id="️-step-1--generate-adapter-and-contamination-reports">⚙️ <strong>Step 1 — Generate Adapter and Contamination Reports</strong>
-</h5>
+<p><img src="/assets/img/figure5.png" alt="Figure 5 Final"></p>
 
-<p>Each genome was screened using NCBI’s contamination check.<br>
-The report includes two sections:</p>
-
-<h4 id="-trim-section-mask-these-regions"><strong>🔹 Trim Section (mask these regions)</strong></h4>
-
-<p>Example:
-Sequence name | length | span | source
-contig02 6271 6238..6271 adaptor:NGB02000.1</p>
-
-<h4 id="-exclude-section-remove-these-contigs-completely"><strong>🔹 Exclude Section (remove these contigs completely)</strong></h4>
-
-<p>Example:
-contig05 3946 prok:g-proteobacteria</p>
-
-<p>Goal:<br>
-✔ Mask adapter regions<br>
-✔ Remove contaminant contigs</p>
-
-<hr>
-
-<h5 id="-step-2--create-bed-files-for-adapter-spans">🧱 <strong>Step 2 — Create BED Files for Adapter Spans</strong>
-</h5>
-
-<p>I extracted adapter coordinates directly from reports:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>rep <span class="k">in </span>reports/<span class="k">*</span>.csv<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$rep</span><span class="s2">"</span> _report.csv<span class="si">)</span>
-  <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">','</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="nt">-v</span> <span class="nv">g</span><span class="o">=</span><span class="s2">"</span><span class="nv">$base</span><span class="s2">"</span> <span class="s1">'
-    NR &gt; 1 &amp;&amp; $3 ~ /[0-9]+\.\.[0-9]+/ {
-      split($3,a,"..");
-      print g"_"$1, a[1]-1, a[2];
-    }'</span> <span class="s2">"</span><span class="nv">$rep</span><span class="s2">"</span> <span class="o">&gt;</span> beds/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_adapters.bed
-<span class="k">done</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 </code></pre></div></div>
-
-<p>These .bed files define adapter segments for masking.</p>
-
-<h5 id="-step-3--mask-adapter-regions-with-ns">🧬 Step 3 — Mask Adapter Regions with Ns</h5>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>assemblies/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> .fa<span class="si">)</span>
-  <span class="nv">bed</span><span class="o">=</span><span class="s2">"beds/</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="s2">_adapters.bed"</span>
-  bedtools maskfasta <span class="nt">-fi</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="nt">-bed</span> <span class="s2">"</span><span class="nv">$bed</span><span class="s2">"</span> <span class="se">\</span>
-    <span class="nt">-fo</span> cleaned/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_masked.fa <span class="nt">-mc</span> N
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>This replaces adapter sequences with Ns (usually 10–40 bases long).</p>
-
-<h5 id="-step-4--remove-contaminant-contigs">🚫 Step 4 — Remove Contaminant Contigs</h5>
-
-<p>From the Exclude section, I created lists of contigs to delete.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>cleaned/<span class="k">*</span>_masked.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> _masked.fa<span class="si">)</span>
-  <span class="nv">excl</span><span class="o">=</span><span class="s2">"exclude_lists/</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="s2">_exclude.txt"</span>
-  seqkit <span class="nb">grep</span> <span class="nt">-v</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$excl</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="o">&gt;</span> final_ncbi_ready/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_clean.fa
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>Result:
-✔ All contaminated contigs removed safely.</p>
-
-<h5 id="-step-5--restore-ncbi-metadata-headers">🧾 Step 5 — Restore NCBI Metadata Headers</h5>
-
-<p>NCBI FASTA headers include metadata such as strain and organism.
-Example correct header:</p>
-
-<blockquote>
-  <p>contig01 [organism=Staphylococcus ureilyticus] [strain=ABD2_031]
-I restored them using mapping files:</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seqkit replace <span class="nt">-p</span> <span class="s2">"^(contig[0-9]+)"</span> <span class="nt">-r</span> <span class="s2">"{kv}"</span> <span class="se">\</span>
-  <span class="nt">--kv-file</span> rename_maps_fixed/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_map.txt <span class="nt">--keep-key</span> <span class="se">\</span>
-  <span class="nt">-o</span> final_ncbi_ready_renamed/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_clean_renamed.fa <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<h5 id="-step-6--renumber-contigs-sequentially">🔢 Step 6 — Renumber Contigs Sequentially</h5>
-
-<p>Since filtering removes contigs, renumbering ensures they start from 1 again:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>final_ncbi_ready_renamed/<span class="k">*</span>_clean_renamed.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> _clean_renamed.fa<span class="si">)</span>
-  <span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">base</span><span class="o">=</span><span class="s2">"</span><span class="nv">$base</span><span class="s2">"</span> <span class="s1">'
-    /^&gt;/ {count++; sub(/^&gt;contig[0-9]+/, "&gt;contig" count, $0); print; next}
-    {print}
-  '</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="o">&gt;</span> final_ncbi_ready_renumbered/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_renumbered.fa
-<span class="k">done</span>
-</code></pre></div></div>
-
-<h5 id="-step-7--qc-for-ns-and-percent-n">🧮 Step 7 — QC for Ns and Percent N</h5>
-
-<p>I counted Ns and genome length:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>final_ncbi_ready_renumbered/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span><span class="si">)</span>
-  <span class="nv">totalN</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"&gt;"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> | <span class="nb">tr</span> <span class="nt">-cd</span> <span class="s1">'Nn'</span> | <span class="nb">wc</span> <span class="nt">-c</span><span class="si">)</span>
-  <span class="nv">totalLen</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"&gt;"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s1">'\n'</span> | <span class="nb">wc</span> <span class="nt">-c</span><span class="si">)</span>
-  <span class="nv">perc</span><span class="o">=</span><span class="si">$(</span><span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">n</span><span class="o">=</span><span class="nv">$totalN</span> <span class="nt">-v</span> <span class="nv">l</span><span class="o">=</span><span class="nv">$totalLen</span> <span class="s1">'BEGIN{printf "%.3f", (n/l)*100}'</span><span class="si">)</span>
-  <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">totalN</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">totalLen</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">perc</span><span class="k">}</span><span class="s2">%"</span>
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>Example:
-AWM4_233_renumbered.fa 5807 5927574 0.098%
-✔ All genomes were safely below NCBI’s ≤5% Ns requirement (mine were ≤0.1%).</p>
-
-<h5 id="-step-8--gap-summary-runs-of-n-10">📊 Step 8 — Gap Summary (Runs of N ≥10)</h5>
-
-<p>ABD2_031_renumbered.fa 10 391
-ABF4_148_renumbered.fa 2 63
-AWM4_233_renumbered.fa 182 5807
-<strong>This confirms masking was minimal and acceptable.</strong></p>
-
-<h5 id="-final-thoughts">🧭 Final Thoughts</h5>
-
-<p>This workflow converts problematic assemblies into clean, polished FASTA files ready for NCBI:</p>
-
-<p>✔ Adapter regions masked
-✔ Contaminant contigs removed
-✔ Metadata restored
-✔ Contigs renumbered
-✔ QC verified</p>
-
-<p>✨ Result:
-12 high-quality genomes successfully resubmitted to NCBI.</p>
-
-<p><img src="/assets/img/ncbi_submission.png" alt="ncbi_submission"></p>
 
     </div>
   </article>
@@ -761,7 +756,7 @@ AWM4_233_renumbered.fa 182 5807
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/Genome_Assembly_Day/";
+              window.location.href = "/blog/genome-assembly-day/";
             
           },
         },{id: "post-visualizing-genome-assemblies-with-bandage-building-from-source-on-linux",
@@ -772,7 +767,7 @@ AWM4_233_renumbered.fa 182 5807
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/Genome_visulaization/";
+              window.location.href = "/blog/genome-visualization/";
             
           },
         },{id: "post-exploring-the-pan-genome-with-panx-a-practical-workflow-for-darpa-isolates",
@@ -783,7 +778,7 @@ AWM4_233_renumbered.fa 182 5807
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/PanX_pangenome_analysis/";
+              window.location.href = "/blog/panx-pangenome-analysis/";
             
           },
         },{id: "post-cleaning-and-preparing-genomes-for-ncbi-submission-a-complete-workflow",
@@ -794,7 +789,7 @@ AWM4_233_renumbered.fa 182 5807
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/NCBI-submission-cleaning/";
+              window.location.href = "/blog/ncbi-submission-cleaning/";
             
           },
         },{id: "post-installing-amp-setting-up-my-new-linux-laptop-a-real-journey-through-dual-boot-partitions-amp-persistence",
@@ -805,7 +800,7 @@ AWM4_233_renumbered.fa 182 5807
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/Dual_booting_with_linux/";
+              window.location.href = "/blog/dual-booting-with-linux/";
             
           },
         },{id: "post-re-working-figure-5-visualizing-functional-redundancy-fred-across-bays-seasons-and-salinity",
@@ -816,7 +811,7 @@ AWM4_233_renumbered.fa 182 5807
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/Reworking-a-figure_Manuscript_Revison_Story/";
+              window.location.href = "/blog/reworking-a-figure-manuscript-revision-story/";
             
           },
         },{id: "post-machine-learning-mag-binning-with-semibin2-and-snakemake-soil-metagenomes",
@@ -838,7 +833,7 @@ AWM4_233_renumbered.fa 182 5807
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics.md/";
+              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics/";
             
           },
         },{id: "news-aaas-membership-and-science-magazine-subscription-nominated-by-cynthia-y-young-dean-of-college-of-science-clemson-university",

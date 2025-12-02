@@ -17,12 +17,12 @@
   
   
     
-      Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp; Persistence | Jojy John
+      Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.">
+<meta name="description" content="A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/blog/Dual_booting_with_linux/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/genome-assembly-day/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -284,9 +284,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp; Persistence</h1>
+    <h1 class="post-title">Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads</h1>
     <p class="post-meta">
-      Created in November 19, 2025
+      Created in December 02, 2025
       
       
       
@@ -305,218 +305,145 @@
 
   <article class="post-content">
     <div id="markdown-content">
-      <p>Today’s entry is a special one — not about metagenomics, CAZymes, MAGs, or FRed models —<br>
-but about something equally important for any computational biologist:</p>
+      <p>As I said in earlier post about NCBI submission (https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/), I missed few genome assembly previously.
+So Today, I am focusing on these missed assemblies.</p>
 
-<p>👉 <strong>setting up a reliable Linux machine.</strong></p>
+<p><strong>🧬 Whole-Genome Assembly Using Shovill &amp; Flye</strong></p>
 
-<p>If you’ve ever tried installing Ubuntu alongside Windows on a modern NVMe laptop<br>
-(especially Dell Inspiron or XPS), you know the process can be…</p>
-
-<p><strong>fascinating + frustrating + educational.</strong></p>
-
-<p>Here’s how my day went.</p>
-
-<hr>
-
-<h5 id="-step-1--preparing-windows-for-dual-boot">🔧 Step 1 — Preparing Windows for Dual-Boot</h5>
-
-<p>Before touching Linux, I fixed Windows first.</p>
-
-<h3 id="-disabled-fast-startup">✔ Disabled Fast Startup</h3>
-
-<p>Fast Startup locks the NTFS filesystem and blocks Linux installers from modifying disks.<br>
-(For dual-boot, it <em>must</em> be off.)</p>
-
-<h3 id="-created-unallocated-space">✔ Created Unallocated Space</h3>
-
-<p>Using <strong>Windows Disk Management → Shrink Volume</strong>, I freed:</p>
-
-<p>➡️ <strong>~1 TB of unallocated space</strong></p>
-
-<p>This will later become:</p>
+<p>Today’s work focused on reconstructing complete bacterial genomes using two complementary assembly strategies:</p>
 
 <ul>
   <li>
-<code class="language-plaintext highlighter-rouge">/</code> (root)</li>
-  <li><code class="language-plaintext highlighter-rouge">/home</code></li>
-  <li>swap</li>
+<strong>Shovill</strong> for Illumina short reads</li>
+  <li>
+<strong>Flye</strong> for Nanopore long reads</li>
 </ul>
 
-<p>Everything looked good… <strong>until things got interesting.</strong></p>
+<p>These assemblies are part of 200+ genomes of DARPA, which primarly focus on synthetic biofilm producing commuities.</p>
 
 <hr>
 
-<h5 id="-step-2--creating-the-bootable-usb">💽 Step 2 — Creating the Bootable USB</h5>
+<h2 id="-why-shovill-instead-of-running-spades-directly">🔍 Why Shovill (Instead of Running SPAdes Directly)</h2>
 
-<p>(and discovering the importance of a <em>good</em> USB drive)</p>
+<p>Shovill is a high-performance wrapper around SPAdes specifically optimized for bacterial WGS data.<br>
+I chose it over raw SPAdes because Shovill provides:</p>
 
-<p>Downloaded <strong>Ubuntu 24.04.3 LTS</strong>, then flashed the installer.</p>
+<p>✔ <strong>Automatic adapter trimming</strong><br>
+✔ <strong>Read correction &amp; subsampling</strong> (reduces runtime)<br>
+✔ <strong>Optimized SPAdes parameters for bacteria</strong><br>
+✔ <strong>Cleaner, smaller output folders</strong><br>
+✔ <strong>Much faster and significantly lower memory usage</strong></p>
 
-<h3 id="on-linux-preferred">On Linux (preferred):</h3>
+<p>For five bacterial genomes, Shovill saved hours of compute time and produced polished assemblies with minimal tweaking.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo dd </span><span class="k">if</span><span class="o">=</span>ubuntu.iso <span class="nv">of</span><span class="o">=</span>/dev/sdb <span class="nv">bs</span><span class="o">=</span>4M <span class="nv">status</span><span class="o">=</span>progress <span class="nv">oflag</span><span class="o">=</span><span class="nb">sync</span>
+<hr>
+
+<h2 id="️-step-1--installing-shovill-conda">⚙️ Step 1 — Installing Shovill (Conda)</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> shovill_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge shovill
+conda activate shovill_env
 </code></pre></div></div>
 
-<p><strong>On Windows, I recommend:</strong>
-Rufus
-Select ISO
-Partition scheme = GPT
-Target = UEFI
-File system = FAT32</p>
+<h2 id="-step-2--running-shovill-on-hpc-batch-script">🚀 Step 2 — Running Shovill on HPC (Batch Script)</h2>
 
-<p>➤ Everything looked smooth — until the installer suddenly failed with:</p>
+<p>Below is the script I used for assembling 5 isolates:</p>
 
-<p>❌ curtin command install
-❌ rsync error 23
-❌ “System error detected. Installation failed.”</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
-<p>Root cause:
-👉 My USB stick was corrupted.It was partioned into many small fragments while creating the USB disk.
-➜A bad USB = hours wasted.
-➜So I grabbed a new 64 GB drive, reflashed, rebooted… and finally reached the installer correctly.</p>
+<span class="nv">READS_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies"</span>
+<span class="nv">OUTPUT_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies/Shovil_assembly"</span>
+<span class="nv">THREADS</span><span class="o">=</span>32
 
-<h5 id="-step-3--installer-could-not-recognize-my-partitions">🧭 Step 3 — Installer Could Not Recognize My Partitions</h5>
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">"</span>
 
-<p>(The tricky part begins)
-Inside the Ubuntu installer (Manual Installation), I saw:</p>
+<span class="k">for </span>FORWARD_READ <span class="k">in</span> <span class="s2">"</span><span class="nv">$READS_DIR</span><span class="s2">"</span>/<span class="k">*</span>_R1.fastq.gz<span class="p">;</span> <span class="k">do
+    </span><span class="nv">SAMPLE</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$FORWARD_READ</span><span class="s2">"</span> _R1.fastq.gz<span class="si">)</span>
+    <span class="nv">REVERSE_READ</span><span class="o">=</span><span class="s2">"</span><span class="nv">$READS_DIR</span><span class="s2">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_R2.fastq.gz"</span>
 
-<p>● p1 → EFI (FAT32)
-● p2 → Microsoft Reserved
-● p3 → Windows (NTFS)
-● p5 → WINRETOOLS</p>
+    <span class="k">if</span> <span class="o">[[</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$REVERSE_READ</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"Processing </span><span class="nv">$SAMPLE</span><span class="s2">..."</span>
 
-<p>Free space → 953 GB
-But the installer did NOT show the “+” button to create new partitions.
-<strong>Meaning: I could not proceed.</strong></p>
+        shovill <span class="se">\</span>
+            <span class="nt">--outdir</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/</span><span class="nv">$SAMPLE</span><span class="s2">"</span> <span class="se">\</span>
+            <span class="nt">--R1</span> <span class="s2">"</span><span class="nv">$FORWARD_READ</span><span class="s2">"</span> <span class="se">\</span>
+            <span class="nt">--R2</span> <span class="s2">"</span><span class="nv">$REVERSE_READ</span><span class="s2">"</span> <span class="se">\</span>
+            <span class="nt">--cpus</span> <span class="s2">"</span><span class="nv">$THREADS</span><span class="s2">"</span>
 
-<p>🔍 The Fix
-Boot into Try Ubuntu, open GParted, and create the partitions manually.</p>
+        <span class="nb">echo</span> <span class="s2">"Assembly for </span><span class="nv">$SAMPLE</span><span class="s2"> completed."</span>
+    <span class="k">else
+        </span><span class="nb">echo</span> <span class="s2">"Reverse read file missing for </span><span class="nv">$SAMPLE</span><span class="s2">. Skipping..."</span>
+    <span class="k">fi
+done</span>
+</code></pre></div></div>
 
-<h5 id="-step-4--manual-partitioning-in-gparted">🧱 Step 4 — Manual Partitioning in GParted</h5>
+<p>save it as shovil.sh in the working directory (where raw sequences are saved)
+direct the terminal to working directory</p>
 
-<p>(The correct final layout)
-Here’s exactly what I created:
-1️⃣ Root /
-105 GB
-ext4
-Mount: /</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x shovil_new.sh
+./shovil_new.sh
+</code></pre></div></div>
 
-<p>2️⃣ Swap
-With 64 GB RAM, I created:
-17 GB swap</p>
+<p>Shovill outputs:</p>
 
-<p>3️⃣ Home /home
-~902 GB
-ext4
-Mount: /home</p>
+<p>● contigs.fa</p>
 
-<p>4️⃣ EFI (existing Windows EFI)</p>
+<p>● SPAdes log files</p>
 
-<p>Never create a new EFI partition when dual-booting.
-I reused:
-/dev/nvme0n1p1
-FAT32
-Mount: /boot/efi
-<strong>Do NOT format</strong></p>
+<p>● assembly statistics</p>
 
-<h4 id="-final-partition-table">📊 Final Partition Table</h4>
+<h2 id="-long-read-assembly-using-flye">🧬 Long-Read Assembly Using Flye</h2>
 
-<table>
-  <thead>
-    <tr>
-      <th>Partition</th>
-      <th>Type</th>
-      <th>Mount</th>
-      <th>Purpose</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>nvme0n1p1</td>
-      <td>VFAT</td>
-      <td>/boot/efi</td>
-      <td>Windows + Ubuntu bootloader</td>
-    </tr>
-    <tr>
-      <td>nvme0n1p4</td>
-      <td>ext4</td>
-      <td>/</td>
-      <td>Ubuntu root</td>
-    </tr>
-    <tr>
-      <td>nvme0n1p6</td>
-      <td>swap</td>
-      <td>—</td>
-      <td>Swap</td>
-    </tr>
-    <tr>
-      <td>nvme0n1p7</td>
-      <td>ext4</td>
-      <td>/home</td>
-      <td>User home</td>
-    </tr>
-    <tr>
-      <td>nvme0n1p3</td>
-      <td>NTFS</td>
-      <td>—</td>
-      <td>Windows C: drive</td>
-    </tr>
-  </tbody>
-</table>
+<p>For three Nanopore samples, I used Flye, a robust long-read assembler that works beautifully on HPC.</p>
 
-<h5 id="-step-5--running-the-installer-again">🚀 Step 5 — Running the Installer Again</h5>
+<p>🔍 Why Flye (Instead of Epi2me Labs)</p>
 
-<p>I re-opened the Ubuntu installer.
-This time the “Review Your Choices” screen looked perfect:</p>
+<p>I prefer Flye because:</p>
 
-<p>✔ EFI correctly detected
-✔ Root, swap, home all mapped
-✔ No formatting of Windows partitions
-✔ Bootloader target = nvme0n1</p>
+<p>✔ Works entirely on HPC (no GUI required)</p>
 
-<p>I clicked Install and…</p>
+<p>✔ No need for ONT’s desktop software</p>
 
-<p><strong>🎉 It finally completed successfully!</strong></p>
+<p>✔ Excellent for bacterial genomes</p>
 
-<h5 id="-step-6--first-boot--initial-setup">🧵 Step 6 — First Boot &amp; Initial Setup</h5>
+<p>✔ Transparent logs &amp; customizable parameters</p>
 
-<p>After reboot:
-GRUB menu appeared (Ubuntu + Windows Boot Manager)
-Ubuntu booted cleanly
-/home and / mounted correctly
-Swap active</p>
+<p>✔ Supports polishing and repeat resolution</p>
 
-<p><strong>First software installed:</strong>
-● VS Code
-● RStudio
-● Conda / Mamba
-● Git
-● Jupyter, pandas, biopython
-● GCC, g++, make
-● Browsers &amp; utilities</p>
+<p>Epi2me is great for small standalone analyses, but Flye is far better for reproducible, scriptable, HPC-scale assembly.</p>
 
-<h4 id="my-system-is-officially-ready-for-serious-computational-biology-work"><strong>My system is officially ready for serious computational biology work.</strong></h4>
+<h2 id="️-step-1--installing-flye">⚙️ Step 1 — Installing Flye</h2>
 
-<p><strong>🎉 Final Thoughts</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/fenderglass/Flye.git
+<span class="nb">cd </span>Flye
+python setup.py <span class="nb">install</span> <span class="nt">--user</span>
+</code></pre></div></div>
 
-<p>This installation was a journey involving:</p>
+<h2 id="-step-2--running-flye-on-an-interactive-node">🚀 Step 2 — Running Flye on an Interactive Node</h2>
 
-<p>● corrupted USB drives
-● missing partition options
-● EFI confusion
-● manual fixes in GParted
-● several reinstall attempts</p>
+<p>I assembled each genome individually on my interactive node, as the number of genomes are less:</p>
 
-<p>But in the end, I now have:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /home/jojyj/Flye
+python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw sequence <span class="nt">--threads</span> 32 <span class="nt">--out-dir</span> path to output folde
+</code></pre></div></div>
 
-<p>💻 A stable dual-boot Linux system
-📦 Clean partitions optimized for bioinformatics
-🧬 A fast environment ready for MAGs, CAZymes, MTX, and more</p>
+<p>Flye outputs include:
+● assembly.fasta</p>
 
-<p>If you’re a researcher switching to Linux or setting up dual-boot for the first time, don’t worry if things break — it’s all part of learning.</p>
+<p>● assembly_graph.gfa</p>
 
-<p><img src="/assets/img/welcome_image.png" alt="welcome to Ubuntu 24.04"></p>
+<p>● assembly_info.txt</p>
+
+<h2 id="-summary">🧭 Summary</h2>
+
+<p>Today’s assembly workflow produced:</p>
+
+<p>✔ Five high-quality Illumina assemblies (Shovill)</p>
+
+<p>✔ Three Nanopore long-read assemblies (Flye)</p>
+
+<p>✔ Clean contigs ready for downstream steps (QC, annotation, pangenome, etc.)</p>
+
+<p><img src="/assets/img/flye.png" alt="Flye_ruuning"></p>
 
     </div>
   </article>
@@ -823,7 +750,7 @@ Swap active</p>
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/Genome_Assembly_Day/";
+              window.location.href = "/blog/genome-assembly-day/";
             
           },
         },{id: "post-visualizing-genome-assemblies-with-bandage-building-from-source-on-linux",
@@ -834,7 +761,7 @@ Swap active</p>
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/Genome_visulaization/";
+              window.location.href = "/blog/genome-visualization/";
             
           },
         },{id: "post-exploring-the-pan-genome-with-panx-a-practical-workflow-for-darpa-isolates",
@@ -845,7 +772,7 @@ Swap active</p>
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/PanX_pangenome_analysis/";
+              window.location.href = "/blog/panx-pangenome-analysis/";
             
           },
         },{id: "post-cleaning-and-preparing-genomes-for-ncbi-submission-a-complete-workflow",
@@ -856,7 +783,7 @@ Swap active</p>
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/NCBI-submission-cleaning/";
+              window.location.href = "/blog/ncbi-submission-cleaning/";
             
           },
         },{id: "post-installing-amp-setting-up-my-new-linux-laptop-a-real-journey-through-dual-boot-partitions-amp-persistence",
@@ -867,7 +794,7 @@ Swap active</p>
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/Dual_booting_with_linux/";
+              window.location.href = "/blog/dual-booting-with-linux/";
             
           },
         },{id: "post-re-working-figure-5-visualizing-functional-redundancy-fred-across-bays-seasons-and-salinity",
@@ -878,7 +805,7 @@ Swap active</p>
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/Reworking-a-figure_Manuscript_Revison_Story/";
+              window.location.href = "/blog/reworking-a-figure-manuscript-revision-story/";
             
           },
         },{id: "post-machine-learning-mag-binning-with-semibin2-and-snakemake-soil-metagenomes",
@@ -900,7 +827,7 @@ Swap active</p>
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics.md/";
+              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics/";
             
           },
         },{id: "news-aaas-membership-and-science-magazine-subscription-nominated-by-cynthia-y-young-dean-of-college-of-science-clemson-university",

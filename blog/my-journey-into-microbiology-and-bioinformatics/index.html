@@ -17,12 +17,12 @@
   
   
     
-      Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads | Jojy John
+      My Journey into Microbiology, the Deep Sea, and Bioinformatics | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.">
+<meta name="description" content="From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/blog/Genome_Assembly_Day/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -284,9 +284,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads</h1>
+    <h1 class="post-title">My Journey into Microbiology, the Deep Sea, and Bioinformatics</h1>
     <p class="post-meta">
-      Created in December 02, 2025
+      Created in November 14, 2025
       
       
       
@@ -305,145 +305,167 @@
 
   <article class="post-content">
     <div id="markdown-content">
-      <p>As I said in earlier post about NCBI submission (https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/), I missed few genome assembly previously.
-So Today, I am focusing on these missed assemblies.</p>
+      <p>Hello and welcome!<br>
+I’m <strong>Jojy John</strong> — a researcher, postdoctoral scholar, wife, and mother of two little ones.<br>
+This is the first post of my blog <strong>Daily Bioinformatics from Jojy’s Desk</strong>, where I share my daily work, learning, troubleshooting, and thoughts as a microbial ecologist and bioinformatician.</p>
 
-<p><strong>🧬 Whole-Genome Assembly Using Shovill &amp; Flye</strong></p>
+<hr>
 
-<p>Today’s work focused on reconstructing complete bacterial genomes using two complementary assembly strategies:</p>
+<h2 id="-where-it-all-began">🌱 Where it all began</h2>
+
+<p>My journey started during my <strong>Bachelor’s in Microbiology at MG University</strong> in Kerala, India.<br>
+Growing up in a family that valued traditional medicine, I was fascinated by the healing ability of plants. My early research focused on <strong>antibacterial and anticancer activities of medicinal plants</strong>, hoping to connect traditional knowledge to scientific evidence.</p>
+
+<p>During my Master’s, I worked on:</p>
+
+<p><strong>“Analysis of cell death patterns of THP-1 cells infected with <em>Mycobacterium tuberculosis</em> H37Ra and H37Rv.”</strong></p>
+
+<p>Tuberculosis holds a personal place in my heart — many in the older generation lost their lives to this disease. Understanding its biology felt meaningful and necessary.</p>
+
+<hr>
+
+<h2 id="-a-question-that-shaped-my-phd">🌊 A question that shaped my PhD</h2>
+
+<p>In 2016, during my PhD field visit to the <strong>Marakkanam salt pans</strong>, I held salt crystals in my hand under the blazing sun and wondered:</p>
+
+<h3 id="can-anything-survive-in-this"><strong>“Can anything survive in this?”</strong></h3>
+
+<p>That question led to my PhD:</p>
+
+<p><strong>“Diversity, genomic studies, and resistance mechanisms of moderately halophilic bacteria: insights from <em>Salinivibrio</em> spp. from Marakkanam salt pan.”</strong></p>
+
+<p>I explored:</p>
 
 <ul>
-  <li>
-<strong>Shovill</strong> for Illumina short reads</li>
-  <li>
-<strong>Flye</strong> for Nanopore long reads</li>
+  <li>Extreme salinity environments (120–380 PPT)</li>
+  <li>Cultivable and uncultivable bacterial diversity</li>
+  <li>Whole-genome sequencing</li>
+  <li>Adaptation to salinity stress</li>
+  <li>16S amplicon analysis</li>
+  <li>Biotechnological potentials:
+    <ul>
+      <li>enzyme production</li>
+      <li>heavy metal tolerance</li>
+      <li>UV resistance</li>
+      <li>plant growth promotion</li>
+      <li>azo dye degradation</li>
+    </ul>
+  </li>
 </ul>
 
-<p>These assemblies are part of 200+ genomes of DARPA, which primarly focus on synthetic biofilm producing commuities.</p>
+<p>My findings were published in <strong>Geomicrobiology Journal, Microorganisms</strong>, and <strong>Frontiers in Microbiology</strong>.</p>
 
 <hr>
 
-<h2 id="-why-shovill-instead-of-running-spades-directly">🔍 Why Shovill (Instead of Running SPAdes Directly)</h2>
+<h2 id="-deep-sea-expeditions-and-ocean-microbiomes">🚢 Deep-sea expeditions and ocean microbiomes</h2>
 
-<p>Shovill is a high-performance wrapper around SPAdes specifically optimized for bacterial WGS data.<br>
-I chose it over raw SPAdes because Shovill provides:</p>
+<p>As a Project Associate at the <strong>National Institute of Oceanography, Goa</strong>, I contributed to the <strong>Environmental Impact Assessment (EIA)</strong> of polymetallic nodule mining.</p>
 
-<p>✔ <strong>Automatic adapter trimming</strong><br>
-✔ <strong>Read correction &amp; subsampling</strong> (reduces runtime)<br>
-✔ <strong>Optimized SPAdes parameters for bacteria</strong><br>
-✔ <strong>Cleaner, smaller output folders</strong><br>
-✔ <strong>Much faster and significantly lower memory usage</strong></p>
+<p>This included:</p>
 
-<p>For five bacterial genomes, Shovill saved hours of compute time and produced polished assemblies with minimal tweaking.</p>
+<ul>
+  <li>A <strong>36-day deep-sea research cruise</strong>
+</li>
+  <li>Sampling sediment and water using beam trawls, bongo nets, multiple corers, and more</li>
+  <li>Studying bacterial communities associated with deep-sea sediments and nodules</li>
+  <li>Isolation and identification of heavy-metal-tolerant bacteria</li>
+  <li>16S metagenome analysis</li>
+  <li>hypoxia and microbiome</li>
+  <li>shot gun metagenome</li>
+</ul>
+
+<p>I also contributed to a project on the <strong>hypoxic Arabian Sea</strong>, working from sample collection to <strong>whole-metagenome sequencing and analysis</strong>.</p>
 
 <hr>
 
-<h2 id="️-step-1--installing-shovill-conda">⚙️ Step 1 — Installing Shovill (Conda)</h2>
+<h2 id="-becoming-a-computational-microbial-ecologist">🧬 Becoming a computational microbial ecologist</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> shovill_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge shovill
-conda activate shovill_env
-</code></pre></div></div>
+<p>Over time, I transitioned fully from wet lab to computational biology.<br>
+Today, my work focuses on:</p>
 
-<h2 id="-step-2--running-shovill-on-hpc-batch-script">🚀 Step 2 — Running Shovill on HPC (Batch Script)</h2>
+<h3 id="-metagenomes">🧫 Metagenomes</h3>
 
-<p>Below is the script I used for assembling 5 isolates:</p>
+<ul>
+  <li>Quality filtering</li>
+  <li>Assembly &amp; co-assembly</li>
+  <li>MAG binning and refinement</li>
+  <li>Annotation &amp; functional profiling</li>
+</ul>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<h3 id="-metatranscriptomes">🧬 Metatranscriptomes</h3>
 
-<span class="nv">READS_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies"</span>
-<span class="nv">OUTPUT_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies/Shovil_assembly"</span>
-<span class="nv">THREADS</span><span class="o">=</span>32
+<ul>
+  <li>Assembly</li>
+  <li>Expression profiling</li>
+</ul>
 
-<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">"</span>
+<h3 id="-whole-genome-sequencing--hybrid-assembly">🧬 Whole-genome sequencing &amp; hybrid assembly</h3>
 
-<span class="k">for </span>FORWARD_READ <span class="k">in</span> <span class="s2">"</span><span class="nv">$READS_DIR</span><span class="s2">"</span>/<span class="k">*</span>_R1.fastq.gz<span class="p">;</span> <span class="k">do
-    </span><span class="nv">SAMPLE</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$FORWARD_READ</span><span class="s2">"</span> _R1.fastq.gz<span class="si">)</span>
-    <span class="nv">REVERSE_READ</span><span class="o">=</span><span class="s2">"</span><span class="nv">$READS_DIR</span><span class="s2">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_R2.fastq.gz"</span>
+<h3 id="-multi-omics-integration">🔗 Multi-omics integration</h3>
 
-    <span class="k">if</span> <span class="o">[[</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$REVERSE_READ</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
-        </span><span class="nb">echo</span> <span class="s2">"Processing </span><span class="nv">$SAMPLE</span><span class="s2">..."</span>
+<h3 id="-statistics--modeling">📊 Statistics &amp; modeling</h3>
 
-        shovill <span class="se">\</span>
-            <span class="nt">--outdir</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/</span><span class="nv">$SAMPLE</span><span class="s2">"</span> <span class="se">\</span>
-            <span class="nt">--R1</span> <span class="s2">"</span><span class="nv">$FORWARD_READ</span><span class="s2">"</span> <span class="se">\</span>
-            <span class="nt">--R2</span> <span class="s2">"</span><span class="nv">$REVERSE_READ</span><span class="s2">"</span> <span class="se">\</span>
-            <span class="nt">--cpus</span> <span class="s2">"</span><span class="nv">$THREADS</span><span class="s2">"</span>
+<ul>
+  <li>Functional redundancy</li>
+  <li>Ecological niche modeling</li>
+  <li>Differential expression</li>
+</ul>
 
-        <span class="nb">echo</span> <span class="s2">"Assembly for </span><span class="nv">$SAMPLE</span><span class="s2"> completed."</span>
-    <span class="k">else
-        </span><span class="nb">echo</span> <span class="s2">"Reverse read file missing for </span><span class="nv">$SAMPLE</span><span class="s2">. Skipping..."</span>
-    <span class="k">fi
-done</span>
-</code></pre></div></div>
+<h3 id="-my-daily-toolbox">💻 My daily toolbox</h3>
 
-<p>save it as shovil.sh in the working directory (where raw sequences are saved)
-direct the terminal to working directory</p>
+<p><strong>Linux, R, Python, Bash, SLURM</strong>, and a lot of troubleshooting!</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x shovil_new.sh
-./shovil_new.sh
-</code></pre></div></div>
+<hr>
 
-<p>Shovill outputs:</p>
+<h2 id="-mentorship-and-life-as-a-postdoc">👩‍🏫 Mentorship and life as a postdoc</h2>
 
-<p>● contigs.fa</p>
+<p>As a postdoc, I mentor students, collaborate with labs, manage HPC workflows, and help design analytical pipelines.</p>
 
-<p>● SPAdes log files</p>
+<p>But as my workload increased, I realized something important:</p>
 
-<p>● assembly statistics</p>
+<blockquote>
+  <p>So much learning gets lost — in notebooks, terminals, text files, or Slack messages.</p>
+</blockquote>
 
-<h2 id="-long-read-assembly-using-flye">🧬 Long-Read Assembly Using Flye</h2>
+<p>And yes… I still break conda environments.<br>
+I still troubleshoot silly errors for days.<br>
+And I still learn something new every day.</p>
 
-<p>For three Nanopore samples, I used Flye, a robust long-read assembler that works beautifully on HPC.</p>
+<hr>
 
-<p>🔍 Why Flye (Instead of Epi2me Labs)</p>
+<h2 id="️-why-i-created-this-blog">✍️ Why I created this blog</h2>
 
-<p>I prefer Flye because:</p>
+<p>I created this space because:</p>
 
-<p>✔ Works entirely on HPC (no GUI required)</p>
+<ul>
+  <li>Paper-writing is slow, but daily learning is fast.</li>
+  <li>I wanted a place to <strong>document my real work</strong>.</li>
+  <li>I want to help students and colleagues.</li>
+  <li>I want future collaborators and hiring committees to see my <strong>actual skills</strong>, not just my publication list.</li>
+</ul>
 
-<p>✔ No need for ONT’s desktop software</p>
+<p>This blog is for:</p>
 
-<p>✔ Excellent for bacterial genomes</p>
+<ul>
+  <li>Microbial ecologists</li>
+  <li>Bioinformaticians</li>
+  <li>Students learning metagenomics</li>
+  <li>Anyone using HPC for microbiome research</li>
+  <li>Future collaborators</li>
+  <li>Curious readers</li>
+</ul>
 
-<p>✔ Transparent logs &amp; customizable parameters</p>
+<hr>
 
-<p>✔ Supports polishing and repeat resolution</p>
+<h2 id="-thank-you-for-being-here">💛 Thank you for being here</h2>
 
-<p>Epi2me is great for small standalone analyses, but Flye is far better for reproducible, scriptable, HPC-scale assembly.</p>
+<p>Thank you for reading my story and joining the journey.<br>
+Thank you to everyone who inspired and supported me.</p>
 
-<h2 id="️-step-1--installing-flye">⚙️ Step 1 — Installing Flye</h2>
+<p>This blog is for all of us — learning, experimenting, fixing, failing, and growing.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/fenderglass/Flye.git
-<span class="nb">cd </span>Flye
-python setup.py <span class="nb">install</span> <span class="nt">--user</span>
-</code></pre></div></div>
-
-<h2 id="-step-2--running-flye-on-an-interactive-node">🚀 Step 2 — Running Flye on an Interactive Node</h2>
-
-<p>I assembled each genome individually on my interactive node, as the number of genomes are less:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /home/jojyj/Flye
-python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw sequence <span class="nt">--threads</span> 32 <span class="nt">--out-dir</span> path to output folde
-</code></pre></div></div>
-
-<p>Flye outputs include:
-● assembly.fasta</p>
-
-<p>● assembly_graph.gfa</p>
-
-<p>● assembly_info.txt</p>
-
-<h2 id="-summary">🧭 Summary</h2>
-
-<p>Today’s assembly workflow produced:</p>
-
-<p>✔ Five high-quality Illumina assemblies (Shovill)</p>
-
-<p>✔ Three Nanopore long-read assemblies (Flye)</p>
-
-<p>✔ Clean contigs ready for downstream steps (QC, annotation, pangenome, etc.)</p>
-
-<p><img src="/assets/img/flye.png" alt="Flye_ruuning"></p>
+<p>Stay tuned for daily updates from my desk.<br>
+<strong>— Jojy</strong></p>
 
     </div>
   </article>
@@ -750,7 +772,7 @@ python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw 
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/Genome_Assembly_Day/";
+              window.location.href = "/blog/genome-assembly-day/";
             
           },
         },{id: "post-visualizing-genome-assemblies-with-bandage-building-from-source-on-linux",
@@ -761,7 +783,7 @@ python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw 
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/Genome_visulaization/";
+              window.location.href = "/blog/genome-visualization/";
             
           },
         },{id: "post-exploring-the-pan-genome-with-panx-a-practical-workflow-for-darpa-isolates",
@@ -772,7 +794,7 @@ python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw 
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/PanX_pangenome_analysis/";
+              window.location.href = "/blog/panx-pangenome-analysis/";
             
           },
         },{id: "post-cleaning-and-preparing-genomes-for-ncbi-submission-a-complete-workflow",
@@ -783,7 +805,7 @@ python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw 
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/NCBI-submission-cleaning/";
+              window.location.href = "/blog/ncbi-submission-cleaning/";
             
           },
         },{id: "post-installing-amp-setting-up-my-new-linux-laptop-a-real-journey-through-dual-boot-partitions-amp-persistence",
@@ -794,7 +816,7 @@ python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw 
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/Dual_booting_with_linux/";
+              window.location.href = "/blog/dual-booting-with-linux/";
             
           },
         },{id: "post-re-working-figure-5-visualizing-functional-redundancy-fred-across-bays-seasons-and-salinity",
@@ -805,7 +827,7 @@ python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw 
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/Reworking-a-figure_Manuscript_Revison_Story/";
+              window.location.href = "/blog/reworking-a-figure-manuscript-revision-story/";
             
           },
         },{id: "post-machine-learning-mag-binning-with-semibin2-and-snakemake-soil-metagenomes",
@@ -827,7 +849,7 @@ python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw 
           section: "Posts",
           handler: () => {
             
-              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics.md/";
+              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics/";
             
           },
         },{id: "news-aaas-membership-and-science-magazine-subscription-nominated-by-cynthia-y-young-dean-of-college-of-science-clemson-university",
