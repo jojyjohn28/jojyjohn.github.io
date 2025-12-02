@@ -6,6 +6,7 @@ description: "How I used SemiBin2 and a Snakemake workflow to recover high-quali
 comments: true
 featured: true
 giscus_comments: true
+permalink: /blog/semibin-snakemake-soil-mag-workflow/
 ---
 
 Today’s post is about one of my favorite combinations right now:  

@@ -6,6 +6,7 @@ description: "Final version of my R-based figure for the FRed manuscript revisio
 comments: true
 giscus_comments: true
 featured: true
+permalink: /blog/reworking-a-figure-manuscript-revision-story/
 ---
 
 Today I worked on the **final revision of one of the main figures** (Figure 5) in my manuscript on microbial functional redundancy (FRed).  

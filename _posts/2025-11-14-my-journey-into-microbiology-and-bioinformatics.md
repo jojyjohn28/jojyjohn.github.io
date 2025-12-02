@@ -6,6 +6,7 @@ description: "From traditional medicine to deep-sea expeditions to becoming a co
 comments: true
 featured: true
 giscus_comments: true
+permalink: /blog/my-journey-into-microbiology-and-bioinformatics/
 ---
 
 Hello and welcome!  

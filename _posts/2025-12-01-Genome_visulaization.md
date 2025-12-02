@@ -6,6 +6,7 @@ description: "A practical guide to installing Bandage from source using Qt and v
 comments: true
 giscus_comments: true
 featured: true
+permalink: /blog/genome-visualization/
 ---
 
 **🧬 Visualizing Genome Assemblies with Bandage (Built from Source)**  

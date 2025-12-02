@@ -6,6 +6,7 @@ description: "A complete walkthrough of dual-booting Ubuntu with Windows on a mo
 comments: true
 giscus_comments: true
 featured: true
+permalink: /blog/dual-booting-with-linux/
 ---
 
 Today’s entry is a special one — not about metagenomics, CAZymes, MAGs, or FRed models —  

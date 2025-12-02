@@ -6,6 +6,7 @@ description: "A complete walkthrough using panX to analyze the pan-genome of 20 
 comments: true
 giscus_comments: true
 featured: true
+permalink: /blog/panx-pangenome-analysis/
 ---
 
 **🧬 Exploring the Pan-Genome with panX**

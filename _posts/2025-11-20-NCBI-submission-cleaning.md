@@ -6,6 +6,7 @@ description: "Step-by-step guide for fixing adapter contamination, removing unwa
 comments: true
 giscus_comments: true
 featured: true
+permalink: /blog/ncbi-submission-cleaning/
 ---
 
 🧬 **Cleaning and Preparing Genomes for NCBI Submission**
