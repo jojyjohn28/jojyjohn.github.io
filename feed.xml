@@ -1,5 +1,141 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-01T20:24:12+00:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Visualizing Genome Assemblies with Bandage: Building from Source on Linux</title><link href="https://jojyjohn28.github.io/blog/Genome_visulaization/" rel="alternate" type="text/html" title="Visualizing Genome Assemblies with Bandage: Building from Source on Linux" /><published>2025-12-01T00:00:00+00:00</published><updated>2025-12-01T00:00:00+00:00</updated><id>https://jojyjohn28.github.io/blog/Genome_visulaization</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/Genome_visulaization/"><![CDATA[<p><strong>🧬 Visualizing Genome Assemblies with Bandage (Built from Source)</strong><br />
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-02T09:43:56-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Genome Assembly Day: Shovill for Illumina &amp;amp; Flye for Nanopore Reads</title><link href="https://jojyjohn28.github.io/blog/Genome_Assembly_Day/" rel="alternate" type="text/html" title="Genome Assembly Day: Shovill for Illumina &amp;amp; Flye for Nanopore Reads" /><published>2025-12-02T00:00:00-05:00</published><updated>2025-12-02T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Genome_Assembly_Day</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/Genome_Assembly_Day/"><![CDATA[<p>As I said in earlier post about NCBI submission (https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/), I missed few genome assembly previously.
+So Today, I am focusing on these missed assemblies.</p>
+
+<p><strong>🧬 Whole-Genome Assembly Using Shovill &amp; Flye</strong></p>
+
+<p>Today’s work focused on reconstructing complete bacterial genomes using two complementary assembly strategies:</p>
+
+<ul>
+  <li><strong>Shovill</strong> for Illumina short reads</li>
+  <li><strong>Flye</strong> for Nanopore long reads</li>
+</ul>
+
+<p>These assemblies are part of 200+ genomes of DARPA, which primarly focus on synthetic biofilm producing commuities.</p>
+
+<hr />
+
+<h2 id="-why-shovill-instead-of-running-spades-directly">🔍 Why Shovill (Instead of Running SPAdes Directly)</h2>
+
+<p>Shovill is a high-performance wrapper around SPAdes specifically optimized for bacterial WGS data.<br />
+I chose it over raw SPAdes because Shovill provides:</p>
+
+<p>✔ <strong>Automatic adapter trimming</strong><br />
+✔ <strong>Read correction &amp; subsampling</strong> (reduces runtime)<br />
+✔ <strong>Optimized SPAdes parameters for bacteria</strong><br />
+✔ <strong>Cleaner, smaller output folders</strong><br />
+✔ <strong>Much faster and significantly lower memory usage</strong></p>
+
+<p>For five bacterial genomes, Shovill saved hours of compute time and produced polished assemblies with minimal tweaking.</p>
+
+<hr />
+
+<h2 id="️-step-1--installing-shovill-conda">⚙️ Step 1 — Installing Shovill (Conda)</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> shovill_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge shovill
+conda activate shovill_env
+</code></pre></div></div>
+
+<h2 id="-step-2--running-shovill-on-hpc-batch-script">🚀 Step 2 — Running Shovill on HPC (Batch Script)</h2>
+
+<p>Below is the script I used for assembling 5 isolates:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="nv">READS_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies"</span>
+<span class="nv">OUTPUT_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies/Shovil_assembly"</span>
+<span class="nv">THREADS</span><span class="o">=</span>32
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">"</span>
+
+<span class="k">for </span>FORWARD_READ <span class="k">in</span> <span class="s2">"</span><span class="nv">$READS_DIR</span><span class="s2">"</span>/<span class="k">*</span>_R1.fastq.gz<span class="p">;</span> <span class="k">do
+    </span><span class="nv">SAMPLE</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$FORWARD_READ</span><span class="s2">"</span> _R1.fastq.gz<span class="si">)</span>
+    <span class="nv">REVERSE_READ</span><span class="o">=</span><span class="s2">"</span><span class="nv">$READS_DIR</span><span class="s2">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_R2.fastq.gz"</span>
+
+    <span class="k">if</span> <span class="o">[[</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$REVERSE_READ</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"Processing </span><span class="nv">$SAMPLE</span><span class="s2">..."</span>
+
+        shovill <span class="se">\</span>
+            <span class="nt">--outdir</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/</span><span class="nv">$SAMPLE</span><span class="s2">"</span> <span class="se">\</span>
+            <span class="nt">--R1</span> <span class="s2">"</span><span class="nv">$FORWARD_READ</span><span class="s2">"</span> <span class="se">\</span>
+            <span class="nt">--R2</span> <span class="s2">"</span><span class="nv">$REVERSE_READ</span><span class="s2">"</span> <span class="se">\</span>
+            <span class="nt">--cpus</span> <span class="s2">"</span><span class="nv">$THREADS</span><span class="s2">"</span>
+
+        <span class="nb">echo</span> <span class="s2">"Assembly for </span><span class="nv">$SAMPLE</span><span class="s2"> completed."</span>
+    <span class="k">else
+        </span><span class="nb">echo</span> <span class="s2">"Reverse read file missing for </span><span class="nv">$SAMPLE</span><span class="s2">. Skipping..."</span>
+    <span class="k">fi
+done</span>
+</code></pre></div></div>
+
+<p>save it as shovil.sh in the working directory (where raw sequences are saved)
+direct the terminal to working directory</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x shovil_new.sh
+./shovil_new.sh
+</code></pre></div></div>
+
+<p>Shovill outputs:</p>
+
+<p>● contigs.fa</p>
+
+<p>● SPAdes log files</p>
+
+<p>● assembly statistics</p>
+
+<h2 id="-long-read-assembly-using-flye">🧬 Long-Read Assembly Using Flye</h2>
+
+<p>For three Nanopore samples, I used Flye, a robust long-read assembler that works beautifully on HPC.</p>
+
+<p>🔍 Why Flye (Instead of Epi2me Labs)</p>
+
+<p>I prefer Flye because:</p>
+
+<p>✔ Works entirely on HPC (no GUI required)</p>
+
+<p>✔ No need for ONT’s desktop software</p>
+
+<p>✔ Excellent for bacterial genomes</p>
+
+<p>✔ Transparent logs &amp; customizable parameters</p>
+
+<p>✔ Supports polishing and repeat resolution</p>
+
+<p>Epi2me is great for small standalone analyses, but Flye is far better for reproducible, scriptable, HPC-scale assembly.</p>
+
+<h2 id="️-step-1--installing-flye">⚙️ Step 1 — Installing Flye</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/fenderglass/Flye.git
+<span class="nb">cd </span>Flye
+python setup.py <span class="nb">install</span> <span class="nt">--user</span>
+</code></pre></div></div>
+
+<h2 id="-step-2--running-flye-on-an-interactive-node">🚀 Step 2 — Running Flye on an Interactive Node</h2>
+
+<p>I assembled each genome individually on my interactive node, as the number of genomes are less:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /home/jojyj/Flye
+python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw sequence <span class="nt">--threads</span> 32 <span class="nt">--out-dir</span> path to output folde
+</code></pre></div></div>
+
+<p>Flye outputs include:
+● assembly.fasta</p>
+
+<p>● assembly_graph.gfa</p>
+
+<p>● assembly_info.txt</p>
+
+<h2 id="-summary">🧭 Summary</h2>
+
+<p>Today’s assembly workflow produced:</p>
+
+<p>✔ Five high-quality Illumina assemblies (Shovill)</p>
+
+<p>✔ Three Nanopore long-read assemblies (Flye)</p>
+
+<p>✔ Clean contigs ready for downstream steps (QC, annotation, pangenome, etc.)</p>
+
+<p><img src="/assets/img/flye.png" alt="Flye_ruuning" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.]]></summary></entry><entry><title type="html">Visualizing Genome Assemblies with Bandage: Building from Source on Linux</title><link href="https://jojyjohn28.github.io/blog/Genome_visulaization/" rel="alternate" type="text/html" title="Visualizing Genome Assemblies with Bandage: Building from Source on Linux" /><published>2025-12-01T00:00:00-05:00</published><updated>2025-12-01T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Genome_visulaization</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/Genome_visulaization/"><![CDATA[<p><strong>🧬 Visualizing Genome Assemblies with Bandage (Built from Source)</strong><br />
 Today’s post is all about <strong>Bandage</strong> — one of the most useful tools for inspecting genome assembly graphs.</p>
 
 <p>Bandage reads the <code class="language-plaintext highlighter-rouge">.gfa</code> output files from assemblers like <strong>Flye</strong>, <strong>SPAdes</strong>, and <strong>Shovill</strong>, allowing you to:</p>
@@ -123,7 +259,7 @@ Today’s post is all about <strong>Bandage</strong> — one of the most useful 
 
 <p>https://github.com/rrwick/Bandage/wiki</p>
 
-<p><img src="/assets/img/bandage.png" alt="see_your_genomes" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A practical guide to installing Bandage from source using Qt and visualizing assembly graphs generated by Flye and Shovill.]]></summary></entry><entry><title type="html">Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates</title><link href="https://jojyjohn28.github.io/blog/PanX_pangenome_analysis/" rel="alternate" type="text/html" title="Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates" /><published>2025-11-21T00:00:00+00:00</published><updated>2025-11-21T00:00:00+00:00</updated><id>https://jojyjohn28.github.io/blog/PanX_pangenome_analysis</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/PanX_pangenome_analysis/"><![CDATA[<p><strong>🧬 Exploring the Pan-Genome with panX</strong></p>
+<p><img src="/assets/img/bandage.png" alt="see_your_genomes" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A practical guide to installing Bandage from source using Qt and visualizing assembly graphs generated by Flye and Shovill.]]></summary></entry><entry><title type="html">Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates</title><link href="https://jojyjohn28.github.io/blog/PanX_pangenome_analysis/" rel="alternate" type="text/html" title="Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates" /><published>2025-11-21T00:00:00-05:00</published><updated>2025-11-21T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/PanX_pangenome_analysis</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/PanX_pangenome_analysis/"><![CDATA[<p><strong>🧬 Exploring the Pan-Genome with panX</strong></p>
 
 <p>Today’s post walks through the complete setup and execution of <strong>panX</strong>, a powerful tool for analyzing bacterial pan-genomes.</p>
 
@@ -341,7 +477,7 @@ Output file: core_pan_gene_counts_per_genome.tsv
 
 <p>For more details on PanX visit :https://pangenome.org/</p>
 
-<p><img src="/assets/img/panx_analysis.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.]]></summary></entry><entry><title type="html">Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow</title><link href="https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/" rel="alternate" type="text/html" title="Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow" /><published>2025-11-20T00:00:00+00:00</published><updated>2025-11-20T00:00:00+00:00</updated><id>https://jojyjohn28.github.io/blog/NCBI-submission-cleaning</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/"><![CDATA[<p>🧬 <strong>Cleaning and Preparing Genomes for NCBI Submission</strong></p>
+<p><img src="/assets/img/panx_analysis.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.]]></summary></entry><entry><title type="html">Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow</title><link href="https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/" rel="alternate" type="text/html" title="Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow" /><published>2025-11-20T00:00:00-05:00</published><updated>2025-11-20T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/NCBI-submission-cleaning</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/"><![CDATA[<p>🧬 <strong>Cleaning and Preparing Genomes for NCBI Submission</strong></p>
 
 <p>Today’s post documents the complete workflow I used to prepare <strong>12 bacterial genomes</strong> for NCBI submission.<br />
 Out of <strong>205 genomes</strong> submitted, <strong>12 failed the NCBI contamination screen</strong>:</p>
@@ -484,7 +620,7 @@ AWM4_233_renumbered.fa 182 5807
 <p>✨ Result:
 12 high-quality genomes successfully resubmitted to NCBI.</p>
 
-<p><img src="/assets/img/ncbi_submission.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.]]></summary></entry><entry><title type="html">Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence</title><link href="https://jojyjohn28.github.io/blog/Dual_booting_with_linux/" rel="alternate" type="text/html" title="Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence" /><published>2025-11-19T00:00:00+00:00</published><updated>2025-11-19T00:00:00+00:00</updated><id>https://jojyjohn28.github.io/blog/Dual_booting_with_linux</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/Dual_booting_with_linux/"><![CDATA[<p>Today’s entry is a special one — not about metagenomics, CAZymes, MAGs, or FRed models —<br />
+<p><img src="/assets/img/ncbi_submission.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.]]></summary></entry><entry><title type="html">Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence</title><link href="https://jojyjohn28.github.io/blog/Dual_booting_with_linux/" rel="alternate" type="text/html" title="Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence" /><published>2025-11-19T00:00:00-05:00</published><updated>2025-11-19T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Dual_booting_with_linux</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/Dual_booting_with_linux/"><![CDATA[<p>Today’s entry is a special one — not about metagenomics, CAZymes, MAGs, or FRed models —<br />
 but about something equally important for any computational biologist:</p>
 
 <p>👉 <strong>setting up a reliable Linux machine.</strong></p>
@@ -694,7 +830,7 @@ Swap active</p>
 
 <p>If you’re a researcher switching to Linux or setting up dual-boot for the first time, don’t worry if things break — it’s all part of learning.</p>
 
-<p><img src="/assets/img/welcome_image.png" alt="welcome to Ubuntu 24.04" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.]]></summary></entry><entry><title type="html">Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity</title><link href="https://jojyjohn28.github.io/blog/Reworking-a-figure_Manuscript_Revison_Story/" rel="alternate" type="text/html" title="Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity" /><published>2025-11-18T00:00:00+00:00</published><updated>2025-11-18T00:00:00+00:00</updated><id>https://jojyjohn28.github.io/blog/Reworking%20a%20figure_Manuscript_Revison_Story</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/Reworking-a-figure_Manuscript_Revison_Story/"><![CDATA[<p>Today I worked on the <strong>final revision of one of the main figures</strong> (Figure 5) in my manuscript on microbial functional redundancy (FRed).<br />
+<p><img src="/assets/img/welcome_image.png" alt="welcome to Ubuntu 24.04" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.]]></summary></entry><entry><title type="html">Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity</title><link href="https://jojyjohn28.github.io/blog/Reworking-a-figure_Manuscript_Revison_Story/" rel="alternate" type="text/html" title="Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity" /><published>2025-11-18T00:00:00-05:00</published><updated>2025-11-18T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Reworking%20a%20figure_Manuscript_Revison_Story</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/Reworking-a-figure_Manuscript_Revison_Story/"><![CDATA[<p>Today I worked on the <strong>final revision of one of the main figures</strong> (Figure 5) in my manuscript on microbial functional redundancy (FRed).<br />
 The goal was to create a <strong>clean, publication-quality visualization</strong> comparing:</p>
 
 <ul>
@@ -833,7 +969,7 @@ The goal was to create a <strong>clean, publication-quality visualization</stron
 <p><img src="/assets/img/figure5.png" alt="Figure 5 Final" /></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-</code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.]]></summary></entry><entry><title type="html">Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)</title><link href="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/" rel="alternate" type="text/html" title="Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)" /><published>2025-11-17T00:00:00+00:00</published><updated>2025-11-17T00:00:00+00:00</updated><id>https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/"><![CDATA[<p>Today’s post is about one of my favorite combinations right now:<br />
+</code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.]]></summary></entry><entry><title type="html">Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)</title><link href="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/" rel="alternate" type="text/html" title="Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)" /><published>2025-11-17T00:00:00-05:00</published><updated>2025-11-17T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/"><![CDATA[<p>Today’s post is about one of my favorite combinations right now:<br />
 <strong>machine-learning–guided binning with SemiBin2</strong> + <strong>a fully automated Snakemake workflow</strong> for recovering MAGs from <strong>highly complex soil metagenomes</strong>.</p>
 
 <p>This is part of my broader goal of <strong>machine-learning–guided multi-omics analysis</strong>.</p>
@@ -1020,7 +1156,7 @@ The goal was to create a <strong>clean, publication-quality visualization</stron
 
 <p>I’ll maintain and update the full Snakemake pipeline here:</p>
 
-<p>👉 https://github.com/jojyjohn28/semibin2-soil-mag-workflow</p>]]></content><author><name></name></author><summary type="html"><![CDATA[How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.]]></summary></entry><entry><title type="html">My Journey into Microbiology, the Deep Sea, and Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics.md/" rel="alternate" type="text/html" title="My Journey into Microbiology, the Deep Sea, and Bioinformatics" /><published>2025-11-14T00:00:00+00:00</published><updated>2025-11-14T00:00:00+00:00</updated><id>https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics.md</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics.md/"><![CDATA[<p>Hello and welcome!<br />
+<p>👉 https://github.com/jojyjohn28/semibin2-soil-mag-workflow</p>]]></content><author><name></name></author><summary type="html"><![CDATA[How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.]]></summary></entry><entry><title type="html">My Journey into Microbiology, the Deep Sea, and Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics.md/" rel="alternate" type="text/html" title="My Journey into Microbiology, the Deep Sea, and Bioinformatics" /><published>2025-11-14T00:00:00-05:00</published><updated>2025-11-14T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics.md</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics.md/"><![CDATA[<p>Hello and welcome!<br />
 I’m <strong>Jojy John</strong> — a researcher, postdoctoral scholar, wife, and mother of two little ones.<br />
 This is the first post of my blog <strong>Daily Bioinformatics from Jojy’s Desk</strong>, where I share my daily work, learning, troubleshooting, and thoughts as a microbial ecologist and bioinformatician.</p>
 
