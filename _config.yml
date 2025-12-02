@@ -21,6 +21,7 @@ url: "https://jojyjohn28.github.io"
 baseurl: ""
 last_updated: false
 back_to_top: true
+timezone: America/New_York
 
 # -----------------------------------------------------------------------------
 # Theme
