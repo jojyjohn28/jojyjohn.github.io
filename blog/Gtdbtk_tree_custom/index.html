@@ -17,13 +17,12 @@
   
   
     
-      2025 | Jojy John
+      GTDB-Tk Complete Workflow | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-">
+<meta name="description" content="A practical walkthrough of GTDB-Tk Complete Workflow.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -61,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/blog/2025/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/Gtdbtk_tree_custom/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -123,8 +122,6 @@
 
           <!-- Other pages -->
           
-          
-            
           
             
           
@@ -277,101 +274,238 @@
     <!-- Content -->
     <div class="container mt-5" role="main">
       
-        <div class="post">
+        
+
+
+
+
+
+
+
+<div class="post">
   <header class="post-header">
-    <h1 class="post-title">
-<i class="fa-solid fa-calendar fa-sm"></i> 2025</h1>
-    <p class="post-description">an archive of posts from this year</p>
+    <h1 class="post-title">GTDB-Tk Complete Workflow</h1>
+    <p class="post-meta">
+      Created in December 03, 2025
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
+      
+
+      
+
+      
+    </p>
   </header>
 
-  <article class="archive">
-    <div class="table-responsive">
-      <table class="table table-sm table-borderless">
-        
-          <tr>
-            <th scope="row">Dec 03, 2025</th>
-            <td>
-              
-                <a class="post-link" href="/blog/Gtdbtk_tree_custom/">GTDB-Tk Complete Workflow</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Dec 02, 2025</th>
-            <td>
-              
-                <a class="post-link" href="/blog/genome-assembly-day/">Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Dec 01, 2025</th>
-            <td>
-              
-                <a class="post-link" href="/blog/genome-visualization/">Visualizing Genome Assemblies with Bandage: Building from Source on Linux</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Nov 21, 2025</th>
-            <td>
-              
-                <a class="post-link" href="/blog/panx-pangenome-analysis/">Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Nov 20, 2025</th>
-            <td>
-              
-                <a class="post-link" href="/blog/ncbi-submission-cleaning/">Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Nov 19, 2025</th>
-            <td>
-              
-                <a class="post-link" href="/blog/dual-booting-with-linux/">Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp; Persistence</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Nov 18, 2025</th>
-            <td>
-              
-                <a class="post-link" href="/blog/reworking-a-figure-manuscript-revision-story/">Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Nov 17, 2025</th>
-            <td>
-              
-                <a class="post-link" href="/blog/semibin-snakemake-soil-mag-workflow/">Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Nov 14, 2025</th>
-            <td>
-              
-                <a class="post-link" href="/blog/my-journey-into-microbiology-and-bioinformatics/">My Journey into Microbiology, the Deep Sea, and Bioinformatics</a>
-              
-            </td>
-          </tr>
-        
-      </table>
+  <article class="post-content">
+    <div id="markdown-content">
+      <p>When I began in bioinformatics, those beautifully annotated phylogenetic trees felt impossible to create. Later, when I started binning and whole-genome analysis, visualizing my own genomes with that same level of detail became one of my top goals.</p>
+
+<p>That’s when I finally ended up using <strong>GTDB-Tk for tree building and iTOL for annotation</strong>, and it opened a whole new world of possibilities.</p>
+
+<h2 id="introduction"><strong>Introduction</strong></h2>
+
+<p>GTDB-Tk (Genome Taxonomy Database Toolkit) has become one of the most widely used tools for classifying bacterial and archaeal genomes using the GTDB standard taxonomy.</p>
+
+<p>In this blog post, I walk through a complete, reproducible workflow:</p>
+
+<p>✔ Installing GTDB-Tk</p>
+
+<p>✔ Setting up a conda environment</p>
+
+<p>✔ Downloading the GTDB reference database</p>
+
+<p>✔ Running identify, align, and classify</p>
+
+<p>✔ Handling common errors like MASH DB</p>
+
+<p>✔ Running the full de_novo_wf</p>
+
+<p>✔ Exporting the final tree to iTOL</p>
+
+<p>✔ A short intro to iTOL annotations</p>
+
+<h2 id="all-commands-are-based-on-my-workflows-on-the-palmetto-hpc-cluster">All commands are based on my workflows on the Palmetto HPC Cluster.</h2>
+
+<h2 id="1-creating--activating-gtdb-tk-conda-environment">1. Creating &amp; Activating GTDB-Tk Conda Environment</h2>
+
+<p>If you don’t already have GTDB-Tk installed, create a fresh environment:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> gtdbtk_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge gtdbtk
+</code></pre></div></div>
+
+<p>Or install it in a custom project folder:
+You may need little more storage to set up the updated database</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-p</span> path/to/desired/folder <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge gtdbtk
+</code></pre></div></div>
+
+<p>Activate and Verify installation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h2 id="2-downloading-the-gtdb-reference-database">2. Downloading the GTDB Reference Database</h2>
+
+<p>GTDB-Tk requires the full reference database (e.g., release R207, R214, etc.).
+Download from:
+👉 https://data.gtdb.ecogenomic.org/
+Example (Bacteria + Archaea): Keep in mind this is almost more than 100 GB;</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://data.gtdb.ecogenomic.org/releases/release214/214.1/gtdbtk/gtdbtk_r214_data.tar.gz
+</code></pre></div></div>
+
+<p>Extract and set environment variable</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar</span> <span class="nt">-xzf</span> gtdbtk_r214_data.tar.gz <span class="nt">-C</span> /project/bcampb7/camplab/databases/
+<span class="nb">export </span><span class="nv">GTDBTK_DATA_PATH</span><span class="o">=</span>/project/bcampb7/camplab/databases/gtdbtk_r214_data <span class="c">#or run line below</span>
+<span class="nb">echo</span> <span class="s2">"export GTDBTK_DATA_PATH=/project/bcampb7/camplab/databases/gtdbtk_r214_data"</span> <span class="o">&gt;&gt;</span> ~/.bashrc <span class="c">#to make it permanant</span>
+gtdbtk check_install
+</code></pre></div></div>
+
+<h3 id="3-gtdb-tk-workflow-identify--align--classify">3. GTDB-Tk Workflow <strong>(Identify → Align → Classify)</strong>
+</h3>
+
+<p>Now we run GTDB-Tk on your genomes.
+<strong>3.1 Identify Marker Genes</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk identify <span class="se">\</span>
+  <span class="nt">--genome_dir</span> path/to/directory/with/genomes <span class="se">\</span>
+  <span class="nt">--out_dir</span> path/to/output/gtdbtk/identify <span class="se">\</span>
+  <span class="nt">--extension</span> fa <span class="se">\</span>
+  <span class="nt">--cpus</span> 32 <span class="c">#change accordingly</span>
+</code></pre></div></div>
+
+<p>#change according to your genome.extension; fa or fasta</p>
+
+<p><strong>3.2 Align Marker Genes</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk align <span class="se">\</span>
+  <span class="nt">--identify_dir</span> path_to/gtdbtk/identify <span class="se">\</span>
+  <span class="nt">--out_dir</span> path_for/gtdbtk/align <span class="se">\</span>
+  <span class="nt">--cpus</span> 32
+</code></pre></div></div>
+
+<p><strong>3.3 Classify Genomes</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk classify <span class="se">\</span>
+  <span class="nt">--genome_dir</span> path <span class="se">\</span>
+  <span class="nt">--align_dir</span> /path/align <span class="se">\</span>
+  <span class="nt">--out_dir</span> /path/classify <span class="se">\</span>
+  <span class="nt">-x</span> fasta <span class="se">\</span>
+  <span class="nt">--cpus</span> 32 <span class="se">\</span>
+  <span class="nt">--mash_db</span> path_for_saving_db
+</code></pre></div></div>
+
+<h3 id="4-running-the-full-de_novo_wf-automatic-tree-building">4. Running the Full de_novo_wf (Automatic Tree Building)</h3>
+
+<p>This workflow performs everything: identify → alignment → tree → taxonomy.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk de_novo_wf <span class="se">\</span>
+  <span class="nt">--genome_dir</span> /project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies_all <span class="se">\</span>
+  <span class="nt">--out_dir</span> /project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies_all/gtdbtk <span class="se">\</span>
+  <span class="nt">--extension</span> fa <span class="se">\</span>
+  <span class="nt">--bacteria</span> <span class="se">\</span>
+  <span class="nt">--cpus</span> 32 <span class="se">\</span>
+  <span class="nt">--outgroup_taxon</span> p__Chloroflexota <span class="se">\</span>
+  <span class="nt">--skip_gtdb_refs</span> <span class="se">\</span>
+  <span class="nt">--custom_taxonomy_file</span> /scratch/jojyj/UK/Genomes/gtdbtk/custom_taxonomy_file.tsv
+</code></pre></div></div>
+
+<p>Notes:</p>
+
+<p>● Outgroup: Choose a phylum not present in your samples based on the sample type. I used Chloroflexota for my esturine MAGs. But for soil it is not correct.</p>
+
+<p>● –skip_gtdb_refs: reduces tree size by removing thousands of reference genomes.</p>
+
+<p>● Custom taxonomy file: generated in classify output → you can edit to customize clade names.</p>
+
+<p>Output tree (important file):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk.bac120.decorated.tree
+</code></pre></div></div>
+
+<h3 id="5-converting-gtdb-tk-tree-for-itol">5. Converting GTDB-Tk Tree For iTOL</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk convert_to_itol <span class="se">\</span>
+  <span class="nt">--input_tree</span> /scratch/jojyj/UK/Genomes/gtdbtk/de_novo/gtdbtk.bac120.decorated.tree <span class="se">\</span>
+  <span class="nt">--output_tree</span> /scratch/jojyj/UK/Genomes/gtdbtk/de_novo/OUTPUT_TREE
+</code></pre></div></div>
+
+<p>This creates:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OUTPUT_TREE.tree
+OUTPUT_TREE.metadata.tsv
+</code></pre></div></div>
+
+<p>Upload OUTPUT_TREE.tree to iTOL.
+👉 https://itol.embl.de/</p>
+
+<h3 id="6-quick-start-guide-to-itol">6. Quick Start Guide to iTOL</h3>
+
+<p>iTOL (Interactive Tree of Life) is one of the best online tree-visualization tools.</p>
+
+<p><strong>What you can do in iTOL</strong></p>
+
+<p>● Upload trees (Newick format)</p>
+
+<p>● Add colors for taxonomy (phylum, genus, species)</p>
+
+<p>● Add heatmaps (genome size, CAZymes, AMGs, completeness)</p>
+
+<p>● Add data strips (free-living vs particle-attached, salinity, depth)</p>
+
+<p>● Collapse clades</p>
+
+<p>● Export high-resolution images (SVG, PNG, PDF)</p>
+
+<p><strong>Quick annotation starter files</strong></p>
+
+<p>● colors.txt → Color by clades</p>
+
+<p>● metadata_strip.txt → Add sample categories (Bay, Season, Salinity)</p>
+
+<p>● metadata_heatmap.txt → Add numeric values (gene counts, FRed)</p>
+
+<h3 id="7-summary">7. Summary</h3>
+
+<p>By combining GTDB-Tk + iTOL, you can go from raw genomes to:</p>
+
+<p>✔ GTDB-consistent taxonomy
+✔ High-quality phylogenomic alignment
+✔ Beautiful publication-ready trees
+✔ Metadata-rich visualization</p>
+
+<p>This pipeline is essential for MAG studies, isolate genomes, and comparative genomics.</p>
+
+<p><img src="/assets/img/tree.png" alt="tree"></p>
+
     </div>
   </article>
+
+  
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
+
+  
 </div>
 
       
