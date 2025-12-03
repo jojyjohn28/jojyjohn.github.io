@@ -2,11 +2,11 @@
 layout: post
 title: "GTDB-Tk Complete Workflow"
 date: 2025-12-03
-description: "A practical walkthrough of GTDB-Tk Complete Workflow."
+description: "A practical walkthrough of GTDB-Tk Complete Workflow"
 comments: true
 giscus_comments: true
 featured: true
-permalink: /blog/Gtdbtk_tree_custom/
+permalink: /blog/gtdbtk-tree-custom/
 ---
 
 When I began in bioinformatics, those beautifully annotated phylogenetic trees felt impossible to create. Later, when I started binning and whole-genome analysis, visualizing my own genomes with that same level of detail became one of my top goals.
