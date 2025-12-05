@@ -1,5 +1,549 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-03T15:16:47-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">GTDB-Tk Complete Workflow</title><link href="https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/" rel="alternate" type="text/html" title="GTDB-Tk Complete Workflow" /><published>2025-12-03T00:00:00-05:00</published><updated>2025-12-03T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/gtdbtk-tree-custom</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/"><![CDATA[<p>When I began in bioinformatics, those beautifully annotated phylogenetic trees felt impossible to create. Later, when I started binning and whole-genome analysis, visualizing my own genomes with that same level of detail became one of my top goals.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-05T16:20:13-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)</title><link href="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/" rel="alternate" type="text/html" title="Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)" /><published>2025-12-05T00:00:00-05:00</published><updated>2025-12-05T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/"><![CDATA[<p>Today’s post is about one of my favorite combinations right now:<br />
+<strong>machine-learning–guided binning with SemiBin2</strong> + <strong>a fully automated Snakemake workflow</strong> for recovering MAGs from <strong>highly complex soil metagenomes</strong>.</p>
+
+<p>This is part of my broader goal of <strong>machine-learning–guided multi-omics analysis</strong>.</p>
+
+<hr />
+
+<h2 id="-why-soil-metagenomes-are-painful-and-exciting">🧬 Why soil metagenomes are painful (and exciting)</h2>
+
+<p>I’m working with <strong>soil metagenomes</strong>, which are notoriously challenging:</p>
+
+<ul>
+  <li>1 g of soil can harbor <strong>millions of bacterial, archaeal, and fungal cells</strong></li>
+  <li>Community richness and evenness are extremely high</li>
+  <li>Assemblies become <strong>highly fragmented</strong> with <strong>low N50</strong></li>
+  <li>Short contigs make binning much harder</li>
+</ul>
+
+<p>After exploring different strategies, I moved to a <strong>co-assembly</strong> approach:</p>
+
+<ul>
+  <li>Co-assembly with <strong>MEGAHIT</strong> of ~30 samples</li>
+  <li>Producing a single <code class="language-plaintext highlighter-rouge">final.contigs.fa</code></li>
+</ul>
+
+<p>(I will post separate details on MEGAHIT parameters.)</p>
+
+<hr />
+
+<h2 id="-classical-binners-what-failed-and-what-worked">🧱 Classical binners: what failed and what worked</h2>
+
+<p>I initially tested the usual multi-binner approaches:</p>
+
+<h3 id="-concoct">❌ <strong>CONCOCT</strong></h3>
+
+<p>Likely failed because:</p>
+
+<ul>
+  <li>Assembly extremely large</li>
+  <li>Could not consistently segment into 10 kb fragments</li>
+  <li>Coverage patterns too noisy</li>
+</ul>
+
+<h3 id="-maxbin2">❌ <strong>MaxBin2</strong></h3>
+
+<p>Struggled due to:</p>
+
+<ul>
+  <li>Too many contigs</li>
+  <li>Sparse coverage across samples</li>
+</ul>
+
+<h3 id="️-metabat2-worked-partially">⚠️ <strong>MetaBAT2 (worked partially)</strong></h3>
+
+<ul>
+  <li>Produced ~500 bins</li>
+  <li>Good, but clearly <strong>under-represented soil diversity</strong></li>
+  <li>Bins were fragmented and incomplete</li>
+</ul>
+
+<p>To do better, I needed something that:</p>
+
+<ol>
+  <li>Scales to <strong>large, fragmented assemblies</strong></li>
+  <li>Leverages <strong>machine learning</strong> rather than fixed heuristics</li>
+</ol>
+
+<hr />
+
+<h2 id="-enter-semibin2-machine-learningguided-binning">🤖 Enter SemiBin2: machine-learning–guided binning</h2>
+
+<p>SemiBin2 integrates:</p>
+
+<ol>
+  <li><strong>Sequence composition (k-mers)</strong></li>
+  <li><strong>Coverage profiles from multiple samples</strong></li>
+  <li><strong>Deep-learning-based embeddings</strong></li>
+  <li>Density-based clustering for final bins</li>
+</ol>
+
+<p>🔗 Repo: https://github.com/BigDataBiology/SemiBin</p>
+
+<p>For complex and diverse soil data, this ML approach provides a huge improvement.</p>
+
+<p>I automated everything through <strong>Snakemake</strong> so the full workflow runs with one command.</p>
+
+<hr />
+
+<h2 id="-my-semibin2--snakemake-workflow-high-level">🔁 My SemiBin2 + Snakemake workflow (high-level)</h2>
+
+<h3 id="inputs"><strong>Inputs</strong></h3>
+
+<ul>
+  <li>Co-assembly: <code class="language-plaintext highlighter-rouge">final.contigs.fa</code></li>
+  <li>Paired-end reads: <code class="language-plaintext highlighter-rouge">sample_R1_nodup.fq</code>, <code class="language-plaintext highlighter-rouge">sample_R2_nodup.fq</code></li>
+</ul>
+
+<h3 id="workflow-steps"><strong>Workflow steps</strong></h3>
+
+<ol>
+  <li>Build <strong>Bowtie2 index</strong></li>
+  <li>Map each sample → <strong>sorted BAM</strong></li>
+  <li>Create <code class="language-plaintext highlighter-rouge">bam_list.txt</code></li>
+  <li>SemiBin2 <strong>generate features</strong></li>
+  <li>SemiBin2 <strong>train_self</strong> (machine-learning step)</li>
+  <li>SemiBin2 <strong>bin</strong> (produces bins)</li>
+  <li><strong>Unzip</strong> and convert <code class="language-plaintext highlighter-rouge">.fa.gz → .fa</code></li>
+  <li><strong>MetaWRAP refinement</strong></li>
+  <li><strong>dRep dereplication</strong></li>
+</ol>
+
+<p>All managed by Snakemake.</p>
+
+<hr />
+
+<h2 id="-running-the-workflow">🚀 Running the workflow</h2>
+
+<p>Once the Snakefile is created:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>snakemake <span class="nt">-j</span> 32
+</code></pre></div></div>
+
+<p>Snakemake will:</p>
+
+<ul>
+  <li>Detect required jobs</li>
+  <li>Build the DAG</li>
+  <li>Run everything in parallel</li>
+  <li>Restart only failed steps</li>
+  <li>Ensure reproducibility</li>
+</ul>
+
+<hr />
+
+<h2 id="-results-from-this-workflow">📈 Results from this workflow</h2>
+
+<h3 id="-semibin2-initial-output">⭐ <strong>SemiBin2 initial output</strong></h3>
+
+<p><strong>6,563 bins</strong> generated from the co-assembly.</p>
+
+<h3 id="-after-refinement--dereplication">⭐ <strong>After refinement + dereplication</strong></h3>
+
+<p>Using:</p>
+
+<ul>
+  <li>MetaWRAP bin refinement</li>
+  <li>dRep dereplication</li>
+  <li>≥ <strong>70% completeness</strong></li>
+  <li>≤ <strong>5% contamination</strong></li>
+</ul>
+
+<p>I recovered:</p>
+
+<p>🔥 <strong>~1,000 high-quality MAGs</strong></p>
+
+<p>A major improvement over the <strong>~500 bins from MetaBAT2</strong> alone.</p>
+
+<p>These high-quality MAGs will be used for:</p>
+
+<ul>
+  <li>Taxonomy</li>
+  <li>Functional annotation</li>
+  <li>CAZyme profiling</li>
+  <li>Energy metabolism markers</li>
+  <li>MG–MTX expression integration</li>
+  <li>Functional redundancy modeling (future post)</li>
+</ul>
+
+<hr />
+
+<h2 id="-wrap-up">🔚 Wrap-up</h2>
+
+<p>This combined SemiBin2 + Snakemake workflow gave me:</p>
+
+<ul>
+  <li>A reproducible, automated MAG recovery pipeline</li>
+  <li>Better binning in extremely complex soil metagenomes</li>
+  <li>A strong foundation for multi-omics integration</li>
+  <li>ML-powered binning without manual tuning</li>
+</ul>
+
+<hr />
+
+<h2 id="-full-workflow-on-github">💾 Full workflow on GitHub</h2>
+
+<p>I’ll maintain and update the full Snakemake pipeline here:</p>
+
+<p>👉 https://github.com/jojyjohn28/semibin2-soil-mag-workflow</p>]]></content><author><name></name></author><summary type="html"><![CDATA[How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.]]></summary></entry><entry><title type="html">Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow</title><link href="https://jojyjohn28.github.io/blog/ncbi-submission-cleaning/" rel="alternate" type="text/html" title="Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow" /><published>2025-12-05T00:00:00-05:00</published><updated>2025-12-05T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/NCBI-submission-cleaning</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/ncbi-submission-cleaning/"><![CDATA[<blockquote>
+  <p><strong>Published: December 6, 2025</strong></p>
+</blockquote>
+
+<p>🧬 <strong>Cleaning and Preparing Genomes for NCBI Submission</strong></p>
+
+<p>Today’s post documents the complete workflow I used to prepare <strong>12 bacterial genomes</strong> for NCBI submission.<br />
+Out of <strong>205 genomes</strong> submitted, <strong>12 failed the NCBI contamination screen</strong>:</p>
+
+<ul>
+  <li><strong>2 genomes</strong> failed due to <em>unexpected genome size</em></li>
+  <li><strong>10 genomes</strong> failed due to <em>adapter sequences</em></li>
+</ul>
+
+<p>I systematically fixed all issues using <strong>seqkit</strong>, <strong>bedtools</strong>, <strong>awk</strong>, and shell scripting on the <strong>Palmetto HPC cluster</strong>.</p>
+
+<hr />
+
+<h5 id="️-step-1--generate-adapter-and-contamination-reports">⚙️ <strong>Step 1 — Generate Adapter and Contamination Reports</strong></h5>
+
+<p>Each genome was screened using NCBI’s contamination check.<br />
+The report includes two sections:</p>
+
+<h4 id="-trim-section-mask-these-regions"><strong>🔹 Trim Section (mask these regions)</strong></h4>
+
+<p>Example:
+Sequence name | length | span | source
+contig02 6271 6238..6271 adaptor:NGB02000.1</p>
+
+<h4 id="-exclude-section-remove-these-contigs-completely"><strong>🔹 Exclude Section (remove these contigs completely)</strong></h4>
+
+<p>Example:
+contig05 3946 prok:g-proteobacteria</p>
+
+<p>Goal:<br />
+✔ Mask adapter regions<br />
+✔ Remove contaminant contigs</p>
+
+<hr />
+
+<h5 id="-step-2--create-bed-files-for-adapter-spans">🧱 <strong>Step 2 — Create BED Files for Adapter Spans</strong></h5>
+
+<p>I extracted adapter coordinates directly from reports:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>rep <span class="k">in </span>reports/<span class="k">*</span>.csv<span class="p">;</span> <span class="k">do
+  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$rep</span><span class="s2">"</span> _report.csv<span class="si">)</span>
+  <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">','</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="nt">-v</span> <span class="nv">g</span><span class="o">=</span><span class="s2">"</span><span class="nv">$base</span><span class="s2">"</span> <span class="s1">'
+    NR &gt; 1 &amp;&amp; $3 ~ /[0-9]+\.\.[0-9]+/ {
+      split($3,a,"..");
+      print g"_"$1, a[1]-1, a[2];
+    }'</span> <span class="s2">"</span><span class="nv">$rep</span><span class="s2">"</span> <span class="o">&gt;</span> beds/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_adapters.bed
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>These .bed files define adapter segments for masking.</p>
+
+<h5 id="-step-3--mask-adapter-regions-with-ns">🧬 Step 3 — Mask Adapter Regions with Ns</h5>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>assemblies/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
+  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> .fa<span class="si">)</span>
+  <span class="nv">bed</span><span class="o">=</span><span class="s2">"beds/</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="s2">_adapters.bed"</span>
+  bedtools maskfasta <span class="nt">-fi</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="nt">-bed</span> <span class="s2">"</span><span class="nv">$bed</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-fo</span> cleaned/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_masked.fa <span class="nt">-mc</span> N
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>This replaces adapter sequences with Ns (usually 10–40 bases long).</p>
+
+<h5 id="-step-4--remove-contaminant-contigs">🚫 Step 4 — Remove Contaminant Contigs</h5>
+
+<p>From the Exclude section, I created lists of contigs to delete.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>cleaned/<span class="k">*</span>_masked.fa<span class="p">;</span> <span class="k">do
+  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> _masked.fa<span class="si">)</span>
+  <span class="nv">excl</span><span class="o">=</span><span class="s2">"exclude_lists/</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="s2">_exclude.txt"</span>
+  seqkit <span class="nb">grep</span> <span class="nt">-v</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$excl</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="o">&gt;</span> final_ncbi_ready/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_clean.fa
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>Result:
+✔ All contaminated contigs removed safely.</p>
+
+<h5 id="-step-5--restore-ncbi-metadata-headers">🧾 Step 5 — Restore NCBI Metadata Headers</h5>
+
+<p>NCBI FASTA headers include metadata such as strain and organism.
+Example correct header:</p>
+
+<blockquote>
+  <p>contig01 [organism=Staphylococcus ureilyticus] [strain=ABD2_031]
+I restored them using mapping files:</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seqkit replace <span class="nt">-p</span> <span class="s2">"^(contig[0-9]+)"</span> <span class="nt">-r</span> <span class="s2">"{kv}"</span> <span class="se">\</span>
+  <span class="nt">--kv-file</span> rename_maps_fixed/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_map.txt <span class="nt">--keep-key</span> <span class="se">\</span>
+  <span class="nt">-o</span> final_ncbi_ready_renamed/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_clean_renamed.fa <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<h5 id="-step-6--renumber-contigs-sequentially">🔢 Step 6 — Renumber Contigs Sequentially</h5>
+
+<p>Since filtering removes contigs, renumbering ensures they start from 1 again:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>final_ncbi_ready_renamed/<span class="k">*</span>_clean_renamed.fa<span class="p">;</span> <span class="k">do
+  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> _clean_renamed.fa<span class="si">)</span>
+  <span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">base</span><span class="o">=</span><span class="s2">"</span><span class="nv">$base</span><span class="s2">"</span> <span class="s1">'
+    /^&gt;/ {count++; sub(/^&gt;contig[0-9]+/, "&gt;contig" count, $0); print; next}
+    {print}
+  '</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="o">&gt;</span> final_ncbi_ready_renumbered/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_renumbered.fa
+<span class="k">done</span>
+</code></pre></div></div>
+
+<h5 id="-step-7--qc-for-ns-and-percent-n">🧮 Step 7 — QC for Ns and Percent N</h5>
+
+<p>I counted Ns and genome length:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>final_ncbi_ready_renumbered/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
+  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span><span class="si">)</span>
+  <span class="nv">totalN</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"&gt;"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> | <span class="nb">tr</span> <span class="nt">-cd</span> <span class="s1">'Nn'</span> | <span class="nb">wc</span> <span class="nt">-c</span><span class="si">)</span>
+  <span class="nv">totalLen</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"&gt;"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s1">'\n'</span> | <span class="nb">wc</span> <span class="nt">-c</span><span class="si">)</span>
+  <span class="nv">perc</span><span class="o">=</span><span class="si">$(</span><span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">n</span><span class="o">=</span><span class="nv">$totalN</span> <span class="nt">-v</span> <span class="nv">l</span><span class="o">=</span><span class="nv">$totalLen</span> <span class="s1">'BEGIN{printf "%.3f", (n/l)*100}'</span><span class="si">)</span>
+  <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">totalN</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">totalLen</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">perc</span><span class="k">}</span><span class="s2">%"</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>Example:
+AWM4_233_renumbered.fa 5807 5927574 0.098%
+✔ All genomes were safely below NCBI’s ≤5% Ns requirement (mine were ≤0.1%).</p>
+
+<h5 id="-step-8--gap-summary-runs-of-n-10">📊 Step 8 — Gap Summary (Runs of N ≥10)</h5>
+
+<p>ABD2_031_renumbered.fa 10 391
+ABF4_148_renumbered.fa 2 63
+AWM4_233_renumbered.fa 182 5807
+<strong>This confirms masking was minimal and acceptable.</strong></p>
+
+<h5 id="-final-thoughts">🧭 Final Thoughts</h5>
+
+<p>This workflow converts problematic assemblies into clean, polished FASTA files ready for NCBI:</p>
+
+<p>✔ Adapter regions masked
+✔ Contaminant contigs removed
+✔ Metadata restored
+✔ Contigs renumbered
+✔ QC verified</p>
+
+<p>✨ Result:
+12 high-quality genomes successfully resubmitted to NCBI.</p>
+
+<p><img src="/assets/img/ncbi_submission.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.]]></summary></entry><entry><title type="html">Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence</title><link href="https://jojyjohn28.github.io/blog/dual-booting-with-linux/" rel="alternate" type="text/html" title="Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence" /><published>2025-12-04T00:00:00-05:00</published><updated>2025-12-04T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Dual_booting_with_linux</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/dual-booting-with-linux/"><![CDATA[<p>Today’s entry is a special one — not about metagenomics, CAZymes, MAGs, or FRed models —<br />
+but about something equally important for any computational biologist:</p>
+
+<p>👉 <strong>setting up a reliable Linux machine.</strong></p>
+
+<p>If you’ve ever tried installing Ubuntu alongside Windows on a modern NVMe laptop<br />
+(especially Dell Inspiron or XPS), you know the process can be…</p>
+
+<p><strong>fascinating + frustrating + educational.</strong></p>
+
+<p>Here’s how my day went.</p>
+
+<hr />
+
+<h5 id="-step-1--preparing-windows-for-dual-boot">🔧 Step 1 — Preparing Windows for Dual-Boot</h5>
+
+<p>Before touching Linux, I fixed Windows first.</p>
+
+<h3 id="-disabled-fast-startup">✔ Disabled Fast Startup</h3>
+
+<p>Fast Startup locks the NTFS filesystem and blocks Linux installers from modifying disks.<br />
+(For dual-boot, it <em>must</em> be off.)</p>
+
+<h3 id="-created-unallocated-space">✔ Created Unallocated Space</h3>
+
+<p>Using <strong>Windows Disk Management → Shrink Volume</strong>, I freed:</p>
+
+<p>➡️ <strong>~1 TB of unallocated space</strong></p>
+
+<p>This will later become:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/</code> (root)</li>
+  <li><code class="language-plaintext highlighter-rouge">/home</code></li>
+  <li>swap</li>
+</ul>
+
+<p>Everything looked good… <strong>until things got interesting.</strong></p>
+
+<hr />
+
+<h5 id="-step-2--creating-the-bootable-usb">💽 Step 2 — Creating the Bootable USB</h5>
+
+<p>(and discovering the importance of a <em>good</em> USB drive)</p>
+
+<p>Downloaded <strong>Ubuntu 24.04.3 LTS</strong>, then flashed the installer.</p>
+
+<h3 id="on-linux-preferred">On Linux (preferred):</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo dd </span><span class="k">if</span><span class="o">=</span>ubuntu.iso <span class="nv">of</span><span class="o">=</span>/dev/sdb <span class="nv">bs</span><span class="o">=</span>4M <span class="nv">status</span><span class="o">=</span>progress <span class="nv">oflag</span><span class="o">=</span><span class="nb">sync</span>
+</code></pre></div></div>
+
+<p><strong>On Windows, I recommend:</strong>
+Rufus
+Select ISO
+Partition scheme = GPT
+Target = UEFI
+File system = FAT32</p>
+
+<p>➤ Everything looked smooth — until the installer suddenly failed with:</p>
+
+<p>❌ curtin command install
+❌ rsync error 23
+❌ “System error detected. Installation failed.”</p>
+
+<p>Root cause:
+👉 My USB stick was corrupted.It was partioned into many small fragments while creating the USB disk.
+➜A bad USB = hours wasted.
+➜So I grabbed a new 64 GB drive, reflashed, rebooted… and finally reached the installer correctly.</p>
+
+<h5 id="-step-3--installer-could-not-recognize-my-partitions">🧭 Step 3 — Installer Could Not Recognize My Partitions</h5>
+
+<p>(The tricky part begins)
+Inside the Ubuntu installer (Manual Installation), I saw:</p>
+
+<p>● p1 → EFI (FAT32)
+● p2 → Microsoft Reserved
+● p3 → Windows (NTFS)
+● p5 → WINRETOOLS</p>
+
+<p>Free space → 953 GB
+But the installer did NOT show the “+” button to create new partitions.
+<strong>Meaning: I could not proceed.</strong></p>
+
+<p>🔍 The Fix
+Boot into Try Ubuntu, open GParted, and create the partitions manually.</p>
+
+<h5 id="-step-4--manual-partitioning-in-gparted">🧱 Step 4 — Manual Partitioning in GParted</h5>
+
+<p>(The correct final layout)
+Here’s exactly what I created:
+1️⃣ Root /
+105 GB
+ext4
+Mount: /</p>
+
+<p>2️⃣ Swap
+With 64 GB RAM, I created:
+17 GB swap</p>
+
+<p>3️⃣ Home /home
+~902 GB
+ext4
+Mount: /home</p>
+
+<p>4️⃣ EFI (existing Windows EFI)</p>
+
+<p>Never create a new EFI partition when dual-booting.
+I reused:
+/dev/nvme0n1p1
+FAT32
+Mount: /boot/efi
+<strong>Do NOT format</strong></p>
+
+<h4 id="-final-partition-table">📊 Final Partition Table</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Partition</th>
+      <th>Type</th>
+      <th>Mount</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>nvme0n1p1</td>
+      <td>VFAT</td>
+      <td>/boot/efi</td>
+      <td>Windows + Ubuntu bootloader</td>
+    </tr>
+    <tr>
+      <td>nvme0n1p4</td>
+      <td>ext4</td>
+      <td>/</td>
+      <td>Ubuntu root</td>
+    </tr>
+    <tr>
+      <td>nvme0n1p6</td>
+      <td>swap</td>
+      <td>—</td>
+      <td>Swap</td>
+    </tr>
+    <tr>
+      <td>nvme0n1p7</td>
+      <td>ext4</td>
+      <td>/home</td>
+      <td>User home</td>
+    </tr>
+    <tr>
+      <td>nvme0n1p3</td>
+      <td>NTFS</td>
+      <td>—</td>
+      <td>Windows C: drive</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="-step-5--running-the-installer-again">🚀 Step 5 — Running the Installer Again</h5>
+
+<p>I re-opened the Ubuntu installer.
+This time the “Review Your Choices” screen looked perfect:</p>
+
+<p>✔ EFI correctly detected
+✔ Root, swap, home all mapped
+✔ No formatting of Windows partitions
+✔ Bootloader target = nvme0n1</p>
+
+<p>I clicked Install and…</p>
+
+<p><strong>🎉 It finally completed successfully!</strong></p>
+
+<h5 id="-step-6--first-boot--initial-setup">🧵 Step 6 — First Boot &amp; Initial Setup</h5>
+
+<p>After reboot:
+GRUB menu appeared (Ubuntu + Windows Boot Manager)
+Ubuntu booted cleanly
+/home and / mounted correctly
+Swap active</p>
+
+<p><strong>First software installed:</strong>
+● VS Code
+● RStudio
+● Conda / Mamba
+● Git
+● Jupyter, pandas, biopython
+● GCC, g++, make
+● Browsers &amp; utilities</p>
+
+<h4 id="my-system-is-officially-ready-for-serious-computational-biology-work"><strong>My system is officially ready for serious computational biology work.</strong></h4>
+
+<p><strong>🎉 Final Thoughts</strong></p>
+
+<p>This installation was a journey involving:</p>
+
+<p>● corrupted USB drives
+● missing partition options
+● EFI confusion
+● manual fixes in GParted
+● several reinstall attempts</p>
+
+<p>But in the end, I now have:</p>
+
+<p>💻 A stable dual-boot Linux system
+📦 Clean partitions optimized for bioinformatics
+🧬 A fast environment ready for MAGs, CAZymes, MTX, and more</p>
+
+<p>If you’re a researcher switching to Linux or setting up dual-boot for the first time, don’t worry if things break — it’s all part of learning.</p>
+
+<p><img src="/assets/img/welcome_image.png" alt="welcome to Ubuntu 24.04" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.]]></summary></entry><entry><title type="html">GTDB-Tk Complete Workflow</title><link href="https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/" rel="alternate" type="text/html" title="GTDB-Tk Complete Workflow" /><published>2025-12-03T00:00:00-05:00</published><updated>2025-12-03T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/gtdbtk-tree-custom</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/"><![CDATA[<p>When I began in bioinformatics, those beautifully annotated phylogenetic trees felt impossible to create. Later, when I started binning and whole-genome analysis, visualizing my own genomes with that same level of detail became one of my top goals.</p>
 
 <p>That’s when I finally ended up using <strong>GTDB-Tk for tree building and iTOL for annotation</strong>, and it opened a whole new world of possibilities.</p>
 
@@ -655,360 +1199,7 @@ Output file: core_pan_gene_counts_per_genome.tsv
 
 <p>For more details on PanX visit :https://pangenome.org/</p>
 
-<p><img src="/assets/img/panx_analysis.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.]]></summary></entry><entry><title type="html">Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow</title><link href="https://jojyjohn28.github.io/blog/ncbi-submission-cleaning/" rel="alternate" type="text/html" title="Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow" /><published>2025-11-20T00:00:00-05:00</published><updated>2025-11-20T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/NCBI-submission-cleaning</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/ncbi-submission-cleaning/"><![CDATA[<p>🧬 <strong>Cleaning and Preparing Genomes for NCBI Submission</strong></p>
-
-<p>Today’s post documents the complete workflow I used to prepare <strong>12 bacterial genomes</strong> for NCBI submission.<br />
-Out of <strong>205 genomes</strong> submitted, <strong>12 failed the NCBI contamination screen</strong>:</p>
-
-<ul>
-  <li><strong>2 genomes</strong> failed due to <em>unexpected genome size</em></li>
-  <li><strong>10 genomes</strong> failed due to <em>adapter sequences</em></li>
-</ul>
-
-<p>I systematically fixed all issues using <strong>seqkit</strong>, <strong>bedtools</strong>, <strong>awk</strong>, and shell scripting on the <strong>Palmetto HPC cluster</strong>.</p>
-
-<hr />
-
-<h5 id="️-step-1--generate-adapter-and-contamination-reports">⚙️ <strong>Step 1 — Generate Adapter and Contamination Reports</strong></h5>
-
-<p>Each genome was screened using NCBI’s contamination check.<br />
-The report includes two sections:</p>
-
-<h4 id="-trim-section-mask-these-regions"><strong>🔹 Trim Section (mask these regions)</strong></h4>
-
-<p>Example:
-Sequence name | length | span | source
-contig02 6271 6238..6271 adaptor:NGB02000.1</p>
-
-<h4 id="-exclude-section-remove-these-contigs-completely"><strong>🔹 Exclude Section (remove these contigs completely)</strong></h4>
-
-<p>Example:
-contig05 3946 prok:g-proteobacteria</p>
-
-<p>Goal:<br />
-✔ Mask adapter regions<br />
-✔ Remove contaminant contigs</p>
-
-<hr />
-
-<h5 id="-step-2--create-bed-files-for-adapter-spans">🧱 <strong>Step 2 — Create BED Files for Adapter Spans</strong></h5>
-
-<p>I extracted adapter coordinates directly from reports:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>rep <span class="k">in </span>reports/<span class="k">*</span>.csv<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$rep</span><span class="s2">"</span> _report.csv<span class="si">)</span>
-  <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">','</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="nt">-v</span> <span class="nv">g</span><span class="o">=</span><span class="s2">"</span><span class="nv">$base</span><span class="s2">"</span> <span class="s1">'
-    NR &gt; 1 &amp;&amp; $3 ~ /[0-9]+\.\.[0-9]+/ {
-      split($3,a,"..");
-      print g"_"$1, a[1]-1, a[2];
-    }'</span> <span class="s2">"</span><span class="nv">$rep</span><span class="s2">"</span> <span class="o">&gt;</span> beds/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_adapters.bed
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>These .bed files define adapter segments for masking.</p>
-
-<h5 id="-step-3--mask-adapter-regions-with-ns">🧬 Step 3 — Mask Adapter Regions with Ns</h5>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>assemblies/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> .fa<span class="si">)</span>
-  <span class="nv">bed</span><span class="o">=</span><span class="s2">"beds/</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="s2">_adapters.bed"</span>
-  bedtools maskfasta <span class="nt">-fi</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="nt">-bed</span> <span class="s2">"</span><span class="nv">$bed</span><span class="s2">"</span> <span class="se">\</span>
-    <span class="nt">-fo</span> cleaned/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_masked.fa <span class="nt">-mc</span> N
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>This replaces adapter sequences with Ns (usually 10–40 bases long).</p>
-
-<h5 id="-step-4--remove-contaminant-contigs">🚫 Step 4 — Remove Contaminant Contigs</h5>
-
-<p>From the Exclude section, I created lists of contigs to delete.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>cleaned/<span class="k">*</span>_masked.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> _masked.fa<span class="si">)</span>
-  <span class="nv">excl</span><span class="o">=</span><span class="s2">"exclude_lists/</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="s2">_exclude.txt"</span>
-  seqkit <span class="nb">grep</span> <span class="nt">-v</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$excl</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="o">&gt;</span> final_ncbi_ready/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_clean.fa
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>Result:
-✔ All contaminated contigs removed safely.</p>
-
-<h5 id="-step-5--restore-ncbi-metadata-headers">🧾 Step 5 — Restore NCBI Metadata Headers</h5>
-
-<p>NCBI FASTA headers include metadata such as strain and organism.
-Example correct header:</p>
-
-<blockquote>
-  <p>contig01 [organism=Staphylococcus ureilyticus] [strain=ABD2_031]
-I restored them using mapping files:</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seqkit replace <span class="nt">-p</span> <span class="s2">"^(contig[0-9]+)"</span> <span class="nt">-r</span> <span class="s2">"{kv}"</span> <span class="se">\</span>
-  <span class="nt">--kv-file</span> rename_maps_fixed/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_map.txt <span class="nt">--keep-key</span> <span class="se">\</span>
-  <span class="nt">-o</span> final_ncbi_ready_renamed/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_clean_renamed.fa <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<h5 id="-step-6--renumber-contigs-sequentially">🔢 Step 6 — Renumber Contigs Sequentially</h5>
-
-<p>Since filtering removes contigs, renumbering ensures they start from 1 again:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>final_ncbi_ready_renamed/<span class="k">*</span>_clean_renamed.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> _clean_renamed.fa<span class="si">)</span>
-  <span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">base</span><span class="o">=</span><span class="s2">"</span><span class="nv">$base</span><span class="s2">"</span> <span class="s1">'
-    /^&gt;/ {count++; sub(/^&gt;contig[0-9]+/, "&gt;contig" count, $0); print; next}
-    {print}
-  '</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="o">&gt;</span> final_ncbi_ready_renumbered/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_renumbered.fa
-<span class="k">done</span>
-</code></pre></div></div>
-
-<h5 id="-step-7--qc-for-ns-and-percent-n">🧮 Step 7 — QC for Ns and Percent N</h5>
-
-<p>I counted Ns and genome length:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>final_ncbi_ready_renumbered/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span><span class="si">)</span>
-  <span class="nv">totalN</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"&gt;"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> | <span class="nb">tr</span> <span class="nt">-cd</span> <span class="s1">'Nn'</span> | <span class="nb">wc</span> <span class="nt">-c</span><span class="si">)</span>
-  <span class="nv">totalLen</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"&gt;"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s1">'\n'</span> | <span class="nb">wc</span> <span class="nt">-c</span><span class="si">)</span>
-  <span class="nv">perc</span><span class="o">=</span><span class="si">$(</span><span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">n</span><span class="o">=</span><span class="nv">$totalN</span> <span class="nt">-v</span> <span class="nv">l</span><span class="o">=</span><span class="nv">$totalLen</span> <span class="s1">'BEGIN{printf "%.3f", (n/l)*100}'</span><span class="si">)</span>
-  <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">totalN</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">totalLen</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">perc</span><span class="k">}</span><span class="s2">%"</span>
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>Example:
-AWM4_233_renumbered.fa 5807 5927574 0.098%
-✔ All genomes were safely below NCBI’s ≤5% Ns requirement (mine were ≤0.1%).</p>
-
-<h5 id="-step-8--gap-summary-runs-of-n-10">📊 Step 8 — Gap Summary (Runs of N ≥10)</h5>
-
-<p>ABD2_031_renumbered.fa 10 391
-ABF4_148_renumbered.fa 2 63
-AWM4_233_renumbered.fa 182 5807
-<strong>This confirms masking was minimal and acceptable.</strong></p>
-
-<h5 id="-final-thoughts">🧭 Final Thoughts</h5>
-
-<p>This workflow converts problematic assemblies into clean, polished FASTA files ready for NCBI:</p>
-
-<p>✔ Adapter regions masked
-✔ Contaminant contigs removed
-✔ Metadata restored
-✔ Contigs renumbered
-✔ QC verified</p>
-
-<p>✨ Result:
-12 high-quality genomes successfully resubmitted to NCBI.</p>
-
-<p><img src="/assets/img/ncbi_submission.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.]]></summary></entry><entry><title type="html">Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence</title><link href="https://jojyjohn28.github.io/blog/dual-booting-with-linux/" rel="alternate" type="text/html" title="Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence" /><published>2025-11-19T00:00:00-05:00</published><updated>2025-11-19T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Dual_booting_with_linux</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/dual-booting-with-linux/"><![CDATA[<p>Today’s entry is a special one — not about metagenomics, CAZymes, MAGs, or FRed models —<br />
-but about something equally important for any computational biologist:</p>
-
-<p>👉 <strong>setting up a reliable Linux machine.</strong></p>
-
-<p>If you’ve ever tried installing Ubuntu alongside Windows on a modern NVMe laptop<br />
-(especially Dell Inspiron or XPS), you know the process can be…</p>
-
-<p><strong>fascinating + frustrating + educational.</strong></p>
-
-<p>Here’s how my day went.</p>
-
-<hr />
-
-<h5 id="-step-1--preparing-windows-for-dual-boot">🔧 Step 1 — Preparing Windows for Dual-Boot</h5>
-
-<p>Before touching Linux, I fixed Windows first.</p>
-
-<h3 id="-disabled-fast-startup">✔ Disabled Fast Startup</h3>
-
-<p>Fast Startup locks the NTFS filesystem and blocks Linux installers from modifying disks.<br />
-(For dual-boot, it <em>must</em> be off.)</p>
-
-<h3 id="-created-unallocated-space">✔ Created Unallocated Space</h3>
-
-<p>Using <strong>Windows Disk Management → Shrink Volume</strong>, I freed:</p>
-
-<p>➡️ <strong>~1 TB of unallocated space</strong></p>
-
-<p>This will later become:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">/</code> (root)</li>
-  <li><code class="language-plaintext highlighter-rouge">/home</code></li>
-  <li>swap</li>
-</ul>
-
-<p>Everything looked good… <strong>until things got interesting.</strong></p>
-
-<hr />
-
-<h5 id="-step-2--creating-the-bootable-usb">💽 Step 2 — Creating the Bootable USB</h5>
-
-<p>(and discovering the importance of a <em>good</em> USB drive)</p>
-
-<p>Downloaded <strong>Ubuntu 24.04.3 LTS</strong>, then flashed the installer.</p>
-
-<h3 id="on-linux-preferred">On Linux (preferred):</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo dd </span><span class="k">if</span><span class="o">=</span>ubuntu.iso <span class="nv">of</span><span class="o">=</span>/dev/sdb <span class="nv">bs</span><span class="o">=</span>4M <span class="nv">status</span><span class="o">=</span>progress <span class="nv">oflag</span><span class="o">=</span><span class="nb">sync</span>
-</code></pre></div></div>
-
-<p><strong>On Windows, I recommend:</strong>
-Rufus
-Select ISO
-Partition scheme = GPT
-Target = UEFI
-File system = FAT32</p>
-
-<p>➤ Everything looked smooth — until the installer suddenly failed with:</p>
-
-<p>❌ curtin command install
-❌ rsync error 23
-❌ “System error detected. Installation failed.”</p>
-
-<p>Root cause:
-👉 My USB stick was corrupted.It was partioned into many small fragments while creating the USB disk.
-➜A bad USB = hours wasted.
-➜So I grabbed a new 64 GB drive, reflashed, rebooted… and finally reached the installer correctly.</p>
-
-<h5 id="-step-3--installer-could-not-recognize-my-partitions">🧭 Step 3 — Installer Could Not Recognize My Partitions</h5>
-
-<p>(The tricky part begins)
-Inside the Ubuntu installer (Manual Installation), I saw:</p>
-
-<p>● p1 → EFI (FAT32)
-● p2 → Microsoft Reserved
-● p3 → Windows (NTFS)
-● p5 → WINRETOOLS</p>
-
-<p>Free space → 953 GB
-But the installer did NOT show the “+” button to create new partitions.
-<strong>Meaning: I could not proceed.</strong></p>
-
-<p>🔍 The Fix
-Boot into Try Ubuntu, open GParted, and create the partitions manually.</p>
-
-<h5 id="-step-4--manual-partitioning-in-gparted">🧱 Step 4 — Manual Partitioning in GParted</h5>
-
-<p>(The correct final layout)
-Here’s exactly what I created:
-1️⃣ Root /
-105 GB
-ext4
-Mount: /</p>
-
-<p>2️⃣ Swap
-With 64 GB RAM, I created:
-17 GB swap</p>
-
-<p>3️⃣ Home /home
-~902 GB
-ext4
-Mount: /home</p>
-
-<p>4️⃣ EFI (existing Windows EFI)</p>
-
-<p>Never create a new EFI partition when dual-booting.
-I reused:
-/dev/nvme0n1p1
-FAT32
-Mount: /boot/efi
-<strong>Do NOT format</strong></p>
-
-<h4 id="-final-partition-table">📊 Final Partition Table</h4>
-
-<table>
-  <thead>
-    <tr>
-      <th>Partition</th>
-      <th>Type</th>
-      <th>Mount</th>
-      <th>Purpose</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>nvme0n1p1</td>
-      <td>VFAT</td>
-      <td>/boot/efi</td>
-      <td>Windows + Ubuntu bootloader</td>
-    </tr>
-    <tr>
-      <td>nvme0n1p4</td>
-      <td>ext4</td>
-      <td>/</td>
-      <td>Ubuntu root</td>
-    </tr>
-    <tr>
-      <td>nvme0n1p6</td>
-      <td>swap</td>
-      <td>—</td>
-      <td>Swap</td>
-    </tr>
-    <tr>
-      <td>nvme0n1p7</td>
-      <td>ext4</td>
-      <td>/home</td>
-      <td>User home</td>
-    </tr>
-    <tr>
-      <td>nvme0n1p3</td>
-      <td>NTFS</td>
-      <td>—</td>
-      <td>Windows C: drive</td>
-    </tr>
-  </tbody>
-</table>
-
-<h5 id="-step-5--running-the-installer-again">🚀 Step 5 — Running the Installer Again</h5>
-
-<p>I re-opened the Ubuntu installer.
-This time the “Review Your Choices” screen looked perfect:</p>
-
-<p>✔ EFI correctly detected
-✔ Root, swap, home all mapped
-✔ No formatting of Windows partitions
-✔ Bootloader target = nvme0n1</p>
-
-<p>I clicked Install and…</p>
-
-<p><strong>🎉 It finally completed successfully!</strong></p>
-
-<h5 id="-step-6--first-boot--initial-setup">🧵 Step 6 — First Boot &amp; Initial Setup</h5>
-
-<p>After reboot:
-GRUB menu appeared (Ubuntu + Windows Boot Manager)
-Ubuntu booted cleanly
-/home and / mounted correctly
-Swap active</p>
-
-<p><strong>First software installed:</strong>
-● VS Code
-● RStudio
-● Conda / Mamba
-● Git
-● Jupyter, pandas, biopython
-● GCC, g++, make
-● Browsers &amp; utilities</p>
-
-<h4 id="my-system-is-officially-ready-for-serious-computational-biology-work"><strong>My system is officially ready for serious computational biology work.</strong></h4>
-
-<p><strong>🎉 Final Thoughts</strong></p>
-
-<p>This installation was a journey involving:</p>
-
-<p>● corrupted USB drives
-● missing partition options
-● EFI confusion
-● manual fixes in GParted
-● several reinstall attempts</p>
-
-<p>But in the end, I now have:</p>
-
-<p>💻 A stable dual-boot Linux system
-📦 Clean partitions optimized for bioinformatics
-🧬 A fast environment ready for MAGs, CAZymes, MTX, and more</p>
-
-<p>If you’re a researcher switching to Linux or setting up dual-boot for the first time, don’t worry if things break — it’s all part of learning.</p>
-
-<p><img src="/assets/img/welcome_image.png" alt="welcome to Ubuntu 24.04" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.]]></summary></entry><entry><title type="html">Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity</title><link href="https://jojyjohn28.github.io/blog/reworking-a-figure-manuscript-revision-story/" rel="alternate" type="text/html" title="Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity" /><published>2025-11-18T00:00:00-05:00</published><updated>2025-11-18T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Reworking%20a%20figure_Manuscript_Revison_Story</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/reworking-a-figure-manuscript-revision-story/"><![CDATA[<p>Today I worked on the <strong>final revision of one of the main figures</strong> (Figure 5) in my manuscript on microbial functional redundancy (FRed).<br />
+<p><img src="/assets/img/panx_analysis.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.]]></summary></entry><entry><title type="html">Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity</title><link href="https://jojyjohn28.github.io/blog/reworking-a-figure-manuscript-revision-story/" rel="alternate" type="text/html" title="Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity" /><published>2025-11-18T00:00:00-05:00</published><updated>2025-11-18T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Reworking%20a%20figure_Manuscript_Revison_Story</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/reworking-a-figure-manuscript-revision-story/"><![CDATA[<p>Today I worked on the <strong>final revision of one of the main figures</strong> (Figure 5) in my manuscript on microbial functional redundancy (FRed).<br />
 The goal was to create a <strong>clean, publication-quality visualization</strong> comparing:</p>
 
 <ul>
@@ -1147,194 +1338,7 @@ The goal was to create a <strong>clean, publication-quality visualization</stron
 <p><img src="/assets/img/figure5.png" alt="Figure 5 Final" /></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-</code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.]]></summary></entry><entry><title type="html">Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)</title><link href="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/" rel="alternate" type="text/html" title="Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)" /><published>2025-11-17T00:00:00-05:00</published><updated>2025-11-17T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/"><![CDATA[<p>Today’s post is about one of my favorite combinations right now:<br />
-<strong>machine-learning–guided binning with SemiBin2</strong> + <strong>a fully automated Snakemake workflow</strong> for recovering MAGs from <strong>highly complex soil metagenomes</strong>.</p>
-
-<p>This is part of my broader goal of <strong>machine-learning–guided multi-omics analysis</strong>.</p>
-
-<hr />
-
-<h2 id="-why-soil-metagenomes-are-painful-and-exciting">🧬 Why soil metagenomes are painful (and exciting)</h2>
-
-<p>I’m working with <strong>soil metagenomes</strong>, which are notoriously challenging:</p>
-
-<ul>
-  <li>1 g of soil can harbor <strong>millions of bacterial, archaeal, and fungal cells</strong></li>
-  <li>Community richness and evenness are extremely high</li>
-  <li>Assemblies become <strong>highly fragmented</strong> with <strong>low N50</strong></li>
-  <li>Short contigs make binning much harder</li>
-</ul>
-
-<p>After exploring different strategies, I moved to a <strong>co-assembly</strong> approach:</p>
-
-<ul>
-  <li>Co-assembly with <strong>MEGAHIT</strong> of ~30 samples</li>
-  <li>Producing a single <code class="language-plaintext highlighter-rouge">final.contigs.fa</code></li>
-</ul>
-
-<p>(I will post separate details on MEGAHIT parameters.)</p>
-
-<hr />
-
-<h2 id="-classical-binners-what-failed-and-what-worked">🧱 Classical binners: what failed and what worked</h2>
-
-<p>I initially tested the usual multi-binner approaches:</p>
-
-<h3 id="-concoct">❌ <strong>CONCOCT</strong></h3>
-
-<p>Likely failed because:</p>
-
-<ul>
-  <li>Assembly extremely large</li>
-  <li>Could not consistently segment into 10 kb fragments</li>
-  <li>Coverage patterns too noisy</li>
-</ul>
-
-<h3 id="-maxbin2">❌ <strong>MaxBin2</strong></h3>
-
-<p>Struggled due to:</p>
-
-<ul>
-  <li>Too many contigs</li>
-  <li>Sparse coverage across samples</li>
-</ul>
-
-<h3 id="️-metabat2-worked-partially">⚠️ <strong>MetaBAT2 (worked partially)</strong></h3>
-
-<ul>
-  <li>Produced ~500 bins</li>
-  <li>Good, but clearly <strong>under-represented soil diversity</strong></li>
-  <li>Bins were fragmented and incomplete</li>
-</ul>
-
-<p>To do better, I needed something that:</p>
-
-<ol>
-  <li>Scales to <strong>large, fragmented assemblies</strong></li>
-  <li>Leverages <strong>machine learning</strong> rather than fixed heuristics</li>
-</ol>
-
-<hr />
-
-<h2 id="-enter-semibin2-machine-learningguided-binning">🤖 Enter SemiBin2: machine-learning–guided binning</h2>
-
-<p>SemiBin2 integrates:</p>
-
-<ol>
-  <li><strong>Sequence composition (k-mers)</strong></li>
-  <li><strong>Coverage profiles from multiple samples</strong></li>
-  <li><strong>Deep-learning-based embeddings</strong></li>
-  <li>Density-based clustering for final bins</li>
-</ol>
-
-<p>🔗 Repo: https://github.com/BigDataBiology/SemiBin</p>
-
-<p>For complex and diverse soil data, this ML approach provides a huge improvement.</p>
-
-<p>I automated everything through <strong>Snakemake</strong> so the full workflow runs with one command.</p>
-
-<hr />
-
-<h2 id="-my-semibin2--snakemake-workflow-high-level">🔁 My SemiBin2 + Snakemake workflow (high-level)</h2>
-
-<h3 id="inputs"><strong>Inputs</strong></h3>
-
-<ul>
-  <li>Co-assembly: <code class="language-plaintext highlighter-rouge">final.contigs.fa</code></li>
-  <li>Paired-end reads: <code class="language-plaintext highlighter-rouge">sample_R1_nodup.fq</code>, <code class="language-plaintext highlighter-rouge">sample_R2_nodup.fq</code></li>
-</ul>
-
-<h3 id="workflow-steps"><strong>Workflow steps</strong></h3>
-
-<ol>
-  <li>Build <strong>Bowtie2 index</strong></li>
-  <li>Map each sample → <strong>sorted BAM</strong></li>
-  <li>Create <code class="language-plaintext highlighter-rouge">bam_list.txt</code></li>
-  <li>SemiBin2 <strong>generate features</strong></li>
-  <li>SemiBin2 <strong>train_self</strong> (machine-learning step)</li>
-  <li>SemiBin2 <strong>bin</strong> (produces bins)</li>
-  <li><strong>Unzip</strong> and convert <code class="language-plaintext highlighter-rouge">.fa.gz → .fa</code></li>
-  <li><strong>MetaWRAP refinement</strong></li>
-  <li><strong>dRep dereplication</strong></li>
-</ol>
-
-<p>All managed by Snakemake.</p>
-
-<hr />
-
-<h2 id="-running-the-workflow">🚀 Running the workflow</h2>
-
-<p>Once the Snakefile is created:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>snakemake <span class="nt">-j</span> 32
-</code></pre></div></div>
-
-<p>Snakemake will:</p>
-
-<ul>
-  <li>Detect required jobs</li>
-  <li>Build the DAG</li>
-  <li>Run everything in parallel</li>
-  <li>Restart only failed steps</li>
-  <li>Ensure reproducibility</li>
-</ul>
-
-<hr />
-
-<h2 id="-results-from-this-workflow">📈 Results from this workflow</h2>
-
-<h3 id="-semibin2-initial-output">⭐ <strong>SemiBin2 initial output</strong></h3>
-
-<p><strong>6,563 bins</strong> generated from the co-assembly.</p>
-
-<h3 id="-after-refinement--dereplication">⭐ <strong>After refinement + dereplication</strong></h3>
-
-<p>Using:</p>
-
-<ul>
-  <li>MetaWRAP bin refinement</li>
-  <li>dRep dereplication</li>
-  <li>≥ <strong>70% completeness</strong></li>
-  <li>≤ <strong>5% contamination</strong></li>
-</ul>
-
-<p>I recovered:</p>
-
-<p>🔥 <strong>~1,000 high-quality MAGs</strong></p>
-
-<p>A major improvement over the <strong>~500 bins from MetaBAT2</strong> alone.</p>
-
-<p>These high-quality MAGs will be used for:</p>
-
-<ul>
-  <li>Taxonomy</li>
-  <li>Functional annotation</li>
-  <li>CAZyme profiling</li>
-  <li>Energy metabolism markers</li>
-  <li>MG–MTX expression integration</li>
-  <li>Functional redundancy modeling (future post)</li>
-</ul>
-
-<hr />
-
-<h2 id="-wrap-up">🔚 Wrap-up</h2>
-
-<p>This combined SemiBin2 + Snakemake workflow gave me:</p>
-
-<ul>
-  <li>A reproducible, automated MAG recovery pipeline</li>
-  <li>Better binning in extremely complex soil metagenomes</li>
-  <li>A strong foundation for multi-omics integration</li>
-  <li>ML-powered binning without manual tuning</li>
-</ul>
-
-<hr />
-
-<h2 id="-full-workflow-on-github">💾 Full workflow on GitHub</h2>
-
-<p>I’ll maintain and update the full Snakemake pipeline here:</p>
-
-<p>👉 https://github.com/jojyjohn28/semibin2-soil-mag-workflow</p>]]></content><author><name></name></author><summary type="html"><![CDATA[How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.]]></summary></entry><entry><title type="html">My Journey into Microbiology, the Deep Sea, and Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics/" rel="alternate" type="text/html" title="My Journey into Microbiology, the Deep Sea, and Bioinformatics" /><published>2025-11-14T00:00:00-05:00</published><updated>2025-11-14T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics/"><![CDATA[<p>Hello and welcome!<br />
+</code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.]]></summary></entry><entry><title type="html">My Journey into Microbiology, the Deep Sea, and Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics/" rel="alternate" type="text/html" title="My Journey into Microbiology, the Deep Sea, and Bioinformatics" /><published>2025-11-14T00:00:00-05:00</published><updated>2025-11-14T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/my-journey-into-microbiology-and-bioinformatics/"><![CDATA[<p>Hello and welcome!<br />
 I’m <strong>Jojy John</strong> — a researcher, postdoctoral scholar, wife, and mother of two little ones.<br />
 This is the first post of my blog <strong>Daily Bioinformatics from Jojy’s Desk</strong>, where I share my daily work, learning, troubleshooting, and thoughts as a microbial ecologist and bioinformatician.</p>
 
