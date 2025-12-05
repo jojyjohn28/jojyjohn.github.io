@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)"
-date: 2025-11-17
+date: 2025-12-05
 description: "How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes."
 comments: true
 featured: true

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Installing & Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions & Persistence"
-date: 2025-11-19
+date: 2025-12-04
 description: "A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue."
 comments: true
 giscus_comments: true

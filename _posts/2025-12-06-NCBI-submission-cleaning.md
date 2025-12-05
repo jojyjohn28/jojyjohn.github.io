@@ -1,13 +1,15 @@
 ---
 layout: post
 title: "Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow"
-date: 2025-11-20
+date: 2025-12-05
 description: "Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission."
 comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/ncbi-submission-cleaning/
 ---
+
+> **Published: December 6, 2025**
 
 🧬 **Cleaning and Preparing Genomes for NCBI Submission**
 
