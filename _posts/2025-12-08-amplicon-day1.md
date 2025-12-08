@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcodingw"
+title: "Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcoding"
 date: 2025-12-08
 description: "Day 1 of Amplicon sequencing and analyis."
 comments: true
