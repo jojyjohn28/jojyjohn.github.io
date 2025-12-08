@@ -1,5 +1,193 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-05T16:20:13-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)</title><link href="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/" rel="alternate" type="text/html" title="Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)" /><published>2025-12-05T00:00:00-05:00</published><updated>2025-12-05T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/"><![CDATA[<p>Today’s post is about one of my favorite combinations right now:<br />
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-08T15:10:23-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcodingw</title><link href="https://jojyjohn28.github.io/blog/amplicon-day1/" rel="alternate" type="text/html" title="Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcodingw" /><published>2025-12-08T00:00:00-05:00</published><updated>2025-12-08T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day1</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day1/"><![CDATA[<p><strong>Welcome to Day 1 of my Amplicon Sequencing &amp; Metabarcoding Week (Dec 8–13)!</strong>
+Throughout this week, I will walk through complete, reproducible workflows for 16S, ITS, 18S, 12S, and COI — from PCR primers to QIIME2 processing, visualization, functional prediction, and web-based tools.</p>
+
+<hr />
+
+<h4 id="-what-is-amplicon-sequencing">🔬 What Is Amplicon Sequencing?</h4>
+
+<p>Amplicon sequencing targets specific marker genes using PCR primers designed to capture biodiversity within a taxonomic group.
+After sequencing, reads are filtered, denoised into ASVs (amplicon sequence variants) or OTUs, then assigned taxonomy.</p>
+
+<p>Different marker genes illuminate different biological groups:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>Marker Gene</strong></th>
+      <th><strong>Target Group</strong></th>
+      <th><strong>Typical Use Cases</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>16S rRNA</strong></td>
+      <td>Bacteria + Archaea</td>
+      <td>Soil, water, host-associated microbiomes</td>
+    </tr>
+    <tr>
+      <td><strong>ITS (ITS1/ITS2)</strong></td>
+      <td>Fungi</td>
+      <td>Soil fungome, rhizosphere, indoor fungi</td>
+    </tr>
+    <tr>
+      <td><strong>18S rRNA</strong></td>
+      <td>Eukaryotes</td>
+      <td>Protists, plankton, marine ecology</td>
+    </tr>
+    <tr>
+      <td><strong>12S rRNA</strong></td>
+      <td>Vertebrates</td>
+      <td>eDNA surveys, fish biodiversity</td>
+    </tr>
+    <tr>
+      <td><strong>COI</strong></td>
+      <td>Animals (Metazoa)</td>
+      <td>DNA barcoding, insects, zooplankton</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Each marker has unique primer sets, databases, taxonomic resolution, and best practices — which we will explore in the coming days.</p>
+
+<h4 id="-from-dna-extraction-to-sequencing-short-wet-lab-overview">🧪 From DNA Extraction to Sequencing (Short Wet-Lab Overview)</h4>
+
+<p>Although this series focuses on computational workflows, here is a quick overview of upstream steps:</p>
+
+<p><strong>DNA Extraction</strong></p>
+
+<p>● Soil: Qiagen DNeasy PowerSoil / MagAttract kits</p>
+
+<p>● Water: Sterivex filtration</p>
+
+<p>● Host: Tissue, swabs, fecal samples</p>
+
+<p><strong>PCR Amplification</strong></p>
+
+<p>● 16S: 515F–806R (V4), 341F–805R (V3–V4), 27F–1492R (full-length)</p>
+
+<p>● ITS: ITS1F–ITS2, ITS3–ITS4</p>
+
+<p>● 18S: TAReuk454FWD1 / REV3 (Stoeck et al., 2010)</p>
+
+<p>● 12S: MiFish primers (Miya et al., 2015)</p>
+
+<p>● COI: mlCOIintF / jgHCO2198 (Leray et al., 2013)</p>
+
+<p><strong>Sequencing</strong></p>
+
+<p>● Illumina MiSeq or NovaSeq</p>
+
+<p>● Typical read lengths: 2 × 250 bp or 2 × 150 bp</p>
+
+<p><strong>Downstream Computational Workflow</strong></p>
+
+<p>Denoising → Taxonomy → Filtering → Diversity → Functional Inference</p>
+
+<h4 id="-deep-dive-16s-rrna-bacteria--archaea">🔍 Deep Dive: 16S rRNA (Bacteria &amp; Archaea)</h4>
+
+<p>16S contains conserved regions (primer binding) and hypervariable regions (V1–V9) which enable:</p>
+
+<p>● Taxonomic profiling</p>
+
+<p>● Community comparison</p>
+
+<p>● Alpha/beta diversity analysis</p>
+
+<p>● Environmental gradient interpretation</p>
+
+<p>Because of its universality and broad databases (SILVA, Greengenes, GTDB), 16S is the backbone of microbial ecology, especially in soil and aquatic systems.</p>
+
+<h4 id="-its-the-fungal-marker">🍄 ITS: The Fungal Marker</h4>
+
+<p>ITS evolves rapidly and provides species-level resolution for fungi.</p>
+
+<p>● Common primers: ITS1F–ITS2, ITS3–ITS4</p>
+
+<p>● Database: UNITE</p>
+
+<p>ITS is essential for soil ecology, plant–microbe interactions, and indoor fungal surveys.</p>
+
+<h4 id="-18s-rrna-for-microeukaryotes">🧬 18S rRNA for Microeukaryotes</h4>
+
+<p>18S captures a diverse range of eukaryotic lineages including:</p>
+
+<p>● Protists</p>
+
+<p>● Metazoa</p>
+
+<p>● Databases: PR2, SILVA</p>
+
+<p>This is the region I worked extensively on during my deep-sea project.
+(Ramadoss, D., Ammanabrolu, B. S., Acharya, A., <strong>John, J</strong>., &amp; Ingole, B. (2025). Deep-sea Life associated with sediments and polymetallic nodules from the Central Indian Ocean Basin: Insights from 18S metabarcoding. Deep Sea Research Part II: Topical Studies in Oceanography, 105487.)</p>
+
+<h4 id="-12s-rrna-for-vertebrate-edna">🐟 12S rRNA for Vertebrate eDNA</h4>
+
+<p>Used in environmental DNA (eDNA) surveys to detect:</p>
+
+<p>● Fish</p>
+
+<p>● Amphibians</p>
+
+<p>● Marine mammals</p>
+
+<p>● Primers: MiFish
+● Databases: MitoFish, BOLD</p>
+
+<h4 id="-coi-the-universal-barcode-gene">🐛 COI: The Universal Barcode Gene</h4>
+
+<p>COI provides excellent species-level resolution for animals and invertebrates.</p>
+
+<p>● Primers: Leray et al. (2013)</p>
+
+<p>● Databases: BOLD, MIDORI</p>
+
+<p>COI is widely used in biodiversity studies, gut content metabarcoding, and soil invertebrate ecology.</p>
+
+<h4 id="-popular-tools-for-amplicon-data-analysis">🛠 Popular Tools for Amplicon Data Analysis</h4>
+
+<p>1️⃣ QIIME2 (Recommended)</p>
+
+<p>● DADA2/Deblur for denoising</p>
+
+<p>● Taxonomic classification</p>
+
+<p>● Diversity analyses</p>
+
+<p>● High-quality visualizations</p>
+
+<p>2️⃣ DADA2 (R package)</p>
+
+<p>● Precise ASV inference</p>
+
+<p>● Seamless integration with phyloseq</p>
+
+<p>3️⃣ Mothur</p>
+
+<p>● classic pipeline following MiSeq SOP</p>
+
+<p>4️⃣ Microeco (R)</p>
+
+<p>Visualization and ecological analysis</p>
+
+<p>5️⃣ Web-Based Tools</p>
+
+<p>● MicrobiomeAnalyst</p>
+
+<p>● EZBioCloud</p>
+
+<p>● Shiny-16S</p>
+
+<h4 id="installation">Installation</h4>
+
+<p>For more details about installation of tools I am going to use in coming days; please visit my github project:
+https://github.com/jojyjohn28/AmpliconWeek_2025</p>
+
+<p><strong>Stay tuned for Day 2 (Dec 9): QIIME2 Setup, Databases &amp; Classifier Training</strong></p>
+
+<p>We will walk through importing data, visualizing reads, training classifiers for each marker gene, and denoising with DADA2.</p>
+
+<p><img src="/assets/img/amplicon.png" alt="amplicon_day1" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of Amplicon sequencing and analyis.]]></summary></entry><entry><title type="html">Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)</title><link href="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/" rel="alternate" type="text/html" title="Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)" /><published>2025-12-05T00:00:00-05:00</published><updated>2025-12-05T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/"><![CDATA[<p>Today’s post is about one of my favorite combinations right now:<br />
 <strong>machine-learning–guided binning with SemiBin2</strong> + <strong>a fully automated Snakemake workflow</strong> for recovering MAGs from <strong>highly complex soil metagenomes</strong>.</p>
 
 <p>This is part of my broader goal of <strong>machine-learning–guided multi-omics analysis</strong>.</p>

@@ -17,12 +17,12 @@
   
   
     
-      DARPA_ECOCOAT | Jojy John
+      Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcodingw | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="Screening of genomes, isolates, metagenome for biofilm production, and EPS production for generating a synthetic community of biofilm producers.">
+<meta name="description" content="Day 1 of Amplicon sequencing and analyis.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/projects/DARPA/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/amplicon-day1/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -158,9 +158,11 @@
             
               
                 
-                <li class="nav-item ">
+                <li class="nav-item active">
                   
                   <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -170,11 +172,9 @@
             
               
                 
-                <li class="nav-item active">
+                <li class="nav-item ">
                   
                   <a class="nav-link" href="/projects/">Projects
-                    
-                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -276,50 +276,243 @@
       
         
 
+
+
+
+
+
+
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">DARPA_ECOCOAT</h1>
-    <p class="post-description">Screening of genomes, isolates, metagenome for biofilm production, and EPS production for generating a synthetic community of biofilm producers.</p>
+    <h1 class="post-title">Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcodingw</h1>
+    <p class="post-meta">
+      Created in December 08, 2025
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
+      
+
+      
+
+      
+    </p>
   </header>
 
-  <article>
-    <h2 id="background">Background</h2>
+  <article class="post-content">
+    <div id="markdown-content">
+      <p><strong>Welcome to Day 1 of my Amplicon Sequencing &amp; Metabarcoding Week (Dec 8–13)!</strong>
+Throughout this week, I will walk through complete, reproducible workflows for 16S, ITS, 18S, 12S, and COI — from PCR primers to QIIME2 processing, visualization, functional prediction, and web-based tools.</p>
 
-<p>Biofouling is the process in which microorganisms and multicellular organisms adhere to a submerged surface and negatively impact the performance of a marine vessel by increasing drag. This drag penalty causes broad issues in aquatic vessels, including battery-powered Unmanned Underwater Vehicles (UUV).
-Our solution is to create a smooth, invasion-resistant, and stable synthetic community of microbes [Eco-Coating] found naturally in the environment to prevent harmful biofouling.</p>
+<hr>
 
-<p>This is interdisciplinary multinational project and I am handling the following parts of the study along with others:</p>
+<h4 id="-what-is-amplicon-sequencing">🔬 What Is Amplicon Sequencing?</h4>
 
-<ol>
-  <li>
-    <p>Bioinformtic analysis of metagenomes biofilm formed on body and tail of underwater UUV and their taxonomy, biofilm related genes and EPS related genes.</p>
-  </li>
-  <li>
-    <p>Whole genome analysis of isolates of interest of this study and screening of them for antagonistic activity, biofilm production, EPS related genes and so on</p>
-  </li>
-  <li>
-    <p>Hybrid assembly of the isoaltes (&gt;100) and thier screening.</p>
-  </li>
-</ol>
+<p>Amplicon sequencing targets specific marker genes using PCR primers designed to capture biodiversity within a taxonomic group.
+After sequencing, reads are filtered, denoised into ASVs (amplicon sequence variants) or OTUs, then assigned taxonomy.</p>
 
-<h2 id="abstracts">Abstracts</h2>
+<p>Different marker genes illuminate different biological groups:</p>
 
-<p>Sophia Rudolph, Jojy John, and Barbara J. Campbel;2025; Genomic Insights into antibiotic production and antibiotic resistance in environmental bacteria, Regional ASM meeting, South Carolina</p>
+<table>
+  <thead>
+    <tr>
+      <th><strong>Marker Gene</strong></th>
+      <th><strong>Target Group</strong></th>
+      <th><strong>Typical Use Cases</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>16S rRNA</strong></td>
+      <td>Bacteria + Archaea</td>
+      <td>Soil, water, host-associated microbiomes</td>
+    </tr>
+    <tr>
+      <td><strong>ITS (ITS1/ITS2)</strong></td>
+      <td>Fungi</td>
+      <td>Soil fungome, rhizosphere, indoor fungi</td>
+    </tr>
+    <tr>
+      <td><strong>18S rRNA</strong></td>
+      <td>Eukaryotes</td>
+      <td>Protists, plankton, marine ecology</td>
+    </tr>
+    <tr>
+      <td><strong>12S rRNA</strong></td>
+      <td>Vertebrates</td>
+      <td>eDNA surveys, fish biodiversity</td>
+    </tr>
+    <tr>
+      <td><strong>COI</strong></td>
+      <td>Animals (Metazoa)</td>
+      <td>DNA barcoding, insects, zooplankton</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>Jojy John, David Karig, Barbara J. Campbell;2024,Microbial biofouling interactions on Autonomous Navy Gliders: Insights from Metagenome Analysis, DARPA meeting</p>
+<p>Each marker has unique primer sets, databases, taxonomic resolution, and best practices — which we will explore in the coming days.</p>
 
-<p>Justin Leonhardt, Mir A. Ahmed, Muhammad Suleman, Muhammad Nawaz, Jojy John, Diptee Chaulagain, Bristi Paul, Emma Harrington, Gabrielle Mccarthy, Narges Sadat Shamabadi, David Karig, Barbara J Campbell; 2024, Isolation and Identification of Marine Bacteria to Enhance Antifouling Strategies in Unmanned Underwater Vehicles via a Biofilm Engineering Approach; ASM, Atlanta.</p>
+<h4 id="-from-dna-extraction-to-sequencing-short-wet-lab-overview">🧪 From DNA Extraction to Sequencing (Short Wet-Lab Overview)</h4>
 
-<p>Bristi Paul, Diptee Chaulagain, Reece Fratus, Andrew Derasmo, Muhammad Suleman, Muhammad Nawaz, Jojy John, Zeyu Tang, Adam Hoove3, Barbara J Campbell, David Karig ;2024; Optimizing a Stable and Smooth Biofilm-Forming Bacterial Community to Reduce Drag on Unmanned Underwater Vehicles (UUVs) ;ICME.</p>
+<p>Although this series focuses on computational workflows, here is a quick overview of upstream steps:</p>
 
+<p><strong>DNA Extraction</strong></p>
+
+<p>● Soil: Qiagen DNeasy PowerSoil / MagAttract kits</p>
+
+<p>● Water: Sterivex filtration</p>
+
+<p>● Host: Tissue, swabs, fecal samples</p>
+
+<p><strong>PCR Amplification</strong></p>
+
+<p>● 16S: 515F–806R (V4), 341F–805R (V3–V4), 27F–1492R (full-length)</p>
+
+<p>● ITS: ITS1F–ITS2, ITS3–ITS4</p>
+
+<p>● 18S: TAReuk454FWD1 / REV3 (Stoeck et al., 2010)</p>
+
+<p>● 12S: MiFish primers (Miya et al., 2015)</p>
+
+<p>● COI: mlCOIintF / jgHCO2198 (Leray et al., 2013)</p>
+
+<p><strong>Sequencing</strong></p>
+
+<p>● Illumina MiSeq or NovaSeq</p>
+
+<p>● Typical read lengths: 2 × 250 bp or 2 × 150 bp</p>
+
+<p><strong>Downstream Computational Workflow</strong></p>
+
+<p>Denoising → Taxonomy → Filtering → Diversity → Functional Inference</p>
+
+<h4 id="-deep-dive-16s-rrna-bacteria--archaea">🔍 Deep Dive: 16S rRNA (Bacteria &amp; Archaea)</h4>
+
+<p>16S contains conserved regions (primer binding) and hypervariable regions (V1–V9) which enable:</p>
+
+<p>● Taxonomic profiling</p>
+
+<p>● Community comparison</p>
+
+<p>● Alpha/beta diversity analysis</p>
+
+<p>● Environmental gradient interpretation</p>
+
+<p>Because of its universality and broad databases (SILVA, Greengenes, GTDB), 16S is the backbone of microbial ecology, especially in soil and aquatic systems.</p>
+
+<h4 id="-its-the-fungal-marker">🍄 ITS: The Fungal Marker</h4>
+
+<p>ITS evolves rapidly and provides species-level resolution for fungi.</p>
+
+<p>● Common primers: ITS1F–ITS2, ITS3–ITS4</p>
+
+<p>● Database: UNITE</p>
+
+<p>ITS is essential for soil ecology, plant–microbe interactions, and indoor fungal surveys.</p>
+
+<h4 id="-18s-rrna-for-microeukaryotes">🧬 18S rRNA for Microeukaryotes</h4>
+
+<p>18S captures a diverse range of eukaryotic lineages including:</p>
+
+<p>● Protists</p>
+
+<p>● Metazoa</p>
+
+<p>● Databases: PR2, SILVA</p>
+
+<p>This is the region I worked extensively on during my deep-sea project.
+(Ramadoss, D., Ammanabrolu, B. S., Acharya, A., <strong>John, J</strong>., &amp; Ingole, B. (2025). Deep-sea Life associated with sediments and polymetallic nodules from the Central Indian Ocean Basin: Insights from 18S metabarcoding. Deep Sea Research Part II: Topical Studies in Oceanography, 105487.)</p>
+
+<h4 id="-12s-rrna-for-vertebrate-edna">🐟 12S rRNA for Vertebrate eDNA</h4>
+
+<p>Used in environmental DNA (eDNA) surveys to detect:</p>
+
+<p>● Fish</p>
+
+<p>● Amphibians</p>
+
+<p>● Marine mammals</p>
+
+<p>● Primers: MiFish
+● Databases: MitoFish, BOLD</p>
+
+<h4 id="-coi-the-universal-barcode-gene">🐛 COI: The Universal Barcode Gene</h4>
+
+<p>COI provides excellent species-level resolution for animals and invertebrates.</p>
+
+<p>● Primers: Leray et al. (2013)</p>
+
+<p>● Databases: BOLD, MIDORI</p>
+
+<p>COI is widely used in biodiversity studies, gut content metabarcoding, and soil invertebrate ecology.</p>
+
+<h4 id="-popular-tools-for-amplicon-data-analysis">🛠 Popular Tools for Amplicon Data Analysis</h4>
+
+<p>1️⃣ QIIME2 (Recommended)</p>
+
+<p>● DADA2/Deblur for denoising</p>
+
+<p>● Taxonomic classification</p>
+
+<p>● Diversity analyses</p>
+
+<p>● High-quality visualizations</p>
+
+<p>2️⃣ DADA2 (R package)</p>
+
+<p>● Precise ASV inference</p>
+
+<p>● Seamless integration with phyloseq</p>
+
+<p>3️⃣ Mothur</p>
+
+<p>● classic pipeline following MiSeq SOP</p>
+
+<p>4️⃣ Microeco (R)</p>
+
+<p>Visualization and ecological analysis</p>
+
+<p>5️⃣ Web-Based Tools</p>
+
+<p>● MicrobiomeAnalyst</p>
+
+<p>● EZBioCloud</p>
+
+<p>● Shiny-16S</p>
+
+<h4 id="installation">Installation</h4>
+
+<p>For more details about installation of tools I am going to use in coming days; please visit my github project:
+https://github.com/jojyjohn28/AmpliconWeek_2025</p>
+
+<p><strong>Stay tuned for Day 2 (Dec 9): QIIME2 Setup, Databases &amp; Classifier Training</strong></p>
+
+<p>We will walk through importing data, visualizing reads, training classifiers for each marker gene, and denoising with DADA2.</p>
+
+<p><img src="/assets/img/amplicon.png" alt="amplicon_day1"></p>
+
+    </div>
   </article>
 
   
-    <h2>References</h2>
-    <div class="publications">
-      
-    </div>
+
   
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
 
   
 </div>
