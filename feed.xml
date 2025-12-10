@@ -1,5 +1,278 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-08T17:49:11-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcoding</title><link href="https://jojyjohn28.github.io/blog/amplicon-day1/" rel="alternate" type="text/html" title="Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcoding" /><published>2025-12-08T00:00:00-05:00</published><updated>2025-12-08T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day1</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day1/"><![CDATA[<p><strong>Welcome to Day 1 of my Amplicon Sequencing &amp; Metabarcoding Week (Dec 8–13)!</strong>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-10T15:53:48-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Amplicon Week — Day 3: Visualization &amp;amp; Ecological Analysis Using QIIME2 + Microeco (R)</title><link href="https://jojyjohn28.github.io/blog/amplicon-day3/" rel="alternate" type="text/html" title="Amplicon Week — Day 3: Visualization &amp;amp; Ecological Analysis Using QIIME2 + Microeco (R)" /><published>2025-12-10T00:00:00-05:00</published><updated>2025-12-10T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day3</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day3/"><![CDATA[<h3 id="-amplicon-week--day-3">🌱 Amplicon Week — Day 3</h3>
+
+<p>Visualization &amp; Ecological Analysis Using QIIME2 + Microeco (R)</p>
+
+<p>After completing the QIIME2 core analysis (Day 2), today we move into the visualization and ecological interpretation phase using Microeco, one of the most flexible and modern R packages for microbial community data mining.</p>
+
+<p>This workflow works for 16S, ITS, 18S, 12S, and COI — as long as you export your ASV table, taxonomy, tree, and metadata from QIIME2.</p>
+
+<p><strong>📦 What is Microeco?</strong></p>
+
+<p>Microeco is an R package designed for modular, flexible, comprehensive microbial ecological analysis using an R6 object-based framework.</p>
+
+<p>⭐ Key features:</p>
+
+<p>Creation of a unified microtable object</p>
+
+<p>● Data cleaning &amp; normalization</p>
+
+<p>● Taxonomic visualization (barplots, heatmaps, composition)</p>
+
+<p>● Venn diagrams</p>
+
+<p>● Alpha &amp; Beta diversity</p>
+
+<p>● Differential abundance testing</p>
+
+<p>● Co-occurrence network analysis</p>
+
+<p>● Environmental data integration</p>
+
+<p>● Supports multiple platforms: QIIME2, QIIME, HUMAnN, Kraken2, Phyloseq, MetaPhlAn, etc.</p>
+
+<p><strong>Microeco essentially brings the entire downstream microbial ecology workflow into one consistent R environment.</strong></p>
+
+<h4 id="-1-creating-a-microeco-microtable-object-from-qiime2-outputs">🧩 1. Creating a Microeco microtable object from QIIME2 outputs</h4>
+
+<p>Microeco expects the following input files:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>Source</th>
+      <th>Format</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ASV table</td>
+      <td>QIIME2 table.tsv</td>
+      <td>ASV × samples</td>
+    </tr>
+    <tr>
+      <td>Taxonomy table</td>
+      <td>taxonomy.tsv</td>
+      <td>ASV taxonomy</td>
+    </tr>
+    <tr>
+      <td>Representative sequences</td>
+      <td>(optional)</td>
+      <td>FASTA</td>
+    </tr>
+    <tr>
+      <td>Phylogenetic tree</td>
+      <td>rooted-tree.nwk</td>
+      <td>Newick</td>
+    </tr>
+    <tr>
+      <td>Sample metadata</td>
+      <td>user-provided</td>
+      <td>TSV</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>After exporting in Day 2, you will have:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>feature-table.tsv
+taxonomy.tsv
+tree.nwk
+metadata.tsv
+</code></pre></div></div>
+
+<p><strong>A. Option 1 — Using file2meco (recommended)</strong></p>
+
+<p>Microeco provides a companion package file2meco to directly read QIIME2 files into microtable.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">install.packages</span><span class="p">(</span><span class="s2">"microeco"</span><span class="p">)</span><span class="w">
+</span><span class="n">devtools</span><span class="o">::</span><span class="n">install_github</span><span class="p">(</span><span class="s2">"ChiLiubio/file2meco"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">library</span><span class="p">(</span><span class="n">file2meco</span><span class="p">)</span><span class="w">
+
+</span><span class="n">mt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">file2meco</span><span class="o">::</span><span class="n">qiime2_to_meco</span><span class="p">(</span><span class="w">
+  </span><span class="n">feature_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"feature-table.tsv"</span><span class="p">,</span><span class="w">
+  </span><span class="n">taxonomy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"taxonomy.tsv"</span><span class="p">,</span><span class="w">
+  </span><span class="n">tree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"tree.nwk"</span><span class="p">,</span><span class="w">
+  </span><span class="n">metadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"metadata.tsv"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This automatically:</p>
+
+<p>● Cleans taxonomy</p>
+
+<p>● Aligns sample names</p>
+
+<p>● Creates the microtable object</p>
+
+<p><strong>B. Option 2 — Manual creation (phyloseq-style)</strong></p>
+
+<p>If you want full control:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">microeco</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="n">otu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"feature-table.tsv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">)</span><span class="w">
+</span><span class="n">tax</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"taxonomy.tsv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">)</span><span class="w">
+</span><span class="n">meta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"metadata.tsv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">)</span><span class="w">
+</span><span class="n">tree</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ape</span><span class="o">::</span><span class="n">read.tree</span><span class="p">(</span><span class="s2">"tree.nwk"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Clean taxonomy (important!)</span><span class="w">
+</span><span class="n">tax</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tidy_taxonomy</span><span class="p">(</span><span class="n">tax</span><span class="p">)</span><span class="w">
+
+</span><span class="n">mt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">microtable</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="w">
+  </span><span class="n">otu_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">otu</span><span class="p">,</span><span class="w">
+  </span><span class="n">tax_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tax</span><span class="p">,</span><span class="w">
+  </span><span class="n">sample_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">meta</span><span class="p">,</span><span class="w">
+  </span><span class="n">phylo_tree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tree</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">mt</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="-2-taxonomic-composition-analysis-barplots">🌈 2. Taxonomic Composition Analysis (Barplots)</h4>
+
+<p>Visualizing relative abundance across samples or groups.
+Create object:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_abund</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mt</span><span class="p">,</span><span class="w"> </span><span class="n">taxrank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Phylum"</span><span class="p">,</span><span class="w"> </span><span class="n">ntaxa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Plot:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t1</span><span class="o">$</span><span class="n">plot_bar</span><span class="p">(</span><span class="w">
+  </span><span class="n">others_color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey70"</span><span class="p">,</span><span class="w">
+  </span><span class="n">facet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Group"</span><span class="p">,</span><span class="w">
+  </span><span class="n">xtext_keep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+  </span><span class="n">legend_text_italic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>✔ Shows top abundant phyla
+✔ Automatically groups the rest as “Others”
+✔ Facets by metadata (e.g., treatment, season, habitat)
+✔ Can create same for top families, genus or species.</p>
+
+<h4 id="-3-venn-diagram-shared-asvsotus">🟣 3. Venn Diagram (Shared ASVs/OTUs)</h4>
+
+<p>Useful for comparing core taxa across groups.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">v1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_venn</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mt</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Group"</span><span class="p">)</span><span class="w">
+</span><span class="n">v1</span><span class="o">$</span><span class="n">plot_venn</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="-4-diversity-analysis">📏 4 Diversity analysis</h4>
+
+<h5 id="41-microeco-makes-this-very-simple">4.1 Microeco makes this very simple:</h5>
+
+<p>Microeco makes this very simple:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">adiv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_alpha</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mt</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Group"</span><span class="p">)</span><span class="w">
+</span><span class="n">adiv</span><span class="o">$</span><span class="n">plot_alpha</span><span class="p">(</span><span class="n">boxplot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>or individual metrics:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">adiv</span><span class="o">$</span><span class="n">plot_metric</span><span class="p">(</span><span class="s2">"Shannon"</span><span class="p">)</span><span class="w">
+</span><span class="n">adiv</span><span class="o">$</span><span class="n">plot_metric</span><span class="p">(</span><span class="s2">"Chao1"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>can be modified to include the ststistical analysis.</p>
+
+<h5 id="42-beta-diversity-pcoa--nmds">4.2 Beta Diversity (PCoA / NMDS)</h5>
+
+<p>Bray–Curtis PCoA:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bdiv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_beta</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mt</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Group"</span><span class="p">,</span><span class="w"> </span><span class="n">distmethod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">)</span><span class="w">
+</span><span class="n">bdiv</span><span class="o">$</span><span class="n">plot_ordination</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PCoA"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>NMDS example:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bdiv</span><span class="o">$</span><span class="n">plot_ordination</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NMDS"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Clustering patterns often reveal:</strong></p>
+
+<p>● treatment effects</p>
+
+<p>● environmental gradients</p>
+
+<p>● size fraction differences</p>
+
+<p>● seasonal signatures</p>
+
+<p>For incorporating ststistical analysis for diversity; please refer diversity_statistics.R in day3 of github project.</p>
+
+<p>✅ WHAT THIS SCRIPT PRODUCES</p>
+
+<p><strong>Alpha diversity</strong></p>
+
+<p>● alpha_KruskalWallis_results.csv</p>
+
+<p>● alpha_Wilcoxon_results.csv</p>
+
+<p>● alpha_ANOVA_results.csv</p>
+
+<p><strong>Beta diversity</strong></p>
+
+<p>● beta_PERMANOVA_BrayCurtis.csv</p>
+
+<p>● beta_Betadisper_BrayCurtis.csv</p>
+
+<p>● Complete results object</p>
+
+<p>● diversity_statistics.RData</p>
+
+<h4 id="-5-differential-abundance">📊 5. Differential Abundance</h4>
+
+<p>Microeco can run LEfSe-style analysis internally.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_diff</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mt</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Group"</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lefse"</span><span class="p">)</span><span class="w">
+</span><span class="n">lf</span><span class="o">$</span><span class="n">plot_diff_bar</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This identifies biomarkers at different taxonomic levels.</p>
+
+<h4 id="-microeco-can-do-even-more">🔭 Microeco Can Do Even More</h4>
+
+<p>In this post, I focused on the core ecological analyses:
+composition, diversity, differential abundance, and basic networks.
+But Microeco can do much more, including:</p>
+
+<p>● RDA / CCA and other ordination methods integrating environmental variables</p>
+
+<p>● Correlation-based analyses (taxa–taxa, taxa–environment)</p>
+
+<p>● WGCNA-style module detection and co-occurrence structure</p>
+
+<p>● Functional prediction workflows and downstream visualization</p>
+
+<p><strong>For a deeper dive into these advanced features, I highly recommend the official tutorial:</strong>
+👉 https://chiliubio.github.io/microeco_tutorial/</p>
+
+<p>Keep in mind that many of these analyses are also possible directly in QIIME2.
+For more details on QIIME2-based visualizations and diversity analyses, see:</p>
+
+<p><strong>👉 qiime2_visualization.md in the Day 3 folder of the GitHub project</strong>
+https://github.com/jojyjohn28/AmpliconWeek_2025</p>
+
+<p><strong>If you are interested in trying Microeco, I’ve included all the required base files in my repository, along with a fully running R script. You can find:</strong>
+feature-table.tsv
+taxonomy.tsv
+tree.nwk
+metadata.txt
+and Dec10_microeco.R</p>
+
+<p>These files allow you to reproduce the entire workflow exactly as shown.</p>
+
+<p>Today’s image features visualizations I created myself using Microeco.</p>
+
+<p>Thank you to the Campbell Lab’s graduate student seminar series — especially Dinu and Nichole — for the presentation on Microeco</p>
+
+<p><img src="/assets/img/mc.png" alt="microeco" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 3 of Amplicon sequencing and analyis.]]></summary></entry><entry><title type="html">Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcoding</title><link href="https://jojyjohn28.github.io/blog/amplicon-day1/" rel="alternate" type="text/html" title="Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcoding" /><published>2025-12-08T00:00:00-05:00</published><updated>2025-12-08T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day1</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day1/"><![CDATA[<p><strong>Welcome to Day 1 of my Amplicon Sequencing &amp; Metabarcoding Week (Dec 8–13)!</strong>
 Throughout this week, I will walk through complete, reproducible workflows for 16S, ITS, 18S, 12S, and COI — from PCR primers to QIIME2 processing, visualization, functional prediction, and web-based tools.</p>
 
 <hr />
@@ -1773,143 +2046,4 @@ Output file: core_pan_gene_counts_per_genome.tsv
 
 <p>For more details on PanX visit :https://pangenome.org/</p>
 
-<p><img src="/assets/img/panx_analysis.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.]]></summary></entry><entry><title type="html">Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity</title><link href="https://jojyjohn28.github.io/blog/reworking-a-figure-manuscript-revision-story/" rel="alternate" type="text/html" title="Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity" /><published>2025-11-18T00:00:00-05:00</published><updated>2025-11-18T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Reworking%20a%20figure_Manuscript_Revison_Story</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/reworking-a-figure-manuscript-revision-story/"><![CDATA[<p>Today I worked on the <strong>final revision of one of the main figures</strong> (Figure 5) in my manuscript on microbial functional redundancy (FRed).<br />
-The goal was to create a <strong>clean, publication-quality visualization</strong> comparing:</p>
-
-<ul>
-  <li><strong>Potential vs. Expressed FRed (R*)</strong></li>
-  <li>Across <strong>Chesapeake vs Delaware Bay</strong></li>
-  <li>Separated by <strong>Spring vs Summer</strong></li>
-  <li>Points colored by <strong>salinity (Low / Medium / High)</strong></li>
-  <li>Boxplots grouped by <strong>Bay</strong></li>
-  <li>And significance letters (<strong>a, b, c</strong>) added manually</li>
-</ul>
-
-<hr />
-
-<h2 id="-step-1--data-cleaning--long-format-setup">🔧 Step 1 — Data Cleaning &amp; Long Format Setup</h2>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"pot_Fred_and_exp_Fred.xlsx"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">df2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">rename</span><span class="p">(</span><span class="w">
-    </span><span class="n">Bay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bays</span><span class="p">,</span><span class="w">
-    </span><span class="n">Potential</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">potential</span><span class="p">,</span><span class="w">
-    </span><span class="n">Expressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Expressed</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Expressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">Expressed</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">Expressed</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="w">
-    </span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Potential"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Expressed"</span><span class="p">),</span><span class="w">
-    </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Type"</span><span class="p">,</span><span class="w">
-    </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"FRed"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-    </span><span class="n">Type</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">Type</span><span class="p">,</span><span class="w">   </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Potential"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Expressed"</span><span class="p">)),</span><span class="w">
-    </span><span class="n">Season</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">Season</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Summer"</span><span class="p">)),</span><span class="w">
-    </span><span class="n">Bay</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">Bay</span><span class="p">,</span><span class="w">    </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Chesapeake"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Delaware"</span><span class="p">))</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h2 id="-step-2--final-figure-boxplots--salinity-colors--significance-letters">🔧 Step 2 — Final Figure (Boxplots + Salinity Colors + Significance Letters)</h2>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pd</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">position_dodge</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w">
-
-</span><span class="n">sig_letters</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
-  </span><span class="n">Season</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="p">,</span><span class="s2">"Spring"</span><span class="p">,</span><span class="s2">"Summer"</span><span class="p">,</span><span class="s2">"Summer"</span><span class="p">),</span><span class="w">
-                  </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="p">,</span><span class="s2">"Summer"</span><span class="p">)),</span><span class="w">
-  </span><span class="n">Type</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Potential"</span><span class="p">,</span><span class="s2">"Expressed"</span><span class="p">,</span><span class="s2">"Potential"</span><span class="p">,</span><span class="s2">"Expressed"</span><span class="p">),</span><span class="w">
-                  </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Potential"</span><span class="p">,</span><span class="s2">"Expressed"</span><span class="p">)),</span><span class="w">
-  </span><span class="n">label</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"c"</span><span class="p">,</span><span class="s2">"b"</span><span class="p">,</span><span class="s2">"c"</span><span class="p">),</span><span class="w">
-  </span><span class="n">y_pos</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1.02</span><span class="p">,</span><span class="m">1.02</span><span class="p">,</span><span class="m">1.02</span><span class="p">,</span><span class="m">1.02</span><span class="p">)</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Type</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FRed</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bay</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="w">
-    </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.55</span><span class="p">,</span><span class="w">
-    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w">
-    </span><span class="n">outlier.shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="w">
-    </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pd</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="w">
-    </span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Salinity</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bay</span><span class="p">),</span><span class="w">
-    </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w">
-    </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w">
-    </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">,</span><span class="w">
-    </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_jitterdodge</span><span class="p">(</span><span class="w">
-      </span><span class="n">jitter.width</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="m">0.10</span><span class="p">,</span><span class="w">
-      </span><span class="n">jitter.height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">
-      </span><span class="n">dodge.width</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_text</span><span class="p">(</span><span class="w">
-    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sig_letters</span><span class="p">,</span><span class="w">
-    </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Type</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y_pos</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label</span><span class="p">),</span><span class="w">
-    </span><span class="n">inherit.aes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
-    </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
-    </span><span class="n">fontface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
-    </span><span class="s2">"Chesapeake"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#f3c892"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Delaware"</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"#7ba7ff"</span><span class="w">
-  </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="w">
-    </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"High"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Medium"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Low"</span><span class="p">),</span><span class="w">
-    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
-      </span><span class="s2">"High"</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"#2ca02c"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"Medium"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"purple4"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"Low"</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">Season</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">coord_cartesian</span><span class="p">(</span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="m">1.05</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Functional Redundancy (R*)"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">
-    </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">strip.text</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">18</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
-    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
-    </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">legend.text</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">guides</span><span class="p">(</span><span class="w">
-    </span><span class="n">fill</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">guide_legend</span><span class="p">(</span><span class="n">override.aes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">),</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w">
-    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">guide_legend</span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h2 id="-step-3--final-touches-in-adobe-illustrator">🎨 Step 3 — Final Touches in Adobe Illustrator</h2>
-
-<p>After saving as an SVG, I edited:</p>
-
-<ul>
-  <li>Font sizes</li>
-  <li>Gridlines</li>
-  <li>Box spacing</li>
-  <li>Alignment</li>
-  <li>Exported at <strong>300 dpi</strong></li>
-</ul>
-
-<hr />
-
-<h2 id="-summary">📌 Summary</h2>
-
-<p>This workflow produced a clean, publication-ready figure:</p>
-
-<ul>
-  <li>Chesapeake vs Delaware</li>
-  <li>Seasonal contrast</li>
-  <li>Salinity structure</li>
-  <li>Potential vs expressed redundancy</li>
-  <li>Added significance letters (a, b, c)</li>
-</ul>
-
-<hr />
-
-<p><img src="/assets/img/figure5.png" alt="Figure 5 Final" /></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-</code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.]]></summary></entry></feed>
+<p><img src="/assets/img/panx_analysis.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.]]></summary></entry></feed>
