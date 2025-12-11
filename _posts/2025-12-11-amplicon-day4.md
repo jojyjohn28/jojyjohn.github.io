@@ -13,6 +13,12 @@ permalink: /blog/amplicon-day4/
 
 #### Functional Prediction from Amplicon Data
 
+➡️ This tutorial focuses on **16S rRNA,** the most commonly used marker for functional prediction.
+➡️ **PICRUSt2 can predict functions from 16S, 18S, and ITS,** but not from **COI or 12S\* (because they do not reflect microbial metabolic functions).
+➡️ **Tax4Fun2 and FAPROTAX** are specifically designed for **bacterial/archaeal\*\* 16S and cannot be applied to COI, 12S, or 18S.
+
+So yes—many amplicon datasets can be used for functional inference, but the tool depends on the marker gene.
+
 **PICRUSt2 • Tax4Fun2 • FAPROTAX**
 
 Amplicon sequencing reveals who is present — but often we also want to know:
