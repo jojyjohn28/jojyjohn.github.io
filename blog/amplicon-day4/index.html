@@ -17,12 +17,12 @@
   
   
     
-      Collaboration | Jojy John
+      Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX) | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="Active Collaborations">
+<meta name="description" content="Day 4 of Amplicon sequencing and analyis.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/projects/collaboration/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/amplicon-day4/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -158,9 +158,11 @@
             
               
                 
-                <li class="nav-item ">
+                <li class="nav-item active">
                   
                   <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -170,11 +172,9 @@
             
               
                 
-                <li class="nav-item active">
+                <li class="nav-item ">
                   
                   <a class="nav-link" href="/projects/">Projects
-                    
-                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -276,127 +276,281 @@
       
         
 
+
+
+
+
+
+
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Collaboration</h1>
-    <p class="post-description">Active Collaborations</p>
+    <h1 class="post-title">Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)</h1>
+    <p class="post-meta">
+      Created in December 11, 2025
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
+      
+
+      
+
+      
+    </p>
   </header>
 
-  <article>
-    <h2 id="background">Background</h2>
+  <article class="post-content">
+    <div id="markdown-content">
+      <h3 id="-amplicon-week--day-4">🌱 Amplicon Week — Day 4</h3>
 
-<p>I am an expert in microbial ecology, bioinformatics, and bio-computational analysis. I support researchers by helping them piece together missing elements in their data or workflows. Below are some of my recent collaborations</p>
+<h4 id="functional-prediction-from-amplicon-data">Functional Prediction from Amplicon Data</h4>
 
-<hr>
+<p><strong>PICRUSt2 • Tax4Fun2 • FAPROTAX</strong></p>
 
-<h2 id="1-nanoplastics-and-human-gut-microbiota">1. Nanoplastics and Human gut microbiota</h2>
+<p>Amplicon sequencing reveals who is present — but often we also want to know:</p>
 
-<p>I closely work with Unnikrishnan Kannan (https://safe-nano.lab.mcgill.ca/en/) and his team to understand the effect of nanoplastics on human gut microbiota through genomics, amplicon sequencing and metagenome anlysis.</p>
+<p>👉 What functions can this microbial community potentially perform?
+👉 What metabolic pathways may be active?
+👉 How similar or redundant are communities in their functional potential?</p>
 
-<h2 id="relevant-publications">Relevant Publications</h2>
+<p>Today’s post introduces three major tools used to infer function from 16S/ITS/18S amplicon data:</p>
 
-<p>Nanoliposome Mediated Co-delivery of Amoxicillin and Tazobactam Remediate Intracellular Infection by a Multidrug-Resistant Salmonella enterica serovar Typhimurium :Trisha Sackey1,2, Unnikrishnan Kannan1,2, Satwik Majumder1,2, Jojy John4, Charles Viau3, Zhixuan Feng1, Marie Odile Benoit-Biancamano2,3, Jennifer Ronholm1, Saji George1,2* <strong>2025</strong></p>
+<p>● PICRUSt2 – KEGG orthologs, EC numbers, pathways</p>
 
-<h2 id="image-gallery">Image Gallery</h2>
+<p>● Tax4Fun2 – KEGG pathways using SILVA-based nearest neighbors</p>
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        
+<p>● FAPROTAX – Ecological roles (nitrification, methanogenesis, sulfate reduction, etc.)</p>
 
+<p><strong>⭐These methods do not replace shotgun metagenomics, but they provide meaningful functional hypotheses when only 16S/18S amplicons are available.⭐</strong></p>
 
+<h4 id="1️⃣-input-files-required-for-all-functional-tools">1️⃣ Input Files Required for All Functional Tools</h4>
 
-<figure>
-  <picture>
-    <!-- Auto scaling with imagemagick -->
-    <!--
-      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
-      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
-    -->
-    
-    <img src="/assets/img/nanoplastic.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="example image" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
-  </picture>
+<p>You can use the following files generated during day2 or day3 from Qiime2</p>
 
-  
-</figure>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>feature-table.tsv
+taxonomy.tsv
+dna-sequences.fasta
+phylogenetic tree <span class="o">(</span>optional <span class="k">for </span>PICRUSt2<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Required formats:
+| Tool | Input Files Needed |
+| ———— | ————————————————————————– |
+| <strong>PICRUSt2</strong> | ASV sequences (<code class="language-plaintext highlighter-rouge">dna-sequences.fasta</code>), feature table (<code class="language-plaintext highlighter-rouge">feature-table.tsv</code>) |
+| <strong>Tax4Fun2</strong> | Feature table + SILVA taxonomy + representative sequences |
+| <strong>FAPROTAX</strong> | Feature table + taxonomy table |</p>
+
+<p>You can find a complete example dataset in the GitHub Day 3 folder.
+https://github.com/jojyjohn28/AmpliconWeek_2025</p>
+
+<h4 id="2️⃣-picrust2-kegg-based-functional-prediction">2️⃣ PICRUSt2: KEGG-Based Functional Prediction</h4>
+
+<p>PICRUSt2 predicts the functional profile of a community by:</p>
+
+<ol>
+  <li>
+    <p>Placing ASVs into a reference phylogeny</p>
+  </li>
+  <li>
+    <p>Inferring gene families (KOs, ECs)</p>
+  </li>
+  <li>
+    <p>Predicting metabolic pathways</p>
+  </li>
+</ol>
+
+<p>For installation please see installation_and_run.md in the GitHub Day 3 folder.
+https://github.com/jojyjohn28/AmpliconWeek_2025</p>
+
+<p><strong>🧬 2.1 Run PICRUSt2</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>picrust2_pipeline.py <span class="se">\</span>
+  <span class="nt">-s</span> dna-sequences.fasta <span class="se">\</span>
+  <span class="nt">-i</span> feature-table.tsv <span class="se">\</span>
+  <span class="nt">-o</span> picrust2_out <span class="se">\</span>
+  <span class="nt">-p</span> 6
+</code></pre></div></div>
+
+<p>Main outputs:
+| File | Description |
+| —————————– | ————————- |
+| <code class="language-plaintext highlighter-rouge">pred_metagenome_unstrat.tsv</code> | KO abundance table |
+| <code class="language-plaintext highlighter-rouge">EC_metagenome_unstrat.tsv</code> | Enzyme commission numbers |
+| <code class="language-plaintext highlighter-rouge">path_abun_unstrat.tsv</code> | KEGG pathway abundances |
+| <code class="language-plaintext highlighter-rouge">marker_pred.tsv</code> | NSTI scores (quality) |</p>
+
+<p><strong>📊 2.2 Basic Visualization in R (ggplot2)</strong></p>
+
+<p>Here is a simple ggplot example for visulization.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ko</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"picrust2_out/KO_metagenome_out/pred_metagenome_unstrat.tsv"</span><span class="p">,</span><span class="w">
+                 </span><span class="n">sep</span><span class="o">=</span><span class="s2">"\t"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ko_top20</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ko</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">KO</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">.</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">KO</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"Sample"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s2">"Abundance"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">KO</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">meanA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">Abundance</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">top_n</span><span class="p">(</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">meanA</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pull</span><span class="p">(</span><span class="n">KO</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ko_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ko</span><span class="p">[</span><span class="n">ko_top20</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">KO</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">.</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">KO</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"Sample"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s2">"Abundance"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">ko_long</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">KO</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Abundance</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">Sample</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s2">"dodge"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Top 20 KO Functions (PICRUSt2)"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="s2">"KEGG Ortholog"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">"Predicted Abundance"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="3️⃣-tax4fun2-kegg-pathways-based-on-silva">3️⃣ Tax4Fun2: KEGG Pathways Based on SILVA</h4>
+
+<p>Tax4Fun2 maps 16S ASVs to KEGG using nearest-neighbor matches from SILVA-derived genomes.</p>
+
+<p>It is fast, accurate, and integrates beautifully with Microeco.</p>
+
+<p><strong>🧬 3.1 Run Tax4Fun2 in R</strong></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">Tax4Fun</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">microeco</span><span class="p">)</span><span class="w">
+
+</span><span class="n">t4f</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_func</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">meco_physeq_ra</span><span class="p">)</span><span class="w">   </span><span class="c1"># microeco object from Day 3</span><span class="w">
+</span><span class="n">t4f</span><span class="o">$</span><span class="n">for_what</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"prok"</span><span class="w">
+
+</span><span class="n">t4f</span><span class="o">$</span><span class="n">cal_tax4fun2</span><span class="p">(</span><span class="w">
+  </span><span class="n">blast_tool_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"/path/to/blast/"</span><span class="p">,</span><span class="w">
+  </span><span class="n">path_to_reference_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Tax4Fun2_ReferenceData_v2"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Outputs:</strong></p>
+
+<p>● res_tax4fun2_KO – KO table</p>
+
+<p>● res_tax4fun2_pathway – pathway table</p>
+
+<p>● res_tax4fun2_aFRI – absolute functional redundancy</p>
+
+<p>● res_tax4fun2_rFRI – relative functional redundancy</p>
+
+<p><strong>💡 Functional Redundancy</strong></p>
+
+<p>Functional redundancy measures whether multiple taxa share similar functional potential.
+Tax4Fun2 outputs both aFRI and rFRI, and Microeco can visualize and compare them.</p>
+
+<p>Why it matters:</p>
+
+<p>● High redundancy → resilient, stable communities</p>
+
+<p>● Low redundancy → specialized, vulnerable to disturbance
+But more genome/MAG based modeliing is needed to consider FRed as proxy to ecosytem functiong or resilience.</p>
+
+<p><strong>🎨 Visualization</strong></p>
+
+<p>All plotting scripts will be included in:
+https://github.com/jojyjohn28/AmpliconWeek_2025
+📁 day4_functional_prediction/tax4fun_plot.R</p>
+
+<h4 id="4️⃣-faprotax-ecological-function-annotation">4️⃣ FAPROTAX: Ecological Function Annotation</h4>
+
+<p>FAPROTAX is a curated database linking taxa → ecological processes:
+| Category | Examples |
+| ———– | ——————————- |
+| Carbon | methanogenesis, photoautotrophy |
+| Nitrogen | nitrification, denitrification |
+| Sulfur | sulfate reduction |
+| Hydrocarbon | degradation pathways |</p>
+
+<p>It is taxonomy-based, so accuracy depends on classification quality.</p>
+
+<p><strong>🧬 4.1 Running FAPROTAX via Microeco</strong></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t_func</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_func</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">meco_physeq_ra</span><span class="p">)</span><span class="w">
+</span><span class="n">t_func</span><span class="o">$</span><span class="n">for_what</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"prok"</span><span class="w">
+
+</span><span class="n">t_func</span><span class="o">$</span><span class="n">cal_spe_func</span><span class="p">(</span><span class="n">prok_database</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"FAPROTAX"</span><span class="p">)</span><span class="w">
+</span><span class="n">t_func</span><span class="o">$</span><span class="n">cal_func</span><span class="p">()</span><span class="w">            </span><span class="c1"># abundance</span><span class="w">
+</span><span class="n">t_func</span><span class="o">$</span><span class="n">cal_func_FR</span><span class="p">()</span><span class="w">         </span><span class="c1"># redundancy</span><span class="w">
+</span><span class="n">t_func</span><span class="o">$</span><span class="n">cal_spe_func_perc</span><span class="p">()</span><span class="w">   </span><span class="c1"># percentage</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Outputs include:</p>
+
+<p>● Ecological function presence/absence</p>
+
+<p>● Function abundance</p>
+
+<p>● Functional redundancy</p>
+
+<p><strong>🎨 Visualizing FAPROTAX</strong></p>
+
+<p>ggplot scripts will be in:
+https://github.com/jojyjohn28/AmpliconWeek_2025
+📁 day4_functional_prediction/faprotax_plot.R</p>
+
+<p>📦 What’s Included in the Day 4 GitHub Folder
+✔ installation_and_run.md</p>
+
+<p>Step-by-step installation + execution for:</p>
+
+<p>● PICRUSt2</p>
+
+<p>● Tax4Fun2</p>
+
+<p>● FAPROTAX</p>
+
+<p>✔ picrust2_plot.R</p>
+
+<p>ggplot visualizations for KO and pathway output</p>
+
+<p>✔ tax4fun_plot.R</p>
+
+<p>Visualization of pathways + redundancy</p>
+
+<p>✔ faprotax_plot.R</p>
+
+<p>Visualization of ecological functions</p>
+
+<p><strong>If you are interested in trying, I’ve included all the required base files in my repository, along with a fully running R script. You can find:</strong>
+feature-table.tsv
+taxonomy.tsv
+tree.nwk
+metadata.txt in day 3
+and all codes in day 4 of
+https://github.com/jojyjohn28/AmpliconWeek_2025</p>
+
+<p>Today’s image features functional predictions I created myself using Microeco.</p>
+
+<p>Thank you to the Campbell Lab’s graduate student seminar series — especially Dinu and Nichole — for the presentation on Microeco</p>
+
+<p><img src="/assets/img/fp.png" alt="functioal_prediction"></p>
 
     </div>
-  
-  
-  
-## 2. The comparative genomic analysis of Radiobacillus
- I closely work with Dr. Sergio Leiva Poveda (Universidad Austral de Chile) and Dr. Amit Kumar  (Sathyabama Institute of Science and Technology, India )on charactersing a novel Radiobacillus strain and it's comprative genomics analysis
-
-## Relevent Publications
-
-under preparation
-
-## Image Gallary
-
- <div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        
-
-
-
-<figure>
-  <picture>
-    <!-- Auto scaling with imagemagick -->
-    <!--
-      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
-      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
-    -->
-    
-    <img src="/assets/img/rb.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="example image" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
-  </picture>
-
-  
-</figure>
-
-    </div>
-
-## 3. Actinobacteriota of extreme environments including Polar region, artic and himalyan regions
-
-I work closely with Dr. Amit Kumar and Dr. M. Radhakrishnan (Sathyabama Institute of Science and Technology, India ) on exploring the diversity, and seconadry metabolite production by Actinomycetes from different extreme environments.
-
-## Relevent Publications
-
-Discovery of Antimicrobial Secondary Metabolite Biosynthetic Gene Clusters in Streptomyces vinaceusdrappus SOSIST-3 Isolated from Southern Ocean \_under preparation
-
-## Image Gallary
-
- <div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        
-
-
-
-<figure>
-  <picture>
-    <!-- Auto scaling with imagemagick -->
-    <!--
-      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
-      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
-    -->
-    
-    <img src="/assets/img/AK.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="example image" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
-  </picture>
-
-  
-</figure>
-
-    </div>
-</div>
-</div>
-</div>
-
   </article>
 
   
-    <h2>References</h2>
-    <div class="publications">
-      
-    </div>
+
   
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
 
   
 </div>

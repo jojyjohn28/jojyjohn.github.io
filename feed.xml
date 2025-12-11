@@ -1,5 +1,231 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-10T15:53:48-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Amplicon Week — Day 3: Visualization &amp;amp; Ecological Analysis Using QIIME2 + Microeco (R)</title><link href="https://jojyjohn28.github.io/blog/amplicon-day3/" rel="alternate" type="text/html" title="Amplicon Week — Day 3: Visualization &amp;amp; Ecological Analysis Using QIIME2 + Microeco (R)" /><published>2025-12-10T00:00:00-05:00</published><updated>2025-12-10T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day3</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day3/"><![CDATA[<h3 id="-amplicon-week--day-3">🌱 Amplicon Week — Day 3</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-11T17:01:27-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)</title><link href="https://jojyjohn28.github.io/blog/amplicon-day4/" rel="alternate" type="text/html" title="Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)" /><published>2025-12-11T00:00:00-05:00</published><updated>2025-12-11T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day4</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day4/"><![CDATA[<h3 id="-amplicon-week--day-4">🌱 Amplicon Week — Day 4</h3>
+
+<h4 id="functional-prediction-from-amplicon-data">Functional Prediction from Amplicon Data</h4>
+
+<p><strong>PICRUSt2 • Tax4Fun2 • FAPROTAX</strong></p>
+
+<p>Amplicon sequencing reveals who is present — but often we also want to know:</p>
+
+<p>👉 What functions can this microbial community potentially perform?
+👉 What metabolic pathways may be active?
+👉 How similar or redundant are communities in their functional potential?</p>
+
+<p>Today’s post introduces three major tools used to infer function from 16S/ITS/18S amplicon data:</p>
+
+<p>● PICRUSt2 – KEGG orthologs, EC numbers, pathways</p>
+
+<p>● Tax4Fun2 – KEGG pathways using SILVA-based nearest neighbors</p>
+
+<p>● FAPROTAX – Ecological roles (nitrification, methanogenesis, sulfate reduction, etc.)</p>
+
+<p><strong>⭐These methods do not replace shotgun metagenomics, but they provide meaningful functional hypotheses when only 16S/18S amplicons are available.⭐</strong></p>
+
+<h4 id="1️⃣-input-files-required-for-all-functional-tools">1️⃣ Input Files Required for All Functional Tools</h4>
+
+<p>You can use the following files generated during day2 or day3 from Qiime2</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>feature-table.tsv
+taxonomy.tsv
+dna-sequences.fasta
+phylogenetic tree <span class="o">(</span>optional <span class="k">for </span>PICRUSt2<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Required formats:
+| Tool | Input Files Needed |
+| ———— | ————————————————————————– |
+| <strong>PICRUSt2</strong> | ASV sequences (<code class="language-plaintext highlighter-rouge">dna-sequences.fasta</code>), feature table (<code class="language-plaintext highlighter-rouge">feature-table.tsv</code>) |
+| <strong>Tax4Fun2</strong> | Feature table + SILVA taxonomy + representative sequences |
+| <strong>FAPROTAX</strong> | Feature table + taxonomy table |</p>
+
+<p>You can find a complete example dataset in the GitHub Day 3 folder.
+https://github.com/jojyjohn28/AmpliconWeek_2025</p>
+
+<h4 id="2️⃣-picrust2-kegg-based-functional-prediction">2️⃣ PICRUSt2: KEGG-Based Functional Prediction</h4>
+
+<p>PICRUSt2 predicts the functional profile of a community by:</p>
+
+<ol>
+  <li>
+    <p>Placing ASVs into a reference phylogeny</p>
+  </li>
+  <li>
+    <p>Inferring gene families (KOs, ECs)</p>
+  </li>
+  <li>
+    <p>Predicting metabolic pathways</p>
+  </li>
+</ol>
+
+<p>For installation please see installation_and_run.md in the GitHub Day 3 folder.
+https://github.com/jojyjohn28/AmpliconWeek_2025</p>
+
+<p><strong>🧬 2.1 Run PICRUSt2</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>picrust2_pipeline.py <span class="se">\</span>
+  <span class="nt">-s</span> dna-sequences.fasta <span class="se">\</span>
+  <span class="nt">-i</span> feature-table.tsv <span class="se">\</span>
+  <span class="nt">-o</span> picrust2_out <span class="se">\</span>
+  <span class="nt">-p</span> 6
+</code></pre></div></div>
+
+<p>Main outputs:
+| File | Description |
+| —————————– | ————————- |
+| <code class="language-plaintext highlighter-rouge">pred_metagenome_unstrat.tsv</code> | KO abundance table |
+| <code class="language-plaintext highlighter-rouge">EC_metagenome_unstrat.tsv</code> | Enzyme commission numbers |
+| <code class="language-plaintext highlighter-rouge">path_abun_unstrat.tsv</code> | KEGG pathway abundances |
+| <code class="language-plaintext highlighter-rouge">marker_pred.tsv</code> | NSTI scores (quality) |</p>
+
+<p><strong>📊 2.2 Basic Visualization in R (ggplot2)</strong></p>
+
+<p>Here is a simple ggplot example for visulization.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ko</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"picrust2_out/KO_metagenome_out/pred_metagenome_unstrat.tsv"</span><span class="p">,</span><span class="w">
+                 </span><span class="n">sep</span><span class="o">=</span><span class="s2">"\t"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ko_top20</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ko</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">KO</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">.</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">KO</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"Sample"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s2">"Abundance"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">KO</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">meanA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">Abundance</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">top_n</span><span class="p">(</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">meanA</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pull</span><span class="p">(</span><span class="n">KO</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ko_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ko</span><span class="p">[</span><span class="n">ko_top20</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">KO</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">.</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">KO</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"Sample"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s2">"Abundance"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">ko_long</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">KO</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Abundance</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">Sample</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s2">"dodge"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Top 20 KO Functions (PICRUSt2)"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="s2">"KEGG Ortholog"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">"Predicted Abundance"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="3️⃣-tax4fun2-kegg-pathways-based-on-silva">3️⃣ Tax4Fun2: KEGG Pathways Based on SILVA</h4>
+
+<p>Tax4Fun2 maps 16S ASVs to KEGG using nearest-neighbor matches from SILVA-derived genomes.</p>
+
+<p>It is fast, accurate, and integrates beautifully with Microeco.</p>
+
+<p><strong>🧬 3.1 Run Tax4Fun2 in R</strong></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">Tax4Fun</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">microeco</span><span class="p">)</span><span class="w">
+
+</span><span class="n">t4f</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_func</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">meco_physeq_ra</span><span class="p">)</span><span class="w">   </span><span class="c1"># microeco object from Day 3</span><span class="w">
+</span><span class="n">t4f</span><span class="o">$</span><span class="n">for_what</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"prok"</span><span class="w">
+
+</span><span class="n">t4f</span><span class="o">$</span><span class="n">cal_tax4fun2</span><span class="p">(</span><span class="w">
+  </span><span class="n">blast_tool_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"/path/to/blast/"</span><span class="p">,</span><span class="w">
+  </span><span class="n">path_to_reference_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Tax4Fun2_ReferenceData_v2"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Outputs:</strong></p>
+
+<p>● res_tax4fun2_KO – KO table</p>
+
+<p>● res_tax4fun2_pathway – pathway table</p>
+
+<p>● res_tax4fun2_aFRI – absolute functional redundancy</p>
+
+<p>● res_tax4fun2_rFRI – relative functional redundancy</p>
+
+<p><strong>💡 Functional Redundancy</strong></p>
+
+<p>Functional redundancy measures whether multiple taxa share similar functional potential.
+Tax4Fun2 outputs both aFRI and rFRI, and Microeco can visualize and compare them.</p>
+
+<p>Why it matters:</p>
+
+<p>● High redundancy → resilient, stable communities</p>
+
+<p>● Low redundancy → specialized, vulnerable to disturbance
+But more genome/MAG based modeliing is needed to consider FRed as proxy to ecosytem functiong or resilience.</p>
+
+<p><strong>🎨 Visualization</strong></p>
+
+<p>All plotting scripts will be included in:
+https://github.com/jojyjohn28/AmpliconWeek_2025
+📁 day4_functional_prediction/tax4fun_plot.R</p>
+
+<h4 id="4️⃣-faprotax-ecological-function-annotation">4️⃣ FAPROTAX: Ecological Function Annotation</h4>
+
+<p>FAPROTAX is a curated database linking taxa → ecological processes:
+| Category | Examples |
+| ———– | ——————————- |
+| Carbon | methanogenesis, photoautotrophy |
+| Nitrogen | nitrification, denitrification |
+| Sulfur | sulfate reduction |
+| Hydrocarbon | degradation pathways |</p>
+
+<p>It is taxonomy-based, so accuracy depends on classification quality.</p>
+
+<p><strong>🧬 4.1 Running FAPROTAX via Microeco</strong></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t_func</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_func</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">meco_physeq_ra</span><span class="p">)</span><span class="w">
+</span><span class="n">t_func</span><span class="o">$</span><span class="n">for_what</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"prok"</span><span class="w">
+
+</span><span class="n">t_func</span><span class="o">$</span><span class="n">cal_spe_func</span><span class="p">(</span><span class="n">prok_database</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"FAPROTAX"</span><span class="p">)</span><span class="w">
+</span><span class="n">t_func</span><span class="o">$</span><span class="n">cal_func</span><span class="p">()</span><span class="w">            </span><span class="c1"># abundance</span><span class="w">
+</span><span class="n">t_func</span><span class="o">$</span><span class="n">cal_func_FR</span><span class="p">()</span><span class="w">         </span><span class="c1"># redundancy</span><span class="w">
+</span><span class="n">t_func</span><span class="o">$</span><span class="n">cal_spe_func_perc</span><span class="p">()</span><span class="w">   </span><span class="c1"># percentage</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Outputs include:</p>
+
+<p>● Ecological function presence/absence</p>
+
+<p>● Function abundance</p>
+
+<p>● Functional redundancy</p>
+
+<p><strong>🎨 Visualizing FAPROTAX</strong></p>
+
+<p>ggplot scripts will be in:
+https://github.com/jojyjohn28/AmpliconWeek_2025
+📁 day4_functional_prediction/faprotax_plot.R</p>
+
+<p>📦 What’s Included in the Day 4 GitHub Folder
+✔ installation_and_run.md</p>
+
+<p>Step-by-step installation + execution for:</p>
+
+<p>● PICRUSt2</p>
+
+<p>● Tax4Fun2</p>
+
+<p>● FAPROTAX</p>
+
+<p>✔ picrust2_plot.R</p>
+
+<p>ggplot visualizations for KO and pathway output</p>
+
+<p>✔ tax4fun_plot.R</p>
+
+<p>Visualization of pathways + redundancy</p>
+
+<p>✔ faprotax_plot.R</p>
+
+<p>Visualization of ecological functions</p>
+
+<p><strong>If you are interested in trying, I’ve included all the required base files in my repository, along with a fully running R script. You can find:</strong>
+feature-table.tsv
+taxonomy.tsv
+tree.nwk
+metadata.txt in day 3
+and all codes in day 4 of
+https://github.com/jojyjohn28/AmpliconWeek_2025</p>
+
+<p>Today’s image features functional predictions I created myself using Microeco.</p>
+
+<p>Thank you to the Campbell Lab’s graduate student seminar series — especially Dinu and Nichole — for the presentation on Microeco</p>
+
+<p><img src="/assets/img/fp.png" alt="functioal_prediction" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 4 of Amplicon sequencing and analyis.]]></summary></entry><entry><title type="html">Amplicon Week — Day 3: Visualization &amp;amp; Ecological Analysis Using QIIME2 + Microeco (R)</title><link href="https://jojyjohn28.github.io/blog/amplicon-day3/" rel="alternate" type="text/html" title="Amplicon Week — Day 3: Visualization &amp;amp; Ecological Analysis Using QIIME2 + Microeco (R)" /><published>2025-12-10T00:00:00-05:00</published><updated>2025-12-10T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day3</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day3/"><![CDATA[<h3 id="-amplicon-week--day-3">🌱 Amplicon Week — Day 3</h3>
 
 <p>Visualization &amp; Ecological Analysis Using QIIME2 + Microeco (R)</p>
 
@@ -1828,222 +2054,4 @@ Today’s post is all about <strong>Bandage</strong> — one of the most useful 
 
 <p>https://github.com/rrwick/Bandage/wiki</p>
 
-<p><img src="/assets/img/bandage.png" alt="see_your_genomes" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A practical guide to installing Bandage from source using Qt and visualizing assembly graphs generated by Flye and Shovill.]]></summary></entry><entry><title type="html">Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates</title><link href="https://jojyjohn28.github.io/blog/panx-pangenome-analysis/" rel="alternate" type="text/html" title="Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates" /><published>2025-11-21T00:00:00-05:00</published><updated>2025-11-21T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/PanX_pangenome_analysis</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/panx-pangenome-analysis/"><![CDATA[<p><strong>🧬 Exploring the Pan-Genome with panX</strong></p>
-
-<p>Today’s post walks through the complete setup and execution of <strong>panX</strong>, a powerful tool for analyzing bacterial pan-genomes.</p>
-
-<p>One of my Master’s students is working on a project involving <strong>DARPA isolate genomes</strong>, focusing on:</p>
-
-<ul>
-  <li>Abiotic stress adaptation</li>
-  <li>Niche classification (generalist vs specialist)</li>
-  <li>Functional redundancy</li>
-</ul>
-
-<p>As part of the analysis, she selected <strong>20 isolates</strong> and classified them using:</p>
-
-<ul>
-  <li>Genome size</li>
-  <li>Total gene count</li>
-  <li>CAZyme profiles</li>
-  <li>Transporters</li>
-  <li>Growth on carbon sources</li>
-</ul>
-
-<p>But after carbon utilization assays, we realized there was still a missing piece:<br />
-👉 <strong>The pangenome perspective</strong><br />
-So we turned to <strong>panX</strong>.</p>
-
-<p>panX (Neher et al., 2016) integrates:</p>
-
-<ul>
-  <li>Ortholog clustering</li>
-  <li>Gene presence/absence matrix</li>
-  <li>Phylogenetic inference</li>
-  <li>Interactive web visualization</li>
-</ul>
-
-<p>I often use <strong>Anvi’o</strong>, but because of time constraints, panX was the best choice:<br />
-✔ Fast<br />
-✔ Lightweight<br />
-✔ Clear cluster outputs<br />
-✔ Better suited for quick exploratory analysis</p>
-
-<hr />
-
-<h5 id="️-step-1--cloning-and-setup">⚙️ Step 1 — Cloning and Setup</h5>
-
-<p>Clone the official repository:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/neherlab/pan-genome-analysis.git
-<span class="nb">cd </span>pan-genome-analysis
-</code></pre></div></div>
-
-<h5 id="-step-2--install-panx-dependencies-conda">🧱 Step 2 — Install panX Dependencies (Conda)</h5>
-
-<p>The documentation suggests Miniconda2, but Miniconda3 works perfectly.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-<span class="nb">source</span> ~/miniconda3/etc/profile.d/conda.sh
-</code></pre></div></div>
-
-<p>Create the panX environment:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">env </span>create <span class="nt">-f</span> panX-environment.yml
-conda activate panX
-</code></pre></div></div>
-
-<p>***If you see dependency conflicts: conda env create -f panX-environment.yml –solver=libmamba
-Test your installation:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh run-TestSet.sh
-</code></pre></div></div>
-
-<h5 id="-step-3--preparing-genomes-with-prokka">🧬 Step 3 — Preparing Genomes with Prokka</h5>
-
-<p>panX requires GenBank (.gbk) files.
-So I annotated all genomes using Prokka.
-Install Prokka:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> prokka_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge prokka
-conda activate prokka_env
-</code></pre></div></div>
-
-<p>Batch annotation:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> .fa<span class="si">)</span>
-  prokka <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> <span class="se">\</span>
-    <span class="nt">--outdir</span> ../prokka_out/<span class="k">${</span><span class="nv">base</span><span class="k">}</span> <span class="se">\</span>
-    <span class="nt">--prefix</span> <span class="k">${</span><span class="nv">base</span><span class="k">}</span> <span class="se">\</span>
-    <span class="nt">--cpus</span> 8 <span class="se">\</span>
-    <span class="nt">--force</span> <span class="se">\</span>
-    <span class="nt">--rnammer</span> off
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>Collect all .gbk files:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> ../panx_input
-find ../prokka_out <span class="nt">-name</span> <span class="s2">"*.gbk"</span> <span class="nt">-exec</span> <span class="nb">cp</span> <span class="o">{}</span> ../panx_input/ <span class="se">\;</span>
-</code></pre></div></div>
-
-<h5 id="-step-4--running-panx">🚀 Step 4 — Running panX</h5>
-
-<p>Move into the panX project directory:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/pan-genome-analysis/projects
-<span class="nb">mkdir </span>DARPA_20
-<span class="nb">cp</span> /project/bcampb7/camplab/Alisha/pangenome_analysis/panx_input/<span class="k">*</span>.gbk DARPA_20/
-<span class="nb">cd </span>DARPA_20
-</code></pre></div></div>
-
-<p>Run the full pipeline:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python ../../scripts/run-pipeline.py <span class="se">\</span>
-    <span class="nt">-fn</span> <span class="nb">.</span> <span class="se">\</span>
-    <span class="nt">-sl</span> all <span class="se">\</span>
-    <span class="nt">-st</span> 13456 <span class="se">\</span>
-    <span class="nt">--threads</span> 32 <span class="se">\</span>
-    <span class="nt">--diamond</span>
-</code></pre></div></div>
-
-<p>You will get output folders like:
-● 1_parsed_input/
-● 2_clusters/
-● 3_alignments/
-● 4_trees/
-● 5_statistics/
-● summary/</p>
-
-<h5 id="-step-5--interactive-visualization-optional">🌐 Step 5 — Interactive Visualization (Optional)</h5>
-
-<p>panX includes a full browser-based viewer using Node.js.
-Clone visualization module:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/neherlab/pan-genome-visualization
-<span class="nb">cd </span>pan-genome-visualization
-npm <span class="nb">install</span> <span class="nt">--legacy-peer-deps</span>
-git submodule update <span class="nt">--init</span> <span class="nt">--recursive</span>
-</code></pre></div></div>
-
-<p>Build and launch:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">DATA_ROOT_URL</span><span class="o">=</span>/dataset/
-npm run build
-npm start
-</code></pre></div></div>
-
-<p>Open:👉 http://localhost:8000
-<strong>📂 Linking Your Dataset to the Viewer</strong>
-Edit:
-public/dataset/all_downloads_table.json
-{
-“panX link”: “gbk”,
-“species name”: “GBK dataset”,
-“source”: “Local”,
-“gene cluster json”: “dataset/gbk/geneCluster.json”,
-“metadata table”: “dataset/gbk/metainfo.tsv”,
-“strain/species tree”: “dataset/gbk/strain_tree.nwk”
-}
-Refresh the page → your dataset appears in the menu.</p>
-
-<h5 id="-step-6--extracting-core-and-pan-genes-without-visualization">🧬 Step 6 — Extracting Core and Pan Genes Without Visualization</h5>
-
-<p><strong>Often on HPC (like Palmetto) you only need:</strong></p>
-
-<p>● Core gene count
-● Pan gene count
-● Accessory genes per genome
-● PanX provides allclusters_final.tsv which we can parse directly.</p>
-
-<p>👉 Here is the Python script:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
-</span><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">from</span> <span class="n">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-
-<span class="n">infile</span> <span class="o">=</span> <span class="sh">"</span><span class="s">allclusters_final.tsv</span><span class="sh">"</span>
-<span class="n">outfile</span> <span class="o">=</span> <span class="sh">"</span><span class="s">core_pan_gene_counts_per_genome.tsv</span><span class="sh">"</span>
-
-<span class="n">clusters</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">genes</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">line</span><span class="p">.</span><span class="nf">strip</span><span class="p">().</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">.</span><span class="nf">strip</span><span class="p">()]</span>
-        <span class="n">clusters</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">genes</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">genome_name</span><span class="p">(</span><span class="n">g</span><span class="p">):</span> <span class="k">return</span> <span class="n">g</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">|</span><span class="sh">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="n">cluster_genomes</span> <span class="o">=</span> <span class="p">[</span><span class="nf">list</span><span class="p">(</span><span class="nf">set</span><span class="p">(</span><span class="nf">genome_name</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">cl</span><span class="p">))</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">]</span>
-<span class="n">all_genomes</span> <span class="o">=</span> <span class="nf">sorted</span><span class="p">({</span><span class="n">g</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">cluster_genomes</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">cl</span><span class="p">})</span>
-
-<span class="n">core_clusters</span> <span class="o">=</span> <span class="p">[</span><span class="n">cl</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">cluster_genomes</span> <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span> <span class="o">==</span> <span class="nf">len</span><span class="p">(</span><span class="n">all_genomes</span><span class="p">)]</span>
-<span class="n">genome_counter</span> <span class="o">=</span> <span class="nc">Counter</span><span class="p">(</span><span class="n">g</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">cluster_genomes</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">cl</span><span class="p">)</span>
-
-<span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span>
-    <span class="sh">"</span><span class="s">Genome</span><span class="sh">"</span><span class="p">:</span> <span class="n">all_genomes</span><span class="p">,</span>
-    <span class="sh">"</span><span class="s">Pan_genes</span><span class="sh">"</span><span class="p">:</span> <span class="p">[</span><span class="n">genome_counter</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">all_genomes</span><span class="p">],</span>
-<span class="p">})</span>
-<span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Core_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">core_clusters</span><span class="p">)</span>
-<span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Accessory_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Pan_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">-</span> <span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Core_genes</span><span class="sh">"</span><span class="p">]</span>
-<span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Core_fraction(%)</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Core_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">/</span> <span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Pan_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">).</span><span class="nf">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="n">summary</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">✅ Saved:</span><span class="sh">"</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Run with:python core_pan_from_list.py
-Output file: core_pan_gene_counts_per_genome.tsv
-<strong>Contains:</strong></p>
-
-<p>● Core genes
-● Pan genes
-● Accessory genes
-● Core gene % per genome</p>
-
-<p><strong>Perfect for downstream comparative genomics.</strong></p>
-
-<p>For more details on PanX visit :https://pangenome.org/</p>
-
-<p><img src="/assets/img/panx_analysis.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.]]></summary></entry></feed>
+<p><img src="/assets/img/bandage.png" alt="see_your_genomes" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A practical guide to installing Bandage from source using Qt and visualizing assembly graphs generated by Flye and Shovill.]]></summary></entry></feed>
