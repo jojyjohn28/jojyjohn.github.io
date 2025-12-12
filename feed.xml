@@ -1,5 +1,174 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-12T14:33:11-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)</title><link href="https://jojyjohn28.github.io/blog/amplicon-day4/" rel="alternate" type="text/html" title="Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)" /><published>2025-12-11T00:00:00-05:00</published><updated>2025-12-11T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day4</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day4/"><![CDATA[<h3 id="-amplicon-week--day-4">🌱 Amplicon Week — Day 4</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-12T14:36:39-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Amplicon Week — Day 6: Wrap-Up: From Reads to Insights</title><link href="https://jojyjohn28.github.io/blog/amplicon-day6/" rel="alternate" type="text/html" title="Amplicon Week — Day 6: Wrap-Up: From Reads to Insights" /><published>2025-12-13T00:00:00-05:00</published><updated>2025-12-13T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day6</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day6/"><![CDATA[<h4 id="-amplicon-week--day-6-wrap-up-from-reads-to-insights">🌱 Amplicon Week – Day 6 Wrap-Up: From Reads to Insights</h4>
+
+<p><strong>This wraps up five days of Amplicon Week 🎉</strong></p>
+
+<p>Over the past week, we’ve walked through the complete lifecycle of amplicon data analysis—from raw sequencing reads to biological interpretation.</p>
+
+<h4 id="what-we-covered-this-week">What we covered this week</h4>
+
+<p>Across five focused days, we explored:</p>
+
+<p>● Wet-lab concepts behind amplicon sequencing and marker choice</p>
+
+<p>● End-to-end QIIME2 workflows for 16S, ITS, 18S, 12S, and COI</p>
+
+<p>● Advanced visualization and statistics using Microeco in R</p>
+
+<p>● Functional prediction from amplicon data (PICRUSt2, Tax4Fun2, FAPROTAX)</p>
+
+<p>● Web-based microbiome exploration using easy16S</p>
+
+<p>If you’ve followed along, you now have multiple complementary ways to analyze amplicon datasets:</p>
+
+<p>● beginner-friendly GUIs</p>
+
+<p>● reproducible command-line pipelines</p>
+
+<p>● flexible R-based visualization and statistics</p>
+
+<p>📂 Full Amplicon Week materials</p>
+
+<p>All scripts, workflows, and documentation are openly available:</p>
+
+<p>🔗 https://github.com/jojyjohn28/AmpliconWeek_2025</p>
+
+<p>and corresponding blog posts are below!!!</p>
+
+<p><strong>Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcoding</strong>
+https://jojyjohn28.github.io/blog/amplicon-day1/
+<strong>Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training</strong>
+https://jojyjohn28.github.io/blog/amplicon-day2/
+<strong>Amplicon Week — Day 3: Visualization &amp; Ecological Analysis Using QIIME2 + Microeco (R)</strong>
+https://jojyjohn28.github.io/blog/amplicon-day3/
+<strong>Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)</strong>
+https://jojyjohn28.github.io/blog/amplicon-day4/
+<strong>Amplicon Week — Day 5: Web-based microbiome analysis with easy16S</strong>
+https://jojyjohn28.github.io/blog/amplicon-day5/</p>
+
+<p>This repository and blogs brings together everything covered during the week—organized by day, marker type, and analysis goal—so you can reuse and adapt the workflows for your own projects.</p>
+
+<p>Thanks for following Amplicon Week 2025 — and happy microbiome exploring! 🌍🧬</p>
+
+<p><img src="/assets/img/amplicon_new.png" alt="project_amplicon" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 6 of Amplicon sequencing and analyis.]]></summary></entry><entry><title type="html">Amplicon Week — Day 5: Web-based microbiome analysis with easy16S</title><link href="https://jojyjohn28.github.io/blog/amplicon-day5/" rel="alternate" type="text/html" title="Amplicon Week — Day 5: Web-based microbiome analysis with easy16S" /><published>2025-12-12T00:00:00-05:00</published><updated>2025-12-12T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day5</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day5/"><![CDATA[<h3 id="-amplicon-week--day-5">🌱 Amplicon Week – Day 5</h3>
+
+<h5 id="web-based-microbiome-analysis-with-easy16s">Web-based microbiome analysis with easy16S</h5>
+
+<p>Over the past four days of Amplicon Week, we’ve worked through amplicon data analysis using command-line tools (QIIME2), advanced R workflows (Microeco), and functional prediction approaches (PICRUSt2, Tax4Fun2, FAPROTAX).</p>
+
+<p>While these approaches are powerful and flexible, <strong>they can feel overwhelming—especially for beginners, students, or collaborators who want to explore their data quickly without writing code.</strong></p>
+
+<h4 id="what-is-easy16s">What is easy16S?</h4>
+
+<p><strong>easy16S is a web-based, interactive application designed to facilitate the exploration, visualization, and analysis of microbiome (amplicon) data.</strong></p>
+
+<p>The main goal of easy16S is simplicity:
+to provide a user-friendly interface with sensible defaults that allows users to perform common microbiome analyses without needing to write scripts or manage complex environments.</p>
+
+<p>👉 Online instance:
+🔗 https://shiny.migale.inrae.fr/app/easy16S</p>
+
+<p>No installation required. No command line. Just upload your data and start exploring.
+For more deatails see: https://easy16s.migale.inrae.fr/</p>
+
+<h4 id="what-powers-easy16s-under-the-hood">What powers easy16S under the hood?</h4>
+
+<p>Although easy16S feels simple on the surface, it is built on robust and widely used microbiome frameworks:</p>
+
+<p>● phyloseq (and its extensions) for data handling and analysis</p>
+
+<p>● FROGS (Find Rapidly OTUs with Galaxy Solution) for sequence processing</p>
+
+<p>● Shiny (R) for interactive web visualization</p>
+
+<p>This makes easy16S a great bridge between point-and-click analysis and more advanced R-based workflows.</p>
+
+<h4 id="what-data-does-easy16s-expect">What data does easy16S expect?</h4>
+
+<p>easy16S is designed primarily for 16S rRNA gene amplicon data and typically works with:</p>
+
+<p>● Feature/OTU/ASV tables</p>
+
+<p>● Taxonomy tables</p>
+
+<p>● Sample metadata</p>
+
+<p>● (Optional) Phylogenetic trees</p>
+
+<p>If you’ve already processed your data using FROGS, integration is seamless.
+Data from QIIME2 or phyloseq can also be adapted for use in easy16S.
+<strong>If you want to try it, you can use the provided data from DAY3 of https://github.com/jojyjohn28/AmpliconWeek_2025</strong>
+<strong>or you can use the demo data set on easy16S</strong></p>
+
+<h4 id="what-can-you-do-with-easy16s">What can you do with easy16S?</h4>
+
+<p>easy16S covers most of the core exploratory analyses used in microbiome studies:</p>
+
+<p>🔹 Community composition</p>
+
+<p>● Taxonomic bar plots (Phylum → Genus)</p>
+
+<p>● Relative abundance summaries</p>
+
+<p>● Interactive filtering and grouping</p>
+
+<p>🔹 Alpha diversity</p>
+
+<p>● Observed richness</p>
+
+<p>● Shannon, Simpson, and related indices</p>
+
+<p>● Group comparisons with basic statistics</p>
+
+<p>🔹 Beta diversity</p>
+
+<p>● Distance matrices (e.g., Bray–Curtis)</p>
+
+<p>● Ordination plots (PCoA)</p>
+
+<p>● Group-based visual comparisons</p>
+
+<p>🔹 Visualization-first exploration</p>
+
+<p>● Interactive plots</p>
+
+<p>● Quick hypothesis generation</p>
+
+<p>● Exportable figures for reports or presentations</p>
+
+<p><strong>All of this can be done without writing a single line of code.</strong></p>
+
+<h4 id="where-does-easy16s-fit-in-an-amplicon-workflow">Where does easy16S fit in an amplicon workflow?</h4>
+
+<p>easy16S is not a replacement for tools like QIIME2, Microeco, or full R pipelines.
+Instead, it excels in specific situations:</p>
+
+<p>✅ Teaching and workshops
+✅ First-pass data exploration
+✅ Rapid visualization for collaborators
+✅ Hypothesis generation before deeper analysis</p>
+
+<p>A common and effective strategy is:</p>
+
+<p><strong>QIIME2 / FROGS → easy16S (exploration) → Microeco / R (advanced analysis)</strong></p>
+
+<h4 id="limitations-to-keep-in-mind">Limitations to keep in mind</h4>
+
+<p>● easy16S is primarily focused on 16S data</p>
+
+<p>● Custom statistical modeling is limited compared to R workflows</p>
+
+<p>● Functional prediction is not the main focus (better handled in Day 4 tools)</p>
+
+<p><strong>For complex experimental designs, publication-grade statistics, or multi-omics integration, command-line and R-based approaches remain essential.</strong></p>
+
+<h4 id="can-easy16s-be-used-for-other-amplicons-18s-its-12s-coi">Can easy16S be used for other amplicons (18S, ITS, 12S, COI)?</h4>
+
+<p>● Yes: easy16S can be used for non-16S amplicons at a basic exploratory level</p>
+
+<p><strong>“Although easy16S is designed for 16S rRNA gene data, it can also be used for other amplicon markers (ITS, 18S, 12S, COI) for basic community composition and diversity analyses. However, functional prediction and some marker-specific interpretations are limited, and 16S remains the primary use case.”</strong></p>
+
+<p><img src="/assets/img/easy16s.png" alt="easy16s" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 5 of Amplicon sequencing and analyis.]]></summary></entry><entry><title type="html">Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)</title><link href="https://jojyjohn28.github.io/blog/amplicon-day4/" rel="alternate" type="text/html" title="Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)" /><published>2025-12-11T00:00:00-05:00</published><updated>2025-12-11T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day4</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day4/"><![CDATA[<h3 id="-amplicon-week--day-4">🌱 Amplicon Week — Day 4</h3>
 
 <h4 id="functional-prediction-from-amplicon-data">Functional Prediction from Amplicon Data</h4>
 
@@ -231,176 +400,7 @@ https://github.com/jojyjohn28/AmpliconWeek_2025</p>
 
 <p>Thank you to the Campbell Lab’s graduate student seminar series — especially Dinu and Nichole — for the presentation on Microeco</p>
 
-<p><img src="/assets/img/fp.png" alt="functioal_prediction" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 4 of Amplicon sequencing and analyis.]]></summary></entry><entry><title type="html">Amplicon Week — Day 5: Web-based microbiome analysis with easy16S</title><link href="https://jojyjohn28.github.io/blog/amplicon-day5/" rel="alternate" type="text/html" title="Amplicon Week — Day 5: Web-based microbiome analysis with easy16S" /><published>2025-12-11T00:00:00-05:00</published><updated>2025-12-11T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day5</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day5/"><![CDATA[<h3 id="-amplicon-week--day-5">🌱 Amplicon Week – Day 5</h3>
-
-<h5 id="web-based-microbiome-analysis-with-easy16s">Web-based microbiome analysis with easy16S</h5>
-
-<p>Over the past four days of Amplicon Week, we’ve worked through amplicon data analysis using command-line tools (QIIME2), advanced R workflows (Microeco), and functional prediction approaches (PICRUSt2, Tax4Fun2, FAPROTAX).</p>
-
-<p>While these approaches are powerful and flexible, <strong>they can feel overwhelming—especially for beginners, students, or collaborators who want to explore their data quickly without writing code.</strong></p>
-
-<h4 id="what-is-easy16s">What is easy16S?</h4>
-
-<p><strong>easy16S is a web-based, interactive application designed to facilitate the exploration, visualization, and analysis of microbiome (amplicon) data.</strong></p>
-
-<p>The main goal of easy16S is simplicity:
-to provide a user-friendly interface with sensible defaults that allows users to perform common microbiome analyses without needing to write scripts or manage complex environments.</p>
-
-<p>👉 Online instance:
-🔗 https://shiny.migale.inrae.fr/app/easy16S</p>
-
-<p>No installation required. No command line. Just upload your data and start exploring.
-For more deatails see: https://easy16s.migale.inrae.fr/</p>
-
-<h4 id="what-powers-easy16s-under-the-hood">What powers easy16S under the hood?</h4>
-
-<p>Although easy16S feels simple on the surface, it is built on robust and widely used microbiome frameworks:</p>
-
-<p>● phyloseq (and its extensions) for data handling and analysis</p>
-
-<p>● FROGS (Find Rapidly OTUs with Galaxy Solution) for sequence processing</p>
-
-<p>● Shiny (R) for interactive web visualization</p>
-
-<p>This makes easy16S a great bridge between point-and-click analysis and more advanced R-based workflows.</p>
-
-<h4 id="what-data-does-easy16s-expect">What data does easy16S expect?</h4>
-
-<p>easy16S is designed primarily for 16S rRNA gene amplicon data and typically works with:</p>
-
-<p>● Feature/OTU/ASV tables</p>
-
-<p>● Taxonomy tables</p>
-
-<p>● Sample metadata</p>
-
-<p>● (Optional) Phylogenetic trees</p>
-
-<p>If you’ve already processed your data using FROGS, integration is seamless.
-Data from QIIME2 or phyloseq can also be adapted for use in easy16S.
-<strong>If you want to try it, you can use the provided data from DAY3 of https://github.com/jojyjohn28/AmpliconWeek_2025</strong>
-<strong>or you can use the demo data set on easy16S</strong></p>
-
-<h4 id="what-can-you-do-with-easy16s">What can you do with easy16S?</h4>
-
-<p>easy16S covers most of the core exploratory analyses used in microbiome studies:</p>
-
-<p>🔹 Community composition</p>
-
-<p>● Taxonomic bar plots (Phylum → Genus)</p>
-
-<p>● Relative abundance summaries</p>
-
-<p>● Interactive filtering and grouping</p>
-
-<p>🔹 Alpha diversity</p>
-
-<p>● Observed richness</p>
-
-<p>● Shannon, Simpson, and related indices</p>
-
-<p>● Group comparisons with basic statistics</p>
-
-<p>🔹 Beta diversity</p>
-
-<p>● Distance matrices (e.g., Bray–Curtis)</p>
-
-<p>● Ordination plots (PCoA)</p>
-
-<p>● Group-based visual comparisons</p>
-
-<p>🔹 Visualization-first exploration</p>
-
-<p>● Interactive plots</p>
-
-<p>● Quick hypothesis generation</p>
-
-<p>● Exportable figures for reports or presentations</p>
-
-<p><strong>All of this can be done without writing a single line of code.</strong></p>
-
-<h4 id="where-does-easy16s-fit-in-an-amplicon-workflow">Where does easy16S fit in an amplicon workflow?</h4>
-
-<p>easy16S is not a replacement for tools like QIIME2, Microeco, or full R pipelines.
-Instead, it excels in specific situations:</p>
-
-<p>✅ Teaching and workshops
-✅ First-pass data exploration
-✅ Rapid visualization for collaborators
-✅ Hypothesis generation before deeper analysis</p>
-
-<p>A common and effective strategy is:</p>
-
-<p><strong>QIIME2 / FROGS → easy16S (exploration) → Microeco / R (advanced analysis)</strong></p>
-
-<h4 id="limitations-to-keep-in-mind">Limitations to keep in mind</h4>
-
-<p>● easy16S is primarily focused on 16S data</p>
-
-<p>● Custom statistical modeling is limited compared to R workflows</p>
-
-<p>● Functional prediction is not the main focus (better handled in Day 4 tools)</p>
-
-<p><strong>For complex experimental designs, publication-grade statistics, or multi-omics integration, command-line and R-based approaches remain essential.</strong></p>
-
-<h4 id="can-easy16s-be-used-for-other-amplicons-18s-its-12s-coi">Can easy16S be used for other amplicons (18S, ITS, 12S, COI)?</h4>
-
-<p>● Yes: easy16S can be used for non-16S amplicons at a basic exploratory level</p>
-
-<p><strong>“Although easy16S is designed for 16S rRNA gene data, it can also be used for other amplicon markers (ITS, 18S, 12S, COI) for basic community composition and diversity analyses. However, functional prediction and some marker-specific interpretations are limited, and 16S remains the primary use case.”</strong></p>
-
-<p><img src="/assets/img/easy16s.png" alt="easy16s" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 5 of Amplicon sequencing and analyis.]]></summary></entry><entry><title type="html">Amplicon Week — Day 6: Wrap-Up: From Reads to Insights</title><link href="https://jojyjohn28.github.io/blog/amplicon-day6/" rel="alternate" type="text/html" title="Amplicon Week — Day 6: Wrap-Up: From Reads to Insights" /><published>2025-12-11T00:00:00-05:00</published><updated>2025-12-11T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day6</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day6/"><![CDATA[<h4 id="-amplicon-week--day-6-wrap-up-from-reads-to-insights">🌱 Amplicon Week – Day 6 Wrap-Up: From Reads to Insights</h4>
-
-<p><strong>This wraps up five days of Amplicon Week 🎉</strong></p>
-
-<p>Over the past week, we’ve walked through the complete lifecycle of amplicon data analysis—from raw sequencing reads to biological interpretation.</p>
-
-<h4 id="what-we-covered-this-week">What we covered this week</h4>
-
-<p>Across five focused days, we explored:</p>
-
-<p>● Wet-lab concepts behind amplicon sequencing and marker choice</p>
-
-<p>● End-to-end QIIME2 workflows for 16S, ITS, 18S, 12S, and COI</p>
-
-<p>● Advanced visualization and statistics using Microeco in R</p>
-
-<p>● Functional prediction from amplicon data (PICRUSt2, Tax4Fun2, FAPROTAX)</p>
-
-<p>● Web-based microbiome exploration using easy16S</p>
-
-<p>If you’ve followed along, you now have multiple complementary ways to analyze amplicon datasets:</p>
-
-<p>● beginner-friendly GUIs</p>
-
-<p>● reproducible command-line pipelines</p>
-
-<p>● flexible R-based visualization and statistics</p>
-
-<p>📂 Full Amplicon Week materials</p>
-
-<p>All scripts, workflows, and documentation are openly available:</p>
-
-<p>🔗 https://github.com/jojyjohn28/AmpliconWeek_2025</p>
-
-<p>and corresponding blog posts are below!!!</p>
-
-<p><strong>Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcoding</strong>
-https://jojyjohn28.github.io/blog/amplicon-day1/
-<strong>Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training</strong>
-https://jojyjohn28.github.io/blog/amplicon-day2/
-<strong>Amplicon Week — Day 3: Visualization &amp; Ecological Analysis Using QIIME2 + Microeco (R)</strong>
-https://jojyjohn28.github.io/blog/amplicon-day3/
-<strong>Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)</strong>
-https://jojyjohn28.github.io/blog/amplicon-day4/
-<strong>Amplicon Week — Day 5: Web-based microbiome analysis with easy16S</strong>
-https://jojyjohn28.github.io/blog/amplicon-day5/</p>
-
-<p>This repository and blogs brings together everything covered during the week—organized by day, marker type, and analysis goal—so you can reuse and adapt the workflows for your own projects.</p>
-
-<p>Thanks for following Amplicon Week 2025 — and happy microbiome exploring! 🌍🧬</p>
-
-<p><img src="/assets/img/amplicon_new.png" alt="project_amplicon" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 6 of Amplicon sequencing and analyis.]]></summary></entry><entry><title type="html">Amplicon Week — Day 3: Visualization &amp;amp; Ecological Analysis Using QIIME2 + Microeco (R)</title><link href="https://jojyjohn28.github.io/blog/amplicon-day3/" rel="alternate" type="text/html" title="Amplicon Week — Day 3: Visualization &amp;amp; Ecological Analysis Using QIIME2 + Microeco (R)" /><published>2025-12-10T00:00:00-05:00</published><updated>2025-12-10T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day3</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day3/"><![CDATA[<h3 id="-amplicon-week--day-3">🌱 Amplicon Week — Day 3</h3>
+<p><img src="/assets/img/fp.png" alt="functioal_prediction" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 4 of Amplicon sequencing and analyis.]]></summary></entry><entry><title type="html">Amplicon Week — Day 3: Visualization &amp;amp; Ecological Analysis Using QIIME2 + Microeco (R)</title><link href="https://jojyjohn28.github.io/blog/amplicon-day3/" rel="alternate" type="text/html" title="Amplicon Week — Day 3: Visualization &amp;amp; Ecological Analysis Using QIIME2 + Microeco (R)" /><published>2025-12-10T00:00:00-05:00</published><updated>2025-12-10T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day3</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day3/"><![CDATA[<h3 id="-amplicon-week--day-3">🌱 Amplicon Week — Day 3</h3>
 
 <p>Visualization &amp; Ecological Analysis Using QIIME2 + Microeco (R)</p>
 
