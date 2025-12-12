@@ -17,13 +17,12 @@
   
   
     
-      News | Jojy John
+      Amplicon Week — Day 5: Web-based microbiome analysis with easy16S | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-">
+<meta name="description" content="Day 5 of Amplicon sequencing and analyis.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -61,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/news/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/amplicon-day5/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -145,8 +144,6 @@
             
           
             
-          
-            
               
                 
                 <li class="nav-item ">
@@ -161,9 +158,11 @@
             
               
                 
-                <li class="nav-item ">
+                <li class="nav-item active">
                   
                   <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -277,60 +276,173 @@
       
         
 
+
+
+
+
+
+
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">News</h1>
-    <p class="post-description"></p>
+    <h1 class="post-title">Amplicon Week — Day 5: Web-based microbiome analysis with easy16S</h1>
+    <p class="post-meta">
+      Created in December 11, 2025
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
+      
+
+      
+
+      
+    </p>
   </header>
 
-  <article>
-    <div class="news">
-  
-    
-    <div class="table-responsive">
-      <table class="table table-sm table-borderless">
-        
-        
-        
-          <tr>
-            <th scope="row" style="width: 20%">Nov 15, 2024</th>
-            <td>
-              
-                Abstract got accepted for ASLO 25 see at Charlotte, USA in March.
+  <article class="post-content">
+    <div id="markdown-content">
+      <h3 id="-amplicon-week--day-5">🌱 Amplicon Week – Day 5</h3>
 
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row" style="width: 20%">Mar 15, 2024</th>
-            <td>
-              
-                Abstract got accepted for ASM25 see at LA, USA in June.
+<h5 id="web-based-microbiome-analysis-with-easy16s">Web-based microbiome analysis with easy16S</h5>
 
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row" style="width: 20%">Jan 16, 2024</th>
-            <td>
-              
-                AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of College of Science,Clemson University.
+<p>Over the past four days of Amplicon Week, we’ve worked through amplicon data analysis using command-line tools (QIIME2), advanced R workflows (Microeco), and functional prediction approaches (PICRUSt2, Tax4Fun2, FAPROTAX).</p>
 
-              
-            </td>
-          </tr>
-        
-      </table>
+<p>While these approaches are powerful and flexible, <strong>they can feel overwhelming—especially for beginners, students, or collaborators who want to explore their data quickly without writing code.</strong></p>
+
+<h4 id="what-is-easy16s">What is easy16S?</h4>
+
+<p><strong>easy16S is a web-based, interactive application designed to facilitate the exploration, visualization, and analysis of microbiome (amplicon) data.</strong></p>
+
+<p>The main goal of easy16S is simplicity:
+to provide a user-friendly interface with sensible defaults that allows users to perform common microbiome analyses without needing to write scripts or manage complex environments.</p>
+
+<p>👉 Online instance:
+🔗 https://shiny.migale.inrae.fr/app/easy16S</p>
+
+<p>No installation required. No command line. Just upload your data and start exploring.
+For more deatails see: https://easy16s.migale.inrae.fr/</p>
+
+<h4 id="what-powers-easy16s-under-the-hood">What powers easy16S under the hood?</h4>
+
+<p>Although easy16S feels simple on the surface, it is built on robust and widely used microbiome frameworks:</p>
+
+<p>● phyloseq (and its extensions) for data handling and analysis</p>
+
+<p>● FROGS (Find Rapidly OTUs with Galaxy Solution) for sequence processing</p>
+
+<p>● Shiny (R) for interactive web visualization</p>
+
+<p>This makes easy16S a great bridge between point-and-click analysis and more advanced R-based workflows.</p>
+
+<h4 id="what-data-does-easy16s-expect">What data does easy16S expect?</h4>
+
+<p>easy16S is designed primarily for 16S rRNA gene amplicon data and typically works with:</p>
+
+<p>● Feature/OTU/ASV tables</p>
+
+<p>● Taxonomy tables</p>
+
+<p>● Sample metadata</p>
+
+<p>● (Optional) Phylogenetic trees</p>
+
+<p>If you’ve already processed your data using FROGS, integration is seamless.
+Data from QIIME2 or phyloseq can also be adapted for use in easy16S.
+<strong>If you want to try it, you can use the provided data from DAY3 of https://github.com/jojyjohn28/AmpliconWeek_2025</strong>
+<strong>or you can use the demo data set on easy16S</strong></p>
+
+<h4 id="what-can-you-do-with-easy16s">What can you do with easy16S?</h4>
+
+<p>easy16S covers most of the core exploratory analyses used in microbiome studies:</p>
+
+<p>🔹 Community composition</p>
+
+<p>● Taxonomic bar plots (Phylum → Genus)</p>
+
+<p>● Relative abundance summaries</p>
+
+<p>● Interactive filtering and grouping</p>
+
+<p>🔹 Alpha diversity</p>
+
+<p>● Observed richness</p>
+
+<p>● Shannon, Simpson, and related indices</p>
+
+<p>● Group comparisons with basic statistics</p>
+
+<p>🔹 Beta diversity</p>
+
+<p>● Distance matrices (e.g., Bray–Curtis)</p>
+
+<p>● Ordination plots (PCoA)</p>
+
+<p>● Group-based visual comparisons</p>
+
+<p>🔹 Visualization-first exploration</p>
+
+<p>● Interactive plots</p>
+
+<p>● Quick hypothesis generation</p>
+
+<p>● Exportable figures for reports or presentations</p>
+
+<p><strong>All of this can be done without writing a single line of code.</strong></p>
+
+<h4 id="where-does-easy16s-fit-in-an-amplicon-workflow">Where does easy16S fit in an amplicon workflow?</h4>
+
+<p>easy16S is not a replacement for tools like QIIME2, Microeco, or full R pipelines.
+Instead, it excels in specific situations:</p>
+
+<p>✅ Teaching and workshops
+✅ First-pass data exploration
+✅ Rapid visualization for collaborators
+✅ Hypothesis generation before deeper analysis</p>
+
+<p>A common and effective strategy is:</p>
+
+<p><strong>QIIME2 / FROGS → easy16S (exploration) → Microeco / R (advanced analysis)</strong></p>
+
+<h4 id="limitations-to-keep-in-mind">Limitations to keep in mind</h4>
+
+<p>● easy16S is primarily focused on 16S data</p>
+
+<p>● Custom statistical modeling is limited compared to R workflows</p>
+
+<p>● Functional prediction is not the main focus (better handled in Day 4 tools)</p>
+
+<p><strong>For complex experimental designs, publication-grade statistics, or multi-omics integration, command-line and R-based approaches remain essential.</strong></p>
+
+<h4 id="can-easy16s-be-used-for-other-amplicons-18s-its-12s-coi">Can easy16S be used for other amplicons (18S, ITS, 12S, COI)?</h4>
+
+<p>● Yes: easy16S can be used for non-16S amplicons at a basic exploratory level</p>
+
+<p><strong>“Although easy16S is designed for 16S rRNA gene data, it can also be used for other amplicon markers (ITS, 18S, 12S, COI) for basic community composition and diversity analyses. However, functional prediction and some marker-specific interpretations are limited, and 16S remains the primary use case.”</strong></p>
+
+<p><img src="/assets/img/easy16s.png" alt="easy16s"></p>
+
     </div>
-  
-</div>
-
-
   </article>
 
   
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
 
   
 </div>
