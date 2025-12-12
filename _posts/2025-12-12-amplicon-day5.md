@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Amplicon Week — Day 5: Web-based microbiome analysis with easy16S"
-date: 2025-12-11
+date: 2025-12-12
 description: "Day 5 of Amplicon sequencing and analyis."
 comments: true
 giscus_comments: true

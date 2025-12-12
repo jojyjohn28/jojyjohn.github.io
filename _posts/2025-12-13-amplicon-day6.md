@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Amplicon Week — Day 6: Wrap-Up: From Reads to Insights"
-date: 2025-12-11
+date: 2025-12-13
 description: "Day 6 of Amplicon sequencing and analyis."
 comments: true
 giscus_comments: true
