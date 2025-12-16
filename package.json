@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "@shopify/prettier-plugin-liquid": "^1.10.0",
-    "prettier": "^3.6.2"
+    "prettier": "^3.7.4"
   },
   "name": "jojyjohn.github.io",
   "description": "<div align=\"center\">",
@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/jojyjohn28/jojyjohn.github.io/issues"
   },
-  "homepage": "https://github.com/jojyjohn28/jojyjohn.github.io#readme"
+  "homepage": "https://github.com/jojyjohn28/jojyjohn.github.io#readme",
+  "dependencies": {
+    "html-styles": "^1.0.0",
+    "isarray": "^1.0.0",
+    "isobject": "^2.1.0",
+    "line-column": "^1.0.2",
+    "ohm-js": "^17.2.1"
+  }
 }
