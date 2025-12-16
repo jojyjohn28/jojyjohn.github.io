@@ -17,13 +17,12 @@
   
   
     
-      Announcement_1 | Jojy John
+      Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial &amp; Archaeal Reads | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-">
+<meta name="description" content="Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -61,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/news/announcement_1/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -159,9 +158,11 @@
             
               
                 
-                <li class="nav-item ">
+                <li class="nav-item active">
                   
                   <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -283,9 +284,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Announcement_1</h1>
+    <h1 class="post-title">Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial &amp; Archaeal Reads</h1>
     <p class="post-meta">
-      Created in January 16, 2024
+      Created in December 16, 2025
       
       
       
@@ -293,7 +294,7 @@
 
     <p class="post-tags">
       
-        <i class="fa-solid fa-calendar fa-sm"></i> 2024
+        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
       
 
       
@@ -304,7 +305,276 @@
 
   <article class="post-content">
     <div id="markdown-content">
-      <p>AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of College of Science,Clemson University.</p>
+      <h4 id="-size-fractionated-microbiome-anlaysis--day-2">🌊 Size Fractionated Microbiome Anlaysis — Day 2</h4>
+
+<p><strong>Kaiju taxonomic classification, summary tables, and read extraction</strong></p>
+
+<p>In Day 1, we focused on raw metagenome preprocessing (FastQC and trimming).</p>
+
+<p><strong>Today, in Day 2, we move to taxonomic classification using Kaiju.</strong></p>
+
+<p>Kaiju is a fast and sensitive classifier that operates at the protein level, translating sequencing reads and matching them against a reference protein database. This approach improves taxonomic resolution for divergent organisms commonly found in complex estuarine metagenomes.</p>
+
+<p>Beyond classification, today’s workflow has two key goals:</p>
+
+<ol>
+  <li>
+    <p>Generate structured summary tables that will be used directly for heatmap-based visualization and cross-sample comparisons.</p>
+  </li>
+  <li>
+    <p>Extract and save bacterial and archaeal reads for potential reuse in assembly- and MAG-based workflows.</p>
+  </li>
+</ol>
+
+<h4 id="-why-kaiju">🔬 Why Kaiju?</h4>
+
+<p>● Kaiju is particularly useful for shotgun metagenomic datasets because it:</p>
+
+<p>● Uses protein-level alignment (higher sensitivity than nucleotide-only methods)</p>
+
+<p>● Scales well to large datasets</p>
+
+<p>● Produces taxonomy-aware summary tables at multiple ranks</p>
+
+<p>In this series, Kaiju is one of three tools (alongside MetaPhlAn and mOTUs) that I am benchmarking before selecting a single method for consistent application across all samples.</p>
+
+<h4 id="️-installation">🛠️ Installation</h4>
+
+<p>Conda installation (recommended)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda kaiju
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda seqtk
+</code></pre></div></div>
+
+<h4 id="-step-1-database-setup"><strong>📦 Step 1: Database setup</strong></h4>
+
+<p>Kaiju requires a reference database and NCBI taxonomy files.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> ~/kaiju_db
+<span class="nb">cd</span> ~/kaiju_db
+kaiju-makedb <span class="nt">-s</span> refseq
+</code></pre></div></div>
+
+<p>Kaiju do have many databse options and we can choose 1 according to the aim of our analysis!</p>
+
+<p>kaiju-makedb -s refseq</p>
+
+<p>This step downloads and builds:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>● kaiju_db.fmi
+
+● nodes.dmp
+
+● names.dmp
+</code></pre></div></div>
+
+<p>⚠️ Database construction may take time and disk space.</p>
+
+<h5 id="️-kaiju-databases-overview-and-recommended-use">🗄️ Kaiju Databases: Overview and Recommended Use</h5>
+
+<p>The table below summarizes the commonly used Kaiju reference databases, their characteristics, and recommended use cases. <strong>Database choice directly affects taxonomic resolution, runtime, and downstream visualization, particularly when generating heatmaps for size-fractionated microbiomes.</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Database</th>
+      <th>Build Command</th>
+      <th>Taxonomic Coverage</th>
+      <th>Sensitivity</th>
+      <th>Runtime / Size</th>
+      <th>Recommended Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>RefSeq</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">kaiju-makedb -s refseq</code></td>
+      <td>Curated Bacteria, Archaea, selected microbial Eukaryotes</td>
+      <td>High</td>
+      <td>Moderate</td>
+      <td>
+<strong>Default choice</strong> for ecological profiling, FL vs PA comparisons, and heatmap generation</td>
+    </tr>
+    <tr>
+      <td><strong>NR</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">kaiju-makedb -s nr</code></td>
+      <td>Broad protein database including uncultured and environmental sequences</td>
+      <td>Very high</td>
+      <td>Very large / slow</td>
+      <td>Discovery-driven studies; detection of rare or highly divergent taxa</td>
+    </tr>
+    <tr>
+      <td><strong>ProGenomes</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">kaiju-makedb -s progenomes</code></td>
+      <td>Genome-derived, non-redundant microbial proteins</td>
+      <td>Moderate–High</td>
+      <td>Smaller / fast</td>
+      <td>Comparative genomics and benchmarking against genome-resolved tools</td>
+    </tr>
+    <tr>
+      <td><strong>Fungi</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">kaiju-makedb -s fungi</code></td>
+      <td>Fungal proteins only</td>
+      <td>High (fungi-specific)</td>
+      <td>Moderate</td>
+      <td>Targeted fungal read extraction from metagenomes</td>
+    </tr>
+    <tr>
+      <td><strong>Custom</strong></td>
+      <td>Custom FASTA build</td>
+      <td>User-defined</td>
+      <td>Variable</td>
+      <td>Variable</td>
+      <td>Targeted analyses (e.g., habitat-specific or clade-focused studies)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>🧠 Database choice for this study</strong></p>
+
+<p>For this size-fractionated estuarine microbiome analysis, I use the RefSeq database throughout the series because it provides the best balance between:</p>
+
+<p>● Taxonomic accuracy</p>
+
+<p>● Computational efficiency</p>
+
+<p>● Interpretability of abundance tables used for heatmaps and cross-sample comparisons</p>
+
+<p>Using a consistent, curated database also ensures fair benchmarking when comparing Kaiju outputs with MetaPhlAn and mOTUs in later steps.</p>
+
+<h4 id="-step-2-run-kaiju-on-paired-end-reads"><strong>🧬 Step 2: Run Kaiju on paired-end reads</strong></h4>
+
+<p>This command runs Kaiju on paired-end shotgun metagenomic reads, translating sequences into protein space and matching them against a reference database for taxonomic classification. The taxonomy file (nodes.dmp) and database index (kaiju_db.fmi) provide the taxonomic framework, while multi-threading (-z 8) and verbose mode (-v) ensure efficient and transparent execution.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju <span class="nt">-t</span> nodes.dmp <span class="nt">-f</span> kaiju_db.fmi <span class="se">\</span>
+  <span class="nt">-i</span> reads_1.fastq.gz <span class="nt">-j</span> reads_2.fastq.gz <span class="se">\</span>
+  <span class="nt">-o</span> kaiju.out <span class="nt">-z</span> 8 <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p><strong>Key parameters</strong></p>
+
+<p>● -t taxonomy tree</p>
+
+<p>● -f Kaiju database index</p>
+
+<p>● -i / -j paired-end reads</p>
+
+<p>● -z threads</p>
+
+<p>● -v verbose output</p>
+
+<h4 id="️-step-3-add-taxonomy-labels">🏷️ Step 3: Add taxonomy labels</h4>
+
+<p>This step appends readable taxonomy labels, which enables targeted filtering.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju-addTaxonNames <span class="nt">-t</span> nodes.dmp <span class="nt">-n</span> names.dmp <span class="se">\</span>
+  <span class="nt">-i</span> kaiju.out <span class="se">\</span>
+  <span class="nt">-o</span> kaiju_labeled.out <span class="se">\</span>
+  <span class="nt">-r</span> superkingdom
+</code></pre></div></div>
+
+<h4 id="-step-4-generate-kaiju-summary-tables-core-output">📊 Step 4: Generate Kaiju summary tables (core output)</h4>
+
+<p>Kaiju summary tables form the quantitative backbone for downstream visualization, including heatmaps comparing free-living and particle-attached communities.</p>
+
+<p>Superkingdom-level summary (quality control)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju2table <span class="nt">-t</span> nodes.dmp <span class="nt">-n</span> names.dmp <span class="nt">-r</span> superkingdom <span class="se">\</span>
+  <span class="nt">-o</span> kaiju_superkingdom_summary.tsv kaiju.out
+</code></pre></div></div>
+
+<p>This table is used to verify overall classification structure (Bacteria vs Archaea).</p>
+
+<p><strong>Phylum-level summary (used for heatmaps)</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju2table <span class="nt">-t</span> nodes.dmp <span class="nt">-n</span> names.dmp <span class="nt">-r</span> phylum <span class="nt">-m</span> 1.0 <span class="se">\</span>
+  <span class="nt">-o</span> kaiju_phylum_summary.tsv kaiju.out
+</code></pre></div></div>
+
+<p><strong>Why this step is critical</strong></p>
+
+<p>● Produces a clean, tabular abundance matrix</p>
+
+<p>● Reduces noise using a minimum abundance threshold</p>
+
+<p>● Directly compatible with R-based heatmap workflows</p>
+
+<p>*<em>These tables will be reused in later posts for:</em></p>
+
+<p>● FL vs PA comparisons</p>
+
+<p>● Seasonal and bay-specific patterns</p>
+
+<p>● Cross-method benchmarking</p>
+
+<h4 id="-step-5-extract-bacterial-and-archaeal-read-ids">🧫 Step 5: Extract bacterial and archaeal read IDs</h4>
+
+<p>To enable downstream analyses such as genome assembly and MAG binning, we next extract reads classified as Bacteria and Archaea. Isolating these reads reduces complexity and ensures that subsequent genome-resolved workflows focus on the core prokaryotic community.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">awk</span> <span class="nt">-F</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="s1">'$7 == "Bacteria" || $7 == "Archaea" { print $2 }'</span> <span class="se">\</span>
+  kaiju_labeled.out <span class="o">&gt;</span> bac_arch_reads.txt
+</code></pre></div></div>
+
+<p>The first step identifies read IDs that Kaiju classified at the superkingdom level as Bacteria or Archaea. These read identifiers are written to a text file, which will be used to subset the original FASTQ files.
+● Column 7 contains the superkingdom label added by kaiju-addTaxonNames</p>
+
+<p>● Column 2 contains the read ID</p>
+
+<p>● The output file (bac_arch_reads.txt) is a simple list of read names</p>
+
+<p><strong>Continue to extract FASTQ reads:</strong>
+seqtk is a lightweight and fast toolkit for manipulating FASTQ/FASTA files. Here, it is used to extract only those reads whose IDs appear in bac_arch_reads.txt, while preserving read pairing.</p>
+
+<p>Install seqtk</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda seqtk
+</code></pre></div></div>
+
+<p>Extract reads</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seqtk subseq reads_1.fastq.gz bac_arch_reads.txt <span class="o">&gt;</span> filtered_reads_1.fastq
+seqtk subseq reads_2.fastq.gz bac_arch_reads.txt <span class="o">&gt;</span> filtered_reads_2.fastq
+</code></pre></div></div>
+
+<p>● subseq extracts sequences matching a list of read IDs</p>
+
+<p>● Both R1 and R2 files are filtered using the same ID list</p>
+
+<p>● Paired-end structure is maintained</p>
+
+<p><strong>These filtered reads can later be used for:</strong></p>
+
+<p>● Assembly (MEGAHIT / metaSPAdes)</p>
+
+<p>● Binning (MetaWRAP, SemiBin2)</p>
+
+<p>● Genome-resolved ecological analysis</p>
+
+<p>🔜 What’s Next?</p>
+
+<h4 id="️-figure-description">🖼️ Figure description</h4>
+
+<p>Today’s figure represents the final, polished visualization generated in R using taxonomic abundance tables derived from Kaiju. The stacked bar plot shows relative abundances at the order level, enabling direct comparison of community composition across samples.</p>
+
+<p>All data processing and visualization were performed using R (v4.x) with packages from the tidyverse ecosystem, and both the input data and complete R code are openly available in the project’s GitHub repository for full reproducibility.</p>
+
+<p>📂 Data and code availability:
+All Kaiju summary tables and R scripts used to generate this figure are available in the GitHub project repository.
+https://github.com/jojyjohn28/Size_Fractionated_Microbiome_Analysis</p>
+
+<p>📦 R packages used</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Core tidyverse packages</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">   </span><span class="c1"># visualization</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">    </span><span class="c1"># reading Excel files</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">     </span><span class="c1"># data manipulation</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">     </span><span class="c1"># data reshaping</span><span class="w">
+</span></code></pre></div></div>
+
+<p>📅 Day 3: MetaPhlAn — marker gene-based profiling
+We will compare MetaPhlAn-derived abundance tables against Kaiju outputs and begin systematic benchmarking across size fractions.</p>
+
+<p><img src="/assets/img/kaiju.png" alt="project_total_community_kaiju"></p>
 
     </div>
   </article>
@@ -314,6 +584,16 @@
   
 
   
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
 
   
 </div>

@@ -1,5 +1,273 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-15T21:15:25-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data</title><link href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1/" rel="alternate" type="text/html" title="Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data" /><published>2025-12-15T00:00:00-05:00</published><updated>2025-12-15T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1/"><![CDATA[<h4 id="-size-fractionated-microbiome-anlaysis--day-1">🌊 Size Fractionated Microbiome Anlaysis — Day 1</h4>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-16T17:00:11-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial &amp;amp; Archaeal Reads</title><link href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/" rel="alternate" type="text/html" title="Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial &amp;amp; Archaeal Reads" /><published>2025-12-16T00:00:00-05:00</published><updated>2025-12-16T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/"><![CDATA[<h4 id="-size-fractionated-microbiome-anlaysis--day-2">🌊 Size Fractionated Microbiome Anlaysis — Day 2</h4>
+
+<p><strong>Kaiju taxonomic classification, summary tables, and read extraction</strong></p>
+
+<p>In Day 1, we focused on raw metagenome preprocessing (FastQC and trimming).</p>
+
+<p><strong>Today, in Day 2, we move to taxonomic classification using Kaiju.</strong></p>
+
+<p>Kaiju is a fast and sensitive classifier that operates at the protein level, translating sequencing reads and matching them against a reference protein database. This approach improves taxonomic resolution for divergent organisms commonly found in complex estuarine metagenomes.</p>
+
+<p>Beyond classification, today’s workflow has two key goals:</p>
+
+<ol>
+  <li>
+    <p>Generate structured summary tables that will be used directly for heatmap-based visualization and cross-sample comparisons.</p>
+  </li>
+  <li>
+    <p>Extract and save bacterial and archaeal reads for potential reuse in assembly- and MAG-based workflows.</p>
+  </li>
+</ol>
+
+<h4 id="-why-kaiju">🔬 Why Kaiju?</h4>
+
+<p>● Kaiju is particularly useful for shotgun metagenomic datasets because it:</p>
+
+<p>● Uses protein-level alignment (higher sensitivity than nucleotide-only methods)</p>
+
+<p>● Scales well to large datasets</p>
+
+<p>● Produces taxonomy-aware summary tables at multiple ranks</p>
+
+<p>In this series, Kaiju is one of three tools (alongside MetaPhlAn and mOTUs) that I am benchmarking before selecting a single method for consistent application across all samples.</p>
+
+<h4 id="️-installation">🛠️ Installation</h4>
+
+<p>Conda installation (recommended)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda kaiju
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda seqtk
+</code></pre></div></div>
+
+<h4 id="-step-1-database-setup"><strong>📦 Step 1: Database setup</strong></h4>
+
+<p>Kaiju requires a reference database and NCBI taxonomy files.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> ~/kaiju_db
+<span class="nb">cd</span> ~/kaiju_db
+kaiju-makedb <span class="nt">-s</span> refseq
+</code></pre></div></div>
+
+<p>Kaiju do have many databse options and we can choose 1 according to the aim of our analysis!</p>
+
+<p>kaiju-makedb -s refseq</p>
+
+<p>This step downloads and builds:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>● kaiju_db.fmi
+
+● nodes.dmp
+
+● names.dmp
+</code></pre></div></div>
+
+<p>⚠️ Database construction may take time and disk space.</p>
+
+<h5 id="️-kaiju-databases-overview-and-recommended-use">🗄️ Kaiju Databases: Overview and Recommended Use</h5>
+
+<p>The table below summarizes the commonly used Kaiju reference databases, their characteristics, and recommended use cases. <strong>Database choice directly affects taxonomic resolution, runtime, and downstream visualization, particularly when generating heatmaps for size-fractionated microbiomes.</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Database</th>
+      <th>Build Command</th>
+      <th>Taxonomic Coverage</th>
+      <th>Sensitivity</th>
+      <th>Runtime / Size</th>
+      <th>Recommended Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>RefSeq</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">kaiju-makedb -s refseq</code></td>
+      <td>Curated Bacteria, Archaea, selected microbial Eukaryotes</td>
+      <td>High</td>
+      <td>Moderate</td>
+      <td><strong>Default choice</strong> for ecological profiling, FL vs PA comparisons, and heatmap generation</td>
+    </tr>
+    <tr>
+      <td><strong>NR</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">kaiju-makedb -s nr</code></td>
+      <td>Broad protein database including uncultured and environmental sequences</td>
+      <td>Very high</td>
+      <td>Very large / slow</td>
+      <td>Discovery-driven studies; detection of rare or highly divergent taxa</td>
+    </tr>
+    <tr>
+      <td><strong>ProGenomes</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">kaiju-makedb -s progenomes</code></td>
+      <td>Genome-derived, non-redundant microbial proteins</td>
+      <td>Moderate–High</td>
+      <td>Smaller / fast</td>
+      <td>Comparative genomics and benchmarking against genome-resolved tools</td>
+    </tr>
+    <tr>
+      <td><strong>Fungi</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">kaiju-makedb -s fungi</code></td>
+      <td>Fungal proteins only</td>
+      <td>High (fungi-specific)</td>
+      <td>Moderate</td>
+      <td>Targeted fungal read extraction from metagenomes</td>
+    </tr>
+    <tr>
+      <td><strong>Custom</strong></td>
+      <td>Custom FASTA build</td>
+      <td>User-defined</td>
+      <td>Variable</td>
+      <td>Variable</td>
+      <td>Targeted analyses (e.g., habitat-specific or clade-focused studies)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>🧠 Database choice for this study</strong></p>
+
+<p>For this size-fractionated estuarine microbiome analysis, I use the RefSeq database throughout the series because it provides the best balance between:</p>
+
+<p>● Taxonomic accuracy</p>
+
+<p>● Computational efficiency</p>
+
+<p>● Interpretability of abundance tables used for heatmaps and cross-sample comparisons</p>
+
+<p>Using a consistent, curated database also ensures fair benchmarking when comparing Kaiju outputs with MetaPhlAn and mOTUs in later steps.</p>
+
+<h4 id="-step-2-run-kaiju-on-paired-end-reads"><strong>🧬 Step 2: Run Kaiju on paired-end reads</strong></h4>
+
+<p>This command runs Kaiju on paired-end shotgun metagenomic reads, translating sequences into protein space and matching them against a reference database for taxonomic classification. The taxonomy file (nodes.dmp) and database index (kaiju_db.fmi) provide the taxonomic framework, while multi-threading (-z 8) and verbose mode (-v) ensure efficient and transparent execution.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju <span class="nt">-t</span> nodes.dmp <span class="nt">-f</span> kaiju_db.fmi <span class="se">\</span>
+  <span class="nt">-i</span> reads_1.fastq.gz <span class="nt">-j</span> reads_2.fastq.gz <span class="se">\</span>
+  <span class="nt">-o</span> kaiju.out <span class="nt">-z</span> 8 <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p><strong>Key parameters</strong></p>
+
+<p>● -t taxonomy tree</p>
+
+<p>● -f Kaiju database index</p>
+
+<p>● -i / -j paired-end reads</p>
+
+<p>● -z threads</p>
+
+<p>● -v verbose output</p>
+
+<h4 id="️-step-3-add-taxonomy-labels">🏷️ Step 3: Add taxonomy labels</h4>
+
+<p>This step appends readable taxonomy labels, which enables targeted filtering.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju-addTaxonNames <span class="nt">-t</span> nodes.dmp <span class="nt">-n</span> names.dmp <span class="se">\</span>
+  <span class="nt">-i</span> kaiju.out <span class="se">\</span>
+  <span class="nt">-o</span> kaiju_labeled.out <span class="se">\</span>
+  <span class="nt">-r</span> superkingdom
+</code></pre></div></div>
+
+<h4 id="-step-4-generate-kaiju-summary-tables-core-output">📊 Step 4: Generate Kaiju summary tables (core output)</h4>
+
+<p>Kaiju summary tables form the quantitative backbone for downstream visualization, including heatmaps comparing free-living and particle-attached communities.</p>
+
+<p>Superkingdom-level summary (quality control)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju2table <span class="nt">-t</span> nodes.dmp <span class="nt">-n</span> names.dmp <span class="nt">-r</span> superkingdom <span class="se">\</span>
+  <span class="nt">-o</span> kaiju_superkingdom_summary.tsv kaiju.out
+</code></pre></div></div>
+
+<p>This table is used to verify overall classification structure (Bacteria vs Archaea).</p>
+
+<p><strong>Phylum-level summary (used for heatmaps)</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju2table <span class="nt">-t</span> nodes.dmp <span class="nt">-n</span> names.dmp <span class="nt">-r</span> phylum <span class="nt">-m</span> 1.0 <span class="se">\</span>
+  <span class="nt">-o</span> kaiju_phylum_summary.tsv kaiju.out
+</code></pre></div></div>
+
+<p><strong>Why this step is critical</strong></p>
+
+<p>● Produces a clean, tabular abundance matrix</p>
+
+<p>● Reduces noise using a minimum abundance threshold</p>
+
+<p>● Directly compatible with R-based heatmap workflows</p>
+
+<p>*<em>These tables will be reused in later posts for:</em></p>
+
+<p>● FL vs PA comparisons</p>
+
+<p>● Seasonal and bay-specific patterns</p>
+
+<p>● Cross-method benchmarking</p>
+
+<h4 id="-step-5-extract-bacterial-and-archaeal-read-ids">🧫 Step 5: Extract bacterial and archaeal read IDs</h4>
+
+<p>To enable downstream analyses such as genome assembly and MAG binning, we next extract reads classified as Bacteria and Archaea. Isolating these reads reduces complexity and ensures that subsequent genome-resolved workflows focus on the core prokaryotic community.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">awk</span> <span class="nt">-F</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="s1">'$7 == "Bacteria" || $7 == "Archaea" { print $2 }'</span> <span class="se">\</span>
+  kaiju_labeled.out <span class="o">&gt;</span> bac_arch_reads.txt
+</code></pre></div></div>
+
+<p>The first step identifies read IDs that Kaiju classified at the superkingdom level as Bacteria or Archaea. These read identifiers are written to a text file, which will be used to subset the original FASTQ files.
+● Column 7 contains the superkingdom label added by kaiju-addTaxonNames</p>
+
+<p>● Column 2 contains the read ID</p>
+
+<p>● The output file (bac_arch_reads.txt) is a simple list of read names</p>
+
+<p><strong>Continue to extract FASTQ reads:</strong>
+seqtk is a lightweight and fast toolkit for manipulating FASTQ/FASTA files. Here, it is used to extract only those reads whose IDs appear in bac_arch_reads.txt, while preserving read pairing.</p>
+
+<p>Install seqtk</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda seqtk
+</code></pre></div></div>
+
+<p>Extract reads</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seqtk subseq reads_1.fastq.gz bac_arch_reads.txt <span class="o">&gt;</span> filtered_reads_1.fastq
+seqtk subseq reads_2.fastq.gz bac_arch_reads.txt <span class="o">&gt;</span> filtered_reads_2.fastq
+</code></pre></div></div>
+
+<p>● subseq extracts sequences matching a list of read IDs</p>
+
+<p>● Both R1 and R2 files are filtered using the same ID list</p>
+
+<p>● Paired-end structure is maintained</p>
+
+<p><strong>These filtered reads can later be used for:</strong></p>
+
+<p>● Assembly (MEGAHIT / metaSPAdes)</p>
+
+<p>● Binning (MetaWRAP, SemiBin2)</p>
+
+<p>● Genome-resolved ecological analysis</p>
+
+<p>🔜 What’s Next?</p>
+
+<h4 id="️-figure-description">🖼️ Figure description</h4>
+
+<p>Today’s figure represents the final, polished visualization generated in R using taxonomic abundance tables derived from Kaiju. The stacked bar plot shows relative abundances at the order level, enabling direct comparison of community composition across samples.</p>
+
+<p>All data processing and visualization were performed using R (v4.x) with packages from the tidyverse ecosystem, and both the input data and complete R code are openly available in the project’s GitHub repository for full reproducibility.</p>
+
+<p>📂 Data and code availability:
+All Kaiju summary tables and R scripts used to generate this figure are available in the GitHub project repository.
+https://github.com/jojyjohn28/Size_Fractionated_Microbiome_Analysis</p>
+
+<p>📦 R packages used</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Core tidyverse packages</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">   </span><span class="c1"># visualization</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">    </span><span class="c1"># reading Excel files</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">     </span><span class="c1"># data manipulation</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">     </span><span class="c1"># data reshaping</span><span class="w">
+</span></code></pre></div></div>
+
+<p>📅 Day 3: MetaPhlAn — marker gene-based profiling
+We will compare MetaPhlAn-derived abundance tables against Kaiju outputs and begin systematic benchmarking across size fractions.</p>
+
+<p><img src="/assets/img/kaiju.png" alt="project_total_community_kaiju" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.]]></summary></entry><entry><title type="html">Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data</title><link href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1/" rel="alternate" type="text/html" title="Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data" /><published>2025-12-15T00:00:00-05:00</published><updated>2025-12-15T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1/"><![CDATA[<h4 id="-size-fractionated-microbiome-anlaysis--day-1">🌊 Size Fractionated Microbiome Anlaysis — Day 1</h4>
 
 <p>Today, I’m sharing the beginning of a new analysis series focused on a project exploring:</p>
 
@@ -1773,214 +2041,4 @@ AWM4_233_renumbered.fa 182 5807
 <p>✨ Result:
 12 high-quality genomes successfully resubmitted to NCBI.</p>
 
-<p><img src="/assets/img/ncbi_submission.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.]]></summary></entry><entry><title type="html">Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence</title><link href="https://jojyjohn28.github.io/blog/dual-booting-with-linux/" rel="alternate" type="text/html" title="Installing &amp;amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot, Partitions &amp;amp; Persistence" /><published>2025-12-04T00:00:00-05:00</published><updated>2025-12-04T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Dual_booting_with_linux</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/dual-booting-with-linux/"><![CDATA[<p>Today’s entry is a special one — not about metagenomics, CAZymes, MAGs, or FRed models —<br />
-but about something equally important for any computational biologist:</p>
-
-<p>👉 <strong>setting up a reliable Linux machine.</strong></p>
-
-<p>If you’ve ever tried installing Ubuntu alongside Windows on a modern NVMe laptop<br />
-(especially Dell Inspiron or XPS), you know the process can be…</p>
-
-<p><strong>fascinating + frustrating + educational.</strong></p>
-
-<p>Here’s how my day went.</p>
-
-<hr />
-
-<h5 id="-step-1--preparing-windows-for-dual-boot">🔧 Step 1 — Preparing Windows for Dual-Boot</h5>
-
-<p>Before touching Linux, I fixed Windows first.</p>
-
-<h3 id="-disabled-fast-startup">✔ Disabled Fast Startup</h3>
-
-<p>Fast Startup locks the NTFS filesystem and blocks Linux installers from modifying disks.<br />
-(For dual-boot, it <em>must</em> be off.)</p>
-
-<h3 id="-created-unallocated-space">✔ Created Unallocated Space</h3>
-
-<p>Using <strong>Windows Disk Management → Shrink Volume</strong>, I freed:</p>
-
-<p>➡️ <strong>~1 TB of unallocated space</strong></p>
-
-<p>This will later become:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">/</code> (root)</li>
-  <li><code class="language-plaintext highlighter-rouge">/home</code></li>
-  <li>swap</li>
-</ul>
-
-<p>Everything looked good… <strong>until things got interesting.</strong></p>
-
-<hr />
-
-<h5 id="-step-2--creating-the-bootable-usb">💽 Step 2 — Creating the Bootable USB</h5>
-
-<p>(and discovering the importance of a <em>good</em> USB drive)</p>
-
-<p>Downloaded <strong>Ubuntu 24.04.3 LTS</strong>, then flashed the installer.</p>
-
-<h3 id="on-linux-preferred">On Linux (preferred):</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo dd </span><span class="k">if</span><span class="o">=</span>ubuntu.iso <span class="nv">of</span><span class="o">=</span>/dev/sdb <span class="nv">bs</span><span class="o">=</span>4M <span class="nv">status</span><span class="o">=</span>progress <span class="nv">oflag</span><span class="o">=</span><span class="nb">sync</span>
-</code></pre></div></div>
-
-<p><strong>On Windows, I recommend:</strong>
-Rufus
-Select ISO
-Partition scheme = GPT
-Target = UEFI
-File system = FAT32</p>
-
-<p>➤ Everything looked smooth — until the installer suddenly failed with:</p>
-
-<p>❌ curtin command install
-❌ rsync error 23
-❌ “System error detected. Installation failed.”</p>
-
-<p>Root cause:
-👉 My USB stick was corrupted.It was partioned into many small fragments while creating the USB disk.
-➜A bad USB = hours wasted.
-➜So I grabbed a new 64 GB drive, reflashed, rebooted… and finally reached the installer correctly.</p>
-
-<h5 id="-step-3--installer-could-not-recognize-my-partitions">🧭 Step 3 — Installer Could Not Recognize My Partitions</h5>
-
-<p>(The tricky part begins)
-Inside the Ubuntu installer (Manual Installation), I saw:</p>
-
-<p>● p1 → EFI (FAT32)
-● p2 → Microsoft Reserved
-● p3 → Windows (NTFS)
-● p5 → WINRETOOLS</p>
-
-<p>Free space → 953 GB
-But the installer did NOT show the “+” button to create new partitions.
-<strong>Meaning: I could not proceed.</strong></p>
-
-<p>🔍 The Fix
-Boot into Try Ubuntu, open GParted, and create the partitions manually.</p>
-
-<h5 id="-step-4--manual-partitioning-in-gparted">🧱 Step 4 — Manual Partitioning in GParted</h5>
-
-<p>(The correct final layout)
-Here’s exactly what I created:
-1️⃣ Root /
-105 GB
-ext4
-Mount: /</p>
-
-<p>2️⃣ Swap
-With 64 GB RAM, I created:
-17 GB swap</p>
-
-<p>3️⃣ Home /home
-~902 GB
-ext4
-Mount: /home</p>
-
-<p>4️⃣ EFI (existing Windows EFI)</p>
-
-<p>Never create a new EFI partition when dual-booting.
-I reused:
-/dev/nvme0n1p1
-FAT32
-Mount: /boot/efi
-<strong>Do NOT format</strong></p>
-
-<h4 id="-final-partition-table">📊 Final Partition Table</h4>
-
-<table>
-  <thead>
-    <tr>
-      <th>Partition</th>
-      <th>Type</th>
-      <th>Mount</th>
-      <th>Purpose</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>nvme0n1p1</td>
-      <td>VFAT</td>
-      <td>/boot/efi</td>
-      <td>Windows + Ubuntu bootloader</td>
-    </tr>
-    <tr>
-      <td>nvme0n1p4</td>
-      <td>ext4</td>
-      <td>/</td>
-      <td>Ubuntu root</td>
-    </tr>
-    <tr>
-      <td>nvme0n1p6</td>
-      <td>swap</td>
-      <td>—</td>
-      <td>Swap</td>
-    </tr>
-    <tr>
-      <td>nvme0n1p7</td>
-      <td>ext4</td>
-      <td>/home</td>
-      <td>User home</td>
-    </tr>
-    <tr>
-      <td>nvme0n1p3</td>
-      <td>NTFS</td>
-      <td>—</td>
-      <td>Windows C: drive</td>
-    </tr>
-  </tbody>
-</table>
-
-<h5 id="-step-5--running-the-installer-again">🚀 Step 5 — Running the Installer Again</h5>
-
-<p>I re-opened the Ubuntu installer.
-This time the “Review Your Choices” screen looked perfect:</p>
-
-<p>✔ EFI correctly detected
-✔ Root, swap, home all mapped
-✔ No formatting of Windows partitions
-✔ Bootloader target = nvme0n1</p>
-
-<p>I clicked Install and…</p>
-
-<p><strong>🎉 It finally completed successfully!</strong></p>
-
-<h5 id="-step-6--first-boot--initial-setup">🧵 Step 6 — First Boot &amp; Initial Setup</h5>
-
-<p>After reboot:
-GRUB menu appeared (Ubuntu + Windows Boot Manager)
-Ubuntu booted cleanly
-/home and / mounted correctly
-Swap active</p>
-
-<p><strong>First software installed:</strong>
-● VS Code
-● RStudio
-● Conda / Mamba
-● Git
-● Jupyter, pandas, biopython
-● GCC, g++, make
-● Browsers &amp; utilities</p>
-
-<h4 id="my-system-is-officially-ready-for-serious-computational-biology-work"><strong>My system is officially ready for serious computational biology work.</strong></h4>
-
-<p><strong>🎉 Final Thoughts</strong></p>
-
-<p>This installation was a journey involving:</p>
-
-<p>● corrupted USB drives
-● missing partition options
-● EFI confusion
-● manual fixes in GParted
-● several reinstall attempts</p>
-
-<p>But in the end, I now have:</p>
-
-<p>💻 A stable dual-boot Linux system
-📦 Clean partitions optimized for bioinformatics
-🧬 A fast environment ready for MAGs, CAZymes, MTX, and more</p>
-
-<p>If you’re a researcher switching to Linux or setting up dual-boot for the first time, don’t worry if things break — it’s all part of learning.</p>
-
-<p><img src="/assets/img/welcome_image.png" alt="welcome to Ubuntu 24.04" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.]]></summary></entry></feed>
+<p><img src="/assets/img/ncbi_submission.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.]]></summary></entry></feed>
