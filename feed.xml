@@ -1,5 +1,194 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-12T14:36:39-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Amplicon Week — Day 6: Wrap-Up: From Reads to Insights</title><link href="https://jojyjohn28.github.io/blog/amplicon-day6/" rel="alternate" type="text/html" title="Amplicon Week — Day 6: Wrap-Up: From Reads to Insights" /><published>2025-12-13T00:00:00-05:00</published><updated>2025-12-13T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day6</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day6/"><![CDATA[<h4 id="-amplicon-week--day-6-wrap-up-from-reads-to-insights">🌱 Amplicon Week – Day 6 Wrap-Up: From Reads to Insights</h4>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-15T21:01:02-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Total Community Analysis from Metagenomes — Day 1: From Raw Reads to Clean Data</title><link href="https://jojyjohn28.github.io/blog/metagenome-total-community-day1/" rel="alternate" type="text/html" title="Total Community Analysis from Metagenomes — Day 1: From Raw Reads to Clean Data" /><published>2025-12-15T00:00:00-05:00</published><updated>2025-12-15T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome-total-community-day1</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-total-community-day1/"><![CDATA[<h4 id="-total-community-analysis-from-metagenomes--day-1">🌊 Total Community Analysis from Metagenomes — Day 1</h4>
+
+<p><strong>From Raw Reads to Clean, Analysis-Ready Data</strong></p>
+
+<p>Today, I’m sharing the beginning of a new analysis series focused on a project exploring:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gt">&gt; **How resource partitioning and co-occurrence shape functional redundancy in size-fractionated microbiomes from the Delaware and Chesapeake Bays**</span>
+</code></pre></div></div>
+
+<p>All analyses in this project are performed at the shotgun metagenome read level, allowing us to directly examine both total and active microbial communities without marker-gene or PCR biases.</p>
+
+<p>This project has many dimensions to explore. I decided to start with the foundation:
+<strong>total community profiling</strong>, before moving on to activity-based (RNA-informed) analyses.</p>
+
+<p>To do this systematically, I plan to test <strong>three different taxonomic profiling tools</strong> and ultimately select one robust method to apply consistently across all samples, based on performance and biological interpretability.</p>
+
+<p>But <strong>before asking who is there in a metagenome</strong>, we must first make sure the data we start with is <strong>*clean, reliable, and biologically meaningful.</strong></p>
+
+<h4 id="-what-this-series-is-about">🔬 What This Series Is About</h4>
+
+<p>Shotgun metagenomics allows us to profile entire microbial communities without PCR amplification, capturing:</p>
+
+<p>● Bacteria</p>
+
+<p>● Archaea</p>
+
+<p>This series will walk through multiple approaches for total community profiling from shotgun metagenomes, starting from raw reads and ending with comparative evaluation of methods.</p>
+
+<p><strong>Planned roadmap:</strong></p>
+
+<p>Day 1: Raw read quality control &amp; preprocessing</p>
+
+<p>Day 2: Kaiju — protein-level taxonomic classification</p>
+
+<p>Day 3: MetaPhlAn — marker-gene based profiling</p>
+
+<p>Day 4: mOTUs — genome-resolved profiling + tool comparison + GitHub release</p>
+
+<p>Today, we start at the very beginning.</p>
+
+<h4 id="-day-1-focus-raw-metagenome-preprocessing">📅 Day 1 Focus: Raw Metagenome Preprocessing</h4>
+
+<p>Transform raw FASTQ files into clean, trimmed reads suitable for downstream community profiling.</p>
+
+<p>Today’s workflow includes:</p>
+
+<p>● Initial inspection of raw metagenomic reads</p>
+
+<p>● Read quality assessment</p>
+
+<p>● Adapter and quality trimming using Trimmomatic</p>
+
+<p>● Generating analysis-ready FASTQ files</p>
+
+<h4 id="1--input-data">1. 📂 Input Data</h4>
+
+<p>Typical input for shotgun metagenomics:</p>
+
+<p>This step is often overlooked, but it controls the quality of everything downstream.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_R1.fastq.gz
+sample_R2.fastq.gz
+</code></pre></div></div>
+
+<p>These are paired-end Illumina reads (e.g., NovaSeq, HiSeq, NextSeq).</p>
+
+<h4 id="2-️-tool-installation">2. 🛠️ Tool Installation</h4>
+
+<p><strong>FastQC</strong></p>
+
+<p>FastQC is used for visual inspection of read quality.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda fastqc
+</code></pre></div></div>
+
+<p><strong>Trimmomatic</strong></p>
+
+<p>Trimmomatic performs adapter removal and quality trimming.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda trimmomatic
+</code></pre></div></div>
+
+<p>Make sure you also have the adapter file (e.g. TruSeq3-PE.fa), which is usually included in the Trimmomatic installation.</p>
+
+<h4 id="3--step-1-initial-quality-check">3. 🔍 Step 1: Initial Quality Check</h4>
+
+<p>Before trimming, always inspect raw read quality.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fastqc sample_R1.fastq.gz sample_R2.fastq.gz
+</code></pre></div></div>
+
+<p><strong>Key things to examine:</strong></p>
+
+<p>● Per-base sequence quality</p>
+
+<p>● Adapter contamination</p>
+
+<p>● Overrepresented sequences</p>
+
+<p>● Read length distribution</p>
+
+<p>At this stage, don’t panic — <strong>raw reads often look messy, and that’s completely normal.</strong></p>
+
+<h4 id="4-️-step-2-trimming--filtering-with-trimmomatic">4. ✂️ Step 2: Trimming &amp; Filtering with Trimmomatic</h4>
+
+<p>For metagenomic data, trimming is essential to:</p>
+
+<p>Remove adapters</p>
+
+<p>Trim low-quality bases</p>
+
+<p>Discard very short reads</p>
+
+<p>Example Trimmomatic Command (Paired-End)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>trimmomatic PE <span class="nt">-threads</span> 16 <span class="se">\</span>
+  sample_R1.fastq.gz sample_R2.fastq.gz <span class="se">\</span>
+  sample_R1.trimmed.fastq.gz sample_R1.unpaired.fastq.gz <span class="se">\</span>
+  sample_R2.trimmed.fastq.gz sample_R2.unpaired.fastq.gz <span class="se">\</span>
+  ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 <span class="se">\</span>
+  LEADING:3 <span class="se">\</span>
+  TRAILING:3 <span class="se">\</span>
+  SLIDINGWINDOW:4:15 <span class="se">\</span>
+  MINLEN:50
+</code></pre></div></div>
+
+<p><strong>What each parameter does:</strong></p>
+
+<p>● ILLUMINACLIP → removes adapter contamination</p>
+
+<p>● LEADING / TRAILING → trims low-quality bases at read ends</p>
+
+<p>● SLIDINGWINDOW → trims when average quality drops</p>
+
+<p>● MINLEN → removes very short reads</p>
+
+<p>For downstream taxonomic profiling, the paired trimmed reads are typically used.</p>
+
+<h4 id="5--step-3-post-trimming-quality-check">5. 📊 Step 3: Post-Trimming Quality Check</h4>
+
+<p>Always re-run FastQC after trimming:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fastqc sample_R1.trimmed.fastq.gz sample_R2.trimmed.fastq.gz
+</code></pre></div></div>
+
+<p><strong>You should now observe:</strong></p>
+
+<p>● Improved base quality profiles</p>
+
+<p>● Reduced adapter signals</p>
+
+<p>● Cleaner, more consistent reads</p>
+
+<h4 id="-output-of-day-1">📁 Output of Day 1</h4>
+
+<p>By the end of Day 1, you should have:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_R1.trimmed.fastq.gz
+sample_R2.trimmed.fastq.gz
+</code></pre></div></div>
+
+<p>These files are analysis-ready and will be used for all taxonomic profiling approaches in the coming days.</p>
+
+<h4 id="-why-this-step-matters">🧠 Why This Step Matters</h4>
+
+<p>Every profiling tool (Kaiju, MetaPhlAn, mOTUs) assumes:</p>
+
+<p>● High-quality reads</p>
+
+<p>● Minimal sequencing errors</p>
+
+<p>● No adapter contamination</p>
+
+<p><strong>Skipping or rushing preprocessing can:</strong></p>
+
+<p>● Inflate false positives</p>
+
+<p>● Bias abundance estimates</p>
+
+<p>R● educe mapping accuracy</p>
+
+<p><strong>👉 Clean input = trustworthy biological conclusions</strong></p>
+
+<p>On day 2 we will use Kaiju for exploring total community analysis.</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gt">&gt; The figure attached here is generated from Kaiju outputs.</span>
+<span class="gt">&gt; More details about this analysis will be covered in Day 2.</span>
+</code></pre></div></div>
+
+<p><img src="/assets/img/total-community.png" alt="project_total_community" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling.]]></summary></entry><entry><title type="html">Amplicon Week — Day 6: Wrap-Up: From Reads to Insights</title><link href="https://jojyjohn28.github.io/blog/amplicon-day6/" rel="alternate" type="text/html" title="Amplicon Week — Day 6: Wrap-Up: From Reads to Insights" /><published>2025-12-13T00:00:00-05:00</published><updated>2025-12-13T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day6</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day6/"><![CDATA[<h4 id="-amplicon-week--day-6-wrap-up-from-reads-to-insights">🌱 Amplicon Week – Day 6 Wrap-Up: From Reads to Insights</h4>
 
 <p><strong>This wraps up five days of Amplicon Week 🎉</strong></p>
 
@@ -1791,182 +1980,4 @@ Swap active</p>
 
 <p>If you’re a researcher switching to Linux or setting up dual-boot for the first time, don’t worry if things break — it’s all part of learning.</p>
 
-<p><img src="/assets/img/welcome_image.png" alt="welcome to Ubuntu 24.04" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.]]></summary></entry><entry><title type="html">GTDB-Tk Complete Workflow</title><link href="https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/" rel="alternate" type="text/html" title="GTDB-Tk Complete Workflow" /><published>2025-12-03T00:00:00-05:00</published><updated>2025-12-03T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/gtdbtk-tree-custom</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/"><![CDATA[<p>When I began in bioinformatics, those beautifully annotated phylogenetic trees felt impossible to create. Later, when I started binning and whole-genome analysis, visualizing my own genomes with that same level of detail became one of my top goals.</p>
-
-<p>That’s when I finally ended up using <strong>GTDB-Tk for tree building and iTOL for annotation</strong>, and it opened a whole new world of possibilities.</p>
-
-<h2 id="introduction"><strong>Introduction</strong></h2>
-
-<p>GTDB-Tk (Genome Taxonomy Database Toolkit) has become one of the most widely used tools for classifying bacterial and archaeal genomes using the GTDB standard taxonomy.</p>
-
-<p>In this blog post, I walk through a complete, reproducible workflow:</p>
-
-<p>✔ Installing GTDB-Tk</p>
-
-<p>✔ Setting up a conda environment</p>
-
-<p>✔ Downloading the GTDB reference database</p>
-
-<p>✔ Running identify, align, and classify</p>
-
-<p>✔ Handling common errors like MASH DB</p>
-
-<p>✔ Running the full de_novo_wf</p>
-
-<p>✔ Exporting the final tree to iTOL</p>
-
-<p>✔ A short intro to iTOL annotations</p>
-
-<h2 id="all-commands-are-based-on-my-workflows-on-the-palmetto-hpc-cluster">All commands are based on my workflows on the Palmetto HPC Cluster.</h2>
-
-<h2 id="1-creating--activating-gtdb-tk-conda-environment">1. Creating &amp; Activating GTDB-Tk Conda Environment</h2>
-
-<p>If you don’t already have GTDB-Tk installed, create a fresh environment:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> gtdbtk_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge gtdbtk
-</code></pre></div></div>
-
-<p>Or install it in a custom project folder:
-You may need little more storage to set up the updated database</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-p</span> path/to/desired/folder <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge gtdbtk
-</code></pre></div></div>
-
-<p>Activate and Verify installation:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk <span class="nt">--version</span>
-</code></pre></div></div>
-
-<h2 id="2-downloading-the-gtdb-reference-database">2. Downloading the GTDB Reference Database</h2>
-
-<p>GTDB-Tk requires the full reference database (e.g., release R207, R214, etc.).
-Download from:
-👉 https://data.gtdb.ecogenomic.org/
-Example (Bacteria + Archaea): Keep in mind this is almost more than 100 GB;</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://data.gtdb.ecogenomic.org/releases/release214/214.1/gtdbtk/gtdbtk_r214_data.tar.gz
-</code></pre></div></div>
-
-<p>Extract and set environment variable</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar</span> <span class="nt">-xzf</span> gtdbtk_r214_data.tar.gz <span class="nt">-C</span> /project/bcampb7/camplab/databases/
-<span class="nb">export </span><span class="nv">GTDBTK_DATA_PATH</span><span class="o">=</span>/project/bcampb7/camplab/databases/gtdbtk_r214_data <span class="c">#or run line below</span>
-<span class="nb">echo</span> <span class="s2">"export GTDBTK_DATA_PATH=/project/bcampb7/camplab/databases/gtdbtk_r214_data"</span> <span class="o">&gt;&gt;</span> ~/.bashrc <span class="c">#to make it permanant</span>
-gtdbtk check_install
-</code></pre></div></div>
-
-<h3 id="3-gtdb-tk-workflow-identify--align--classify">3. GTDB-Tk Workflow <strong>(Identify → Align → Classify)</strong></h3>
-
-<p>Now we run GTDB-Tk on your genomes.
-<strong>3.1 Identify Marker Genes</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk identify <span class="se">\</span>
-  <span class="nt">--genome_dir</span> path/to/directory/with/genomes <span class="se">\</span>
-  <span class="nt">--out_dir</span> path/to/output/gtdbtk/identify <span class="se">\</span>
-  <span class="nt">--extension</span> fa <span class="se">\</span>
-  <span class="nt">--cpus</span> 32 <span class="c">#change accordingly</span>
-</code></pre></div></div>
-
-<p>#change according to your genome.extension; fa or fasta</p>
-
-<p><strong>3.2 Align Marker Genes</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk align <span class="se">\</span>
-  <span class="nt">--identify_dir</span> path_to/gtdbtk/identify <span class="se">\</span>
-  <span class="nt">--out_dir</span> path_for/gtdbtk/align <span class="se">\</span>
-  <span class="nt">--cpus</span> 32
-</code></pre></div></div>
-
-<p><strong>3.3 Classify Genomes</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk classify <span class="se">\</span>
-  <span class="nt">--genome_dir</span> path <span class="se">\</span>
-  <span class="nt">--align_dir</span> /path/align <span class="se">\</span>
-  <span class="nt">--out_dir</span> /path/classify <span class="se">\</span>
-  <span class="nt">-x</span> fasta <span class="se">\</span>
-  <span class="nt">--cpus</span> 32 <span class="se">\</span>
-  <span class="nt">--mash_db</span> path_for_saving_db
-</code></pre></div></div>
-
-<h3 id="4-running-the-full-de_novo_wf-automatic-tree-building">4. Running the Full de_novo_wf (Automatic Tree Building)</h3>
-
-<p>This workflow performs everything: identify → alignment → tree → taxonomy.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk de_novo_wf <span class="se">\</span>
-  <span class="nt">--genome_dir</span> /project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies_all <span class="se">\</span>
-  <span class="nt">--out_dir</span> /project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies_all/gtdbtk <span class="se">\</span>
-  <span class="nt">--extension</span> fa <span class="se">\</span>
-  <span class="nt">--bacteria</span> <span class="se">\</span>
-  <span class="nt">--cpus</span> 32 <span class="se">\</span>
-  <span class="nt">--outgroup_taxon</span> p__Chloroflexota <span class="se">\</span>
-  <span class="nt">--skip_gtdb_refs</span> <span class="se">\</span>
-  <span class="nt">--custom_taxonomy_file</span> /scratch/jojyj/UK/Genomes/gtdbtk/custom_taxonomy_file.tsv
-</code></pre></div></div>
-
-<p>Notes:</p>
-
-<p>● Outgroup: Choose a phylum not present in your samples based on the sample type. I used Chloroflexota for my esturine MAGs. But for soil it is not correct.</p>
-
-<p>● –skip_gtdb_refs: reduces tree size by removing thousands of reference genomes.</p>
-
-<p>● Custom taxonomy file: generated in classify output → you can edit to customize clade names.</p>
-
-<p>Output tree (important file):</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk.bac120.decorated.tree
-</code></pre></div></div>
-
-<h3 id="5-converting-gtdb-tk-tree-for-itol">5. Converting GTDB-Tk Tree For iTOL</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk convert_to_itol <span class="se">\</span>
-  <span class="nt">--input_tree</span> /scratch/jojyj/UK/Genomes/gtdbtk/de_novo/gtdbtk.bac120.decorated.tree <span class="se">\</span>
-  <span class="nt">--output_tree</span> /scratch/jojyj/UK/Genomes/gtdbtk/de_novo/OUTPUT_TREE
-</code></pre></div></div>
-
-<p>This creates:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OUTPUT_TREE.tree
-OUTPUT_TREE.metadata.tsv
-</code></pre></div></div>
-
-<p>Upload OUTPUT_TREE.tree to iTOL.
-👉 https://itol.embl.de/</p>
-
-<h3 id="6-quick-start-guide-to-itol">6. Quick Start Guide to iTOL</h3>
-
-<p>iTOL (Interactive Tree of Life) is one of the best online tree-visualization tools.</p>
-
-<p><strong>What you can do in iTOL</strong></p>
-
-<p>● Upload trees (Newick format)</p>
-
-<p>● Add colors for taxonomy (phylum, genus, species)</p>
-
-<p>● Add heatmaps (genome size, CAZymes, AMGs, completeness)</p>
-
-<p>● Add data strips (free-living vs particle-attached, salinity, depth)</p>
-
-<p>● Collapse clades</p>
-
-<p>● Export high-resolution images (SVG, PNG, PDF)</p>
-
-<p><strong>Quick annotation starter files</strong></p>
-
-<p>● colors.txt → Color by clades</p>
-
-<p>● metadata_strip.txt → Add sample categories (Bay, Season, Salinity)</p>
-
-<p>● metadata_heatmap.txt → Add numeric values (gene counts, FRed)</p>
-
-<h3 id="7-summary">7. Summary</h3>
-
-<p>By combining GTDB-Tk + iTOL, you can go from raw genomes to:</p>
-
-<p>✔ GTDB-consistent taxonomy
-✔ High-quality phylogenomic alignment
-✔ Beautiful publication-ready trees
-✔ Metadata-rich visualization</p>
-
-<p>This pipeline is essential for MAG studies, isolate genomes, and comparative genomics.</p>
-
-<p><img src="/assets/img/tree.png" alt="tree" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A practical walkthrough of GTDB-Tk Complete Workflow]]></summary></entry></feed>
+<p><img src="/assets/img/welcome_image.png" alt="welcome to Ubuntu 24.04" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.]]></summary></entry></feed>
