@@ -1,28 +1,31 @@
 ---
 layout: post
-title: "Total Community Analysis from Metagenomes — Day 1: From Raw Reads to Clean Data"
+title: "Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data"
 date: 2025-12-15
 description: "Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling."
 comments: true
 giscus_comments: true
 featured: true
-permalink: /blog/metagenome-total-community-day1/
+permalink: /blog/size-fractionated-microbiome-analysis-day1/
 ---
 
-#### 🌊 Total Community Analysis from Metagenomes — Day 1
-
-**From Raw Reads to Clean, Analysis-Ready Data**
+#### 🌊 Size Fractionated Microbiome Anlaysis — Day 1
 
 Today, I’m sharing the beginning of a new analysis series focused on a project exploring:
 
 ```md
-> **How resource partitioning and co-occurrence shape functional redundancy in size-fractionated microbiomes from the Delaware and Chesapeake Bays**
+**How resource partitioning and co-occurrence shape functional redundancy in size-fractionated microbiomes from the Delaware and Chesapeake Bays**
 ```
 
+Here, I distinguish between free-living and particle-attached microbial fractions, which represent contrasting ecological lifestyles in estuarine environments. This separation allows us to directly test how niche partitioning influences community composition and functional redundancy.
 All analyses in this project are performed at the shotgun metagenome read level, allowing us to directly examine both total and active microbial communities without marker-gene or PCR biases.
 
 This project has many dimensions to explore. I decided to start with the foundation:
 **total community profiling**, before moving on to activity-based (RNA-informed) analyses.
+
+#### 🌊 Total Community Analysis from Metagenomes
+
+**From Raw Reads to Clean, Analysis-Ready Data**
 
 To do this systematically, I plan to test **three different taxonomic profiling tools** and ultimately select one robust method to apply consistently across all samples, based on performance and biological interpretability.
 
