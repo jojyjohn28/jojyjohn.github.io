@@ -1,5 +1,432 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-16T17:00:11-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial &amp;amp; Archaeal Reads</title><link href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/" rel="alternate" type="text/html" title="Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial &amp;amp; Archaeal Reads" /><published>2025-12-16T00:00:00-05:00</published><updated>2025-12-16T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/"><![CDATA[<h4 id="-size-fractionated-microbiome-anlaysis--day-2">🌊 Size Fractionated Microbiome Anlaysis — Day 2</h4>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-17T16:15:28-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow</title><link href="https://jojyjohn28.github.io/blog/genome-topology-and-genome-report/" rel="alternate" type="text/html" title="Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow" /><published>2025-12-17T00:00:00-05:00</published><updated>2025-12-17T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/genome-topology-and_genome_report</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/genome-topology-and-genome-report/"><![CDATA[<h4 id="-genome-topology-and-genome-announcement-reports">🧬 Genome Topology and Genome Announcement Reports</h4>
+
+<p>Today, I’m stepping slightly back from the Size-Fractionated Microbiome Analysis series. With the winter break approaching, I wanted to wrap up a few pending tasks, including finalizing genome submissions to NCBI. We recently received the final queries and accession numbers for most of our genomes. So toaday I am documenting how to answer last few NCBI submission questions and how to prepare a complete genome summary table suitable for a Genome Resource Announcement manuscript.</p>
+
+<p><strong>How to answer NCBI questions without over-claiming</strong></p>
+
+<p>When submitting genomes to NCBI (GenBank / Genome / BioProject), two questions almost always appear and often cause confusion:</p>
+
+<p>[A] Is this a draft assembly or does one sequence represent the chromosome?
+[B] If this is a circular chromosome, are the ends of the sequence contiguous around the circle with no overlap and no gap?</p>
+
+<p>These questions are not asking you to prove perfection — they are asking you to state clearly what you are claiming and what you are not.</p>
+
+<p>This post documents a practical, conservative, and reviewer-safe workflow that I use to:</p>
+
+<p>● Answer NCBI topology questions confidently</p>
+
+<p>● Avoid over-claiming circularity</p>
+
+<p>● Generate a final genome summary table suitable for Genome Resource Announcements</p>
+
+<h4 id="-core-principle-very-important">🔑 Core principle (very important)</h4>
+
+<p><strong>Only assert circularity when the assembly method and validation steps truly support it.</strong></p>
+
+<p>● Draft genomes and linear submissions are fully acceptable to NCBI.</p>
+
+<p>● Over-claiming circularity is not</p>
+
+<h4 id="step-1--determine-whether-a-genome-is-draft-or-single-contig">Step 1 — Determine whether a genome is draft or single-contig</h4>
+
+<p>For each genome FASTA:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> genome.fa
+</code></pre></div></div>
+
+<p>I have many genomes and I copied all into one folder and used a batch script as follows</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
+    </span><span class="nb">echo</span> <span class="s2">"=== </span><span class="nv">$f</span><span class="s2"> ==="</span>
+    <span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p><strong>Interpretation</strong>
+| Result | Meaning | NCBI Answer |
+| ——— | ——————– | ——————- |
+| &gt;1 contig | Draft assembly | [A] Draft assembly |
+| 1 contig | Candidate chromosome | Requires validation |
+If a genome has multiple contigs, do not discuss circularity.</p>
+
+<h4 id="step-2--validate-circularity-for-single-contig-genomes">Step 2 — Validate circularity for single-contig genomes</h4>
+
+<p>This step applies only to genomes with exactly one contig.</p>
+
+<p><strong>2a. Check assembler evidence (Flye / Unicycler)</strong></p>
+
+<p>Inspect assembly_info.txt</p>
+
+<p>Look for circular=true</p>
+
+<p>If circularity is not explicitly stated, do not assume it</p>
+
+<p>Illumina-only assemblies cannot reliably establish circularity.
+As I used long read and hybrid assembly, I made a custom script to extract the inforamtion either from the assembly_info.txt or from the assembly. I also confirmed the results with step 2b</p>
+
+<p><strong>2b. Check for overlap between contig ends</strong></p>
+
+<p>NCBI requires no overlap and no gap at the contig ends.
+<strong>Extract first and last 1 kb</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seqkit subseq <span class="nt">-r</span> 1:1000 genome.fa <span class="o">&gt;</span> first1k.fa
+seqkit subseq <span class="nt">-r</span> <span class="nt">-999</span>:-1 genome.fa <span class="o">&gt;</span> last1k.fa
+</code></pre></div></div>
+
+<p>You need seqkit tool for this and this can be insttaled as follows:
+seqkit is a fast, lightweight toolkit for manipulating FASTA/FASTQ files. In this workflow, it is used to extract the first and last regions of contigs for circularity checks.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda seqkit
+</code></pre></div></div>
+
+<p><strong>Align ends</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nucmer <span class="nt">--maxmatch</span> first1k.fa last1k.fa <span class="nt">-p</span> ends
+show-coords <span class="nt">-rcl</span> ends.delta
+</code></pre></div></div>
+
+<p>for this step you need the tool nucmer.
+MUMmer is a whole-genome alignment package. Here, nucmer is used to align the start and end of contigs to detect overlapping duplicated regions, which is critical before claiming circularity.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda mummer
+</code></pre></div></div>
+
+<p>This installs nucmer and show-coords, which are used for end-to-end contig validation.</p>
+
+<p><strong>Interpretation</strong>
+| Result | Meaning | Action |
+| —————- | —————- | ———————————- |
+| Strong alignment | Overlap present | Must trim before claiming circular |
+| No alignment | Not circularized | Treat as linear |</p>
+
+<p><strong>If no alignments are shown (only headers):</strong></p>
+
+<p>→ The genome is not circularized
+→ Do not answer YES to question [B]
+<strong>🚫 Do not infer circularity for Illumina-only assemblies</strong></p>
+
+<h4 id="-genome-resource-announcements">🔁 Genome Resource Announcements</h4>
+
+<p>Although all of the analyses described below had been completed previously, the final genome FASTA files were subsequently renamed, filtered, and curated, and a subset of genomes was reassembled. Therefore, to generate a consistent and accurate summary table for the Genome Resource Announcement, I decided to define a clear work plan and rerun the relevant steps in a streamlined, reproducible workflow.</p>
+
+<p><strong>Workflow overview</strong>
+| Tool | Purpose | Fields |
+| —————- | ——————- | ————————— |
+| QUAST | Assembly statistics | Size, GC, contigs, N50 |
+| CheckM2 | Quality metrics | Completeness, contamination |
+| Prokka | Annotation | Protein-coding genes |
+| Flye / Unicycler | Topology evidence | Circular / Linear |
+| NUCmer | End validation | Overlap detection |</p>
+
+<h4 id="step-1-assembly-statistics-with-quast">Step 1— Assembly statistics with QUAST</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> quast_out
+quast.py <span class="k">*</span>.fa <span class="nt">-o</span> quast_out <span class="nt">--threads</span> 16
+</code></pre></div></div>
+
+<p>I used batch script as follows</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=quast_all</span>
+<span class="c">#SBATCH --partition=camplab</span>
+<span class="c">#SBATCH --nodes=1</span>
+<span class="c">#SBATCH --ntasks=1</span>
+<span class="c">#SBATCH --cpus-per-task=16</span>
+<span class="c">#SBATCH --mem=64G</span>
+<span class="c">#SBATCH --time=12:00:00</span>
+<span class="c">#SBATCH --output=quast_%j.out</span>
+<span class="c">#SBATCH --error=quast_%j.err</span>
+
+module load quast
+
+<span class="nv">GENOME_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/fixed_genomes_dec11"</span>
+<span class="nv">OUTDIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/quast_dec11"</span>
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
+
+<span class="c"># Run QUAST on all genomes together</span>
+quast.py <span class="se">\</span>
+  <span class="nt">--threads</span> 16 <span class="se">\</span>
+  <span class="nt">--min-contig</span> 500 <span class="se">\</span>
+  <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="s2">"</span><span class="nv">$GENOME_DIR</span><span class="s2">"</span>/<span class="k">*</span>.fa
+
+<span class="nb">echo</span> <span class="s2">"QUAST completed at </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>save this file as run_quast_all.sh and run as follows</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x run_quast_all.sh
+sbatch run_quast_all.sh
+</code></pre></div></div>
+
+<p>Final file is report.tsv:</p>
+
+<p>● Genome size</p>
+
+<p>● GC (%)</p>
+
+<p>● number of Contigs</p>
+
+<p>● N50</p>
+
+<h4 id="step-2--completeness-and-contamination-with-checkm2">Step 2 — Completeness and contamination with CheckM2</h4>
+
+<p>CheckM was used to assess genome quality by estimating completeness and contamination based on lineage-specific single-copy marker genes. The lineage workflow automatically assigns each genome to an appropriate taxonomic lineage and reports standardized quality metrics, which were exported as a tab-delimited summary table and incorporated directly into the final genome summary table for the Genome Resource Announcement.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=checkm_all</span>
+<span class="c">#SBATCH --partition=camplab</span>
+<span class="c">#SBATCH --nodes=1</span>
+<span class="c">#SBATCH --ntasks=1</span>
+<span class="c">#SBATCH --cpus-per-task=24</span>
+<span class="c">#SBATCH --mem=96G</span>
+<span class="c">#SBATCH --time=24:00:00</span>
+<span class="c">#SBATCH --output=checkm_%j.out</span>
+<span class="c">#SBATCH --error=checkm_%j.err</span>
+
+<span class="c"># Load CheckM module or activate conda env</span>
+conda activate checkm_env
+
+<span class="nv">GENOME_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/all_genomes_dec15"</span>
+<span class="nv">OUTDIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/checkm_dec15"</span>
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
+
+<span class="c"># Run CheckM lineage workflow</span>
+checkm lineage_wf <span class="se">\</span>
+  <span class="nt">-x</span> fa <span class="se">\</span>
+  <span class="nt">-t</span> 24 <span class="se">\</span>
+  <span class="nt">--reduced_tree</span> <span class="se">\</span>
+  <span class="s2">"</span><span class="nv">$GENOME_DIR</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
+
+<span class="c"># Generate a clean summary table (TSV)</span>
+checkm qa <span class="se">\</span>
+  <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>/lineage.ms <span class="se">\</span>
+  <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">-o</span> 2 <span class="se">\</span>
+  <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/checkm_summary.tsv"</span>
+
+<span class="nb">echo</span> <span class="s2">"CheckM completed at </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>Save this as run_checkm_all.sh and run as follows</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x run_checkm_all.sh
+sbatch run_checkm_all.sh
+</code></pre></div></div>
+
+<p><strong>the key output file you need is checkm_summary.tsv</strong>
+This includes (per genome):</p>
+
+<p>● Completeness (%)</p>
+
+<p>● Contamination (%)</p>
+
+<p>● Strain heterogeneity</p>
+
+<p>● Marker lineage</p>
+
+<h4 id="step-3--gene-prediction-with-prokka">Step 3 — Gene prediction with Prokka</h4>
+
+<p>This is for finding number of predicted genes and my strtegy is below</p>
+
+<p>● Run Prokka once per genome (recommended; Prokka is per-genome by design)</p>
+
+<p>● Store outputs in per-genome subfolders</p>
+
+<p>● Parse Prokka outputs to create one summary TSV with:</p>
+
+<p>● number of CDS (protein-coding genes)</p>
+
+<p>● optionally rRNA, tRNA counts</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=prokka_all</span>
+<span class="c">#SBATCH --partition=camplab</span>
+<span class="c">#SBATCH --nodes=1</span>
+<span class="c">#SBATCH --ntasks=1</span>
+<span class="c">#SBATCH --cpus-per-task=16</span>
+<span class="c">#SBATCH --mem=64G</span>
+<span class="c">#SBATCH --time=24:00:00</span>
+<span class="c">#SBATCH --output=prokka_%j.out</span>
+<span class="c">#SBATCH --error=prokka_%j.err</span>
+
+module load prokka
+
+<span class="nv">GENOME_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/all_genomes_dec15"</span>
+<span class="nv">OUTDIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/prokka_dec15"</span>
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
+
+<span class="k">for </span>fa <span class="k">in</span> <span class="s2">"</span><span class="nv">$GENOME_DIR</span><span class="s2">"</span>/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
+    </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> .fa<span class="si">)</span>
+    <span class="nb">echo</span> <span class="s2">"Running Prokka on </span><span class="nv">$base</span><span class="s2">"</span>
+
+    prokka <span class="se">\</span>
+      <span class="nt">--outdir</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/</span><span class="nv">$base</span><span class="s2">"</span> <span class="se">\</span>
+      <span class="nt">--prefix</span> <span class="s2">"</span><span class="nv">$base</span><span class="s2">"</span> <span class="se">\</span>
+      <span class="nt">--cpus</span> 16 <span class="se">\</span>
+      <span class="nt">--force</span> <span class="se">\</span>
+      <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span>
+<span class="k">done
+
+</span><span class="nb">echo</span> <span class="s2">"Prokka completed at </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>save as run_prokka_all.sh and run as follows</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x run_prokka_all.sh
+sbatch run_prokka_all.sh
+</code></pre></div></div>
+
+<p>this will generate
+For each genome (example ABV4_150):</p>
+
+<pre><code class="language-pgsql">prokka_dec15/ABV4_150/
+├── ABV4_150.gff
+├── ABV4_150.tbl
+├── ABV4_150.txt   ← summary stats (VERY IMPORTANT)
+├── ABV4_150.faa
+├── ABV4_150.ffn
+└── ABV4_150.log
+</code></pre>
+
+<p>The file *.txt contains lines like:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">CDS</span><span class="pi">:</span> <span class="m">4123</span>
+<span class="na">rRNA</span><span class="pi">:</span> <span class="m">9</span>
+<span class="na">tRNA</span><span class="pi">:</span> <span class="m">67</span>
+</code></pre></div></div>
+
+<h4 id="step-31-generate-a-summary-tsv-for-predicted-genes">step 3.1 Generate a summary TSV for predicted genes</h4>
+
+<p>Script: prokka_summary.sh</p>
+
+<p>This extracts CDS counts (protein-coding genes) for all genomes.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="nv">PROKKA_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/prokka_dec15"</span>
+<span class="nv">OUT_TSV</span><span class="o">=</span><span class="s2">"prokka_gene_summary.tsv"</span>
+
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"Genome</span><span class="se">\t</span><span class="s2">CDS</span><span class="se">\t</span><span class="s2">rRNA</span><span class="se">\t</span><span class="s2">tRNA"</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUT_TSV</span><span class="s2">"</span>
+
+<span class="k">for </span>d <span class="k">in</span> <span class="s2">"</span><span class="nv">$PROKKA_DIR</span><span class="s2">"</span>/<span class="k">*</span><span class="p">;</span> <span class="k">do
+    </span><span class="nv">genome</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$d</span><span class="s2">"</span><span class="si">)</span>
+    <span class="nv">txt</span><span class="o">=</span><span class="s2">"</span><span class="nv">$d</span><span class="s2">/</span><span class="nv">$genome</span><span class="s2">.txt"</span>
+
+    <span class="k">if</span> <span class="o">[[</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$txt</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nv">cds</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="s2">"^CDS:"</span> <span class="s2">"</span><span class="nv">$txt</span><span class="s2">"</span> | <span class="nb">awk</span> <span class="s1">'{print $2}'</span><span class="si">)</span>
+        <span class="nv">rrna</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="s2">"^rRNA:"</span> <span class="s2">"</span><span class="nv">$txt</span><span class="s2">"</span> | <span class="nb">awk</span> <span class="s1">'{print $2}'</span><span class="si">)</span>
+        <span class="nv">trna</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="s2">"^tRNA:"</span> <span class="s2">"</span><span class="nv">$txt</span><span class="s2">"</span> | <span class="nb">awk</span> <span class="s1">'{print $2}'</span><span class="si">)</span>
+        <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="nv">$genome</span><span class="se">\t</span><span class="nv">$cds</span><span class="se">\t</span><span class="nv">$rrna</span><span class="se">\t</span><span class="nv">$trna</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> <span class="s2">"</span><span class="nv">$OUT_TSV</span><span class="s2">"</span>
+    <span class="k">fi
+done
+
+</span><span class="nb">echo</span> <span class="s2">"Summary written to </span><span class="nv">$OUT_TSV</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>Run it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x prokka_summary.sh
+./prokka_summary.sh
+</code></pre></div></div>
+
+<h4 id="step-4--gene-prediction-with-prokka">Step 4 — Gene prediction with Prokka</h4>
+
+<p>Follow the steps from first section</p>
+
+<h4 id="-step-5-merge-individual-outputs-into-a-final-genome-summary-table">🧩 Step 5: Merge individual outputs into a final genome summary table</h4>
+
+<p>At this stage, all analyses have been completed independently, and the results are available as separate tabular files:</p>
+
+<p>● prokka_out.tsv → predicted gene counts</p>
+
+<p>● topology.tsv → genome topology (Circular / Linear / Undetermined)</p>
+
+<p>● checkm_summary.tsv → completeness and contamination</p>
+
+<p>● quast_report.tsv → genome size, GC content, contigs, N50</p>
+
+<p>● NCBI_list_of_genomes.tsv → genome identifiers and accession numbers</p>
+
+<p><strong>Each file contains a shared identifier column (Genome), which allows them to be merged programmatically into a single, consistent summary table.</strong></p>
+
+<p>To avoid manual errors and ensure reproducibility, I used pandas in Python to merge all tables based on this common column.</p>
+
+<p>🐍 Example: merging genome-level tables using pandas</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="c1"># Load individual result tables
+</span><span class="n">prokka</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">prokka_out.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">topology</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">topology.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">checkm</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">checkm_summary.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">quast</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">quast_report.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">ncbi</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">NCBI_list_of_genomes.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Ensure consistent column names
+</span><span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="p">[</span><span class="n">prokka</span><span class="p">,</span> <span class="n">topology</span><span class="p">,</span> <span class="n">checkm</span><span class="p">,</span> <span class="n">quast</span><span class="p">,</span> <span class="n">ncbi</span><span class="p">]:</span>
+    <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="nb">str</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+
+<span class="c1"># Sequentially merge tables using the common 'Genome' column
+</span><span class="n">final_table</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">quast</span>
+    <span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">prokka</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="sh">"</span><span class="s">Genome</span><span class="sh">"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">"</span><span class="s">left</span><span class="sh">"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">checkm</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="sh">"</span><span class="s">Genome</span><span class="sh">"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">"</span><span class="s">left</span><span class="sh">"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="sh">"</span><span class="s">Genome</span><span class="sh">"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">"</span><span class="s">left</span><span class="sh">"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">ncbi</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="sh">"</span><span class="s">Genome</span><span class="sh">"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">"</span><span class="s">left</span><span class="sh">"</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Save final table
+</span><span class="n">final_table</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">final_genome_summary_table.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Final genome summary table successfully created.</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This approach ensures that:</p>
+
+<p>● All genome-level metadata are synchronized</p>
+
+<p>● Missing values are handled transparently</p>
+
+<p>● The workflow is fully reproducible</p>
+
+<h4 id="-final-genome-summary-table-format">📋 Final genome summary table format</h4>
+
+<p>The merged output is used directly as Table 1 in the Genome Resource Announcement manuscript.</p>
+
+<p>Table 1. Genome assembly and annotation statistics
+| Genome | Assembly type | Genome size (bp) | GC (%) | Coverage (×) | Contigs | N50 (bp) | Predicted genes | Completeness (%) | Contamination (%) | Topology | Accession |
+| —— | ————- | —————- | —— | ———— | ——- | ——– | ————— | —————- | —————– | ——– | ——— |
+● Assembly type: Illumina / Hybrid / Long-read</p>
+
+<p>● Topology: Circular / Linear / Undetermined</p>
+
+<p>● Accession: “pending” during submission, updated post-acceptance</p>
+
+<p>● genome statistics : N50, GC content, Completness, Contamination, Genome size, and Number of contigs</p>
+
+<h4 id="-take-home-messages">✅ Take-home messages</h4>
+
+<p>● Do not over-claim genome circularity. Only assert circular topology when supported by long-read or hybrid assemblies and explicit validation.</p>
+
+<p>● Draft and linear genomes are fully acceptable for NCBI submission and Genome Resource Announcements.</p>
+
+<p>● Topology should be assigned conservatively using assembly evidence, not biological expectation.</p>
+
+<p>● A single, reproducible summary table simplifies NCBI submissions and serves directly as a manuscript-ready resource.</p>
+
+<p>● Clear documentation of methods and assumptions makes genome submissions reviewer-safe and future-proof.</p>
+
+<p>This workflow has worked smoothly for large-scale genome submissions and Genome Resource Announcements.</p>
+
+<p>The image is showing GC content of all the genomes.</p>
+
+<p><img src="/assets/img/gc.png" alt="genomes_are_ready" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A step-by-step guide to answering NCBI genome topology questions and generating a complete, automated genome report table for Genome Resource Announcements.]]></summary></entry><entry><title type="html">Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial &amp;amp; Archaeal Reads</title><link href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/" rel="alternate" type="text/html" title="Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial &amp;amp; Archaeal Reads" /><published>2025-12-16T00:00:00-05:00</published><updated>2025-12-16T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/"><![CDATA[<h4 id="-size-fractionated-microbiome-anlaysis--day-2">🌊 Size Fractionated Microbiome Anlaysis — Day 2</h4>
 
 <p><strong>Kaiju taxonomic classification, summary tables, and read extraction</strong></p>
 
@@ -1894,151 +2321,4 @@ for more marker specific deatails please see contamination_removal.md in https:/
 
 <p>I’ll maintain and update the full Snakemake pipeline here:</p>
 
-<p>👉 https://github.com/jojyjohn28/semibin2-soil-mag-workflow</p>]]></content><author><name></name></author><summary type="html"><![CDATA[How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.]]></summary></entry><entry><title type="html">Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow</title><link href="https://jojyjohn28.github.io/blog/ncbi-submission-cleaning/" rel="alternate" type="text/html" title="Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow" /><published>2025-12-05T00:00:00-05:00</published><updated>2025-12-05T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/NCBI-submission-cleaning</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/ncbi-submission-cleaning/"><![CDATA[<blockquote>
-  <p><strong>Published: December 6, 2025</strong></p>
-</blockquote>
-
-<p>🧬 <strong>Cleaning and Preparing Genomes for NCBI Submission</strong></p>
-
-<p>Today’s post documents the complete workflow I used to prepare <strong>12 bacterial genomes</strong> for NCBI submission.<br />
-Out of <strong>205 genomes</strong> submitted, <strong>12 failed the NCBI contamination screen</strong>:</p>
-
-<ul>
-  <li><strong>2 genomes</strong> failed due to <em>unexpected genome size</em></li>
-  <li><strong>10 genomes</strong> failed due to <em>adapter sequences</em></li>
-</ul>
-
-<p>I systematically fixed all issues using <strong>seqkit</strong>, <strong>bedtools</strong>, <strong>awk</strong>, and shell scripting on the <strong>Palmetto HPC cluster</strong>.</p>
-
-<hr />
-
-<h5 id="️-step-1--generate-adapter-and-contamination-reports">⚙️ <strong>Step 1 — Generate Adapter and Contamination Reports</strong></h5>
-
-<p>Each genome was screened using NCBI’s contamination check.<br />
-The report includes two sections:</p>
-
-<h4 id="-trim-section-mask-these-regions"><strong>🔹 Trim Section (mask these regions)</strong></h4>
-
-<p>Example:
-Sequence name | length | span | source
-contig02 6271 6238..6271 adaptor:NGB02000.1</p>
-
-<h4 id="-exclude-section-remove-these-contigs-completely"><strong>🔹 Exclude Section (remove these contigs completely)</strong></h4>
-
-<p>Example:
-contig05 3946 prok:g-proteobacteria</p>
-
-<p>Goal:<br />
-✔ Mask adapter regions<br />
-✔ Remove contaminant contigs</p>
-
-<hr />
-
-<h5 id="-step-2--create-bed-files-for-adapter-spans">🧱 <strong>Step 2 — Create BED Files for Adapter Spans</strong></h5>
-
-<p>I extracted adapter coordinates directly from reports:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>rep <span class="k">in </span>reports/<span class="k">*</span>.csv<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$rep</span><span class="s2">"</span> _report.csv<span class="si">)</span>
-  <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">','</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="nt">-v</span> <span class="nv">g</span><span class="o">=</span><span class="s2">"</span><span class="nv">$base</span><span class="s2">"</span> <span class="s1">'
-    NR &gt; 1 &amp;&amp; $3 ~ /[0-9]+\.\.[0-9]+/ {
-      split($3,a,"..");
-      print g"_"$1, a[1]-1, a[2];
-    }'</span> <span class="s2">"</span><span class="nv">$rep</span><span class="s2">"</span> <span class="o">&gt;</span> beds/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_adapters.bed
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>These .bed files define adapter segments for masking.</p>
-
-<h5 id="-step-3--mask-adapter-regions-with-ns">🧬 Step 3 — Mask Adapter Regions with Ns</h5>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>assemblies/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> .fa<span class="si">)</span>
-  <span class="nv">bed</span><span class="o">=</span><span class="s2">"beds/</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="s2">_adapters.bed"</span>
-  bedtools maskfasta <span class="nt">-fi</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="nt">-bed</span> <span class="s2">"</span><span class="nv">$bed</span><span class="s2">"</span> <span class="se">\</span>
-    <span class="nt">-fo</span> cleaned/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_masked.fa <span class="nt">-mc</span> N
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>This replaces adapter sequences with Ns (usually 10–40 bases long).</p>
-
-<h5 id="-step-4--remove-contaminant-contigs">🚫 Step 4 — Remove Contaminant Contigs</h5>
-
-<p>From the Exclude section, I created lists of contigs to delete.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>cleaned/<span class="k">*</span>_masked.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> _masked.fa<span class="si">)</span>
-  <span class="nv">excl</span><span class="o">=</span><span class="s2">"exclude_lists/</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="s2">_exclude.txt"</span>
-  seqkit <span class="nb">grep</span> <span class="nt">-v</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$excl</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="o">&gt;</span> final_ncbi_ready/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_clean.fa
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>Result:
-✔ All contaminated contigs removed safely.</p>
-
-<h5 id="-step-5--restore-ncbi-metadata-headers">🧾 Step 5 — Restore NCBI Metadata Headers</h5>
-
-<p>NCBI FASTA headers include metadata such as strain and organism.
-Example correct header:</p>
-
-<blockquote>
-  <p>contig01 [organism=Staphylococcus ureilyticus] [strain=ABD2_031]
-I restored them using mapping files:</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seqkit replace <span class="nt">-p</span> <span class="s2">"^(contig[0-9]+)"</span> <span class="nt">-r</span> <span class="s2">"{kv}"</span> <span class="se">\</span>
-  <span class="nt">--kv-file</span> rename_maps_fixed/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_map.txt <span class="nt">--keep-key</span> <span class="se">\</span>
-  <span class="nt">-o</span> final_ncbi_ready_renamed/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_clean_renamed.fa <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<h5 id="-step-6--renumber-contigs-sequentially">🔢 Step 6 — Renumber Contigs Sequentially</h5>
-
-<p>Since filtering removes contigs, renumbering ensures they start from 1 again:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>final_ncbi_ready_renamed/<span class="k">*</span>_clean_renamed.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> _clean_renamed.fa<span class="si">)</span>
-  <span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">base</span><span class="o">=</span><span class="s2">"</span><span class="nv">$base</span><span class="s2">"</span> <span class="s1">'
-    /^&gt;/ {count++; sub(/^&gt;contig[0-9]+/, "&gt;contig" count, $0); print; next}
-    {print}
-  '</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="o">&gt;</span> final_ncbi_ready_renumbered/<span class="k">${</span><span class="nv">base</span><span class="k">}</span>_renumbered.fa
-<span class="k">done</span>
-</code></pre></div></div>
-
-<h5 id="-step-7--qc-for-ns-and-percent-n">🧮 Step 7 — QC for Ns and Percent N</h5>
-
-<p>I counted Ns and genome length:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>fa <span class="k">in </span>final_ncbi_ready_renumbered/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span><span class="si">)</span>
-  <span class="nv">totalN</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"&gt;"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> | <span class="nb">tr</span> <span class="nt">-cd</span> <span class="s1">'Nn'</span> | <span class="nb">wc</span> <span class="nt">-c</span><span class="si">)</span>
-  <span class="nv">totalLen</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"&gt;"</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s1">'\n'</span> | <span class="nb">wc</span> <span class="nt">-c</span><span class="si">)</span>
-  <span class="nv">perc</span><span class="o">=</span><span class="si">$(</span><span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">n</span><span class="o">=</span><span class="nv">$totalN</span> <span class="nt">-v</span> <span class="nv">l</span><span class="o">=</span><span class="nv">$totalLen</span> <span class="s1">'BEGIN{printf "%.3f", (n/l)*100}'</span><span class="si">)</span>
-  <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">base</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">totalN</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">totalLen</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">perc</span><span class="k">}</span><span class="s2">%"</span>
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>Example:
-AWM4_233_renumbered.fa 5807 5927574 0.098%
-✔ All genomes were safely below NCBI’s ≤5% Ns requirement (mine were ≤0.1%).</p>
-
-<h5 id="-step-8--gap-summary-runs-of-n-10">📊 Step 8 — Gap Summary (Runs of N ≥10)</h5>
-
-<p>ABD2_031_renumbered.fa 10 391
-ABF4_148_renumbered.fa 2 63
-AWM4_233_renumbered.fa 182 5807
-<strong>This confirms masking was minimal and acceptable.</strong></p>
-
-<h5 id="-final-thoughts">🧭 Final Thoughts</h5>
-
-<p>This workflow converts problematic assemblies into clean, polished FASTA files ready for NCBI:</p>
-
-<p>✔ Adapter regions masked
-✔ Contaminant contigs removed
-✔ Metadata restored
-✔ Contigs renumbered
-✔ QC verified</p>
-
-<p>✨ Result:
-12 high-quality genomes successfully resubmitted to NCBI.</p>
-
-<p><img src="/assets/img/ncbi_submission.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.]]></summary></entry></feed>
+<p>👉 https://github.com/jojyjohn28/semibin2-soil-mag-workflow</p>]]></content><author><name></name></author><summary type="html"><![CDATA[How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.]]></summary></entry></feed>
