@@ -17,12 +17,12 @@
   
   
     
-      Particle-associated and free-living microorganisms in the Chesapeake and Delaware Bays | Jojy John
+      Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="Combining genomics, metagenome and metatranscriptome and metagenome assembled genomes (MAGs) we study metabolic flexibility and microbial functional Redudnacy">
+<meta name="description" content="Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/projects/FreelivingandParticleassociated/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day3/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -158,9 +158,11 @@
             
               
                 
-                <li class="nav-item ">
+                <li class="nav-item active">
                   
                   <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -170,11 +172,9 @@
             
               
                 
-                <li class="nav-item active">
+                <li class="nav-item ">
                   
                   <a class="nav-link" href="/projects/">Projects
-                    
-                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -276,37 +276,349 @@
       
         
 
+
+
+
+
+
+
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Particle-associated and free-living microorganisms in the Chesapeake and Delaware Bays</h1>
-    <p class="post-description">Combining genomics, metagenome and metatranscriptome and metagenome assembled genomes (MAGs) we study metabolic flexibility and microbial functional Redudnacy</p>
+    <h1 class="post-title">Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs</h1>
+    <p class="post-meta">
+      Created in December 18, 2025
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
+      
+
+      
+
+      
+    </p>
   </header>
 
-  <article>
-    <h2 id="background">Background</h2>
+  <article class="post-content">
+    <div id="markdown-content">
+      <h4 id="-size-fractionated-microbiome-analysis--day-3">🌊 Size-Fractionated Microbiome Analysis — Day 3</h4>
 
-<p>Particle-attached (PA) and free-living (FL) fractions of microbial communities are crucial to maintain the heterogeneous nature of an ecosystem. However, the structure, metabolism and community assembly of FL and PA bacteria under frequent environmental change are largely unknown.​</p>
+<p>In Day 1 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1/), we focused on metagenome preprocessing, and in Day 2 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/), we explored taxonomic profiling using Kaiju.</p>
 
-<p>The Chesapeake and Delaware Bays, two major estuaries along the U.S. Atlantic coast, are geographically close yet environmentally distinct, exhibiting differences in salinity gradients, particle concentrations, light availability, and anthropogenic influence​</p>
+<p><strong>Today, in Day 3, I introduce mOTUs v3, a marker-gene–based approach for species-level profiling of prokaryotes directly from short reads.</strong></p>
 
-<p>In the current study, we used 20 metagenomes of seasonal samples from the Chesapeake and Delaware Bays to characterize the metabolic potential of PA and FL fractions.</p>
+<p>This method is particularly powerful for read-based analyses, where genomes are not assembled or binned, and is equally applicable to DNA (total community) and RNA (active community) datasets.</p>
 
-<h2 id="relevant-publications">Relevant Publications</h2>
+<h4 id="-primary-tool-motus-v3">🧬 Primary tool: mOTUs v3</h4>
 
-<p>under preparation</p>
+<p>mOTUs profiles microbial communities using 40 universal single-copy marker genes, providing consistent, genome-informed species resolution.</p>
 
-<h2 id="abstracts">Abstracts</h2>
+<p><strong>Why mOTUs?</strong></p>
 
-<p>Jojy John, Mir A Ahmed, and Barbara J Campbell 2025. Metabolic flexibility, secondary metabolites and seasonal dynamics in particle-associated and free-living microorganisms in the Chesapeake and Delaware Bays . ASM 25, LA, USA</p>
+<p>Uses conserved marker genes instead of whole-genome alignment</p>
 
+<p>● Quantifies both known taxa (linked to reference genomes) and unknown mOTUs (derived from metagenomes)</p>
+
+<p>● Produces directly comparable profiles across DNA and RNA datasets</p>
+
+<p>● Outputs normalized relative abundances suitable for downstream statistics and visualization</p>
+
+<p>This makes mOTUs ideal for size-fractionated microbiome studies, where consistent taxonomic resolution across multiple datasets is critical.</p>
+
+<h4 id="️-installation-and-database-setup">🛠️ Installation and database setup</h4>
+
+<p>Install mOTUs</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda motus
+</code></pre></div></div>
+
+<p>Verify installation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>motus <span class="nt">--version</span>
+</code></pre></div></div>
+
+<p>mOTUs ships with prebuilt marker-gene databases, so no separate database construction is required.
+for more details refer : https://motu-tool.org/tutorial.html</p>
+
+<h4 id="-running-motus-on-paired-end-reads">🧪 Running mOTUs on paired-end reads</h4>
+
+<p>Example command</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>motus profile <span class="se">\</span>
+  <span class="nt">-f</span> Control_23_S13_R1.fq <span class="se">\</span>
+  <span class="nt">-r</span> Control_23_S13_R2.fq <span class="se">\</span>
+  <span class="nt">-o</span> Control_23_S13_motus.tsv
+</code></pre></div></div>
+
+<p>General usage</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Total community (DNA)</span>
+motus profile <span class="se">\</span>
+  <span class="nt">-f</span> reads/dna/S1_R1.fq.gz <span class="se">\</span>
+  <span class="nt">-r</span> reads/dna/S1_R2.fq.gz <span class="se">\</span>
+  <span class="nt">-o</span> motus/S1_dna.motus.tsv
+
+<span class="c"># Active community (RNA)</span>
+motus profile <span class="se">\</span>
+  <span class="nt">-f</span> reads/rna/S1_R1.fq.gz <span class="se">\</span>
+  <span class="nt">-r</span> reads/rna/S1_R2.fq.gz <span class="se">\</span>
+  <span class="nt">-o</span> motus/S1_rna.motus.tsv
+</code></pre></div></div>
+
+<p>The output table contains consensus taxonomy and relative abundance per sample.</p>
+
+<h4 id="-batch-processing-on-hpc-example">🚀 Batch processing on HPC (example)</h4>
+
+<p>Below is the batch script used to run mOTUs across Chesapeake Bay metagenomes.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=motus_mg_CP</span>
+<span class="c">#SBATCH --nodes=1</span>
+<span class="c">#SBATCH --cpus-per-task=32</span>
+<span class="c">#SBATCH --mem=1500G</span>
+<span class="c">#SBATCH --time=72:00:00</span>
+<span class="c">#SBATCH -o motus_%A_%a.out</span>
+<span class="c">#SBATCH -e motus_%A_%a.err</span>
+<span class="c">#SBATCH -A camplab</span>
+<span class="c">#SBATCH -p camplab</span>
+
+<span class="nb">set</span> <span class="nt">-euo</span> pipefail
+
+<span class="nb">cd</span> /project/bcampb7/camplab/AL_JJ_oct23
+
+<span class="nv">input_dir</span><span class="o">=</span><span class="s2">"/project/bcampb7/camplab/0_Raw_Data/Metagenome_estury/CB_DNA_trimmomatic"</span>
+<span class="nv">output_dir</span><span class="o">=</span><span class="s2">"/project/bcampb7/camplab/AL_JJ_oct23/motus_output/cp"</span>
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="k">${</span><span class="nv">output_dir</span><span class="k">}</span><span class="s2">"</span>/<span class="o">{</span>profiles,logs<span class="o">}</span>
+
+<span class="nb">source</span> ~/.bashrc
+conda activate /home/jojyj/.conda/envs/motus_env
+
+<span class="k">for </span>R1 <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">input_dir</span><span class="k">}</span><span class="s2">"</span>/<span class="k">*</span>_R1.fastq<span class="p">;</span> <span class="k">do
+    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="k">${</span><span class="nv">R1</span><span class="p">/_R1.fastq/</span><span class="k">}</span><span class="s2">"</span><span class="si">)</span>
+    <span class="nv">R2</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">input_dir</span><span class="k">}</span><span class="s2">/</span><span class="k">${</span><span class="nv">sample</span><span class="k">}</span><span class="s2">_R2.fastq"</span>
+
+    motus profile <span class="se">\</span>
+        <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$R1</span><span class="s2">"</span> <span class="se">\</span>
+        <span class="nt">-r</span> <span class="s2">"</span><span class="nv">$R2</span><span class="s2">"</span> <span class="se">\</span>
+        <span class="nt">-o</span> <span class="s2">"</span><span class="k">${</span><span class="nv">output_dir</span><span class="k">}</span><span class="s2">/profiles/</span><span class="k">${</span><span class="nv">sample</span><span class="k">}</span><span class="s2">_motus.txt"</span> <span class="se">\</span>
+        <span class="nt">-n</span> 32 <span class="se">\</span>
+        2&gt; <span class="s2">"</span><span class="k">${</span><span class="nv">output_dir</span><span class="k">}</span><span class="s2">/logs/</span><span class="k">${</span><span class="nv">sample</span><span class="k">}</span><span class="s2">.log"</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<h4 id="-merging-motus-profiles-across-samples">🧩 Merging mOTUs profiles across samples</h4>
+
+<p>Motus do have an built-in motus merge command (for me it failed for this dataset due to a error so instead of rerunning all my metegenomes;I used a robust bash-based merging approach, which is transparent and easy to repeat.)</p>
+
+<p><strong>Step 1 — Navigate to profiles directory</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>path/to/output/folder
+</code></pre></div></div>
+
+<p><strong>Step 2 — Fix headers (add sample name)</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>_motus.txt<span class="p">;</span> <span class="k">do
+    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> _motus.txt<span class="si">)</span>
+    <span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">s</span><span class="o">=</span><span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="s1">'NR==3{print "#consensus_taxonomy\t"s; next} {print}'</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> <span class="o">&gt;</span> tmp <span class="o">&amp;&amp;</span> <span class="nb">mv </span>tmp <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p><strong>Step 3 — Create clean tables for merging</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> merged_clean
+
+<span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>_motus.txt<span class="p">;</span> <span class="k">do
+    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> _motus.txt<span class="si">)</span>
+    <span class="nb">tail</span> <span class="nt">-n</span> +3 <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> <span class="o">&gt;</span> merged_clean/<span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span>.tsv
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p><strong>Step 4 — Merge all samples</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>merged_clean
+
+<span class="nv">first</span><span class="o">=</span><span class="si">$(</span><span class="nb">ls</span> <span class="k">*</span>.tsv | <span class="nb">sort</span> | <span class="nb">head</span> <span class="nt">-n</span> 1<span class="si">)</span>
+<span class="nb">cut</span> <span class="nt">-f1</span> <span class="s2">"</span><span class="nv">$first</span><span class="s2">"</span> <span class="o">&gt;</span> clades.txt
+
+<span class="k">for </span>f <span class="k">in</span> <span class="si">$(</span><span class="nb">ls</span> <span class="k">*</span>.tsv | <span class="nb">sort</span><span class="si">)</span><span class="p">;</span> <span class="k">do
+    </span><span class="nb">cut</span> <span class="nt">-f2</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="k">${</span><span class="nv">f</span><span class="p">%.tsv</span><span class="k">}</span><span class="s2">.ab"</span>
+<span class="k">done
+
+</span><span class="nb">paste </span>clades.txt <span class="k">*</span>.ab <span class="o">&gt;</span> merged_raw.tsv
+<span class="nb">sed</span> <span class="s1">'1s/#consensus_taxonomy/clade_name/'</span> merged_raw.tsv <span class="o">&gt;</span> motus_merged_profiles.tsv
+</code></pre></div></div>
+
+<p>The resulting file (motus_merged_profiles.tsv) is analysis-ready.</p>
+
+<h5 id="-generating-the-final-order-level-abundance-table-from-motus-profiles">🧬 Generating the final order-level abundance table from mOTUs profiles</h5>
+
+<p>mOTUs outputs taxonomic assignments as consensus lineage strings, typically spanning multiple ranks (kingdom → species). For downstream ecological visualization (e.g., stacked bar plots and heatmaps), I summarized the data at the order level, which provides a good balance between resolution and interpretability for estuarine microbiomes.</p>
+
+<p><strong>Overview of the approach</strong></p>
+
+<ol>
+  <li>
+    <p>Start from the merged mOTUs profile table (motus_merged_profiles.tsv)</p>
+  </li>
+  <li>
+    <p>Parse the consensus taxonomy lineage to extract the order-level annotation</p>
+  </li>
+  <li>
+    <p>Collapse species- and genus-level entries into their corresponding orders</p>
+  </li>
+  <li>
+    <p>Sum relative abundances across all mOTUs belonging to the same order</p>
+  </li>
+  <li>
+    <p>Produce a sample × order matrix for visualization and statistical analysis</p>
+  </li>
+</ol>
+
+<p><strong>This approach ensures that:</strong></p>
+
+<p>● Taxonomy is consistent across samples</p>
+
+<p>● Unknown or poorly resolved taxa are handled transparently</p>
+
+<p>● The resulting table is directly compatible with ggplot2, heatmaps, and multivariate analyses</p>
+
+<h4 id="-step-by-step-order-level-table-construction-in-r">🧩 Step-by-step: Order-level table construction in R</h4>
+
+<p>I used “R” for this goal:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w"> </span><span class="c1">#Load required packages</span><span class="w">
+</span><span class="n">motus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"motus_merged_profiles.tsv"</span><span class="p">)</span><span class="w"> </span><span class="c1">#Read merged mOTUs table</span><span class="w">
+</span><span class="c1">#The first column (clade_name) contains the consensus taxonomy lineage, followed by one column per sample.</span><span class="w">
+</span><span class="n">motus_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">motus</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="w">
+    </span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">clade_name</span><span class="p">,</span><span class="w">
+    </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sample"</span><span class="p">,</span><span class="w">
+    </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Abundance"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="c1">#Reshape to long format</span><span class="w">
+</span><span class="c1">#Extract order-level taxonomy from lineage strings</span><span class="w">
+</span><span class="c1">#mOTUs taxonomy strings typically follow this structure:</span><span class="w">
+</span><span class="c1">#k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Alteromonadales|...</span><span class="w">
+</span><span class="c1">#We extract the o__ component and clean it for plotting.</span><span class="w">
+</span><span class="n">motus_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">motus_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_extract</span><span class="p">(</span><span class="n">clade_name</span><span class="p">,</span><span class="w"> </span><span class="s2">"o__[^|]+"</span><span class="p">),</span><span class="w">
+    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_remove</span><span class="p">(</span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="s2">"^o__"</span><span class="p">),</span><span class="w">
+    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">order</span><span class="p">),</span><span class="w"> </span><span class="s2">"Unclassified"</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="c1">#Summarize abundances at the order level</span><span class="w">
+</span><span class="n">order_level</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">motus_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="n">Sample</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="w">
+    </span><span class="n">Abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Abundance</span><span class="p">),</span><span class="w">
+    </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="c1">#At this stage, each sample has a relative abundance profile summarized by order.</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This table was used as the final order-level input for:</p>
+
+<p>● Stacked bar plots (Day 3)</p>
+
+<p>● Heatmaps and multivariate analyses (later days)</p>
+
+<p>● network and co-occurance modelling in coming months</p>
+
+<h4 id="-visualization-in-r">📊 Visualization in R</h4>
+
+<p>Stacked bar plots (order level, bay-wise)</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">
+
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="w">
+  </span><span class="s2">"/home/jojy-john/Jojy_Research_Sync/Fl_vs_Pa/total_and_active_community/order_level_summed.xlsx"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">df_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="w">
+    </span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">order</span><span class="p">,</span><span class="w">
+    </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sample"</span><span class="p">,</span><span class="w">
+    </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Abundance"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">Bay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
+      </span><span class="n">str_detect</span><span class="p">(</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="s2">"^CP"</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Chesapeake"</span><span class="p">,</span><span class="w">
+      </span><span class="n">str_detect</span><span class="p">(</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="s2">"^DE"</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Delaware"</span><span class="p">,</span><span class="w">
+      </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="w">
+    </span><span class="p">),</span><span class="w">
+    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_trim</span><span class="p">(</span><span class="n">order</span><span class="p">),</span><span class="w">
+    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Other"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Others"</span><span class="p">),</span><span class="w"> </span><span class="s2">"Other"</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">top_orders</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"Other"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Abundance</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">total</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">slice_head</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pull</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="w">
+
+</span><span class="n">df_long2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">order2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">top_orders</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="s2">"Other"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">order2</span><span class="p">,</span><span class="w"> </span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">Bay</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">Abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Abundance</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">df_long2</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abundance</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">order2</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fill"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">Bay</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_x"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Samples"</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Relative abundance"</span><span class="p">,</span><span class="w">
+    </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Order"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">60</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">strip.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="-strengths-of-motus-in-this-study">✅ Strengths of mOTUs in this study</h4>
+
+<p>● Species-level resolution without MAGs</p>
+
+<p>● Consistent taxonomy across DNA and RNA</p>
+
+<p>● Robust handling of unknown taxa</p>
+
+<p>● Clean, normalized outputs for statistical analysis</p>
+
+<h4 id="-kaiju-vs-motus-consistency-across-methods">🔄 Kaiju vs mOTUs: Consistency across methods</h4>
+
+<p>To assess methodological consistency, I compared Kaiju (protein-level classification) and mOTUs (marker-gene–based profiling) outputs at higher taxonomic ranks. <strong>Despite relying on fundamentally different approaches, both methods recovered highly similar dominant taxa across samples, particularly when comparisons were made at the order level.</strong></p>
+
+<p><img src="/assets/img/motu.png" alt="total_community_motu"></p>
+
+    </div>
   </article>
 
   
-    <h2>References</h2>
-    <div class="publications">
-      
-    </div>
+
   
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
 
   
 </div>

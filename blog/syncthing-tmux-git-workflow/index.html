@@ -17,12 +17,12 @@
   
   
     
-      Particle-associated and free-living microorganisms in the Chesapeake and Delaware Bays | Jojy John
+      Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="Combining genomics, metagenome and metatranscriptome and metagenome assembled genomes (MAGs) we study metabolic flexibility and microbial functional Redudnacy">
+<meta name="description" content="How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/projects/FreelivingandParticleassociated/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/syncthing-tmux-git-workflow/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -158,9 +158,11 @@
             
               
                 
-                <li class="nav-item ">
+                <li class="nav-item active">
                   
                   <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -170,11 +172,9 @@
             
               
                 
-                <li class="nav-item active">
+                <li class="nav-item ">
                   
                   <a class="nav-link" href="/projects/">Projects
-                    
-                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -276,37 +276,318 @@
       
         
 
+
+
+
+
+
+
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Particle-associated and free-living microorganisms in the Chesapeake and Delaware Bays</h1>
-    <p class="post-description">Combining genomics, metagenome and metatranscriptome and metagenome assembled genomes (MAGs) we study metabolic flexibility and microbial functional Redudnacy</p>
+    <h1 class="post-title">Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices</h1>
+    <p class="post-meta">
+      Created in December 19, 2025
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
+      
+
+      
+
+      
+    </p>
   </header>
 
-  <article>
-    <h2 id="background">Background</h2>
+  <article class="post-content">
+    <div id="markdown-content">
+      <h4 id="️-using-syncthing-tmux-and-git-to-sync-my-workflow-across-devices">🖥️ Using Syncthing, tmux, and Git to Sync My Workflow Across Devices</h4>
 
-<p>Particle-attached (PA) and free-living (FL) fractions of microbial communities are crucial to maintain the heterogeneous nature of an ecosystem. However, the structure, metabolism and community assembly of FL and PA bacteria under frequent environmental change are largely unknown.​</p>
+<p>Managing files and analysis sessions across multiple Linux machines can quickly become chaotic—especially when juggling bioinformatics scripts, results, manuscripts, figures, and a personal website at the same time.</p>
 
-<p>The Chesapeake and Delaware Bays, two major estuaries along the U.S. Atlantic coast, are geographically close yet environmentally distinct, exhibiting differences in salinity gradients, particle concentrations, light availability, and anthropogenic influence​</p>
+<p>Over the years, I tried:</p>
 
-<p>In the current study, we used 20 metagenomes of seasonal samples from the Chesapeake and Delaware Bays to characterize the metabolic potential of PA and FL fractions.</p>
+<p>● manual copying</p>
 
-<h2 id="relevant-publications">Relevant Publications</h2>
+<p>● cloud storage</p>
 
-<p>under preparation</p>
+<p>● external drives</p>
 
-<h2 id="abstracts">Abstracts</h2>
+<p>● SSH-based syncing</p>
 
-<p>Jojy John, Mir A Ahmed, and Barbara J Campbell 2025. Metabolic flexibility, secondary metabolites and seasonal dynamics in particle-associated and free-living microorganisms in the Chesapeake and Delaware Bays . ASM 25, LA, USA</p>
+<p>Eventually, I realized that no single tool solves everything. Instead, I needed a small set of tools, each doing one job extremely well.</p>
 
+<p><strong>My current setup is simple, reliable, and fully Linux-native:</strong></p>
+
+<p>● Syncthing → real-time file synchronization</p>
+
+<p>● tmux → persistent and shareable terminal sessions</p>
+
+<p>● Git + GitHub → version control and publishing</p>
+
+<p>Together, they let me move seamlessly between desktop, laptop, and HPC systems without losing context.</p>
+
+<h4 id="-1-syncthing--real-time-file-synchronization">🔷 1. Syncthing — real-time file synchronization</h4>
+
+<p>What Syncthing does</p>
+
+<p>Syncthing keeps selected folders identical across machines, automatically and continuously.</p>
+
+<p>● No USB drives</p>
+
+<p>● No cloud storage</p>
+
+<p>● No manual copying</p>
+
+<p>● No “which version is correct?” confusion</p>
+
+<p><strong>📦 Installing Syncthing</strong></p>
+
+<p>On Ubuntu / Debian-based systems:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>syncthing
+</code></pre></div></div>
+
+<p>Verify:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>syncthing <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h4 id="-starting-syncthing-automatically-on-boot">🔁 Starting Syncthing automatically on boot</h4>
+
+<p>I want Syncthing to start every time I log in, without manual intervention.</p>
+
+<p>Enable and start the user service:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl <span class="nt">--user</span> <span class="nb">enable </span>syncthing.service
+systemctl <span class="nt">--user</span> start syncthing.service
+</code></pre></div></div>
+
+<p>Check status:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl <span class="nt">--user</span> status syncthing.service
+</code></pre></div></div>
+
+<p>Now Syncthing:</p>
+
+<p>● Starts automatically on login</p>
+
+<p>● Runs quietly in the background</p>
+
+<p>● Syncs even when the browser UI is closed</p>
+
+<h4 id="-accessing-the-syncthing-interface">🌐 Accessing the Syncthing interface</h4>
+
+<p>Open a browser and go to:</p>
+
+<pre><code class="language-txt">http://localhost:8384
+</code></pre>
+
+<p>This is where I:</p>
+
+<p>● Add devices</p>
+
+<p>● Select folders to sync</p>
+
+<p>● Monitor sync status</p>
+
+<h4 id="-my-synced-folder-structure">📂 My synced folder structure</h4>
+
+<p>I use one top-level folder across all machines:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Jojy_Research_Sync/
+</code></pre></div></div>
+
+<p><strong>Inside it:</strong> I have many subfolder some examples are below</p>
+
+<p>● scripts/ – Bash, SLURM, Snakemake, R, Python</p>
+
+<p>● Projects/ – intermediate outputs, figures</p>
+
+<p>● notes/ – daily research notes</p>
+
+<p>● website_assets/ – content used by my blog</p>
+
+<p><strong>These are files I edit frequently—sometimes switching machines multiple times in a day.</strong></p>
+
+<h4 id="-2-tmux--persistent-and-shared-terminal-sessions">🔷 2. tmux — persistent and shared terminal sessions</h4>
+
+<p>While Syncthing synchronizes files, <strong>it does not preserve live terminal state.</strong>
+For that, I use tmux.
+<strong>📦 Installing tmux</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>tmux
+</code></pre></div></div>
+
+<p>Verify:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmux <span class="nt">-V</span>
+</code></pre></div></div>
+
+<p><strong>🧠 Creating a persistent session</strong></p>
+
+<p>To start a named tmux session:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmux new <span class="nt">-s</span> shared
+</code></pre></div></div>
+
+<h4 id="-from-your-laptop-open-the-shared-tmux-session-desktop-hosted">✅ From your laptop: open the shared tmux session (desktop-hosted)</h4>
+
+<p>tmux sessions live on the machine where they were created (your desktop or an HPC node).
+So on your laptop you don’t “open” it locally — you SSH into that same machine and then attach to the session.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh &lt;user&gt;@&lt;DESKTOP_IP&gt;
+tmux attach <span class="nt">-t</span> shared
+</code></pre></div></div>
+
+<p>If the session doesn’t exist yet (first time), create it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh &lt;user&gt;@&lt;DESKTOP_IP&gt;
+tmux new <span class="nt">-s</span> shared
+</code></pre></div></div>
+
+<p><strong>🔍 Find your local IP address (most common case)</strong></p>
+
+<p>On the machine hosting the tmux session (desktop or server), run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip a <span class="c">#Run on yur terminal</span>
+</code></pre></div></div>
+
+<h4 id="-sharing-the-same-session-across-devices">👥 Sharing the same session across devices</h4>
+
+<p>If I SSH into the same machine from another device, I can attach to the same session.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmux attach <span class="nt">-t</span> shared
+</code></pre></div></div>
+
+<p>This lets me:</p>
+
+<p>● Resume work from a different device</p>
+
+<p>● Monitor long-running commands</p>
+
+<p>● Continue exactly where I left off</p>
+
+<p>⚠️ tmux sessions are host-specific (not shared across different machines).</p>
+
+<p><strong>🧩 tmux commands I use daily</strong>
+| Command | Action |
+| —————————– | ————– |
+| <code class="language-plaintext highlighter-rouge">tmux new -s shared</code> | Create session |
+| <code class="language-plaintext highlighter-rouge">tmux ls</code> | List sessions |
+| <code class="language-plaintext highlighter-rouge">tmux attach -t shared</code> | Reattach |
+| <code class="language-plaintext highlighter-rouge">tmux kill-session -t shared</code> | End session |</p>
+
+<h4 id="-3-git--version-control-and-publishing">🔷 3. Git — version control and publishing</h4>
+
+<p><strong>Syncthing is not a replacement for Git.</strong></p>
+
+<p>I use Git + GitHub for:</p>
+
+<p>● My website repository</p>
+
+<p>● Analysis pipelines</p>
+
+<p>● Code meant to be shared or published</p>
+
+<p><strong>📦 Installing Git</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>git
+</code></pre></div></div>
+
+<p><strong>🔄 My daily Git workflow*</strong></p>
+
+<p>When starting work on any machine:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git pull
+</code></pre></div></div>
+
+<p>This ensures:</p>
+
+<p>● I’m working on the latest committed version</p>
+
+<p>● No conflicts with work done on another device</p>
+
+<p><strong>When something is finalized:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"Update analysis / figures / blog post"</span>
+git push
+</code></pre></div></div>
+
+<h4 id="-how-syncthing-tmux-and-git-work-together">🔗 How Syncthing, tmux, and Git work together</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Syncthing</td>
+      <td>Sync active working files</td>
+    </tr>
+    <tr>
+      <td>tmux</td>
+      <td>Preserve live terminal sessions</td>
+    </tr>
+    <tr>
+      <td>Git</td>
+      <td>Track history and publish work</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Typical workflow:</p>
+
+<p>● Syncthing syncs drafts and scripts across devices</p>
+
+<p>● tmux keeps my analysis session alive</p>
+
+<p>● Git records finalized work and publishes it</p>
+
+<p>Each tool does one job well, without overlap.</p>
+
+<h4 id="-why-this-is-important-for-me">✅ Why this is important for me</h4>
+
+<p>This setup:</p>
+
+<p>● Reduces cognitive overhead</p>
+
+<p>● Prevents accidental overwrites</p>
+
+<p>● Supports HPC + local workflows</p>
+
+<p>● Keeps everything Linux-native and reproducible</p>
+
+<p><strong>Most importantly, it lets me focus on science, not file management.</strong></p>
+
+<p><img src="/assets/img/syn.png" alt="deskto-laptop"></p>
+
+    </div>
   </article>
 
   
-    <h2>References</h2>
-    <div class="publications">
-      
-    </div>
+
   
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
 
   
 </div>

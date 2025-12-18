@@ -1,5 +1,562 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-17T16:15:28-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow</title><link href="https://jojyjohn28.github.io/blog/genome-topology-and-genome-report/" rel="alternate" type="text/html" title="Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow" /><published>2025-12-17T00:00:00-05:00</published><updated>2025-12-17T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/genome-topology-and_genome_report</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/genome-topology-and-genome-report/"><![CDATA[<h4 id="-genome-topology-and-genome-announcement-reports">🧬 Genome Topology and Genome Announcement Reports</h4>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-18T15:51:08-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices</title><link href="https://jojyjohn28.github.io/blog/syncthing-tmux-git-workflow/" rel="alternate" type="text/html" title="Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices" /><published>2025-12-19T00:00:00-05:00</published><updated>2025-12-19T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/syncthing-tmux-git-workflow</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/syncthing-tmux-git-workflow/"><![CDATA[<h4 id="️-using-syncthing-tmux-and-git-to-sync-my-workflow-across-devices">🖥️ Using Syncthing, tmux, and Git to Sync My Workflow Across Devices</h4>
+
+<p>Managing files and analysis sessions across multiple Linux machines can quickly become chaotic—especially when juggling bioinformatics scripts, results, manuscripts, figures, and a personal website at the same time.</p>
+
+<p>Over the years, I tried:</p>
+
+<p>● manual copying</p>
+
+<p>● cloud storage</p>
+
+<p>● external drives</p>
+
+<p>● SSH-based syncing</p>
+
+<p>Eventually, I realized that no single tool solves everything. Instead, I needed a small set of tools, each doing one job extremely well.</p>
+
+<p><strong>My current setup is simple, reliable, and fully Linux-native:</strong></p>
+
+<p>● Syncthing → real-time file synchronization</p>
+
+<p>● tmux → persistent and shareable terminal sessions</p>
+
+<p>● Git + GitHub → version control and publishing</p>
+
+<p>Together, they let me move seamlessly between desktop, laptop, and HPC systems without losing context.</p>
+
+<h4 id="-1-syncthing--real-time-file-synchronization">🔷 1. Syncthing — real-time file synchronization</h4>
+
+<p>What Syncthing does</p>
+
+<p>Syncthing keeps selected folders identical across machines, automatically and continuously.</p>
+
+<p>● No USB drives</p>
+
+<p>● No cloud storage</p>
+
+<p>● No manual copying</p>
+
+<p>● No “which version is correct?” confusion</p>
+
+<p><strong>📦 Installing Syncthing</strong></p>
+
+<p>On Ubuntu / Debian-based systems:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>syncthing
+</code></pre></div></div>
+
+<p>Verify:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>syncthing <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h4 id="-starting-syncthing-automatically-on-boot">🔁 Starting Syncthing automatically on boot</h4>
+
+<p>I want Syncthing to start every time I log in, without manual intervention.</p>
+
+<p>Enable and start the user service:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl <span class="nt">--user</span> <span class="nb">enable </span>syncthing.service
+systemctl <span class="nt">--user</span> start syncthing.service
+</code></pre></div></div>
+
+<p>Check status:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl <span class="nt">--user</span> status syncthing.service
+</code></pre></div></div>
+
+<p>Now Syncthing:</p>
+
+<p>● Starts automatically on login</p>
+
+<p>● Runs quietly in the background</p>
+
+<p>● Syncs even when the browser UI is closed</p>
+
+<h4 id="-accessing-the-syncthing-interface">🌐 Accessing the Syncthing interface</h4>
+
+<p>Open a browser and go to:</p>
+
+<pre><code class="language-txt">http://localhost:8384
+</code></pre>
+
+<p>This is where I:</p>
+
+<p>● Add devices</p>
+
+<p>● Select folders to sync</p>
+
+<p>● Monitor sync status</p>
+
+<h4 id="-my-synced-folder-structure">📂 My synced folder structure</h4>
+
+<p>I use one top-level folder across all machines:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Jojy_Research_Sync/
+</code></pre></div></div>
+
+<p><strong>Inside it:</strong> I have many subfolder some examples are below</p>
+
+<p>● scripts/ – Bash, SLURM, Snakemake, R, Python</p>
+
+<p>● Projects/ – intermediate outputs, figures</p>
+
+<p>● notes/ – daily research notes</p>
+
+<p>● website_assets/ – content used by my blog</p>
+
+<p><strong>These are files I edit frequently—sometimes switching machines multiple times in a day.</strong></p>
+
+<h4 id="-2-tmux--persistent-and-shared-terminal-sessions">🔷 2. tmux — persistent and shared terminal sessions</h4>
+
+<p>While Syncthing synchronizes files, <strong>it does not preserve live terminal state.</strong>
+For that, I use tmux.
+<strong>📦 Installing tmux</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>tmux
+</code></pre></div></div>
+
+<p>Verify:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmux <span class="nt">-V</span>
+</code></pre></div></div>
+
+<p><strong>🧠 Creating a persistent session</strong></p>
+
+<p>To start a named tmux session:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmux new <span class="nt">-s</span> shared
+</code></pre></div></div>
+
+<h4 id="-from-your-laptop-open-the-shared-tmux-session-desktop-hosted">✅ From your laptop: open the shared tmux session (desktop-hosted)</h4>
+
+<p>tmux sessions live on the machine where they were created (your desktop or an HPC node).
+So on your laptop you don’t “open” it locally — you SSH into that same machine and then attach to the session.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh &lt;user&gt;@&lt;DESKTOP_IP&gt;
+tmux attach <span class="nt">-t</span> shared
+</code></pre></div></div>
+
+<p>If the session doesn’t exist yet (first time), create it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh &lt;user&gt;@&lt;DESKTOP_IP&gt;
+tmux new <span class="nt">-s</span> shared
+</code></pre></div></div>
+
+<p><strong>🔍 Find your local IP address (most common case)</strong></p>
+
+<p>On the machine hosting the tmux session (desktop or server), run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip a <span class="c">#Run on yur terminal</span>
+</code></pre></div></div>
+
+<h4 id="-sharing-the-same-session-across-devices">👥 Sharing the same session across devices</h4>
+
+<p>If I SSH into the same machine from another device, I can attach to the same session.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmux attach <span class="nt">-t</span> shared
+</code></pre></div></div>
+
+<p>This lets me:</p>
+
+<p>● Resume work from a different device</p>
+
+<p>● Monitor long-running commands</p>
+
+<p>● Continue exactly where I left off</p>
+
+<p>⚠️ tmux sessions are host-specific (not shared across different machines).</p>
+
+<p><strong>🧩 tmux commands I use daily</strong>
+| Command | Action |
+| —————————– | ————– |
+| <code class="language-plaintext highlighter-rouge">tmux new -s shared</code> | Create session |
+| <code class="language-plaintext highlighter-rouge">tmux ls</code> | List sessions |
+| <code class="language-plaintext highlighter-rouge">tmux attach -t shared</code> | Reattach |
+| <code class="language-plaintext highlighter-rouge">tmux kill-session -t shared</code> | End session |</p>
+
+<h4 id="-3-git--version-control-and-publishing">🔷 3. Git — version control and publishing</h4>
+
+<p><strong>Syncthing is not a replacement for Git.</strong></p>
+
+<p>I use Git + GitHub for:</p>
+
+<p>● My website repository</p>
+
+<p>● Analysis pipelines</p>
+
+<p>● Code meant to be shared or published</p>
+
+<p><strong>📦 Installing Git</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>git
+</code></pre></div></div>
+
+<p><strong>🔄 My daily Git workflow*</strong></p>
+
+<p>When starting work on any machine:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git pull
+</code></pre></div></div>
+
+<p>This ensures:</p>
+
+<p>● I’m working on the latest committed version</p>
+
+<p>● No conflicts with work done on another device</p>
+
+<p><strong>When something is finalized:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"Update analysis / figures / blog post"</span>
+git push
+</code></pre></div></div>
+
+<h4 id="-how-syncthing-tmux-and-git-work-together">🔗 How Syncthing, tmux, and Git work together</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Syncthing</td>
+      <td>Sync active working files</td>
+    </tr>
+    <tr>
+      <td>tmux</td>
+      <td>Preserve live terminal sessions</td>
+    </tr>
+    <tr>
+      <td>Git</td>
+      <td>Track history and publish work</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Typical workflow:</p>
+
+<p>● Syncthing syncs drafts and scripts across devices</p>
+
+<p>● tmux keeps my analysis session alive</p>
+
+<p>● Git records finalized work and publishes it</p>
+
+<p>Each tool does one job well, without overlap.</p>
+
+<h4 id="-why-this-is-important-for-me">✅ Why this is important for me</h4>
+
+<p>This setup:</p>
+
+<p>● Reduces cognitive overhead</p>
+
+<p>● Prevents accidental overwrites</p>
+
+<p>● Supports HPC + local workflows</p>
+
+<p>● Keeps everything Linux-native and reproducible</p>
+
+<p><strong>Most importantly, it lets me focus on science, not file management.</strong></p>
+
+<p><img src="/assets/img/syn.png" alt="deskto-laptop" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.]]></summary></entry><entry><title type="html">Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs</title><link href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day3/" rel="alternate" type="text/html" title="Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs" /><published>2025-12-18T00:00:00-05:00</published><updated>2025-12-18T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day3</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day3/"><![CDATA[<h4 id="-size-fractionated-microbiome-analysis--day-3">🌊 Size-Fractionated Microbiome Analysis — Day 3</h4>
+
+<p>In Day 1 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1/), we focused on metagenome preprocessing, and in Day 2 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/), we explored taxonomic profiling using Kaiju.</p>
+
+<p><strong>Today, in Day 3, I introduce mOTUs v3, a marker-gene–based approach for species-level profiling of prokaryotes directly from short reads.</strong></p>
+
+<p>This method is particularly powerful for read-based analyses, where genomes are not assembled or binned, and is equally applicable to DNA (total community) and RNA (active community) datasets.</p>
+
+<h4 id="-primary-tool-motus-v3">🧬 Primary tool: mOTUs v3</h4>
+
+<p>mOTUs profiles microbial communities using 40 universal single-copy marker genes, providing consistent, genome-informed species resolution.</p>
+
+<p><strong>Why mOTUs?</strong></p>
+
+<p>Uses conserved marker genes instead of whole-genome alignment</p>
+
+<p>● Quantifies both known taxa (linked to reference genomes) and unknown mOTUs (derived from metagenomes)</p>
+
+<p>● Produces directly comparable profiles across DNA and RNA datasets</p>
+
+<p>● Outputs normalized relative abundances suitable for downstream statistics and visualization</p>
+
+<p>This makes mOTUs ideal for size-fractionated microbiome studies, where consistent taxonomic resolution across multiple datasets is critical.</p>
+
+<h4 id="️-installation-and-database-setup">🛠️ Installation and database setup</h4>
+
+<p>Install mOTUs</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda motus
+</code></pre></div></div>
+
+<p>Verify installation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>motus <span class="nt">--version</span>
+</code></pre></div></div>
+
+<p>mOTUs ships with prebuilt marker-gene databases, so no separate database construction is required.
+for more details refer : https://motu-tool.org/tutorial.html</p>
+
+<h4 id="-running-motus-on-paired-end-reads">🧪 Running mOTUs on paired-end reads</h4>
+
+<p>Example command</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>motus profile <span class="se">\</span>
+  <span class="nt">-f</span> Control_23_S13_R1.fq <span class="se">\</span>
+  <span class="nt">-r</span> Control_23_S13_R2.fq <span class="se">\</span>
+  <span class="nt">-o</span> Control_23_S13_motus.tsv
+</code></pre></div></div>
+
+<p>General usage</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Total community (DNA)</span>
+motus profile <span class="se">\</span>
+  <span class="nt">-f</span> reads/dna/S1_R1.fq.gz <span class="se">\</span>
+  <span class="nt">-r</span> reads/dna/S1_R2.fq.gz <span class="se">\</span>
+  <span class="nt">-o</span> motus/S1_dna.motus.tsv
+
+<span class="c"># Active community (RNA)</span>
+motus profile <span class="se">\</span>
+  <span class="nt">-f</span> reads/rna/S1_R1.fq.gz <span class="se">\</span>
+  <span class="nt">-r</span> reads/rna/S1_R2.fq.gz <span class="se">\</span>
+  <span class="nt">-o</span> motus/S1_rna.motus.tsv
+</code></pre></div></div>
+
+<p>The output table contains consensus taxonomy and relative abundance per sample.</p>
+
+<h4 id="-batch-processing-on-hpc-example">🚀 Batch processing on HPC (example)</h4>
+
+<p>Below is the batch script used to run mOTUs across Chesapeake Bay metagenomes.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=motus_mg_CP</span>
+<span class="c">#SBATCH --nodes=1</span>
+<span class="c">#SBATCH --cpus-per-task=32</span>
+<span class="c">#SBATCH --mem=1500G</span>
+<span class="c">#SBATCH --time=72:00:00</span>
+<span class="c">#SBATCH -o motus_%A_%a.out</span>
+<span class="c">#SBATCH -e motus_%A_%a.err</span>
+<span class="c">#SBATCH -A camplab</span>
+<span class="c">#SBATCH -p camplab</span>
+
+<span class="nb">set</span> <span class="nt">-euo</span> pipefail
+
+<span class="nb">cd</span> /project/bcampb7/camplab/AL_JJ_oct23
+
+<span class="nv">input_dir</span><span class="o">=</span><span class="s2">"/project/bcampb7/camplab/0_Raw_Data/Metagenome_estury/CB_DNA_trimmomatic"</span>
+<span class="nv">output_dir</span><span class="o">=</span><span class="s2">"/project/bcampb7/camplab/AL_JJ_oct23/motus_output/cp"</span>
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="k">${</span><span class="nv">output_dir</span><span class="k">}</span><span class="s2">"</span>/<span class="o">{</span>profiles,logs<span class="o">}</span>
+
+<span class="nb">source</span> ~/.bashrc
+conda activate /home/jojyj/.conda/envs/motus_env
+
+<span class="k">for </span>R1 <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">input_dir</span><span class="k">}</span><span class="s2">"</span>/<span class="k">*</span>_R1.fastq<span class="p">;</span> <span class="k">do
+    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="k">${</span><span class="nv">R1</span><span class="p">/_R1.fastq/</span><span class="k">}</span><span class="s2">"</span><span class="si">)</span>
+    <span class="nv">R2</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">input_dir</span><span class="k">}</span><span class="s2">/</span><span class="k">${</span><span class="nv">sample</span><span class="k">}</span><span class="s2">_R2.fastq"</span>
+
+    motus profile <span class="se">\</span>
+        <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$R1</span><span class="s2">"</span> <span class="se">\</span>
+        <span class="nt">-r</span> <span class="s2">"</span><span class="nv">$R2</span><span class="s2">"</span> <span class="se">\</span>
+        <span class="nt">-o</span> <span class="s2">"</span><span class="k">${</span><span class="nv">output_dir</span><span class="k">}</span><span class="s2">/profiles/</span><span class="k">${</span><span class="nv">sample</span><span class="k">}</span><span class="s2">_motus.txt"</span> <span class="se">\</span>
+        <span class="nt">-n</span> 32 <span class="se">\</span>
+        2&gt; <span class="s2">"</span><span class="k">${</span><span class="nv">output_dir</span><span class="k">}</span><span class="s2">/logs/</span><span class="k">${</span><span class="nv">sample</span><span class="k">}</span><span class="s2">.log"</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<h4 id="-merging-motus-profiles-across-samples">🧩 Merging mOTUs profiles across samples</h4>
+
+<p>Motus do have an built-in motus merge command (for me it failed for this dataset due to a error so instead of rerunning all my metegenomes;I used a robust bash-based merging approach, which is transparent and easy to repeat.)</p>
+
+<p><strong>Step 1 — Navigate to profiles directory</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>path/to/output/folder
+</code></pre></div></div>
+
+<p><strong>Step 2 — Fix headers (add sample name)</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>_motus.txt<span class="p">;</span> <span class="k">do
+    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> _motus.txt<span class="si">)</span>
+    <span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">s</span><span class="o">=</span><span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="s1">'NR==3{print "#consensus_taxonomy\t"s; next} {print}'</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> <span class="o">&gt;</span> tmp <span class="o">&amp;&amp;</span> <span class="nb">mv </span>tmp <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p><strong>Step 3 — Create clean tables for merging</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> merged_clean
+
+<span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>_motus.txt<span class="p">;</span> <span class="k">do
+    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> _motus.txt<span class="si">)</span>
+    <span class="nb">tail</span> <span class="nt">-n</span> +3 <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> <span class="o">&gt;</span> merged_clean/<span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span>.tsv
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p><strong>Step 4 — Merge all samples</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>merged_clean
+
+<span class="nv">first</span><span class="o">=</span><span class="si">$(</span><span class="nb">ls</span> <span class="k">*</span>.tsv | <span class="nb">sort</span> | <span class="nb">head</span> <span class="nt">-n</span> 1<span class="si">)</span>
+<span class="nb">cut</span> <span class="nt">-f1</span> <span class="s2">"</span><span class="nv">$first</span><span class="s2">"</span> <span class="o">&gt;</span> clades.txt
+
+<span class="k">for </span>f <span class="k">in</span> <span class="si">$(</span><span class="nb">ls</span> <span class="k">*</span>.tsv | <span class="nb">sort</span><span class="si">)</span><span class="p">;</span> <span class="k">do
+    </span><span class="nb">cut</span> <span class="nt">-f2</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="k">${</span><span class="nv">f</span><span class="p">%.tsv</span><span class="k">}</span><span class="s2">.ab"</span>
+<span class="k">done
+
+</span><span class="nb">paste </span>clades.txt <span class="k">*</span>.ab <span class="o">&gt;</span> merged_raw.tsv
+<span class="nb">sed</span> <span class="s1">'1s/#consensus_taxonomy/clade_name/'</span> merged_raw.tsv <span class="o">&gt;</span> motus_merged_profiles.tsv
+</code></pre></div></div>
+
+<p>The resulting file (motus_merged_profiles.tsv) is analysis-ready.</p>
+
+<h5 id="-generating-the-final-order-level-abundance-table-from-motus-profiles">🧬 Generating the final order-level abundance table from mOTUs profiles</h5>
+
+<p>mOTUs outputs taxonomic assignments as consensus lineage strings, typically spanning multiple ranks (kingdom → species). For downstream ecological visualization (e.g., stacked bar plots and heatmaps), I summarized the data at the order level, which provides a good balance between resolution and interpretability for estuarine microbiomes.</p>
+
+<p><strong>Overview of the approach</strong></p>
+
+<ol>
+  <li>
+    <p>Start from the merged mOTUs profile table (motus_merged_profiles.tsv)</p>
+  </li>
+  <li>
+    <p>Parse the consensus taxonomy lineage to extract the order-level annotation</p>
+  </li>
+  <li>
+    <p>Collapse species- and genus-level entries into their corresponding orders</p>
+  </li>
+  <li>
+    <p>Sum relative abundances across all mOTUs belonging to the same order</p>
+  </li>
+  <li>
+    <p>Produce a sample × order matrix for visualization and statistical analysis</p>
+  </li>
+</ol>
+
+<p><strong>This approach ensures that:</strong></p>
+
+<p>● Taxonomy is consistent across samples</p>
+
+<p>● Unknown or poorly resolved taxa are handled transparently</p>
+
+<p>● The resulting table is directly compatible with ggplot2, heatmaps, and multivariate analyses</p>
+
+<h4 id="-step-by-step-order-level-table-construction-in-r">🧩 Step-by-step: Order-level table construction in R</h4>
+
+<p>I used “R” for this goal:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w"> </span><span class="c1">#Load required packages</span><span class="w">
+</span><span class="n">motus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"motus_merged_profiles.tsv"</span><span class="p">)</span><span class="w"> </span><span class="c1">#Read merged mOTUs table</span><span class="w">
+</span><span class="c1">#The first column (clade_name) contains the consensus taxonomy lineage, followed by one column per sample.</span><span class="w">
+</span><span class="n">motus_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">motus</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="w">
+    </span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">clade_name</span><span class="p">,</span><span class="w">
+    </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sample"</span><span class="p">,</span><span class="w">
+    </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Abundance"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="c1">#Reshape to long format</span><span class="w">
+</span><span class="c1">#Extract order-level taxonomy from lineage strings</span><span class="w">
+</span><span class="c1">#mOTUs taxonomy strings typically follow this structure:</span><span class="w">
+</span><span class="c1">#k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Alteromonadales|...</span><span class="w">
+</span><span class="c1">#We extract the o__ component and clean it for plotting.</span><span class="w">
+</span><span class="n">motus_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">motus_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_extract</span><span class="p">(</span><span class="n">clade_name</span><span class="p">,</span><span class="w"> </span><span class="s2">"o__[^|]+"</span><span class="p">),</span><span class="w">
+    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_remove</span><span class="p">(</span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="s2">"^o__"</span><span class="p">),</span><span class="w">
+    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">order</span><span class="p">),</span><span class="w"> </span><span class="s2">"Unclassified"</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="c1">#Summarize abundances at the order level</span><span class="w">
+</span><span class="n">order_level</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">motus_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="n">Sample</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="w">
+    </span><span class="n">Abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Abundance</span><span class="p">),</span><span class="w">
+    </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="c1">#At this stage, each sample has a relative abundance profile summarized by order.</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This table was used as the final order-level input for:</p>
+
+<p>● Stacked bar plots (Day 3)</p>
+
+<p>● Heatmaps and multivariate analyses (later days)</p>
+
+<p>● network and co-occurance modelling in coming months</p>
+
+<h4 id="-visualization-in-r">📊 Visualization in R</h4>
+
+<p>Stacked bar plots (order level, bay-wise)</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">
+
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="w">
+  </span><span class="s2">"/home/jojy-john/Jojy_Research_Sync/Fl_vs_Pa/total_and_active_community/order_level_summed.xlsx"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">df_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="w">
+    </span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">order</span><span class="p">,</span><span class="w">
+    </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sample"</span><span class="p">,</span><span class="w">
+    </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Abundance"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">Bay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
+      </span><span class="n">str_detect</span><span class="p">(</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="s2">"^CP"</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Chesapeake"</span><span class="p">,</span><span class="w">
+      </span><span class="n">str_detect</span><span class="p">(</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="s2">"^DE"</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Delaware"</span><span class="p">,</span><span class="w">
+      </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="w">
+    </span><span class="p">),</span><span class="w">
+    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_trim</span><span class="p">(</span><span class="n">order</span><span class="p">),</span><span class="w">
+    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Other"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Others"</span><span class="p">),</span><span class="w"> </span><span class="s2">"Other"</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">top_orders</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"Other"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Abundance</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">total</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">slice_head</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pull</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="w">
+
+</span><span class="n">df_long2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">order2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">top_orders</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="s2">"Other"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">order2</span><span class="p">,</span><span class="w"> </span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">Bay</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">Abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Abundance</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">df_long2</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abundance</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">order2</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fill"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">Bay</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_x"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Samples"</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Relative abundance"</span><span class="p">,</span><span class="w">
+    </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Order"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">60</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">strip.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h4 id="-strengths-of-motus-in-this-study">✅ Strengths of mOTUs in this study</h4>
+
+<p>● Species-level resolution without MAGs</p>
+
+<p>● Consistent taxonomy across DNA and RNA</p>
+
+<p>● Robust handling of unknown taxa</p>
+
+<p>● Clean, normalized outputs for statistical analysis</p>
+
+<h4 id="-kaiju-vs-motus-consistency-across-methods">🔄 Kaiju vs mOTUs: Consistency across methods</h4>
+
+<p>To assess methodological consistency, I compared Kaiju (protein-level classification) and mOTUs (marker-gene–based profiling) outputs at higher taxonomic ranks. <strong>Despite relying on fundamentally different approaches, both methods recovered highly similar dominant taxa across samples, particularly when comparisons were made at the order level.</strong></p>
+
+<p><img src="/assets/img/motu.png" alt="total_community_motu" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.]]></summary></entry><entry><title type="html">Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow</title><link href="https://jojyjohn28.github.io/blog/genome-topology-and-genome-report/" rel="alternate" type="text/html" title="Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow" /><published>2025-12-17T00:00:00-05:00</published><updated>2025-12-17T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/genome-topology-and_genome_report</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/genome-topology-and-genome-report/"><![CDATA[<h4 id="-genome-topology-and-genome-announcement-reports">🧬 Genome Topology and Genome Announcement Reports</h4>
 
 <p>Today, I’m stepping slightly back from the Size-Fractionated Microbiome Analysis series. With the winter break approaching, I wanted to wrap up a few pending tasks, including finalizing genome submissions to NCBI. We recently received the final queries and accession numbers for most of our genomes. So toaday I am documenting how to answer last few NCBI submission questions and how to prepare a complete genome summary table suitable for a Genome Resource Announcement manuscript.</p>
 
@@ -401,8 +958,9 @@ done
 
 <p>Table 1. Genome assembly and annotation statistics
 | Genome | Assembly type | Genome size (bp) | GC (%) | Coverage (×) | Contigs | N50 (bp) | Predicted genes | Completeness (%) | Contamination (%) | Topology | Accession |
-| —— | ————- | —————- | —— | ———— | ——- | ——– | ————— | —————- | —————– | ——– | ——— |
-● Assembly type: Illumina / Hybrid / Long-read</p>
+| —— | ————- | —————- | —— | ———— | ——- | ——– | ————— | —————- | —————– | ——– | ——— |</p>
+
+<p>● Assembly type: Illumina / Hybrid / Long-read</p>
 
 <p>● Topology: Circular / Linear / Undetermined</p>
 
@@ -1748,577 +2306,4 @@ https://github.com/jojyjohn28/AmpliconWeek_2025</p>
 
 <p>We will walk through importing data, visualizing reads, training classifiers for each marker gene, and denoising with DADA2.</p>
 
-<p><img src="/assets/img/amplicon.png" alt="amplicon_day1" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of Amplicon sequencing and analyis.]]></summary></entry><entry><title type="html">Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp;amp; Classifier Training</title><link href="https://jojyjohn28.github.io/blog/amplicon-day2/" rel="alternate" type="text/html" title="Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp;amp; Classifier Training" /><published>2025-12-08T00:00:00-05:00</published><updated>2025-12-08T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day2</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day2/"><![CDATA[<p><strong>Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training!</strong>
-Welcome to Day 2 of the Amplicon Sequencing &amp; Metabarcoding Series (Dec 8–13).
-Today’s focus is on the core processing pipeline using QIIME2, the most widely used platform for amplicon data analysis.</p>
-
-<p>This post provides a general workflow that applies to:</p>
-
-<p>16S rRNA (Bacteria &amp; Archaea)</p>
-
-<p>ITS (Fungi)</p>
-
-<p>18S rRNA (Eukaryotes)</p>
-
-<p>12S rRNA (Fish &amp; vertebrate eDNA)</p>
-
-<p>COI (DNA barcoding for animals &amp; invertebrates)</p>
-
-<p>We will demonstrate using 16S as the example, but all steps translate to other markers (with marker-specific primers &amp; classifiers, linked in GitHub).</p>
-
-<p>At the end of today’s post, you will be able to:</p>
-
-<p>✔ Install QIIME2
-✔ Import amplicon FASTQ files
-✔ Remove primers
-✔ Run DADA2 (denoising → ASVs)
-✔ Build a phylogenetic tree
-✔ Assign taxonomy
-✔ Export data for R / Microeco</p>
-
-<p>Let’s dive in.</p>
-
-<h4 id="-1-installing-qiime2">🧬 1. Installing QIIME2</h4>
-
-<p>for installation please visit day1 tutorial at https://jojyjohn28.github.io/blog/amplicon-day1/
-or at https://github.com/jojyjohn28/AmpliconWeek_2025</p>
-
-<h4 id="-2-creating-the-manifest-file">📁 2. Creating the Manifest File</h4>
-
-<p>QIIME2 needs a manifest file pointing to each sample’s FASTQ files.
-A manifest file is a tab separated table with 3 columns with the following headers:
-sample-id forward-absolute-filepath reverse-absolute-filepath
-Example manifest file:</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sample</span><span class="o">-</span><span class="nb">id</span><span class="p">,</span><span class="n">forward</span><span class="o">-</span><span class="n">absolute</span><span class="o">-</span><span class="n">filepath</span><span class="p">,</span><span class="n">reverse</span><span class="o">-</span><span class="n">absolute</span><span class="o">-</span><span class="n">filepath</span>
-<span class="no">S1</span><span class="p">,</span><span class="sr">/path/</span><span class="n">raw</span><span class="o">/</span><span class="no">S1_R1</span><span class="p">.</span><span class="nf">fastq</span><span class="p">.</span><span class="nf">gz</span><span class="p">,</span><span class="sr">/path/</span><span class="n">raw</span><span class="o">/</span><span class="no">S1_R2</span><span class="p">.</span><span class="nf">fastq</span><span class="p">.</span><span class="nf">gz</span>
-<span class="no">S2</span><span class="p">,</span><span class="sr">/path/</span><span class="n">raw</span><span class="o">/</span><span class="no">S2_R1</span><span class="p">.</span><span class="nf">fastq</span><span class="p">.</span><span class="nf">gz</span><span class="p">,</span><span class="sr">/path/</span><span class="n">raw</span><span class="o">/</span><span class="no">S2_R2</span><span class="p">.</span><span class="nf">fastq</span><span class="p">.</span><span class="nf">gz</span>
-<span class="no">S3</span><span class="p">,</span><span class="sr">/path/</span><span class="n">raw</span><span class="o">/</span><span class="no">S3_R1</span><span class="p">.</span><span class="nf">fastq</span><span class="p">.</span><span class="nf">gz</span><span class="p">,</span><span class="sr">/path/</span><span class="n">raw</span><span class="o">/</span><span class="no">S3_R2</span><span class="p">.</span><span class="nf">fastq</span><span class="p">.</span><span class="nf">gz</span>
-</code></pre></div></div>
-
-<p>Some hints to make this file if you have many samples:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-1</span> /path/to/directory <span class="o">&gt;</span> /path/to/output/file_names.txt <span class="c">#To print the file name in directory</span>
-find /path/to/directory <span class="nt">-type</span> f <span class="nt">-print</span> <span class="o">&gt;</span> file_paths.txt <span class="c">#To print file paths in a directory</span>
-find /path/to/directory <span class="nt">-type</span> f <span class="nt">-printf</span> <span class="s2">"%f</span><span class="se">\t</span><span class="s2">%p</span><span class="se">\n</span><span class="s2">"</span> <span class="o">&gt;</span> file_names_and_paths.txt <span class="c">#To print file names and path in same file</span>
-</code></pre></div></div>
-
-<h4 id="-3-import-fastq-into-qiime2">📥 3. Import FASTQ Into QIIME2</h4>
-
-<h5 id="31--importing-paired-end-reads">3.1 🔁 Importing Paired-End Reads</h5>
-
-<p>When importing reads, QIIME2 requires two pieces of information:</p>
-
-<p><strong>1️⃣ What kind of data you are importing?</strong></p>
-
-<p>● SampleData[PairedEndSequencesWithQuality] → Paired-end reads
-● SampleData[SequencesWithQuality] → Single-end reads</p>
-
-<p><strong>2️⃣ What format are your FASTQ files in?</strong></p>
-
-<p>Most Illumina sequencing uses:</p>
-
-<p>● Phred33 (modern Illumina, MiSeq, NovaSeq)</p>
-
-<p>● Phred64 (very old Illumina, rarely used now)</p>
-
-<p>If your reads are from any modern platform, you should use Phred33.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime tools import <span class="se">\</span>
-  <span class="nt">--type</span> <span class="s1">'SampleData[PairedEndSequencesWithQuality]'</span> <span class="se">\</span>
-  <span class="nt">--input-path</span> manifest.csv <span class="se">\</span>
-  <span class="nt">--output-path</span> demux-paired-end.qza <span class="se">\</span>
-  <span class="nt">--input-format</span> PairedEndFastqManifestPhred33V2
-</code></pre></div></div>
-
-<p>✔ Why we specify PairedEndFastqManifestPhred33V2:</p>
-
-<p>● Tells QIIME2 each sample has two reads</p>
-
-<p>● Uses filepaths from the manifest (absolute paths required)</p>
-
-<p>● Ensures correct quality score interpretation</p>
-
-<p>✔ Typical output</p>
-
-<p>demux-paired-end.qza – your demultiplexed sequences in QIIME2 format.</p>
-
-<h5 id="32--importing-single-end-reads-for-some-its-coi-older-datasets">3.2 🔁 Importing Single-End Reads (For Some ITS, COI, Older Datasets)</h5>
-
-<p>If your data has only R1 reads, change both the type and input format:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime tools import <span class="se">\</span>
-  <span class="nt">--type</span> <span class="s1">'SampleData[SequencesWithQuality]'</span> <span class="se">\</span>
-  <span class="nt">--input-path</span> manifest_single.csv <span class="se">\</span>
-  <span class="nt">--output-path</span> demux-single-end.qza <span class="se">\</span>
-  <span class="nt">--input-format</span> SingleEndFastqManifestPhred33V2
-</code></pre></div></div>
-
-<p><strong>When to use single-end workflows?</strong></p>
-
-<p>● Many ITS sequencing strategies (ITS1-only or ITS2-only)</p>
-
-<p>● Some COI barcoding pipelines</p>
-
-<p>● Older sequencing runs</p>
-
-<p>● When reverse reads are too low-quality to use</p>
-
-<h5 id="️-common-import-pitfalls--how-to-avoid-them">⚠️ Common Import Pitfalls &amp; How to Avoid Them</h5>
-
-<p>❌ Error: “Filepath is not absolute”</p>
-
-<p>All manifest file paths must be full paths (starting with /home/… or /project/…).</p>
-
-<p>❌ Error: “fastq.gz not found”</p>
-
-<p>Check for:</p>
-
-<p>Hidden spaces</p>
-
-<p>Wrong filenames</p>
-
-<p>Case sensitivity (Linux is strict)</p>
-
-<p>❌ Using the wrong Phred format</p>
-
-<h4 id="33--verifying-the-import">3.3 🧪 Verifying the Import</h4>
-
-<p>Run:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime demux summarize <span class="se">\</span>
-  <span class="nt">--i-data</span> demux-paired-end.qza <span class="se">\</span>
-  <span class="nt">--o-visualization</span> demux-summary.qzv
-</code></pre></div></div>
-
-<p>Open at https://view.qiime2.org/</p>
-
-<p><strong>You should see:</strong></p>
-
-<p>● Number of samples</p>
-
-<p>● Quality score plots</p>
-
-<p>● Read counts per sample</p>
-
-<h4 id="️-4-remove-primers-using-cutadapt">✂️ 4. Remove Primers Using Cutadapt</h4>
-
-<p>Example 16S V4 primers:</p>
-
-<p>● Forward: GTGYCAGCMGCCGCGGTAA</p>
-
-<p>● Reverse: GGACTACNVGGGTWTCTAAT</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime cutadapt trim-paired <span class="se">\</span>
-  <span class="nt">--i-demultiplexed-sequences</span> demux-paired-end.qza <span class="se">\</span>
-  <span class="nt">--p-front-f</span> GTGYCAGCMGCCGCGGTAA <span class="se">\</span>
-  <span class="nt">--p-front-r</span> GGACTACNVGGGTWTCTAAT <span class="se">\</span>
-  <span class="nt">--o-trimmed-sequences</span> trimmed_demux.qza
-</code></pre></div></div>
-
-<p><strong>Why primer removal matters:</strong>
-✔ avoids false ASVs
-✔ improves denoising
-✔ ensures accurate taxonomy assignment</p>
-
-<h4 id="-5-check-quality--determine-trimming-parameters">📊 5. Check Quality &amp; Determine Trimming Parameters</h4>
-
-<p>Look at:</p>
-
-<p>Quality drop-off point</p>
-
-<p>Read overlap requirement (≥20–30 bp)</p>
-
-<p>Presence of residual primers</p>
-
-<p>These determine your DADA2 truncation length in next step</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime demux summarize <span class="se">\</span>
-  <span class="nt">--i-data</span> trimmed_demux.qza <span class="se">\</span>
-  <span class="nt">--o-visualization</span> trimmed_demux.qzv
-</code></pre></div></div>
-
-<h4 id="-6-dada2-denoising--asvs">🔬 6. DADA2: Denoising → ASVs</h4>
-
-<p>Example settings (adjust based on your quality plot):</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime dada2 denoise-paired <span class="se">\</span>
-  <span class="nt">--i-demultiplexed-seqs</span> trimmed_demux.qza <span class="se">\</span>
-  <span class="nt">--p-n-threads</span> 32 <span class="se">\</span>
-  <span class="nt">--p-trim-left-f</span> 0 <span class="se">\</span>
-  <span class="nt">--p-trim-left-r</span> 0 <span class="se">\</span>
-  <span class="nt">--p-trunc-len-f</span> 280 <span class="se">\</span>
-  <span class="nt">--p-trunc-len-r</span> 280 <span class="se">\</span>
-  <span class="nt">--o-table</span> table.qza <span class="se">\</span>
-  <span class="nt">--o-representative-sequences</span> rep-seqs.qza <span class="se">\</span>
-  <span class="nt">--o-denoising-stats</span> denoising-stats.qza
-</code></pre></div></div>
-
-<p>-p-trim-left n, which trims off the first n bases of each sequence, and –p-trunc-len n which truncates each sequence at position n.<br />
-To determine what values to pass for these two parameters, you should review the Interactive Quality Plot tab in the demux.qzv file that was generated by qiime demux summarize above command
-Here –p-n-threads can be changed according to computation power, it is the long step with 32 thread on HPC it took, 30 minutes
-<strong>DADA2 outputs:</strong>
-● table.qza (ASV table)
-● rep-seqs.qza (ASV sequences)
-● denoising-stats.qza (diagnostics)</p>
-
-<p>To view stats:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime metadata tabulate <span class="se">\</span>
-  <span class="nt">--m-input-file</span> denoising-stats.qza <span class="se">\</span>
-  <span class="nt">--o-visualization</span> denoising-stats.qzv
-</code></pre></div></div>
-
-<p>you now have the denoising summary, and this is exactly what you need to choose the best rarefaction (sampling) depth for diversity analyses in QIIME2 this will be useful in doing rarefraction and other analysis. For more details see best_rarefraction.md in github project repository:https://github.com/jojyjohn28/AmpliconWeek_2025</p>
-
-<h4 id="-7-build-a-phylogenetic-tree">🌳 7. Build a Phylogenetic Tree</h4>
-
-<p>Required for UniFrac and phylogenetic diversity:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime phylogeny align-to-tree-mafft-fasttree <span class="se">\</span>
-  <span class="nt">--i-sequences</span> rep-seqs.qza <span class="se">\</span>
-  <span class="nt">--o-alignment</span> aligned-rep-seqs.qza <span class="se">\</span>
-  <span class="nt">--o-masked-alignment</span> masked-aligned-rep-seqs.qza <span class="se">\</span>
-  <span class="nt">--o-tree</span> unrooted-tree.qza <span class="se">\</span>
-  <span class="nt">--o-rooted-tree</span> rooted-tree.qza
-</code></pre></div></div>
-
-<h4 id="-8-assighn-taxonomy">🧭 8 Assighn Taxonomy</h4>
-
-<p>Assigning taxonomy is one of the most critical steps in amplicon analysis.
-The accuracy of your results depends heavily on choosing the appropriate taxonomic classifier and database.</p>
-
-<p>QIIME2 uses a Naïve Bayes machine-learning classifier, which requires reference sequences and taxonomic labels. You can either:</p>
-
-<p>1️⃣ Use a pre-trained classifier (recommended for general workflows)</p>
-
-<p>— Fast
-— Reliable
-— Suitable for most datasets</p>
-
-<p>2️⃣ Train your own classifier recommended when:</p>
-
-<p>✔ Using uncommon primer sets
-✔ Working with short reads
-✔ Needing region-specific accuracy
-✔ Using custom databases like GTDB, PR2 subsets, MIDORI, etc.</p>
-
-<p>A step-by-step guide for training custom classifiers is included in the GitHub project:
-👉 train_your_own_classifier.md
-https://github.com/jojyjohn28/AmpliconWeek_2025
-Recommended classifiers:
-| Marker | Recommended Database | Notes |
-| ——- | ——————– | —————————————- |
-| <strong>16S</strong> | SILVA 138.1, GTDB | SILVA most common; GTDB aligns with MAGs |
-| <strong>ITS</strong> | UNITE | Fungal only |
-| <strong>18S</strong> | PR2 (best), SILVA | PR2 great for protists |
-| <strong>12S</strong> | MitoFish | Vertebrate eDNA |
-| <strong>COI</strong> | MIDORI, BOLD | DNA barcoding |</p>
-
-<p>Today we use SILVA 138 as example:</p>
-
-<p>Download:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://data.qiime2.org/2024.10/common/silva-138-99-nb-classifier.qza
-</code></pre></div></div>
-
-<p>Assign taxonomy:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime feature-classifier classify-sklearn <span class="se">\</span>
-  <span class="nt">--i-classifier</span> silva-138-99-nb-classifier.qza <span class="se">\</span>
-  <span class="nt">--i-reads</span> rep-seqs.qza <span class="se">\</span>
-  <span class="nt">--o-classification</span> taxonomy.qza
-</code></pre></div></div>
-
-<p>This produces:</p>
-
-<p>_taxonomy.qza → machine-learning taxonomy table</p>
-
-<p>_taxonomy.qzv (after visualization) → interactive barplots and tables</p>
-
-<h4 id="-9-remove-contamination">🚫 9. Remove contamination</h4>
-
-<p>After assigning taxonomy, it is essential to remove non-target sequences from your dataset.
-These usually come from:
-Host DNA;Environmental carryover;Mitochondria / chloroplasts;Off-target amplification;Universal primers binding to unintended taxa</p>
-
-<p>The exact contaminants depend on which marker gene you are analyzing.
-<strong>16S (Bacteria + Archaea)</strong></p>
-
-<p>Remove:</p>
-
-<p>● Mitochondria (eukaryotic origin)</p>
-
-<p>● Chloroplasts (from plants/algae)</p>
-
-<p>● Eukaryotic sequences (if any appear)</p>
-
-<p>Why?
-16S primers sometimes amplify plant chloroplast 16S and mitochondrial 16S, especially in soil, water, or host-associated samples.
-for more marker specific deatails please see contamination_removal.md in https://github.com/jojyjohn28/AmpliconWeek_2025</p>
-
-<p><strong>📝 Summary Table: What to Filter</strong>
-| Marker | Keep | Remove |
-| ——- | ——————— | ——————————————— |
-| <strong>16S</strong> | Bacteria, Archaea | Mitochondria, chloroplasts, eukaryotes |
-| <strong>ITS</strong> | Fungi | Plants, protists, bacteria, archaea |
-| <strong>18S</strong> | Protists / eukaryotes | Bacteria, archaea, host DNA, fungi (optional) |
-| <strong>12S</strong> | Vertebrates | Invertebrates, microbes, fungi, plants |
-| <strong>COI</strong> | Metazoa | Plants, fungi, bacteria, archaea |</p>
-
-<h4 id="-10-export-files-for-r--microeco">📤 10. Export Files for R / Microeco</h4>
-
-<p><strong>Export ASV table:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime tools <span class="nb">export</span> <span class="se">\</span>
-  <span class="nt">--input-path</span> table-no-contam.qza <span class="se">\</span>
-  <span class="nt">--output-path</span> 1_table-no-contam
-</code></pre></div></div>
-
-<p>Convert BIOM to TSV:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>biom convert <span class="se">\</span>
-  <span class="nt">-i</span> 1_table-no-contam/feature-table.biom <span class="se">\</span>
-  <span class="nt">-o</span> 1_table-no-contam/feature-table.tsv <span class="se">\</span>
-  <span class="nt">--to-tsv</span>
-</code></pre></div></div>
-
-<p><strong>Export taxonomy:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime tools <span class="nb">export</span> <span class="se">\</span>
-  <span class="nt">--input-path</span> taxonomy.qza <span class="se">\</span>
-  <span class="nt">--output-path</span> 2_taxonomy
-</code></pre></div></div>
-
-<p><strong>Export tree:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime tools <span class="nb">export</span> <span class="se">\</span>
-  <span class="nt">--input-path</span> rooted-tree.qza <span class="se">\</span>
-  <span class="nt">--output-path</span> 3_tree
-</code></pre></div></div>
-
-<p><strong>Export sequences:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime tools <span class="nb">export</span> <span class="se">\</span>
-  <span class="nt">--input-path</span> rep-seqs-no-contam.qza <span class="se">\</span>
-  <span class="nt">--output-path</span> 4_seqs
-</code></pre></div></div>
-
-<p><strong>Now we have:</strong></p>
-
-<p>● feature-table.tsv</p>
-
-<p>● taxonomy.tsv</p>
-
-<p>● tree.nwk</p>
-
-<p>● dna-sequences.fasta</p>
-
-<p><strong>These feed directly into Microeco, phyloseq, vegan, etc.</strong></p>
-
-<h4 id="-tomorrow-day-3-visualization--statistics">🧰 Tomorrow (Day 3): Visualization &amp; Statistics</h4>
-
-<p>Tomorrow we will cover:</p>
-
-<p>● Alpha diversity</p>
-
-<p>● Beta diversity</p>
-
-<p>● PCoA/NMDS</p>
-
-<p>● Taxonomy barplots</p>
-
-<p>● Microeco visualizations</p>
-
-<p>● Heatmaps, networks, Sankey diagrams</p>
-
-<p><strong>Stay tuned — and check GitHub for marker-specific workflows.</strong></p>
-
-<p><img src="/assets/img/q2.png" alt="qiime21" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 2 of Amplicon sequencing and analyis.]]></summary></entry><entry><title type="html">Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)</title><link href="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/" rel="alternate" type="text/html" title="Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)" /><published>2025-12-05T00:00:00-05:00</published><updated>2025-12-05T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/"><![CDATA[<p>Today’s post is about one of my favorite combinations right now:<br />
-<strong>machine-learning–guided binning with SemiBin2</strong> + <strong>a fully automated Snakemake workflow</strong> for recovering MAGs from <strong>highly complex soil metagenomes</strong>.</p>
-
-<p>This is part of my broader goal of <strong>machine-learning–guided multi-omics analysis</strong>.</p>
-
-<hr />
-
-<h2 id="-why-soil-metagenomes-are-painful-and-exciting">🧬 Why soil metagenomes are painful (and exciting)</h2>
-
-<p>I’m working with <strong>soil metagenomes</strong>, which are notoriously challenging:</p>
-
-<ul>
-  <li>1 g of soil can harbor <strong>millions of bacterial, archaeal, and fungal cells</strong></li>
-  <li>Community richness and evenness are extremely high</li>
-  <li>Assemblies become <strong>highly fragmented</strong> with <strong>low N50</strong></li>
-  <li>Short contigs make binning much harder</li>
-</ul>
-
-<p>After exploring different strategies, I moved to a <strong>co-assembly</strong> approach:</p>
-
-<ul>
-  <li>Co-assembly with <strong>MEGAHIT</strong> of ~30 samples</li>
-  <li>Producing a single <code class="language-plaintext highlighter-rouge">final.contigs.fa</code></li>
-</ul>
-
-<p>(I will post separate details on MEGAHIT parameters.)</p>
-
-<hr />
-
-<h2 id="-classical-binners-what-failed-and-what-worked">🧱 Classical binners: what failed and what worked</h2>
-
-<p>I initially tested the usual multi-binner approaches:</p>
-
-<h3 id="-concoct">❌ <strong>CONCOCT</strong></h3>
-
-<p>Likely failed because:</p>
-
-<ul>
-  <li>Assembly extremely large</li>
-  <li>Could not consistently segment into 10 kb fragments</li>
-  <li>Coverage patterns too noisy</li>
-</ul>
-
-<h3 id="-maxbin2">❌ <strong>MaxBin2</strong></h3>
-
-<p>Struggled due to:</p>
-
-<ul>
-  <li>Too many contigs</li>
-  <li>Sparse coverage across samples</li>
-</ul>
-
-<h3 id="️-metabat2-worked-partially">⚠️ <strong>MetaBAT2 (worked partially)</strong></h3>
-
-<ul>
-  <li>Produced ~500 bins</li>
-  <li>Good, but clearly <strong>under-represented soil diversity</strong></li>
-  <li>Bins were fragmented and incomplete</li>
-</ul>
-
-<p>To do better, I needed something that:</p>
-
-<ol>
-  <li>Scales to <strong>large, fragmented assemblies</strong></li>
-  <li>Leverages <strong>machine learning</strong> rather than fixed heuristics</li>
-</ol>
-
-<hr />
-
-<h2 id="-enter-semibin2-machine-learningguided-binning">🤖 Enter SemiBin2: machine-learning–guided binning</h2>
-
-<p>SemiBin2 integrates:</p>
-
-<ol>
-  <li><strong>Sequence composition (k-mers)</strong></li>
-  <li><strong>Coverage profiles from multiple samples</strong></li>
-  <li><strong>Deep-learning-based embeddings</strong></li>
-  <li>Density-based clustering for final bins</li>
-</ol>
-
-<p>🔗 Repo: https://github.com/BigDataBiology/SemiBin</p>
-
-<p>For complex and diverse soil data, this ML approach provides a huge improvement.</p>
-
-<p>I automated everything through <strong>Snakemake</strong> so the full workflow runs with one command.</p>
-
-<hr />
-
-<h2 id="-my-semibin2--snakemake-workflow-high-level">🔁 My SemiBin2 + Snakemake workflow (high-level)</h2>
-
-<h3 id="inputs"><strong>Inputs</strong></h3>
-
-<ul>
-  <li>Co-assembly: <code class="language-plaintext highlighter-rouge">final.contigs.fa</code></li>
-  <li>Paired-end reads: <code class="language-plaintext highlighter-rouge">sample_R1_nodup.fq</code>, <code class="language-plaintext highlighter-rouge">sample_R2_nodup.fq</code></li>
-</ul>
-
-<h3 id="workflow-steps"><strong>Workflow steps</strong></h3>
-
-<ol>
-  <li>Build <strong>Bowtie2 index</strong></li>
-  <li>Map each sample → <strong>sorted BAM</strong></li>
-  <li>Create <code class="language-plaintext highlighter-rouge">bam_list.txt</code></li>
-  <li>SemiBin2 <strong>generate features</strong></li>
-  <li>SemiBin2 <strong>train_self</strong> (machine-learning step)</li>
-  <li>SemiBin2 <strong>bin</strong> (produces bins)</li>
-  <li><strong>Unzip</strong> and convert <code class="language-plaintext highlighter-rouge">.fa.gz → .fa</code></li>
-  <li><strong>MetaWRAP refinement</strong></li>
-  <li><strong>dRep dereplication</strong></li>
-</ol>
-
-<p>All managed by Snakemake.</p>
-
-<hr />
-
-<h2 id="-running-the-workflow">🚀 Running the workflow</h2>
-
-<p>Once the Snakefile is created:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>snakemake <span class="nt">-j</span> 32
-</code></pre></div></div>
-
-<p>Snakemake will:</p>
-
-<ul>
-  <li>Detect required jobs</li>
-  <li>Build the DAG</li>
-  <li>Run everything in parallel</li>
-  <li>Restart only failed steps</li>
-  <li>Ensure reproducibility</li>
-</ul>
-
-<hr />
-
-<h2 id="-results-from-this-workflow">📈 Results from this workflow</h2>
-
-<h3 id="-semibin2-initial-output">⭐ <strong>SemiBin2 initial output</strong></h3>
-
-<p><strong>6,563 bins</strong> generated from the co-assembly.</p>
-
-<h3 id="-after-refinement--dereplication">⭐ <strong>After refinement + dereplication</strong></h3>
-
-<p>Using:</p>
-
-<ul>
-  <li>MetaWRAP bin refinement</li>
-  <li>dRep dereplication</li>
-  <li>≥ <strong>70% completeness</strong></li>
-  <li>≤ <strong>5% contamination</strong></li>
-</ul>
-
-<p>I recovered:</p>
-
-<p>🔥 <strong>~1,000 high-quality MAGs</strong></p>
-
-<p>A major improvement over the <strong>~500 bins from MetaBAT2</strong> alone.</p>
-
-<p>These high-quality MAGs will be used for:</p>
-
-<ul>
-  <li>Taxonomy</li>
-  <li>Functional annotation</li>
-  <li>CAZyme profiling</li>
-  <li>Energy metabolism markers</li>
-  <li>MG–MTX expression integration</li>
-  <li>Functional redundancy modeling (future post)</li>
-</ul>
-
-<hr />
-
-<h2 id="-wrap-up">🔚 Wrap-up</h2>
-
-<p>This combined SemiBin2 + Snakemake workflow gave me:</p>
-
-<ul>
-  <li>A reproducible, automated MAG recovery pipeline</li>
-  <li>Better binning in extremely complex soil metagenomes</li>
-  <li>A strong foundation for multi-omics integration</li>
-  <li>ML-powered binning without manual tuning</li>
-</ul>
-
-<hr />
-
-<h2 id="-full-workflow-on-github">💾 Full workflow on GitHub</h2>
-
-<p>I’ll maintain and update the full Snakemake pipeline here:</p>
-
-<p>👉 https://github.com/jojyjohn28/semibin2-soil-mag-workflow</p>]]></content><author><name></name></author><summary type="html"><![CDATA[How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.]]></summary></entry></feed>
+<p><img src="/assets/img/amplicon.png" alt="amplicon_day1" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of Amplicon sequencing and analyis.]]></summary></entry></feed>
