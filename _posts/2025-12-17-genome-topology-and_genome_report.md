@@ -430,6 +430,7 @@ The merged output is used directly as Table 1 in the Genome Resource Announcemen
 Table 1. Genome assembly and annotation statistics
 | Genome | Assembly type | Genome size (bp) | GC (%) | Coverage (×) | Contigs | N50 (bp) | Predicted genes | Completeness (%) | Contamination (%) | Topology | Accession |
 | ------ | ------------- | ---------------- | ------ | ------------ | ------- | -------- | --------------- | ---------------- | ----------------- | -------- | --------- |
+
 ● Assembly type: Illumina / Hybrid / Long-read
 
 ● Topology: Circular / Linear / Undetermined
