@@ -17,13 +17,12 @@
   
   
     
-      Codes | Jojy John
+      From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-">
+<meta name="description" content="How do we confidently determine whether a newly sequenced genome represents a novel bacterial species?">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -61,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/codes/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -162,9 +161,11 @@
             
               
                 
-                <li class="nav-item ">
+                <li class="nav-item active">
                   
                   <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -278,20 +279,433 @@
       
         
 
+
+
+
+
+
+
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Codes</h1>
-    <p class="post-description"></p>
+    <h1 class="post-title">From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow</h1>
+    <p class="post-meta">
+      Created in December 23, 2025
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
+      
+
+      
+
+      
+    </p>
   </header>
 
-  <article>
-    <h2 id="codes-for-metagenome-analysis">Codes for Metagenome Analysis</h2>
+  <article class="post-content">
+    <div id="markdown-content">
+      <h4 id="-from-genome-assembly-to-novel-species-a-step-by-step-genomic-workflow">🧬 From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow</h4>
 
-<p>Visit my repository for metagenome analysis codes: <a href="https://github.com/jojyjohn28/Codes-for-metagenome-analysis" rel="external nofollow noopener" target="_blank">GitHub Repository</a></p>
+<p><strong>Case study: Winogradskyella sp. PC_D3_3</strong></p>
 
+<p>Today’s post steps slightly away from community profiling and focuses on a question every microbial genomicist eventually faces:</p>
+
+<p><strong>How do we confidently determine whether a newly sequenced genome represents a novel bacterial species?</strong></p>
+
+<p>Using a newly assembled long-read genome (Winogradskyella sp. PC_D3_3), I walk through <strong>a complete, reproducible workflow</strong>—from assembly quality checks to taxonomic placement, genomic similarity metrics (ANI, AAI, dDDH), and functional interpretation.</p>
+
+<p>This is the same logic used for <strong>NCBI submissions, Genome Resource Announcements, and formal species descriptions</strong>.</p>
+
+<h4 id="step-1--long-read-sequence-quality-assessment-with-nanoplot">Step 1: 🔍 Long-Read Sequence Quality Assessment with NanoPlot</h4>
+
+<p>Before genome assembly, assessing the quality of long-read sequencing data is critical to ensure sufficient read length, coverage, and overall data reliability. For Oxford Nanopore Technologies (ONT) reads, I used NanoPlot to visualize read length distributions, quality scores, and cumulative yield.</p>
+
+<p><strong>Why NanoPlot?</strong></p>
+
+<p>● NanoPlot provides a rapid overview of key long-read metrics, including:</p>
+
+<p>● Read length distribution (mean, N50, max length)</p>
+
+<p>● Per-read quality score distribution</p>
+
+<p>● Cumulative sequencing yield</p>
+
+<p>● Read length vs. quality relationships</p>
+
+<p>These metrics help determine whether the dataset is suitable for de novo assembly and whether additional filtering or re-sequencing is required.
+<strong>🔧 Installation (Linux / Conda)</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda nanoplot
+</code></pre></div></div>
+
+<p>▶️ Running NanoPlot</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NanoPlot <span class="se">\</span>
+  <span class="nt">--fastq</span> PC_D3_3.fastq.gz <span class="se">\</span>
+  <span class="nt">--outdir</span> nanoplot_PC_D3_3 <span class="se">\</span>
+  <span class="nt">--threads</span> 8
+</code></pre></div></div>
+
+<p><strong>📊 Interpreting the Output</strong></p>
+
+<p>Key outputs generated by NanoPlot include:</p>
+
+<p>● Read length histogram — confirms the presence of long reads necessary for resolving repeats</p>
+
+<p>● Read quality distribution — ensures sufficient base-calling accuracy</p>
+
+<p>● Cumulative yield plot — verifies total sequencing depth</p>
+
+<p>● Length vs. quality scatter plots — identifies potential low-quality long reads</p>
+
+<h4 id="-step-2-long-read-genome-assembly">🧪 Step 2: Long-Read Genome Assembly</h4>
+
+<p>The genome was assembled using Oxford Nanopore long reads and Flye, which is well suited for circular bacterial chromosomes.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python flye <span class="se">\</span>
+  <span class="nt">--nano-raw</span> PC_D3_3.fastq.gz <span class="se">\</span>
+  <span class="nt">--threads</span> 32 <span class="se">\</span>
+  <span class="nt">--out-dir</span> lr
+</code></pre></div></div>
+
+<p><strong>Assembly summary:</strong></p>
+
+<p>● Genome size: 4.21 Mb</p>
+
+<p>● Contigs: 1</p>
+
+<p>● Coverage: ~170×</p>
+
+<p>● Topology: Circular</p>
+
+<p>Flye produced a single, high-coverage contig, consistent with a complete bacterial chromosome.</p>
+
+<h4 id="-step-3-assembly-quality-assessment">📊 Step 3: Assembly Quality Assessment</h4>
+
+<p><strong>QUAST</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quast.py PC_D3_3.fasta <span class="nt">-o</span> quast_output
+</code></pre></div></div>
+
+<p><strong>Key statistics:</strong></p>
+
+<p>● Contigs: 1</p>
+
+<p>● N50: 4,212,977 bp</p>
+
+<p>● GC content: 33.32%</p>
+
+<p>● Ns: 0</p>
+
+<p><strong>CheckM</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>checkm lineage_wf <span class="nt">-x</span> fa lr checkm_out
+</code></pre></div></div>
+
+<p>● Completeness: 99.28%</p>
+
+<p>● Contamination: 1.09%</p>
+
+<p>● Strain heterogeneity: 0%</p>
+
+<p>✔ High completeness and low contamination support downstream taxonomic claims.</p>
+
+<h4 id="-step-4-genome-annotation-overview">🧬 Step 4: Genome Annotation Overview</h4>
+
+<p><strong>Prokka</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prokka PC_D3_3.fasta <span class="nt">--outdir</span> prokka
+</code></pre></div></div>
+
+<p>Prokka gives overall annotations.</p>
+
+<p>● CDS: 3,748</p>
+
+<p>● rRNA: 12</p>
+
+<p>● tRNA: 48</p>
+
+<p>● tmRNA: 1</p>
+
+<p><strong>DRAM (functional overview)</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DRAM.py annotate <span class="nt">-i</span> PC_D3_3.fasta <span class="nt">-o</span> dram
+DRAM.py distill <span class="nt">-i</span> dram/annotations.tsv <span class="nt">-o</span> dram/genome_summaries
+</code></pre></div></div>
+
+<p><strong>Why DRAM?</strong>
+It provides:</p>
+
+<p>● CAZyme profiles</p>
+
+<p>● Central metabolism</p>
+
+<p>● Transporters</p>
+
+<p>● Secondary metabolites</p>
+
+<p>● Polysaccharide utilization potential</p>
+
+<p><strong>This goes far beyond simple gene counts.</strong></p>
+
+<h4 id="-step-5-taxonomic-placement-with-gtdb-tk">🧭 Step 5: Taxonomic Placement with GTDB-Tk</h4>
+
+<p>To assign standardized taxonomy and place the genome within the Genome Taxonomy Database (GTDB) framework, I used GTDB-Tk, which classifies genomes based on a curated set of conserved marker genes and reference phylogenies.</p>
+
+<p><strong>1️⃣ Identify marker genes</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk identify <span class="se">\</span>
+  <span class="nt">--genome_dir</span> /scratch/jojyj/win_dec11/lr <span class="se">\</span>
+  <span class="nt">--out_dir</span> /scratch/jojyj/win_dec11/gtdbtk/identify <span class="se">\</span>
+  <span class="nt">--extension</span> fasta <span class="se">\</span>
+  <span class="nt">--cpus</span> 32
+</code></pre></div></div>
+
+<p><strong>What this does:</strong>
+This step scans the genome for GTDB’s conserved bacterial marker genes and prepares them for downstream phylogenetic placement.</p>
+
+<p><strong>2️⃣ Align marker genes</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk align <span class="se">\</span>
+  <span class="nt">--identify_dir</span> /scratch/jojyj/win_dec11/gtdbtk/identify <span class="se">\</span>
+  <span class="nt">--out_dir</span> /scratch/jojyj/win_dec11/gtdbtk/align <span class="se">\</span>
+  <span class="nt">--cpus</span> 32
+</code></pre></div></div>
+
+<p>Identified marker genes are aligned against GTDB reference alignments, enabling consistent phylogenetic comparison across genomes.</p>
+
+<p><strong>3️⃣ Classify the genome</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk classify <span class="se">\</span>
+  <span class="nt">--genome_dir</span> /scratch/jojyj/win_dec11/lr <span class="se">\</span>
+  <span class="nt">--align_dir</span> /scratch/jojyj/win_dec11/gtdbtk/align <span class="se">\</span>
+  <span class="nt">--out_dir</span> /scratch/jojyj/win_dec11/gtdbtk/classify <span class="se">\</span>
+  <span class="nt">-x</span> fasta <span class="se">\</span>
+  <span class="nt">--cpus</span> 32 <span class="se">\</span>
+  <span class="nt">--mash_db</span> /scratch/jojyj/win_dec11/gtdbtk
+</code></pre></div></div>
+
+<p>This step assigns taxonomy to the genome by placing it into the GTDB reference tree using both phylogenetic placement and Mash-based genome distance estimates.</p>
+
+<p><strong>📄 Key Output: GTDB-Tk Classification Table</strong></p>
+
+<p>The classification table produced here is critical for the next steps.
+File of interest:</p>
+
+<pre><code class="language-pgsql">gtdbtk.bac120.summary.tsv
+</code></pre>
+
+<p>(or classify.csv, depending on GTDB-Tk version)</p>
+
+<p>This table contains:</p>
+
+<p>● GTDB taxonomy (domain → species)</p>
+
+<p>● Closest GTDB reference genomes</p>
+
+<p>● ANI-based placement confidence</p>
+
+<p>● Novelty flags (e.g., no species assignment)</p>
+
+<h4 id="how-this-table-is-used-next-important">How this table is used next (important)</h4>
+
+<p>The GTDB-Tk classification output is typically used to:</p>
+
+<p>● Identify closest reference genomes</p>
+
+<p>● Extract GTDB/NCBI accession IDs</p>
+
+<p>● Download ~10–20 closely related genomes using the NCBI CLI</p>
+
+<p>● Perform ANI, AAI, and dDDH comparisons</p>
+
+<h4 id="-step-6-download-closely-related-genomes-ncbi-cli">📥 Step 6: Download Closely Related Genomes (NCBI CLI)</h4>
+
+<p>To test novelty, we compare PC_D3_3 against closely related reference genomes.
+<strong>Install NCBI datasets (Linux)</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> conda-forge ncbi-datasets-cli
+</code></pre></div></div>
+
+<p>Download reference genomes</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datasets download genome taxon <span class="s2">"Winogradskyella"</span> <span class="se">\</span>
+  <span class="nt">--assembly-level</span> <span class="nb">complete</span> <span class="se">\</span>
+  <span class="nt">--filename</span> winogradskyella_refs.zip
+</code></pre></div></div>
+
+<p>Here I used the classify table created using GTDBtk classify.
+Unzip and retain ~10–20 representative genomes.</p>
+
+<h4 id="-step-7-ani-analysis-fastani">🧮 Step 7: ANI Analysis (FastANI)</h4>
+
+<p>Average Nucleotide Identity (ANI) comparisons between Winogradskyella sp. PC_D3_3 and representative reference genomes:</p>
+
+<p>Install FastANI</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda fastani
+</code></pre></div></div>
+
+<p><strong>Run ANI</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fastANI <span class="se">\</span>
+  <span class="nt">-q</span> PC_D3_3.fasta <span class="se">\</span>
+  <span class="nt">-r</span> reference_genomes/<span class="k">*</span>.fna <span class="se">\</span>
+  <span class="nt">-o</span> ani_results.txt
+</code></pre></div></div>
+
+<p><strong>my output</strong>
+| Reference genome | ANI (%) |
+| ———————- | ——- |
+| <em>W. psychrotolerans</em> B | 85.82 |
+| <em>W. thalassocola</em> | 85.38 |
+| <em>W. pacifica</em> | 84.96 |
+| <em>W. marina</em> | 81.85 |</p>
+
+<p><strong>Observed ANI range:</strong>
+81.2% – 85.8%
+All ANI values fall well below the 95–96% species threshold, supporting designation as a novel species.</p>
+
+<p><strong>📌 Interpretation</strong></p>
+
+<p>● Species cutoff: 95–96% ANI</p>
+
+<p>● All values fall far below this threshold</p>
+
+<p>● <strong>➡ PC_D3_3 is not any known Winogradskyella species</strong></p>
+
+<h4 id="-step-8-aai-analysis-comparem">🧬 Step 8: AAI Analysis (CompareM)</h4>
+
+<p>Average Amino Acid Identity is also used compare between the closely related genomes.</p>
+
+<p>Install CompareM</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda comparem
+</code></pre></div></div>
+
+<p>Run AAI</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>comparem aai_wf PC_D3_3.faa refs/ aai_out
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Reference genome</th>
+      <th>Mean AAI (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>W. thalassocola</em></td>
+      <td>87.11</td>
+    </tr>
+    <tr>
+      <td><em>W. pacifica</em></td>
+      <td>86.86</td>
+    </tr>
+    <tr>
+      <td><em>W. psychrotolerans</em></td>
+      <td>86.49</td>
+    </tr>
+    <tr>
+      <td><em>W. undariae</em></td>
+      <td>82.37</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>AAI values are above genus-level cutoffs but below species-level thresholds, confirming genus-level placement with species-level novelty.</p>
+
+<p>Observed AAI range:
+81.7% – 87.1%</p>
+
+<p>📌 Interpretation</p>
+
+<p>Species cutoff: ~95%</p>
+
+<p>Genus cutoff: ~65–75%</p>
+
+<p>➡ Confirms same genus, novel species</p>
+
+<h4 id="-step-9-digital-dnadna-hybridization-ggdc">🧬 Step 9: Digital DNA–DNA Hybridization (GGDC)</h4>
+
+<p>dDDH was calculated using the DSMZ GGDC web platform (Formula 2).
+Digital DNA–DNA hybridization (dDDH) estimates:
+| Reference genome | dDDH (%) |
+| ———————- | ——– |
+| <em>W. psychrotolerans</em> B | 29.0 |
+| <em>W. thalassocola</em> | 28.8 |
+| <em>W. pacifica</em> | 27.8 |
+| <em>W. costae</em> | 25.9 |</p>
+
+<p>All values are far below the 70% dDDH species cutoff, with near-zero probabilities of species identity.</p>
+
+<p>Observed dDDH values:
+23–29%</p>
+
+<p>📌 Species cutoff: 70%
+📌 Probability of species identity: 0–7%</p>
+
+<p>➡ Definitive evidence for novel species status</p>
+
+<h4 id="takeaway">Takeaway</h4>
+
+<p><strong>Consistent evidence from ANI, AAI, and dDDH analyses confirms that Winogradskyella sp. PC_D3_3 represents a novel species, motivating careful cross-device synchronization of genome data, scripts, and analyses.</strong></p>
+
+<h4 id="-functional-interpretation-dram-highlights">🧠 Functional Interpretation (DRAM Highlights)</h4>
+
+<p>Winogradskyella sp. PC_D3_3 is:</p>
+
+<p>● A polysaccharide-degrading marine heterotroph</p>
+
+<p>● Rich in CAZymes (alginate lyases, amylases, pectinases)</p>
+
+<p>● Equipped with diverse ABC and Mce transporters</p>
+
+<p>● Motile (MotB), suggesting particle association</p>
+
+<p>● Carries CRISPR–Cas9, indicating viral pressure</p>
+
+<p>● Strongly adapted to macroalgal and particulate organic matter</p>
+
+<p>This functional profile aligns with a particle-attached, algal-detritus–associated lifestyle in coastal systems.</p>
+
+<h4 id="-take-home-messages">🧠 Take-Home Messages</h4>
+
+<p>● Never rely on taxonomy alone—use ANI, AAI, and dDDH together</p>
+
+<p>● Long-read assemblies dramatically simplify genome interpretation</p>
+
+<p>● DRAM adds ecological meaning beyond taxonomy</p>
+
+<p>● Genomic novelty is strongest when multiple metrics converge</p>
+
+<p>todays figure shows non weighted histogram of read length of current novel genome (after log transformation) from nanoplot
+<img src="/assets/img/np.png" alt="novel-genomme"></p>
+
+    </div>
   </article>
 
   
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
 
   
 </div>
