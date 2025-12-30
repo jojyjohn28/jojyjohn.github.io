@@ -1,5 +1,187 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-23T01:44:25-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow</title><link href="https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide/" rel="alternate" type="text/html" title="From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow" /><published>2025-12-23T00:00:00-05:00</published><updated>2025-12-23T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide/"><![CDATA[<h4 id="-from-genome-assembly-to-novel-species-a-step-by-step-genomic-workflow">🧬 From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow</h4>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-12-29T21:00:09-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap</title><link href="https://jojyjohn28.github.io/blog/barrnap-16s-extraction/" rel="alternate" type="text/html" title="Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap" /><published>2025-12-29T00:00:00-05:00</published><updated>2025-12-29T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/barrnap-16s-extraction</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/barrnap-16s-extraction/"><![CDATA[<h4 id="-extracting-full-length-16s-rrna-from-bacterial-genomes-using-barrnap">🧬 Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap</h4>
+
+<p>Whole-genome sequencing has transformed microbial taxonomy, with genome-wide metrics such as ANI, AAI, and dDDH now serving as the gold standard for species delineation.
+However, the 16S rRNA gene remains an essential taxonomic anchor, especially for linking isolate genomes to classical taxonomy and amplicon-based studies.</p>
+
+<p>In this short post, I walk through a simple and reproducible workflow to:</p>
+
+<ol>
+  <li>
+    <p>Extract full-length 16S rRNA genes from an assembled bacterial genome</p>
+  </li>
+  <li>
+    <p>Validate taxonomic placement using NCBI BLAST</p>
+  </li>
+</ol>
+
+<p><strong>🔧 Tool Overview: Barrnap</strong></p>
+
+<p>Barrnap (BAsic Rapid Ribosomal RNA Predictor) is a fast and lightweight tool that identifies ribosomal RNA genes (5S, 16S, and 23S) in bacterial and archaeal genomes using HMM-based models.</p>
+
+<p>Why Barrnap?</p>
+
+<p>● Extremely fast (seconds per genome)</p>
+
+<p>● Accurate for bacterial and archaeal rRNAs</p>
+
+<p>● Ideal for complete genomes and high-quality drafts</p>
+
+<p>● Outputs standard GFF annotations</p>
+
+<p><strong>🔧 Installation (Linux / Conda)</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda barrnap
+</code></pre></div></div>
+
+<p>▶️ You’ll also need BEDTools for sequence extraction:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda bedtools
+</code></pre></div></div>
+
+<h4 id="️-step-1-predict-rrna-genes-with-barrnap">▶️ Step 1: Predict rRNA genes with Barrnap</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>barrnap <span class="nt">--kingdom</span> bac genome.fasta <span class="o">&gt;</span> genome_rrna.gff
+</code></pre></div></div>
+
+<p>**Replace genome.fasta with your genome file</p>
+
+<p><strong>What this step does</strong></p>
+
+<p>● Scans the genome for rRNA genes using bacterial HMM profiles</p>
+
+<p>● Identifies coordinates for 5S, 16S, and 23S rRNA genes</p>
+
+<p>● Outputs results in GFF format with genomic locations</p>
+
+<h4 id="-step-2-extract-the-16s-rrna-sequence">🧬 Step 2: Extract the 16S rRNA sequence</h4>
+
+<p>Once rRNA coordinates are available, extract the sequence directly from the genome using bedtools:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bedtools getfasta <span class="se">\</span>
+  <span class="nt">-fi</span> genome.fasta <span class="se">\</span>
+  <span class="nt">-bed</span> genome_rrna.gff <span class="se">\</span>
+  <span class="nt">-fo</span> genome_rrna.fasta
+</code></pre></div></div>
+
+<p>The output FASTA typically contains:</p>
+
+<p>● One or more rRNA sequences</p>
+
+<p>● Full-length or near full-length 16S rRNA genes (≈1,500 bp)</p>
+
+<p>If multiple rRNA operons are present, all will be extracted.
+hint : I always select the longest one to proceed</p>
+
+<h4 id="-step-3-identify-the-closest-relatives-using-ncbi-blast">🔍 Step 3: Identify the closest relatives using NCBI BLAST</h4>
+
+<p>The extracted 16S rRNA sequence can now be compared against public databases using NCBI BLAST.</p>
+
+<p><strong>Option A: Web-based BLAST (quickest)</strong></p>
+
+<ol>
+  <li>
+    <p>Go to: https://blast.ncbi.nlm.nih.gov</p>
+  </li>
+  <li>
+    <p>Select BLASTn</p>
+  </li>
+  <li>
+    <p>Paste the 16S sequence from PC_D3_3_rrna.fasta</p>
+  </li>
+  <li>
+    <p>Database: nt</p>
+  </li>
+  <li>
+    <p>Program selection: Highly similar sequences (megablast)</p>
+  </li>
+</ol>
+
+<p><strong>Option B: Command-line BLAST (reproducible)</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>blastn <span class="se">\</span>
+  <span class="nt">-query</span> genome_rrna.fasta <span class="se">\</span>
+  <span class="nt">-db</span> nt <span class="se">\</span>
+  <span class="nt">-out</span> genome_16S_blast.tsv <span class="se">\</span>
+  <span class="nt">-outfmt</span> 6 <span class="se">\</span>
+  <span class="nt">-max_target_seqs</span> 10 <span class="se">\</span>
+  <span class="nt">-evalue</span> 1e-20
+</code></pre></div></div>
+
+<p>**To run BLAST from the command line, you need the NCBI BLAST+ toolkit installed and access to a nucleotide database (e.g., nt). BLAST+ can be installed via Conda, and the nt database can either be downloaded locally or accessed through a preconfigured BLAST database path on an HPC system.</p>
+
+<h4 id="step-4--how-to-interpret-blast-results">Step 4 📊 How to interpret BLAST results</h4>
+
+<p>Key BLAST columns to focus on:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>What it means</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>% identity</td>
+      <td>Sequence similarity to reference</td>
+    </tr>
+    <tr>
+      <td>Alignment length</td>
+      <td>Length of the matched region</td>
+    </tr>
+    <tr>
+      <td>Query coverage</td>
+      <td>Fraction of 16S gene aligned</td>
+    </tr>
+    <tr>
+      <td>E-value</td>
+      <td>Statistical significance</td>
+    </tr>
+    <tr>
+      <td>Subject description</td>
+      <td>Closest named organism</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Typical interpretation guidelines</strong></p>
+
+<p>● ≥99% identity → likely same species</p>
+
+<p>● 98.7–99% identity → borderline species-level similarity</p>
+
+<p>● &lt;98.7% identity → distinct species</p>
+
+<p>● &lt;95% identity → possibly different genus</p>
+
+<p>*<em>It is important to note that 16S alone is not sufficient for species designation, but it provides strong supporting evidence when combined with genome-wide metrics.</em></p>
+
+<h4 id="-why-include-16s-in-a-genome-based-study">🧠 Why include 16S in a genome-based study?</h4>
+
+<p>Even in the genomics era, 16S rRNA sequences are still valuable for:</p>
+
+<p>● Connecting isolate genomes to historical literature</p>
+
+<p>● Comparing isolates to amplicon-based surveys</p>
+
+<p>● Supporting taxonomic claims in Genome Resource Announcements</p>
+
+<p>● Providing a familiar reference for non-genomics audiences</p>
+
+<p><strong>In practice, 16S supports taxonomy, while ANI, AAI, and dDDH define it.</strong></p>
+
+<h4 id="-take-home-messages">✅ Take-home messages</h4>
+
+<p>● Barrnap provides a fast and reliable way to extract rRNA genes from genomes</p>
+
+<p>● Full-length 16S rRNA sequences remain an important taxonomic reference</p>
+
+<p>● BLAST results should be interpreted alongside genome-wide comparisons</p>
+
+<p>● This workflow takes minutes and fits naturally into any isolate genome analysis</p>
+
+<p><img src="/assets/img/br.png" alt="16s-from-genome" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A quick and reproducible workflow to extract 16S rRNA genes from assembled genomes and validate taxonomy using NCBI BLAST.]]></summary></entry><entry><title type="html">From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow</title><link href="https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide/" rel="alternate" type="text/html" title="From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow" /><published>2025-12-23T00:00:00-05:00</published><updated>2025-12-23T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide/"><![CDATA[<h4 id="-from-genome-assembly-to-novel-species-a-step-by-step-genomic-workflow">🧬 From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow</h4>
 
 <p><strong>Case study: Winogradskyella sp. PC_D3_3</strong></p>
 
@@ -2223,277 +2405,4 @@ https://github.com/jojyjohn28/AmpliconWeek_2025</p>
 
 <p>Thank you to the Campbell Lab’s graduate student seminar series — especially Dinu and Nichole — for the presentation on Microeco</p>
 
-<p><img src="/assets/img/fp.png" alt="functioal_prediction" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 4 of Amplicon sequencing and analyis.]]></summary></entry><entry><title type="html">Amplicon Week — Day 3: Visualization &amp;amp; Ecological Analysis Using QIIME2 + Microeco (R)</title><link href="https://jojyjohn28.github.io/blog/amplicon-day3/" rel="alternate" type="text/html" title="Amplicon Week — Day 3: Visualization &amp;amp; Ecological Analysis Using QIIME2 + Microeco (R)" /><published>2025-12-10T00:00:00-05:00</published><updated>2025-12-10T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day3</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day3/"><![CDATA[<h3 id="-amplicon-week--day-3">🌱 Amplicon Week — Day 3</h3>
-
-<p>Visualization &amp; Ecological Analysis Using QIIME2 + Microeco (R)</p>
-
-<p>After completing the QIIME2 core analysis (Day 2), today we move into the visualization and ecological interpretation phase using Microeco, one of the most flexible and modern R packages for microbial community data mining.</p>
-
-<p>This workflow works for 16S, ITS, 18S, 12S, and COI — as long as you export your ASV table, taxonomy, tree, and metadata from QIIME2.</p>
-
-<p><strong>📦 What is Microeco?</strong></p>
-
-<p>Microeco is an R package designed for modular, flexible, comprehensive microbial ecological analysis using an R6 object-based framework.</p>
-
-<p>⭐ Key features:</p>
-
-<p>Creation of a unified microtable object</p>
-
-<p>● Data cleaning &amp; normalization</p>
-
-<p>● Taxonomic visualization (barplots, heatmaps, composition)</p>
-
-<p>● Venn diagrams</p>
-
-<p>● Alpha &amp; Beta diversity</p>
-
-<p>● Differential abundance testing</p>
-
-<p>● Co-occurrence network analysis</p>
-
-<p>● Environmental data integration</p>
-
-<p>● Supports multiple platforms: QIIME2, QIIME, HUMAnN, Kraken2, Phyloseq, MetaPhlAn, etc.</p>
-
-<p><strong>Microeco essentially brings the entire downstream microbial ecology workflow into one consistent R environment.</strong></p>
-
-<h4 id="-1-creating-a-microeco-microtable-object-from-qiime2-outputs">🧩 1. Creating a Microeco microtable object from QIIME2 outputs</h4>
-
-<p>Microeco expects the following input files:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>File</th>
-      <th>Source</th>
-      <th>Format</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>ASV table</td>
-      <td>QIIME2 table.tsv</td>
-      <td>ASV × samples</td>
-    </tr>
-    <tr>
-      <td>Taxonomy table</td>
-      <td>taxonomy.tsv</td>
-      <td>ASV taxonomy</td>
-    </tr>
-    <tr>
-      <td>Representative sequences</td>
-      <td>(optional)</td>
-      <td>FASTA</td>
-    </tr>
-    <tr>
-      <td>Phylogenetic tree</td>
-      <td>rooted-tree.nwk</td>
-      <td>Newick</td>
-    </tr>
-    <tr>
-      <td>Sample metadata</td>
-      <td>user-provided</td>
-      <td>TSV</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>After exporting in Day 2, you will have:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>feature-table.tsv
-taxonomy.tsv
-tree.nwk
-metadata.tsv
-</code></pre></div></div>
-
-<p><strong>A. Option 1 — Using file2meco (recommended)</strong></p>
-
-<p>Microeco provides a companion package file2meco to directly read QIIME2 files into microtable.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">install.packages</span><span class="p">(</span><span class="s2">"microeco"</span><span class="p">)</span><span class="w">
-</span><span class="n">devtools</span><span class="o">::</span><span class="n">install_github</span><span class="p">(</span><span class="s2">"ChiLiubio/file2meco"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">library</span><span class="p">(</span><span class="n">file2meco</span><span class="p">)</span><span class="w">
-
-</span><span class="n">mt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">file2meco</span><span class="o">::</span><span class="n">qiime2_to_meco</span><span class="p">(</span><span class="w">
-  </span><span class="n">feature_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"feature-table.tsv"</span><span class="p">,</span><span class="w">
-  </span><span class="n">taxonomy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"taxonomy.tsv"</span><span class="p">,</span><span class="w">
-  </span><span class="n">tree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"tree.nwk"</span><span class="p">,</span><span class="w">
-  </span><span class="n">metadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"metadata.tsv"</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>This automatically:</p>
-
-<p>● Cleans taxonomy</p>
-
-<p>● Aligns sample names</p>
-
-<p>● Creates the microtable object</p>
-
-<p><strong>B. Option 2 — Manual creation (phyloseq-style)</strong></p>
-
-<p>If you want full control:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">microeco</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
-
-</span><span class="n">otu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"feature-table.tsv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">)</span><span class="w">
-</span><span class="n">tax</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"taxonomy.tsv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">)</span><span class="w">
-</span><span class="n">meta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"metadata.tsv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">)</span><span class="w">
-</span><span class="n">tree</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ape</span><span class="o">::</span><span class="n">read.tree</span><span class="p">(</span><span class="s2">"tree.nwk"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Clean taxonomy (important!)</span><span class="w">
-</span><span class="n">tax</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tidy_taxonomy</span><span class="p">(</span><span class="n">tax</span><span class="p">)</span><span class="w">
-
-</span><span class="n">mt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">microtable</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="w">
-  </span><span class="n">otu_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">otu</span><span class="p">,</span><span class="w">
-  </span><span class="n">tax_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tax</span><span class="p">,</span><span class="w">
-  </span><span class="n">sample_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">meta</span><span class="p">,</span><span class="w">
-  </span><span class="n">phylo_tree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tree</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="n">mt</span><span class="w">
-</span></code></pre></div></div>
-
-<h4 id="-2-taxonomic-composition-analysis-barplots">🌈 2. Taxonomic Composition Analysis (Barplots)</h4>
-
-<p>Visualizing relative abundance across samples or groups.
-Create object:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_abund</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mt</span><span class="p">,</span><span class="w"> </span><span class="n">taxrank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Phylum"</span><span class="p">,</span><span class="w"> </span><span class="n">ntaxa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Plot:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t1</span><span class="o">$</span><span class="n">plot_bar</span><span class="p">(</span><span class="w">
-  </span><span class="n">others_color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey70"</span><span class="p">,</span><span class="w">
-  </span><span class="n">facet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Group"</span><span class="p">,</span><span class="w">
-  </span><span class="n">xtext_keep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
-  </span><span class="n">legend_text_italic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>✔ Shows top abundant phyla
-✔ Automatically groups the rest as “Others”
-✔ Facets by metadata (e.g., treatment, season, habitat)
-✔ Can create same for top families, genus or species.</p>
-
-<h4 id="-3-venn-diagram-shared-asvsotus">🟣 3. Venn Diagram (Shared ASVs/OTUs)</h4>
-
-<p>Useful for comparing core taxa across groups.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">v1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_venn</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mt</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Group"</span><span class="p">)</span><span class="w">
-</span><span class="n">v1</span><span class="o">$</span><span class="n">plot_venn</span><span class="p">()</span><span class="w">
-</span></code></pre></div></div>
-
-<h4 id="-4-diversity-analysis">📏 4 Diversity analysis</h4>
-
-<h5 id="41-microeco-makes-this-very-simple">4.1 Microeco makes this very simple:</h5>
-
-<p>Microeco makes this very simple:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">adiv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_alpha</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mt</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Group"</span><span class="p">)</span><span class="w">
-</span><span class="n">adiv</span><span class="o">$</span><span class="n">plot_alpha</span><span class="p">(</span><span class="n">boxplot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>or individual metrics:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">adiv</span><span class="o">$</span><span class="n">plot_metric</span><span class="p">(</span><span class="s2">"Shannon"</span><span class="p">)</span><span class="w">
-</span><span class="n">adiv</span><span class="o">$</span><span class="n">plot_metric</span><span class="p">(</span><span class="s2">"Chao1"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>can be modified to include the ststistical analysis.</p>
-
-<h5 id="42-beta-diversity-pcoa--nmds">4.2 Beta Diversity (PCoA / NMDS)</h5>
-
-<p>Bray–Curtis PCoA:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bdiv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_beta</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mt</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Group"</span><span class="p">,</span><span class="w"> </span><span class="n">distmethod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">)</span><span class="w">
-</span><span class="n">bdiv</span><span class="o">$</span><span class="n">plot_ordination</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PCoA"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>NMDS example:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bdiv</span><span class="o">$</span><span class="n">plot_ordination</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NMDS"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>Clustering patterns often reveal:</strong></p>
-
-<p>● treatment effects</p>
-
-<p>● environmental gradients</p>
-
-<p>● size fraction differences</p>
-
-<p>● seasonal signatures</p>
-
-<p>For incorporating ststistical analysis for diversity; please refer diversity_statistics.R in day3 of github project.</p>
-
-<p>✅ WHAT THIS SCRIPT PRODUCES</p>
-
-<p><strong>Alpha diversity</strong></p>
-
-<p>● alpha_KruskalWallis_results.csv</p>
-
-<p>● alpha_Wilcoxon_results.csv</p>
-
-<p>● alpha_ANOVA_results.csv</p>
-
-<p><strong>Beta diversity</strong></p>
-
-<p>● beta_PERMANOVA_BrayCurtis.csv</p>
-
-<p>● beta_Betadisper_BrayCurtis.csv</p>
-
-<p>● Complete results object</p>
-
-<p>● diversity_statistics.RData</p>
-
-<h4 id="-5-differential-abundance">📊 5. Differential Abundance</h4>
-
-<p>Microeco can run LEfSe-style analysis internally.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_diff</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mt</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Group"</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lefse"</span><span class="p">)</span><span class="w">
-</span><span class="n">lf</span><span class="o">$</span><span class="n">plot_diff_bar</span><span class="p">()</span><span class="w">
-</span></code></pre></div></div>
-
-<p>This identifies biomarkers at different taxonomic levels.</p>
-
-<h4 id="-microeco-can-do-even-more">🔭 Microeco Can Do Even More</h4>
-
-<p>In this post, I focused on the core ecological analyses:
-composition, diversity, differential abundance, and basic networks.
-But Microeco can do much more, including:</p>
-
-<p>● RDA / CCA and other ordination methods integrating environmental variables</p>
-
-<p>● Correlation-based analyses (taxa–taxa, taxa–environment)</p>
-
-<p>● WGCNA-style module detection and co-occurrence structure</p>
-
-<p>● Functional prediction workflows and downstream visualization</p>
-
-<p><strong>For a deeper dive into these advanced features, I highly recommend the official tutorial:</strong>
-👉 https://chiliubio.github.io/microeco_tutorial/</p>
-
-<p>Keep in mind that many of these analyses are also possible directly in QIIME2.
-For more details on QIIME2-based visualizations and diversity analyses, see:</p>
-
-<p><strong>👉 qiime2_visualization.md in the Day 3 folder of the GitHub project</strong>
-https://github.com/jojyjohn28/AmpliconWeek_2025</p>
-
-<p><strong>If you are interested in trying Microeco, I’ve included all the required base files in my repository, along with a fully running R script. You can find:</strong>
-feature-table.tsv
-taxonomy.tsv
-tree.nwk
-metadata.txt
-and Dec10_microeco.R</p>
-
-<p>These files allow you to reproduce the entire workflow exactly as shown.</p>
-
-<p>Today’s image features visualizations I created myself using Microeco.</p>
-
-<p>Thank you to the Campbell Lab’s graduate student seminar series — especially Dinu and Nichole — for the presentation on Microeco</p>
-
-<p><img src="/assets/img/mc.png" alt="microeco" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 3 of Amplicon sequencing and analyis.]]></summary></entry></feed>
+<p><img src="/assets/img/fp.png" alt="functioal_prediction" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 4 of Amplicon sequencing and analyis.]]></summary></entry></feed>

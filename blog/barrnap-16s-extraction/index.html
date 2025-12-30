@@ -17,12 +17,12 @@
   
   
     
-      Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training | Jojy John
+      Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="Day 2 of Amplicon sequencing and analyis.">
+<meta name="description" content="A quick and reproducible workflow to extract 16S rRNA genes from assembled genomes and validate taxonomy using NCBI BLAST.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/blog/amplicon-day2/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/barrnap-16s-extraction/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -287,9 +287,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training</h1>
+    <h1 class="post-title">Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap</h1>
     <p class="post-meta">
-      Created in December 08, 2025
+      Created in December 29, 2025
       
       
       
@@ -308,393 +308,189 @@
 
   <article class="post-content">
     <div id="markdown-content">
-      <p><strong>Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training!</strong>
-Welcome to Day 2 of the Amplicon Sequencing &amp; Metabarcoding Series (Dec 8–13).
-Today’s focus is on the core processing pipeline using QIIME2, the most widely used platform for amplicon data analysis.</p>
+      <h4 id="-extracting-full-length-16s-rrna-from-bacterial-genomes-using-barrnap">🧬 Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap</h4>
 
-<p>This post provides a general workflow that applies to:</p>
+<p>Whole-genome sequencing has transformed microbial taxonomy, with genome-wide metrics such as ANI, AAI, and dDDH now serving as the gold standard for species delineation.
+However, the 16S rRNA gene remains an essential taxonomic anchor, especially for linking isolate genomes to classical taxonomy and amplicon-based studies.</p>
 
-<p>16S rRNA (Bacteria &amp; Archaea)</p>
+<p>In this short post, I walk through a simple and reproducible workflow to:</p>
 
-<p>ITS (Fungi)</p>
+<ol>
+  <li>
+    <p>Extract full-length 16S rRNA genes from an assembled bacterial genome</p>
+  </li>
+  <li>
+    <p>Validate taxonomic placement using NCBI BLAST</p>
+  </li>
+</ol>
 
-<p>18S rRNA (Eukaryotes)</p>
+<p><strong>🔧 Tool Overview: Barrnap</strong></p>
 
-<p>12S rRNA (Fish &amp; vertebrate eDNA)</p>
+<p>Barrnap (BAsic Rapid Ribosomal RNA Predictor) is a fast and lightweight tool that identifies ribosomal RNA genes (5S, 16S, and 23S) in bacterial and archaeal genomes using HMM-based models.</p>
 
-<p>COI (DNA barcoding for animals &amp; invertebrates)</p>
+<p>Why Barrnap?</p>
 
-<p>We will demonstrate using 16S as the example, but all steps translate to other markers (with marker-specific primers &amp; classifiers, linked in GitHub).</p>
+<p>● Extremely fast (seconds per genome)</p>
 
-<p>At the end of today’s post, you will be able to:</p>
+<p>● Accurate for bacterial and archaeal rRNAs</p>
 
-<p>✔ Install QIIME2
-✔ Import amplicon FASTQ files
-✔ Remove primers
-✔ Run DADA2 (denoising → ASVs)
-✔ Build a phylogenetic tree
-✔ Assign taxonomy
-✔ Export data for R / Microeco</p>
+<p>● Ideal for complete genomes and high-quality drafts</p>
 
-<p>Let’s dive in.</p>
+<p>● Outputs standard GFF annotations</p>
 
-<h4 id="-1-installing-qiime2">🧬 1. Installing QIIME2</h4>
+<p><strong>🔧 Installation (Linux / Conda)</strong></p>
 
-<p>for installation please visit day1 tutorial at https://jojyjohn28.github.io/blog/amplicon-day1/
-or at https://github.com/jojyjohn28/AmpliconWeek_2025</p>
-
-<h4 id="-2-creating-the-manifest-file">📁 2. Creating the Manifest File</h4>
-
-<p>QIIME2 needs a manifest file pointing to each sample’s FASTQ files.
-A manifest file is a tab separated table with 3 columns with the following headers:
-sample-id forward-absolute-filepath reverse-absolute-filepath
-Example manifest file:</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sample</span><span class="o">-</span><span class="nb">id</span><span class="p">,</span><span class="n">forward</span><span class="o">-</span><span class="n">absolute</span><span class="o">-</span><span class="n">filepath</span><span class="p">,</span><span class="n">reverse</span><span class="o">-</span><span class="n">absolute</span><span class="o">-</span><span class="n">filepath</span>
-<span class="no">S1</span><span class="p">,</span><span class="sr">/path/</span><span class="n">raw</span><span class="o">/</span><span class="no">S1_R1</span><span class="p">.</span><span class="nf">fastq</span><span class="p">.</span><span class="nf">gz</span><span class="p">,</span><span class="sr">/path/</span><span class="n">raw</span><span class="o">/</span><span class="no">S1_R2</span><span class="p">.</span><span class="nf">fastq</span><span class="p">.</span><span class="nf">gz</span>
-<span class="no">S2</span><span class="p">,</span><span class="sr">/path/</span><span class="n">raw</span><span class="o">/</span><span class="no">S2_R1</span><span class="p">.</span><span class="nf">fastq</span><span class="p">.</span><span class="nf">gz</span><span class="p">,</span><span class="sr">/path/</span><span class="n">raw</span><span class="o">/</span><span class="no">S2_R2</span><span class="p">.</span><span class="nf">fastq</span><span class="p">.</span><span class="nf">gz</span>
-<span class="no">S3</span><span class="p">,</span><span class="sr">/path/</span><span class="n">raw</span><span class="o">/</span><span class="no">S3_R1</span><span class="p">.</span><span class="nf">fastq</span><span class="p">.</span><span class="nf">gz</span><span class="p">,</span><span class="sr">/path/</span><span class="n">raw</span><span class="o">/</span><span class="no">S3_R2</span><span class="p">.</span><span class="nf">fastq</span><span class="p">.</span><span class="nf">gz</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda barrnap
 </code></pre></div></div>
 
-<p>Some hints to make this file if you have many samples:</p>
+<p>▶️ You’ll also need BEDTools for sequence extraction:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-1</span> /path/to/directory <span class="o">&gt;</span> /path/to/output/file_names.txt <span class="c">#To print the file name in directory</span>
-find /path/to/directory <span class="nt">-type</span> f <span class="nt">-print</span> <span class="o">&gt;</span> file_paths.txt <span class="c">#To print file paths in a directory</span>
-find /path/to/directory <span class="nt">-type</span> f <span class="nt">-printf</span> <span class="s2">"%f</span><span class="se">\t</span><span class="s2">%p</span><span class="se">\n</span><span class="s2">"</span> <span class="o">&gt;</span> file_names_and_paths.txt <span class="c">#To print file names and path in same file</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda bedtools
 </code></pre></div></div>
 
-<h4 id="-3-import-fastq-into-qiime2">📥 3. Import FASTQ Into QIIME2</h4>
+<h4 id="️-step-1-predict-rrna-genes-with-barrnap">▶️ Step 1: Predict rRNA genes with Barrnap</h4>
 
-<h5 id="31--importing-paired-end-reads">3.1 🔁 Importing Paired-End Reads</h5>
-
-<p>When importing reads, QIIME2 requires two pieces of information:</p>
-
-<p><strong>1️⃣ What kind of data you are importing?</strong></p>
-
-<p>● SampleData[PairedEndSequencesWithQuality] → Paired-end reads
-● SampleData[SequencesWithQuality] → Single-end reads</p>
-
-<p><strong>2️⃣ What format are your FASTQ files in?</strong></p>
-
-<p>Most Illumina sequencing uses:</p>
-
-<p>● Phred33 (modern Illumina, MiSeq, NovaSeq)</p>
-
-<p>● Phred64 (very old Illumina, rarely used now)</p>
-
-<p>If your reads are from any modern platform, you should use Phred33.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime tools import <span class="se">\</span>
-  <span class="nt">--type</span> <span class="s1">'SampleData[PairedEndSequencesWithQuality]'</span> <span class="se">\</span>
-  <span class="nt">--input-path</span> manifest.csv <span class="se">\</span>
-  <span class="nt">--output-path</span> demux-paired-end.qza <span class="se">\</span>
-  <span class="nt">--input-format</span> PairedEndFastqManifestPhred33V2
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>barrnap <span class="nt">--kingdom</span> bac genome.fasta <span class="o">&gt;</span> genome_rrna.gff
 </code></pre></div></div>
 
-<p>✔ Why we specify PairedEndFastqManifestPhred33V2:</p>
+<p>**Replace genome.fasta with your genome file</p>
 
-<p>● Tells QIIME2 each sample has two reads</p>
+<p><strong>What this step does</strong></p>
 
-<p>● Uses filepaths from the manifest (absolute paths required)</p>
+<p>● Scans the genome for rRNA genes using bacterial HMM profiles</p>
 
-<p>● Ensures correct quality score interpretation</p>
+<p>● Identifies coordinates for 5S, 16S, and 23S rRNA genes</p>
 
-<p>✔ Typical output</p>
+<p>● Outputs results in GFF format with genomic locations</p>
 
-<p>demux-paired-end.qza – your demultiplexed sequences in QIIME2 format.</p>
+<h4 id="-step-2-extract-the-16s-rrna-sequence">🧬 Step 2: Extract the 16S rRNA sequence</h4>
 
-<h5 id="32--importing-single-end-reads-for-some-its-coi-older-datasets">3.2 🔁 Importing Single-End Reads (For Some ITS, COI, Older Datasets)</h5>
+<p>Once rRNA coordinates are available, extract the sequence directly from the genome using bedtools:</p>
 
-<p>If your data has only R1 reads, change both the type and input format:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime tools import <span class="se">\</span>
-  <span class="nt">--type</span> <span class="s1">'SampleData[SequencesWithQuality]'</span> <span class="se">\</span>
-  <span class="nt">--input-path</span> manifest_single.csv <span class="se">\</span>
-  <span class="nt">--output-path</span> demux-single-end.qza <span class="se">\</span>
-  <span class="nt">--input-format</span> SingleEndFastqManifestPhred33V2
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bedtools getfasta <span class="se">\</span>
+  <span class="nt">-fi</span> genome.fasta <span class="se">\</span>
+  <span class="nt">-bed</span> genome_rrna.gff <span class="se">\</span>
+  <span class="nt">-fo</span> genome_rrna.fasta
 </code></pre></div></div>
 
-<p><strong>When to use single-end workflows?</strong></p>
+<p>The output FASTA typically contains:</p>
 
-<p>● Many ITS sequencing strategies (ITS1-only or ITS2-only)</p>
+<p>● One or more rRNA sequences</p>
 
-<p>● Some COI barcoding pipelines</p>
+<p>● Full-length or near full-length 16S rRNA genes (≈1,500 bp)</p>
 
-<p>● Older sequencing runs</p>
+<p>If multiple rRNA operons are present, all will be extracted.
+hint : I always select the longest one to proceed</p>
 
-<p>● When reverse reads are too low-quality to use</p>
+<h4 id="-step-3-identify-the-closest-relatives-using-ncbi-blast">🔍 Step 3: Identify the closest relatives using NCBI BLAST</h4>
 
-<h5 id="️-common-import-pitfalls--how-to-avoid-them">⚠️ Common Import Pitfalls &amp; How to Avoid Them</h5>
+<p>The extracted 16S rRNA sequence can now be compared against public databases using NCBI BLAST.</p>
 
-<p>❌ Error: “Filepath is not absolute”</p>
+<p><strong>Option A: Web-based BLAST (quickest)</strong></p>
 
-<p>All manifest file paths must be full paths (starting with /home/… or /project/…).</p>
+<ol>
+  <li>
+    <p>Go to: https://blast.ncbi.nlm.nih.gov</p>
+  </li>
+  <li>
+    <p>Select BLASTn</p>
+  </li>
+  <li>
+    <p>Paste the 16S sequence from PC_D3_3_rrna.fasta</p>
+  </li>
+  <li>
+    <p>Database: nt</p>
+  </li>
+  <li>
+    <p>Program selection: Highly similar sequences (megablast)</p>
+  </li>
+</ol>
 
-<p>❌ Error: “fastq.gz not found”</p>
+<p><strong>Option B: Command-line BLAST (reproducible)</strong></p>
 
-<p>Check for:</p>
-
-<p>Hidden spaces</p>
-
-<p>Wrong filenames</p>
-
-<p>Case sensitivity (Linux is strict)</p>
-
-<p>❌ Using the wrong Phred format</p>
-
-<h4 id="33--verifying-the-import">3.3 🧪 Verifying the Import</h4>
-
-<p>Run:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime demux summarize <span class="se">\</span>
-  <span class="nt">--i-data</span> demux-paired-end.qza <span class="se">\</span>
-  <span class="nt">--o-visualization</span> demux-summary.qzv
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>blastn <span class="se">\</span>
+  <span class="nt">-query</span> genome_rrna.fasta <span class="se">\</span>
+  <span class="nt">-db</span> nt <span class="se">\</span>
+  <span class="nt">-out</span> genome_16S_blast.tsv <span class="se">\</span>
+  <span class="nt">-outfmt</span> 6 <span class="se">\</span>
+  <span class="nt">-max_target_seqs</span> 10 <span class="se">\</span>
+  <span class="nt">-evalue</span> 1e-20
 </code></pre></div></div>
 
-<p>Open at https://view.qiime2.org/</p>
+<p>**To run BLAST from the command line, you need the NCBI BLAST+ toolkit installed and access to a nucleotide database (e.g., nt). BLAST+ can be installed via Conda, and the nt database can either be downloaded locally or accessed through a preconfigured BLAST database path on an HPC system.</p>
 
-<p><strong>You should see:</strong></p>
+<h4 id="step-4--how-to-interpret-blast-results">Step 4 📊 How to interpret BLAST results</h4>
 
-<p>● Number of samples</p>
+<p>Key BLAST columns to focus on:</p>
 
-<p>● Quality score plots</p>
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>What it means</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>% identity</td>
+      <td>Sequence similarity to reference</td>
+    </tr>
+    <tr>
+      <td>Alignment length</td>
+      <td>Length of the matched region</td>
+    </tr>
+    <tr>
+      <td>Query coverage</td>
+      <td>Fraction of 16S gene aligned</td>
+    </tr>
+    <tr>
+      <td>E-value</td>
+      <td>Statistical significance</td>
+    </tr>
+    <tr>
+      <td>Subject description</td>
+      <td>Closest named organism</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>● Read counts per sample</p>
+<p><strong>Typical interpretation guidelines</strong></p>
 
-<h4 id="️-4-remove-primers-using-cutadapt">✂️ 4. Remove Primers Using Cutadapt</h4>
+<p>● ≥99% identity → likely same species</p>
 
-<p>Example 16S V4 primers:</p>
+<p>● 98.7–99% identity → borderline species-level similarity</p>
 
-<p>● Forward: GTGYCAGCMGCCGCGGTAA</p>
+<p>● &lt;98.7% identity → distinct species</p>
 
-<p>● Reverse: GGACTACNVGGGTWTCTAAT</p>
+<p>● &lt;95% identity → possibly different genus</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime cutadapt trim-paired <span class="se">\</span>
-  <span class="nt">--i-demultiplexed-sequences</span> demux-paired-end.qza <span class="se">\</span>
-  <span class="nt">--p-front-f</span> GTGYCAGCMGCCGCGGTAA <span class="se">\</span>
-  <span class="nt">--p-front-r</span> GGACTACNVGGGTWTCTAAT <span class="se">\</span>
-  <span class="nt">--o-trimmed-sequences</span> trimmed_demux.qza
-</code></pre></div></div>
+<p>*<em>It is important to note that 16S alone is not sufficient for species designation, but it provides strong supporting evidence when combined with genome-wide metrics.</em></p>
 
-<p><strong>Why primer removal matters:</strong>
-✔ avoids false ASVs
-✔ improves denoising
-✔ ensures accurate taxonomy assignment</p>
+<h4 id="-why-include-16s-in-a-genome-based-study">🧠 Why include 16S in a genome-based study?</h4>
 
-<h4 id="-5-check-quality--determine-trimming-parameters">📊 5. Check Quality &amp; Determine Trimming Parameters</h4>
+<p>Even in the genomics era, 16S rRNA sequences are still valuable for:</p>
 
-<p>Look at:</p>
+<p>● Connecting isolate genomes to historical literature</p>
 
-<p>Quality drop-off point</p>
+<p>● Comparing isolates to amplicon-based surveys</p>
 
-<p>Read overlap requirement (≥20–30 bp)</p>
+<p>● Supporting taxonomic claims in Genome Resource Announcements</p>
 
-<p>Presence of residual primers</p>
+<p>● Providing a familiar reference for non-genomics audiences</p>
 
-<p>These determine your DADA2 truncation length in next step</p>
+<p><strong>In practice, 16S supports taxonomy, while ANI, AAI, and dDDH define it.</strong></p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime demux summarize <span class="se">\</span>
-  <span class="nt">--i-data</span> trimmed_demux.qza <span class="se">\</span>
-  <span class="nt">--o-visualization</span> trimmed_demux.qzv
-</code></pre></div></div>
+<h4 id="-take-home-messages">✅ Take-home messages</h4>
 
-<h4 id="-6-dada2-denoising--asvs">🔬 6. DADA2: Denoising → ASVs</h4>
+<p>● Barrnap provides a fast and reliable way to extract rRNA genes from genomes</p>
 
-<p>Example settings (adjust based on your quality plot):</p>
+<p>● Full-length 16S rRNA sequences remain an important taxonomic reference</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime dada2 denoise-paired <span class="se">\</span>
-  <span class="nt">--i-demultiplexed-seqs</span> trimmed_demux.qza <span class="se">\</span>
-  <span class="nt">--p-n-threads</span> 32 <span class="se">\</span>
-  <span class="nt">--p-trim-left-f</span> 0 <span class="se">\</span>
-  <span class="nt">--p-trim-left-r</span> 0 <span class="se">\</span>
-  <span class="nt">--p-trunc-len-f</span> 280 <span class="se">\</span>
-  <span class="nt">--p-trunc-len-r</span> 280 <span class="se">\</span>
-  <span class="nt">--o-table</span> table.qza <span class="se">\</span>
-  <span class="nt">--o-representative-sequences</span> rep-seqs.qza <span class="se">\</span>
-  <span class="nt">--o-denoising-stats</span> denoising-stats.qza
-</code></pre></div></div>
+<p>● BLAST results should be interpreted alongside genome-wide comparisons</p>
 
-<p>-p-trim-left n, which trims off the first n bases of each sequence, and –p-trunc-len n which truncates each sequence at position n.<br>
-To determine what values to pass for these two parameters, you should review the Interactive Quality Plot tab in the demux.qzv file that was generated by qiime demux summarize above command
-Here –p-n-threads can be changed according to computation power, it is the long step with 32 thread on HPC it took, 30 minutes
-<strong>DADA2 outputs:</strong>
-● table.qza (ASV table)
-● rep-seqs.qza (ASV sequences)
-● denoising-stats.qza (diagnostics)</p>
+<p>● This workflow takes minutes and fits naturally into any isolate genome analysis</p>
 
-<p>To view stats:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime metadata tabulate <span class="se">\</span>
-  <span class="nt">--m-input-file</span> denoising-stats.qza <span class="se">\</span>
-  <span class="nt">--o-visualization</span> denoising-stats.qzv
-</code></pre></div></div>
-
-<p>you now have the denoising summary, and this is exactly what you need to choose the best rarefaction (sampling) depth for diversity analyses in QIIME2 this will be useful in doing rarefraction and other analysis. For more details see best_rarefraction.md in github project repository:https://github.com/jojyjohn28/AmpliconWeek_2025</p>
-
-<h4 id="-7-build-a-phylogenetic-tree">🌳 7. Build a Phylogenetic Tree</h4>
-
-<p>Required for UniFrac and phylogenetic diversity:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime phylogeny align-to-tree-mafft-fasttree <span class="se">\</span>
-  <span class="nt">--i-sequences</span> rep-seqs.qza <span class="se">\</span>
-  <span class="nt">--o-alignment</span> aligned-rep-seqs.qza <span class="se">\</span>
-  <span class="nt">--o-masked-alignment</span> masked-aligned-rep-seqs.qza <span class="se">\</span>
-  <span class="nt">--o-tree</span> unrooted-tree.qza <span class="se">\</span>
-  <span class="nt">--o-rooted-tree</span> rooted-tree.qza
-</code></pre></div></div>
-
-<h4 id="-8-assighn-taxonomy">🧭 8 Assighn Taxonomy</h4>
-
-<p>Assigning taxonomy is one of the most critical steps in amplicon analysis.
-The accuracy of your results depends heavily on choosing the appropriate taxonomic classifier and database.</p>
-
-<p>QIIME2 uses a Naïve Bayes machine-learning classifier, which requires reference sequences and taxonomic labels. You can either:</p>
-
-<p>1️⃣ Use a pre-trained classifier (recommended for general workflows)</p>
-
-<p>— Fast
-— Reliable
-— Suitable for most datasets</p>
-
-<p>2️⃣ Train your own classifier recommended when:</p>
-
-<p>✔ Using uncommon primer sets
-✔ Working with short reads
-✔ Needing region-specific accuracy
-✔ Using custom databases like GTDB, PR2 subsets, MIDORI, etc.</p>
-
-<p>A step-by-step guide for training custom classifiers is included in the GitHub project:
-👉 train_your_own_classifier.md
-https://github.com/jojyjohn28/AmpliconWeek_2025
-Recommended classifiers:
-| Marker | Recommended Database | Notes |
-| ——- | ——————– | —————————————- |
-| <strong>16S</strong> | SILVA 138.1, GTDB | SILVA most common; GTDB aligns with MAGs |
-| <strong>ITS</strong> | UNITE | Fungal only |
-| <strong>18S</strong> | PR2 (best), SILVA | PR2 great for protists |
-| <strong>12S</strong> | MitoFish | Vertebrate eDNA |
-| <strong>COI</strong> | MIDORI, BOLD | DNA barcoding |</p>
-
-<p>Today we use SILVA 138 as example:</p>
-
-<p>Download:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://data.qiime2.org/2024.10/common/silva-138-99-nb-classifier.qza
-</code></pre></div></div>
-
-<p>Assign taxonomy:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime feature-classifier classify-sklearn <span class="se">\</span>
-  <span class="nt">--i-classifier</span> silva-138-99-nb-classifier.qza <span class="se">\</span>
-  <span class="nt">--i-reads</span> rep-seqs.qza <span class="se">\</span>
-  <span class="nt">--o-classification</span> taxonomy.qza
-</code></pre></div></div>
-
-<p>This produces:</p>
-
-<p>_taxonomy.qza → machine-learning taxonomy table</p>
-
-<p>_taxonomy.qzv (after visualization) → interactive barplots and tables</p>
-
-<h4 id="-9-remove-contamination">🚫 9. Remove contamination</h4>
-
-<p>After assigning taxonomy, it is essential to remove non-target sequences from your dataset.
-These usually come from:
-Host DNA;Environmental carryover;Mitochondria / chloroplasts;Off-target amplification;Universal primers binding to unintended taxa</p>
-
-<p>The exact contaminants depend on which marker gene you are analyzing.
-<strong>16S (Bacteria + Archaea)</strong></p>
-
-<p>Remove:</p>
-
-<p>● Mitochondria (eukaryotic origin)</p>
-
-<p>● Chloroplasts (from plants/algae)</p>
-
-<p>● Eukaryotic sequences (if any appear)</p>
-
-<p>Why?
-16S primers sometimes amplify plant chloroplast 16S and mitochondrial 16S, especially in soil, water, or host-associated samples.
-for more marker specific deatails please see contamination_removal.md in https://github.com/jojyjohn28/AmpliconWeek_2025</p>
-
-<p><strong>📝 Summary Table: What to Filter</strong>
-| Marker | Keep | Remove |
-| ——- | ——————— | ——————————————— |
-| <strong>16S</strong> | Bacteria, Archaea | Mitochondria, chloroplasts, eukaryotes |
-| <strong>ITS</strong> | Fungi | Plants, protists, bacteria, archaea |
-| <strong>18S</strong> | Protists / eukaryotes | Bacteria, archaea, host DNA, fungi (optional) |
-| <strong>12S</strong> | Vertebrates | Invertebrates, microbes, fungi, plants |
-| <strong>COI</strong> | Metazoa | Plants, fungi, bacteria, archaea |</p>
-
-<h4 id="-10-export-files-for-r--microeco">📤 10. Export Files for R / Microeco</h4>
-
-<p><strong>Export ASV table:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime tools <span class="nb">export</span> <span class="se">\</span>
-  <span class="nt">--input-path</span> table-no-contam.qza <span class="se">\</span>
-  <span class="nt">--output-path</span> 1_table-no-contam
-</code></pre></div></div>
-
-<p>Convert BIOM to TSV:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>biom convert <span class="se">\</span>
-  <span class="nt">-i</span> 1_table-no-contam/feature-table.biom <span class="se">\</span>
-  <span class="nt">-o</span> 1_table-no-contam/feature-table.tsv <span class="se">\</span>
-  <span class="nt">--to-tsv</span>
-</code></pre></div></div>
-
-<p><strong>Export taxonomy:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime tools <span class="nb">export</span> <span class="se">\</span>
-  <span class="nt">--input-path</span> taxonomy.qza <span class="se">\</span>
-  <span class="nt">--output-path</span> 2_taxonomy
-</code></pre></div></div>
-
-<p><strong>Export tree:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime tools <span class="nb">export</span> <span class="se">\</span>
-  <span class="nt">--input-path</span> rooted-tree.qza <span class="se">\</span>
-  <span class="nt">--output-path</span> 3_tree
-</code></pre></div></div>
-
-<p><strong>Export sequences:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime tools <span class="nb">export</span> <span class="se">\</span>
-  <span class="nt">--input-path</span> rep-seqs-no-contam.qza <span class="se">\</span>
-  <span class="nt">--output-path</span> 4_seqs
-</code></pre></div></div>
-
-<p><strong>Now we have:</strong></p>
-
-<p>● feature-table.tsv</p>
-
-<p>● taxonomy.tsv</p>
-
-<p>● tree.nwk</p>
-
-<p>● dna-sequences.fasta</p>
-
-<p><strong>These feed directly into Microeco, phyloseq, vegan, etc.</strong></p>
-
-<h4 id="-tomorrow-day-3-visualization--statistics">🧰 Tomorrow (Day 3): Visualization &amp; Statistics</h4>
-
-<p>Tomorrow we will cover:</p>
-
-<p>● Alpha diversity</p>
-
-<p>● Beta diversity</p>
-
-<p>● PCoA/NMDS</p>
-
-<p>● Taxonomy barplots</p>
-
-<p>● Microeco visualizations</p>
-
-<p>● Heatmaps, networks, Sankey diagrams</p>
-
-<p><strong>Stay tuned — and check GitHub for marker-specific workflows.</strong></p>
-
-<p><img src="/assets/img/q2.png" alt="qiime21"></p>
+<p><img src="/assets/img/br.png" alt="16s-from-genome"></p>
 
     </div>
   </article>
