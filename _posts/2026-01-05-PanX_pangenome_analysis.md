@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates"
-date: 2025-11-21
-description: "A complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction."
+date: 2026-01-01
+description: "5 complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction."
 comments: true
 giscus_comments: true
 featured: true
@@ -233,4 +233,4 @@ Output file: core_pan_gene_counts_per_genome.tsv
 
 For more details on PanX visit :https://pangenome.org/
 
-![ncbi_submission](/assets/img/panx_analysis.png)
+![ncbi_submission](/assets/img/panx.png)
