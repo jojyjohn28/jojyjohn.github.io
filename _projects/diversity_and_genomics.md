@@ -2,13 +2,15 @@
 layout: project
 title: "Diversity, Genomic Studies, and Resistance Mechanisms of Moderately Halophilic Bacteria"
 description: "Genomic and physiological characterization of halophilic bacteria from salt pan ecosystems to understand stress adaptation, resistance mechanisms, and biotechnological potential."
-img: assets/img/halophile1.jpg
+img: assets/img/halophile1.png
 importance: 2
 category: work
 related_publications: true
 ---
 
-## 🧠 Background & Motivation
+# Diversity, Genomic Studies, and Resistance Mechanisms of Moderately Halophilic Bacteria
+
+**🧠 Background & Motivation**
 
 Extreme saline environments such as salt pans impose strong selective pressures on microbial life, requiring unique **physiological, metabolic, and genomic adaptations**. The **Marakkanam salt pan (South India)** is characterized by extreme fluctuations in salinity (19–490 ppt), high ultraviolet radiation, and elevated heavy metal concentrations. While several halophilic bacteria from this ecosystem have been isolated for their **industrial enzyme and antibiotic production**, the **genomic basis of their stress tolerance and survival strategies remains poorly understood**.
 
@@ -16,7 +18,7 @@ This PhD project focused on characterizing both **cultivable and uncultivable ha
 
 ---
 
-## 🎯 Research Questions & Objectives
+**🎯 Research Questions & Objectives**
 
 - Which microbial taxa persist under **extreme and fluctuating salinity** conditions?
 - What **genomic and physiological mechanisms** enable halophilic bacteria to survive and adapt?
@@ -24,7 +26,7 @@ This PhD project focused on characterizing both **cultivable and uncultivable ha
 
 ---
 
-## 👨‍🔬 My Role
+**👨‍🔬 My Role**
 
 This project represents my **doctoral research (PhD)**.
 
@@ -40,7 +42,7 @@ This project represents my **doctoral research (PhD)**.
 
 ---
 
-## 🧩 Challenges & Solutions
+**🧩 Challenges & Solutions**
 
 **Challenge 1:** Difficulty in culturing and DNA extraction due to extremely high salt concentrations  
 **Solution:** Developed customized growth media using **source water from the salt pan**, improving cell recovery and DNA quality.
@@ -50,16 +52,16 @@ This project represents my **doctoral research (PhD)**.
 
 ---
 
-## 🛠 Methods & Tools
+**🛠 Methods & Tools**
 
-### Data & Sequencing
+\*_Data & Sequencing_
 
 - 16S rRNA amplicon sequencing (Oxford Nanopore)
 - Whole-genome sequencing
 - Core and pan-genome phylogenetic analysis
 - Genome annotation and pathway reconstruction
 
-### Bioinformatics
+\*_Bioinformatics_
 
 - EPI2ME
 - SPAdes
@@ -68,7 +70,7 @@ This project represents my **doctoral research (PhD)**.
 
 ---
 
-## 📄 Publications
+**📄 Publications**
 
 - **John J**, Vinu Siva, Kumari Richa, Aditya Arya, Amit Kumar.  
   _Life in high salt concentrations with changing environmental conditions: Insights from genomic and phenotypic analysis of Salinivibrio sp._  
@@ -88,7 +90,7 @@ This project represents my **doctoral research (PhD)**.
 
 ---
 
-## 🎤 Conferences & Talks
+**🎤 Conferences & Talks**
 
 - **Biotechnological potential of moderately halotolerant bacteria: Insights from genomic analysis of Salinivibrio sp. isolated from a salt pan**  
   National Symposium on the Application of Genomics and Proteomics in Aquaculture, Fisheries & Marine Biology (omicsAFM 2018)  
@@ -101,7 +103,7 @@ This project represents my **doctoral research (PhD)**.
 
 ---
 
-## 🧑‍🔬 Collaborator / Reference
+**🧑‍🔬 Collaborator / Reference**
 
 **1. Dr. Amit Kumar**
 Scientist; International Research Centre for Climate Change Studies,
@@ -126,12 +128,12 @@ Phone: (0)832 2450 301 Mobile: +91 82489 53847
 
 <div class="row">
   <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/halophile2.jpg" title="Marakkanam salt pan sampling site" class="img-fluid rounded z-depth-1" %}
+    {% include figure.liquid loading="eager" path="assets/img/halophile1.png" title="Marakkanam salt pan sampling site" class="img-fluid rounded z-depth-1" %}
   </div>
   <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/halophile3.jpg" title="Halophilic bacterial isolates" class="img-fluid rounded z-depth-1" %}
+    {% include figure.liquid loading="eager" path="assets/img/h2.jpg" title="Halophilic bacterial isolates" class="img-fluid rounded z-depth-1" %}
   </div>
   <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/halophile4.jpg" title="Genome-based analysis of Salinivibrio sp." class="img-fluid rounded z-depth-1" %}
+    {% include figure.liquid loading="eager" path="assets/img/h1.jpg" title="Genome-based analysis of Salinivibrio sp." class="img-fluid rounded z-depth-1" %}
   </div>
 </div>

@@ -8,7 +8,9 @@ category: work
 related_publications: true
 ---
 
-## 🧠 Background & Motivation
+# Microbial Biofouling Interactions on Autonomous Navy Gliders
+
+** 🧠 Background & Motivation**
 
 Biofouling is the process by which microorganisms and multicellular organisms colonize submerged surfaces, negatively impacting marine vessels by increasing drag and reducing operational efficiency. This challenge is particularly critical for **battery-powered Unmanned Underwater Vehicles (UUVs)**, including **Autonomous Navy Gliders**, where increased drag leads to significant energy loss and reduced mission duration.
 
@@ -16,7 +18,7 @@ Rather than relying on toxic antifouling coatings, this project explores an **ec
 
 ---
 
-## 🎯 Research Questions & Objectives
+\**🎯 Research Questions & Objectives*8
 
 - What microbial taxa colonize the **body and tail sections** of autonomous underwater vehicles?
 - Which **genes and pathways** are associated with biofilm formation, EPS production, and antagonistic activity?
@@ -25,7 +27,7 @@ Rather than relying on toxic antifouling coatings, this project explores an **ec
 
 ---
 
-## 👨‍🔬 My Role
+**👨‍🔬 My Role**
 
 - Provided **full bioinformatics support** for the project
 - Performed **metagenomic and genome-resolved analyses** of UUV-associated biofilms
@@ -37,7 +39,7 @@ Rather than relying on toxic antifouling coatings, this project explores an **ec
 
 ---
 
-## 🧩 Challenges & Solutions
+**🧩 Challenges & Solutions**
 
 **Challenge 1:** Choosing appropriate assembly strategies for **200+ genomes** with varying read quality and genome complexity  
 **Solution:** Implemented a **tiered assembly strategy**:
@@ -66,9 +68,9 @@ Rather than relying on toxic antifouling coatings, this project explores an **ec
 
 ---
 
-## 🛠 Methods & Tools
+**🛠 Methods & Tools**
 
-### Data & Sequencing
+\*_Data & Sequencing_
 
 - Shotgun metagenomics (biofilm samples from UUV body and tail)
 - Whole-genome sequencing of bacterial isolates
@@ -76,7 +78,7 @@ Rather than relying on toxic antifouling coatings, this project explores an **ec
 - Functional annotation of isolate genomes and MAGs
 - Taxonomic classification and genome quality assessment
 
-### Bioinformatics & Visualization
+\*_Bioinformatics & Visualization_
 
 - **Assembly & QC:** Flye, SPAdes, Shovill, Unicycler, NanoPlot
 - **Assembly validation:** Bandage
@@ -84,7 +86,7 @@ Rather than relying on toxic antifouling coatings, this project explores an **ec
 - **Metagenomics:** Genome-resolved metagenomics workflows
 - **Infrastructure:** High-performance computing (HPC)
 
-### Languages & Workflow
+\*_Languages & Workflow_
 
 - Python
 - Bash
@@ -93,7 +95,7 @@ Rather than relying on toxic antifouling coatings, this project explores an **ec
 
 ---
 
-## 📄 Publications
+**Publications**
 
 - **Chaulagain D**, **John J**, Paul B, Harrington EG, McCarthy G, Sathe M, Shamabadi NS, Carter E, Leonhardt J, Nawaz MS, Suleman M, Campbell BJ, Karig DK.  
   _Genome assemblies of bacterial isolate collections from marine biofilm and water explore microbial diversity._  
@@ -103,7 +105,7 @@ _(Additional manuscripts in preparation.)_
 
 ---
 
-## 🎤 Conferences & Talks
+**🎤 Conferences & Talks**
 
 - **Functional redundancy of marine synthetic biofilm communities under different environmental stresses**  
   Alisha M. Paul, **Jojy John**, Diptee Chaulagain, David Karig, Barbara J. Campbell  
@@ -125,7 +127,7 @@ _(Additional manuscripts in preparation.)_
 
 ---
 
-## 🧑‍🔬 Collaborators / References
+**🧑‍🔬 Collaborators / References**
 
 **Dr. Barbara J. Campbell**  
 Dean’s Distinguished Professor  
@@ -143,17 +145,3 @@ Department of Bioengineering, Clemson University
 Email: dchaula@clemson.edu
 
 ---
-
-## 🖼 Image Gallery
-
-<div class="row">
-  <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/glider_biofilm1.jpg" title="Biofilm formation on autonomous gliders" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/hybrid_assembly_bandage.jpg" title="Hybrid genome assembly visualized using Bandage" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/synthetic_biofilm_model.jpg" title="Conceptual model of synthetic antifouling biofilm community" class="img-fluid rounded z-depth-1" %}
-  </div>
-</div>

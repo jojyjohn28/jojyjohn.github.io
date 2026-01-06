@@ -7,27 +7,24 @@ nav: true
 nav_order: 7
 ---
 
-## Teaching Experience
+#Teaching Experience
 
-### 2026 Spring :Hands-on Training on Metagenome Analysis
-
+**2026 Spring :Co-instructor**
 Course: MICR 8130 - Practical Bioinformatics for Microbiologists  
 Institution: Clemson University, USA
 
-### **2024** **Teacher**, Readings in Ecology, Clemson University
+**2024** **Discussion lead**, Readings in Ecology, Clemson University
 
-### **2023-2024**
-
-**Guest Lecturer**, Hands-on Training on Metagenome Analysis  
+**2024 Spring :Co-instructor**
 Course: MICR 8130 - Practical Bioinformatics for Microbiologists  
 Institution: Clemson University, USA
 
-### **2018-2019**
+# **2018-2019**
 
 **Lab Assistant**, General Microbiology Practical  
 Institution: SIST, Chennai, India
 
-### **2013-2014**
+# **2013-2014**
 
 **Lab Assistant**, Microbiology/Biotechnology  
 Institution: Mar Athanasius College, Kothamangalam, India

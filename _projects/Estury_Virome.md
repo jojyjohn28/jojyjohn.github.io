@@ -8,7 +8,9 @@ category: work
 related_publications: true
 ---
 
-## 🧠 Background & Motivation
+# Bacteriophages and Auxiliary Metabolic Genes of the Chesapeake and Delaware Bays
+
+**🧠 Background & Motivation**
 
 Viruses are key regulators of microbial community structure and ecosystem function in marine environments. Beyond their role in host mortality, many bacteriophages encode **auxiliary metabolic genes (AMGs)**—genes that overlap with host metabolic pathways and can reprogram host metabolism to enhance viral replication. Through this process, viruses influence **carbon cycling, nutrient turnover, and energy flow**, ultimately contributing to ecosystem homeostasis.
 
@@ -18,7 +20,7 @@ In this project, I integrated **metagenomic, metatranscriptomic, and viral fract
 
 ---
 
-## 🎯 Research Questions & Objectives
+**🎯 Research Questions & Objectives**
 
 - What is the **taxonomic composition** of DNA and RNA viruses in the Chesapeake and Delaware Bays?
 - How does viral diversity inferred from **metagenomes and metatranscriptomes** compare to that from **viral fraction datasets**?
@@ -29,7 +31,7 @@ In this project, I integrated **metagenomic, metatranscriptomic, and viral fract
 
 ---
 
-## 👨‍🔬 My Role
+**👨‍🔬 My Role**
 
 - Designed the **comparative viromics framework** integrating MG, MT, and viral fraction data
 - Identified and curated viral contigs from metagenomes and metatranscriptomes
@@ -41,7 +43,7 @@ In this project, I integrated **metagenomic, metatranscriptomic, and viral fract
 
 ---
 
-## 🧩 Challenges & Solutions
+**🧩 Challenges & Solutions**
 
 **Challenge 1:** Distinguishing viral contigs from cellular sequences in complex metagenomic assemblies  
 **Solution:** Applied multiple viral detection tools and quality filters, followed by manual curation and validation against viral reference databases.
@@ -63,9 +65,9 @@ In this project, I integrated **metagenomic, metatranscriptomic, and viral fract
 
 ---
 
-## 🛠 Methods & Tools
+**🛠 Methods & Tools**
 
-### Data & Sequencing
+\*_Data & Sequencing_
 
 - Shotgun metagenomics
 - Metatranscriptomics
@@ -75,38 +77,38 @@ In this project, I integrated **metagenomic, metatranscriptomic, and viral fract
 
 ---
 
-### Virome Analysis & Annotation
+\*_Virome Analysis & Annotation_
 
-**Viral Identification & Quality Control**
+\*_Viral Identification & Quality Control_
 
 - VirSorter2
 - VITAP
 - CheckV
 
-**Taxonomy & Classification**
+\*_Taxonomy & Classification_
 
 - geNomad
 - vConTACT2
 
-**AMG Detection & Functional Annotation**
+\*_AMG Detection & Functional Annotation_
 
 - DRAM-v
 - VIBRANT
 - eggNOG-mapper
 
-**Host Prediction & Networks**
+\*_Host Prediction & Networks_
 
 - Gene-sharing networks
 - Similarity-based host inference
 
-**Mapping & Quantification**
+\*_Mapping & Quantification_
 
 - Bowtie2
 - SAMtools
 
 ---
 
-### Languages & Workflow
+\*_Languages & Workflow_
 
 - Python
 - Bash
@@ -116,13 +118,13 @@ In this project, I integrated **metagenomic, metatranscriptomic, and viral fract
 
 ---
 
-## 📄 Publications
+**📄 Publications**
 
 - \*_Manuscript in preparation_
 
 ---
 
-## 🎤 Conferences & Abstracts
+**🎤 Conferences & Abstracts**
 
 - **Bacteriophages and Auxiliary Metabolic Gene interactions in microbial adaptation in the Chesapeake and Delaware Bays**  
   Barbara J. Campbell, Kasey Kiser, Sam Stuckert, **Jojy John**  
@@ -130,7 +132,7 @@ In this project, I integrated **metagenomic, metatranscriptomic, and viral fract
 
 ---
 
-## 🧑‍🔬 Collaborators / References
+**🧑‍🔬 Collaborators / References**
 
 **Dr. Barbara J. Campbell**  
 Dean’s Distinguished Professor  
@@ -138,17 +140,3 @@ Department of Biological Sciences, Clemson University
 Email: bcampb7@clemson.edu
 
 ---
-
-## 🖼 Image Gallery
-
-<div class="row">
-  <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/virome_pipeline.png" title="Integrated virome analysis pipeline from metagenomes, metatranscriptomes, and viral fractions" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/amg_categories.png" title="Functional categories of auxiliary metabolic genes identified in estuarine viruses" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/viral_network.png" title="Viral gene-sharing network and host association framework" class="img-fluid rounded z-depth-1" %}
-  </div>
-</div>

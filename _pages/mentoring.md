@@ -9,7 +9,7 @@ nav_order: 5
 
 <!-- _pages/mentoring.md-->
 
-## 🎓 Student Mentorship
+# **🎓 Student Mentorship**
 
 I actively mentor graduate students, master’s students, and research interns in **microbial ecology, bioinformatics, metagenomics, metatranscriptomics, and genome-resolved analysis**. My mentorship focuses on **independent thinking, reproducible workflows, and translating complex data into biological insight**.
 
@@ -17,9 +17,9 @@ Below are students I have formally mentored or co-mentored, along with selected 
 
 ---
 
-## 🎓 Graduate Student Mentorship
+# 🎓 Graduate Student Mentorship
 
-### **Dinuka Lakmali Jayasuriya Patabandige**
+**Dinuka Lakmali Jayasuriya Patabandige**
 
 _PhD Student, Clemson University_  
 📧 djayasu@g.clemson.edu
@@ -41,7 +41,7 @@ _Environmental gradients shape the hydrocarbon-degrading microbiome in two Mid-A
 
 ---
 
-### **Nichole Giani**
+**Nichole Giani**
 
 _Graduate Student, Clemson University_  
 📧 ngiani@g.clemson.edu
@@ -61,7 +61,7 @@ _Cover crop effects on microbial functional redundancy_
 
 ---
 
-### **Mir Alvee Ahmed**
+**Mir Alvee Ahmed**
 
 _PhD Student, Clemson University_  
 📧 miralva@g.clemson.edu
@@ -87,9 +87,9 @@ _Distribution, roles, and environmental drivers of bacterial communities in the 
 
 ---
 
-## 🎓 Master’s Student Mentorship
+# **🎓 Master’s Student Mentorship**
 
-### **Alisha M. Paul**
+**Alisha M. Paul**
 
 _MS Research Student, Campbell Lab, Clemson University_  
 📧 apaul3@clemson.edu
@@ -112,9 +112,9 @@ _Functional redundancy of marine synthetic biofilm communities under different e
 
 ---
 
-## 🧪 Research Intern Mentorship
+# \*_🧪 Research Intern Mentorship_
 
-### **Mary Elizabeth Glassburner**
+**Mary Elizabeth Glassburner**
 
 _Undergraduate Research Intern_  
 📧 meglass@clemson.edu
@@ -130,7 +130,7 @@ _Undergraduate Research Intern_
 
 ---
 
-### **Noah Fultz**
+**Noah Fultz**
 
 _Summer Research Intern_  
 📧 nfultz@g.clemson.edu
@@ -151,7 +151,7 @@ _Summer Research Intern_
 
 ---
 
-## 🧑‍🔬 Additional Lab Support
+# 🧑‍🔬 Additional Lab Support
 
 In addition to formal mentoring, I regularly support lab members including **Muhammad Suleman, Shoib Nawaz, and Sophia Rudolph** with bioinformatics troubleshooting, data analysis, and interpretation.
 
@@ -159,9 +159,7 @@ I also serve as the **manager of shared cloud and HPC storage infrastructure**, 
 
 ---
 
-## 📌 Mentoring Philosophy
-
-My mentoring emphasizes:
+**My mentoring emphasizes:**
 
 - Building a strong foundation in **reproducible and transparent bioinformatics workflows**, ensuring students understand the underlying principles rather than treating analyses as black boxes
 - Linking **ecological questions with quantitative and statistical approaches** to drive biologically meaningful interpretations

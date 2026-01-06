@@ -8,7 +8,9 @@ category: work
 related_publications: false
 ---
 
-## 🧠 Background & Motivation
+# Resource Partitioning and Co-occurrence of Size-Fractionated Microbiomes in the Delaware and Chesapeake Bays
+
+**🧠 Background & Motivation**
 
 Microbial communities in aquatic ecosystems are structured into **free-living (FL)** and **particle-attached (PA)** fractions, representing distinct ecological niches with different access to substrates, nutrients, and microenvironments. These size-fractionated communities play complementary roles in **carbon cycling, nutrient transformation, and ecosystem functioning**, yet their **community assembly, metabolic strategies, and interaction networks remain poorly resolved**, particularly under dynamic environmental conditions.
 
@@ -18,7 +20,7 @@ In this project, I applied **read-based metagenomic and metatranscriptomic analy
 
 ---
 
-## 🎯 Research Questions & Objectives
+**🎯 Research Questions & Objectives**
 
 - How do **free-living and particle-attached microbiomes differ** in taxonomic and functional diversity?
 - Do FL and PA communities exhibit **distinct co-occurrence and interaction networks**?
@@ -28,7 +30,7 @@ In this project, I applied **read-based metagenomic and metatranscriptomic analy
 
 ---
 
-## 👨‍🔬 My Role
+**👨‍🔬 My Role**
 
 This project is part of my **primary postdoctoral research program**.
 
@@ -43,7 +45,7 @@ This project is part of my **primary postdoctoral research program**.
 
 ---
 
-## 🧩 Challenges & Solutions
+**🧩 Challenges & Solutions**
 
 **Challenge 1:** Distinguishing true differential expression from differences driven by **gene copy number variation**  
 **Solution:** Implemented **MTX modeling** and DNA:RNA normalization approaches to decouple transcriptional activity from genomic abundance.
@@ -65,9 +67,9 @@ This project is part of my **primary postdoctoral research program**.
 
 ---
 
-## 🛠 Methods & Tools
+**🛠 Methods & Tools**
 
-### Data & Sequencing
+\*_Data & Sequencing_
 
 - Shotgun metagenomics
 - Metatranscriptomics
@@ -78,9 +80,9 @@ This project is part of my **primary postdoctoral research program**.
 
 ---
 
-### Bioinformatics & Network Analysis
+\*_Bioinformatics & Network Analysis_
 
-**Taxonomy & Function**
+\*_Taxonomy & Function_
 
 - Kaiju
 - mOTUs
@@ -89,12 +91,12 @@ This project is part of my **primary postdoctoral research program**.
 - dbCAN
 - DIAMOND
 
-**Mapping & Quantification**
+\*_Mapping & Quantification_
 
 - Bowtie2
 - SAMtools
 
-**Network Analysis**
+\*_Network Analysis_
 
 - SparCC
 - SPIEC-EASI
@@ -102,7 +104,7 @@ This project is part of my **primary postdoctoral research program**.
 
 ---
 
-### Languages & Workflow
+\*_Languages & Workflow_
 
 - Python
 - Bash
@@ -112,14 +114,14 @@ This project is part of my **primary postdoctoral research program**.
 
 ---
 
-## 📄 Publications
+**📄 Publications**
 
 - **Resource partitioning and co-occurrence shape functional redundancy of size-fractionated microbiomes in the Delaware and Chesapeake Bays**  
   _Manuscript in preparation._
 
 ---
 
-## 🎤 Conferences & Talks
+**🎤 Conferences & Talks**
 
 - **Metabolic flexibility, secondary metabolism, and seasonal dynamics in particle-associated and free-living microorganisms in the Chesapeake and Delaware Bays**  
   Jojy John, Mir A. Ahmed, Barbara J. Campbell  
@@ -127,7 +129,7 @@ This project is part of my **primary postdoctoral research program**.
 
 ---
 
-## 🧑‍🔬 Collaborator / Reference
+**🧑‍🔬 Collaborator / Reference**
 
 **Dr. Barbara J. Campbell**  
 Dean’s Distinguished Professor  
@@ -135,17 +137,3 @@ Department of Biological Sciences, Clemson University
 Email: bcampb7@clemson.edu
 
 ---
-
-## 🖼 Image Gallery
-
-<div class="row">
-  <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/fl_pa_concept.png" title="Conceptual framework of free-living and particle-associated microbial niches" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/fl_pa_network.png" title="Co-occurrence networks of size-fractionated microbiomes" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/fl_pa_fred.png" title="Functional redundancy patterns across size fractions and seasons" class="img-fluid rounded z-depth-1" %}
-  </div>
-</div>

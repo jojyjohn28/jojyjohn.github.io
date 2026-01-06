@@ -8,7 +8,9 @@ category: work
 related_publications: true
 ---
 
-## 🧠 Background & Motivation
+# Functional Redundancy and Metabolic Flexibility of Microbial Communities in Two Mid-Atlantic Bays
+
+**🧠 Background & Motivation**
 
 Species and communities respond differently to environmental stress depending on the **extent of functional redundancy** within the system. In microbial ecosystems, functional redundancy (FRed) can buffer ecosystem processes against disturbance by allowing multiple taxa to perform similar functions. However, the **relationship between functional redundancy, metabolic flexibility, and ecosystem resilience remains poorly understood**, particularly in dynamic coastal systems.
 
@@ -18,7 +20,7 @@ In this project, I integrated **metagenomics, metatranscriptomics, and genome-re
 
 ---
 
-## 🎯 Research Questions & Objectives
+**🎯 Research Questions & Objectives**
 
 - How does **functional redundancy vary across seasons and between estuarine systems**?
 - Do microbial communities rely on **metabolic flexibility** (e.g., photoheterotrophy, lithoheterotrophy) to maintain ecosystem processes under stress?
@@ -29,7 +31,7 @@ In this project, I integrated **metagenomics, metatranscriptomics, and genome-re
 
 ---
 
-## 👨‍🔬 My Role
+**👨‍🔬 My Role**
 
 This project represents my **primary postdoctoral research**.
 
@@ -43,7 +45,7 @@ This project represents my **primary postdoctoral research**.
 
 ---
 
-## 🧩 Challenges & Solutions
+**🧩 Challenges & Solutions**
 
 **Challenge 1:** Transitioning to fully independent, large-scale bioinformatics without senior technical support  
 **Solution:** Systematically evaluated and benchmarked multiple pipelines, optimizing workflows using a subset of samples before scaling analyses to full datasets.
@@ -65,9 +67,9 @@ This project represents my **primary postdoctoral research**.
 
 ---
 
-## 🛠 Methods & Tools
+**🛠 Methods & Tools**
 
-### Data & Sequencing
+\*_Data & Sequencing_
 
 - Shotgun metagenomics
 - Metatranscriptomics
@@ -75,14 +77,14 @@ This project represents my **primary postdoctoral research**.
 - Read mapping and expression quantification
 - Functional redundancy modeling
 
-### Bioinformatics & Statistics
+\*_Bioinformatics & Statistics_
 
 - Genome annotation and pathway reconstruction
 - Taxonomic classification and MAG quality assessment
 - Multivariate statistics and regression modeling
 - Diversity metrics (alpha, beta, functional diversity)
 
-### Tools & Software
+\*_Tools & Software_
 
 - MetaWRAP
 - GTDB-Tk
@@ -92,7 +94,7 @@ This project represents my **primary postdoctoral research**.
 - SAMtools
 - R (tidyverse, vegan, ggplot2, lme4)
 
-### Languages & Workflow
+\*_Languages & Workflow_
 
 - Python
 - Bash
@@ -102,7 +104,7 @@ This project represents my **primary postdoctoral research**.
 
 ---
 
-## 📄 Publications
+**📄 Publications**
 
 - **Functional redundancy and metabolic flexibility of microbial communities in two Mid-Atlantic bays**  
   _ISME Communications_ — **under revision (Round 2)**  
@@ -110,7 +112,7 @@ This project represents my **primary postdoctoral research**.
 
 ---
 
-## 🎤 Conferences & Talks
+**🎤 Conferences & Talks**
 
 - **Functional redundancy and metabolic flexibility of microbial communities in two Mid-Atlantic bays**  
   Jojy John, Maximiliano Ortiz, Barbara J. Campbell  
@@ -126,7 +128,7 @@ This project represents my **primary postdoctoral research**.
 
 ---
 
-## 🧑‍🔬 Collaborators / References
+**🧑‍🔬 Collaborators / References**
 
 **Dr. Barbara J. Campbell**  
 Dean’s Distinguished Professor  
@@ -140,16 +142,16 @@ Email: pierre@icm.csic.es
 
 ---
 
-## 🖼 Image Gallery
+**🖼 Image Gallery**
 
 <div class="row">
   <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/fred_framework.jpg" title="Conceptual framework of functional redundancy and metabolic flexibility" class="img-fluid rounded z-depth-1" %}
+    {% include figure.liquid loading="eager" path="assets/img/fred_1.png" title="heatmap showing abunadance" class="img-fluid rounded z-depth-1" %}
   </div>
   <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/fred_heatmap.jpg" title="Functional redundancy patterns across seasons and bays" class="img-fluid rounded z-depth-1" %}
+    {% include figure.liquid loading="eager" path="assets/img/fred_2.png" title="Metabolic felexibility" class="img-fluid rounded z-depth-1" %}
   </div>
   <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/fred_dnarna.jpg" title="Comparison of genomic potential and transcriptional activity" class="img-fluid rounded z-depth-1" %}
+    {% include figure.liquid loading="eager" path="assets/img/fred_3.png" title="Functional redundancy patterns across seasons and bays" class="img-fluid rounded z-depth-1" %}
   </div>
 </div>

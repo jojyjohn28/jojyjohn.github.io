@@ -7,18 +7,17 @@ nav: true
 nav_order: 8
 ---
 
-## 🧬 Research Repositories
+# 🧬 Research Repositories
 
 This page provides an overview of **code repositories, pipelines, and computational resources** I maintain or actively develop. My repositories emphasize **reproducibility, scalability, and clarity**, with workflows designed for **HPC environments** and real-world biological datasets.
 
 Most projects are hosted on GitHub:
 
 🔗 **GitHub:** https://github.com/jojyjohn28
+
 🔗 Blog for more details : https://jojyjohn28.github.io/blog/
 
-## 🧪 Amplicon Analysis
-
-### 📘 **AmpliconWeek_2025**
+# 🧪 Amplicon Analysis
 
 🔗 https://github.com/jojyjohn28/AmpliconWeek_2025
 
@@ -31,14 +30,9 @@ A structured, day-by-day workflow for **amplicon sequencing analysis**, develope
 - Ecological interpretation of ASVs
 - Best practices for reproducible workflows
 
-**Primary use:**  
-Teaching, student mentoring, and rapid onboarding for amplicon-based microbial ecology projects.
-
 ---
 
-## 🌊 Shotgun Metagenomics & Metatranscriptomics
-
-### 📘 **Size_Fractionated_Microbiome_Analysis**
+# 🌊 Size_Fractionated_Microbiome_Analysis\*\*
 
 🔗 https://github.com/jojyjohn28/Size_Fractionated_Microbiome_Analysis
 
@@ -52,14 +46,9 @@ A comprehensive analysis framework for **free-living and particle-associated mic
 - Functional redundancy (FRed) analysis
 - Co-occurrence and ecological interpretation
 
-**Primary use:**  
-Estuarine microbiome projects (Chesapeake & Delaware Bays), manuscript-ready analyses, and reproducible multi-omics workflows.
-
 ---
 
-## 🧬 Genome-Resolved Metagenomics
-
-### 📘 **semibin2-soil-mag-workflow**
+# 🧬 Genome-Resolved Metagenomics
 
 🔗 https://github.com/jojyjohn28/semibin2-soil-mag-workflow
 
@@ -72,12 +61,7 @@ A Snakemake-based workflow for **SemiBin2-assisted MAG recovery**, optimized for
 - Genome quality assessment
 - Scalable execution on HPC systems
 
-**Primary use:**  
-Genome-resolved metagenomics, comparative genomics, and functional redundancy studies.
-
 ---
-
-## ⚙️ Design Philosophy
 
 Across all repositories, I emphasize:
 
@@ -92,4 +76,4 @@ These repositories are used in **research projects, student mentoring, and colla
 
 ## 📌 Notes
 
-- Repositories evolve alongside active research projects
+- Repositories may changes as the work progress.!

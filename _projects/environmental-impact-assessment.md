@@ -8,26 +8,28 @@ category: work
 related_publications: true
 ---
 
-## 🧠 Background & Motivation
+# Biological and Microbial Responses to Deep-Sea Mining, Hypoxia, and Anthropogenic Disturbance
+
+**🧠 Background & Motivation**
 
 This project examines how **deep-sea and pelagic marine ecosystems respond to large-scale environmental disturbances**, including **polymetallic nodule mining**, **monsoon-driven hypoxia**, and **industrial waste reuse**. Using **molecular, genomic, and ecological approaches**, I investigated responses across **micro-, meio-, and megafaunal communities**, with a strong emphasis on **baseline biodiversity assessment** and **ecosystem resilience** in underexplored marine systems.
 
-## 🎯 Research Questions & Objectives
+**🎯 Research Questions & Objectives**
 
-### 📌 Study 1: Deep-Sea Mining Impact — Central Indian Ocean Basin (CIOB)
+\*_📌 Study 1: Deep-Sea Mining Impact — Central Indian Ocean Basin (CIOB)_
 
 - How does deep-sea mining affect benthic and pelagic ecosystems?
 - How does biodiversity differ between **polymetallic nodules**, **deep-sea sediments**, and **CIOB water column**?
 
-### 📌 Study 2: Microbial Adaptation to Monsoon Hypoxia — Arabian Sea
+\*_📌 Study 2: Microbial Adaptation to Monsoon Hypoxia — Arabian Sea_
 
 - How do microbial communities persist, adapt, and remain metabolically active under **seasonal hypoxia**?
 
-### 📌 Study 3: Baseline Toxicity Assessment — Sustainable Marine Reuse
+\*_📌 Study 3: Baseline Toxicity Assessment — Sustainable Marine Reuse_
 
 - What is the **toxicity potential of steel slag**, an industrial by-product, for marine reuse applications?
 
-## 👨‍🔬 My Role
+**👨‍🔬 My Role**
 
 - Deep-sea sampling using **multi-corer, beam trawl, and CTD water samplers**
 - Onboard **sample storage and preprocessing** for molecular analyses
@@ -36,7 +38,7 @@ This project examines how **deep-sea and pelagic marine ecosystems respond to la
 - **Antioxidant and oxidative stress marker analysis**
 - Data processing, analysis, and interpretation
 
-## 🧩 Challenges & Solutions
+**🧩 Challenges & Solutions**
 
 **Challenge 1:** DNA extraction from highly metallized manganese nodules  
 **Solution:** Implemented multiple pre-washing steps and tested alternative extraction protocols to standardize a robust method.
@@ -44,26 +46,26 @@ This project examines how **deep-sea and pelagic marine ecosystems respond to la
 **Challenge 2:** Managing and analyzing large, heterogeneous datasets  
 **Solution:** Established a dedicated **Linux-based server environment** and installed reproducible bioinformatics pipelines.
 
-## 🛠 Methods & Tools
+**🛠 Methods & Tools**
 
-### Data & Sequencing
+\*_Data & Sequencing_
 
 - 16S rRNA amplicon sequencing
 - 18S rRNA amplicon sequencing
 - Shotgun metagenomics
 
-### Bioinformatics
+\*_Bioinformatics_
 
 - QIIME2
 - MetaWRAP
 - SPAdes
 - CoverM
 
-### Infrastructure
+\*_Infrastructure_
 
 - Linux Server from Meganet.
 
-## 📄 Publications
+**📄 Publications**
 
 - **Dineshram R**, Akhil Biju, Chayanika Rathore, Mahua Saha, Prabhu K, Chandramohan P, **Jojy John**, Anil KB.  
   _The first report on emerged microplastics in deep-sea sediment: Insights from the Central Indian Ocean Basin._  
@@ -80,13 +82,13 @@ This project examines how **deep-sea and pelagic marine ecosystems respond to la
   _Phototrophy and chemolithotrophy enhance adaptation of microbial populations to monsoon hypoxia in the Arabian Sea: Insights from genome-resolved metagenomic analysis._  
   _Under review_, 2024.
 
-## 🎤 Conferences & Talks
+**🎤 Conferences & Talks**
 
 - **Phototrophy and Chemolithotrophy drive microbial resilience to monsoon hypoxia in the Arabian Sea**  
   _The International Conference on Emerging Concepts in Biotechnological Innovations (ICECBI-2025)_  
   SRM Institute of Science and Technology, India, 2025
 
-## 📝 Reference
+**📝 Reference**
 
 **R Dineshram,PhD**
 Scientist & Assistant Professor at AcSIR School of Oceanography
@@ -95,17 +97,3 @@ CSIR-National Institute of Oceanography
 Dona Paula- 403004, Goa, India
 Ph: 91-(0)832 2450 301 Mob:+91 82489 53847
 Email:dinesh@nio.org/dinbiot@gmail.com
-
-## 🖼 Image Gallery
-
-<div class="row">
-  <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/e2.jpg" title="Deep-sea sampling operations" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/e3.jpg" title="Polymetallic nodule samples" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/e4.jpg" title="Arabian Sea sampling and hypoxia" class="img-fluid rounded z-depth-1" %}
-  </div>
-</div>
