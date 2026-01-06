@@ -4,14 +4,17 @@ permalink: /teaching/
 title: Teaching
 description: Teaching experience from 2014
 nav: true
-nav_order: 6
+nav_order: 7
 ---
 
 ## Teaching Experience
 
-### **2024-Present**
+### 2026 Spring :Hands-on Training on Metagenome Analysis
 
-**Teacher**, Readings in Ecology, Clemson University
+Course: MICR 8130 - Practical Bioinformatics for Microbiologists  
+Institution: Clemson University, USA
+
+### **2024** **Teacher**, Readings in Ecology, Clemson University
 
 ### **2023-2024**
 

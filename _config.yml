@@ -53,6 +53,35 @@ bib_search: true
 max_width: 930px
 
 # -----------------------------------------------------------------------------
+# Navigation
+# -----------------------------------------------------------------------------
+
+nav:
+  - title: About
+    url: /about/
+
+  - title: Publications
+    url: /publications/
+
+  - title: Blog
+    url: /blog/
+
+  - title: Projects
+    url: /projects/
+
+  - title: Mentorship
+    url: /mentorship/
+
+  - title: Collaborations
+    url: /collaborations/
+
+  - title: Teaching
+    url: /teaching/
+
+  - title: Repositories
+    url: /repositories/
+
+# -----------------------------------------------------------------------------
 # Open Graph & Schema.org
 # -----------------------------------------------------------------------------
 
