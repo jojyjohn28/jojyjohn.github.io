@@ -3,7 +3,7 @@ layout: project
 title: "Resource Partitioning and Co-occurrence of Size-Fractionated Microbiomes in the Delaware and Chesapeake Bays"
 description: "Integrative metagenomic and metatranscriptomic analysis of free-living and particle-associated microbial communities to understand resource partitioning, co-occurrence patterns, and functional redundancy in estuarine ecosystems."
 img: assets/img/flvsPA.png
-importance: 3
+importance: 4
 category: work
 related_publications: false
 ---

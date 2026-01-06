@@ -3,7 +3,7 @@ layout: project
 title: "Functional Redundancy and Metabolic Flexibility of Microbial Communities in Two Mid-Atlantic Bays"
 description: "Genome-resolved metagenomic and metatranscriptomic analysis of functional redundancy and metabolic flexibility in estuarine microbial communities from the Chesapeake and Delaware Bays."
 img: assets/img/project10.jpg
-importance: 6
+importance: 1
 category: work
 related_publications: true
 ---

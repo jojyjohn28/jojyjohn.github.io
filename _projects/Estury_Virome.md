@@ -3,7 +3,7 @@ layout: project
 title: "Bacteriophages and Auxiliary Metabolic Genes of the Chesapeake and Delaware Bays"
 description: "Integrative viromics using metagenomes, metatranscriptomes, and viral fractions to characterize viral taxonomy, auxiliary metabolic genes, host interactions, and ecosystem function in estuarine systems."
 img: assets/img/vir_all.png
-importance: 2
+importance: 5
 category: work
 related_publications: true
 ---

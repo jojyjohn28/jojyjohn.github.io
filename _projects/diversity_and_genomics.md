@@ -3,7 +3,7 @@ layout: project
 title: "Diversity, Genomic Studies, and Resistance Mechanisms of Moderately Halophilic Bacteria"
 description: "Genomic and physiological characterization of halophilic bacteria from salt pan ecosystems to understand stress adaptation, resistance mechanisms, and biotechnological potential."
 img: assets/img/halophile1.jpg
-importance: 4
+importance: 2
 category: work
 related_publications: true
 ---

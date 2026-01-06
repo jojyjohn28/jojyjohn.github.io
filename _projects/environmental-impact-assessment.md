@@ -3,7 +3,7 @@ layout: project
 title: Biological and Microbial Responses to Deep-Sea Mining, Hypoxia, and Anthropogenic Disturbance
 description: Environmental impact assessment of deep-sea mining, monsoon-driven hypoxia, and industrial disturbance using molecular and genomic approaches.
 img: assets/img/eia1.jpg
-importance: 1
+importance: 6
 category: work
 related_publications: true
 ---

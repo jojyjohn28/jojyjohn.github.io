@@ -3,7 +3,7 @@ layout: project
 title: "Microbial Biofouling Interactions on Autonomous Navy Gliders"
 description: "Genome-resolved and metagenomic analysis of marine biofilm communities on autonomous underwater vehicles to design a stable, invasion-resistant synthetic biofilm."
 img: assets/img/project11.jpg
-importance: 5
+importance: 3
 category: work
 related_publications: true
 ---
