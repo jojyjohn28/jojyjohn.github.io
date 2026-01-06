@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body>
+<h2 id="-background--motivation">🧠 Background &amp; Motivation</h2>
+
+<p>Microbial communities in aquatic ecosystems are structured into <strong>free-living (FL)</strong> and <strong>particle-attached (PA)</strong> fractions, representing distinct ecological niches with different access to substrates, nutrients, and microenvironments. These size-fractionated communities play complementary roles in <strong>carbon cycling, nutrient transformation, and ecosystem functioning</strong>, yet their <strong>community assembly, metabolic strategies, and interaction networks remain poorly resolved</strong>, particularly under dynamic environmental conditions.</p>
+
+<p>The <strong>Chesapeake and Delaware Bays</strong>, two geographically proximate but environmentally distinct estuaries along the U.S. Atlantic coast, differ in <strong>salinity gradients, particle load, light availability, and anthropogenic influence</strong>. These contrasts provide a natural framework to investigate how <strong>resource partitioning, substrate uptake, and microbial interactions</strong> shape FL and PA communities across seasons.</p>
+
+<p>In this project, I applied <strong>read-based metagenomic and metatranscriptomic analyses</strong> across spring, summer, and fall to quantify <strong>taxonomic composition, metabolic potential, activity, co-occurrence patterns, and functional redundancy</strong> in FL and PA microbial communities.</p>
+
+<hr>
+
+<h2 id="-research-questions--objectives">🎯 Research Questions &amp; Objectives</h2>
+
+<ul>
+  <li>How do <strong>free-living and particle-attached microbiomes differ</strong> in taxonomic and functional diversity?</li>
+  <li>Do FL and PA communities exhibit <strong>distinct co-occurrence and interaction networks</strong>?</li>
+  <li>Does <strong>substrate uptake and resource partitioning</strong> drive niche differentiation between size fractions?</li>
+  <li>How does <strong>functional redundancy</strong> vary between FL and PA communities and across seasons?</li>
+  <li>Are active (RNA-based) interaction networks different from total (DNA-based) networks?</li>
+</ul>
+
+<hr>
+
+<h2 id="-my-role">👨‍🔬 My Role</h2>
+
+<p>This project is part of my <strong>primary postdoctoral research program</strong>.</p>
+
+<ul>
+  <li>Designed the <strong>conceptual framework</strong> linking size fractionation, resource partitioning, co-occurrence, and functional redundancy</li>
+  <li>Performed <strong>read-based metagenomic and metatranscriptomic analyses</strong> across seasonal datasets</li>
+  <li>Quantified <strong>substrate uptake pathways</strong> and metabolic specialization</li>
+  <li>Constructed <strong>co-occurrence networks</strong> for FL and PA communities</li>
+  <li>Developed a <strong>read-based functional redundancy matrix</strong> adapted from MAG-based frameworks</li>
+  <li>Integrated <strong>total (DNA) and active (RNA)</strong> community analyses</li>
+  <li>Conducted <strong>differential expression analysis</strong> and <strong>MTX modeling</strong>
+</li>
+  <li>Led data interpretation and visualization</li>
+</ul>
+
+<hr>
+
+<h2 id="-challenges--solutions">🧩 Challenges &amp; Solutions</h2>
+
+<p><strong>Challenge 1:</strong> Distinguishing true differential expression from differences driven by <strong>gene copy number variation</strong><br>
+<strong>Solution:</strong> Implemented <strong>MTX modeling</strong> and DNA:RNA normalization approaches to decouple transcriptional activity from genomic abundance.</p>
+
+<hr>
+
+<p><strong>Challenge 2:</strong> Lack of an established <strong>functional redundancy framework for read-based datasets</strong><br>
+<strong>Solution:</strong> Transformed and adapted <strong>MAG-based functional redundancy matrices</strong> for read-level data, enabling pathway-level FRed quantification without relying solely on genome bins.</p>
+
+<hr>
+
+<p><strong>Challenge 3:</strong> Inconsistent taxonomic lineage and trait assignments across profiling tools<br>
+<strong>Solution:</strong> Built a <strong>GTDB-Tk–based reference framework</strong> to harmonize outputs from HUMAnN3, Kaiju, mOTUs, and MetaPhlAn, integrating <strong>Pfam- and KO-based functional annotations</strong>.</p>
+
+<hr>
+
+<p><strong>Challenge 4:</strong> Inferring robust microbial interaction networks from compositional data<br>
+<strong>Solution:</strong> Applied <strong>composition-aware network methods</strong> and cross-validated co-occurrence patterns across seasons, size fractions, and DNA/RNA datasets.</p>
+
+<hr>
+
+<h2 id="-methods--tools">🛠 Methods &amp; Tools</h2>
+
+<h3 id="data--sequencing">Data &amp; Sequencing</h3>
+
+<ul>
+  <li>Shotgun metagenomics</li>
+  <li>Metatranscriptomics</li>
+  <li>Read mapping and expression quantification</li>
+  <li>Functional redundancy (FRed) modeling</li>
+  <li>MTX modeling</li>
+  <li>Co-occurrence and network analysis</li>
+</ul>
+
+<hr>
+
+<h3 id="bioinformatics--network-analysis">Bioinformatics &amp; Network Analysis</h3>
+
+<p><strong>Taxonomy &amp; Function</strong></p>
+
+<ul>
+  <li>Kaiju</li>
+  <li>mOTUs</li>
+  <li>HUMAnN3</li>
+  <li>eggNOG-mapper</li>
+  <li>dbCAN</li>
+  <li>DIAMOND</li>
+</ul>
+
+<p><strong>Mapping &amp; Quantification</strong></p>
+
+<ul>
+  <li>Bowtie2</li>
+  <li>SAMtools</li>
+</ul>
+
+<p><strong>Network Analysis</strong></p>
+
+<ul>
+  <li>SparCC</li>
+  <li>SPIEC-EASI</li>
+  <li>igraph (R)</li>
+</ul>
+
+<hr>
+
+<h3 id="languages--workflow">Languages &amp; Workflow</h3>
+
+<ul>
+  <li>Python</li>
+  <li>Bash</li>
+  <li>R</li>
+  <li>Snakemake</li>
+  <li>SLURM (HPC scheduling)</li>
+</ul>
+
+<hr>
+
+<h2 id="-publications">📄 Publications</h2>
+
+<ul>
+  <li>
+<strong>Resource partitioning and co-occurrence shape functional redundancy of size-fractionated microbiomes in the Delaware and Chesapeake Bays</strong><br>
+<em>Manuscript in preparation.</em>
+</li>
+</ul>
+
+<hr>
+
+<h2 id="-conferences--talks">🎤 Conferences &amp; Talks</h2>
+
+<ul>
+  <li>
+<strong>Metabolic flexibility, secondary metabolism, and seasonal dynamics in particle-associated and free-living microorganisms in the Chesapeake and Delaware Bays</strong><br>
+Jojy John, Mir A. Ahmed, Barbara J. Campbell<br>
+ASM Microbe 2025, Los Angeles, USA</li>
+</ul>
+
+<hr>
+
+<h2 id="-collaborator--reference">🧑‍🔬 Collaborator / Reference</h2>
+
+<p><strong>Dr. Barbara J. Campbell</strong><br>
+Dean’s Distinguished Professor<br>
+Department of Biological Sciences, Clemson University<br>
+Email: bcampb7@clemson.edu</p>
+
+<hr>
+
+<h2 id="-image-gallery">🖼 Image Gallery</h2>
+
+<div class="row">
+  <div class="col-sm mt-3 mt-md-0">
+    
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+    <img src="/assets/img/fl_pa_concept.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="Conceptual framework of free-living and particle-associated microbial niches" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+  </div>
+  <div class="col-sm mt-3 mt-md-0">
+    
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+    <img src="/assets/img/fl_pa_network.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="Co-occurrence networks of size-fractionated microbiomes" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+  </div>
+  <div class="col-sm mt-3 mt-md-0">
+    
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+    <img src="/assets/img/fl_pa_fred.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="Functional redundancy patterns across size fractions and seasons" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+  </div>
+</div>
+</body></html>

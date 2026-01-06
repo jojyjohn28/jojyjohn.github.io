@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body>
+<h2 id="-background--motivation">🧠 Background &amp; Motivation</h2>
+
+<p>Biofouling is the process by which microorganisms and multicellular organisms colonize submerged surfaces, negatively impacting marine vessels by increasing drag and reducing operational efficiency. This challenge is particularly critical for <strong>battery-powered Unmanned Underwater Vehicles (UUVs)</strong>, including <strong>Autonomous Navy Gliders</strong>, where increased drag leads to significant energy loss and reduced mission duration.</p>
+
+<p>Rather than relying on toxic antifouling coatings, this project explores an <strong>eco-friendly alternative</strong>: engineering a <strong>smooth, invasion-resistant, and stable synthetic microbial community (Eco-Coating)</strong> composed of naturally occurring marine bacteria. By understanding the <strong>genomic, metabolic, and biofilm-forming traits</strong> of native biofouling communities, this work aims to rationally design microbial consortia that outcompete harmful fouling organisms while maintaining surface stability.</p>
+
+<hr>
+
+<h2 id="-research-questions--objectives">🎯 Research Questions &amp; Objectives</h2>
+
+<ul>
+  <li>What microbial taxa colonize the <strong>body and tail sections</strong> of autonomous underwater vehicles?</li>
+  <li>Which <strong>genes and pathways</strong> are associated with biofilm formation, EPS production, and antagonistic activity?</li>
+  <li>How do isolate genomes and metagenome-assembled genomes (MAGs) inform the design of a <strong>synthetic biofilm community</strong>?</li>
+  <li>Can genome-resolved traits predict <strong>community stability and antifouling potential</strong>?</li>
+</ul>
+
+<hr>
+
+<h2 id="-my-role">👨‍🔬 My Role</h2>
+
+<ul>
+  <li>Provided <strong>full bioinformatics support</strong> for the project</li>
+  <li>Performed <strong>metagenomic and genome-resolved analyses</strong> of UUV-associated biofilms</li>
+  <li>Conducted <strong>whole-genome assembly, hybrid assembly, and long-read assembly</strong> of &gt;100 bacterial isolates</li>
+  <li>Genome annotation, functional screening, and comparative genomics</li>
+  <li>Screening genomes for <strong>biofilm formation, EPS production, antibiotic biosynthesis, and antagonistic traits</strong>
+</li>
+  <li>Prepared genomes and metadata for <strong>NCBI submission</strong>
+</li>
+  <li>Contributed to <strong>synthetic community design</strong> using genomic and functional criteria</li>
+</ul>
+
+<hr>
+
+<h2 id="-challenges--solutions">🧩 Challenges &amp; Solutions</h2>
+
+<p><strong>Challenge 1:</strong> Choosing appropriate assembly strategies for <strong>200+ genomes</strong> with varying read quality and genome complexity<br>
+<strong>Solution:</strong> Implemented a <strong>tiered assembly strategy</strong>:</p>
+
+<ul>
+  <li>Short-read–only assemblies using <strong>Shovill/SPAdes</strong> for high-quality Illumina datasets</li>
+  <li>Long-read assemblies using <strong>Flye</strong> for structurally complex genomes</li>
+  <li>
+<strong>Hybrid assemblies (Illumina + Nanopore)</strong> using <strong>Unicycler</strong> for isolates with fragmented short-read assemblies</li>
+</ul>
+
+<hr>
+
+<p><strong>Challenge 2:</strong> Resolving misassemblies, plasmids, and repetitive regions in hybrid assemblies<br>
+<strong>Solution:</strong></p>
+
+<ul>
+  <li>Used <strong>Bandage</strong> for assembly graph visualization and manual validation</li>
+  <li>Evaluated contiguity and structural accuracy using <strong>assembly graphs and coverage profiles</strong>
+</li>
+  <li>Iteratively refined assemblies prior to downstream annotation and submission</li>
+</ul>
+
+<hr>
+
+<p><strong>Challenge 3:</strong> Handling metagenome complexity and distinguishing isolate genomes from MAGs<br>
+<strong>Solution:</strong></p>
+
+<ul>
+  <li>Applied genome-resolved metagenomic workflows to separate <strong>MAGs and isolate genomes</strong>
+</li>
+  <li>Cross-validated taxonomy and completeness using marker genes and coverage patterns</li>
+  <li>Standardized QC across datasets before comparative analyses</li>
+</ul>
+
+<hr>
+
+<h2 id="-methods--tools">🛠 Methods &amp; Tools</h2>
+
+<h3 id="data--sequencing">Data &amp; Sequencing</h3>
+
+<ul>
+  <li>Shotgun metagenomics (biofilm samples from UUV body and tail)</li>
+  <li>Whole-genome sequencing of bacterial isolates</li>
+  <li>Short-read, long-read, and <strong>hybrid genome assemblies</strong>
+</li>
+  <li>Functional annotation of isolate genomes and MAGs</li>
+  <li>Taxonomic classification and genome quality assessment</li>
+</ul>
+
+<h3 id="bioinformatics--visualization">Bioinformatics &amp; Visualization</h3>
+
+<ul>
+  <li>
+<strong>Assembly &amp; QC:</strong> Flye, SPAdes, Shovill, Unicycler, NanoPlot</li>
+  <li>
+<strong>Assembly validation:</strong> Bandage</li>
+  <li>
+<strong>Annotation:</strong> Prokka, InterProScan, DRAM</li>
+  <li>
+<strong>Metagenomics:</strong> Genome-resolved metagenomics workflows</li>
+  <li>
+<strong>Infrastructure:</strong> High-performance computing (HPC)</li>
+</ul>
+
+<h3 id="languages--workflow">Languages &amp; Workflow</h3>
+
+<ul>
+  <li>Python</li>
+  <li>Bash</li>
+  <li>R</li>
+  <li>Snakemake</li>
+</ul>
+
+<hr>
+
+<h2 id="-publications">📄 Publications</h2>
+
+<ul>
+  <li>
+<strong>Chaulagain D</strong>, <strong>John J</strong>, Paul B, Harrington EG, McCarthy G, Sathe M, Shamabadi NS, Carter E, Leonhardt J, Nawaz MS, Suleman M, Campbell BJ, Karig DK.<br>
+<em>Genome assemblies of bacterial isolate collections from marine biofilm and water explore microbial diversity.</em><br>
+<strong>Microbiology Resource Announcements</strong> (submitted).</li>
+</ul>
+
+<p><em>(Additional manuscripts in preparation.)</em></p>
+
+<hr>
+
+<h2 id="-conferences--talks">🎤 Conferences &amp; Talks</h2>
+
+<ul>
+  <li>
+    <p><strong>Functional redundancy of marine synthetic biofilm communities under different environmental stresses</strong><br>
+Alisha M. Paul, <strong>Jojy John</strong>, Diptee Chaulagain, David Karig, Barbara J. Campbell<br>
+ASM Biofilms, Oregon, 2025</p>
+  </li>
+  <li>
+    <p><strong>Genomic insights into antibiotic production and resistance in environmental bacteria</strong><br>
+Sophia Rudolph, <strong>Jojy John</strong>, Barbara J. Campbell<br>
+Regional ASM Meeting, South Carolina, 2025</p>
+  </li>
+  <li>
+    <p><strong>Microbial biofouling interactions on Autonomous Navy Gliders: Insights from metagenome analysis</strong><br>
+<strong>Jojy John</strong>, David Karig, Barbara J. Campbell<br>
+DARPA Meeting, 2024</p>
+  </li>
+  <li>
+    <p><strong>Isolation and identification of marine bacteria to enhance antifouling strategies in UUVs via a biofilm engineering approach</strong><br>
+ASM, Atlanta, 2024</p>
+  </li>
+  <li>
+    <p><strong>Optimizing a stable and smooth biofilm-forming bacterial community to reduce drag on UUVs</strong><br>
+ICME, 2024</p>
+  </li>
+</ul>
+
+<hr>
+
+<h2 id="-collaborators--references">🧑‍🔬 Collaborators / References</h2>
+
+<p><strong>Dr. Barbara J. Campbell</strong><br>
+Dean’s Distinguished Professor<br>
+Department of Biological Sciences, Clemson University<br>
+Email: bcampb7@clemson.edu</p>
+
+<p><strong>Dr. David K. Karig</strong><br>
+Associate Professor, Bioengineering<br>
+Clemson University<br>
+Email: dkarig@clemson.edu</p>
+
+<p><strong>Dr. Diptee Chaulagain</strong><br>
+Research Assistant Professor<br>
+Department of Bioengineering, Clemson University<br>
+Email: dchaula@clemson.edu</p>
+
+<hr>
+
+<h2 id="-image-gallery">🖼 Image Gallery</h2>
+
+<div class="row">
+  <div class="col-sm mt-3 mt-md-0">
+    
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+    <img src="/assets/img/glider_biofilm1.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="Biofilm formation on autonomous gliders" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+  </div>
+  <div class="col-sm mt-3 mt-md-0">
+    
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+    <img src="/assets/img/hybrid_assembly_bandage.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="Hybrid genome assembly visualized using Bandage" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+  </div>
+  <div class="col-sm mt-3 mt-md-0">
+    
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+    <img src="/assets/img/synthetic_biofilm_model.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="Conceptual model of synthetic antifouling biofilm community" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+  </div>
+</div>
+</body></html>
