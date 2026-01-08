@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-07T20:29:13-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-07T20:39:26-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 </subtitle><entry><title type="html">Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data</title><link href="https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc/" rel="alternate" type="text/html" title="Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data" /><published>2026-01-07T00:00:00-05:00</published><updated>2026-01-07T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc/"><![CDATA[<h2 id="-whole-genome-analysis--day-1">🧬 Whole Genome Analysis — Day 1</h2>
 
 <h3 id="from-raw-reads-to-clean-assembly-ready-data">From Raw Reads to Clean, Assembly-Ready Data</h3>
@@ -150,13 +150,7 @@ https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
 
 <p>See the plots below as an example to learn (source-Google)</p>
 
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"img-container"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"/assets/img/fastqc.png"</span> <span class="na">alt=</span><span class="s">"FastQC quality report example"</span> <span class="na">style=</span><span class="s">"max-width: 100%; height: auto;"</span> <span class="nt">/&gt;</span>
-  <span class="nt">&lt;p</span> <span class="na">style=</span><span class="s">"text-align:center; font-size:0.9em;"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;em&gt;</span>Example FastQC report showing per-base sequence quality.<span class="nt">&lt;/em&gt;</span>
-  <span class="nt">&lt;/p&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-</code></pre></div></div>
+<p><img src="/assets/img/fastqc.png" alt="FastQC quality report example" /></p>
 
 <p>Left: Raw reads with severe quality drop toward read ends
 Right: Trimmed reads with stabilized base quality
