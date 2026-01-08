@@ -165,14 +165,7 @@ Understanding the plot
 
 See the plots below as an example to learn (source-Google)
 
-```html
-<div class="img-container">
-  <img src="{{ '/assets/img/fastqc.png' | relative_url }}" alt="FastQC quality report example" style="max-width: 100%; height: auto;" />
-  <p style="text-align:center; font-size:0.9em;">
-    <em>Example FastQC report showing per-base sequence quality.</em>
-  </p>
-</div>
-```
+![FastQC quality report example](/assets/img/fastqc.png)
 
 Left: Raw reads with severe quality drop toward read ends
 Right: Trimmed reads with stabilized base quality
