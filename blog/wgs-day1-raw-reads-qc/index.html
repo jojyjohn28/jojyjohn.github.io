@@ -17,12 +17,12 @@
   
   
     
-      GTDB-Tk Complete Workflow | Jojy John
+      Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="A practical walkthrough of GTDB-Tk Complete Workflow">
+<meta name="description" content="Day 1 of a whole-genome analysis series covering raw Illumina and Nanopore reads, integrity checks, quality control with FastQC and NanoPlot, and read trimming using Trimmomatic and Cutadapt.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -286,9 +286,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">GTDB-Tk Complete Workflow</h1>
+    <h1 class="post-title">Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data</h1>
     <p class="post-meta">
-      Created in December 03, 2025
+      Created in January 07, 2026
       
       
       
@@ -296,7 +296,7 @@
 
     <p class="post-tags">
       
-        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
       
 
       
@@ -307,186 +307,309 @@
 
   <article class="post-content">
     <div id="markdown-content">
-      <p>When I began in bioinformatics, those beautifully annotated phylogenetic trees felt impossible to create. Later, when I started binning and whole-genome analysis, visualizing my own genomes with that same level of detail became one of my top goals.</p>
+      <h2 id="-whole-genome-analysis--day-1">🧬 Whole Genome Analysis — Day 1</h2>
 
-<p>That’s when I finally ended up using <strong>GTDB-Tk for tree building and iTOL for annotation</strong>, and it opened a whole new world of possibilities.</p>
+<h3 id="from-raw-reads-to-clean-assembly-ready-data">From Raw Reads to Clean, Assembly-Ready Data</h3>
 
-<h2 id="introduction"><strong>Introduction</strong></h2>
+<p>Every genome project starts at the same place: <strong>raw sequencing files</strong>.<br>
+Before assembly, annotation, or comparative genomics, it is critical to confirm that the data you received is <strong>complete, uncorrupted, and of sufficient quality</strong>.</p>
 
-<p>GTDB-Tk (Genome Taxonomy Database Toolkit) has become one of the most widely used tools for classifying bacterial and archaeal genomes using the GTDB standard taxonomy.</p>
+<p>In this post, I walk through <strong>Day 1 of a whole-genome sequencing (WGS) workflow</strong>, covering both <strong>Illumina (short reads)</strong> and <strong>Oxford Nanopore (long reads)</strong>.</p>
 
-<p>In this blog post, I walk through a complete, reproducible workflow:</p>
+<h2 id="-input-data-formats">📂 Input Data Formats</h2>
 
-<p>✔ Installing GTDB-Tk</p>
+<p>Typical WGS inputs include:</p>
 
-<p>✔ Setting up a conda environment</p>
+<h3 id="illumina-paired-end">Illumina (paired-end)</h3>
 
-<p>✔ Downloading the GTDB reference database</p>
-
-<p>✔ Running identify, align, and classify</p>
-
-<p>✔ Handling common errors like MASH DB</p>
-
-<p>✔ Running the full de_novo_wf</p>
-
-<p>✔ Exporting the final tree to iTOL</p>
-
-<p>✔ A short intro to iTOL annotations</p>
-
-<h2 id="all-commands-are-based-on-my-workflows-on-the-palmetto-hpc-cluster">All commands are based on my workflows on the Palmetto HPC Cluster.</h2>
-
-<h2 id="1-creating--activating-gtdb-tk-conda-environment">1. Creating &amp; Activating GTDB-Tk Conda Environment</h2>
-
-<p>If you don’t already have GTDB-Tk installed, create a fresh environment:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> gtdbtk_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge gtdbtk
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_R1.fastq.gz
+sample_R2.fastq.gz
 </code></pre></div></div>
 
-<p>Or install it in a custom project folder:
-You may need little more storage to set up the updated database</p>
+<h2 id="-oxford-nanopore">📂 Oxford Nanopore</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-p</span> path/to/desired/folder <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge gtdbtk
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_nanopore.fastq.gz
 </code></pre></div></div>
 
-<p>Activate and Verify installation:</p>
+<p><strong>These files often arrive from sequencing facilities or collaborators and should never be trusted blindly.</strong></p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk <span class="nt">--version</span>
+<h2 id="-step-0--file-integrity-check-md5sum">🔐 Step 0 — File Integrity Check (md5sum)</h2>
+
+<p>Before opening or processing FASTQ files, verify they were transferred correctly.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">md5sum</span> <span class="k">*</span>.fastq.gz
 </code></pre></div></div>
 
-<h2 id="2-downloading-the-gtdb-reference-database">2. Downloading the GTDB Reference Database</h2>
+<p>Compare the output against checksums provided by the sequencing facility.</p>
 
-<p>GTDB-Tk requires the full reference database (e.g., release R207, R214, etc.).
-Download from:
-👉 https://data.gtdb.ecogenomic.org/
-Example (Bacteria + Archaea): Keep in mind this is almost more than 100 GB;</p>
+<p><strong>✅ Why this matters</strong></p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://data.gtdb.ecogenomic.org/releases/release214/214.1/gtdbtk/gtdbtk_r214_data.tar.gz
+<p>• Prevents silent file corruption</p>
+
+<p>• Saves hours of debugging downstream</p>
+
+<p>• Essential for reproducible genomics</p>
+
+<h2 id="-step-1--quality-control-of-illumina-reads-fastqc">🔍 Step 1 — Quality Control of Illumina Reads (FastQC)</h2>
+
+<p>What is FastQC?</p>
+
+<p>FastQC provides a quick visual summary of sequencing quality for FASTQ files.
+It works on raw or trimmed Illumina data and produces an interactive HTML report.</p>
+
+<p><strong>Installation</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda fastqc
 </code></pre></div></div>
 
-<p>Extract and set environment variable</p>
+<p>or on HPC systems you can use module load.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar</span> <span class="nt">-xzf</span> gtdbtk_r214_data.tar.gz <span class="nt">-C</span> /project/bcampb7/camplab/databases/
-<span class="nb">export </span><span class="nv">GTDBTK_DATA_PATH</span><span class="o">=</span>/project/bcampb7/camplab/databases/gtdbtk_r214_data <span class="c">#or run line below</span>
-<span class="nb">echo</span> <span class="s2">"export GTDBTK_DATA_PATH=/project/bcampb7/camplab/databases/gtdbtk_r214_data"</span> <span class="o">&gt;&gt;</span> ~/.bashrc <span class="c">#to make it permanant</span>
-gtdbtk check_install
+<p><strong>Run FastQC</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>fastqc_raw
+fastqc <span class="nt">-o</span> fastqc_raw <span class="k">*</span>.fastq.gz
 </code></pre></div></div>
 
-<h3 id="3-gtdb-tk-workflow-identify--align--classify">3. GTDB-Tk Workflow <strong>(Identify → Align → Classify)</strong>
-</h3>
+<h2 id="-scaling-fastqc-for-100-genomes">🔁 Scaling FastQC for 100+ Genomes</h2>
 
-<p>Now we run GTDB-Tk on your genomes.
-<strong>3.1 Identify Marker Genes</strong></p>
+<p>Running FastQC on one or two samples is easy.
+But real projects often involve hundreds of genomes or metagenomes, each with paired-end reads.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk identify <span class="se">\</span>
-  <span class="nt">--genome_dir</span> path/to/directory/with/genomes <span class="se">\</span>
-  <span class="nt">--out_dir</span> path/to/output/gtdbtk/identify <span class="se">\</span>
-  <span class="nt">--extension</span> fa <span class="se">\</span>
-  <span class="nt">--cpus</span> 32 <span class="c">#change accordingly</span>
+<p>Instead of running FastQC manually for each sample, you can automate it using either:</p>
+
+<p>• a simple Bash loop (local or login node)</p>
+
+<p>• a SLURM batch script (recommended for HPC environments)</p>
+
+<p><strong>🧪 Option 1 — FastQC Using a Bash Loop</strong></p>
+
+<p>This approach works well for:</p>
+
+<p>• local machines</p>
+
+<p>• small to medium datasets</p>
+
+<p>• quick exploratory QC</p>
+
+<p><strong>✅ Advantages</strong></p>
+
+<p>• Simple</p>
+
+<p>• Transparent</p>
+
+<p>• Easy to debug</p>
+
+<p><strong>⚠️ Limitations</strong></p>
+
+<p>• Runs sequentially</p>
+
+<p>• Not ideal for very large datasets</p>
+
+<p><strong>🖥️ Option 2 — FastQC as a SLURM Batch Job (HPC-friendly)</strong></p>
+
+<p>For large projects (100+ samples), always prefer batch execution.</p>
+
+<p><strong>⚙️ Why Batch Processing Matters</strong></p>
+
+<p>When working with large datasets, batch processing:</p>
+
+<p>• avoids overloading login nodes</p>
+
+<p>• scales efficiently across cores</p>
+
+<p>• ensures reproducibility</p>
+
+<p>• allows unattended execution</p>
+
+<p>💡 Tip: Combine FastQC with MultiQC later to summarize all reports in one dashboard.</p>
+
+<p><strong>All example scripts are available in the project repository.</strong>
+https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
+
+<h2 id="-interpreting-fastqc-reports">📊 Interpreting FastQC Reports</h2>
+
+<p>Key modules to inspect:</p>
+
+<p>• Basic Statistics – total reads, GC %, read length</p>
+
+<p>• Per Base Sequence Quality – look for quality drops at read ends</p>
+
+<p>• Per Sequence Quality Scores – distribution of read quality</p>
+
+<p>• Adapter Content – presence of sequencing adapters</p>
+
+<p>• Overrepresented Sequences – contamination or adapters</p>
+
+<p>• Sequence Duplication Levels – PCR artifacts or bias</p>
+
+<p>Understanding the plot</p>
+
+<p>• Red line → median quality</p>
+
+<p>• Yellow box → interquartile range (25–75%)</p>
+
+<p>• Whiskers → 10–90%</p>
+
+<p>• Blue line → mean quality</p>
+
+<p>• Green / Orange / Red background → good / warning / poor quality</p>
+
+<p>📌 Raw data often looks messy — that’s normal.</p>
+
+<p>See the plots below as an example to learn (source-Google)</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"img-container"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"/assets/img/fastqc.png"</span> <span class="na">alt=</span><span class="s">"FastQC quality report example"</span> <span class="na">style=</span><span class="s">"max-width: 100%; height: auto;"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;p</span> <span class="na">style=</span><span class="s">"text-align:center; font-size:0.9em;"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;em&gt;</span>Example FastQC report showing per-base sequence quality.<span class="nt">&lt;/em&gt;</span>
+  <span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
 </code></pre></div></div>
 
-<p>#change according to your genome.extension; fa or fasta</p>
+<p>Left: Raw reads with severe quality drop toward read ends
+Right: Trimmed reads with stabilized base quality
+(These plots clearly show why trimming is required before assembly.)</p>
 
-<p><strong>3.2 Align Marker Genes</strong></p>
+<p><strong>If you have many genomes you can use standalone Python script that parses FastQC outputs and generates a summary table you can use for reporting, plotting, or downstream filtering.</strong>
+For more details please see Day 1 in https://github.com/jojyjohn28/whole-genome-sequencing-analysis look for fastqc_to_table.py and fastqc_to_table.md.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk align <span class="se">\</span>
-  <span class="nt">--identify_dir</span> path_to/gtdbtk/identify <span class="se">\</span>
-  <span class="nt">--out_dir</span> path_for/gtdbtk/align <span class="se">\</span>
-  <span class="nt">--cpus</span> 32
+<h2 id="-step-2--quality-control-of-nanopore-reads-nanoplot">🔬 Step 2 — Quality Control of Nanopore Reads (NanoPlot)</h2>
+
+<p>Illumina-style QC tools are not suitable for Nanopore data.</p>
+
+<p><strong>What is NanoPlot?</strong></p>
+
+<p>NanoPlot visualizes:</p>
+
+<p>• Read length distribution</p>
+
+<p>• Quality vs read length</p>
+
+<p>• Yield over time</p>
+
+<p>• N50 / N90 statistics</p>
+
+<p><strong>Installation</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda nanoplot
 </code></pre></div></div>
 
-<p><strong>3.3 Classify Genomes</strong></p>
+<p><strong>Run NanoPlot</strong></p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk classify <span class="se">\</span>
-  <span class="nt">--genome_dir</span> path <span class="se">\</span>
-  <span class="nt">--align_dir</span> /path/align <span class="se">\</span>
-  <span class="nt">--out_dir</span> /path/classify <span class="se">\</span>
-  <span class="nt">-x</span> fasta <span class="se">\</span>
-  <span class="nt">--cpus</span> 32 <span class="se">\</span>
-  <span class="nt">--mash_db</span> path_for_saving_db
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NanoPlot <span class="se">\</span>
+  <span class="nt">--fastq</span> sample_nanopore.fastq.gz <span class="se">\</span>
+  <span class="nt">--outdir</span> nanoplot_results <span class="se">\</span>
+  <span class="nt">--threads</span> 8
 </code></pre></div></div>
 
-<h3 id="4-running-the-full-de_novo_wf-automatic-tree-building">4. Running the Full de_novo_wf (Automatic Tree Building)</h3>
+<p><strong>For loop/batch script please visit the project repository (Day1).</strong>
+https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
 
-<p>This workflow performs everything: identify → alignment → tree → taxonomy.</p>
+<p><strong>What to look for</strong></p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk de_novo_wf <span class="se">\</span>
-  <span class="nt">--genome_dir</span> /project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies_all <span class="se">\</span>
-  <span class="nt">--out_dir</span> /project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies_all/gtdbtk <span class="se">\</span>
-  <span class="nt">--extension</span> fa <span class="se">\</span>
-  <span class="nt">--bacteria</span> <span class="se">\</span>
-  <span class="nt">--cpus</span> 32 <span class="se">\</span>
-  <span class="nt">--outgroup_taxon</span> p__Chloroflexota <span class="se">\</span>
-  <span class="nt">--skip_gtdb_refs</span> <span class="se">\</span>
-  <span class="nt">--custom_taxonomy_file</span> /scratch/jojyj/UK/Genomes/gtdbtk/custom_taxonomy_file.tsv
+<p>• Wide read length distribution (expected)</p>
+
+<p>• No extreme quality collapse</p>
+
+<p>• Reasonable N50 for your library type</p>
+
+<h2 id="️-step-3--read-trimming-illumina">✂️ Step 3 — Read Trimming (Illumina)</h2>
+
+<p>Raw Illumina reads almost always contain:</p>
+
+<p>• Adapter contamination</p>
+
+<p>• Low-quality bases at ends</p>
+
+<p>Two commonly used tools are Trimmomatic and Cutadapt.</p>
+
+<p><strong>🔧 Trimmomatic</strong>
+Installation</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda trimmomatic
 </code></pre></div></div>
 
-<p>Notes:</p>
+<p><strong>General Default Command</strong></p>
 
-<p>● Outgroup: Choose a phylum not present in your samples based on the sample type. I used Chloroflexota for my esturine MAGs. But for soil it is not correct.</p>
-
-<p>● –skip_gtdb_refs: reduces tree size by removing thousands of reference genomes.</p>
-
-<p>● Custom taxonomy file: generated in classify output → you can edit to customize clade names.</p>
-
-<p>Output tree (important file):</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk.bac120.decorated.tree
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>trimmomatic PE <span class="nt">-threads</span> 16 <span class="se">\</span>
+  sample_R1.fastq.gz sample_R2.fastq.gz <span class="se">\</span>
+  sample_R1.paired.fastq.gz sample_R1.unpaired.fastq.gz <span class="se">\</span>
+  sample_R2.paired.fastq.gz sample_R2.unpaired.fastq.gz <span class="se">\</span>
+  ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 <span class="se">\</span>
+  LEADING:3 <span class="se">\</span>
+  TRAILING:3 <span class="se">\</span>
+  SLIDINGWINDOW:4:15 <span class="se">\</span>
+  MINLEN:50
 </code></pre></div></div>
 
-<h3 id="5-converting-gtdb-tk-tree-for-itol">5. Converting GTDB-Tk Tree For iTOL</h3>
+<p><strong>Key Trimming Options</strong></p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk convert_to_itol <span class="se">\</span>
-  <span class="nt">--input_tree</span> /scratch/jojyj/UK/Genomes/gtdbtk/de_novo/gtdbtk.bac120.decorated.tree <span class="se">\</span>
-  <span class="nt">--output_tree</span> /scratch/jojyj/UK/Genomes/gtdbtk/de_novo/OUTPUT_TREE
+<p>• ILLUMINACLIP → adapter removal</p>
+
+<p>• SLIDINGWINDOW → dynamic quality trimming</p>
+
+<p>• LEADING / TRAILING → end trimming</p>
+
+<p>• MINLEN → drop short reads</p>
+
+<p><strong>✂️ Cutadapt (Alternative)</strong></p>
+
+<p>Cutadapt provides more flexible adapter handling and is increasingly popular.
+<strong>General Default Command</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cutadapt <span class="se">\</span>
+  <span class="nt">-a</span> AGATCGGAAGAGC <span class="se">\</span>
+  <span class="nt">-A</span> AGATCGGAAGAGC <span class="se">\</span>
+  <span class="nt">-q</span> 20,20 <span class="se">\</span>
+  <span class="nt">-m</span> 50 <span class="se">\</span>
+  <span class="nt">-o</span> sample_R1.trimmed.fastq.gz <span class="se">\</span>
+  <span class="nt">-p</span> sample_R2.trimmed.fastq.gz <span class="se">\</span>
+  sample_R1.fastq.gz sample_R2.fastq.gz
 </code></pre></div></div>
 
-<p>This creates:</p>
+<h2 id="-step-4--post-trimming-qc">🔁 Step 4 — Post-Trimming QC</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OUTPUT_TREE.tree
-OUTPUT_TREE.metadata.tsv
+<p>Always rerun FastQC after trimming:</p>
+
+<p><strong>You should observe:</strong></p>
+
+<p>• Cleaner base quality profiles</p>
+
+<p>• Reduced adapter content</p>
+
+<p>• More uniform read lengths</p>
+
+<h2 id="-output-of-day-1">📁 Output of Day 1</h2>
+
+<p>By the end of Day 1, you should have:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Illumina:
+sample_R1.trimmed.fastq.gz
+sample_R2.trimmed.fastq.gz
+
+Nanopore:
+sample_nanopore.fastq.gz (QC-validated)
 </code></pre></div></div>
 
-<p>Upload OUTPUT_TREE.tree to iTOL.
-👉 https://itol.embl.de/</p>
+<h2 id="-why-day-1-matters">🧠 Why Day 1 Matters</h2>
 
-<h3 id="6-quick-start-guide-to-itol">6. Quick Start Guide to iTOL</h3>
+<p>All downstream steps assume:</p>
 
-<p>iTOL (Interactive Tree of Life) is one of the best online tree-visualization tools.</p>
+<p>• Accurate base calls</p>
 
-<p><strong>What you can do in iTOL</strong></p>
+<p>• Minimal sequencing artifacts</p>
 
-<p>● Upload trees (Newick format)</p>
+<p>• Reliable read lengths</p>
 
-<p>● Add colors for taxonomy (phylum, genus, species)</p>
+<p>Skipping or rushing QC can:</p>
 
-<p>● Add heatmaps (genome size, CAZymes, AMGs, completeness)</p>
+<p>• Break assemblies</p>
 
-<p>● Add data strips (free-living vs particle-attached, salinity, depth)</p>
+<p>• Inflate errors</p>
 
-<p>● Collapse clades</p>
+<p>• Bias comparative genomics</p>
 
-<p>● Export high-resolution images (SVG, PNG, PDF)</p>
-
-<p><strong>Quick annotation starter files</strong></p>
-
-<p>● colors.txt → Color by clades</p>
-
-<p>● metadata_strip.txt → Add sample categories (Bay, Season, Salinity)</p>
-
-<p>● metadata_heatmap.txt → Add numeric values (gene counts, FRed)</p>
-
-<h3 id="7-summary">7. Summary</h3>
-
-<p>By combining GTDB-Tk + iTOL, you can go from raw genomes to:</p>
-
-<p>✔ GTDB-consistent taxonomy
-✔ High-quality phylogenomic alignment
-✔ Beautiful publication-ready trees
-✔ Metadata-rich visualization</p>
-
-<p>This pipeline is essential for MAG studies, isolate genomes, and comparative genomics.</p>
-
-<p><img src="/assets/img/tree.png" alt="tree"></p>
+<p><strong>Clean input = trustworthy genomes</strong></p>
 
     </div>
   </article>
