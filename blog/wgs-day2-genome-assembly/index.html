@@ -17,13 +17,12 @@
   
   
     
-      2026 | Jojy John
+      Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-">
+<meta name="description" content="Day 2 of the WGS series: short- and long-read genome assembly using SPAdes, MEGAHIT, Shovill, and Flye, followed by assembly evaluation with QUAST, GC content visualization, topology assessment, and graph inspection with Bandage.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -61,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/blog/2026/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/wgs-day2-genome-assembly/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -126,8 +125,6 @@
 
           <!-- Other pages -->
           
-          
-            
           
             
           
@@ -279,47 +276,384 @@
     <!-- Content -->
     <div class="container mt-5" role="main">
       
-        <div class="post">
+        
+
+
+
+
+
+
+
+<div class="post">
   <header class="post-header">
-    <h1 class="post-title">
-<i class="fa-solid fa-calendar fa-sm"></i> 2026</h1>
-    <p class="post-description">an archive of posts from this year</p>
+    <h1 class="post-title">Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology</h1>
+    <p class="post-meta">
+      Created in January 08, 2026
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+
+      
+
+      
+    </p>
   </header>
 
-  <article class="archive">
-    <div class="table-responsive">
-      <table class="table table-sm table-borderless">
-        
-          <tr>
-            <th scope="row">Jan 08, 2026</th>
-            <td>
-              
-                <a class="post-link" href="/blog/wgs-day2-genome-assembly/">Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Jan 07, 2026</th>
-            <td>
-              
-                <a class="post-link" href="/blog/wgs-day1-raw-reads-qc/">Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Jan 01, 2026</th>
-            <td>
-              
-                <a class="post-link" href="/blog/panx-pangenome-analysis/">Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates</a>
-              
-            </td>
-          </tr>
-        
-      </table>
+  <article class="post-content">
+    <div id="markdown-content">
+      <h2 id="-whole-genome-sequencing--day-2">🧬 Whole Genome Sequencing — Day 2</h2>
+
+<p>Genome Assembly, Quality Assessment, and Topology</p>
+
+<p>In Day 1, we focused on raw read quality control and preprocessing.
+Today, we move to the next critical step in whole genome analysis:</p>
+
+<p><strong>👉 Genome assembly and assembly evaluation</strong></p>
+
+<p>This step transforms high-quality sequencing reads into contiguous genomic sequences that form the foundation for taxonomy, annotation, and comparative genomics.</p>
+
+<h2 id="-from-reads-to-genomes-what-are-reads-contigs-and-sequences">🧩 From Reads to Genomes: What Are Reads, Contigs, and Sequences?</h2>
+
+<p>Before diving into assembly tools, it’s important to clarify a few core concepts that often cause confusion.</p>
+
+<p><strong>🔹 What are raw reads?</strong></p>
+
+<p>Reads are short (Illumina) or long (Nanopore/PacBio) DNA fragments directly produced by sequencing machines.
+They represent small, unordered pieces of the genome — like shattered fragments of a book.</p>
+
+<p>• Illumina: typically 100–300 bp</p>
+
+<p>• Nanopore/PacBio: thousands to millions of bp</p>
+
+<p>*<em>On their own, reads do not represent genes or genomes.</em></p>
+
+<p><strong>🔹 What is a contig?</strong></p>
+
+<p>A contig (contiguous sequence) is created by assembling overlapping reads into a longer continuous DNA sequence.</p>
+
+<p>• Built computationally using assemblers (SPAdes, MEGAHIT, Flye, etc.)</p>
+
+<p>• Represents a reconstructed region of the genome</p>
+
+<p>• Can range from a few kb to several Mb</p>
+
+<p><strong>👉 In draft assemblies, a genome may consist of many contigs.</strong></p>
+
+<p><strong>🔹 What does “sequence” mean in genome assembly?</strong></p>
+
+<p>In practice, a sequence usually refers to:</p>
+
+<p>• a contig, or</p>
+
+<p>• a scaffold, or</p>
+
+<p>• a complete chromosome (single contig)</p>
+
+<p>So when we say “one sequence represents the chromosome”, we mean:
+✔ the entire chromosome is assembled into one contig, often circular in bacteria.</p>
+
+<p>##🧠 Assembling a Broken Book</p>
+
+<p>Think of genome assembly like this:</p>
+
+<p>• 📄 Reads → torn sentences</p>
+
+<p>• 📚 Contigs → reconstructed paragraphs</p>
+
+<p>• 📖 Genome → the full book</p>
+
+<p>*<em>Short-read data often leaves gaps (many contigs), while long reads can reconstruct the whole book in one piece.</em>
+<img src="/assets/img/day2.png" alt="Genome assembly"></p>
+
+<p>##🔧 Assembly Strategies Overview</p>
+
+<p>Different sequencing technologies require different assembly approaches:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Data type</th>
+      <th>Typical tools</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Illumina short reads</td>
+      <td>SPAdes, MEGAHIT, Shovill</td>
+    </tr>
+    <tr>
+      <td>Nanopore / PacBio long reads</td>
+      <td>Flye</td>
+    </tr>
+    <tr>
+      <td>Hybrid (short + long)</td>
+      <td>SPAdes hybrid, Unicycler</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="-short-read-genome-assembly-illumina">🧱 Short-Read Genome Assembly (Illumina)</h2>
+
+<p><strong>1️⃣ SPAdes</strong></p>
+
+<p>SPAdes is widely used for bacterial isolate assemblies and supports multiple modes.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spades.py <span class="se">\</span>
+  <span class="nt">-1</span> sample_R1.fastq.gz <span class="se">\</span>
+  <span class="nt">-2</span> sample_R2.fastq.gz <span class="se">\</span>
+  <span class="nt">-o</span> spades_out <span class="se">\</span>
+  <span class="nt">--threads</span> 32 <span class="se">\</span>
+  <span class="nt">--memory</span> 128
+</code></pre></div></div>
+
+<p>Best for:
+✔ Isolates
+✔ Moderate genome sizes
+✔ High accuracy</p>
+
+<p><strong>2️⃣ MEGAHIT</strong></p>
+
+<p>MEGAHIT is optimized for speed and large datasets.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>megahit <span class="se">\</span>
+  <span class="nt">-1</span> sample_R1.fastq.gz <span class="se">\</span>
+  <span class="nt">-2</span> sample_R2.fastq.gz <span class="se">\</span>
+  <span class="nt">-o</span> megahit_out <span class="se">\</span>
+  <span class="nt">--num-cpu-threads</span> 32
+</code></pre></div></div>
+
+<p>Best for:
+✔ Large datasets
+✔ Rapid exploratory assemblies
+✔ Metagenomes or many isolates</p>
+
+<p><strong>3️⃣ Shovill (Pipeline wrapper)</strong></p>
+
+<p>Shovill is a fast, practical wrapper around SPAdes with automatic preprocessing.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>shovill <span class="se">\</span>
+  <span class="nt">--R1</span> sample_R1.fastq.gz <span class="se">\</span>
+  <span class="nt">--R2</span> sample_R2.fastq.gz <span class="se">\</span>
+  <span class="nt">--outdir</span> shovill_out <span class="se">\</span>
+  <span class="nt">--cpus</span> 32
+</code></pre></div></div>
+
+<p>For more details about Shovil Assembler ; Please read https://jojyjohn28.github.io/blog/genome-assembly-day/
+Why I like Shovill:
+✔ Simple
+✔ Opinionated defaults
+✔ Ideal for batch isolate assembly</p>
+
+<h2 id="-long-read-assembly-nanopore--pacbio">🧬 Long-Read Assembly (Nanopore / PacBio)</h2>
+
+<p><strong>4️⃣ Flye</strong></p>
+
+<p>Flye is designed specifically for long noisy reads and can resolve complete circular chromosomes.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>flye <span class="se">\</span>
+  <span class="nt">--nano-raw</span> sample_nanopore.fastq.gz <span class="se">\</span>
+  <span class="nt">--out-dir</span> flye_out <span class="se">\</span>
+  <span class="nt">--threads</span> 32
+</code></pre></div></div>
+
+<p>Flye often outputs:</p>
+
+<p>✔ Single contig bacterial chromosomes</p>
+
+<p>✔ Assembly graphs indicating circular topology</p>
+
+<p>✔ Coverage estimates</p>
+
+<p>For more details; Please read https://jojyjohn28.github.io/blog/genome-assembly-day/</p>
+
+<p><strong>5️⃣ EPI2ME: Real-Time Analysis for Oxford Nanopore Data</strong></p>
+
+<p><strong>EPI2ME is Oxford Nanopore Technologies’ cloud-based (and increasingly local) analysis platform designed to process Nanopore sequencing data in real time.</strong></p>
+
+<p><strong>Why EPI2ME is useful</strong></p>
+
+<p>•Runs during sequencing (live basecalling + analysis)</p>
+
+<p>•Minimal setup — ideal for quick checks and teaching</p>
+
+<p><strong>Provides:</strong></p>
+
+<p>•Read quality summaries</p>
+
+<p>•Taxonomic classification</p>
+
+<p>•Assembly workflows (selected pipelines)</p>
+
+<p>•AMR and functional screens (workflow-dependent)</p>
+
+<p><strong>Limitations</strong></p>
+
+<p>•Less customizable than command-line workflows</p>
+
+<p>•Not ideal for large comparative projects</p>
+
+<p>•Cloud dependency (unless using EPI2ME Labs locally)</p>
+
+<p><strong>Best practice: Treat EPI2ME as a first look, not a replacement for reproducible, command-line assembly pipelines (Flye, SPAdes, etc.).</strong></p>
+
+<h2 id="-hybrid-assembly-combining-short-and-long-reads">🧬 Hybrid Assembly: Combining Short and Long Reads</h2>
+
+<p>Modern bacterial genome assembly often benefits from hybrid assembly, which integrates:</p>
+
+<p>•Short reads (Illumina) → high base accuracy</p>
+
+<p>•Long reads (ONT / PacBio) → long-range continuity</p>
+
+<p>Together, they solve problems that each technology alone cannot.</p>
+
+<p><strong>Why hybrid assembly matters</strong>
+| Challenge | Short reads | Long reads | Hybrid |
+| ——————— | ———– | ———- | —— |
+| Repeats | ❌ | ✅ | ✅ |
+| Structural resolution | ❌ | ✅ | ✅ |
+| Base accuracy | ✅ | ❌ | ✅ |
+| Circular genomes | ❌ | ✅ | ✅ |</p>
+
+<h2 id="-common-hybrid-assembly-strategies">🔧 Common Hybrid Assembly Strategies</h2>
+
+<p>1️⃣ Short-read–first (polish later)</p>
+
+<p>•Assemble long reads with Flye</p>
+
+<p>•Polish using Illumina reads (e.g., Pilon)</p>
+
+<p>•Best when long-read coverage is high</p>
+
+<p>2️⃣ True hybrid assemblers</p>
+
+<p>• SPAdes (–hybrid)</p>
+
+<p>• Unicycler (highly recommended for bacteria)_ my favorite</p>
+
+<p>Example (Unicycler):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unicycler <span class="se">\</span>
+  <span class="nt">-1</span> reads_R1.fastq.gz <span class="se">\</span>
+  <span class="nt">-2</span> reads_R2.fastq.gz <span class="se">\</span>
+  <span class="nt">-l</span> nanopore.fastq.gz <span class="se">\</span>
+  <span class="nt">-o</span> unicycler_out <span class="se">\</span>
+  <span class="nt">-t</span> 32
+</code></pre></div></div>
+
+<p><strong>🧠 Choosing the Right Strategy</strong>
+| Data available | Recommended approach |
+| ———————— | ————————– |
+| Illumina only | SPAdes / Shovill |
+| ONT only (high coverage) | Flye |
+| Illumina + ONT | Unicycler or SPAdes hybrid |
+| Training / rapid checks | EPI2ME |</p>
+
+<p><img src="/assets/img/ha.png" alt="Hybrid Genome assembly">
+In this image Left panel: fragmented / problematic assembly and Right panel: improved assembly after hybrid approach. The assembly graph is visulized on Bandage.</p>
+
+<h2 id="-assembly-evaluation-with-quast">📊 Assembly Evaluation with QUAST</h2>
+
+<p>Once assemblies are generated, QUAST is used to evaluate their quality.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quast.py <span class="se">\</span>
+  spades_out/contigs.fasta <span class="se">\</span>
+  megahit_out/final.contigs.fa <span class="se">\</span>
+  shovill_out/contigs.fa <span class="se">\</span>
+  flye_out/assembly.fasta <span class="se">\</span>
+  <span class="nt">-o</span> quast_results
+</code></pre></div></div>
+
+<p>QUAST reports include:</p>
+
+<p>• Genome size</p>
+
+<p>• Number of contigs</p>
+
+<p>• N50 / L50</p>
+
+<p>• GC content</p>
+
+<p>• Presence of Ns</p>
+
+<p>If you have many genomes and plan to submit them to NCBI or a Microbial Resource Announcement, you can extract QUAST results as a summary table using Python 🐍
+Example Python script,quast_to_table.py, can be find at day 2 of https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
+
+<p><strong>📈 GC Content Visualization (R)</strong></p>
+
+<p>GC content is a quick diagnostic for contamination or misassemblies.
+Eaxmple R script GC_vis.R also can be find at day 2 of https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
+
+<p><img src="/assets/img/gc.png" alt="GC content"></p>
+
+<h2 id="-genome-topology-linear-vs-circular">🔁 Genome Topology: Linear vs Circular</h2>
+
+<p>Determining topology is essential for:</p>
+
+<p>• NCBI submission</p>
+
+<p>• Genome announcements</p>
+
+<p>• Biological interpretation</p>
+
+<p><strong>General rules:</strong></p>
+
+<p>• Short-read assemblies → treat as linear/draft</p>
+
+<p>• Long-read Flye assemblies → may be circular</p>
+
+<p><strong>To validate circularity:</strong></p>
+
+<p>•Inspect Flye logs</p>
+
+<p>• Check for overlap at contig ends</p>
+
+<p>• Confirm no duplicated terminal regions
+More details and step by step instruction are published at : https://jojyjohn28.github.io/blog/genome-topology-and-genome-report/</p>
+
+<h2 id="-assembly-graph-inspection-with-bandage">🧠 Assembly Graph Inspection with Bandage</h2>
+
+<p>Bandage allows visual inspection of assembly graphs.
+Assembly graph visulization using bandage can be find at : https://jojyjohn28.github.io/blog/genome-visualization/</p>
+
+<h2 id="-key-takeaways-from-day-2">🧠 Key Takeaways from Day 2</h2>
+
+<p>● No single assembler fits all data
+● Always evaluate assemblies with QUAST
+● GC content is a powerful sanity check
+● Long reads enable topology resolution
+● Bandage helps see what statistics cannot</p>
+
+<p><strong>All batch scripts are available in the project repository.</strong>
+https://github.com/jojyjohn28/whole-genome-sequencing-analysis/day2</p>
+
+<p><strong>In Day 3</strong>, we will move from assemblies to taxonomy, phylogeny, and species delineation using GTDB-Tk, ANI, AAI, and dDDH.</p>
+
     </div>
   </article>
+
+  
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
+
+  
 </div>
 
       
@@ -865,10 +1199,10 @@
               title: 'AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of...',
               description: "",
               section: "News",},{id: "news-abstract-accepted-for-asm-2025-los-angeles-usa",
-              title: 'Abstract accepted for ASM 2025, Los Angeles, USA.',
+              title: 'Abstract accepted for **ASM 2025**, Los Angeles, USA.',
               description: "",
               section: "News",},{id: "news-abstract-accepted-for-aslo-2025-charlotte-usa",
-              title: 'Abstract accepted for ASLO 2025, Charlotte, USA',
+              title: 'Abstract accepted for **ASLO 2025**, Charlotte, USA',
               description: "",
               section: "News",},{id: "news-188-whole-genome-sequences-submitted-to-ncbi",
               title: '188 whole-genome sequences submitted to NCBI.',

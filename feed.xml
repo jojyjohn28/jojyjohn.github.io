@@ -1,5 +1,330 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-07T20:39:26-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data</title><link href="https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc/" rel="alternate" type="text/html" title="Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data" /><published>2026-01-07T00:00:00-05:00</published><updated>2026-01-07T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc/"><![CDATA[<h2 id="-whole-genome-analysis--day-1">🧬 Whole Genome Analysis — Day 1</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-08T17:24:03-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology</title><link href="https://jojyjohn28.github.io/blog/wgs-day2-genome-assembly/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology" /><published>2026-01-08T00:00:00-05:00</published><updated>2026-01-08T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day2-genome-assembly</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day2-genome-assembly/"><![CDATA[<h2 id="-whole-genome-sequencing--day-2">🧬 Whole Genome Sequencing — Day 2</h2>
+
+<p>Genome Assembly, Quality Assessment, and Topology</p>
+
+<p>In Day 1, we focused on raw read quality control and preprocessing.
+Today, we move to the next critical step in whole genome analysis:</p>
+
+<p><strong>👉 Genome assembly and assembly evaluation</strong></p>
+
+<p>This step transforms high-quality sequencing reads into contiguous genomic sequences that form the foundation for taxonomy, annotation, and comparative genomics.</p>
+
+<h2 id="-from-reads-to-genomes-what-are-reads-contigs-and-sequences">🧩 From Reads to Genomes: What Are Reads, Contigs, and Sequences?</h2>
+
+<p>Before diving into assembly tools, it’s important to clarify a few core concepts that often cause confusion.</p>
+
+<p><strong>🔹 What are raw reads?</strong></p>
+
+<p>Reads are short (Illumina) or long (Nanopore/PacBio) DNA fragments directly produced by sequencing machines.
+They represent small, unordered pieces of the genome — like shattered fragments of a book.</p>
+
+<p>• Illumina: typically 100–300 bp</p>
+
+<p>• Nanopore/PacBio: thousands to millions of bp</p>
+
+<p>*<em>On their own, reads do not represent genes or genomes.</em></p>
+
+<p><strong>🔹 What is a contig?</strong></p>
+
+<p>A contig (contiguous sequence) is created by assembling overlapping reads into a longer continuous DNA sequence.</p>
+
+<p>• Built computationally using assemblers (SPAdes, MEGAHIT, Flye, etc.)</p>
+
+<p>• Represents a reconstructed region of the genome</p>
+
+<p>• Can range from a few kb to several Mb</p>
+
+<p><strong>👉 In draft assemblies, a genome may consist of many contigs.</strong></p>
+
+<p><strong>🔹 What does “sequence” mean in genome assembly?</strong></p>
+
+<p>In practice, a sequence usually refers to:</p>
+
+<p>• a contig, or</p>
+
+<p>• a scaffold, or</p>
+
+<p>• a complete chromosome (single contig)</p>
+
+<p>So when we say “one sequence represents the chromosome”, we mean:
+✔ the entire chromosome is assembled into one contig, often circular in bacteria.</p>
+
+<p>##🧠 Assembling a Broken Book</p>
+
+<p>Think of genome assembly like this:</p>
+
+<p>• 📄 Reads → torn sentences</p>
+
+<p>• 📚 Contigs → reconstructed paragraphs</p>
+
+<p>• 📖 Genome → the full book</p>
+
+<p>*<em>Short-read data often leaves gaps (many contigs), while long reads can reconstruct the whole book in one piece.</em>
+<img src="/assets/img/day2.png" alt="Genome assembly" /></p>
+
+<p>##🔧 Assembly Strategies Overview</p>
+
+<p>Different sequencing technologies require different assembly approaches:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Data type</th>
+      <th>Typical tools</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Illumina short reads</td>
+      <td>SPAdes, MEGAHIT, Shovill</td>
+    </tr>
+    <tr>
+      <td>Nanopore / PacBio long reads</td>
+      <td>Flye</td>
+    </tr>
+    <tr>
+      <td>Hybrid (short + long)</td>
+      <td>SPAdes hybrid, Unicycler</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="-short-read-genome-assembly-illumina">🧱 Short-Read Genome Assembly (Illumina)</h2>
+
+<p><strong>1️⃣ SPAdes</strong></p>
+
+<p>SPAdes is widely used for bacterial isolate assemblies and supports multiple modes.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spades.py <span class="se">\</span>
+  <span class="nt">-1</span> sample_R1.fastq.gz <span class="se">\</span>
+  <span class="nt">-2</span> sample_R2.fastq.gz <span class="se">\</span>
+  <span class="nt">-o</span> spades_out <span class="se">\</span>
+  <span class="nt">--threads</span> 32 <span class="se">\</span>
+  <span class="nt">--memory</span> 128
+</code></pre></div></div>
+
+<p>Best for:
+✔ Isolates
+✔ Moderate genome sizes
+✔ High accuracy</p>
+
+<p><strong>2️⃣ MEGAHIT</strong></p>
+
+<p>MEGAHIT is optimized for speed and large datasets.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>megahit <span class="se">\</span>
+  <span class="nt">-1</span> sample_R1.fastq.gz <span class="se">\</span>
+  <span class="nt">-2</span> sample_R2.fastq.gz <span class="se">\</span>
+  <span class="nt">-o</span> megahit_out <span class="se">\</span>
+  <span class="nt">--num-cpu-threads</span> 32
+</code></pre></div></div>
+
+<p>Best for:
+✔ Large datasets
+✔ Rapid exploratory assemblies
+✔ Metagenomes or many isolates</p>
+
+<p><strong>3️⃣ Shovill (Pipeline wrapper)</strong></p>
+
+<p>Shovill is a fast, practical wrapper around SPAdes with automatic preprocessing.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>shovill <span class="se">\</span>
+  <span class="nt">--R1</span> sample_R1.fastq.gz <span class="se">\</span>
+  <span class="nt">--R2</span> sample_R2.fastq.gz <span class="se">\</span>
+  <span class="nt">--outdir</span> shovill_out <span class="se">\</span>
+  <span class="nt">--cpus</span> 32
+</code></pre></div></div>
+
+<p>For more details about Shovil Assembler ; Please read https://jojyjohn28.github.io/blog/genome-assembly-day/
+Why I like Shovill:
+✔ Simple
+✔ Opinionated defaults
+✔ Ideal for batch isolate assembly</p>
+
+<h2 id="-long-read-assembly-nanopore--pacbio">🧬 Long-Read Assembly (Nanopore / PacBio)</h2>
+
+<p><strong>4️⃣ Flye</strong></p>
+
+<p>Flye is designed specifically for long noisy reads and can resolve complete circular chromosomes.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>flye <span class="se">\</span>
+  <span class="nt">--nano-raw</span> sample_nanopore.fastq.gz <span class="se">\</span>
+  <span class="nt">--out-dir</span> flye_out <span class="se">\</span>
+  <span class="nt">--threads</span> 32
+</code></pre></div></div>
+
+<p>Flye often outputs:</p>
+
+<p>✔ Single contig bacterial chromosomes</p>
+
+<p>✔ Assembly graphs indicating circular topology</p>
+
+<p>✔ Coverage estimates</p>
+
+<p>For more details; Please read https://jojyjohn28.github.io/blog/genome-assembly-day/</p>
+
+<p><strong>5️⃣ EPI2ME: Real-Time Analysis for Oxford Nanopore Data</strong></p>
+
+<p><strong>EPI2ME is Oxford Nanopore Technologies’ cloud-based (and increasingly local) analysis platform designed to process Nanopore sequencing data in real time.</strong></p>
+
+<p><strong>Why EPI2ME is useful</strong></p>
+
+<p>•Runs during sequencing (live basecalling + analysis)</p>
+
+<p>•Minimal setup — ideal for quick checks and teaching</p>
+
+<p><strong>Provides:</strong></p>
+
+<p>•Read quality summaries</p>
+
+<p>•Taxonomic classification</p>
+
+<p>•Assembly workflows (selected pipelines)</p>
+
+<p>•AMR and functional screens (workflow-dependent)</p>
+
+<p><strong>Limitations</strong></p>
+
+<p>•Less customizable than command-line workflows</p>
+
+<p>•Not ideal for large comparative projects</p>
+
+<p>•Cloud dependency (unless using EPI2ME Labs locally)</p>
+
+<p><strong>Best practice: Treat EPI2ME as a first look, not a replacement for reproducible, command-line assembly pipelines (Flye, SPAdes, etc.).</strong></p>
+
+<h2 id="-hybrid-assembly-combining-short-and-long-reads">🧬 Hybrid Assembly: Combining Short and Long Reads</h2>
+
+<p>Modern bacterial genome assembly often benefits from hybrid assembly, which integrates:</p>
+
+<p>•Short reads (Illumina) → high base accuracy</p>
+
+<p>•Long reads (ONT / PacBio) → long-range continuity</p>
+
+<p>Together, they solve problems that each technology alone cannot.</p>
+
+<p><strong>Why hybrid assembly matters</strong>
+| Challenge | Short reads | Long reads | Hybrid |
+| ——————— | ———– | ———- | —— |
+| Repeats | ❌ | ✅ | ✅ |
+| Structural resolution | ❌ | ✅ | ✅ |
+| Base accuracy | ✅ | ❌ | ✅ |
+| Circular genomes | ❌ | ✅ | ✅ |</p>
+
+<h2 id="-common-hybrid-assembly-strategies">🔧 Common Hybrid Assembly Strategies</h2>
+
+<p>1️⃣ Short-read–first (polish later)</p>
+
+<p>•Assemble long reads with Flye</p>
+
+<p>•Polish using Illumina reads (e.g., Pilon)</p>
+
+<p>•Best when long-read coverage is high</p>
+
+<p>2️⃣ True hybrid assemblers</p>
+
+<p>• SPAdes (–hybrid)</p>
+
+<p>• Unicycler (highly recommended for bacteria)_ my favorite</p>
+
+<p>Example (Unicycler):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unicycler <span class="se">\</span>
+  <span class="nt">-1</span> reads_R1.fastq.gz <span class="se">\</span>
+  <span class="nt">-2</span> reads_R2.fastq.gz <span class="se">\</span>
+  <span class="nt">-l</span> nanopore.fastq.gz <span class="se">\</span>
+  <span class="nt">-o</span> unicycler_out <span class="se">\</span>
+  <span class="nt">-t</span> 32
+</code></pre></div></div>
+
+<p><strong>🧠 Choosing the Right Strategy</strong>
+| Data available | Recommended approach |
+| ———————— | ————————– |
+| Illumina only | SPAdes / Shovill |
+| ONT only (high coverage) | Flye |
+| Illumina + ONT | Unicycler or SPAdes hybrid |
+| Training / rapid checks | EPI2ME |</p>
+
+<p><img src="/assets/img/ha.png" alt="Hybrid Genome assembly" />
+In this image Left panel: fragmented / problematic assembly and Right panel: improved assembly after hybrid approach. The assembly graph is visulized on Bandage.</p>
+
+<h2 id="-assembly-evaluation-with-quast">📊 Assembly Evaluation with QUAST</h2>
+
+<p>Once assemblies are generated, QUAST is used to evaluate their quality.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quast.py <span class="se">\</span>
+  spades_out/contigs.fasta <span class="se">\</span>
+  megahit_out/final.contigs.fa <span class="se">\</span>
+  shovill_out/contigs.fa <span class="se">\</span>
+  flye_out/assembly.fasta <span class="se">\</span>
+  <span class="nt">-o</span> quast_results
+</code></pre></div></div>
+
+<p>QUAST reports include:</p>
+
+<p>• Genome size</p>
+
+<p>• Number of contigs</p>
+
+<p>• N50 / L50</p>
+
+<p>• GC content</p>
+
+<p>• Presence of Ns</p>
+
+<p>If you have many genomes and plan to submit them to NCBI or a Microbial Resource Announcement, you can extract QUAST results as a summary table using Python 🐍
+Example Python script,quast_to_table.py, can be find at day 2 of https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
+
+<p><strong>📈 GC Content Visualization (R)</strong></p>
+
+<p>GC content is a quick diagnostic for contamination or misassemblies.
+Eaxmple R script GC_vis.R also can be find at day 2 of https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
+
+<p><img src="/assets/img/gc.png" alt="GC content" /></p>
+
+<h2 id="-genome-topology-linear-vs-circular">🔁 Genome Topology: Linear vs Circular</h2>
+
+<p>Determining topology is essential for:</p>
+
+<p>• NCBI submission</p>
+
+<p>• Genome announcements</p>
+
+<p>• Biological interpretation</p>
+
+<p><strong>General rules:</strong></p>
+
+<p>• Short-read assemblies → treat as linear/draft</p>
+
+<p>• Long-read Flye assemblies → may be circular</p>
+
+<p><strong>To validate circularity:</strong></p>
+
+<p>•Inspect Flye logs</p>
+
+<p>• Check for overlap at contig ends</p>
+
+<p>• Confirm no duplicated terminal regions
+More details and step by step instruction are published at : https://jojyjohn28.github.io/blog/genome-topology-and-genome-report/</p>
+
+<h2 id="-assembly-graph-inspection-with-bandage">🧠 Assembly Graph Inspection with Bandage</h2>
+
+<p>Bandage allows visual inspection of assembly graphs.
+Assembly graph visulization using bandage can be find at : https://jojyjohn28.github.io/blog/genome-visualization/</p>
+
+<h2 id="-key-takeaways-from-day-2">🧠 Key Takeaways from Day 2</h2>
+
+<p>● No single assembler fits all data
+● Always evaluate assemblies with QUAST
+● GC content is a powerful sanity check
+● Long reads enable topology resolution
+● Bandage helps see what statistics cannot</p>
+
+<p><strong>All batch scripts are available in the project repository.</strong>
+https://github.com/jojyjohn28/whole-genome-sequencing-analysis/day2</p>
+
+<p><strong>In Day 3</strong>, we will move from assemblies to taxonomy, phylogeny, and species delineation using GTDB-Tk, ANI, AAI, and dDDH.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 2 of the WGS series: short- and long-read genome assembly using SPAdes, MEGAHIT, Shovill, and Flye, followed by assembly evaluation with QUAST, GC content visualization, topology assessment, and graph inspection with Bandage.]]></summary></entry><entry><title type="html">Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data</title><link href="https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc/" rel="alternate" type="text/html" title="Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data" /><published>2026-01-07T00:00:00-05:00</published><updated>2026-01-07T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc/"><![CDATA[<h2 id="-whole-genome-analysis--day-1">🧬 Whole Genome Analysis — Day 1</h2>
 
 <h3 id="from-raw-reads-to-clean-assembly-ready-data">From Raw Reads to Clean, Assembly-Ready Data</h3>
 
@@ -2518,55 +2843,4 @@ sample_R2.trimmed.fastq.gz
 <span class="gt">&gt; More details about this analysis will be covered in Day 2.</span>
 </code></pre></div></div>
 
-<p><img src="/assets/img/total-community.png" alt="project_total_community" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling.]]></summary></entry><entry><title type="html">Amplicon Week — Day 6: Wrap-Up: From Reads to Insights</title><link href="https://jojyjohn28.github.io/blog/amplicon-day6/" rel="alternate" type="text/html" title="Amplicon Week — Day 6: Wrap-Up: From Reads to Insights" /><published>2025-12-13T00:00:00-05:00</published><updated>2025-12-13T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/amplicon-day6</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/amplicon-day6/"><![CDATA[<h4 id="-amplicon-week--day-6-wrap-up-from-reads-to-insights">🌱 Amplicon Week – Day 6 Wrap-Up: From Reads to Insights</h4>
-
-<p><strong>This wraps up five days of Amplicon Week 🎉</strong></p>
-
-<p>Over the past week, we’ve walked through the complete lifecycle of amplicon data analysis—from raw sequencing reads to biological interpretation.</p>
-
-<h4 id="what-we-covered-this-week">What we covered this week</h4>
-
-<p>Across five focused days, we explored:</p>
-
-<p>● Wet-lab concepts behind amplicon sequencing and marker choice</p>
-
-<p>● End-to-end QIIME2 workflows for 16S, ITS, 18S, 12S, and COI</p>
-
-<p>● Advanced visualization and statistics using Microeco in R</p>
-
-<p>● Functional prediction from amplicon data (PICRUSt2, Tax4Fun2, FAPROTAX)</p>
-
-<p>● Web-based microbiome exploration using easy16S</p>
-
-<p>If you’ve followed along, you now have multiple complementary ways to analyze amplicon datasets:</p>
-
-<p>● beginner-friendly GUIs</p>
-
-<p>● reproducible command-line pipelines</p>
-
-<p>● flexible R-based visualization and statistics</p>
-
-<p>📂 Full Amplicon Week materials</p>
-
-<p>All scripts, workflows, and documentation are openly available:</p>
-
-<p>🔗 https://github.com/jojyjohn28/AmpliconWeek_2025</p>
-
-<p>and corresponding blog posts are below!!!</p>
-
-<p><strong>Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI Metabarcoding</strong>
-https://jojyjohn28.github.io/blog/amplicon-day1/
-<strong>Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training</strong>
-https://jojyjohn28.github.io/blog/amplicon-day2/
-<strong>Amplicon Week — Day 3: Visualization &amp; Ecological Analysis Using QIIME2 + Microeco (R)</strong>
-https://jojyjohn28.github.io/blog/amplicon-day3/
-<strong>Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)</strong>
-https://jojyjohn28.github.io/blog/amplicon-day4/
-<strong>Amplicon Week — Day 5: Web-based microbiome analysis with easy16S</strong>
-https://jojyjohn28.github.io/blog/amplicon-day5/</p>
-
-<p>This repository and blogs brings together everything covered during the week—organized by day, marker type, and analysis goal—so you can reuse and adapt the workflows for your own projects.</p>
-
-<p>Thanks for following Amplicon Week 2025 — and happy microbiome exploring! 🌍🧬</p>
-
-<p><img src="/assets/img/amplicon_new.png" alt="project_amplicon" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 6 of Amplicon sequencing and analyis.]]></summary></entry></feed>
+<p><img src="/assets/img/total-community.png" alt="project_total_community" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling.]]></summary></entry></feed>
