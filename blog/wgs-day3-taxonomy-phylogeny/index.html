@@ -17,13 +17,12 @@
   
   
     
-      Announcement_2 | Jojy John
+      Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp; Genome Similarity | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-">
+<meta name="description" content="Day 3 of the WGS series: genome-based taxonomy using GTDB-Tk, phylogenomic tree construction, and species/genus boundary testing using ANI, AAI, and dDDH across large genome sets.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -61,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/news/announcement_2/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -164,9 +163,11 @@
             
               
                 
-                <li class="nav-item ">
+                <li class="nav-item active">
                   
                   <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -285,9 +286,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Announcement_2</h1>
+    <h1 class="post-title">Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp; Genome Similarity</h1>
     <p class="post-meta">
-      Created in November 15, 2024
+      Created in January 12, 2026
       
       
       
@@ -295,7 +296,7 @@
 
     <p class="post-tags">
       
-        <i class="fa-solid fa-calendar fa-sm"></i> 2024
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
       
 
       
@@ -306,7 +307,317 @@
 
   <article class="post-content">
     <div id="markdown-content">
-      <p>Abstract accepted for <strong>ASLO 2025</strong>, Charlotte, USA</p>
+      <h1 id="-whole-genome-sequencing--day-3">🧬 Whole Genome Sequencing — Day 3</h1>
+
+<p><strong>Taxonomy, Phylogeny &amp; Genome Similarity</strong></p>
+
+<p>In <strong>Day 1</strong>, we focused on raw read quality control.
+In <strong>Day 2</strong>, we assembled genomes and evaluated assembly quality and topology.</p>
+
+<p>Today, in Day 3, we move from sequence reconstruction to biological identity.</p>
+
+<p><strong>👉Who is this genome related to?</strong>
+<strong>👉Where does it sit in the tree of life?</strong>
+<strong>👉Is it a known species or something new?</strong></p>
+
+<h2 id="-goal-of-day-3">🎯 Goal of Day 3</h2>
+
+<p>Place genomes in an evolutionary and taxonomic context</p>
+
+<p>Specifically, we aim to:</p>
+
+<p>✔ Assign standardized genome-based taxonomy
+✔ Construct phylogenomic trees
+✔ Test species and genus boundaries
+✔ Support NCBI submissions, MRAs, and comparative studies</p>
+
+<p>This workflow is designed for dozens to hundreds of genomes, including:</p>
+
+<p>• Isolate genomes</p>
+
+<p>• MAG collections</p>
+
+<p>• Mixed genome datasets</p>
+
+<h1 id="-why-genome-based-taxonomy">🧠 Why Genome-Based Taxonomy?</h1>
+
+<p>Historically, microbial taxonomy relied heavily on 16S rRNA genes. While useful, 16S alone:</p>
+
+<p>• Lacks species-level resolution</p>
+
+<p>• Is often fragmented or missing in MAGs</p>
+
+<p>• Cannot resolve closely related taxa</p>
+
+<p>Genome-based taxonomy solves these issues by using:</p>
+
+<p>• Hundreds of conserved marker genes</p>
+
+<p>• Whole-genome similarity metrics</p>
+
+<p>• Curated, standardized reference frameworks</p>
+
+<p>This is now the recommended approach for modern microbial genomics.</p>
+
+<h1 id="-core-analyses-in-day-3">🧪 Core Analyses in Day 3</h1>
+
+<p>1️⃣ Genome Taxonomy Assignment</p>
+
+<p>Assign taxonomy using conserved marker genes rather than single loci.</p>
+
+<p>2️⃣ Phylogenomic Tree Construction</p>
+
+<p>Infer evolutionary relationships using genome-scale alignments.</p>
+
+<p>3️⃣ Species &amp; Genus Boundary Testing</p>
+
+<p>Evaluate novelty and relatedness using:</p>
+
+<p>• ANI (nucleotide-level)</p>
+
+<p>• AAI (protein-level)</p>
+
+<p>• dDDH (digital DNA–DNA hybridization)</p>
+
+<p>Using multiple metrics together provides robust taxonomic conclusions.</p>
+
+<h1 id="-tools-used">🧰 Tools Used</h1>
+
+<p>• GTDB-Tk – Genome-based taxonomy and phylogeny</p>
+
+<p>• iTOL – Interactive phylogenomic tree visualization</p>
+
+<p>• FastANI – Species-level genome similarity</p>
+
+<p>• CompareM – Amino acid identity across genomes</p>
+
+<p>• GGDC – Digital DNA–DNA hybridization (web-based)</p>
+
+<p>• NCBI Datasets CLI – Reference genome retrieval</p>
+
+<p>Each tool contributes a different layer of confidence.</p>
+
+<h1 id="-gtdb-tk-genome-based-taxonomy">🧬 GTDB-Tk: Genome-Based Taxonomy</h1>
+
+<p>GTDB-Tk (Genome Taxonomy Database Toolkit) assigns taxonomy based on a curated set of conserved marker genes and reference phylogenies.</p>
+
+<p>1️⃣ Installing GTDB-Tk (Conda)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> gtdbtk_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge gtdbtk
+conda activate gtdbtk_env
+gtdbtk <span class="nt">--version</span>
+</code></pre></div></div>
+
+<p>For large projects, installing in a custom path is recommended due to database size.</p>
+
+<p>2️⃣ Downloading the GTDB Reference Database</p>
+
+<p>GTDB-Tk requires the full GTDB reference database (&gt;100 GB).</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://data.gtdb.ecogenomic.org/releases/release214/214.1/gtdbtk/gtdbtk_r214_data.tar.gz
+<span class="nb">tar</span> <span class="nt">-xzf</span> gtdbtk_r214_data.tar.gz <span class="nt">-C</span> /project/bcampb7/camplab/databases/
+</code></pre></div></div>
+
+<p>Set the environment variable:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">GTDBTK_DATA_PATH</span><span class="o">=</span>/project/bcampb7/camplab/databases/gtdbtk_r214_data
+<span class="nb">echo</span> <span class="s2">"export GTDBTK_DATA_PATH=/project/bcampb7/camplab/databases/gtdbtk_r214_data"</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+gtdbtk check_install
+</code></pre></div></div>
+
+<p>3️⃣ GTDB-Tk Standard Workflow</p>
+
+<p>(Identify → Align → Classify)</p>
+
+<p>Identify conserved marker genes</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk identify <span class="se">\</span>
+  <span class="nt">--genome_dir</span> genomes/ <span class="se">\</span>
+  <span class="nt">--out_dir</span> gtdbtk/identify <span class="se">\</span>
+  <span class="nt">--extension</span> fa <span class="se">\</span>
+  <span class="nt">--cpus</span> 32
+</code></pre></div></div>
+
+<p>Align marker genes</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk align <span class="se">\</span>
+  <span class="nt">--identify_dir</span> gtdbtk/identify <span class="se">\</span>
+  <span class="nt">--out_dir</span> gtdbtk/align <span class="se">\</span>
+  <span class="nt">--cpus</span> 32
+</code></pre></div></div>
+
+<p>Classify genomes</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk classify <span class="se">\</span>
+  <span class="nt">--genome_dir</span> genomes/ <span class="se">\</span>
+  <span class="nt">--align_dir</span> gtdbtk/align <span class="se">\</span>
+  <span class="nt">--out_dir</span> gtdbtk/classify <span class="se">\</span>
+  <span class="nt">--cpus</span> 32 <span class="se">\</span>
+  <span class="nt">--mash_db</span> gtdbtk/mash_db
+</code></pre></div></div>
+
+<p>📄 Key output file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk.bac120.summary.tsv
+</code></pre></div></div>
+
+<p>This table provides:</p>
+
+<p>• GTDB taxonomy (domain → species)</p>
+
+<p>• Closest reference genomes</p>
+
+<p>• Novelty indicators</p>
+
+<p>• This file becomes the starting point for ANI, AAI, and dDDH analyses.\</p>
+
+<p>• This file is also needed for running Denovo work flow in next step</p>
+
+<p>Below is an example screenshort of gtdbtk.bac120.summary.tsv</p>
+
+<p><img src="/assets/img/clsfy.png" alt="custom taxonomy"></p>
+
+<p>4️⃣ Full de_novo_wf (Automatic Tree Building)</p>
+
+<p>For phylogenomic tree construction across many genomes:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk de_novo_wf <span class="se">\</span>
+  <span class="nt">--genome_dir</span> genomes/ <span class="se">\</span>
+  <span class="nt">--out_dir</span> gtdbtk/de_novo <span class="se">\</span>
+  <span class="nt">--extension</span> fa <span class="se">\</span>
+  <span class="nt">--bacteria</span> <span class="se">\</span>
+  <span class="nt">--cpus</span> 32 <span class="se">\</span>
+  <span class="nt">--outgroup_taxon</span> p__Chloroflexota <span class="se">\</span>
+  <span class="nt">--skip_gtdb_refs</span>
+</code></pre></div></div>
+
+<p>Notes</p>
+
+<p>Choose an outgroup not present in your dataset</p>
+
+<p>–skip_gtdb_refs reduces tree size for large studies</p>
+
+<p>📄 Output tree:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk.bac120.decorated.tree
+</code></pre></div></div>
+
+<p>🌳 Tree Visualization with iTOL</p>
+
+<p>Convert GTDB-Tk trees for iTOL:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk convert_to_itol <span class="se">\</span>
+  <span class="nt">--input_tree</span> gtdbtk/de_novo/gtdbtk.bac120.decorated.tree <span class="se">\</span>
+  <span class="nt">--output_tree</span> phylogeny_itol/OUTPUT_TREE
+</code></pre></div></div>
+
+<p>Upload to 👉 https://itol.embl.de/</p>
+
+<p><img src="/assets/img/itol.png" alt="itol"></p>
+
+<p>What iTOL allows you to do</p>
+
+<p>✔ Color branches by taxonomy
+✔ Add metadata strips (sample type, site, season)
+✔ Add heatmaps (genome size, gene counts, FRed, CAZymes)
+✔ Collapse or expand clades
+✔ Export publication-quality figures (SVG, PDF)</p>
+
+<p>For more deatils on GTDBTk and iTol please see https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/
+A video tutorial will be coming soon too. please stay tuned.</p>
+
+<h1 id="-genome-similarity-metrics-batch-mode">🧮 Genome Similarity Metrics (Batch Mode)</h1>
+
+<p>Taxonomy alone is not sufficient for species-level conclusions.
+We therefore apply three complementary genome similarity metrics.</p>
+
+<p>🔢 ANI — Average Nucleotide Identity (FastANI)</p>
+
+<p>✔ Purpose: Species-level resolution</p>
+
+<p>✔ Typical cutoff: ~95–96%</p>
+
+<p>✔ FastANI is fast and suitable for large genome collections.</p>
+
+<p>🔬 AAI — Average Amino Acid Identity (CompareM)</p>
+
+<p>✔ Purpose: Genus- and higher-level resolution</p>
+
+<p>Typical cutoffs:</p>
+
+<p>✔ Species: ~95%</p>
+
+<p>✔ Genus: ~65–75%</p>
+
+<p>✔ AAI is especially useful when ANI is very low or ambiguous.</p>
+
+<p>🧬 dDDH — Digital DNA–DNA Hybridization (GGDC)</p>
+
+<p>Purpose: Classical species validation
+Species cutoff: 70%</p>
+
+<p>GGDC is currently web-based:
+👉 https://ggdc.dsmz.de/</p>
+
+<p>Used primarily for:</p>
+
+<p>✔ Novel species descriptions</p>
+
+<p>✔ MRAs</p>
+
+<p>✔ Formal taxonomic studies</p>
+
+<p>🧠 Why Use ANI + AAI + dDDH Together?</p>
+
+<p>Each metric captures different evolutionary signals:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Resolution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ANI</td>
+      <td>Species</td>
+    </tr>
+    <tr>
+      <td>AAI</td>
+      <td>Genus and above</td>
+    </tr>
+    <tr>
+      <td>dDDH</td>
+      <td>Classical species confirmation</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>✔ Agreement across all three = strong taxonomic confidence
+✔ Disagreement flags borderline or novel taxa</p>
+
+<p>For more deatails about each analysis and codes can be find at :
+https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide/</p>
+
+<h1 id="-key-takeaways-from-day-3">🧠 Key Takeaways from Day 3</h1>
+
+<p>● Genome-based taxonomy is now the standard
+● GTDB-Tk provides reproducible, scalable classification
+● Phylogenomic trees add essential evolutionary context
+● Species delineation requires multiple similarity metrics
+● This workflow scales cleanly to 100+ genomes</p>
+
+<h1 id="-coming-up-day-4">🔜 Coming Up: Day 4</h1>
+
+<p>Day 4 — Genome Annotation &amp; Functional Potential</p>
+
+<p>We move from who the genome is to what the genome can do — covering gene prediction, functional annotation, and metabolic reconstruction.</p>
+
+<p>All codes can be found at :
+https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
+
+<p><img src="/assets/img/tr.png" alt="tree taxonomy"></p>
 
     </div>
   </article>
@@ -316,6 +627,16 @@
   
 
   
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
 
   
 </div>
@@ -874,10 +1195,10 @@
               title: 'AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of...',
               description: "",
               section: "News",},{id: "news-abstract-accepted-for-asm-2025-los-angeles-usa",
-              title: 'Abstract accepted for ASM 2025, Los Angeles, USA.',
+              title: 'Abstract accepted for **ASM 2025**, Los Angeles, USA.',
               description: "",
               section: "News",},{id: "news-abstract-accepted-for-aslo-2025-charlotte-usa",
-              title: 'Abstract accepted for ASLO 2025, Charlotte, USA',
+              title: 'Abstract accepted for **ASLO 2025**, Charlotte, USA',
               description: "",
               section: "News",},{id: "news-188-whole-genome-sequences-submitted-to-ncbi",
               title: '188 whole-genome sequences submitted to NCBI.',

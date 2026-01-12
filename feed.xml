@@ -1,5 +1,315 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-09T13:30:57-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology</title><link href="https://jojyjohn28.github.io/blog/wgs-day2-genome-assembly/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology" /><published>2026-01-08T00:00:00-05:00</published><updated>2026-01-08T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day2-genome-assembly</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day2-genome-assembly/"><![CDATA[<h2 id="-whole-genome-sequencing--day-2">🧬 Whole Genome Sequencing — Day 2</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-12T15:14:20-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp;amp; Genome Similarity</title><link href="https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp;amp; Genome Similarity" /><published>2026-01-12T00:00:00-05:00</published><updated>2026-01-12T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny/"><![CDATA[<h1 id="-whole-genome-sequencing--day-3">🧬 Whole Genome Sequencing — Day 3</h1>
+
+<p><strong>Taxonomy, Phylogeny &amp; Genome Similarity</strong></p>
+
+<p>In <strong>Day 1</strong>, we focused on raw read quality control.
+In <strong>Day 2</strong>, we assembled genomes and evaluated assembly quality and topology.</p>
+
+<p>Today, in Day 3, we move from sequence reconstruction to biological identity.</p>
+
+<p><strong>👉Who is this genome related to?</strong>
+<strong>👉Where does it sit in the tree of life?</strong>
+<strong>👉Is it a known species or something new?</strong></p>
+
+<h2 id="-goal-of-day-3">🎯 Goal of Day 3</h2>
+
+<p>Place genomes in an evolutionary and taxonomic context</p>
+
+<p>Specifically, we aim to:</p>
+
+<p>✔ Assign standardized genome-based taxonomy
+✔ Construct phylogenomic trees
+✔ Test species and genus boundaries
+✔ Support NCBI submissions, MRAs, and comparative studies</p>
+
+<p>This workflow is designed for dozens to hundreds of genomes, including:</p>
+
+<p>• Isolate genomes</p>
+
+<p>• MAG collections</p>
+
+<p>• Mixed genome datasets</p>
+
+<h1 id="-why-genome-based-taxonomy">🧠 Why Genome-Based Taxonomy?</h1>
+
+<p>Historically, microbial taxonomy relied heavily on 16S rRNA genes. While useful, 16S alone:</p>
+
+<p>• Lacks species-level resolution</p>
+
+<p>• Is often fragmented or missing in MAGs</p>
+
+<p>• Cannot resolve closely related taxa</p>
+
+<p>Genome-based taxonomy solves these issues by using:</p>
+
+<p>• Hundreds of conserved marker genes</p>
+
+<p>• Whole-genome similarity metrics</p>
+
+<p>• Curated, standardized reference frameworks</p>
+
+<p>This is now the recommended approach for modern microbial genomics.</p>
+
+<h1 id="-core-analyses-in-day-3">🧪 Core Analyses in Day 3</h1>
+
+<p>1️⃣ Genome Taxonomy Assignment</p>
+
+<p>Assign taxonomy using conserved marker genes rather than single loci.</p>
+
+<p>2️⃣ Phylogenomic Tree Construction</p>
+
+<p>Infer evolutionary relationships using genome-scale alignments.</p>
+
+<p>3️⃣ Species &amp; Genus Boundary Testing</p>
+
+<p>Evaluate novelty and relatedness using:</p>
+
+<p>• ANI (nucleotide-level)</p>
+
+<p>• AAI (protein-level)</p>
+
+<p>• dDDH (digital DNA–DNA hybridization)</p>
+
+<p>Using multiple metrics together provides robust taxonomic conclusions.</p>
+
+<h1 id="-tools-used">🧰 Tools Used</h1>
+
+<p>• GTDB-Tk – Genome-based taxonomy and phylogeny</p>
+
+<p>• iTOL – Interactive phylogenomic tree visualization</p>
+
+<p>• FastANI – Species-level genome similarity</p>
+
+<p>• CompareM – Amino acid identity across genomes</p>
+
+<p>• GGDC – Digital DNA–DNA hybridization (web-based)</p>
+
+<p>• NCBI Datasets CLI – Reference genome retrieval</p>
+
+<p>Each tool contributes a different layer of confidence.</p>
+
+<h1 id="-gtdb-tk-genome-based-taxonomy">🧬 GTDB-Tk: Genome-Based Taxonomy</h1>
+
+<p>GTDB-Tk (Genome Taxonomy Database Toolkit) assigns taxonomy based on a curated set of conserved marker genes and reference phylogenies.</p>
+
+<p>1️⃣ Installing GTDB-Tk (Conda)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> gtdbtk_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge gtdbtk
+conda activate gtdbtk_env
+gtdbtk <span class="nt">--version</span>
+</code></pre></div></div>
+
+<p>For large projects, installing in a custom path is recommended due to database size.</p>
+
+<p>2️⃣ Downloading the GTDB Reference Database</p>
+
+<p>GTDB-Tk requires the full GTDB reference database (&gt;100 GB).</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://data.gtdb.ecogenomic.org/releases/release214/214.1/gtdbtk/gtdbtk_r214_data.tar.gz
+<span class="nb">tar</span> <span class="nt">-xzf</span> gtdbtk_r214_data.tar.gz <span class="nt">-C</span> /project/bcampb7/camplab/databases/
+</code></pre></div></div>
+
+<p>Set the environment variable:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">GTDBTK_DATA_PATH</span><span class="o">=</span>/project/bcampb7/camplab/databases/gtdbtk_r214_data
+<span class="nb">echo</span> <span class="s2">"export GTDBTK_DATA_PATH=/project/bcampb7/camplab/databases/gtdbtk_r214_data"</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+gtdbtk check_install
+</code></pre></div></div>
+
+<p>3️⃣ GTDB-Tk Standard Workflow</p>
+
+<p>(Identify → Align → Classify)</p>
+
+<p>Identify conserved marker genes</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk identify <span class="se">\</span>
+  <span class="nt">--genome_dir</span> genomes/ <span class="se">\</span>
+  <span class="nt">--out_dir</span> gtdbtk/identify <span class="se">\</span>
+  <span class="nt">--extension</span> fa <span class="se">\</span>
+  <span class="nt">--cpus</span> 32
+</code></pre></div></div>
+
+<p>Align marker genes</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk align <span class="se">\</span>
+  <span class="nt">--identify_dir</span> gtdbtk/identify <span class="se">\</span>
+  <span class="nt">--out_dir</span> gtdbtk/align <span class="se">\</span>
+  <span class="nt">--cpus</span> 32
+</code></pre></div></div>
+
+<p>Classify genomes</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk classify <span class="se">\</span>
+  <span class="nt">--genome_dir</span> genomes/ <span class="se">\</span>
+  <span class="nt">--align_dir</span> gtdbtk/align <span class="se">\</span>
+  <span class="nt">--out_dir</span> gtdbtk/classify <span class="se">\</span>
+  <span class="nt">--cpus</span> 32 <span class="se">\</span>
+  <span class="nt">--mash_db</span> gtdbtk/mash_db
+</code></pre></div></div>
+
+<p>📄 Key output file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk.bac120.summary.tsv
+</code></pre></div></div>
+
+<p>This table provides:</p>
+
+<p>• GTDB taxonomy (domain → species)</p>
+
+<p>• Closest reference genomes</p>
+
+<p>• Novelty indicators</p>
+
+<p>• This file becomes the starting point for ANI, AAI, and dDDH analyses.\</p>
+
+<p>• This file is also needed for running Denovo work flow in next step</p>
+
+<p>Below is an example screenshort of gtdbtk.bac120.summary.tsv</p>
+
+<p><img src="/assets/img/clsfy.png" alt="custom taxonomy" /></p>
+
+<p>4️⃣ Full de_novo_wf (Automatic Tree Building)</p>
+
+<p>For phylogenomic tree construction across many genomes:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk de_novo_wf <span class="se">\</span>
+  <span class="nt">--genome_dir</span> genomes/ <span class="se">\</span>
+  <span class="nt">--out_dir</span> gtdbtk/de_novo <span class="se">\</span>
+  <span class="nt">--extension</span> fa <span class="se">\</span>
+  <span class="nt">--bacteria</span> <span class="se">\</span>
+  <span class="nt">--cpus</span> 32 <span class="se">\</span>
+  <span class="nt">--outgroup_taxon</span> p__Chloroflexota <span class="se">\</span>
+  <span class="nt">--skip_gtdb_refs</span>
+</code></pre></div></div>
+
+<p>Notes</p>
+
+<p>Choose an outgroup not present in your dataset</p>
+
+<p>–skip_gtdb_refs reduces tree size for large studies</p>
+
+<p>📄 Output tree:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk.bac120.decorated.tree
+</code></pre></div></div>
+
+<p>🌳 Tree Visualization with iTOL</p>
+
+<p>Convert GTDB-Tk trees for iTOL:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk convert_to_itol <span class="se">\</span>
+  <span class="nt">--input_tree</span> gtdbtk/de_novo/gtdbtk.bac120.decorated.tree <span class="se">\</span>
+  <span class="nt">--output_tree</span> phylogeny_itol/OUTPUT_TREE
+</code></pre></div></div>
+
+<p>Upload to 👉 https://itol.embl.de/</p>
+
+<p><img src="/assets/img/itol.png" alt="itol" /></p>
+
+<p>What iTOL allows you to do</p>
+
+<p>✔ Color branches by taxonomy
+✔ Add metadata strips (sample type, site, season)
+✔ Add heatmaps (genome size, gene counts, FRed, CAZymes)
+✔ Collapse or expand clades
+✔ Export publication-quality figures (SVG, PDF)</p>
+
+<p>For more deatils on GTDBTk and iTol please see https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/
+A video tutorial will be coming soon too. please stay tuned.</p>
+
+<h1 id="-genome-similarity-metrics-batch-mode">🧮 Genome Similarity Metrics (Batch Mode)</h1>
+
+<p>Taxonomy alone is not sufficient for species-level conclusions.
+We therefore apply three complementary genome similarity metrics.</p>
+
+<p>🔢 ANI — Average Nucleotide Identity (FastANI)</p>
+
+<p>✔ Purpose: Species-level resolution</p>
+
+<p>✔ Typical cutoff: ~95–96%</p>
+
+<p>✔ FastANI is fast and suitable for large genome collections.</p>
+
+<p>🔬 AAI — Average Amino Acid Identity (CompareM)</p>
+
+<p>✔ Purpose: Genus- and higher-level resolution</p>
+
+<p>Typical cutoffs:</p>
+
+<p>✔ Species: ~95%</p>
+
+<p>✔ Genus: ~65–75%</p>
+
+<p>✔ AAI is especially useful when ANI is very low or ambiguous.</p>
+
+<p>🧬 dDDH — Digital DNA–DNA Hybridization (GGDC)</p>
+
+<p>Purpose: Classical species validation
+Species cutoff: 70%</p>
+
+<p>GGDC is currently web-based:
+👉 https://ggdc.dsmz.de/</p>
+
+<p>Used primarily for:</p>
+
+<p>✔ Novel species descriptions</p>
+
+<p>✔ MRAs</p>
+
+<p>✔ Formal taxonomic studies</p>
+
+<p>🧠 Why Use ANI + AAI + dDDH Together?</p>
+
+<p>Each metric captures different evolutionary signals:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Resolution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ANI</td>
+      <td>Species</td>
+    </tr>
+    <tr>
+      <td>AAI</td>
+      <td>Genus and above</td>
+    </tr>
+    <tr>
+      <td>dDDH</td>
+      <td>Classical species confirmation</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>✔ Agreement across all three = strong taxonomic confidence
+✔ Disagreement flags borderline or novel taxa</p>
+
+<p>For more deatails about each analysis and codes can be find at :
+https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide/</p>
+
+<h1 id="-key-takeaways-from-day-3">🧠 Key Takeaways from Day 3</h1>
+
+<p>● Genome-based taxonomy is now the standard
+● GTDB-Tk provides reproducible, scalable classification
+● Phylogenomic trees add essential evolutionary context
+● Species delineation requires multiple similarity metrics
+● This workflow scales cleanly to 100+ genomes</p>
+
+<h1 id="-coming-up-day-4">🔜 Coming Up: Day 4</h1>
+
+<p>Day 4 — Genome Annotation &amp; Functional Potential</p>
+
+<p>We move from who the genome is to what the genome can do — covering gene prediction, functional annotation, and metabolic reconstruction.</p>
+
+<p>All codes can be found at :
+https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
+
+<p><img src="/assets/img/tr.png" alt="tree taxonomy" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 3 of the WGS series: genome-based taxonomy using GTDB-Tk, phylogenomic tree construction, and species/genus boundary testing using ANI, AAI, and dDDH across large genome sets.]]></summary></entry><entry><title type="html">Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology</title><link href="https://jojyjohn28.github.io/blog/wgs-day2-genome-assembly/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology" /><published>2026-01-08T00:00:00-05:00</published><updated>2026-01-08T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day2-genome-assembly</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day2-genome-assembly/"><![CDATA[<h2 id="-whole-genome-sequencing--day-2">🧬 Whole Genome Sequencing — Day 2</h2>
 
 <p>Genome Assembly, Quality Assessment, and Topology</p>
 
@@ -2651,196 +2961,4 @@ https://github.com/jojyjohn28/Size_Fractionated_Microbiome_Analysis</p>
 <p>📅 Day 3: MetaPhlAn — marker gene-based profiling
 We will compare MetaPhlAn-derived abundance tables against Kaiju outputs and begin systematic benchmarking across size fractions.</p>
 
-<p><img src="/assets/img/kaiju.png" alt="project_total_community_kaiju" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.]]></summary></entry><entry><title type="html">Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data</title><link href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1/" rel="alternate" type="text/html" title="Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data" /><published>2025-12-15T00:00:00-05:00</published><updated>2025-12-15T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1/"><![CDATA[<h4 id="-size-fractionated-microbiome-anlaysis--day-1">🌊 Size Fractionated Microbiome Anlaysis — Day 1</h4>
-
-<p>Today, I’m sharing the beginning of a new analysis series focused on a project exploring:</p>
-
-<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gs">**How resource partitioning and co-occurrence shape functional redundancy in size-fractionated microbiomes from the Delaware and Chesapeake Bays**</span>
-</code></pre></div></div>
-
-<p>Here, I distinguish between free-living and particle-attached microbial fractions, which represent contrasting ecological lifestyles in estuarine environments. This separation allows us to directly test how niche partitioning influences community composition and functional redundancy.
-All analyses in this project are performed at the shotgun metagenome read level, allowing us to directly examine both total and active microbial communities without marker-gene or PCR biases.</p>
-
-<p>This project has many dimensions to explore. I decided to start with the foundation:
-<strong>total community profiling</strong>, before moving on to activity-based (RNA-informed) analyses.</p>
-
-<h4 id="-total-community-analysis-from-metagenomes">🌊 Total Community Analysis from Metagenomes</h4>
-
-<p><strong>From Raw Reads to Clean, Analysis-Ready Data</strong></p>
-
-<p>To do this systematically, I plan to test <strong>three different taxonomic profiling tools</strong> and ultimately select one robust method to apply consistently across all samples, based on performance and biological interpretability.</p>
-
-<p>But <strong>before asking who is there in a metagenome</strong>, we must first make sure the data we start with is <strong>*clean, reliable, and biologically meaningful.</strong></p>
-
-<h4 id="-what-this-series-is-about">🔬 What This Series Is About</h4>
-
-<p>Shotgun metagenomics allows us to profile entire microbial communities without PCR amplification, capturing:</p>
-
-<p>● Bacteria</p>
-
-<p>● Archaea</p>
-
-<p>This series will walk through multiple approaches for total community profiling from shotgun metagenomes, starting from raw reads and ending with comparative evaluation of methods.</p>
-
-<p><strong>Planned roadmap:</strong></p>
-
-<p>Day 1: Raw read quality control &amp; preprocessing</p>
-
-<p>Day 2: Kaiju — protein-level taxonomic classification</p>
-
-<p>Day 3: MetaPhlAn — marker-gene based profiling</p>
-
-<p>Day 4: mOTUs — genome-resolved profiling + tool comparison + GitHub release</p>
-
-<p>Today, we start at the very beginning.</p>
-
-<h4 id="-day-1-focus-raw-metagenome-preprocessing">📅 Day 1 Focus: Raw Metagenome Preprocessing</h4>
-
-<p>Transform raw FASTQ files into clean, trimmed reads suitable for downstream community profiling.</p>
-
-<p>Today’s workflow includes:</p>
-
-<p>● Initial inspection of raw metagenomic reads</p>
-
-<p>● Read quality assessment</p>
-
-<p>● Adapter and quality trimming using Trimmomatic</p>
-
-<p>● Generating analysis-ready FASTQ files</p>
-
-<h4 id="1--input-data">1. 📂 Input Data</h4>
-
-<p>Typical input for shotgun metagenomics:</p>
-
-<p>This step is often overlooked, but it controls the quality of everything downstream.</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_R1.fastq.gz
-sample_R2.fastq.gz
-</code></pre></div></div>
-
-<p>These are paired-end Illumina reads (e.g., NovaSeq, HiSeq, NextSeq).</p>
-
-<h4 id="2-️-tool-installation">2. 🛠️ Tool Installation</h4>
-
-<p><strong>FastQC</strong></p>
-
-<p>FastQC is used for visual inspection of read quality.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda fastqc
-</code></pre></div></div>
-
-<p><strong>Trimmomatic</strong></p>
-
-<p>Trimmomatic performs adapter removal and quality trimming.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda trimmomatic
-</code></pre></div></div>
-
-<p>Make sure you also have the adapter file (e.g. TruSeq3-PE.fa), which is usually included in the Trimmomatic installation.</p>
-
-<h4 id="3--step-1-initial-quality-check">3. 🔍 Step 1: Initial Quality Check</h4>
-
-<p>Before trimming, always inspect raw read quality.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fastqc sample_R1.fastq.gz sample_R2.fastq.gz
-</code></pre></div></div>
-
-<p><strong>Key things to examine:</strong></p>
-
-<p>● Per-base sequence quality</p>
-
-<p>● Adapter contamination</p>
-
-<p>● Overrepresented sequences</p>
-
-<p>● Read length distribution</p>
-
-<p>At this stage, don’t panic — <strong>raw reads often look messy, and that’s completely normal.</strong></p>
-
-<h4 id="4-️-step-2-trimming--filtering-with-trimmomatic">4. ✂️ Step 2: Trimming &amp; Filtering with Trimmomatic</h4>
-
-<p>For metagenomic data, trimming is essential to:</p>
-
-<p>Remove adapters</p>
-
-<p>Trim low-quality bases</p>
-
-<p>Discard very short reads</p>
-
-<p>Example Trimmomatic Command (Paired-End)</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>trimmomatic PE <span class="nt">-threads</span> 16 <span class="se">\</span>
-  sample_R1.fastq.gz sample_R2.fastq.gz <span class="se">\</span>
-  sample_R1.trimmed.fastq.gz sample_R1.unpaired.fastq.gz <span class="se">\</span>
-  sample_R2.trimmed.fastq.gz sample_R2.unpaired.fastq.gz <span class="se">\</span>
-  ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 <span class="se">\</span>
-  LEADING:3 <span class="se">\</span>
-  TRAILING:3 <span class="se">\</span>
-  SLIDINGWINDOW:4:15 <span class="se">\</span>
-  MINLEN:50
-</code></pre></div></div>
-
-<p><strong>What each parameter does:</strong></p>
-
-<p>● ILLUMINACLIP → removes adapter contamination</p>
-
-<p>● LEADING / TRAILING → trims low-quality bases at read ends</p>
-
-<p>● SLIDINGWINDOW → trims when average quality drops</p>
-
-<p>● MINLEN → removes very short reads</p>
-
-<p>For downstream taxonomic profiling, the paired trimmed reads are typically used.</p>
-
-<h4 id="5--step-3-post-trimming-quality-check">5. 📊 Step 3: Post-Trimming Quality Check</h4>
-
-<p>Always re-run FastQC after trimming:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fastqc sample_R1.trimmed.fastq.gz sample_R2.trimmed.fastq.gz
-</code></pre></div></div>
-
-<p><strong>You should now observe:</strong></p>
-
-<p>● Improved base quality profiles</p>
-
-<p>● Reduced adapter signals</p>
-
-<p>● Cleaner, more consistent reads</p>
-
-<h4 id="-output-of-day-1">📁 Output of Day 1</h4>
-
-<p>By the end of Day 1, you should have:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_R1.trimmed.fastq.gz
-sample_R2.trimmed.fastq.gz
-</code></pre></div></div>
-
-<p>These files are analysis-ready and will be used for all taxonomic profiling approaches in the coming days.</p>
-
-<h4 id="-why-this-step-matters">🧠 Why This Step Matters</h4>
-
-<p>Every profiling tool (Kaiju, MetaPhlAn, mOTUs) assumes:</p>
-
-<p>● High-quality reads</p>
-
-<p>● Minimal sequencing errors</p>
-
-<p>● No adapter contamination</p>
-
-<p><strong>Skipping or rushing preprocessing can:</strong></p>
-
-<p>● Inflate false positives</p>
-
-<p>● Bias abundance estimates</p>
-
-<p>R● educe mapping accuracy</p>
-
-<p><strong>👉 Clean input = trustworthy biological conclusions</strong></p>
-
-<p>On day 2 we will use Kaiju for exploring total community analysis.</p>
-
-<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gt">&gt; The figure attached here is generated from Kaiju outputs.</span>
-<span class="gt">&gt; More details about this analysis will be covered in Day 2.</span>
-</code></pre></div></div>
-
-<p><img src="/assets/img/total-community.png" alt="project_total_community" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling.]]></summary></entry></feed>
+<p><img src="/assets/img/kaiju.png" alt="project_total_community_kaiju" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.]]></summary></entry></feed>
