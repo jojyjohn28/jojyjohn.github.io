@@ -1,5 +1,435 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-12T15:14:20-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp;amp; Genome Similarity</title><link href="https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp;amp; Genome Similarity" /><published>2026-01-12T00:00:00-05:00</published><updated>2026-01-12T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny/"><![CDATA[<h1 id="-whole-genome-sequencing--day-3">🧬 Whole Genome Sequencing — Day 3</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-13T15:28:17-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Whole Genome Sequencing — Day 4: Genome Annotation &amp;amp; Functional Potential</title><link href="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 4: Genome Annotation &amp;amp; Functional Potential" /><published>2026-01-13T00:00:00-05:00</published><updated>2026-01-13T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day4-annotation-function</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/"><![CDATA[<h1 id="-whole-genome-sequencing--day-4">🧬 Whole Genome Sequencing — Day 4</h1>
+
+<p>Genome Annotation &amp; Functional Potential</p>
+
+<p>👉In Day 1, we cleaned raw reads.
+👉In Day 2, we assembled genomes and evaluated quality and topology.
+👉In Day 3, we placed genomes in a taxonomic and phylogenetic context.</p>
+
+<p>Today, in Day 4, <strong>we answer the most biologically meaningful question:</strong></p>
+
+<p><strong>What can this genome actually do?</strong></p>
+
+<p>This step transforms assembled genomes into functional blueprints by identifying genes, protein domains, pathways, and metabolic capabilities.</p>
+
+<h2 id="-goal-of-day-4">🎯 Goal of Day 4</h2>
+
+<p>Identify genes, pathways, and metabolic potential encoded in genomes</p>
+
+<p>Specifically, we aim to:</p>
+
+<p>✔ Predict protein-coding genes
+✔ Assign functional annotations
+✔ Reconstruct metabolic pathways
+✔ Compare functional potential across many genomes</p>
+
+<p>This workflow is designed for isolate genomes and MAG collections, and scales cleanly to hundreds of genomes.</p>
+
+<h1 id="-annotation-strategy-a-layered-approach">🧪 Annotation Strategy: A Layered Approach</h1>
+
+<p>Genome annotation works best when done in layers, each answering a different question:
+| Layer | Question |
+| —————— | —————————————- |
+| Gene prediction | Where are the genes? |
+| Rapid annotation | What are they likely doing? |
+| Domain annotation | What conserved functions do they encode? |
+| Pathway annotation | How do genes connect into metabolism? |
+| Trait screening | What ecological traits are present? |</p>
+
+<h2 id="-why-genome-annotation-matters">🧠 Why Genome Annotation Matters</h2>
+
+<p>A genome sequence without annotation is just a long string of nucleotides.</p>
+
+<p>Genome annotation enables us to:</p>
+
+<p>● Interpret ecological strategies</p>
+
+<p>● Predict metabolic roles</p>
+
+<p>● Identify functional redundancy or specialization</p>
+
+<p>● Link taxonomy to ecosystem function</p>
+
+<p>● Good annotation is the foundation for:</p>
+
+<p>● Comparative genomics</p>
+
+<p>● Metabolic modeling</p>
+
+<p>● Transcriptomic integration</p>
+
+<p>● Functional redundancy analyses</p>
+
+<h2 id="-annotation-strategy-overview">🧪 Annotation Strategy Overview</h2>
+
+<p>Genome annotation is best approached in layers, not with a single tool.</p>
+
+<p>Layered annotation strategy used here:</p>
+
+<p>1️⃣ Gene prediction – Where are the genes?
+2️⃣ Rapid annotation – What are they likely doing?
+3️⃣ Domain-based annotation – What functional motifs do proteins contain?
+4️⃣ Pathway-level reconstruction – How do genes connect into metabolism?</p>
+
+<h2 id="-tools-used-in-day-4">🧰 Tools Used in Day 4</h2>
+
+<p>🔹 Prokka</p>
+
+<p>Rapid, genome-scale annotation pipeline for bacterial and archaeal genomes.</p>
+
+<p>🔹 Prodigal</p>
+
+<p>Accurate gene prediction engine used internally by many annotation tools.</p>
+
+<p>🔹 InterProScan</p>
+
+<p>Protein domain and motif identification across multiple databases.</p>
+
+<p>🔹 DRAM</p>
+
+<p>High-level metabolic and pathway-centric genome annotation.</p>
+
+<p>Each tool complements the others rather than replacing them.</p>
+
+<h1 id="-step-1-gene-prediction-with-prodigal">🧬 Step 1: Gene Prediction with Prodigal</h1>
+
+<p>Gene prediction identifies open reading frames (ORFs) and defines the basic gene catalog.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prodigal <span class="se">\</span>
+  <span class="nt">-i</span> genome.fasta <span class="se">\</span>
+  <span class="nt">-a</span> genome.faa <span class="se">\</span>
+  <span class="nt">-d</span> genome.fna <span class="se">\</span>
+  <span class="nt">-o</span> genome.genes.gbk <span class="se">\</span>
+  <span class="nt">-p</span> single
+</code></pre></div></div>
+
+<p>Key outputs</p>
+
+<p>● faa → predicted proteins</p>
+
+<p>● fna → nucleotide CDS</p>
+
+<p>● gbk → gene coordinates</p>
+
+<p>Prodigal is:
+✔ Fast
+✔ Accurate
+✔ Well-suited for isolates and high-quality MAGs</p>
+
+<h1 id="-step-2-rapid-genome-annotation-with-prokka">🧬 Step 2: Rapid Genome Annotation with Prokka</h1>
+
+<p>Prokka wraps gene prediction and functional assignment into a single, fast pipeline.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prokka genome.fasta <span class="se">\</span>
+  <span class="nt">--outdir</span> prokka_out <span class="se">\</span>
+  <span class="nt">--prefix</span> genome <span class="se">\</span>
+  <span class="nt">--cpus</span> 16
+</code></pre></div></div>
+
+<p>What Prokka provides</p>
+
+<p>● Gene names and product descriptions</p>
+
+<p>● rRNA, tRNA, tmRNA prediction</p>
+
+<p>● GFF, GenBank, and protein FASTA files</p>
+
+<p>Prokka is ideal for:
+✔ First-pass annotation
+✔ NCBI submissions
+✔ Comparative gene counts</p>
+
+<h1 id="-step-3-protein-domain-annotation-with-interproscan">🧬 Step 3: Protein Domain Annotation with InterProScan</h1>
+
+<p>While Prokka assigns gene names, InterProScan identifies conserved protein domains, which is critical for:</p>
+
+<p>● Novel proteins</p>
+
+<p>● Hypothetical genes</p>
+
+<p>● Functional inference beyond BLAST hits</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interproscan.sh <span class="se">\</span>
+  <span class="nt">-i</span> genome.faa <span class="se">\</span>
+  <span class="nt">-o</span> genome.interpro.tsv <span class="se">\</span>
+  <span class="nt">-f</span> TSV <span class="se">\</span>
+  <span class="nt">-dp</span> <span class="se">\</span>
+  <span class="nt">--cpu</span> 32
+</code></pre></div></div>
+
+<p>Why domain-based annotation matters</p>
+
+<p>● Domains are more conserved than full-length proteins</p>
+
+<p>● Enables functional inference for unknown genes</p>
+
+<p>● Links proteins to GO terms and enzyme classes</p>
+
+<h1 id="-step-4-metabolic--pathway-annotation-with-dram">🧬 Step 4: Metabolic &amp; Pathway Annotation with DRAM</h1>
+
+<p>DRAM integrates multiple databases to reconstruct genome-scale metabolic potential.
+<strong>DRAM annotation</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DRAM.py annotate <span class="se">\</span>
+  <span class="nt">-i</span> genome.fasta <span class="se">\</span>
+  <span class="nt">-o</span> dram_out <span class="se">\</span>
+  <span class="nt">--threads</span> 32
+</code></pre></div></div>
+
+<p>DRAM distillation (summaries)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DRAM.py distill <span class="se">\</span>
+  <span class="nt">-i</span> dram_out/annotations.tsv <span class="se">\</span>
+  <span class="nt">-o</span> dram_out/genome_summaries
+</code></pre></div></div>
+
+<p>DRAM excels at
+✔ Central carbon metabolism
+✔ Nitrogen, sulfur, hydrogen pathways
+✔ CAZymes and polysaccharide utilization
+✔ Transporters and redox systems</p>
+
+<p>This moves annotation from gene lists → biological interpretation.
+🧠 Focus Areas: Core Metabolic Pathways</p>
+
+<p>DRAM distillation gives details on core metabolic potential, including:</p>
+
+<p>🔹 Energy metabolism</p>
+
+<p>Glycolysis</p>
+
+<p>TCA cycle</p>
+
+<p>Oxidative phosphorylation</p>
+
+<p>Fermentation pathways</p>
+
+<p>🔹 Carbon utilization</p>
+
+<p>Sugar transporters</p>
+
+<p>Polysaccharide degradation</p>
+
+<p>Organic acid metabolism</p>
+
+<p>🔹 Nitrogen &amp; sulfur metabolism</p>
+
+<p>Nitrate/nitrite reduction</p>
+
+<p>Amino acid biosynthesis</p>
+
+<p>Sulfur assimilation</p>
+
+<p><strong>These pathways define how organisms:</strong></p>
+
+<p>● Acquire energy</p>
+
+<p>● Use resources</p>
+
+<p>● Interact with their environment</p>
+
+<h1 id="-scaling-annotation-to-100-genomes">📊 Scaling Annotation to 100+ Genomes</h1>
+
+<p>For large genome sets:</p>
+
+<p>✔ Run Prokka and Prodigal in batch mode
+✔ Use DRAM summaries for comparison tables
+✔ Aggregate pathway presence/absence matrices
+✔ Combine with Day 3 taxonomy and phylogeny</p>
+
+<p>This enables:</p>
+
+<p>● Functional clustering</p>
+
+<p>● Ecological stratification</p>
+
+<p>● Trait-based comparisons</p>
+
+<p><img src="/assets/img/dram.png" alt="dram annotation" /></p>
+
+<h1 id="-trait-based-screening-from-annotation-to-ecology">🔍 Trait-Based Screening: From Annotation to Ecology</h1>
+
+<p>Once annotation is complete, we can screen genomes for specific ecological traits, such as:</p>
+
+<p>● Biofilm formation</p>
+
+<p>● EPS (exopolysaccharide) production</p>
+
+<p>● Motility</p>
+
+<p>● Stress response</p>
+
+<p>● Host or particle association</p>
+
+<p>This is especially powerful for comparative genomics and functional redundancy analyses.</p>
+
+<p><strong>🧬 Example 1: Screening for Biofilm-Related Genes (InterProScan)</strong></p>
+
+<p>Step 1: Create a reference keyword list</p>
+
+<p>Create a simple table (CSV or Excel) with keywords or domain IDs:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Keyword
+biofilm
+adhesion
+fimbrial
+pilus
+curli
+polysaccharide-binding
+</code></pre></div></div>
+
+<p>This can also include:</p>
+
+<p>● Pfam IDs</p>
+
+<p>● GO terms</p>
+
+<p>● InterPro IDs</p>
+
+<p>Step 2: Filter InterProScan results using pandas</p>
+
+<p>You can use filter.py for filtering the annotation file with reference file.
+All codes can be found at :
+https://github.com/jojyjohn28/whole-genome-sequencing-analysis
+This produces a genome-specific list of candidate biofilm genes.</p>
+
+<p><strong>🧬 Example 2: Screening for EPS-Related Genes (DRAM / KEGG)</strong></p>
+
+<p>DRAM outputs include KEGG IDs, CAZymes, and functional descriptions, making them ideal for EPS screening.</p>
+
+<p>Step 1: Prepare a reference list</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Keyword
+exopolysaccharide
+capsule
+glycosyltransferase
+alginate
+cellulose
+levan
+</code></pre></div></div>
+
+<h1 id="-merging-functional-traits-with-quantitative-data">🧬 Merging Functional Traits with Quantitative Data</h1>
+
+<p>Trait screening becomes even more powerful when merged with abundance or expression data.</p>
+
+<p>A generalized version of workflow is given in /scripts as merge.py</p>
+
+<h1 id="-how-keywords-are-used-for-functional-screening">🔑 How Keywords Are Used for Functional Screening</h1>
+
+<p>Many ecological traits (e.g., biofilm formation, EPS production, adhesion, motility) are not represented by a single gene, but by groups of genes, domains, or pathways.
+Keyword-based screening provides a flexible, transparent way to identify such traits across genomes.</p>
+
+<p>Below are two common and complementary approaches.</p>
+
+<p>🧭 Option 1: Build Keyword-Based References from Databases</p>
+
+<p>Keywords can be translated into reference identifiers using established databases.</p>
+
+<p>🔹 InterPro / Pfam (protein domains)</p>
+
+<p>Use keywords on the InterPro or Pfam websites to identify relevant domains:</p>
+
+<p>Examples:</p>
+
+<p>● biofilm → adhesion domains, pili, fimbriae</p>
+
+<p>● EPS → glycosyltransferases, polysaccharide biosynthesis proteins</p>
+
+<p>You can then screen InterProScan outputs using:</p>
+
+<p>● InterPro IDs</p>
+
+<p>● Pfam accessions</p>
+
+<p>● Domain descriptions</p>
+
+<p>This approach is robust for trait-level inference, even when gene names are ambiguous.</p>
+
+<p>🔹 KEGG (pathways &amp; enzymes)</p>
+
+<p>KEGG keywords can be used to identify:</p>
+
+<p>● Pathway modules (e.g., polysaccharide biosynthesis)</p>
+
+<p>● Enzyme classes (e.g., glycosyltransferases)</p>
+
+<p>● KO identifiers linked to EPS or biofilm pathways</p>
+
+<p>DRAM outputs already integrate KEGG annotations, making KEGG-based screening especially convenient.</p>
+
+<h1 id="️-option-2-create-a-keyword-filter-list-and-screen-locally">🗂️ Option 2: Create a Keyword Filter List and Screen Locally</h1>
+
+<p>For large genome sets, a practical approach is to create a simple keyword reference file and use it to filter annotation outputs.</p>
+
+<p>Example keyword list (trait_keywords.txt):</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>biofilm
+adhesion
+pilus
+fimbrial
+exopolysaccharide
+capsule
+glycosyltransferase
+alginate
+cellulose
+</code></pre></div></div>
+
+<p>This file can be reused across:</p>
+
+<p>● InterProScan outputs</p>
+
+<p>● DRAM annotations</p>
+
+<p>● Prokka product descriptions</p>
+
+<h1 id="-example-keyword-based-screening-in-r">📊 Example: Keyword-Based Screening in R</h1>
+
+<p>You can use screening_traits.R as minimal R workflow for screening annotation tables using keywords.</p>
+
+<p>What this does</p>
+
+<p>● Searches annotation descriptions for any keyword match</p>
+
+<p>● Returns a genome-specific list of candidate trait genes</p>
+
+<p>● Scales easily to hundreds of genomes</p>
+
+<h1 id="-best-practices">🧠 Best Practices</h1>
+
+<p>● Use keywords + domain IDs when possible</p>
+
+<p>● Keep keyword lists transparent and version-controlled</p>
+
+<p>● Treat results as hypothesis-generating, not definitive proof</p>
+
+<p>● Combine with pathway context (DRAM) and expression data when available</p>
+
+<p>This keyword-driven approach bridges the gap between raw annotation tables and ecological interpretation, making it especially powerful for comparative genomics and other downstream analyses.</p>
+
+<h2 id="-key-takeaways-from-day-4">🧠 Key Takeaways from Day 4</h2>
+
+<p>● Annotation works best in layers
+● Prodigal ensures accurate gene prediction
+● Prokka provides rapid functional context
+● InterProScan enables trait-level screening
+● DRAM connects genes into metabolic pathways
+● Simple keyword-based filtering can reveal powerful ecological insights</p>
+
+<h2 id="-coming-up-day-5">🔜 Coming Up: Day 5</h2>
+
+<p>Day 5 — Comparative Genomics &amp; Functional Comparisons</p>
+
+<p>We’ll integrate taxonomy (Day 3) and function (Day 4) to compare genomes across environments, clades, and ecological strategies.</p>
+
+<p>All codes can be found at :
+https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
+
+<p><strong>These functional screening results can be combined with genome taxonomy and phylogeny and used as annotation layers in iTOL.</strong>
+For example, the figure below illustrates biofilm-related gene screening across 200+ genomes, where the presence or absence of biofilm-associated traits is overlaid onto the phylogenomic tree as metadata strips or heatmaps.
+This integration allows rapid visualization of how functional traits are distributed across taxonomic lineages and evolutionary clades, enabling direct comparison of functional potential within and between groups.</p>
+
+<p><img src="/assets/img/d3.png" alt="phylo and function" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.]]></summary></entry><entry><title type="html">Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp;amp; Genome Similarity</title><link href="https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp;amp; Genome Similarity" /><published>2026-01-12T00:00:00-05:00</published><updated>2026-01-12T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny/"><![CDATA[<h1 id="-whole-genome-sequencing--day-3">🧬 Whole Genome Sequencing — Day 3</h1>
 
 <p><strong>Taxonomy, Phylogeny &amp; Genome Similarity</strong></p>
 
@@ -2693,272 +3123,4 @@ done
 
 <p>The image is showing GC content of all the genomes.</p>
 
-<p><img src="/assets/img/gc.png" alt="genomes_are_ready" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A step-by-step guide to answering NCBI genome topology questions and generating a complete, automated genome report table for Genome Resource Announcements.]]></summary></entry><entry><title type="html">Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial &amp;amp; Archaeal Reads</title><link href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/" rel="alternate" type="text/html" title="Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial &amp;amp; Archaeal Reads" /><published>2025-12-16T00:00:00-05:00</published><updated>2025-12-16T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/"><![CDATA[<h4 id="-size-fractionated-microbiome-anlaysis--day-2">🌊 Size Fractionated Microbiome Anlaysis — Day 2</h4>
-
-<p><strong>Kaiju taxonomic classification, summary tables, and read extraction</strong></p>
-
-<p>In Day 1, we focused on raw metagenome preprocessing (FastQC and trimming).</p>
-
-<p><strong>Today, in Day 2, we move to taxonomic classification using Kaiju.</strong></p>
-
-<p>Kaiju is a fast and sensitive classifier that operates at the protein level, translating sequencing reads and matching them against a reference protein database. This approach improves taxonomic resolution for divergent organisms commonly found in complex estuarine metagenomes.</p>
-
-<p>Beyond classification, today’s workflow has two key goals:</p>
-
-<ol>
-  <li>
-    <p>Generate structured summary tables that will be used directly for heatmap-based visualization and cross-sample comparisons.</p>
-  </li>
-  <li>
-    <p>Extract and save bacterial and archaeal reads for potential reuse in assembly- and MAG-based workflows.</p>
-  </li>
-</ol>
-
-<h4 id="-why-kaiju">🔬 Why Kaiju?</h4>
-
-<p>● Kaiju is particularly useful for shotgun metagenomic datasets because it:</p>
-
-<p>● Uses protein-level alignment (higher sensitivity than nucleotide-only methods)</p>
-
-<p>● Scales well to large datasets</p>
-
-<p>● Produces taxonomy-aware summary tables at multiple ranks</p>
-
-<p>In this series, Kaiju is one of three tools (alongside MetaPhlAn and mOTUs) that I am benchmarking before selecting a single method for consistent application across all samples.</p>
-
-<h4 id="️-installation">🛠️ Installation</h4>
-
-<p>Conda installation (recommended)</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda kaiju
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda seqtk
-</code></pre></div></div>
-
-<h4 id="-step-1-database-setup"><strong>📦 Step 1: Database setup</strong></h4>
-
-<p>Kaiju requires a reference database and NCBI taxonomy files.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> ~/kaiju_db
-<span class="nb">cd</span> ~/kaiju_db
-kaiju-makedb <span class="nt">-s</span> refseq
-</code></pre></div></div>
-
-<p>Kaiju do have many databse options and we can choose 1 according to the aim of our analysis!</p>
-
-<p>kaiju-makedb -s refseq</p>
-
-<p>This step downloads and builds:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>● kaiju_db.fmi
-
-● nodes.dmp
-
-● names.dmp
-</code></pre></div></div>
-
-<p>⚠️ Database construction may take time and disk space.</p>
-
-<h5 id="️-kaiju-databases-overview-and-recommended-use">🗄️ Kaiju Databases: Overview and Recommended Use</h5>
-
-<p>The table below summarizes the commonly used Kaiju reference databases, their characteristics, and recommended use cases. <strong>Database choice directly affects taxonomic resolution, runtime, and downstream visualization, particularly when generating heatmaps for size-fractionated microbiomes.</strong></p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Database</th>
-      <th>Build Command</th>
-      <th>Taxonomic Coverage</th>
-      <th>Sensitivity</th>
-      <th>Runtime / Size</th>
-      <th>Recommended Use</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>RefSeq</strong></td>
-      <td><code class="language-plaintext highlighter-rouge">kaiju-makedb -s refseq</code></td>
-      <td>Curated Bacteria, Archaea, selected microbial Eukaryotes</td>
-      <td>High</td>
-      <td>Moderate</td>
-      <td><strong>Default choice</strong> for ecological profiling, FL vs PA comparisons, and heatmap generation</td>
-    </tr>
-    <tr>
-      <td><strong>NR</strong></td>
-      <td><code class="language-plaintext highlighter-rouge">kaiju-makedb -s nr</code></td>
-      <td>Broad protein database including uncultured and environmental sequences</td>
-      <td>Very high</td>
-      <td>Very large / slow</td>
-      <td>Discovery-driven studies; detection of rare or highly divergent taxa</td>
-    </tr>
-    <tr>
-      <td><strong>ProGenomes</strong></td>
-      <td><code class="language-plaintext highlighter-rouge">kaiju-makedb -s progenomes</code></td>
-      <td>Genome-derived, non-redundant microbial proteins</td>
-      <td>Moderate–High</td>
-      <td>Smaller / fast</td>
-      <td>Comparative genomics and benchmarking against genome-resolved tools</td>
-    </tr>
-    <tr>
-      <td><strong>Fungi</strong></td>
-      <td><code class="language-plaintext highlighter-rouge">kaiju-makedb -s fungi</code></td>
-      <td>Fungal proteins only</td>
-      <td>High (fungi-specific)</td>
-      <td>Moderate</td>
-      <td>Targeted fungal read extraction from metagenomes</td>
-    </tr>
-    <tr>
-      <td><strong>Custom</strong></td>
-      <td>Custom FASTA build</td>
-      <td>User-defined</td>
-      <td>Variable</td>
-      <td>Variable</td>
-      <td>Targeted analyses (e.g., habitat-specific or clade-focused studies)</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>🧠 Database choice for this study</strong></p>
-
-<p>For this size-fractionated estuarine microbiome analysis, I use the RefSeq database throughout the series because it provides the best balance between:</p>
-
-<p>● Taxonomic accuracy</p>
-
-<p>● Computational efficiency</p>
-
-<p>● Interpretability of abundance tables used for heatmaps and cross-sample comparisons</p>
-
-<p>Using a consistent, curated database also ensures fair benchmarking when comparing Kaiju outputs with MetaPhlAn and mOTUs in later steps.</p>
-
-<h4 id="-step-2-run-kaiju-on-paired-end-reads"><strong>🧬 Step 2: Run Kaiju on paired-end reads</strong></h4>
-
-<p>This command runs Kaiju on paired-end shotgun metagenomic reads, translating sequences into protein space and matching them against a reference database for taxonomic classification. The taxonomy file (nodes.dmp) and database index (kaiju_db.fmi) provide the taxonomic framework, while multi-threading (-z 8) and verbose mode (-v) ensure efficient and transparent execution.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju <span class="nt">-t</span> nodes.dmp <span class="nt">-f</span> kaiju_db.fmi <span class="se">\</span>
-  <span class="nt">-i</span> reads_1.fastq.gz <span class="nt">-j</span> reads_2.fastq.gz <span class="se">\</span>
-  <span class="nt">-o</span> kaiju.out <span class="nt">-z</span> 8 <span class="nt">-v</span>
-</code></pre></div></div>
-
-<p><strong>Key parameters</strong></p>
-
-<p>● -t taxonomy tree</p>
-
-<p>● -f Kaiju database index</p>
-
-<p>● -i / -j paired-end reads</p>
-
-<p>● -z threads</p>
-
-<p>● -v verbose output</p>
-
-<h4 id="️-step-3-add-taxonomy-labels">🏷️ Step 3: Add taxonomy labels</h4>
-
-<p>This step appends readable taxonomy labels, which enables targeted filtering.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju-addTaxonNames <span class="nt">-t</span> nodes.dmp <span class="nt">-n</span> names.dmp <span class="se">\</span>
-  <span class="nt">-i</span> kaiju.out <span class="se">\</span>
-  <span class="nt">-o</span> kaiju_labeled.out <span class="se">\</span>
-  <span class="nt">-r</span> superkingdom
-</code></pre></div></div>
-
-<h4 id="-step-4-generate-kaiju-summary-tables-core-output">📊 Step 4: Generate Kaiju summary tables (core output)</h4>
-
-<p>Kaiju summary tables form the quantitative backbone for downstream visualization, including heatmaps comparing free-living and particle-attached communities.</p>
-
-<p>Superkingdom-level summary (quality control)</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju2table <span class="nt">-t</span> nodes.dmp <span class="nt">-n</span> names.dmp <span class="nt">-r</span> superkingdom <span class="se">\</span>
-  <span class="nt">-o</span> kaiju_superkingdom_summary.tsv kaiju.out
-</code></pre></div></div>
-
-<p>This table is used to verify overall classification structure (Bacteria vs Archaea).</p>
-
-<p><strong>Phylum-level summary (used for heatmaps)</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju2table <span class="nt">-t</span> nodes.dmp <span class="nt">-n</span> names.dmp <span class="nt">-r</span> phylum <span class="nt">-m</span> 1.0 <span class="se">\</span>
-  <span class="nt">-o</span> kaiju_phylum_summary.tsv kaiju.out
-</code></pre></div></div>
-
-<p><strong>Why this step is critical</strong></p>
-
-<p>● Produces a clean, tabular abundance matrix</p>
-
-<p>● Reduces noise using a minimum abundance threshold</p>
-
-<p>● Directly compatible with R-based heatmap workflows</p>
-
-<p>*<em>These tables will be reused in later posts for:</em></p>
-
-<p>● FL vs PA comparisons</p>
-
-<p>● Seasonal and bay-specific patterns</p>
-
-<p>● Cross-method benchmarking</p>
-
-<h4 id="-step-5-extract-bacterial-and-archaeal-read-ids">🧫 Step 5: Extract bacterial and archaeal read IDs</h4>
-
-<p>To enable downstream analyses such as genome assembly and MAG binning, we next extract reads classified as Bacteria and Archaea. Isolating these reads reduces complexity and ensures that subsequent genome-resolved workflows focus on the core prokaryotic community.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">awk</span> <span class="nt">-F</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="s1">'$7 == "Bacteria" || $7 == "Archaea" { print $2 }'</span> <span class="se">\</span>
-  kaiju_labeled.out <span class="o">&gt;</span> bac_arch_reads.txt
-</code></pre></div></div>
-
-<p>The first step identifies read IDs that Kaiju classified at the superkingdom level as Bacteria or Archaea. These read identifiers are written to a text file, which will be used to subset the original FASTQ files.
-● Column 7 contains the superkingdom label added by kaiju-addTaxonNames</p>
-
-<p>● Column 2 contains the read ID</p>
-
-<p>● The output file (bac_arch_reads.txt) is a simple list of read names</p>
-
-<p><strong>Continue to extract FASTQ reads:</strong>
-seqtk is a lightweight and fast toolkit for manipulating FASTQ/FASTA files. Here, it is used to extract only those reads whose IDs appear in bac_arch_reads.txt, while preserving read pairing.</p>
-
-<p>Install seqtk</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda seqtk
-</code></pre></div></div>
-
-<p>Extract reads</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seqtk subseq reads_1.fastq.gz bac_arch_reads.txt <span class="o">&gt;</span> filtered_reads_1.fastq
-seqtk subseq reads_2.fastq.gz bac_arch_reads.txt <span class="o">&gt;</span> filtered_reads_2.fastq
-</code></pre></div></div>
-
-<p>● subseq extracts sequences matching a list of read IDs</p>
-
-<p>● Both R1 and R2 files are filtered using the same ID list</p>
-
-<p>● Paired-end structure is maintained</p>
-
-<p><strong>These filtered reads can later be used for:</strong></p>
-
-<p>● Assembly (MEGAHIT / metaSPAdes)</p>
-
-<p>● Binning (MetaWRAP, SemiBin2)</p>
-
-<p>● Genome-resolved ecological analysis</p>
-
-<p>🔜 What’s Next?</p>
-
-<h4 id="️-figure-description">🖼️ Figure description</h4>
-
-<p>Today’s figure represents the final, polished visualization generated in R using taxonomic abundance tables derived from Kaiju. The stacked bar plot shows relative abundances at the order level, enabling direct comparison of community composition across samples.</p>
-
-<p>All data processing and visualization were performed using R (v4.x) with packages from the tidyverse ecosystem, and both the input data and complete R code are openly available in the project’s GitHub repository for full reproducibility.</p>
-
-<p>📂 Data and code availability:
-All Kaiju summary tables and R scripts used to generate this figure are available in the GitHub project repository.
-https://github.com/jojyjohn28/Size_Fractionated_Microbiome_Analysis</p>
-
-<p>📦 R packages used</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Core tidyverse packages</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">   </span><span class="c1"># visualization</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">    </span><span class="c1"># reading Excel files</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">     </span><span class="c1"># data manipulation</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">     </span><span class="c1"># data reshaping</span><span class="w">
-</span></code></pre></div></div>
-
-<p>📅 Day 3: MetaPhlAn — marker gene-based profiling
-We will compare MetaPhlAn-derived abundance tables against Kaiju outputs and begin systematic benchmarking across size fractions.</p>
-
-<p><img src="/assets/img/kaiju.png" alt="project_total_community_kaiju" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.]]></summary></entry></feed>
+<p><img src="/assets/img/gc.png" alt="genomes_are_ready" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A step-by-step guide to answering NCBI genome topology questions and generating a complete, automated genome report table for Genome Resource Announcements.]]></summary></entry></feed>
