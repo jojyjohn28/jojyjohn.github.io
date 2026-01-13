@@ -252,6 +252,18 @@ defaults:
     values:
       sitemap: false
 
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      sitemap: true
+
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      sitemap: true
+
 sass:
   style: compressed
 
