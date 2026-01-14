@@ -1,5 +1,459 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-13T15:55:12-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Whole Genome Sequencing — Day 4: Genome Annotation &amp;amp; Functional Potential</title><link href="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 4: Genome Annotation &amp;amp; Functional Potential" /><published>2026-01-13T00:00:00-05:00</published><updated>2026-01-13T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day4-annotation-function</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/"><![CDATA[<h1 id="-whole-genome-sequencing--day-4">🧬 Whole Genome Sequencing — Day 4</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-14T13:22:23-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Whole Genome Sequencing — Day 5: Comparative &amp;amp; Downstream Genomic Analyses</title><link href="https://jojyjohn28.github.io/blog/wgs-day5-comparative-genomics/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 5: Comparative &amp;amp; Downstream Genomic Analyses" /><published>2026-01-14T00:00:00-05:00</published><updated>2026-01-14T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day5-comparative-genomics</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day5-comparative-genomics/"><![CDATA[<h1 id="-whole-genome-sequencing--day-5">🧬 Whole Genome Sequencing — Day 5</h1>
+
+<p>Comparative &amp; Downstream Genomic Analyses
+👉In Day 1, we cleaned raw reads.
+👉In Day 2, we assembled genomes and evaluated quality.
+👉In Day 3, we placed genomes in taxonomic and phylogenetic context.
+👉In Day 4, we annotated genomes and identified functional potential.</p>
+
+<p>Today, <strong>in Day 5</strong>, we shift from individual genomes to comparative insights:
+<strong>How do genomes differ? What unique functions do they encode? What risks or opportunities do they present?</strong>
+This step transforms genome collections into ecological and biotechnological insights by comparing gene content, identifying biosynthetic potential, and screening for clinically relevant features.</p>
+
+<h2 id="-goal-of-day-3">🎯 Goal of Day 3</h2>
+
+<p>PMove from single genomes to comparative and ecological insights
+Specifically, we aim to:
+✔ Define core and accessory genomes across collections
+✔ Identify secondary metabolite biosynthetic gene clusters
+✔ Screen for antimicrobial resistance and virulence factors
+✔ Detect and characterize plasmids
+✔ Validate genome topology and circularization
+This workflow scales from small genome sets to hundreds of isolates or MAGs.</p>
+
+<h1 id="-comparative-genomics-strategy">🧪 Comparative Genomics Strategy</h1>
+
+<p>Comparative analyses work best when structured around specific biological questions:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Analysis</th>
+      <th>Question</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pangenome analysis</td>
+      <td>What genes are shared vs. strain-specific?</td>
+    </tr>
+    <tr>
+      <td>Secondary metabolite screening</td>
+      <td>What biosynthetic potential exists?</td>
+    </tr>
+    <tr>
+      <td>Pathogen screening</td>
+      <td>Are there AMR genes or virulence factors?</td>
+    </tr>
+    <tr>
+      <td>Plasmid detection</td>
+      <td>What mobile genetic elements are present?</td>
+    </tr>
+    <tr>
+      <td>Topology validation</td>
+      <td>Are genomes complete and circularized?</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="-why-comparative-genomics-matters">🧠 Why Comparative Genomics Matters</h1>
+
+<p>Individual genomes tell us what one organism can do.</p>
+
+<p><strong>Comparative genomics reveals:</strong>
+● Functional diversity within populations</p>
+
+<p>● Evolutionary adaptation strategies</p>
+
+<p>● Horizontal gene transfer and mobile elements</p>
+
+<p>● Biotechnological potential (enzymes, metabolites)</p>
+
+<p>● Public health risks (AMR, virulence)</p>
+
+<p>Comparative genomics is essential for:
+● Understanding strain-level variation
+● Identifying biomarkers or diagnostic targets
+● Prioritizing genomes for downstream work
+● Linking genomic diversity to ecological roles</p>
+
+<h1 id="-tools-used-in-day-5">🧰 Tools Used in Day 5</h1>
+
+<p>🔹 PanX
+Pangenome analysis and visualization
+🔹 antiSMASH
+Secondary metabolite biosynthetic gene cluster prediction
+🔹 BiG-SCAPE
+Biosynthetic gene cluster similarity networks
+🔹 Abricate
+Rapid screening for AMR genes, virulence factors, and plasmids
+🔹 Plsdb / PlasmidFinder
+Plasmid detection and characterization
+🔹 PLSMER
+Machine learning-based plasmid sequence identification
+🔹 SPAdes (plasmidSPAdes mode)
+Targeted plasmid assembly
+🔹 SnapGene / Geneious
+Plasmid visualization and annotation
+Each tool addresses a different dimension of comparative and applied genomics.</p>
+
+<h1 id="-step-1-pangenome-analysis-with-panx">🧬 Step 1: Pangenome Analysis with PanX</h1>
+
+<p>Pangenome analysis partitions genes into:
+● Core genome – genes present in all strains
+● Accessory genome – genes present in some strains
+● Unique genes – strain-specific genes
+This reveals functional diversity, niche adaptation, and horizontal gene transfer.</p>
+
+<p>For more deatails about PanX from installation to run please visit : https://jojyjohn28.github.io/blog/panx-pangenome-analysis/</p>
+
+<p>You can always Extract Core and Pan Genes Without Visualization using custom Python Script. Please see core_pan_from_list.py , inside
+https://github.com/jojyjohn28/whole-genome-sequencing-analysis/day5</p>
+
+<p>What PanX Tells Us
+✔ Which genes are universally conserved (core metabolism)
+✔ Which genes are variable (niche-specific functions)
+✔ Gene gain/loss patterns across phylogeny
+✔ Functional stratification within populations
+Pangenomes are especially powerful when combined with Day 3 phylogenies and Day 4 functional annotations.</p>
+
+<h1 id="-step-2-secondary-metabolite-screening-with-antismash">🧬 Step 2: Secondary Metabolite Screening with antiSMASH</h1>
+
+<p>Secondary metabolites include antibiotics, toxins, pigments, and signaling molecules. Many are encoded by biosynthetic gene clusters (BGCs).
+antiSMASH predicts BGCs and compares them to known compounds.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install antiSMASH via conda</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda antismash
+</code></pre></div></div>
+
+<p>Running antiSMASH</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>antismash genome.gbk <span class="se">\</span>
+  <span class="nt">--output-dir</span> antismash_out <span class="se">\</span>
+  <span class="nt">--genefinding-tool</span> prodigal <span class="se">\</span>
+  <span class="nt">--cpus</span> 16
+</code></pre></div></div>
+
+<p>If it is 1 genome or few genomes and you are not experienced to run the stand-alone version, antiSMASH is available as web based platform.
+Please visit :https://antismash.secondarymetabolites.org/#!/start
+<img src="/assets/img/as.png" alt="antismash web" /></p>
+
+<p><strong>Key Outputs</strong></p>
+
+<p>● HTML report with interactive BGC visualization</p>
+
+<p>● GenBank files with annotated BGCs</p>
+
+<p>● Predicted compound classes (NRPS, PKS, terpene, etc.)</p>
+
+<p><strong>What antiSMASH Reveals</strong>
+✔ Biosynthetic potential for novel metabolites
+✔ Known BGCs with compound matches
+✔ Evolutionary conservation of BGCs across strains</p>
+
+<h1 id="-step-3-bgc-similarity-networks-with-big-scape">🧬 Step 3: BGC Similarity Networks with BiG-SCAPE</h1>
+
+<p>When you have many genomes, BiG-SCAPE clusters similar BGCs into gene cluster families (GCFs).
+This enables:
+● Cross-genome BGC comparison
+● Identification of conserved vs. unique BGCs
+● Prioritization of novel clusters</p>
+
+<p><strong>Installation</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install BiG-SCAPE</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda bigscape
+</code></pre></div></div>
+
+<p><strong>Running BiG-SCAPE</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bigscape <span class="nt">-i</span> antismash_out/ <span class="se">\</span>
+  <span class="nt">-o</span> bigscape_out <span class="se">\</span>
+  <span class="nt">--pfam_dir</span> /path/to/pfam <span class="se">\</span>
+  <span class="nt">--mode</span> auto <span class="se">\</span>
+  <span class="nt">--cutoffs</span> 0.3 0.5 0.7
+</code></pre></div></div>
+
+<p><strong>Key Outputs</strong></p>
+
+<p>● Network diagrams of BGC families</p>
+
+<p>● GCF assignments for each genome</p>
+
+<p>● Distance matrices for comparative analysis</p>
+
+<p><strong>BiG-SCAPE + antiSMASH together provide a genome-scale view of biosynthetic diversity.</strong>
+<img src="/assets/img/bs.png" alt="bigscape" /></p>
+
+<p>This figure shows a new starin of Streptomyces SOSIST-3 isolated from Southern Oceans, the manuscript is accepted in Molecular biology Reports.
+More details see : https://jojyjohn28.github.io/collaborations/ and https://jojyjohn28.github.io/publications/</p>
+
+<h1 id="-step-4-pathogen-screening-with-abricate">🧬 Step 4: Pathogen Screening with Abricate</h1>
+
+<p>Whole genomes are typically screened against two different types of databases to assess their pathogenic potential:
+i ARGs (Antibiotic Resistance Genes)
+iiVirulence genes</p>
+
+<p><strong>Tool: Abricate</strong></p>
+
+<p>Abricate (https://github.com/tseemann/abricate) is a mass screening tool that rapidly identifies antimicrobial resistance and virulence genes by BLAST against multiple curated databases.</p>
+
+<p>Available Databases in Abricate</p>
+
+<p>Abricate supports the following databases:</p>
+
+<p>● NCBI – NCBI Bacterial Antimicrobial Resistance Reference Gene Database</p>
+
+<p>● CARD – Comprehensive Antibiotic Resistance Database</p>
+
+<p>● ARG-ANNOT – Antibiotic Resistance Gene-ANNOTation</p>
+
+<p>● ResFinder – Acquired antimicrobial resistance genes</p>
+
+<p>● MEGARES – MEGARes resistance database</p>
+
+<p>● EcOH – E. coli virulence genes</p>
+
+<p>● PlasmidFinder – Plasmid replicons</p>
+
+<p>● Ecoli_VF – E. coli virulence factors</p>
+
+<p>● VFDB – Virulence Factor Database</p>
+
+<p>Database Selection Strategy</p>
+
+<p>For comprehensive screening, use the following databases:</p>
+
+<p>For ARGs (Antibiotic Resistance Genes):
+● ARG-ANNOT
+● CARD
+● ResFinder</p>
+
+<p>For Virulence Genes:
+● VFDB (Virulence Factor Database)</p>
+
+<p><strong>Installation</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda abricate
+</code></pre></div></div>
+
+<p><strong>Running Abricate</strong></p>
+
+<p>*<em>Screen for ARGs</em></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Using CARD database</span>
+abricate <span class="nt">--db</span> card genome.fasta <span class="o">&gt;</span> genome_card.tab
+
+<span class="c"># Using ResFinder database</span>
+abricate <span class="nt">--db</span> resfinder genome.fasta <span class="o">&gt;</span> genome_resfinder.tab
+
+<span class="c"># Using ARG-ANNOT database</span>
+abricate <span class="nt">--db</span> argannot genome.fasta <span class="o">&gt;</span> genome_argannot.tab
+</code></pre></div></div>
+
+<p>*<em>Screen for Virulence Factors</em></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Using VFDB database</span>
+abricate <span class="nt">--db</span> vfdb genome.fasta <span class="o">&gt;</span> genome_vfdb.tab
+</code></pre></div></div>
+
+<p>*<em>Screen for Plasmid Replicons</em></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>abricate <span class="nt">--db</span> plasmidfinder genome.fasta <span class="o">&gt;</span> genome_plasmids.tab
+</code></pre></div></div>
+
+<p><strong>Scaling to Multiple Genomes</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Batch screening for ARGs (CARD example)</span>
+<span class="k">for </span>genome <span class="k">in</span> <span class="k">*</span>.fasta<span class="p">;</span> <span class="k">do
+  </span>abricate <span class="nt">--db</span> card <span class="nv">$genome</span> <span class="o">&gt;</span> <span class="k">${</span><span class="nv">genome</span><span class="p">%.fasta</span><span class="k">}</span>_card.tab
+<span class="k">done</span>
+
+<span class="c"># Batch screening for virulence factors</span>
+<span class="k">for </span>genome <span class="k">in</span> <span class="k">*</span>.fasta<span class="p">;</span> <span class="k">do
+  </span>abricate <span class="nt">--db</span> vfdb <span class="nv">$genome</span> <span class="o">&gt;</span> <span class="k">${</span><span class="nv">genome</span><span class="p">%.fasta</span><span class="k">}</span>_vfdb.tab
+<span class="k">done</span>
+
+<span class="c"># Summarize results across all genomes</span>
+abricate <span class="nt">--summary</span> <span class="k">*</span>_card.tab <span class="o">&gt;</span> card_summary.tab
+abricate <span class="nt">--summary</span> <span class="k">*</span>_vfdb.tab <span class="o">&gt;</span> vfdb_summary.tab
+</code></pre></div></div>
+
+<p><strong>Comprehensive Screening Workflow</strong>
+For complete pathogen characterization, screen each genome against all relevant databases.
+An example bash script (comp_screening.sh) is included in https://github.com/jojyjohn28/whole-genome-sequencing-analysis/day5</p>
+
+<p><strong>What Abricate Provides</strong>
+✔ Presence/absence of resistance genes across multiple databases
+✔ Virulence factor distribution and identification
+✔ Plasmid-associated gene detection
+✔ Gene coverage and identity statistics
+✔ Rapid, scalable screening for large datasets</p>
+
+<p>Using multiple databases (CARD, ResFinder, ARG-ANNOT) for ARG screening ensures comprehensive detection, as different databases may capture different resistance mechanisms or gene variants.</p>
+
+<h1 id="-step-5-plasmid-detection--characterization">🧬 Step 5: Plasmid Detection &amp; Characterization</h1>
+
+<p>Plasmids carry mobile genes involved in:
+● Antibiotic resistance
+● Virulence
+● Metabolic versatility
+● Horizontal gene transfer</p>
+
+<p>Detecting and characterizing plasmids helps us understand genome plasticity and ecological adaptation.
+Tools for Plasmid Detection
+🔹 Plasmer – plasmid identification
+🔹 PlasmidFinder – Database-based replicon detection
+🔹 Prokka – Annotates plasmid sequences
+🔹 SPAdes (plasmidSPAdes mode) – Assembles plasmids from raw reads
+🔹 SnapGene / Geneious – Visualizes and annotates plasmid maps</p>
+
+<p><strong>a. Plasmid Identification with Plasmer</strong>
+Plasmer uses machine learning to classify sequences as chromosomal or plasmid-derived.
+GitHub: https://github.com/nekokoe/Plasmer</p>
+
+<p>Installation
+Option 1: Using Conda (Recommended)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> iskoldt <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge <span class="nt">-c</span> defaults plasmer
+</code></pre></div></div>
+
+<p>Running Plasmer</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Plasmer <span class="nt">-g</span> input.fasta <span class="se">\</span>
+  <span class="nt">-p</span> output_prefix <span class="se">\</span>
+  <span class="nt">-d</span> /path/to/plasmer_db <span class="se">\</span>
+  <span class="nt">-t</span> 16 <span class="se">\</span>
+  <span class="nt">-m</span> 500 <span class="se">\</span>
+  <span class="nt">-l</span> 500000 <span class="se">\</span>
+  <span class="nt">-o</span> output_directory
+</code></pre></div></div>
+
+<p><strong>Key Parameters</strong></p>
+
+<p>-g –genome Input fasta file [required]
+-p –prefix Prefix for output files [Default: output]
+-d –db Path to Plasmer databases [required]
+-t –threads Number of threads [Default: 8]
+-m –minimum_length Minimum sequence length (bp) [Default: 500]
+-l –length Chromosome length threshold (bp) [Default: 500000]
+-o –outpath Output directory [required]</p>
+
+<p><strong>What Plasmer Provides</strong>
+✔ Plasmid vs. chromosome classification
+✔ Machine learning-based prediction
+✔ Suitable for draft assemblies with multiple contigs</p>
+
+<p><strong>b. Plasmid Replicon Detection with PlasmidFinder</strong>
+PlasmidFinder identifies plasmid replicons via BLAST against a curated database.</p>
+
+<p>Installation</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda plasmidfinder
+</code></pre></div></div>
+
+<p>Running PlasmidFinder</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>plasmidfinder.py <span class="nt">-i</span> genome.fasta <span class="nt">-o</span> plasmidfinder_out <span class="nt">-p</span> /path/to/plasmidfinder_db
+</code></pre></div></div>
+
+<p><strong>c. Plasmid Assembly with SPAdes</strong>
+If plasmids are present in raw sequencing data, plasmidSPAdes can assemble them separately.
+Running plasmidSPAdes</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spades.py <span class="nt">--plasmid</span> <span class="se">\</span>
+  <span class="nt">-1</span> reads_R1.fastq.gz <span class="se">\</span>
+  <span class="nt">-2</span> reads_R2.fastq.gz <span class="se">\</span>
+  <span class="nt">-o</span> plasmid_assembly <span class="se">\</span>
+  <span class="nt">-t</span> 16
+</code></pre></div></div>
+
+<p>Key Output
+● plasmids.fasta → assembled plasmid sequences</p>
+
+<p><strong>d. Plasmid Annotation with Prokka</strong>
+Once plasmids are assembled or extracted, annotate them with Prokka.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prokka plasmid.fasta <span class="se">\</span>
+  <span class="nt">--outdir</span> plasmid_annotation <span class="se">\</span>
+  <span class="nt">--prefix</span> plasmid <span class="se">\</span>
+  <span class="nt">--compliant</span>
+</code></pre></div></div>
+
+<p><strong>e. Plasmid Visualization with SnapGene</strong>
+For circular plasmid maps and publication-quality figures:</p>
+
+<p>● Import annotated GenBank file into SnapGene
+● Add features (AMR genes, replicons, origins)
+● Export circular map as PNG or SVG</p>
+
+<p>Alternative: Use Geneious or custom scripts with biopython and matplotlib.</p>
+
+<p><img src="/assets/img/pl.png" alt="plasmid" /></p>
+
+<p>The image shows a multidrug plasmid annotated with a whole genome of *<em>Salmonella sp.</em></p>
+
+<h1 id="-step-6-genome-circularization--topology-validation">🧬 Step 6: Genome Circularization &amp; Topology Validation</h1>
+
+<p>Complete genomes should be:
+● Circularized – chromosomes form closed loops</p>
+
+<p>● Topology-validated – no misassemblies or chimeric joins</p>
+
+<p>This is especially important for:</p>
+
+<p>● Plasmid characterization</p>
+
+<p>● Complete reference genomes</p>
+
+<p>● Comparing assembly quality</p>
+
+<p>Tools for Topology Validation
+🔹 Unicycler – Includes circularization detection
+🔹 CheckM / CheckM2 – Flags genome completeness issues
+🔹 Bandage – Visualizes assembly graphs
+🔹 Custom scripts – Check for overlapping contig termini</p>
+
+<p>For more details please see:https://jojyjohn28.github.io/blog/genome-topology-and-genome-report/</p>
+
+<h1 id="-scaling-comparative-analyses-to-100-genomes">📊 Scaling Comparative Analyses to 100+ Genomes</h1>
+
+<p>For large genome collections:
+✔ Use PanX for genome-wide gene presence/absence
+✔ Run antiSMASH + BiG-SCAPE for biosynthetic diversity
+✔ Screen all genomes with Abricate for AMR/virulence
+✔ Detect plasmids with PLSMER + PlasmidFinder
+✔ Aggregate results into summary tables or heatmaps
+This enables:
+● Functional trait mapping onto phylogenies
+● Identification of high-risk or high-value strains
+● Comparative metabolic and biosynthetic potential</p>
+
+<h1 id="-key-takeaways-from-day-5">🧠 Key Takeaways from Day 5</h1>
+
+<p>● Pangenome analysis reveals core vs. variable gene content
+● antiSMASH identifies biosynthetic potential for novel compounds
+● Abricate rapidly screens for AMR, virulence, and plasmids
+● Plasmid detection and characterization reveal mobile genetic elements
+● Topology validation ensures genome completeness
+● Comparative genomics bridges sequence data and biological insight</p>
+
+<h1 id="-whats-next">🔜 What’s Next?</h1>
+
+<p>With comparative and functional analyses complete, you now have:
+● Annotated, taxonomically placed genomes
+● Functional trait distributions
+● AMR and biosynthetic potential
+● Pangenome structure
+These datasets can be integrated with:
+● Metagenomics (for community-level insights)
+● Transcriptomics (for gene expression validation)
+● Metabolomics (for linking genes to metabolites)
+● Ecological metadata (for trait-environment correlations)</p>
+
+<p>All codes can be found at day 5 of :
+https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 5 of the WGS series: moving from individual genomes to comparative insights through pangenome analysis, secondary metabolite screening, and pathogen detection]]></summary></entry><entry><title type="html">Whole Genome Sequencing — Day 4: Genome Annotation &amp;amp; Functional Potential</title><link href="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 4: Genome Annotation &amp;amp; Functional Potential" /><published>2026-01-13T00:00:00-05:00</published><updated>2026-01-13T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day4-annotation-function</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/"><![CDATA[<h1 id="-whole-genome-sequencing--day-4">🧬 Whole Genome Sequencing — Day 4</h1>
 
 <p>Genome Annotation &amp; Functional Potential</p>
 
@@ -2695,432 +3149,4 @@ conda activate /home/jojyj/.conda/envs/motus_env
 
 <p>To assess methodological consistency, I compared Kaiju (protein-level classification) and mOTUs (marker-gene–based profiling) outputs at higher taxonomic ranks. <strong>Despite relying on fundamentally different approaches, both methods recovered highly similar dominant taxa across samples, particularly when comparisons were made at the order level.</strong></p>
 
-<p><img src="/assets/img/motu.png" alt="total_community_motu" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.]]></summary></entry><entry><title type="html">Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow</title><link href="https://jojyjohn28.github.io/blog/genome-topology-and-genome-report/" rel="alternate" type="text/html" title="Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow" /><published>2025-12-17T00:00:00-05:00</published><updated>2025-12-17T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/genome-topology-and_genome_report</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/genome-topology-and-genome-report/"><![CDATA[<h4 id="-genome-topology-and-genome-announcement-reports">🧬 Genome Topology and Genome Announcement Reports</h4>
-
-<p>Today, I’m stepping slightly back from the Size-Fractionated Microbiome Analysis series. With the winter break approaching, I wanted to wrap up a few pending tasks, including finalizing genome submissions to NCBI. We recently received the final queries and accession numbers for most of our genomes. So toaday I am documenting how to answer last few NCBI submission questions and how to prepare a complete genome summary table suitable for a Genome Resource Announcement manuscript.</p>
-
-<p><strong>How to answer NCBI questions without over-claiming</strong></p>
-
-<p>When submitting genomes to NCBI (GenBank / Genome / BioProject), two questions almost always appear and often cause confusion:</p>
-
-<p>[A] Is this a draft assembly or does one sequence represent the chromosome?
-[B] If this is a circular chromosome, are the ends of the sequence contiguous around the circle with no overlap and no gap?</p>
-
-<p>These questions are not asking you to prove perfection — they are asking you to state clearly what you are claiming and what you are not.</p>
-
-<p>This post documents a practical, conservative, and reviewer-safe workflow that I use to:</p>
-
-<p>● Answer NCBI topology questions confidently</p>
-
-<p>● Avoid over-claiming circularity</p>
-
-<p>● Generate a final genome summary table suitable for Genome Resource Announcements</p>
-
-<h4 id="-core-principle-very-important">🔑 Core principle (very important)</h4>
-
-<p><strong>Only assert circularity when the assembly method and validation steps truly support it.</strong></p>
-
-<p>● Draft genomes and linear submissions are fully acceptable to NCBI.</p>
-
-<p>● Over-claiming circularity is not</p>
-
-<h4 id="step-1--determine-whether-a-genome-is-draft-or-single-contig">Step 1 — Determine whether a genome is draft or single-contig</h4>
-
-<p>For each genome FASTA:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> genome.fa
-</code></pre></div></div>
-
-<p>I have many genomes and I copied all into one folder and used a batch script as follows</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-    </span><span class="nb">echo</span> <span class="s2">"=== </span><span class="nv">$f</span><span class="s2"> ==="</span>
-    <span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span>
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p><strong>Interpretation</strong>
-| Result | Meaning | NCBI Answer |
-| ——— | ——————– | ——————- |
-| &gt;1 contig | Draft assembly | [A] Draft assembly |
-| 1 contig | Candidate chromosome | Requires validation |
-If a genome has multiple contigs, do not discuss circularity.</p>
-
-<h4 id="step-2--validate-circularity-for-single-contig-genomes">Step 2 — Validate circularity for single-contig genomes</h4>
-
-<p>This step applies only to genomes with exactly one contig.</p>
-
-<p><strong>2a. Check assembler evidence (Flye / Unicycler)</strong></p>
-
-<p>Inspect assembly_info.txt</p>
-
-<p>Look for circular=true</p>
-
-<p>If circularity is not explicitly stated, do not assume it</p>
-
-<p>Illumina-only assemblies cannot reliably establish circularity.
-As I used long read and hybrid assembly, I made a custom script to extract the inforamtion either from the assembly_info.txt or from the assembly. I also confirmed the results with step 2b</p>
-
-<p><strong>2b. Check for overlap between contig ends</strong></p>
-
-<p>NCBI requires no overlap and no gap at the contig ends.
-<strong>Extract first and last 1 kb</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seqkit subseq <span class="nt">-r</span> 1:1000 genome.fa <span class="o">&gt;</span> first1k.fa
-seqkit subseq <span class="nt">-r</span> <span class="nt">-999</span>:-1 genome.fa <span class="o">&gt;</span> last1k.fa
-</code></pre></div></div>
-
-<p>You need seqkit tool for this and this can be insttaled as follows:
-seqkit is a fast, lightweight toolkit for manipulating FASTA/FASTQ files. In this workflow, it is used to extract the first and last regions of contigs for circularity checks.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda seqkit
-</code></pre></div></div>
-
-<p><strong>Align ends</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nucmer <span class="nt">--maxmatch</span> first1k.fa last1k.fa <span class="nt">-p</span> ends
-show-coords <span class="nt">-rcl</span> ends.delta
-</code></pre></div></div>
-
-<p>for this step you need the tool nucmer.
-MUMmer is a whole-genome alignment package. Here, nucmer is used to align the start and end of contigs to detect overlapping duplicated regions, which is critical before claiming circularity.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda mummer
-</code></pre></div></div>
-
-<p>This installs nucmer and show-coords, which are used for end-to-end contig validation.</p>
-
-<p><strong>Interpretation</strong>
-| Result | Meaning | Action |
-| —————- | —————- | ———————————- |
-| Strong alignment | Overlap present | Must trim before claiming circular |
-| No alignment | Not circularized | Treat as linear |</p>
-
-<p><strong>If no alignments are shown (only headers):</strong></p>
-
-<p>→ The genome is not circularized
-→ Do not answer YES to question [B]
-<strong>🚫 Do not infer circularity for Illumina-only assemblies</strong></p>
-
-<h4 id="-genome-resource-announcements">🔁 Genome Resource Announcements</h4>
-
-<p>Although all of the analyses described below had been completed previously, the final genome FASTA files were subsequently renamed, filtered, and curated, and a subset of genomes was reassembled. Therefore, to generate a consistent and accurate summary table for the Genome Resource Announcement, I decided to define a clear work plan and rerun the relevant steps in a streamlined, reproducible workflow.</p>
-
-<p><strong>Workflow overview</strong>
-| Tool | Purpose | Fields |
-| —————- | ——————- | ————————— |
-| QUAST | Assembly statistics | Size, GC, contigs, N50 |
-| CheckM2 | Quality metrics | Completeness, contamination |
-| Prokka | Annotation | Protein-coding genes |
-| Flye / Unicycler | Topology evidence | Circular / Linear |
-| NUCmer | End validation | Overlap detection |</p>
-
-<h4 id="step-1-assembly-statistics-with-quast">Step 1— Assembly statistics with QUAST</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> quast_out
-quast.py <span class="k">*</span>.fa <span class="nt">-o</span> quast_out <span class="nt">--threads</span> 16
-</code></pre></div></div>
-
-<p>I used batch script as follows</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --job-name=quast_all</span>
-<span class="c">#SBATCH --partition=camplab</span>
-<span class="c">#SBATCH --nodes=1</span>
-<span class="c">#SBATCH --ntasks=1</span>
-<span class="c">#SBATCH --cpus-per-task=16</span>
-<span class="c">#SBATCH --mem=64G</span>
-<span class="c">#SBATCH --time=12:00:00</span>
-<span class="c">#SBATCH --output=quast_%j.out</span>
-<span class="c">#SBATCH --error=quast_%j.err</span>
-
-module load quast
-
-<span class="nv">GENOME_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/fixed_genomes_dec11"</span>
-<span class="nv">OUTDIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/quast_dec11"</span>
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
-
-<span class="c"># Run QUAST on all genomes together</span>
-quast.py <span class="se">\</span>
-  <span class="nt">--threads</span> 16 <span class="se">\</span>
-  <span class="nt">--min-contig</span> 500 <span class="se">\</span>
-  <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span> <span class="se">\</span>
-  <span class="s2">"</span><span class="nv">$GENOME_DIR</span><span class="s2">"</span>/<span class="k">*</span>.fa
-
-<span class="nb">echo</span> <span class="s2">"QUAST completed at </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<p>save this file as run_quast_all.sh and run as follows</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x run_quast_all.sh
-sbatch run_quast_all.sh
-</code></pre></div></div>
-
-<p>Final file is report.tsv:</p>
-
-<p>● Genome size</p>
-
-<p>● GC (%)</p>
-
-<p>● number of Contigs</p>
-
-<p>● N50</p>
-
-<h4 id="step-2--completeness-and-contamination-with-checkm2">Step 2 — Completeness and contamination with CheckM2</h4>
-
-<p>CheckM was used to assess genome quality by estimating completeness and contamination based on lineage-specific single-copy marker genes. The lineage workflow automatically assigns each genome to an appropriate taxonomic lineage and reports standardized quality metrics, which were exported as a tab-delimited summary table and incorporated directly into the final genome summary table for the Genome Resource Announcement.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --job-name=checkm_all</span>
-<span class="c">#SBATCH --partition=camplab</span>
-<span class="c">#SBATCH --nodes=1</span>
-<span class="c">#SBATCH --ntasks=1</span>
-<span class="c">#SBATCH --cpus-per-task=24</span>
-<span class="c">#SBATCH --mem=96G</span>
-<span class="c">#SBATCH --time=24:00:00</span>
-<span class="c">#SBATCH --output=checkm_%j.out</span>
-<span class="c">#SBATCH --error=checkm_%j.err</span>
-
-<span class="c"># Load CheckM module or activate conda env</span>
-conda activate checkm_env
-
-<span class="nv">GENOME_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/all_genomes_dec15"</span>
-<span class="nv">OUTDIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/checkm_dec15"</span>
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
-
-<span class="c"># Run CheckM lineage workflow</span>
-checkm lineage_wf <span class="se">\</span>
-  <span class="nt">-x</span> fa <span class="se">\</span>
-  <span class="nt">-t</span> 24 <span class="se">\</span>
-  <span class="nt">--reduced_tree</span> <span class="se">\</span>
-  <span class="s2">"</span><span class="nv">$GENOME_DIR</span><span class="s2">"</span> <span class="se">\</span>
-  <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
-
-<span class="c"># Generate a clean summary table (TSV)</span>
-checkm qa <span class="se">\</span>
-  <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>/lineage.ms <span class="se">\</span>
-  <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span> <span class="se">\</span>
-  <span class="nt">-o</span> 2 <span class="se">\</span>
-  <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/checkm_summary.tsv"</span>
-
-<span class="nb">echo</span> <span class="s2">"CheckM completed at </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<p>Save this as run_checkm_all.sh and run as follows</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x run_checkm_all.sh
-sbatch run_checkm_all.sh
-</code></pre></div></div>
-
-<p><strong>the key output file you need is checkm_summary.tsv</strong>
-This includes (per genome):</p>
-
-<p>● Completeness (%)</p>
-
-<p>● Contamination (%)</p>
-
-<p>● Strain heterogeneity</p>
-
-<p>● Marker lineage</p>
-
-<h4 id="step-3--gene-prediction-with-prokka">Step 3 — Gene prediction with Prokka</h4>
-
-<p>This is for finding number of predicted genes and my strtegy is below</p>
-
-<p>● Run Prokka once per genome (recommended; Prokka is per-genome by design)</p>
-
-<p>● Store outputs in per-genome subfolders</p>
-
-<p>● Parse Prokka outputs to create one summary TSV with:</p>
-
-<p>● number of CDS (protein-coding genes)</p>
-
-<p>● optionally rRNA, tRNA counts</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --job-name=prokka_all</span>
-<span class="c">#SBATCH --partition=camplab</span>
-<span class="c">#SBATCH --nodes=1</span>
-<span class="c">#SBATCH --ntasks=1</span>
-<span class="c">#SBATCH --cpus-per-task=16</span>
-<span class="c">#SBATCH --mem=64G</span>
-<span class="c">#SBATCH --time=24:00:00</span>
-<span class="c">#SBATCH --output=prokka_%j.out</span>
-<span class="c">#SBATCH --error=prokka_%j.err</span>
-
-module load prokka
-
-<span class="nv">GENOME_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/all_genomes_dec15"</span>
-<span class="nv">OUTDIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/prokka_dec15"</span>
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
-
-<span class="k">for </span>fa <span class="k">in</span> <span class="s2">"</span><span class="nv">$GENOME_DIR</span><span class="s2">"</span>/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-    </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> .fa<span class="si">)</span>
-    <span class="nb">echo</span> <span class="s2">"Running Prokka on </span><span class="nv">$base</span><span class="s2">"</span>
-
-    prokka <span class="se">\</span>
-      <span class="nt">--outdir</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/</span><span class="nv">$base</span><span class="s2">"</span> <span class="se">\</span>
-      <span class="nt">--prefix</span> <span class="s2">"</span><span class="nv">$base</span><span class="s2">"</span> <span class="se">\</span>
-      <span class="nt">--cpus</span> 16 <span class="se">\</span>
-      <span class="nt">--force</span> <span class="se">\</span>
-      <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span>
-<span class="k">done
-
-</span><span class="nb">echo</span> <span class="s2">"Prokka completed at </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<p>save as run_prokka_all.sh and run as follows</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x run_prokka_all.sh
-sbatch run_prokka_all.sh
-</code></pre></div></div>
-
-<p>this will generate
-For each genome (example ABV4_150):</p>
-
-<pre><code class="language-pgsql">prokka_dec15/ABV4_150/
-├── ABV4_150.gff
-├── ABV4_150.tbl
-├── ABV4_150.txt   ← summary stats (VERY IMPORTANT)
-├── ABV4_150.faa
-├── ABV4_150.ffn
-└── ABV4_150.log
-</code></pre>
-
-<p>The file *.txt contains lines like:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">CDS</span><span class="pi">:</span> <span class="m">4123</span>
-<span class="na">rRNA</span><span class="pi">:</span> <span class="m">9</span>
-<span class="na">tRNA</span><span class="pi">:</span> <span class="m">67</span>
-</code></pre></div></div>
-
-<h4 id="step-31-generate-a-summary-tsv-for-predicted-genes">step 3.1 Generate a summary TSV for predicted genes</h4>
-
-<p>Script: prokka_summary.sh</p>
-
-<p>This extracts CDS counts (protein-coding genes) for all genomes.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-
-<span class="nv">PROKKA_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/prokka_dec15"</span>
-<span class="nv">OUT_TSV</span><span class="o">=</span><span class="s2">"prokka_gene_summary.tsv"</span>
-
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"Genome</span><span class="se">\t</span><span class="s2">CDS</span><span class="se">\t</span><span class="s2">rRNA</span><span class="se">\t</span><span class="s2">tRNA"</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUT_TSV</span><span class="s2">"</span>
-
-<span class="k">for </span>d <span class="k">in</span> <span class="s2">"</span><span class="nv">$PROKKA_DIR</span><span class="s2">"</span>/<span class="k">*</span><span class="p">;</span> <span class="k">do
-    </span><span class="nv">genome</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$d</span><span class="s2">"</span><span class="si">)</span>
-    <span class="nv">txt</span><span class="o">=</span><span class="s2">"</span><span class="nv">$d</span><span class="s2">/</span><span class="nv">$genome</span><span class="s2">.txt"</span>
-
-    <span class="k">if</span> <span class="o">[[</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$txt</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
-        </span><span class="nv">cds</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="s2">"^CDS:"</span> <span class="s2">"</span><span class="nv">$txt</span><span class="s2">"</span> | <span class="nb">awk</span> <span class="s1">'{print $2}'</span><span class="si">)</span>
-        <span class="nv">rrna</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="s2">"^rRNA:"</span> <span class="s2">"</span><span class="nv">$txt</span><span class="s2">"</span> | <span class="nb">awk</span> <span class="s1">'{print $2}'</span><span class="si">)</span>
-        <span class="nv">trna</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="s2">"^tRNA:"</span> <span class="s2">"</span><span class="nv">$txt</span><span class="s2">"</span> | <span class="nb">awk</span> <span class="s1">'{print $2}'</span><span class="si">)</span>
-        <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="nv">$genome</span><span class="se">\t</span><span class="nv">$cds</span><span class="se">\t</span><span class="nv">$rrna</span><span class="se">\t</span><span class="nv">$trna</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> <span class="s2">"</span><span class="nv">$OUT_TSV</span><span class="s2">"</span>
-    <span class="k">fi
-done
-
-</span><span class="nb">echo</span> <span class="s2">"Summary written to </span><span class="nv">$OUT_TSV</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<p>Run it:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x prokka_summary.sh
-./prokka_summary.sh
-</code></pre></div></div>
-
-<h4 id="step-4--gene-prediction-with-prokka">Step 4 — Gene prediction with Prokka</h4>
-
-<p>Follow the steps from first section</p>
-
-<h4 id="-step-5-merge-individual-outputs-into-a-final-genome-summary-table">🧩 Step 5: Merge individual outputs into a final genome summary table</h4>
-
-<p>At this stage, all analyses have been completed independently, and the results are available as separate tabular files:</p>
-
-<p>● prokka_out.tsv → predicted gene counts</p>
-
-<p>● topology.tsv → genome topology (Circular / Linear / Undetermined)</p>
-
-<p>● checkm_summary.tsv → completeness and contamination</p>
-
-<p>● quast_report.tsv → genome size, GC content, contigs, N50</p>
-
-<p>● NCBI_list_of_genomes.tsv → genome identifiers and accession numbers</p>
-
-<p><strong>Each file contains a shared identifier column (Genome), which allows them to be merged programmatically into a single, consistent summary table.</strong></p>
-
-<p>To avoid manual errors and ensure reproducibility, I used pandas in Python to merge all tables based on this common column.</p>
-
-<p>🐍 Example: merging genome-level tables using pandas</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># Load individual result tables
-</span><span class="n">prokka</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">prokka_out.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
-<span class="n">topology</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">topology.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
-<span class="n">checkm</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">checkm_summary.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
-<span class="n">quast</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">quast_report.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
-<span class="n">ncbi</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">NCBI_list_of_genomes.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># Ensure consistent column names
-</span><span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="p">[</span><span class="n">prokka</span><span class="p">,</span> <span class="n">topology</span><span class="p">,</span> <span class="n">checkm</span><span class="p">,</span> <span class="n">quast</span><span class="p">,</span> <span class="n">ncbi</span><span class="p">]:</span>
-    <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="nb">str</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
-
-<span class="c1"># Sequentially merge tables using the common 'Genome' column
-</span><span class="n">final_table</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">quast</span>
-    <span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">prokka</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="sh">"</span><span class="s">Genome</span><span class="sh">"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">"</span><span class="s">left</span><span class="sh">"</span><span class="p">)</span>
-    <span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">checkm</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="sh">"</span><span class="s">Genome</span><span class="sh">"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">"</span><span class="s">left</span><span class="sh">"</span><span class="p">)</span>
-    <span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="sh">"</span><span class="s">Genome</span><span class="sh">"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">"</span><span class="s">left</span><span class="sh">"</span><span class="p">)</span>
-    <span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">ncbi</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="sh">"</span><span class="s">Genome</span><span class="sh">"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">"</span><span class="s">left</span><span class="sh">"</span><span class="p">)</span>
-<span class="p">)</span>
-
-<span class="c1"># Save final table
-</span><span class="n">final_table</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">final_genome_summary_table.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Final genome summary table successfully created.</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>This approach ensures that:</p>
-
-<p>● All genome-level metadata are synchronized</p>
-
-<p>● Missing values are handled transparently</p>
-
-<p>● The workflow is fully reproducible</p>
-
-<h4 id="-final-genome-summary-table-format">📋 Final genome summary table format</h4>
-
-<p>The merged output is used directly as Table 1 in the Genome Resource Announcement manuscript.</p>
-
-<p>Table 1. Genome assembly and annotation statistics
-| Genome | Assembly type | Genome size (bp) | GC (%) | Coverage (×) | Contigs | N50 (bp) | Predicted genes | Completeness (%) | Contamination (%) | Topology | Accession |
-| —— | ————- | —————- | —— | ———— | ——- | ——– | ————— | —————- | —————– | ——– | ——— |</p>
-
-<p>● Assembly type: Illumina / Hybrid / Long-read</p>
-
-<p>● Topology: Circular / Linear / Undetermined</p>
-
-<p>● Accession: “pending” during submission, updated post-acceptance</p>
-
-<p>● genome statistics : N50, GC content, Completness, Contamination, Genome size, and Number of contigs</p>
-
-<h4 id="-take-home-messages">✅ Take-home messages</h4>
-
-<p>● Do not over-claim genome circularity. Only assert circular topology when supported by long-read or hybrid assemblies and explicit validation.</p>
-
-<p>● Draft and linear genomes are fully acceptable for NCBI submission and Genome Resource Announcements.</p>
-
-<p>● Topology should be assigned conservatively using assembly evidence, not biological expectation.</p>
-
-<p>● A single, reproducible summary table simplifies NCBI submissions and serves directly as a manuscript-ready resource.</p>
-
-<p>● Clear documentation of methods and assumptions makes genome submissions reviewer-safe and future-proof.</p>
-
-<p>This workflow has worked smoothly for large-scale genome submissions and Genome Resource Announcements.</p>
-
-<p>The image is showing GC content of all the genomes.</p>
-
-<p><img src="/assets/img/gc.png" alt="genomes_are_ready" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A step-by-step guide to answering NCBI genome topology questions and generating a complete, automated genome report table for Genome Resource Announcements.]]></summary></entry></feed>
+<p><img src="/assets/img/motu.png" alt="total_community_motu" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.]]></summary></entry></feed>
