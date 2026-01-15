@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-14T13:22:23-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-15T13:31:28-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 </subtitle><entry><title type="html">Whole Genome Sequencing — Day 5: Comparative &amp;amp; Downstream Genomic Analyses</title><link href="https://jojyjohn28.github.io/blog/wgs-day5-comparative-genomics/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 5: Comparative &amp;amp; Downstream Genomic Analyses" /><published>2026-01-14T00:00:00-05:00</published><updated>2026-01-14T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day5-comparative-genomics</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day5-comparative-genomics/"><![CDATA[<h1 id="-whole-genome-sequencing--day-5">🧬 Whole Genome Sequencing — Day 5</h1>
 
 <p>Comparative &amp; Downstream Genomic Analyses
@@ -453,7 +453,288 @@ These datasets can be integrated with:
 ● Ecological metadata (for trait-environment correlations)</p>
 
 <p>All codes can be found at day 5 of :
-https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 5 of the WGS series: moving from individual genomes to comparative insights through pangenome analysis, secondary metabolite screening, and pathogen detection]]></summary></entry><entry><title type="html">Whole Genome Sequencing — Day 4: Genome Annotation &amp;amp; Functional Potential</title><link href="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 4: Genome Annotation &amp;amp; Functional Potential" /><published>2026-01-13T00:00:00-05:00</published><updated>2026-01-13T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day4-annotation-function</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/"><![CDATA[<h1 id="-whole-genome-sequencing--day-4">🧬 Whole Genome Sequencing — Day 4</h1>
+https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 5 of the WGS series: moving from individual genomes to comparative insights through pangenome analysis, secondary metabolite screening, and pathogen detection]]></summary></entry><entry><title type="html">Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/visualize-your-data-day1-box-vs-violin/" rel="alternate" type="text/html" title="Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics" /><published>2026-01-14T00:00:00-05:00</published><updated>2026-01-14T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/visualize-your-data-day1-box-vs-violin</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/visualize-your-data-day1-box-vs-violin/"><![CDATA[<h1 id="-visualize-your-data--day-1">📊 Visualize Your Data – Day 1</h1>
+
+<p><strong>Box Plot vs Violin Plot in Bioinformatics</strong></p>
+
+<p>After successfully completing my Whole Genome Sequencing analysis series, <strong>I’m starting a new daily blog series focused on data visualization commonly used in bioinformatics and molecular genomics papers</strong>.</p>
+
+<p>Many learners can generate results but struggle with:</p>
+
+<p>● Choosing the right plot</p>
+
+<p>● Interpreting distributions correctly</p>
+
+<p>● Producing publication-ready figures</p>
+
+<p>This new series — <strong>“Visualize Your Data”</strong> — focuses on <strong>common plots</strong> seen in bioinformatics papers, using reproducible toy data and practical tips from real manuscript preparation.</p>
+
+<h1 id="-todays-focus">🎯 Today’s focus</h1>
+
+<p><strong>Box Plot vs Violin Plot</strong></p>
+
+<p>Both plots visualize data distributions, but they emphasize different aspects of the data.</p>
+
+<p>🔹 When should you use a box plot?</p>
+
+<p>A box plot is ideal when you want to:</p>
+
+<p>● Compare medians across groups</p>
+
+<p>● Highlight quartiles (Q1–Q3) and outliers</p>
+
+<p>● Keep figures simple and reviewer-friendly</p>
+
+<p>📌 Common in:</p>
+
+<p>● Gene expression comparisons</p>
+
+<p>● MAG abundance across conditions</p>
+
+<p>● DNA:RNA ratio analyses</p>
+
+<p><strong>🔹 When should you use a violin plot?</strong></p>
+
+<p>A violin plot is useful when:</p>
+
+<p>You have larger datasets</p>
+
+<p>Distribution shape matters (e.g., multimodal data)</p>
+
+<p>You want to visualize density, not just summary statistics</p>
+
+<p>📌 Common in:</p>
+
+<p>● Transcript abundance distributions</p>
+
+<p>● Functional gene abundance</p>
+
+<p>● Single-cell or large-sample datasets</p>
+
+<h1 id="-toy-dataset-example">🧪 Toy dataset (example)</h1>
+
+<p>We’ll use a simple toy dataset representing gene expression across two conditions.</p>
+
+<p><strong>Create toy data</strong>
+<strong>R version</strong></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="n">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">
+
+</span><span class="n">toy_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">Condition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Control"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Treatment"</span><span class="p">),</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">),</span><span class="w">
+  </span><span class="n">Expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="n">rnorm</span><span class="p">(</span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w">
+    </span><span class="n">rnorm</span><span class="p">(</span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>📦 R visualization (ggplot2)</strong> *<em>Box plot (R)</em></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+
+</span><span class="n">theme_pub</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="w">
+  </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+  </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+  </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+  </span><span class="n">panel.border</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">),</span><span class="w">
+  </span><span class="n">axis.line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+  </span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">),</span><span class="w">
+  </span><span class="n">axis.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">),</span><span class="w">
+  </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+  </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">),</span><span class="w">
+  </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">toy_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Condition</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Expression</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Condition</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="n">outlier.shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Box Plot of Gene Expression"</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Expression level"</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_pub</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>*<em>Violin plot (R)</em></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">toy_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Condition</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Expression</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Condition</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_violin</span><span class="p">(</span><span class="n">trim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.15</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">outlier.shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Violin Plot of Gene Expression"</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Expression level"</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_pub</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/img/rbv.png" alt="R based" /></p>
+
+<h1 id="-python-equivalents-matplotlib--seaborn">🐍 Python equivalents (matplotlib + seaborn)</h1>
+
+<p>Many bioinformatics workflows rely on Python, so below are equivalent plots using Python.</p>
+
+<p><strong>Create toy data (Python)</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="n">toy_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span>
+    <span class="sh">"</span><span class="s">Condition</span><span class="sh">"</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">Control</span><span class="sh">"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">30</span> <span class="o">+</span> <span class="p">[</span><span class="sh">"</span><span class="s">Treatment</span><span class="sh">"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">Expression</span><span class="sh">"</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">([</span>
+        <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">normal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+        <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">normal</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+    <span class="p">])</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>*<em>Box plot (Python)</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">palette</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">"</span><span class="s">Control</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">#4C72B0</span><span class="sh">"</span><span class="p">,</span>     <span class="c1"># blue
+</span>    <span class="sh">"</span><span class="s">Treatment</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">#DD8452</span><span class="sh">"</span>    <span class="c1"># orange
+</span><span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="nf">boxplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">toy_data</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="sh">"</span><span class="s">Condition</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="sh">"</span><span class="s">Expression</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">palette</span><span class="o">=</span><span class="n">palette</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Box Plot of Gene Expression</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">ylabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Expression level</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">""</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>*<em>Violin plot (Python)</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="nf">violinplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">toy_data</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="sh">"</span><span class="s">Condition</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="sh">"</span><span class="s">Expression</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
+    <span class="n">inner</span><span class="o">=</span><span class="sh">"</span><span class="s">box</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">cut</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Violin Plot of Gene Expression</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">ylabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Expression level</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">""</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/img/pyrbv.png" alt="python based" /></p>
+
+<p><strong>These codes and themes are customized based on my preferences and are routinely used in my manuscripts, posters, and other presentations.</strong></p>
+
+<h1 id="️-common-mistakes-to-avoid">⚠️ Common mistakes to avoid</h1>
+
+<p>❌ Using violin plots for very small datasets
+❌ Showing density without summary statistics
+❌ Overusing colors or inconsistent palettes
+❌ Forgetting to label axes clearly</p>
+
+<h1 id="-note-on-editing-figures-in-adobe-illustrator">🎨 Note on editing figures in Adobe Illustrator</h1>
+
+<p>Even with powerful tools like R and Python, they don’t always give exactly what journals or reviewers expect.</p>
+
+<p>In real-world manuscript preparation:</p>
+
+<p>● Fonts may need adjustment</p>
+
+<p>● Panel alignment may require manual tweaking</p>
+
+<p>● Figure spacing, labels, or symbols may need fine control</p>
+
+<p>● you may need to combine two different figure to 1 single figure</p>
+
+<p>📌 Best practice</p>
+
+<p>● Export plots as vector formats (.pdf or .svg)</p>
+
+<p>● Perform final polishing in Adobe Illustrator (or Inkscape)</p>
+
+<p>● Examples of common Illustrator edits:</p>
+
+<p>● Aligning multi-panel figures</p>
+
+<p>● Standardizing font sizes across panels</p>
+
+<p>● Adjusting legend placement</p>
+
+<p>● Adding panel labels (A, B, C)</p>
+
+<p><strong>This hybrid workflow (R/Python → Illustrator) is very common in published bioinformatics papers.</strong></p>
+
+<h1 id="-box-plot-vs-violin-plot--quick-summary">📝 Box plot vs Violin plot — quick summary</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Box plot</th>
+      <th>Violin plot</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Shows median &amp; quartiles</td>
+      <td>✅</td>
+      <td>✅</td>
+    </tr>
+    <tr>
+      <td>Shows distribution shape</td>
+      <td>❌</td>
+      <td>✅</td>
+    </tr>
+    <tr>
+      <td>Suitable for small datasets</td>
+      <td>✅</td>
+      <td>❌</td>
+    </tr>
+    <tr>
+      <td>Reviewer-friendly</td>
+      <td>✅</td>
+      <td>⚠️</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="-take-home-message">📌 Take-home message</h1>
+
+<p>● Box plots are ideal for clean, simple comparisons</p>
+
+<p>● Violin plots reveal distribution structure</p>
+
+<p>● Combining both often provides the clearest interpretation</p>
+
+<p>● Final figure polishing is often done outside R/Python</p>
+
+<h1 id="-coming-next-in-the-series">🔜 Coming next in the series</h1>
+
+<p>● Heatmaps (scaling &amp; clustering)</p>
+
+<p>● PCA vs UMAP</p>
+
+<p>● Volcano plots</p>
+
+<p>● Bubble plots</p>
+
+<p>● Presence–absence plots</p>
+
+<p><strong>If you’re learning bioinformatics or preparing figures for a manuscript, I hope this series helps you visualize your data with confidence.</strong></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of the Visualize Your Data series: understanding when and how to use box plots and violin plots to visualize data distributions in bioinformatics and molecular genomics.]]></summary></entry><entry><title type="html">Whole Genome Sequencing — Day 4: Genome Annotation &amp;amp; Functional Potential</title><link href="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 4: Genome Annotation &amp;amp; Functional Potential" /><published>2026-01-13T00:00:00-05:00</published><updated>2026-01-13T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day4-annotation-function</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/"><![CDATA[<h1 id="-whole-genome-sequencing--day-4">🧬 Whole Genome Sequencing — Day 4</h1>
 
 <p>Genome Annotation &amp; Functional Potential</p>
 
@@ -2855,298 +3136,4 @@ git push
 
 <p><strong>Most importantly, it lets me focus on science, not file management.</strong></p>
 
-<p><img src="/assets/img/syn.png" alt="deskto-laptop" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.]]></summary></entry><entry><title type="html">Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs</title><link href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day3/" rel="alternate" type="text/html" title="Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs" /><published>2025-12-18T00:00:00-05:00</published><updated>2025-12-18T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day3</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day3/"><![CDATA[<h4 id="-size-fractionated-microbiome-analysis--day-3">🌊 Size-Fractionated Microbiome Analysis — Day 3</h4>
-
-<p>In Day 1 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1/), we focused on metagenome preprocessing, and in Day 2 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/), we explored taxonomic profiling using Kaiju.</p>
-
-<p><strong>Today, in Day 3, I introduce mOTUs v3, a marker-gene–based approach for species-level profiling of prokaryotes directly from short reads.</strong></p>
-
-<p>This method is particularly powerful for read-based analyses, where genomes are not assembled or binned, and is equally applicable to DNA (total community) and RNA (active community) datasets.</p>
-
-<h4 id="-primary-tool-motus-v3">🧬 Primary tool: mOTUs v3</h4>
-
-<p>mOTUs profiles microbial communities using 40 universal single-copy marker genes, providing consistent, genome-informed species resolution.</p>
-
-<p><strong>Why mOTUs?</strong></p>
-
-<p>Uses conserved marker genes instead of whole-genome alignment</p>
-
-<p>● Quantifies both known taxa (linked to reference genomes) and unknown mOTUs (derived from metagenomes)</p>
-
-<p>● Produces directly comparable profiles across DNA and RNA datasets</p>
-
-<p>● Outputs normalized relative abundances suitable for downstream statistics and visualization</p>
-
-<p>This makes mOTUs ideal for size-fractionated microbiome studies, where consistent taxonomic resolution across multiple datasets is critical.</p>
-
-<h4 id="️-installation-and-database-setup">🛠️ Installation and database setup</h4>
-
-<p>Install mOTUs</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda motus
-</code></pre></div></div>
-
-<p>Verify installation:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>motus <span class="nt">--version</span>
-</code></pre></div></div>
-
-<p>mOTUs ships with prebuilt marker-gene databases, so no separate database construction is required.
-for more details refer : https://motu-tool.org/tutorial.html</p>
-
-<h4 id="-running-motus-on-paired-end-reads">🧪 Running mOTUs on paired-end reads</h4>
-
-<p>Example command</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>motus profile <span class="se">\</span>
-  <span class="nt">-f</span> Control_23_S13_R1.fq <span class="se">\</span>
-  <span class="nt">-r</span> Control_23_S13_R2.fq <span class="se">\</span>
-  <span class="nt">-o</span> Control_23_S13_motus.tsv
-</code></pre></div></div>
-
-<p>General usage</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Total community (DNA)</span>
-motus profile <span class="se">\</span>
-  <span class="nt">-f</span> reads/dna/S1_R1.fq.gz <span class="se">\</span>
-  <span class="nt">-r</span> reads/dna/S1_R2.fq.gz <span class="se">\</span>
-  <span class="nt">-o</span> motus/S1_dna.motus.tsv
-
-<span class="c"># Active community (RNA)</span>
-motus profile <span class="se">\</span>
-  <span class="nt">-f</span> reads/rna/S1_R1.fq.gz <span class="se">\</span>
-  <span class="nt">-r</span> reads/rna/S1_R2.fq.gz <span class="se">\</span>
-  <span class="nt">-o</span> motus/S1_rna.motus.tsv
-</code></pre></div></div>
-
-<p>The output table contains consensus taxonomy and relative abundance per sample.</p>
-
-<h4 id="-batch-processing-on-hpc-example">🚀 Batch processing on HPC (example)</h4>
-
-<p>Below is the batch script used to run mOTUs across Chesapeake Bay metagenomes.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --job-name=motus_mg_CP</span>
-<span class="c">#SBATCH --nodes=1</span>
-<span class="c">#SBATCH --cpus-per-task=32</span>
-<span class="c">#SBATCH --mem=1500G</span>
-<span class="c">#SBATCH --time=72:00:00</span>
-<span class="c">#SBATCH -o motus_%A_%a.out</span>
-<span class="c">#SBATCH -e motus_%A_%a.err</span>
-<span class="c">#SBATCH -A camplab</span>
-<span class="c">#SBATCH -p camplab</span>
-
-<span class="nb">set</span> <span class="nt">-euo</span> pipefail
-
-<span class="nb">cd</span> /project/bcampb7/camplab/AL_JJ_oct23
-
-<span class="nv">input_dir</span><span class="o">=</span><span class="s2">"/project/bcampb7/camplab/0_Raw_Data/Metagenome_estury/CB_DNA_trimmomatic"</span>
-<span class="nv">output_dir</span><span class="o">=</span><span class="s2">"/project/bcampb7/camplab/AL_JJ_oct23/motus_output/cp"</span>
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="k">${</span><span class="nv">output_dir</span><span class="k">}</span><span class="s2">"</span>/<span class="o">{</span>profiles,logs<span class="o">}</span>
-
-<span class="nb">source</span> ~/.bashrc
-conda activate /home/jojyj/.conda/envs/motus_env
-
-<span class="k">for </span>R1 <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">input_dir</span><span class="k">}</span><span class="s2">"</span>/<span class="k">*</span>_R1.fastq<span class="p">;</span> <span class="k">do
-    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="k">${</span><span class="nv">R1</span><span class="p">/_R1.fastq/</span><span class="k">}</span><span class="s2">"</span><span class="si">)</span>
-    <span class="nv">R2</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">input_dir</span><span class="k">}</span><span class="s2">/</span><span class="k">${</span><span class="nv">sample</span><span class="k">}</span><span class="s2">_R2.fastq"</span>
-
-    motus profile <span class="se">\</span>
-        <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$R1</span><span class="s2">"</span> <span class="se">\</span>
-        <span class="nt">-r</span> <span class="s2">"</span><span class="nv">$R2</span><span class="s2">"</span> <span class="se">\</span>
-        <span class="nt">-o</span> <span class="s2">"</span><span class="k">${</span><span class="nv">output_dir</span><span class="k">}</span><span class="s2">/profiles/</span><span class="k">${</span><span class="nv">sample</span><span class="k">}</span><span class="s2">_motus.txt"</span> <span class="se">\</span>
-        <span class="nt">-n</span> 32 <span class="se">\</span>
-        2&gt; <span class="s2">"</span><span class="k">${</span><span class="nv">output_dir</span><span class="k">}</span><span class="s2">/logs/</span><span class="k">${</span><span class="nv">sample</span><span class="k">}</span><span class="s2">.log"</span>
-<span class="k">done</span>
-</code></pre></div></div>
-
-<h4 id="-merging-motus-profiles-across-samples">🧩 Merging mOTUs profiles across samples</h4>
-
-<p>Motus do have an built-in motus merge command (for me it failed for this dataset due to a error so instead of rerunning all my metegenomes;I used a robust bash-based merging approach, which is transparent and easy to repeat.)</p>
-
-<p><strong>Step 1 — Navigate to profiles directory</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>path/to/output/folder
-</code></pre></div></div>
-
-<p><strong>Step 2 — Fix headers (add sample name)</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>_motus.txt<span class="p">;</span> <span class="k">do
-    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> _motus.txt<span class="si">)</span>
-    <span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">s</span><span class="o">=</span><span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="s1">'NR==3{print "#consensus_taxonomy\t"s; next} {print}'</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> <span class="o">&gt;</span> tmp <span class="o">&amp;&amp;</span> <span class="nb">mv </span>tmp <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span>
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p><strong>Step 3 — Create clean tables for merging</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> merged_clean
-
-<span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>_motus.txt<span class="p">;</span> <span class="k">do
-    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> _motus.txt<span class="si">)</span>
-    <span class="nb">tail</span> <span class="nt">-n</span> +3 <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> <span class="o">&gt;</span> merged_clean/<span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span>.tsv
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p><strong>Step 4 — Merge all samples</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>merged_clean
-
-<span class="nv">first</span><span class="o">=</span><span class="si">$(</span><span class="nb">ls</span> <span class="k">*</span>.tsv | <span class="nb">sort</span> | <span class="nb">head</span> <span class="nt">-n</span> 1<span class="si">)</span>
-<span class="nb">cut</span> <span class="nt">-f1</span> <span class="s2">"</span><span class="nv">$first</span><span class="s2">"</span> <span class="o">&gt;</span> clades.txt
-
-<span class="k">for </span>f <span class="k">in</span> <span class="si">$(</span><span class="nb">ls</span> <span class="k">*</span>.tsv | <span class="nb">sort</span><span class="si">)</span><span class="p">;</span> <span class="k">do
-    </span><span class="nb">cut</span> <span class="nt">-f2</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="k">${</span><span class="nv">f</span><span class="p">%.tsv</span><span class="k">}</span><span class="s2">.ab"</span>
-<span class="k">done
-
-</span><span class="nb">paste </span>clades.txt <span class="k">*</span>.ab <span class="o">&gt;</span> merged_raw.tsv
-<span class="nb">sed</span> <span class="s1">'1s/#consensus_taxonomy/clade_name/'</span> merged_raw.tsv <span class="o">&gt;</span> motus_merged_profiles.tsv
-</code></pre></div></div>
-
-<p>The resulting file (motus_merged_profiles.tsv) is analysis-ready.</p>
-
-<h5 id="-generating-the-final-order-level-abundance-table-from-motus-profiles">🧬 Generating the final order-level abundance table from mOTUs profiles</h5>
-
-<p>mOTUs outputs taxonomic assignments as consensus lineage strings, typically spanning multiple ranks (kingdom → species). For downstream ecological visualization (e.g., stacked bar plots and heatmaps), I summarized the data at the order level, which provides a good balance between resolution and interpretability for estuarine microbiomes.</p>
-
-<p><strong>Overview of the approach</strong></p>
-
-<ol>
-  <li>
-    <p>Start from the merged mOTUs profile table (motus_merged_profiles.tsv)</p>
-  </li>
-  <li>
-    <p>Parse the consensus taxonomy lineage to extract the order-level annotation</p>
-  </li>
-  <li>
-    <p>Collapse species- and genus-level entries into their corresponding orders</p>
-  </li>
-  <li>
-    <p>Sum relative abundances across all mOTUs belonging to the same order</p>
-  </li>
-  <li>
-    <p>Produce a sample × order matrix for visualization and statistical analysis</p>
-  </li>
-</ol>
-
-<p><strong>This approach ensures that:</strong></p>
-
-<p>● Taxonomy is consistent across samples</p>
-
-<p>● Unknown or poorly resolved taxa are handled transparently</p>
-
-<p>● The resulting table is directly compatible with ggplot2, heatmaps, and multivariate analyses</p>
-
-<h4 id="-step-by-step-order-level-table-construction-in-r">🧩 Step-by-step: Order-level table construction in R</h4>
-
-<p>I used “R” for this goal:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w"> </span><span class="c1">#Load required packages</span><span class="w">
-</span><span class="n">motus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"motus_merged_profiles.tsv"</span><span class="p">)</span><span class="w"> </span><span class="c1">#Read merged mOTUs table</span><span class="w">
-</span><span class="c1">#The first column (clade_name) contains the consensus taxonomy lineage, followed by one column per sample.</span><span class="w">
-</span><span class="n">motus_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">motus</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="w">
-    </span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">clade_name</span><span class="p">,</span><span class="w">
-    </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sample"</span><span class="p">,</span><span class="w">
-    </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Abundance"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span><span class="c1">#Reshape to long format</span><span class="w">
-</span><span class="c1">#Extract order-level taxonomy from lineage strings</span><span class="w">
-</span><span class="c1">#mOTUs taxonomy strings typically follow this structure:</span><span class="w">
-</span><span class="c1">#k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Alteromonadales|...</span><span class="w">
-</span><span class="c1">#We extract the o__ component and clean it for plotting.</span><span class="w">
-</span><span class="n">motus_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">motus_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_extract</span><span class="p">(</span><span class="n">clade_name</span><span class="p">,</span><span class="w"> </span><span class="s2">"o__[^|]+"</span><span class="p">),</span><span class="w">
-    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_remove</span><span class="p">(</span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="s2">"^o__"</span><span class="p">),</span><span class="w">
-    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">order</span><span class="p">),</span><span class="w"> </span><span class="s2">"Unclassified"</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span><span class="c1">#Summarize abundances at the order level</span><span class="w">
-</span><span class="n">order_level</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">motus_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">group_by</span><span class="p">(</span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="n">Sample</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">summarise</span><span class="p">(</span><span class="w">
-    </span><span class="n">Abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Abundance</span><span class="p">),</span><span class="w">
-    </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span><span class="c1">#At this stage, each sample has a relative abundance profile summarized by order.</span><span class="w">
-</span></code></pre></div></div>
-
-<p>This table was used as the final order-level input for:</p>
-
-<p>● Stacked bar plots (Day 3)</p>
-
-<p>● Heatmaps and multivariate analyses (later days)</p>
-
-<p>● network and co-occurance modelling in coming months</p>
-
-<h4 id="-visualization-in-r">📊 Visualization in R</h4>
-
-<p>Stacked bar plots (order level, bay-wise)</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">
-
-</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="w">
-  </span><span class="s2">"/home/jojy-john/Jojy_Research_Sync/Fl_vs_Pa/total_and_active_community/order_level_summed.xlsx"</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="n">df_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="w">
-    </span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">order</span><span class="p">,</span><span class="w">
-    </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sample"</span><span class="p">,</span><span class="w">
-    </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Abundance"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-    </span><span class="n">Bay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
-      </span><span class="n">str_detect</span><span class="p">(</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="s2">"^CP"</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Chesapeake"</span><span class="p">,</span><span class="w">
-      </span><span class="n">str_detect</span><span class="p">(</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="s2">"^DE"</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Delaware"</span><span class="p">,</span><span class="w">
-      </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="w">
-    </span><span class="p">),</span><span class="w">
-    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_trim</span><span class="p">(</span><span class="n">order</span><span class="p">),</span><span class="w">
-    </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Other"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Others"</span><span class="p">),</span><span class="w"> </span><span class="s2">"Other"</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-
-</span><span class="n">top_orders</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"Other"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">group_by</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">summarise</span><span class="p">(</span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Abundance</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">total</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">slice_head</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">pull</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="w">
-
-</span><span class="n">df_long2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="n">order2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">top_orders</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="s2">"Other"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">group_by</span><span class="p">(</span><span class="n">order2</span><span class="p">,</span><span class="w"> </span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">Bay</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">summarise</span><span class="p">(</span><span class="n">Abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Abundance</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">df_long2</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abundance</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">order2</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fill"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">Bay</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_x"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Samples"</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Relative abundance"</span><span class="p">,</span><span class="w">
-    </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Order"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">
-    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">60</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
-    </span><span class="n">strip.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
-    </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h4 id="-strengths-of-motus-in-this-study">✅ Strengths of mOTUs in this study</h4>
-
-<p>● Species-level resolution without MAGs</p>
-
-<p>● Consistent taxonomy across DNA and RNA</p>
-
-<p>● Robust handling of unknown taxa</p>
-
-<p>● Clean, normalized outputs for statistical analysis</p>
-
-<h4 id="-kaiju-vs-motus-consistency-across-methods">🔄 Kaiju vs mOTUs: Consistency across methods</h4>
-
-<p>To assess methodological consistency, I compared Kaiju (protein-level classification) and mOTUs (marker-gene–based profiling) outputs at higher taxonomic ranks. <strong>Despite relying on fundamentally different approaches, both methods recovered highly similar dominant taxa across samples, particularly when comparisons were made at the order level.</strong></p>
-
-<p><img src="/assets/img/motu.png" alt="total_community_motu" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.]]></summary></entry></feed>
+<p><img src="/assets/img/syn.png" alt="deskto-laptop" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.]]></summary></entry></feed>

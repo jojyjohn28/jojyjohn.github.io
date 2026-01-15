@@ -17,12 +17,12 @@
   
   
     
-      Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices | Jojy John
+      Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.">
+<meta name="description" content="Day 1 of the Visualize Your Data series: understanding when and how to use box plots and violin plots to visualize data distributions in bioinformatics and molecular genomics.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/blog/syncthing-tmux-git-workflow/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/visualize-your-data-day1-box-vs-violin/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -286,9 +286,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices</h1>
+    <h1 class="post-title">Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics</h1>
     <p class="post-meta">
-      Created in December 19, 2025
+      Created in January 14, 2026
       
       
       
@@ -296,7 +296,7 @@
 
     <p class="post-tags">
       
-        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
       
 
       
@@ -307,270 +307,288 @@
 
   <article class="post-content">
     <div id="markdown-content">
-      <h4 id="️-using-syncthing-tmux-and-git-to-sync-my-workflow-across-devices">🖥️ Using Syncthing, tmux, and Git to Sync My Workflow Across Devices</h4>
+      <h1 id="-visualize-your-data--day-1">📊 Visualize Your Data – Day 1</h1>
 
-<p>Managing files and analysis sessions across multiple Linux machines can quickly become chaotic—especially when juggling bioinformatics scripts, results, manuscripts, figures, and a personal website at the same time.</p>
+<p><strong>Box Plot vs Violin Plot in Bioinformatics</strong></p>
 
-<p>Over the years, I tried:</p>
+<p>After successfully completing my Whole Genome Sequencing analysis series, <strong>I’m starting a new daily blog series focused on data visualization commonly used in bioinformatics and molecular genomics papers</strong>.</p>
 
-<p>● manual copying</p>
+<p>Many learners can generate results but struggle with:</p>
 
-<p>● cloud storage</p>
+<p>● Choosing the right plot</p>
 
-<p>● external drives</p>
+<p>● Interpreting distributions correctly</p>
 
-<p>● SSH-based syncing</p>
+<p>● Producing publication-ready figures</p>
 
-<p>Eventually, I realized that no single tool solves everything. Instead, I needed a small set of tools, each doing one job extremely well.</p>
+<p>This new series — <strong>“Visualize Your Data”</strong> — focuses on <strong>common plots</strong> seen in bioinformatics papers, using reproducible toy data and practical tips from real manuscript preparation.</p>
 
-<p><strong>My current setup is simple, reliable, and fully Linux-native:</strong></p>
+<h1 id="-todays-focus">🎯 Today’s focus</h1>
 
-<p>● Syncthing → real-time file synchronization</p>
+<p><strong>Box Plot vs Violin Plot</strong></p>
 
-<p>● tmux → persistent and shareable terminal sessions</p>
+<p>Both plots visualize data distributions, but they emphasize different aspects of the data.</p>
 
-<p>● Git + GitHub → version control and publishing</p>
+<p>🔹 When should you use a box plot?</p>
 
-<p>Together, they let me move seamlessly between desktop, laptop, and HPC systems without losing context.</p>
+<p>A box plot is ideal when you want to:</p>
 
-<h4 id="-1-syncthing--real-time-file-synchronization">🔷 1. Syncthing — real-time file synchronization</h4>
+<p>● Compare medians across groups</p>
 
-<p>What Syncthing does</p>
+<p>● Highlight quartiles (Q1–Q3) and outliers</p>
 
-<p>Syncthing keeps selected folders identical across machines, automatically and continuously.</p>
+<p>● Keep figures simple and reviewer-friendly</p>
 
-<p>● No USB drives</p>
+<p>📌 Common in:</p>
 
-<p>● No cloud storage</p>
+<p>● Gene expression comparisons</p>
 
-<p>● No manual copying</p>
+<p>● MAG abundance across conditions</p>
 
-<p>● No “which version is correct?” confusion</p>
+<p>● DNA:RNA ratio analyses</p>
 
-<p><strong>📦 Installing Syncthing</strong></p>
+<p><strong>🔹 When should you use a violin plot?</strong></p>
 
-<p>On Ubuntu / Debian-based systems:</p>
+<p>A violin plot is useful when:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>syncthing
+<p>You have larger datasets</p>
+
+<p>Distribution shape matters (e.g., multimodal data)</p>
+
+<p>You want to visualize density, not just summary statistics</p>
+
+<p>📌 Common in:</p>
+
+<p>● Transcript abundance distributions</p>
+
+<p>● Functional gene abundance</p>
+
+<p>● Single-cell or large-sample datasets</p>
+
+<h1 id="-toy-dataset-example">🧪 Toy dataset (example)</h1>
+
+<p>We’ll use a simple toy dataset representing gene expression across two conditions.</p>
+
+<p><strong>Create toy data</strong>
+<strong>R version</strong></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="n">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">
+
+</span><span class="n">toy_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">Condition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Control"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Treatment"</span><span class="p">),</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">),</span><span class="w">
+  </span><span class="n">Expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="n">rnorm</span><span class="p">(</span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w">
+    </span><span class="n">rnorm</span><span class="p">(</span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>📦 R visualization (ggplot2)</strong> *<em>Box plot (R)</em></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+
+</span><span class="n">theme_pub</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="w">
+  </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+  </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+  </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+  </span><span class="n">panel.border</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">),</span><span class="w">
+  </span><span class="n">axis.line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+  </span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">),</span><span class="w">
+  </span><span class="n">axis.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">),</span><span class="w">
+  </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+  </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">),</span><span class="w">
+  </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">toy_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Condition</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Expression</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Condition</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="n">outlier.shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Box Plot of Gene Expression"</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Expression level"</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_pub</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>*<em>Violin plot (R)</em></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">toy_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Condition</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Expression</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Condition</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_violin</span><span class="p">(</span><span class="n">trim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.15</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">outlier.shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Violin Plot of Gene Expression"</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Expression level"</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_pub</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/img/rbv.png" alt="R based"></p>
+
+<h1 id="-python-equivalents-matplotlib--seaborn">🐍 Python equivalents (matplotlib + seaborn)</h1>
+
+<p>Many bioinformatics workflows rely on Python, so below are equivalent plots using Python.</p>
+
+<p><strong>Create toy data (Python)</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="n">toy_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span>
+    <span class="sh">"</span><span class="s">Condition</span><span class="sh">"</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">Control</span><span class="sh">"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">30</span> <span class="o">+</span> <span class="p">[</span><span class="sh">"</span><span class="s">Treatment</span><span class="sh">"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">Expression</span><span class="sh">"</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">([</span>
+        <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">normal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+        <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">normal</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+    <span class="p">])</span>
+<span class="p">})</span>
 </code></pre></div></div>
 
-<p>Verify:</p>
+<p>*<em>Box plot (Python)</em></p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>syncthing <span class="nt">--version</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">palette</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">"</span><span class="s">Control</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">#4C72B0</span><span class="sh">"</span><span class="p">,</span>     <span class="c1"># blue
+</span>    <span class="sh">"</span><span class="s">Treatment</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">#DD8452</span><span class="sh">"</span>    <span class="c1"># orange
+</span><span class="p">}</span>
 </code></pre></div></div>
 
-<h4 id="-starting-syncthing-automatically-on-boot">🔁 Starting Syncthing automatically on boot</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="nf">boxplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">toy_data</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="sh">"</span><span class="s">Condition</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="sh">"</span><span class="s">Expression</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">palette</span><span class="o">=</span><span class="n">palette</span>
+<span class="p">)</span>
 
-<p>I want Syncthing to start every time I log in, without manual intervention.</p>
-
-<p>Enable and start the user service:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl <span class="nt">--user</span> <span class="nb">enable </span>syncthing.service
-systemctl <span class="nt">--user</span> start syncthing.service
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Box Plot of Gene Expression</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">ylabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Expression level</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">""</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p>Check status:</p>
+<p>*<em>Violin plot (Python)</em></p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl <span class="nt">--user</span> status syncthing.service
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="nf">violinplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">toy_data</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="sh">"</span><span class="s">Condition</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="sh">"</span><span class="s">Expression</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
+    <span class="n">inner</span><span class="o">=</span><span class="sh">"</span><span class="s">box</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">cut</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Violin Plot of Gene Expression</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">ylabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Expression level</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">""</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p>Now Syncthing:</p>
+<p><img src="/assets/img/pyrbv.png" alt="python based"></p>
 
-<p>● Starts automatically on login</p>
+<p><strong>These codes and themes are customized based on my preferences and are routinely used in my manuscripts, posters, and other presentations.</strong></p>
 
-<p>● Runs quietly in the background</p>
+<h1 id="️-common-mistakes-to-avoid">⚠️ Common mistakes to avoid</h1>
 
-<p>● Syncs even when the browser UI is closed</p>
+<p>❌ Using violin plots for very small datasets
+❌ Showing density without summary statistics
+❌ Overusing colors or inconsistent palettes
+❌ Forgetting to label axes clearly</p>
 
-<h4 id="-accessing-the-syncthing-interface">🌐 Accessing the Syncthing interface</h4>
+<h1 id="-note-on-editing-figures-in-adobe-illustrator">🎨 Note on editing figures in Adobe Illustrator</h1>
 
-<p>Open a browser and go to:</p>
+<p>Even with powerful tools like R and Python, they don’t always give exactly what journals or reviewers expect.</p>
 
-<pre><code class="language-txt">http://localhost:8384
-</code></pre>
+<p>In real-world manuscript preparation:</p>
 
-<p>This is where I:</p>
+<p>● Fonts may need adjustment</p>
 
-<p>● Add devices</p>
+<p>● Panel alignment may require manual tweaking</p>
 
-<p>● Select folders to sync</p>
+<p>● Figure spacing, labels, or symbols may need fine control</p>
 
-<p>● Monitor sync status</p>
+<p>● you may need to combine two different figure to 1 single figure</p>
 
-<h4 id="-my-synced-folder-structure">📂 My synced folder structure</h4>
+<p>📌 Best practice</p>
 
-<p>I use one top-level folder across all machines:</p>
+<p>● Export plots as vector formats (.pdf or .svg)</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Jojy_Research_Sync/
-</code></pre></div></div>
+<p>● Perform final polishing in Adobe Illustrator (or Inkscape)</p>
 
-<p><strong>Inside it:</strong> I have many subfolder some examples are below</p>
+<p>● Examples of common Illustrator edits:</p>
 
-<p>● scripts/ – Bash, SLURM, Snakemake, R, Python</p>
+<p>● Aligning multi-panel figures</p>
 
-<p>● Projects/ – intermediate outputs, figures</p>
+<p>● Standardizing font sizes across panels</p>
 
-<p>● notes/ – daily research notes</p>
+<p>● Adjusting legend placement</p>
 
-<p>● website_assets/ – content used by my blog</p>
+<p>● Adding panel labels (A, B, C)</p>
 
-<p><strong>These are files I edit frequently—sometimes switching machines multiple times in a day.</strong></p>
+<p><strong>This hybrid workflow (R/Python → Illustrator) is very common in published bioinformatics papers.</strong></p>
 
-<h4 id="-2-tmux--persistent-and-shared-terminal-sessions">🔷 2. tmux — persistent and shared terminal sessions</h4>
-
-<p>While Syncthing synchronizes files, <strong>it does not preserve live terminal state.</strong>
-For that, I use tmux.
-<strong>📦 Installing tmux</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>tmux
-</code></pre></div></div>
-
-<p>Verify:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmux <span class="nt">-V</span>
-</code></pre></div></div>
-
-<p><strong>🧠 Creating a persistent session</strong></p>
-
-<p>To start a named tmux session:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmux new <span class="nt">-s</span> shared
-</code></pre></div></div>
-
-<h4 id="-from-your-laptop-open-the-shared-tmux-session-desktop-hosted">✅ From your laptop: open the shared tmux session (desktop-hosted)</h4>
-
-<p>tmux sessions live on the machine where they were created (your desktop or an HPC node).
-So on your laptop you don’t “open” it locally — you SSH into that same machine and then attach to the session.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh &lt;user&gt;@&lt;DESKTOP_IP&gt;
-tmux attach <span class="nt">-t</span> shared
-</code></pre></div></div>
-
-<p>If the session doesn’t exist yet (first time), create it:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh &lt;user&gt;@&lt;DESKTOP_IP&gt;
-tmux new <span class="nt">-s</span> shared
-</code></pre></div></div>
-
-<p><strong>🔍 Find your local IP address (most common case)</strong></p>
-
-<p>On the machine hosting the tmux session (desktop or server), run:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip a <span class="c">#Run on yur terminal</span>
-</code></pre></div></div>
-
-<h4 id="-sharing-the-same-session-across-devices">👥 Sharing the same session across devices</h4>
-
-<p>If I SSH into the same machine from another device, I can attach to the same session.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmux attach <span class="nt">-t</span> shared
-</code></pre></div></div>
-
-<p>This lets me:</p>
-
-<p>● Resume work from a different device</p>
-
-<p>● Monitor long-running commands</p>
-
-<p>● Continue exactly where I left off</p>
-
-<p>⚠️ tmux sessions are host-specific (not shared across different machines).</p>
-
-<p><strong>🧩 tmux commands I use daily</strong>
-| Command | Action |
-| —————————– | ————– |
-| <code class="language-plaintext highlighter-rouge">tmux new -s shared</code> | Create session |
-| <code class="language-plaintext highlighter-rouge">tmux ls</code> | List sessions |
-| <code class="language-plaintext highlighter-rouge">tmux attach -t shared</code> | Reattach |
-| <code class="language-plaintext highlighter-rouge">tmux kill-session -t shared</code> | End session |</p>
-
-<h4 id="-3-git--version-control-and-publishing">🔷 3. Git — version control and publishing</h4>
-
-<p><strong>Syncthing is not a replacement for Git.</strong></p>
-
-<p>I use Git + GitHub for:</p>
-
-<p>● My website repository</p>
-
-<p>● Analysis pipelines</p>
-
-<p>● Code meant to be shared or published</p>
-
-<p><strong>📦 Installing Git</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>git
-</code></pre></div></div>
-
-<p><strong>🔄 My daily Git workflow*</strong></p>
-
-<p>When starting work on any machine:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git pull
-</code></pre></div></div>
-
-<p>This ensures:</p>
-
-<p>● I’m working on the latest committed version</p>
-
-<p>● No conflicts with work done on another device</p>
-
-<p><strong>When something is finalized:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add <span class="nb">.</span>
-git commit <span class="nt">-m</span> <span class="s2">"Update analysis / figures / blog post"</span>
-git push
-</code></pre></div></div>
-
-<h4 id="-how-syncthing-tmux-and-git-work-together">🔗 How Syncthing, tmux, and Git work together</h4>
+<h1 id="-box-plot-vs-violin-plot--quick-summary">📝 Box plot vs Violin plot — quick summary</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Tool</th>
-      <th>Role</th>
+      <th>Feature</th>
+      <th>Box plot</th>
+      <th>Violin plot</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>Syncthing</td>
-      <td>Sync active working files</td>
+      <td>Shows median &amp; quartiles</td>
+      <td>✅</td>
+      <td>✅</td>
     </tr>
     <tr>
-      <td>tmux</td>
-      <td>Preserve live terminal sessions</td>
+      <td>Shows distribution shape</td>
+      <td>❌</td>
+      <td>✅</td>
     </tr>
     <tr>
-      <td>Git</td>
-      <td>Track history and publish work</td>
+      <td>Suitable for small datasets</td>
+      <td>✅</td>
+      <td>❌</td>
+    </tr>
+    <tr>
+      <td>Reviewer-friendly</td>
+      <td>✅</td>
+      <td>⚠️</td>
     </tr>
   </tbody>
 </table>
 
-<p>Typical workflow:</p>
+<h1 id="-take-home-message">📌 Take-home message</h1>
 
-<p>● Syncthing syncs drafts and scripts across devices</p>
+<p>● Box plots are ideal for clean, simple comparisons</p>
 
-<p>● tmux keeps my analysis session alive</p>
+<p>● Violin plots reveal distribution structure</p>
 
-<p>● Git records finalized work and publishes it</p>
+<p>● Combining both often provides the clearest interpretation</p>
 
-<p>Each tool does one job well, without overlap.</p>
+<p>● Final figure polishing is often done outside R/Python</p>
 
-<h4 id="-why-this-is-important-for-me">✅ Why this is important for me</h4>
+<h1 id="-coming-next-in-the-series">🔜 Coming next in the series</h1>
 
-<p>This setup:</p>
+<p>● Heatmaps (scaling &amp; clustering)</p>
 
-<p>● Reduces cognitive overhead</p>
+<p>● PCA vs UMAP</p>
 
-<p>● Prevents accidental overwrites</p>
+<p>● Volcano plots</p>
 
-<p>● Supports HPC + local workflows</p>
+<p>● Bubble plots</p>
 
-<p>● Keeps everything Linux-native and reproducible</p>
+<p>● Presence–absence plots</p>
 
-<p><strong>Most importantly, it lets me focus on science, not file management.</strong></p>
-
-<p><img src="/assets/img/syn.png" alt="deskto-laptop"></p>
+<p><strong>If you’re learning bioinformatics or preparing figures for a manuscript, I hope this series helps you visualize your data with confidence.</strong></p>
 
     </div>
   </article>
