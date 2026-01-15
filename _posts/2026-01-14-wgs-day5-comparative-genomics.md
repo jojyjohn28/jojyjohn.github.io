@@ -126,7 +126,7 @@ antismash genome.gbk \
 
 If it is 1 genome or few genomes and you are not experienced to run the stand-alone version, antiSMASH is available as web based platform.
 Please visit :https://antismash.secondarymetabolites.org/#!/start
-![antismash web](/assets/img/as.png)
+![antismash web](/assets/img/as2.png)
 
 **Key Outputs**
 
@@ -392,7 +392,7 @@ For circular plasmid maps and publication-quality figures:
 
 Alternative: Use Geneious or custom scripts with biopython and matplotlib.
 
-![plasmid](/assets/img/pl.png)
+![plasmid](/assets/img/pl2.png)
 
 The image shows a multidrug plasmid annotated with a whole genome of \*_Salmonella sp._
 
