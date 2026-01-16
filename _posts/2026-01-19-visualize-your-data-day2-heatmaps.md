@@ -2,7 +2,7 @@
 layout: post
 title: "Visualize Your Data — Day 2: Heatmaps & Presence–Absence Plots in Bioinformatics"
 date: 2026-01-19
-description: "Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps, and presence–absence plots commonly used in bioinformatics and molecular genomics."
+description: "Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps,  commonly used in bioinformatics and molecular genomics."
 comments: true
 giscus_comments: true
 featured: true
@@ -397,4 +397,4 @@ If you're learning bioinformatics or preparing figures for a manuscript, I hope 
 
 ---
 
-_This is part of the "Visualize Your Data" series. Check out [Day 1: Box Plots and Violin Plots](/blog/visualize-your-data-day1/) if you missed it._
+_This is part of the "Visualize Your Data" series. Check out [Day 1: Box Plots and Violin Plots](/blog/visualize-your-data-day1-box-vs-violin/) if you missed it._
