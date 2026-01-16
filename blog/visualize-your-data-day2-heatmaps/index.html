@@ -17,13 +17,12 @@
   
   
     
-      2026 | Jojy John
+      Visualize Your Data — Day 2: Heatmaps &amp; Presence–Absence Plots in Bioinformatics | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-">
+<meta name="description" content="Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps, and presence–absence plots commonly used in bioinformatics and molecular genomics.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -61,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/blog/2026/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/visualize-your-data-day2-heatmaps/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -126,8 +125,6 @@
 
           <!-- Other pages -->
           
-          
-            
           
             
           
@@ -279,92 +276,480 @@
     <!-- Content -->
     <div class="container mt-5" role="main">
       
-        <div class="post">
+        
+
+
+
+
+
+
+
+<div class="post">
   <header class="post-header">
-    <h1 class="post-title">
-<i class="fa-solid fa-calendar fa-sm"></i> 2026</h1>
-    <p class="post-description">an archive of posts from this year</p>
+    <h1 class="post-title">Visualize Your Data — Day 2: Heatmaps &amp; Presence–Absence Plots in Bioinformatics</h1>
+    <p class="post-meta">
+      Created in January 19, 2026
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+
+      
+
+      
+    </p>
   </header>
 
-  <article class="archive">
-    <div class="table-responsive">
-      <table class="table table-sm table-borderless">
-        
-          <tr>
-            <th scope="row">Jan 19, 2026</th>
-            <td>
-              
-                <a class="post-link" href="/blog/visualize-your-data-day2-heatmaps/">Visualize Your Data — Day 2: Heatmaps &amp; Presence–Absence Plots in Bioinformatics</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Jan 14, 2026</th>
-            <td>
-              
-                <a class="post-link" href="/blog/visualize-your-data-day1-box-vs-violin/">Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Jan 14, 2026</th>
-            <td>
-              
-                <a class="post-link" href="/blog/wgs-day5-comparative-genomics/">Whole Genome Sequencing — Day 5: Comparative &amp; Downstream Genomic Analyses</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Jan 13, 2026</th>
-            <td>
-              
-                <a class="post-link" href="/blog/wgs-day4-annotation-function/">Whole Genome Sequencing — Day 4: Genome Annotation &amp; Functional Potential</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Jan 12, 2026</th>
-            <td>
-              
-                <a class="post-link" href="/blog/wgs-day3-taxonomy-phylogeny/">Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp; Genome Similarity</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Jan 08, 2026</th>
-            <td>
-              
-                <a class="post-link" href="/blog/wgs-day2-genome-assembly/">Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Jan 07, 2026</th>
-            <td>
-              
-                <a class="post-link" href="/blog/wgs-day1-raw-reads-qc/">Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data</a>
-              
-            </td>
-          </tr>
-        
-          <tr>
-            <th scope="row">Jan 01, 2026</th>
-            <td>
-              
-                <a class="post-link" href="/blog/panx-pangenome-analysis/">Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates</a>
-              
-            </td>
-          </tr>
-        
-      </table>
+  <article class="post-content">
+    <div id="markdown-content">
+      <h1 id="-visualize-your-data--day-2-heatmaps">📊 Visualize Your Data – Day 2: Heatmaps</h1>
+
+<p>In Day 1, we explored box plots and violin plots for understanding data distributions. Today, we’re diving into one of the most ubiquitous visualization tools in bioinformatics: <strong>heatmaps</strong>.</p>
+
+<p>Heatmaps appear in virtually every bioinformatics paper, and for good reason. They excel at revealing patterns in high-dimensional data, from gene expression profiles to functional abundance matrices. However, they’re also frequently misused or misinterpreted.</p>
+
+<p>This post will help you create informative heatmaps, understand when to scale your data, and avoid common pitfalls that can mislead readers.</p>
+
+<hr>
+
+<h2 id="-what-well-cover-today">🎯 What We’ll Cover Today</h2>
+
+<ul>
+  <li>What heatmaps show (and what they don’t)</li>
+  <li>Scaling vs. non-scaling: when and why</li>
+  <li>Clustering rows and columns</li>
+  <li>Interactive heatmaps for exploration</li>
+  <li>Presence–absence heatmaps</li>
+  <li>Best practices and common mistakes</li>
+</ul>
+
+<hr>
+
+<h2 id="-why-heatmaps-dominate-bioinformatics">🔥 Why Heatmaps Dominate Bioinformatics</h2>
+
+<p>Heatmaps are the go-to visualization for:</p>
+
+<ul>
+  <li>
+<strong>Gene expression data</strong> (RNA-seq, microarrays)</li>
+  <li>
+<strong>Functional gene abundance</strong> (metagenomic annotations)</li>
+  <li>
+<strong>MAG × pathway matrices</strong> (genome-resolved metagenomics)</li>
+  <li><strong>CAZyme or metabolic marker profiles</strong></li>
+  <li>
+<strong>Sample × feature relationships</strong> (taxonomy, pathways, etc.)</li>
+</ul>
+
+<p>They allow you to spot patterns across dozens—or even hundreds—of samples and features simultaneously, especially when paired with hierarchical clustering.</p>
+
+<hr>
+
+<h2 id="️-first-what-a-heatmap-is-not">⚠️ First: What a Heatmap Is NOT</h2>
+
+<p>Before we dive into code, let’s be clear about what heatmaps cannot do:</p>
+
+<p>❌ <strong>Show absolute values precisely</strong> – Color gradients compress information<br>
+❌ <strong>Replace statistical testing</strong> – Visual patterns ≠ statistical significance<br>
+❌ <strong>Work well without scaling</strong> – Raw values often obscure biological patterns</p>
+
+<p><strong>A heatmap is exploratory and comparative, not a statistical test.</strong></p>
+
+<p>Think of heatmaps as hypothesis-generating tools. They reveal patterns that warrant further investigation through proper statistical methods.</p>
+
+<hr>
+
+<h2 id="-best-practices-for-heatmaps">✅ Best Practices for Heatmaps</h2>
+
+<h3 id="1-know-your-data-type">1. Know Your Data Type</h3>
+
+<p>Use heatmaps appropriately for abundance, expression, or binary (presence–absence) data. Mixing data types without normalization creates misleading visuals.</p>
+
+<h3 id="2-handle-missing-values-explicitly">2. Handle Missing Values Explicitly</h3>
+
+<p>Never plot data with unaddressed missing values. Options include:</p>
+
+<ul>
+  <li>Filtering features with &gt;X% missing data</li>
+  <li>Imputation (with clear documentation)</li>
+  <li>Using a distinct color for NA values</li>
+</ul>
+
+<p>Missing data creates artificial patterns and distorts clustering.</p>
+
+<h3 id="3-choose-scaling-deliberately">3. Choose Scaling Deliberately</h3>
+
+<p><strong>Row scaling</strong> (most common): Centers and scales each row independently</p>
+
+<ul>
+  <li>Use when: Comparing relative patterns across samples</li>
+  <li>Loses: Absolute magnitude information</li>
+  <li>Example: Gene expression across conditions</li>
+</ul>
+
+<p><strong>No scaling</strong>: Preserves absolute values</p>
+
+<ul>
+  <li>Use when: Absolute magnitudes are biologically meaningful</li>
+  <li>Example: Comparing highly abundant vs. rare taxa</li>
+</ul>
+
+<p><strong>Always state your scaling choice in the figure legend.</strong></p>
+
+<h3 id="4-limit-feature-number">4. Limit Feature Number</h3>
+
+<p>Heatmaps with 500+ rows become unreadable. Pre-filter based on:</p>
+
+<ul>
+  <li>Variance (keep most variable features)</li>
+  <li>Mean abundance (remove rare features)</li>
+  <li>Statistical significance</li>
+  <li>Biological relevance</li>
+</ul>
+
+<h3 id="5-use-readable-color-palettes">5. Use Readable Color Palettes</h3>
+
+<ul>
+  <li>❌ Avoid rainbow schemes (perceptually non-uniform)</li>
+  <li>✅ Use color-blind friendly palettes (viridis, RdBu, etc.)</li>
+  <li>✅ Use diverging palettes for scaled data (centered at zero)</li>
+  <li>✅ Use sequential palettes for abundance data</li>
+</ul>
+
+<h3 id="6-dont-overinterpret-clustering">6. Don’t Overinterpret Clustering</h3>
+
+<p>Dendrograms show similarity based on distance metrics, but:</p>
+
+<ul>
+  <li>Clustering ≠ causation</li>
+  <li>Clustering ≠ functional relationships</li>
+  <li>Different distance metrics produce different trees</li>
+</ul>
+
+<p>Use clustering to organize your heatmap, not as proof of biological relationships.</p>
+
+<h3 id="7-export-as-vector-graphics">7. Export as Vector Graphics</h3>
+
+<p>Save as PDF or SVG for final polishing in Adobe Illustrator or Inkscape. This allows:</p>
+
+<ul>
+  <li>Font unification across panels</li>
+  <li>Precise alignment</li>
+  <li>Professional-quality figures</li>
+</ul>
+
+<hr>
+
+<h2 id="-common-mistakes-to-avoid">🚫 Common Mistakes to Avoid</h2>
+
+<h3 id="ignoring-missing-values">Ignoring Missing Values</h3>
+
+<p>Unhandled NAs create gaps that distort both visual patterns and clustering algorithms.</p>
+
+<h3 id="forgetting-to-report-scaling">Forgetting to Report Scaling</h3>
+
+<p>“Heatmap of gene expression” is insufficient. Specify: “Row-scaled z-scores of log2-transformed expression values.”</p>
+
+<h3 id="overinterpreting-color-intensity">Overinterpreting Color Intensity</h3>
+
+<p>Darker colors don’t mean “more important” or “statistically significant.” They show relative values based on your scaling choice.</p>
+
+<h3 id="using-rainbow-palettes">Using Rainbow Palettes</h3>
+
+<p>Rainbow palettes exaggerate differences and aren’t accessible to colorblind readers (~8% of males, ~0.5% of females).</p>
+
+<h3 id="including-too-many-features">Including Too Many Features</h3>
+
+<p>A heatmap with 1,000 rows is decorative, not informative. Filter ruthlessly.</p>
+
+<h3 id="assuming-clustering--biology">Assuming Clustering = Biology</h3>
+
+<p>Just because two genes cluster together doesn’t mean they’re co-regulated. Validate patterns with orthogonal methods.</p>
+
+<h3 id="mixing-data-types">Mixing Data Types</h3>
+
+<p>Combining raw counts, normalized abundances, and presence–absence data in one heatmap without proper transformation is a recipe for confusion.</p>
+
+<h3 id="relying-on-heatmaps-alone">Relying on Heatmaps Alone</h3>
+
+<p>Heatmaps complement statistical analyses—they don’t replace them. Always support visual patterns with quantitative evidence.</p>
+
+<hr>
+
+<h2 id="-tools-pheatmap-vs-heatmaply">🧰 Tools: pheatmap vs. heatmaply</h2>
+
+<h3 id="pheatmap-static-publication-ready">pheatmap (Static, Publication-Ready)</h3>
+
+<p><strong>Best for:</strong></p>
+
+<ul>
+  <li>Final manuscript figures</li>
+  <li>Full control over aesthetics</li>
+  <li>Reproducible, high-quality PDFs</li>
+  <li>Simple, clean code</li>
+</ul>
+
+<p><strong>Why bioinformaticians love it:</strong>
+It does one thing extremely well—creating beautiful, customizable static heatmaps.</p>
+
+<h3 id="heatmaply-interactive-exploratory">heatmaply (Interactive, Exploratory)</h3>
+
+<p><strong>Best for:</strong></p>
+
+<ul>
+  <li>Data exploration</li>
+  <li>Teaching and presentations</li>
+  <li>Supplementary materials</li>
+  <li>Sharing with collaborators</li>
+</ul>
+
+<p><strong>Why it’s useful:</strong>
+Hovering reveals exact values, zooming helps navigate large datasets, and it’s excellent for exploratory analysis.</p>
+
+<h3 id="my-workflow">My Workflow</h3>
+
+<p>I use <strong>pheatmap</strong> for final figures and <strong>heatmaply</strong> during data exploration or when teaching. Choose the tool that matches your goal.</p>
+
+<hr>
+
+<h2 id="-code-examples">💻 Code Examples</h2>
+
+<h3 id="-create-toy-dataset-r">🧪 Create Toy Dataset (R)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">
+
+</span><span class="n">heatmap_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="w">
+  </span><span class="n">rnorm</span><span class="p">(</span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w">
+  </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">heatmap_data</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Gene_"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">)</span><span class="w">
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">heatmap_data</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Sample_"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr>
+
+<h3 id="-basic-heatmap-pheatmap-no-scaling">📦 Basic Heatmap (pheatmap, No Scaling)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span><span class="w">
+
+</span><span class="n">pheatmap</span><span class="p">(</span><span class="w">
+  </span><span class="n">heatmap_data</span><span class="p">,</span><span class="w">
+  </span><span class="n">cluster_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">cluster_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">fontsize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w">
+  </span><span class="n">border_color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/img/hp1.png" alt="R based"></p>
+
+<p><strong>When to use:</strong> Only when values are directly comparable across all rows (e.g., all in the same units and scale).</p>
+
+<hr>
+
+<h3 id="-row-scaled-heatmap-most-common">🔄 Row-Scaled Heatmap (Most Common)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pheatmap</span><span class="p">(</span><span class="w">
+  </span><span class="n">heatmap_data</span><span class="p">,</span><span class="w">
+  </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"row"</span><span class="p">,</span><span class="w">
+  </span><span class="n">cluster_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">cluster_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">fontsize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w">
+  </span><span class="n">border_color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/img/hp2.png" alt="R based"></p>
+
+<p><strong>What row scaling means:</strong></p>
+
+<ul>
+  <li>Each row is centered (mean = 0) and scaled (SD = 1)</li>
+  <li>Highlights relative differences across samples</li>
+  <li>Loses absolute magnitude information</li>
+  <li>Perfect for comparing gene expression patterns</li>
+</ul>
+
+<p><strong>Critical:</strong> Always state “Row-scaled” in your figure legend.</p>
+
+<hr>
+
+<h3 id="-interactive-heatmap-heatmaply">🖱 Interactive Heatmap (heatmaply)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">heatmaply</span><span class="p">)</span><span class="w">
+
+</span><span class="n">heatmaply</span><span class="p">(</span><span class="w">
+  </span><span class="n">heatmap_data</span><span class="p">,</span><span class="w">
+  </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"row"</span><span class="p">,</span><span class="w">
+  </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Samples"</span><span class="p">,</span><span class="w">
+  </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Genes"</span><span class="p">,</span><span class="w">
+  </span><span class="n">fontsize_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w">
+  </span><span class="n">fontsize_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/img/hp3.png" alt="R based"></p>
+
+<p><strong>Use cases:</strong></p>
+
+<ul>
+  <li>Exploring large datasets</li>
+  <li>Teaching workshops</li>
+  <li>Supplementary materials for papers</li>
+  <li>Sharing with collaborators who want to dig into the data</li>
+</ul>
+
+<hr>
+
+<h3 id="-python-equivalents">🐍 Python Equivalents</h3>
+
+<p>Many bioinformatics workflows use Python. Here’s how to create the same plots with seaborn.</p>
+
+<h4 id="create-toy-data-python">Create Toy Data (Python)</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="n">heatmap_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span>
+    <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">normal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)),</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="sh">"</span><span class="s">Gene_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="sh">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="sh">"</span><span class="s">Sample_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="sh">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="basic-heatmap-python">Basic Heatmap (Python)</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span>
+    <span class="n">heatmap_data</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">viridis</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">linecolor</span><span class="o">=</span><span class="sh">"</span><span class="s">black</span><span class="sh">"</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Heatmap of Gene Abundance</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h4 id="row-scaled-heatmap-python">Row-Scaled Heatmap (Python)</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Manual row scaling (z-score)
+</span><span class="n">scaled_data</span> <span class="o">=</span> <span class="n">heatmap_data</span><span class="p">.</span><span class="nf">sub</span><span class="p">(</span><span class="n">heatmap_data</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">scaled_data</span> <span class="o">=</span> <span class="n">scaled_data</span><span class="p">.</span><span class="nf">div</span><span class="p">(</span><span class="n">heatmap_data</span><span class="p">.</span><span class="nf">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span>
+    <span class="n">scaled_data</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">vlag</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">linecolor</span><span class="o">=</span><span class="sh">"</span><span class="s">black</span><span class="sh">"</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Row-Scaled Heatmap</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/img/py1.png" alt="Python based"></p>
+
+<hr>
+
+<h2 id="-real-world-workflow-from-code-to-publication">🎨 Real-World Workflow: From Code to Publication</h2>
+
+<p>This is how most bioinformatics papers are made:</p>
+
+<ol>
+  <li>
+<strong>Generate plots</strong> in R or Python</li>
+  <li>
+<strong>Export as PDF or SVG</strong> (vector format)</li>
+  <li>
+<strong>Final polishing</strong> in Adobe Illustrator:
+    <ul>
+      <li>Align panels perfectly</li>
+      <li>Unify fonts across all figures</li>
+      <li>Add panel labels (A, B, C)</li>
+      <li>Fine-tune colors and spacing</li>
+    </ul>
+  </li>
+</ol>
+
+<p>This workflow gives you reproducible code + publication-quality aesthetics.</p>
+
+<hr>
+
+<h2 id="-real-example-mag-abundance-heatmap">📊 Real Example: MAG Abundance Heatmap</h2>
+
+<p>Below is a heatmap from my upcoming publication, created using pheatmap. It shows the normalized abundance of the top 100 MAGs (metagenome-assembled genomes) across samples, with abundances estimated using CoverM.</p>
+
+<p><img src="/assets/img/d2.png" alt="Real publication figure"></p>
+
+<p><strong>Key features:</strong></p>
+
+<ul>
+  <li>Row-scaled to highlight relative abundance patterns</li>
+  <li>Hierarchical clustering reveals sample groups</li>
+  <li>Color palette is colorblind-friendly</li>
+  <li>Top 100 MAGs selected by mean abundance (pre-filtering)</li>
+</ul>
+
+<hr>
+
+<h2 id="-key-takeaways">📌 Key Takeaways</h2>
+
+<p>✅ <strong>Heatmaps are comparative, not absolute</strong> – Use them to spot patterns, not measure exact values</p>
+
+<p>✅ <strong>Scaling matters more than colors</strong> – Always document whether you scaled rows, columns, or neither</p>
+
+<p>✅ <strong>Interactive heatmaps excel at exploration</strong> – But static heatmaps are better for papers</p>
+
+<p>✅ <strong>Filter ruthlessly</strong> – Fewer, well-chosen features beat visual clutter</p>
+
+<p>✅ <strong>State your methods</strong> – “Row-scaled z-scores of log2(TPM + 1)” beats “heatmap of expression”</p>
+
+<hr>
+
+<h2 id="whats-next">What’s Next?</h2>
+
+<p>In Day 3, we’ll explore ordination plots (PCA, PCoA, NMDS) for visualizing sample relationships and community structure.</p>
+
+<p>If you’re learning bioinformatics or preparing figures for a manuscript, I hope this series helps you visualize your data with confidence.</p>
+
+<p><strong>Have questions or suggestions? Drop a comment below!</strong></p>
+
+<hr>
+
+<p><em>This is part of the “Visualize Your Data” series. Check out <a href="/blog/visualize-your-data-day1/">Day 1: Box Plots and Violin Plots</a> if you missed it.</em></p>
+
     </div>
   </article>
+
+  
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
+
+  
 </div>
 
       
@@ -965,10 +1350,10 @@
               title: 'AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of...',
               description: "",
               section: "News",},{id: "news-abstract-accepted-for-asm-2025-los-angeles-usa",
-              title: 'Abstract accepted for ASM 2025, Los Angeles, USA.',
+              title: 'Abstract accepted for **ASM 2025**, Los Angeles, USA.',
               description: "",
               section: "News",},{id: "news-abstract-accepted-for-aslo-2025-charlotte-usa",
-              title: 'Abstract accepted for ASLO 2025, Charlotte, USA',
+              title: 'Abstract accepted for **ASLO 2025**, Charlotte, USA',
               description: "",
               section: "News",},{id: "news-188-whole-genome-sequences-submitted-to-ncbi",
               title: '188 whole-genome sequences submitted to NCBI.',
