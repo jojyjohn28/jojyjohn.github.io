@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Visualize Your Data — Day 2: Heatmaps & Presence–Absence Plots in Bioinformatics"
+title: "Visualize Your Data — Day 2: Heatmaps in Bioinformatics"
 date: 2026-01-19
 description: "Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps,  commonly used in bioinformatics and molecular genomics."
 comments: true
