@@ -1,5 +1,505 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-16T15:43:50-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Visualize Your Data — Day 2: Heatmaps in Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/visualize-your-data-day2-heatmaps/" rel="alternate" type="text/html" title="Visualize Your Data — Day 2: Heatmaps in Bioinformatics" /><published>2026-01-19T00:00:00-05:00</published><updated>2026-01-19T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/visualize-your-data-day2-heatmaps</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/visualize-your-data-day2-heatmaps/"><![CDATA[<h1 id="-visualize-your-data--day-2-heatmaps">📊 Visualize Your Data – Day 2: Heatmaps</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-20T15:23:18-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Visualize Your Data — Day 3: Ordination Plots (PCA, PCoA, NMDS) in Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/visualize-your-data-day3-ordination/" rel="alternate" type="text/html" title="Visualize Your Data — Day 3: Ordination Plots (PCA, PCoA, NMDS) in Bioinformatics" /><published>2026-01-20T00:00:00-05:00</published><updated>2026-01-20T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/visualize-your-data-day3-ordination</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/visualize-your-data-day3-ordination/"><![CDATA[<h1 id="-visualize-your-data--day-3-ordination-plots">📊 Visualize Your Data – Day 3: Ordination Plots</h1>
+
+<p>In <a href="/blog/visualize-your-data-day1-box-vs-violin/">Day 1</a>, we explored distributions using box and violin plots.<br />
+In <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2</a>, we visualized patterns using heatmaps.</p>
+
+<p>Today, we tackle one of the most fundamental visualization techniques in bioinformatics and microbial ecology: <strong>ordination plots</strong>.</p>
+
+<p>Ordination methods reduce high-dimensional data (hundreds or thousands of features) into 2D or 3D space, making it possible to visualize relationships among samples based on their overall composition.</p>
+
+<hr />
+
+<h2 id="-what-questions-do-ordination-plots-answer">🎯 What Questions Do Ordination Plots Answer?</h2>
+
+<p>Ordination plots help you explore:</p>
+
+<ul>
+  <li>
+    <p><strong>Are samples more similar within groups than between groups?</strong><br />
+(e.g., Do healthy and diseased microbiomes separate?)</p>
+  </li>
+  <li>
+    <p><strong>Do environmental or experimental factors structure communities?</strong><br />
+(e.g., Does diet affect gut microbiome composition?)</p>
+  </li>
+  <li>
+    <p><strong>Which samples cluster together based on overall composition?</strong><br />
+(e.g., Do ocean samples from the same depth group together?)</p>
+  </li>
+</ul>
+
+<h3 id="️-critical-ordination-is-exploratory-not-a-statistical-test">⚠️ Critical: Ordination is exploratory, not a statistical test</h3>
+
+<p>Ordination plots show patterns, but they don’t prove those patterns are statistically significant. Always pair ordination with proper statistical testing (PERMANOVA, ANOSIM, etc.).</p>
+
+<hr />
+
+<h2 id="-where-youll-see-ordination-plots">🔬 Where You’ll See Ordination Plots</h2>
+
+<p>Ordination methods are ubiquitous in:</p>
+
+<ul>
+  <li><strong>Microbiome and metagenomics studies</strong> (sample composition)</li>
+  <li><strong>Transcriptomics</strong> (gene expression patterns)</li>
+  <li><strong>Metabolomics</strong> (metabolite profiles)</li>
+  <li><strong>Functional ecology</strong> (pathway or enzyme abundance)</li>
+  <li><strong>Environmental monitoring</strong> (community structure across sites)</li>
+</ul>
+
+<p>If you read papers in microbial ecology or systems biology, you’ve seen ordination plots—often multiple times per paper.</p>
+
+<hr />
+
+<h2 id="-toy-dataset-community-matrix">🧪 Toy Dataset (Community Matrix)</h2>
+
+<p>We’ll create a sample × feature matrix, similar to OTU/ASV counts, gene abundances, or pathway profiles.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">
+
+</span><span class="n">community_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="w">
+  </span><span class="n">rpois</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w">
+  </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">community_data</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Sample_"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">20</span><span class="p">)</span><span class="w">
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">community_data</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Feature_"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">)</span><span class="w">
+
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">Group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"A"</span><span class="p">,</span><span class="w"> </span><span class="s2">"B"</span><span class="p">),</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w">
+  </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">community_data</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This simulates 20 samples across 2 groups (A and B) with 5 features each.</p>
+
+<hr />
+
+<h2 id="-pca--principal-component-analysis">📌 PCA — Principal Component Analysis</h2>
+
+<h3 id="when-to-use-pca">When to Use PCA</h3>
+
+<p>✅ <strong>Data are continuous</strong> (normalized counts, expression values)<br />
+✅ <strong>Euclidean distances are meaningful</strong> (after appropriate transformation)<br />
+✅ <strong>Linear relationships</strong> dominate your data</p>
+
+<p><strong>Common applications:</strong></p>
+
+<ul>
+  <li>Transcriptomics (RNA-seq, microarray)</li>
+  <li>Normalized abundance data (log-transformed counts)</li>
+  <li>Quality control in genomics (detecting batch effects)</li>
+</ul>
+
+<h3 id="how-pca-works">How PCA Works</h3>
+
+<p>PCA finds directions (principal components) of maximum variance in your data. The first PC captures the most variance, the second PC captures the next most (orthogonal to PC1), and so on.</p>
+
+<p><strong>Important:</strong> PCA axes represent variance, not necessarily biological meaning. PC1 might capture technical variation, sequencing depth, or a dominant biological gradient.</p>
+
+<h3 id="pca-in-r">PCA in R</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Perform PCA (scale = TRUE centers and scales variables)</span><span class="w">
+</span><span class="n">pca_res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">prcomp</span><span class="p">(</span><span class="n">community_data</span><span class="p">,</span><span class="w"> </span><span class="n">scale.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Extract PC coordinates</span><span class="w">
+</span><span class="n">pca_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">pca_res</span><span class="o">$</span><span class="n">x</span><span class="p">,</span><span class="w">
+  </span><span class="n">Group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Group</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Calculate variance explained</span><span class="w">
+</span><span class="n">var_explained</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pca_res</span><span class="o">$</span><span class="n">sdev</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">pca_res</span><span class="o">$</span><span class="n">sdev</span><span class="o">^</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plot</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">pca_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">PC1</span><span class="p">,</span><span class="w"> </span><span class="n">PC2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PCA of Community Data"</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PC1 ("</span><span class="p">,</span><span class="w"> </span><span class="n">var_explained</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">),</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PC2 ("</span><span class="p">,</span><span class="w"> </span><span class="n">var_explained</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="-key-points-about-pca">📌 Key Points About PCA</h3>
+
+<ul>
+  <li><strong>Always report variance explained</strong> by each PC in axis labels</li>
+  <li>PCA assumes linear relationships—not ideal for highly non-linear data</li>
+  <li>Euclidean distance may not be appropriate for count data (consider transformations)</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">scale = TRUE</code> unless you have a specific reason not to</li>
+</ul>
+
+<h2><img src="/assets/img/pca.png" alt="pca" /></h2>
+
+<h2 id="-pcoa--principal-coordinates-analysis">📌 PCoA — Principal Coordinates Analysis</h2>
+
+<h3 id="when-to-use-pcoa">When to Use PCoA</h3>
+
+<p>✅ <strong>You want to use non-Euclidean distances</strong><br />
+✅ <strong>Common in microbiome and ecology studies</strong><br />
+✅ <strong>Flexible choice of distance metrics</strong> (Bray–Curtis, Jaccard, UniFrac, etc.)</p>
+
+<p><strong>Common applications:</strong></p>
+
+<ul>
+  <li>Microbiome studies (Bray–Curtis, weighted/unweighted UniFrac)</li>
+  <li>Community ecology (presence–absence or abundance-based distances)</li>
+  <li>Any analysis where distance metric matters more than raw values</li>
+</ul>
+
+<h3 id="how-pcoa-works">How PCoA Works</h3>
+
+<p>Unlike PCA, which operates on raw data, PCoA starts with a <strong>distance matrix</strong> between samples. It then finds coordinates that best preserve those pairwise distances.</p>
+
+<p>This means you can use any distance metric appropriate for your data:</p>
+
+<ul>
+  <li><strong>Bray–Curtis:</strong> Abundance-based, good for count data</li>
+  <li><strong>Jaccard:</strong> Presence–absence, ignores abundance</li>
+  <li><strong>Weighted UniFrac:</strong> Phylogenetically-informed distances for microbiome data</li>
+</ul>
+
+<h3 id="pcoa-in-r-braycurtis-distance">PCoA in R (Bray–Curtis Distance)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Calculate Bray–Curtis distance matrix</span><span class="w">
+</span><span class="n">dist_bc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vegdist</span><span class="p">(</span><span class="n">community_data</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Perform PCoA</span><span class="w">
+</span><span class="n">pcoa_res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cmdscale</span><span class="p">(</span><span class="n">dist_bc</span><span class="p">,</span><span class="w"> </span><span class="n">eig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Calculate variance explained</span><span class="w">
+</span><span class="n">var_exp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pcoa_res</span><span class="o">$</span><span class="n">eig</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">pcoa_res</span><span class="o">$</span><span class="n">eig</span><span class="p">),</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Create data frame for plotting</span><span class="w">
+</span><span class="n">pcoa_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">Axis1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pcoa_res</span><span class="o">$</span><span class="n">points</span><span class="p">[,</span><span class="m">1</span><span class="p">],</span><span class="w">
+  </span><span class="n">Axis2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pcoa_res</span><span class="o">$</span><span class="n">points</span><span class="p">[,</span><span class="m">2</span><span class="p">],</span><span class="w">
+  </span><span class="n">Group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Group</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plot</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">pcoa_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">Axis1</span><span class="p">,</span><span class="w"> </span><span class="n">Axis2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PCoA (Bray–Curtis Distance)"</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PCoA Axis 1 ("</span><span class="p">,</span><span class="w"> </span><span class="n">var_exp</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">),</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PCoA Axis 2 ("</span><span class="p">,</span><span class="w"> </span><span class="n">var_exp</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="-key-points-about-pcoa">📌 Key Points About PCoA</h3>
+
+<ul>
+  <li><strong>Distance metric matters:</strong> Different metrics can produce very different plots</li>
+  <li>Always state which distance metric you used in figure legends</li>
+  <li>PCoA preserves pairwise distances, not variance</li>
+  <li>Negative eigenvalues can occur with some distance metrics (usually negligible)</li>
+</ul>
+
+<h2 id="-1"><img src="/assets/img/pcoa.png" alt="pcoa" /></h2>
+
+<h2 id="-nmds--non-metric-multidimensional-scaling">📌 NMDS — Non-metric Multidimensional Scaling</h2>
+
+<h3 id="when-to-use-nmds">When to Use NMDS</h3>
+
+<p>✅ <strong>Data are non-linear or zero-inflated</strong><br />
+✅ <strong>Rank order of distances matters more than exact values</strong><br />
+✅ <strong>Very common in community ecology and microbiome studies</strong></p>
+
+<p><strong>Why NMDS is popular in ecology:</strong></p>
+
+<ul>
+  <li>Handles non-linear relationships better than PCA/PCoA</li>
+  <li>Robust to zero-inflated count data</li>
+  <li>Only requires rank ordering of distances to be preserved</li>
+  <li>More flexible for ecological data</li>
+</ul>
+
+<h3 id="how-nmds-works">How NMDS Works</h3>
+
+<p>NMDS is an iterative algorithm that:</p>
+
+<ol>
+  <li>Starts with random sample positions in reduced space</li>
+  <li>Moves points to better match the rank order of original distances</li>
+  <li>Repeats until convergence</li>
+</ol>
+
+<p>The <strong>stress value</strong> measures how well the reduced space preserves distance rankings:</p>
+
+<ul>
+  <li><strong>Stress &lt; 0.05:</strong> Excellent fit</li>
+  <li><strong>Stress &lt; 0.10:</strong> Good fit</li>
+  <li><strong>Stress &lt; 0.20:</strong> Acceptable</li>
+  <li><strong>Stress &gt; 0.20:</strong> Poor fit (interpretation may be misleading)</li>
+</ul>
+
+<h3 id="nmds-in-r">NMDS in R</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Perform NMDS</span><span class="w">
+</span><span class="n">nmds_res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metaMDS</span><span class="p">(</span><span class="w">
+  </span><span class="n">community_data</span><span class="p">,</span><span class="w">
+  </span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">,</span><span class="w">
+  </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">           </span><span class="c1"># Number of dimensions</span><span class="w">
+  </span><span class="n">trymax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="w">     </span><span class="c1"># Maximum iterations</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Extract coordinates</span><span class="w">
+</span><span class="n">nmds_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">NMDS1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nmds_res</span><span class="o">$</span><span class="n">points</span><span class="p">[,</span><span class="m">1</span><span class="p">],</span><span class="w">
+  </span><span class="n">NMDS2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nmds_res</span><span class="o">$</span><span class="n">points</span><span class="p">[,</span><span class="m">2</span><span class="p">],</span><span class="w">
+  </span><span class="n">Group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Group</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plot with stress value</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">nmds_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">NMDS1</span><span class="p">,</span><span class="w"> </span><span class="n">NMDS2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"NMDS (Stress = "</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">nmds_res</span><span class="o">$</span><span class="n">stress</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s2">")"</span><span class="p">),</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NMDS1"</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NMDS2"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="-key-points-about-nmds">📌 Key Points About NMDS</h3>
+
+<ul>
+  <li><strong>Always report stress values</strong> in your figure or legend</li>
+  <li>NMDS axes are arbitrary—rotation and scaling don’t matter</li>
+  <li>Results can vary slightly between runs (use <code class="language-plaintext highlighter-rouge">set.seed()</code> for reproducibility)</li>
+  <li>High stress? Try increasing dimensions (k = 3) or question if NMDS is appropriate</li>
+</ul>
+
+<h2 id="-2"><img src="/assets/img/nmds.png" alt="NMDS" /></h2>
+
+<h2 id="-pca-vs-pcoa-vs-nmds--quick-decision-guide">📝 PCA vs PCoA vs NMDS — Quick Decision Guide</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Best For</th>
+      <th>Key Assumption</th>
+      <th>Distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>PCA</strong></td>
+      <td>Continuous, normalized data</td>
+      <td>Linear variance structure</td>
+      <td>Euclidean</td>
+    </tr>
+    <tr>
+      <td><strong>PCoA</strong></td>
+      <td>When distance metric matters</td>
+      <td>Distance metric is appropriate</td>
+      <td>Any metric</td>
+    </tr>
+    <tr>
+      <td><strong>NMDS</strong></td>
+      <td>Ecological count data, non-linear</td>
+      <td>Rank order preservation</td>
+      <td>Any metric</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="decision-tree">Decision Tree:</h3>
+
+<ol>
+  <li><strong>Is your data continuous and normalized?</strong> → Try PCA first</li>
+  <li><strong>Do you need a specific distance metric (e.g., Bray–Curtis)?</strong> → Use PCoA</li>
+  <li><strong>Is your data highly non-linear or zero-inflated?</strong> → Consider NMDS</li>
+  <li><strong>Are you analyzing microbiome data?</strong> → PCoA or NMDS with Bray–Curtis/UniFrac</li>
+</ol>
+
+<hr />
+
+<h2 id="️-common-mistakes-with-ordination-plots">⚠️ Common Mistakes with Ordination Plots</h2>
+
+<h3 id="1-interpreting-axes-as-direct-biological-gradients">1. Interpreting axes as direct biological gradients</h3>
+
+<p><strong>The mistake:</strong> “PC1 shows temperature effects”<br />
+<strong>The reality:</strong> PC1 shows the direction of maximum variance, which <em>might</em> correlate with temperature</p>
+
+<h3 id="2-comparing-coordinates-across-different-methods">2. Comparing coordinates across different methods</h3>
+
+<p><strong>The mistake:</strong> “Sample A has a higher NMDS1 value than in the PCA”<br />
+<strong>The reality:</strong> Axes from different methods are not comparable</p>
+
+<h3 id="3-ignoring-distance-metric-choice-pcoanmds">3. Ignoring distance metric choice (PCoA/NMDS)</h3>
+
+<p><strong>The mistake:</strong> Using Euclidean distance for count data<br />
+<strong>Better:</strong> Use Bray–Curtis or Jaccard for compositional data</p>
+
+<h3 id="4-forgetting-to-report-nmds-stress">4. Forgetting to report NMDS stress</h3>
+
+<p><strong>The mistake:</strong> Showing NMDS without stress value<br />
+<strong>The reality:</strong> High stress (&gt;0.20) means the plot may be misleading</p>
+
+<h3 id="5-treating-ordination-as-a-hypothesis-test">5. Treating ordination as a hypothesis test</h3>
+
+<p><strong>The mistake:</strong> “Groups are different because they separate in the PCA”<br />
+<strong>The reality:</strong> Visual separation ≠ statistical significance. Use PERMANOVA, ANOSIM, etc.</p>
+
+<h3 id="6-not-reporting-variance-explained-pcapcoa">6. Not reporting variance explained (PCA/PCoA)</h3>
+
+<p>Always include the percentage of variance explained in your axis labels.</p>
+
+<h3 id="7-over-interpreting-outliers">7. Over-interpreting outliers</h3>
+
+<p>One outlier can dramatically affect ordination plots. Investigate outliers—they might be biological, technical, or contamination.</p>
+
+<hr />
+
+<h2 id="-best-practices-for-ordination-plots">✅ Best Practices for Ordination Plots</h2>
+
+<h3 id="1-choose-the-right-method-for-your-data-type">1. Choose the right method for your data type</h3>
+
+<p>Match the method to your data structure and question.</p>
+
+<h3 id="2-always-state-your-distance-metric">2. Always state your distance metric</h3>
+
+<p>Include in the figure legend: “PCoA based on Bray–Curtis dissimilarity”</p>
+
+<h3 id="3-report-variance-explained-or-stress">3. Report variance explained or stress</h3>
+
+<ul>
+  <li>PCA/PCoA: Include % variance in axis labels</li>
+  <li>NMDS: Report stress in title or legend</li>
+</ul>
+
+<h3 id="4-pair-with-statistical-testing">4. Pair with statistical testing</h3>
+
+<p>Use PERMANOVA, ANOSIM, or similar tests to validate visual patterns.</p>
+
+<h3 id="5-check-assumptions">5. Check assumptions</h3>
+
+<ul>
+  <li>PCA: Are your data normally distributed after transformation?</li>
+  <li>PCoA/NMDS: Is your distance metric appropriate?</li>
+</ul>
+
+<h3 id="6-use-color-blind-friendly-palettes">6. Use color-blind friendly palettes</h3>
+
+<p>Make your plots accessible (viridis, ColorBrewer qualitative palettes).</p>
+
+<h3 id="7-add-confidence-ellipses-optional">7. Add confidence ellipses (optional)</h3>
+
+<p>Can help visualize group separation, but don’t overinterpret.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Add stat_ellipse to ggplot</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">pca_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">PC1</span><span class="p">,</span><span class="w"> </span><span class="n">PC2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">stat_ellipse</span><span class="p">(</span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.95</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="-real-world-workflow">🎨 Real-World Workflow</h2>
+
+<p>Here’s how ordination fits into a typical analysis:</p>
+
+<ol>
+  <li><strong>Pre-process data:</strong> Filter low-abundance features, normalize/transform</li>
+  <li><strong>Calculate distances:</strong> Choose appropriate metric (Bray–Curtis, Jaccard, etc.)</li>
+  <li><strong>Perform ordination:</strong> PCA, PCoA, or NMDS</li>
+  <li><strong>Visualize:</strong> Create publication-quality plots</li>
+  <li><strong>Test statistically:</strong> PERMANOVA to test group differences</li>
+  <li><strong>Investigate drivers:</strong> Use <code class="language-plaintext highlighter-rouge">envfit()</code> or similar to identify variables correlated with ordination axes</li>
+</ol>
+
+<p><strong>Example PERMANOVA:</strong></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Test if groups differ significantly</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+
+</span><span class="n">adonis2</span><span class="p">(</span><span class="n">community_data</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Group</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="-python-alternatives">🐍 Python Alternatives</h2>
+
+<p>For Python users, here are equivalent tools:</p>
+
+<p><strong>PCA:</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">pca</span> <span class="o">=</span> <span class="nc">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pca_coords</span> <span class="o">=</span> <span class="n">pca</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">community_data</span><span class="p">)</span>
+
+<span class="c1"># Variance explained
+</span><span class="n">var_exp</span> <span class="o">=</span> <span class="n">pca</span><span class="p">.</span><span class="n">explained_variance_ratio_</span> <span class="o">*</span> <span class="mi">100</span>
+</code></pre></div></div>
+
+<p><strong>PCoA:</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.manifold</span> <span class="kn">import</span> <span class="n">MDS</span>
+<span class="kn">from</span> <span class="n">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">pdist</span><span class="p">,</span> <span class="n">squareform</span>
+
+<span class="c1"># Calculate Bray-Curtis distance
+</span><span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">pairwise_distances</span>
+
+<span class="n">dist_matrix</span> <span class="o">=</span> <span class="nf">pairwise_distances</span><span class="p">(</span><span class="n">community_data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="sh">'</span><span class="s">braycurtis</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">mds</span> <span class="o">=</span> <span class="nc">MDS</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dissimilarity</span><span class="o">=</span><span class="sh">'</span><span class="s">precomputed</span><span class="sh">'</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">pcoa_coords</span> <span class="o">=</span> <span class="n">mds</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>NMDS:</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.manifold</span> <span class="kn">import</span> <span class="n">MDS</span>
+
+<span class="n">nmds</span> <span class="o">=</span> <span class="nc">MDS</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dissimilarity</span><span class="o">=</span><span class="sh">'</span><span class="s">precomputed</span><span class="sh">'</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">nmds_coords</span> <span class="o">=</span> <span class="n">nmds</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">)</span>
+
+<span class="c1"># Stress
+</span><span class="n">stress</span> <span class="o">=</span> <span class="n">nmds</span><span class="p">.</span><span class="n">stress_</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-key-takeaways">📌 Key Takeaways</h2>
+
+<p>✅ <strong>Ordination summarizes multivariate relationships</strong> in reduced dimensions</p>
+
+<p>✅ <strong>Method choice should match data type</strong> and biological question</p>
+
+<p>✅ <strong>Ordination is exploratory</strong> and should be paired with statistics (PERMANOVA, ANOSIM)</p>
+
+<p>✅ <strong>Distance metric matters</strong> for PCoA and NMDS—choose carefully</p>
+
+<p>✅ <strong>Always report stress (NMDS)</strong> and variance explained (PCA/PCoA)</p>
+
+<p>✅ <strong>Clear visualization improves interpretation</strong> but doesn’t replace proper analysis</p>
+
+<hr />
+
+<h2 id="-whats-next">🔜 What’s Next?</h2>
+
+<p><strong>Day 4: Volcano Plots</strong></p>
+
+<p><strong>Day 5: Bubble plots</strong></p>
+
+<hr />
+
+<p><em>This is part of the “Visualize Your Data” series. Check out <a href="/blog/visualize-your-data-day1-box-vs-violin/">Day 1: Box Plots and Violin Plots</a> and <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2: Heatmaps</a> if you missed them.</em></p>
+
+<p><strong>Have questions about ordination? Drop a comment below!</strong></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 3 of the Visualize Your Data series: exploring PCA, PCoA, and NMDS to visualize sample relationships and community structure in bioinformatics and microbial ecology.]]></summary></entry><entry><title type="html">Visualize Your Data — Day 2: Heatmaps in Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/visualize-your-data-day2-heatmaps/" rel="alternate" type="text/html" title="Visualize Your Data — Day 2: Heatmaps in Bioinformatics" /><published>2026-01-19T00:00:00-05:00</published><updated>2026-01-19T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/visualize-your-data-day2-heatmaps</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/visualize-your-data-day2-heatmaps/"><![CDATA[<h1 id="-visualize-your-data--day-2-heatmaps">📊 Visualize Your Data – Day 2: Heatmaps</h1>
 
 <p>In Day 1, we explored box plots and violin plots for understanding data distributions. Today, we’re diving into one of the most ubiquitous visualization tools in bioinformatics: <strong>heatmaps</strong>.</p>
 
@@ -2909,382 +3409,4 @@ hint : I always select the longest one to proceed</p>
 
 <p>● This workflow takes minutes and fits naturally into any isolate genome analysis</p>
 
-<p><img src="/assets/img/br.png" alt="16s-from-genome" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A quick and reproducible workflow to extract 16S rRNA genes from assembled genomes and validate taxonomy using NCBI BLAST.]]></summary></entry><entry><title type="html">From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow</title><link href="https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide/" rel="alternate" type="text/html" title="From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow" /><published>2025-12-23T00:00:00-05:00</published><updated>2025-12-23T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide/"><![CDATA[<h4 id="-from-genome-assembly-to-novel-species-a-step-by-step-genomic-workflow">🧬 From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow</h4>
-
-<p><strong>Case study: Winogradskyella sp. PC_D3_3</strong></p>
-
-<p>Today’s post steps slightly away from community profiling and focuses on a question every microbial genomicist eventually faces:</p>
-
-<p><strong>How do we confidently determine whether a newly sequenced genome represents a novel bacterial species?</strong></p>
-
-<p>Using a newly assembled long-read genome (Winogradskyella sp. PC_D3_3), I walk through <strong>a complete, reproducible workflow</strong>—from assembly quality checks to taxonomic placement, genomic similarity metrics (ANI, AAI, dDDH), and functional interpretation.</p>
-
-<p>This is the same logic used for <strong>NCBI submissions, Genome Resource Announcements, and formal species descriptions</strong>.</p>
-
-<h4 id="step-1--long-read-sequence-quality-assessment-with-nanoplot">Step 1: 🔍 Long-Read Sequence Quality Assessment with NanoPlot</h4>
-
-<p>Before genome assembly, assessing the quality of long-read sequencing data is critical to ensure sufficient read length, coverage, and overall data reliability. For Oxford Nanopore Technologies (ONT) reads, I used NanoPlot to visualize read length distributions, quality scores, and cumulative yield.</p>
-
-<p><strong>Why NanoPlot?</strong></p>
-
-<p>● NanoPlot provides a rapid overview of key long-read metrics, including:</p>
-
-<p>● Read length distribution (mean, N50, max length)</p>
-
-<p>● Per-read quality score distribution</p>
-
-<p>● Cumulative sequencing yield</p>
-
-<p>● Read length vs. quality relationships</p>
-
-<p>These metrics help determine whether the dataset is suitable for de novo assembly and whether additional filtering or re-sequencing is required.
-<strong>🔧 Installation (Linux / Conda)</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda nanoplot
-</code></pre></div></div>
-
-<p>▶️ Running NanoPlot</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NanoPlot <span class="se">\</span>
-  <span class="nt">--fastq</span> PC_D3_3.fastq.gz <span class="se">\</span>
-  <span class="nt">--outdir</span> nanoplot_PC_D3_3 <span class="se">\</span>
-  <span class="nt">--threads</span> 8
-</code></pre></div></div>
-
-<p><strong>📊 Interpreting the Output</strong></p>
-
-<p>Key outputs generated by NanoPlot include:</p>
-
-<p>● Read length histogram — confirms the presence of long reads necessary for resolving repeats</p>
-
-<p>● Read quality distribution — ensures sufficient base-calling accuracy</p>
-
-<p>● Cumulative yield plot — verifies total sequencing depth</p>
-
-<p>● Length vs. quality scatter plots — identifies potential low-quality long reads</p>
-
-<h4 id="-step-2-long-read-genome-assembly">🧪 Step 2: Long-Read Genome Assembly</h4>
-
-<p>The genome was assembled using Oxford Nanopore long reads and Flye, which is well suited for circular bacterial chromosomes.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python flye <span class="se">\</span>
-  <span class="nt">--nano-raw</span> PC_D3_3.fastq.gz <span class="se">\</span>
-  <span class="nt">--threads</span> 32 <span class="se">\</span>
-  <span class="nt">--out-dir</span> lr
-</code></pre></div></div>
-
-<p><strong>Assembly summary:</strong></p>
-
-<p>● Genome size: 4.21 Mb</p>
-
-<p>● Contigs: 1</p>
-
-<p>● Coverage: ~170×</p>
-
-<p>● Topology: Circular</p>
-
-<p>Flye produced a single, high-coverage contig, consistent with a complete bacterial chromosome.</p>
-
-<h4 id="-step-3-assembly-quality-assessment">📊 Step 3: Assembly Quality Assessment</h4>
-
-<p><strong>QUAST</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quast.py PC_D3_3.fasta <span class="nt">-o</span> quast_output
-</code></pre></div></div>
-
-<p><strong>Key statistics:</strong></p>
-
-<p>● Contigs: 1</p>
-
-<p>● N50: 4,212,977 bp</p>
-
-<p>● GC content: 33.32%</p>
-
-<p>● Ns: 0</p>
-
-<p><strong>CheckM</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>checkm lineage_wf <span class="nt">-x</span> fa lr checkm_out
-</code></pre></div></div>
-
-<p>● Completeness: 99.28%</p>
-
-<p>● Contamination: 1.09%</p>
-
-<p>● Strain heterogeneity: 0%</p>
-
-<p>✔ High completeness and low contamination support downstream taxonomic claims.</p>
-
-<h4 id="-step-4-genome-annotation-overview">🧬 Step 4: Genome Annotation Overview</h4>
-
-<p><strong>Prokka</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prokka PC_D3_3.fasta <span class="nt">--outdir</span> prokka
-</code></pre></div></div>
-
-<p>Prokka gives overall annotations.</p>
-
-<p>● CDS: 3,748</p>
-
-<p>● rRNA: 12</p>
-
-<p>● tRNA: 48</p>
-
-<p>● tmRNA: 1</p>
-
-<p><strong>DRAM (functional overview)</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DRAM.py annotate <span class="nt">-i</span> PC_D3_3.fasta <span class="nt">-o</span> dram
-DRAM.py distill <span class="nt">-i</span> dram/annotations.tsv <span class="nt">-o</span> dram/genome_summaries
-</code></pre></div></div>
-
-<p><strong>Why DRAM?</strong>
-It provides:</p>
-
-<p>● CAZyme profiles</p>
-
-<p>● Central metabolism</p>
-
-<p>● Transporters</p>
-
-<p>● Secondary metabolites</p>
-
-<p>● Polysaccharide utilization potential</p>
-
-<p><strong>This goes far beyond simple gene counts.</strong></p>
-
-<h4 id="-step-5-taxonomic-placement-with-gtdb-tk">🧭 Step 5: Taxonomic Placement with GTDB-Tk</h4>
-
-<p>To assign standardized taxonomy and place the genome within the Genome Taxonomy Database (GTDB) framework, I used GTDB-Tk, which classifies genomes based on a curated set of conserved marker genes and reference phylogenies.</p>
-
-<p><strong>1️⃣ Identify marker genes</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk identify <span class="se">\</span>
-  <span class="nt">--genome_dir</span> /scratch/jojyj/win_dec11/lr <span class="se">\</span>
-  <span class="nt">--out_dir</span> /scratch/jojyj/win_dec11/gtdbtk/identify <span class="se">\</span>
-  <span class="nt">--extension</span> fasta <span class="se">\</span>
-  <span class="nt">--cpus</span> 32
-</code></pre></div></div>
-
-<p><strong>What this does:</strong>
-This step scans the genome for GTDB’s conserved bacterial marker genes and prepares them for downstream phylogenetic placement.</p>
-
-<p><strong>2️⃣ Align marker genes</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk align <span class="se">\</span>
-  <span class="nt">--identify_dir</span> /scratch/jojyj/win_dec11/gtdbtk/identify <span class="se">\</span>
-  <span class="nt">--out_dir</span> /scratch/jojyj/win_dec11/gtdbtk/align <span class="se">\</span>
-  <span class="nt">--cpus</span> 32
-</code></pre></div></div>
-
-<p>Identified marker genes are aligned against GTDB reference alignments, enabling consistent phylogenetic comparison across genomes.</p>
-
-<p><strong>3️⃣ Classify the genome</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk classify <span class="se">\</span>
-  <span class="nt">--genome_dir</span> /scratch/jojyj/win_dec11/lr <span class="se">\</span>
-  <span class="nt">--align_dir</span> /scratch/jojyj/win_dec11/gtdbtk/align <span class="se">\</span>
-  <span class="nt">--out_dir</span> /scratch/jojyj/win_dec11/gtdbtk/classify <span class="se">\</span>
-  <span class="nt">-x</span> fasta <span class="se">\</span>
-  <span class="nt">--cpus</span> 32 <span class="se">\</span>
-  <span class="nt">--mash_db</span> /scratch/jojyj/win_dec11/gtdbtk
-</code></pre></div></div>
-
-<p>This step assigns taxonomy to the genome by placing it into the GTDB reference tree using both phylogenetic placement and Mash-based genome distance estimates.</p>
-
-<p><strong>📄 Key Output: GTDB-Tk Classification Table</strong></p>
-
-<p>The classification table produced here is critical for the next steps.
-File of interest:</p>
-
-<pre><code class="language-pgsql">gtdbtk.bac120.summary.tsv
-</code></pre>
-
-<p>(or classify.csv, depending on GTDB-Tk version)</p>
-
-<p>This table contains:</p>
-
-<p>● GTDB taxonomy (domain → species)</p>
-
-<p>● Closest GTDB reference genomes</p>
-
-<p>● ANI-based placement confidence</p>
-
-<p>● Novelty flags (e.g., no species assignment)</p>
-
-<h4 id="how-this-table-is-used-next-important">How this table is used next (important)</h4>
-
-<p>The GTDB-Tk classification output is typically used to:</p>
-
-<p>● Identify closest reference genomes</p>
-
-<p>● Extract GTDB/NCBI accession IDs</p>
-
-<p>● Download ~10–20 closely related genomes using the NCBI CLI</p>
-
-<p>● Perform ANI, AAI, and dDDH comparisons</p>
-
-<h4 id="-step-6-download-closely-related-genomes-ncbi-cli">📥 Step 6: Download Closely Related Genomes (NCBI CLI)</h4>
-
-<p>To test novelty, we compare PC_D3_3 against closely related reference genomes.
-<strong>Install NCBI datasets (Linux)</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> conda-forge ncbi-datasets-cli
-</code></pre></div></div>
-
-<p>Download reference genomes</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datasets download genome taxon <span class="s2">"Winogradskyella"</span> <span class="se">\</span>
-  <span class="nt">--assembly-level</span> <span class="nb">complete</span> <span class="se">\</span>
-  <span class="nt">--filename</span> winogradskyella_refs.zip
-</code></pre></div></div>
-
-<p>Here I used the classify table created using GTDBtk classify.
-Unzip and retain ~10–20 representative genomes.</p>
-
-<h4 id="-step-7-ani-analysis-fastani">🧮 Step 7: ANI Analysis (FastANI)</h4>
-
-<p>Average Nucleotide Identity (ANI) comparisons between Winogradskyella sp. PC_D3_3 and representative reference genomes:</p>
-
-<p>Install FastANI</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda fastani
-</code></pre></div></div>
-
-<p><strong>Run ANI</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fastANI <span class="se">\</span>
-  <span class="nt">-q</span> PC_D3_3.fasta <span class="se">\</span>
-  <span class="nt">-r</span> reference_genomes/<span class="k">*</span>.fna <span class="se">\</span>
-  <span class="nt">-o</span> ani_results.txt
-</code></pre></div></div>
-
-<p><strong>my output</strong>
-| Reference genome | ANI (%) |
-| ———————- | ——- |
-| <em>W. psychrotolerans</em> B | 85.82 |
-| <em>W. thalassocola</em> | 85.38 |
-| <em>W. pacifica</em> | 84.96 |
-| <em>W. marina</em> | 81.85 |</p>
-
-<p><strong>Observed ANI range:</strong>
-81.2% – 85.8%
-All ANI values fall well below the 95–96% species threshold, supporting designation as a novel species.</p>
-
-<p><strong>📌 Interpretation</strong></p>
-
-<p>● Species cutoff: 95–96% ANI</p>
-
-<p>● All values fall far below this threshold</p>
-
-<p>● <strong>➡ PC_D3_3 is not any known Winogradskyella species</strong></p>
-
-<h4 id="-step-8-aai-analysis-comparem">🧬 Step 8: AAI Analysis (CompareM)</h4>
-
-<p>Average Amino Acid Identity is also used compare between the closely related genomes.</p>
-
-<p>Install CompareM</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda comparem
-</code></pre></div></div>
-
-<p>Run AAI</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>comparem aai_wf PC_D3_3.faa refs/ aai_out
-</code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th>Reference genome</th>
-      <th>Mean AAI (%)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><em>W. thalassocola</em></td>
-      <td>87.11</td>
-    </tr>
-    <tr>
-      <td><em>W. pacifica</em></td>
-      <td>86.86</td>
-    </tr>
-    <tr>
-      <td><em>W. psychrotolerans</em></td>
-      <td>86.49</td>
-    </tr>
-    <tr>
-      <td><em>W. undariae</em></td>
-      <td>82.37</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>AAI values are above genus-level cutoffs but below species-level thresholds, confirming genus-level placement with species-level novelty.</p>
-
-<p>Observed AAI range:
-81.7% – 87.1%</p>
-
-<p>📌 Interpretation</p>
-
-<p>Species cutoff: ~95%</p>
-
-<p>Genus cutoff: ~65–75%</p>
-
-<p>➡ Confirms same genus, novel species</p>
-
-<h4 id="-step-9-digital-dnadna-hybridization-ggdc">🧬 Step 9: Digital DNA–DNA Hybridization (GGDC)</h4>
-
-<p>dDDH was calculated using the DSMZ GGDC web platform (Formula 2).
-Digital DNA–DNA hybridization (dDDH) estimates:
-| Reference genome | dDDH (%) |
-| ———————- | ——– |
-| <em>W. psychrotolerans</em> B | 29.0 |
-| <em>W. thalassocola</em> | 28.8 |
-| <em>W. pacifica</em> | 27.8 |
-| <em>W. costae</em> | 25.9 |</p>
-
-<p>All values are far below the 70% dDDH species cutoff, with near-zero probabilities of species identity.</p>
-
-<p>Observed dDDH values:
-23–29%</p>
-
-<p>📌 Species cutoff: 70%
-📌 Probability of species identity: 0–7%</p>
-
-<p>➡ Definitive evidence for novel species status</p>
-
-<h4 id="takeaway">Takeaway</h4>
-
-<p><strong>Consistent evidence from ANI, AAI, and dDDH analyses confirms that Winogradskyella sp. PC_D3_3 represents a novel species, motivating careful cross-device synchronization of genome data, scripts, and analyses.</strong></p>
-
-<h4 id="-functional-interpretation-dram-highlights">🧠 Functional Interpretation (DRAM Highlights)</h4>
-
-<p>Winogradskyella sp. PC_D3_3 is:</p>
-
-<p>● A polysaccharide-degrading marine heterotroph</p>
-
-<p>● Rich in CAZymes (alginate lyases, amylases, pectinases)</p>
-
-<p>● Equipped with diverse ABC and Mce transporters</p>
-
-<p>● Motile (MotB), suggesting particle association</p>
-
-<p>● Carries CRISPR–Cas9, indicating viral pressure</p>
-
-<p>● Strongly adapted to macroalgal and particulate organic matter</p>
-
-<p>This functional profile aligns with a particle-attached, algal-detritus–associated lifestyle in coastal systems.</p>
-
-<h4 id="-take-home-messages">🧠 Take-Home Messages</h4>
-
-<p>● Never rely on taxonomy alone—use ANI, AAI, and dDDH together</p>
-
-<p>● Long-read assemblies dramatically simplify genome interpretation</p>
-
-<p>● DRAM adds ecological meaning beyond taxonomy</p>
-
-<p>● Genomic novelty is strongest when multiple metrics converge</p>
-
-<p>todays figure shows non weighted histogram of read length of current novel genome (after log transformation) from nanoplot
-<img src="/assets/img/np.png" alt="novel-genomme" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[How do we confidently determine whether a newly sequenced genome represents a novel bacterial species?]]></summary></entry></feed>
+<p><img src="/assets/img/br.png" alt="16s-from-genome" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[A quick and reproducible workflow to extract 16S rRNA genes from assembled genomes and validate taxonomy using NCBI BLAST.]]></summary></entry></feed>

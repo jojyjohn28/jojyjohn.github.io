@@ -17,12 +17,12 @@
   
   
     
-      Whole Genome Sequencing — Day 4: Genome Annotation &amp; Functional Potential | Jojy John
+      Visualize Your Data — Day 3: Ordination Plots (PCA, PCoA, NMDS) in Bioinformatics | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.">
+<meta name="description" content="Day 3 of the Visualize Your Data series: exploring PCA, PCoA, and NMDS to visualize sample relationships and community structure in bioinformatics and microbial ecology.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/visualize-your-data-day3-ordination/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -286,9 +286,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Whole Genome Sequencing — Day 4: Genome Annotation &amp; Functional Potential</h1>
+    <h1 class="post-title">Visualize Your Data — Day 3: Ordination Plots (PCA, PCoA, NMDS) in Bioinformatics</h1>
     <p class="post-meta">
-      Created in January 13, 2026
+      Created in January 20, 2026
       
       
       
@@ -307,437 +307,532 @@
 
   <article class="post-content">
     <div id="markdown-content">
-      <h1 id="-whole-genome-sequencing--day-4">🧬 Whole Genome Sequencing — Day 4</h1>
+      <h1 id="-visualize-your-data--day-3-ordination-plots">📊 Visualize Your Data – Day 3: Ordination Plots</h1>
 
-<p>Genome Annotation &amp; Functional Potential</p>
+<p>In <a href="/blog/visualize-your-data-day1-box-vs-violin/">Day 1</a>, we explored distributions using box and violin plots.<br>
+In <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2</a>, we visualized patterns using heatmaps.</p>
 
-<p>👉In Day 1, we cleaned raw reads.
-👉In Day 2, we assembled genomes and evaluated quality and topology.
-👉In Day 3, we placed genomes in a taxonomic and phylogenetic context.</p>
+<p>Today, we tackle one of the most fundamental visualization techniques in bioinformatics and microbial ecology: <strong>ordination plots</strong>.</p>
 
-<p>Today, in Day 4, <strong>we answer the most biologically meaningful question:</strong></p>
+<p>Ordination methods reduce high-dimensional data (hundreds or thousands of features) into 2D or 3D space, making it possible to visualize relationships among samples based on their overall composition.</p>
 
-<p><strong>What can this genome actually do?</strong></p>
+<hr>
 
-<p>This step transforms assembled genomes into functional blueprints by identifying genes, protein domains, pathways, and metabolic capabilities.</p>
+<h2 id="-what-questions-do-ordination-plots-answer">🎯 What Questions Do Ordination Plots Answer?</h2>
 
-<h2 id="-goal-of-day-4">🎯 Goal of Day 4</h2>
+<p>Ordination plots help you explore:</p>
 
-<p>Identify genes, pathways, and metabolic potential encoded in genomes</p>
+<ul>
+  <li>
+    <p><strong>Are samples more similar within groups than between groups?</strong><br>
+(e.g., Do healthy and diseased microbiomes separate?)</p>
+  </li>
+  <li>
+    <p><strong>Do environmental or experimental factors structure communities?</strong><br>
+(e.g., Does diet affect gut microbiome composition?)</p>
+  </li>
+  <li>
+    <p><strong>Which samples cluster together based on overall composition?</strong><br>
+(e.g., Do ocean samples from the same depth group together?)</p>
+  </li>
+</ul>
 
-<p>Specifically, we aim to:</p>
+<h3 id="️-critical-ordination-is-exploratory-not-a-statistical-test">⚠️ Critical: Ordination is exploratory, not a statistical test</h3>
 
-<p>✔ Predict protein-coding genes
-✔ Assign functional annotations
-✔ Reconstruct metabolic pathways
-✔ Compare functional potential across many genomes</p>
+<p>Ordination plots show patterns, but they don’t prove those patterns are statistically significant. Always pair ordination with proper statistical testing (PERMANOVA, ANOSIM, etc.).</p>
 
-<p>This workflow is designed for isolate genomes and MAG collections, and scales cleanly to hundreds of genomes.</p>
+<hr>
 
-<h1 id="-annotation-strategy-a-layered-approach">🧪 Annotation Strategy: A Layered Approach</h1>
+<h2 id="-where-youll-see-ordination-plots">🔬 Where You’ll See Ordination Plots</h2>
 
-<p>Genome annotation works best when done in layers, each answering a different question:
-| Layer | Question |
-| —————— | —————————————- |
-| Gene prediction | Where are the genes? |
-| Rapid annotation | What are they likely doing? |
-| Domain annotation | What conserved functions do they encode? |
-| Pathway annotation | How do genes connect into metabolism? |
-| Trait screening | What ecological traits are present? |</p>
+<p>Ordination methods are ubiquitous in:</p>
 
-<h2 id="-why-genome-annotation-matters">🧠 Why Genome Annotation Matters</h2>
+<ul>
+  <li>
+<strong>Microbiome and metagenomics studies</strong> (sample composition)</li>
+  <li>
+<strong>Transcriptomics</strong> (gene expression patterns)</li>
+  <li>
+<strong>Metabolomics</strong> (metabolite profiles)</li>
+  <li>
+<strong>Functional ecology</strong> (pathway or enzyme abundance)</li>
+  <li>
+<strong>Environmental monitoring</strong> (community structure across sites)</li>
+</ul>
 
-<p>A genome sequence without annotation is just a long string of nucleotides.</p>
+<p>If you read papers in microbial ecology or systems biology, you’ve seen ordination plots—often multiple times per paper.</p>
 
-<p>Genome annotation enables us to:</p>
+<hr>
 
-<p>● Interpret ecological strategies</p>
+<h2 id="-toy-dataset-community-matrix">🧪 Toy Dataset (Community Matrix)</h2>
 
-<p>● Predict metabolic roles</p>
+<p>We’ll create a sample × feature matrix, similar to OTU/ASV counts, gene abundances, or pathway profiles.</p>
 
-<p>● Identify functional redundancy or specialization</p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">
 
-<p>● Link taxonomy to ecosystem function</p>
+</span><span class="n">community_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="w">
+  </span><span class="n">rpois</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w">
+  </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="w">
+</span><span class="p">)</span><span class="w">
 
-<p>● Good annotation is the foundation for:</p>
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">community_data</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Sample_"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">20</span><span class="p">)</span><span class="w">
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">community_data</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Feature_"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">)</span><span class="w">
 
-<p>● Comparative genomics</p>
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">Group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"A"</span><span class="p">,</span><span class="w"> </span><span class="s2">"B"</span><span class="p">),</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w">
+  </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">community_data</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
-<p>● Metabolic modeling</p>
+<p>This simulates 20 samples across 2 groups (A and B) with 5 features each.</p>
 
-<p>● Transcriptomic integration</p>
+<hr>
 
-<p>● Functional redundancy analyses</p>
+<h2 id="-pca--principal-component-analysis">📌 PCA — Principal Component Analysis</h2>
 
-<h2 id="-annotation-strategy-overview">🧪 Annotation Strategy Overview</h2>
+<h3 id="when-to-use-pca">When to Use PCA</h3>
 
-<p>Genome annotation is best approached in layers, not with a single tool.</p>
+<p>✅ <strong>Data are continuous</strong> (normalized counts, expression values)<br>
+✅ <strong>Euclidean distances are meaningful</strong> (after appropriate transformation)<br>
+✅ <strong>Linear relationships</strong> dominate your data</p>
 
-<p>Layered annotation strategy used here:</p>
+<p><strong>Common applications:</strong></p>
 
-<p>1️⃣ Gene prediction – Where are the genes?
-2️⃣ Rapid annotation – What are they likely doing?
-3️⃣ Domain-based annotation – What functional motifs do proteins contain?
-4️⃣ Pathway-level reconstruction – How do genes connect into metabolism?</p>
+<ul>
+  <li>Transcriptomics (RNA-seq, microarray)</li>
+  <li>Normalized abundance data (log-transformed counts)</li>
+  <li>Quality control in genomics (detecting batch effects)</li>
+</ul>
 
-<h2 id="-tools-used-in-day-4">🧰 Tools Used in Day 4</h2>
+<h3 id="how-pca-works">How PCA Works</h3>
 
-<p>🔹 Prokka</p>
+<p>PCA finds directions (principal components) of maximum variance in your data. The first PC captures the most variance, the second PC captures the next most (orthogonal to PC1), and so on.</p>
 
-<p>Rapid, genome-scale annotation pipeline for bacterial and archaeal genomes.</p>
+<p><strong>Important:</strong> PCA axes represent variance, not necessarily biological meaning. PC1 might capture technical variation, sequencing depth, or a dominant biological gradient.</p>
 
-<p>🔹 Prodigal</p>
+<h3 id="pca-in-r">PCA in R</h3>
 
-<p>Accurate gene prediction engine used internally by many annotation tools.</p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Perform PCA (scale = TRUE centers and scales variables)</span><span class="w">
+</span><span class="n">pca_res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">prcomp</span><span class="p">(</span><span class="n">community_data</span><span class="p">,</span><span class="w"> </span><span class="n">scale.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
 
-<p>🔹 InterProScan</p>
+</span><span class="c1"># Extract PC coordinates</span><span class="w">
+</span><span class="n">pca_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">pca_res</span><span class="o">$</span><span class="n">x</span><span class="p">,</span><span class="w">
+  </span><span class="n">Group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Group</span><span class="w">
+</span><span class="p">)</span><span class="w">
 
-<p>Protein domain and motif identification across multiple databases.</p>
+</span><span class="c1"># Calculate variance explained</span><span class="w">
+</span><span class="n">var_explained</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pca_res</span><span class="o">$</span><span class="n">sdev</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">pca_res</span><span class="o">$</span><span class="n">sdev</span><span class="o">^</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
 
-<p>🔹 DRAM</p>
+</span><span class="c1"># Plot</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
 
-<p>High-level metabolic and pathway-centric genome annotation.</p>
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">pca_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">PC1</span><span class="p">,</span><span class="w"> </span><span class="n">PC2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PCA of Community Data"</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PC1 ("</span><span class="p">,</span><span class="w"> </span><span class="n">var_explained</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">),</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PC2 ("</span><span class="p">,</span><span class="w"> </span><span class="n">var_explained</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
-<p>Each tool complements the others rather than replacing them.</p>
+<h3 id="-key-points-about-pca">📌 Key Points About PCA</h3>
 
-<h1 id="-step-1-gene-prediction-with-prodigal">🧬 Step 1: Gene Prediction with Prodigal</h1>
+<ul>
+  <li>
+<strong>Always report variance explained</strong> by each PC in axis labels</li>
+  <li>PCA assumes linear relationships—not ideal for highly non-linear data</li>
+  <li>Euclidean distance may not be appropriate for count data (consider transformations)</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">scale = TRUE</code> unless you have a specific reason not to</li>
+</ul>
 
-<p>Gene prediction identifies open reading frames (ORFs) and defines the basic gene catalog.</p>
+<h2><img src="/assets/img/pca.png" alt="pca"></h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prodigal <span class="se">\</span>
-  <span class="nt">-i</span> genome.fasta <span class="se">\</span>
-  <span class="nt">-a</span> genome.faa <span class="se">\</span>
-  <span class="nt">-d</span> genome.fna <span class="se">\</span>
-  <span class="nt">-o</span> genome.genes.gbk <span class="se">\</span>
-  <span class="nt">-p</span> single
+<h2 id="-pcoa--principal-coordinates-analysis">📌 PCoA — Principal Coordinates Analysis</h2>
+
+<h3 id="when-to-use-pcoa">When to Use PCoA</h3>
+
+<p>✅ <strong>You want to use non-Euclidean distances</strong><br>
+✅ <strong>Common in microbiome and ecology studies</strong><br>
+✅ <strong>Flexible choice of distance metrics</strong> (Bray–Curtis, Jaccard, UniFrac, etc.)</p>
+
+<p><strong>Common applications:</strong></p>
+
+<ul>
+  <li>Microbiome studies (Bray–Curtis, weighted/unweighted UniFrac)</li>
+  <li>Community ecology (presence–absence or abundance-based distances)</li>
+  <li>Any analysis where distance metric matters more than raw values</li>
+</ul>
+
+<h3 id="how-pcoa-works">How PCoA Works</h3>
+
+<p>Unlike PCA, which operates on raw data, PCoA starts with a <strong>distance matrix</strong> between samples. It then finds coordinates that best preserve those pairwise distances.</p>
+
+<p>This means you can use any distance metric appropriate for your data:</p>
+
+<ul>
+  <li>
+<strong>Bray–Curtis:</strong> Abundance-based, good for count data</li>
+  <li>
+<strong>Jaccard:</strong> Presence–absence, ignores abundance</li>
+  <li>
+<strong>Weighted UniFrac:</strong> Phylogenetically-informed distances for microbiome data</li>
+</ul>
+
+<h3 id="pcoa-in-r-braycurtis-distance">PCoA in R (Bray–Curtis Distance)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Calculate Bray–Curtis distance matrix</span><span class="w">
+</span><span class="n">dist_bc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vegdist</span><span class="p">(</span><span class="n">community_data</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Perform PCoA</span><span class="w">
+</span><span class="n">pcoa_res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cmdscale</span><span class="p">(</span><span class="n">dist_bc</span><span class="p">,</span><span class="w"> </span><span class="n">eig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Calculate variance explained</span><span class="w">
+</span><span class="n">var_exp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pcoa_res</span><span class="o">$</span><span class="n">eig</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">pcoa_res</span><span class="o">$</span><span class="n">eig</span><span class="p">),</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Create data frame for plotting</span><span class="w">
+</span><span class="n">pcoa_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">Axis1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pcoa_res</span><span class="o">$</span><span class="n">points</span><span class="p">[,</span><span class="m">1</span><span class="p">],</span><span class="w">
+  </span><span class="n">Axis2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pcoa_res</span><span class="o">$</span><span class="n">points</span><span class="p">[,</span><span class="m">2</span><span class="p">],</span><span class="w">
+  </span><span class="n">Group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Group</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plot</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">pcoa_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">Axis1</span><span class="p">,</span><span class="w"> </span><span class="n">Axis2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PCoA (Bray–Curtis Distance)"</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PCoA Axis 1 ("</span><span class="p">,</span><span class="w"> </span><span class="n">var_exp</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">),</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PCoA Axis 2 ("</span><span class="p">,</span><span class="w"> </span><span class="n">var_exp</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="-key-points-about-pcoa">📌 Key Points About PCoA</h3>
+
+<ul>
+  <li>
+<strong>Distance metric matters:</strong> Different metrics can produce very different plots</li>
+  <li>Always state which distance metric you used in figure legends</li>
+  <li>PCoA preserves pairwise distances, not variance</li>
+  <li>Negative eigenvalues can occur with some distance metrics (usually negligible)</li>
+</ul>
+
+<h2 id="-1"><img src="/assets/img/pcoa.png" alt="pcoa"></h2>
+
+<h2 id="-nmds--non-metric-multidimensional-scaling">📌 NMDS — Non-metric Multidimensional Scaling</h2>
+
+<h3 id="when-to-use-nmds">When to Use NMDS</h3>
+
+<p>✅ <strong>Data are non-linear or zero-inflated</strong><br>
+✅ <strong>Rank order of distances matters more than exact values</strong><br>
+✅ <strong>Very common in community ecology and microbiome studies</strong></p>
+
+<p><strong>Why NMDS is popular in ecology:</strong></p>
+
+<ul>
+  <li>Handles non-linear relationships better than PCA/PCoA</li>
+  <li>Robust to zero-inflated count data</li>
+  <li>Only requires rank ordering of distances to be preserved</li>
+  <li>More flexible for ecological data</li>
+</ul>
+
+<h3 id="how-nmds-works">How NMDS Works</h3>
+
+<p>NMDS is an iterative algorithm that:</p>
+
+<ol>
+  <li>Starts with random sample positions in reduced space</li>
+  <li>Moves points to better match the rank order of original distances</li>
+  <li>Repeats until convergence</li>
+</ol>
+
+<p>The <strong>stress value</strong> measures how well the reduced space preserves distance rankings:</p>
+
+<ul>
+  <li>
+<strong>Stress &lt; 0.05:</strong> Excellent fit</li>
+  <li>
+<strong>Stress &lt; 0.10:</strong> Good fit</li>
+  <li>
+<strong>Stress &lt; 0.20:</strong> Acceptable</li>
+  <li>
+<strong>Stress &gt; 0.20:</strong> Poor fit (interpretation may be misleading)</li>
+</ul>
+
+<h3 id="nmds-in-r">NMDS in R</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Perform NMDS</span><span class="w">
+</span><span class="n">nmds_res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metaMDS</span><span class="p">(</span><span class="w">
+  </span><span class="n">community_data</span><span class="p">,</span><span class="w">
+  </span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">,</span><span class="w">
+  </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">           </span><span class="c1"># Number of dimensions</span><span class="w">
+  </span><span class="n">trymax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="w">     </span><span class="c1"># Maximum iterations</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Extract coordinates</span><span class="w">
+</span><span class="n">nmds_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">NMDS1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nmds_res</span><span class="o">$</span><span class="n">points</span><span class="p">[,</span><span class="m">1</span><span class="p">],</span><span class="w">
+  </span><span class="n">NMDS2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nmds_res</span><span class="o">$</span><span class="n">points</span><span class="p">[,</span><span class="m">2</span><span class="p">],</span><span class="w">
+  </span><span class="n">Group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Group</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plot with stress value</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">nmds_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">NMDS1</span><span class="p">,</span><span class="w"> </span><span class="n">NMDS2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"NMDS (Stress = "</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">nmds_res</span><span class="o">$</span><span class="n">stress</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s2">")"</span><span class="p">),</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NMDS1"</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NMDS2"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="-key-points-about-nmds">📌 Key Points About NMDS</h3>
+
+<ul>
+  <li>
+<strong>Always report stress values</strong> in your figure or legend</li>
+  <li>NMDS axes are arbitrary—rotation and scaling don’t matter</li>
+  <li>Results can vary slightly between runs (use <code class="language-plaintext highlighter-rouge">set.seed()</code> for reproducibility)</li>
+  <li>High stress? Try increasing dimensions (k = 3) or question if NMDS is appropriate</li>
+</ul>
+
+<h2 id="-2"><img src="/assets/img/nmds.png" alt="NMDS"></h2>
+
+<h2 id="-pca-vs-pcoa-vs-nmds--quick-decision-guide">📝 PCA vs PCoA vs NMDS — Quick Decision Guide</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Best For</th>
+      <th>Key Assumption</th>
+      <th>Distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>PCA</strong></td>
+      <td>Continuous, normalized data</td>
+      <td>Linear variance structure</td>
+      <td>Euclidean</td>
+    </tr>
+    <tr>
+      <td><strong>PCoA</strong></td>
+      <td>When distance metric matters</td>
+      <td>Distance metric is appropriate</td>
+      <td>Any metric</td>
+    </tr>
+    <tr>
+      <td><strong>NMDS</strong></td>
+      <td>Ecological count data, non-linear</td>
+      <td>Rank order preservation</td>
+      <td>Any metric</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="decision-tree">Decision Tree:</h3>
+
+<ol>
+  <li>
+<strong>Is your data continuous and normalized?</strong> → Try PCA first</li>
+  <li>
+<strong>Do you need a specific distance metric (e.g., Bray–Curtis)?</strong> → Use PCoA</li>
+  <li>
+<strong>Is your data highly non-linear or zero-inflated?</strong> → Consider NMDS</li>
+  <li>
+<strong>Are you analyzing microbiome data?</strong> → PCoA or NMDS with Bray–Curtis/UniFrac</li>
+</ol>
+
+<hr>
+
+<h2 id="️-common-mistakes-with-ordination-plots">⚠️ Common Mistakes with Ordination Plots</h2>
+
+<h3 id="1-interpreting-axes-as-direct-biological-gradients">1. Interpreting axes as direct biological gradients</h3>
+
+<p><strong>The mistake:</strong> “PC1 shows temperature effects”<br>
+<strong>The reality:</strong> PC1 shows the direction of maximum variance, which <em>might</em> correlate with temperature</p>
+
+<h3 id="2-comparing-coordinates-across-different-methods">2. Comparing coordinates across different methods</h3>
+
+<p><strong>The mistake:</strong> “Sample A has a higher NMDS1 value than in the PCA”<br>
+<strong>The reality:</strong> Axes from different methods are not comparable</p>
+
+<h3 id="3-ignoring-distance-metric-choice-pcoanmds">3. Ignoring distance metric choice (PCoA/NMDS)</h3>
+
+<p><strong>The mistake:</strong> Using Euclidean distance for count data<br>
+<strong>Better:</strong> Use Bray–Curtis or Jaccard for compositional data</p>
+
+<h3 id="4-forgetting-to-report-nmds-stress">4. Forgetting to report NMDS stress</h3>
+
+<p><strong>The mistake:</strong> Showing NMDS without stress value<br>
+<strong>The reality:</strong> High stress (&gt;0.20) means the plot may be misleading</p>
+
+<h3 id="5-treating-ordination-as-a-hypothesis-test">5. Treating ordination as a hypothesis test</h3>
+
+<p><strong>The mistake:</strong> “Groups are different because they separate in the PCA”<br>
+<strong>The reality:</strong> Visual separation ≠ statistical significance. Use PERMANOVA, ANOSIM, etc.</p>
+
+<h3 id="6-not-reporting-variance-explained-pcapcoa">6. Not reporting variance explained (PCA/PCoA)</h3>
+
+<p>Always include the percentage of variance explained in your axis labels.</p>
+
+<h3 id="7-over-interpreting-outliers">7. Over-interpreting outliers</h3>
+
+<p>One outlier can dramatically affect ordination plots. Investigate outliers—they might be biological, technical, or contamination.</p>
+
+<hr>
+
+<h2 id="-best-practices-for-ordination-plots">✅ Best Practices for Ordination Plots</h2>
+
+<h3 id="1-choose-the-right-method-for-your-data-type">1. Choose the right method for your data type</h3>
+
+<p>Match the method to your data structure and question.</p>
+
+<h3 id="2-always-state-your-distance-metric">2. Always state your distance metric</h3>
+
+<p>Include in the figure legend: “PCoA based on Bray–Curtis dissimilarity”</p>
+
+<h3 id="3-report-variance-explained-or-stress">3. Report variance explained or stress</h3>
+
+<ul>
+  <li>PCA/PCoA: Include % variance in axis labels</li>
+  <li>NMDS: Report stress in title or legend</li>
+</ul>
+
+<h3 id="4-pair-with-statistical-testing">4. Pair with statistical testing</h3>
+
+<p>Use PERMANOVA, ANOSIM, or similar tests to validate visual patterns.</p>
+
+<h3 id="5-check-assumptions">5. Check assumptions</h3>
+
+<ul>
+  <li>PCA: Are your data normally distributed after transformation?</li>
+  <li>PCoA/NMDS: Is your distance metric appropriate?</li>
+</ul>
+
+<h3 id="6-use-color-blind-friendly-palettes">6. Use color-blind friendly palettes</h3>
+
+<p>Make your plots accessible (viridis, ColorBrewer qualitative palettes).</p>
+
+<h3 id="7-add-confidence-ellipses-optional">7. Add confidence ellipses (optional)</h3>
+
+<p>Can help visualize group separation, but don’t overinterpret.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Add stat_ellipse to ggplot</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">pca_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">PC1</span><span class="p">,</span><span class="w"> </span><span class="n">PC2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">stat_ellipse</span><span class="p">(</span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.95</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<hr>
+
+<h2 id="-real-world-workflow">🎨 Real-World Workflow</h2>
+
+<p>Here’s how ordination fits into a typical analysis:</p>
+
+<ol>
+  <li>
+<strong>Pre-process data:</strong> Filter low-abundance features, normalize/transform</li>
+  <li>
+<strong>Calculate distances:</strong> Choose appropriate metric (Bray–Curtis, Jaccard, etc.)</li>
+  <li>
+<strong>Perform ordination:</strong> PCA, PCoA, or NMDS</li>
+  <li>
+<strong>Visualize:</strong> Create publication-quality plots</li>
+  <li>
+<strong>Test statistically:</strong> PERMANOVA to test group differences</li>
+  <li>
+<strong>Investigate drivers:</strong> Use <code class="language-plaintext highlighter-rouge">envfit()</code> or similar to identify variables correlated with ordination axes</li>
+</ol>
+
+<p><strong>Example PERMANOVA:</strong></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Test if groups differ significantly</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+
+</span><span class="n">adonis2</span><span class="p">(</span><span class="n">community_data</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Group</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr>
+
+<h2 id="-python-alternatives">🐍 Python Alternatives</h2>
+
+<p>For Python users, here are equivalent tools:</p>
+
+<p><strong>PCA:</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">pca</span> <span class="o">=</span> <span class="nc">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pca_coords</span> <span class="o">=</span> <span class="n">pca</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">community_data</span><span class="p">)</span>
+
+<span class="c1"># Variance explained
+</span><span class="n">var_exp</span> <span class="o">=</span> <span class="n">pca</span><span class="p">.</span><span class="n">explained_variance_ratio_</span> <span class="o">*</span> <span class="mi">100</span>
 </code></pre></div></div>
 
-<p>Key outputs</p>
+<p><strong>PCoA:</strong></p>
 
-<p>● faa → predicted proteins</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.manifold</span> <span class="kn">import</span> <span class="n">MDS</span>
+<span class="kn">from</span> <span class="n">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">pdist</span><span class="p">,</span> <span class="n">squareform</span>
 
-<p>● fna → nucleotide CDS</p>
+<span class="c1"># Calculate Bray-Curtis distance
+</span><span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">pairwise_distances</span>
 
-<p>● gbk → gene coordinates</p>
-
-<p>Prodigal is:
-✔ Fast
-✔ Accurate
-✔ Well-suited for isolates and high-quality MAGs</p>
-
-<h1 id="-step-2-rapid-genome-annotation-with-prokka">🧬 Step 2: Rapid Genome Annotation with Prokka</h1>
-
-<p>Prokka wraps gene prediction and functional assignment into a single, fast pipeline.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prokka genome.fasta <span class="se">\</span>
-  <span class="nt">--outdir</span> prokka_out <span class="se">\</span>
-  <span class="nt">--prefix</span> genome <span class="se">\</span>
-  <span class="nt">--cpus</span> 16
+<span class="n">dist_matrix</span> <span class="o">=</span> <span class="nf">pairwise_distances</span><span class="p">(</span><span class="n">community_data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="sh">'</span><span class="s">braycurtis</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">mds</span> <span class="o">=</span> <span class="nc">MDS</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dissimilarity</span><span class="o">=</span><span class="sh">'</span><span class="s">precomputed</span><span class="sh">'</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">pcoa_coords</span> <span class="o">=</span> <span class="n">mds</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>What Prokka provides</p>
+<p><strong>NMDS:</strong></p>
 
-<p>● Gene names and product descriptions</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.manifold</span> <span class="kn">import</span> <span class="n">MDS</span>
 
-<p>● rRNA, tRNA, tmRNA prediction</p>
+<span class="n">nmds</span> <span class="o">=</span> <span class="nc">MDS</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dissimilarity</span><span class="o">=</span><span class="sh">'</span><span class="s">precomputed</span><span class="sh">'</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">nmds_coords</span> <span class="o">=</span> <span class="n">nmds</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">)</span>
 
-<p>● GFF, GenBank, and protein FASTA files</p>
-
-<p>Prokka is ideal for:
-✔ First-pass annotation
-✔ NCBI submissions
-✔ Comparative gene counts</p>
-
-<h1 id="-step-3-protein-domain-annotation-with-interproscan">🧬 Step 3: Protein Domain Annotation with InterProScan</h1>
-
-<p>While Prokka assigns gene names, InterProScan identifies conserved protein domains, which is critical for:</p>
-
-<p>● Novel proteins</p>
-
-<p>● Hypothetical genes</p>
-
-<p>● Functional inference beyond BLAST hits</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interproscan.sh <span class="se">\</span>
-  <span class="nt">-i</span> genome.faa <span class="se">\</span>
-  <span class="nt">-o</span> genome.interpro.tsv <span class="se">\</span>
-  <span class="nt">-f</span> TSV <span class="se">\</span>
-  <span class="nt">-dp</span> <span class="se">\</span>
-  <span class="nt">--cpu</span> 32
+<span class="c1"># Stress
+</span><span class="n">stress</span> <span class="o">=</span> <span class="n">nmds</span><span class="p">.</span><span class="n">stress_</span>
 </code></pre></div></div>
 
-<p>Why domain-based annotation matters</p>
+<hr>
 
-<p>● Domains are more conserved than full-length proteins</p>
+<h2 id="-key-takeaways">📌 Key Takeaways</h2>
 
-<p>● Enables functional inference for unknown genes</p>
+<p>✅ <strong>Ordination summarizes multivariate relationships</strong> in reduced dimensions</p>
 
-<p>● Links proteins to GO terms and enzyme classes</p>
+<p>✅ <strong>Method choice should match data type</strong> and biological question</p>
 
-<h1 id="-step-4-metabolic--pathway-annotation-with-dram">🧬 Step 4: Metabolic &amp; Pathway Annotation with DRAM</h1>
+<p>✅ <strong>Ordination is exploratory</strong> and should be paired with statistics (PERMANOVA, ANOSIM)</p>
 
-<p>DRAM integrates multiple databases to reconstruct genome-scale metabolic potential.
-<strong>DRAM annotation</strong></p>
+<p>✅ <strong>Distance metric matters</strong> for PCoA and NMDS—choose carefully</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DRAM.py annotate <span class="se">\</span>
-  <span class="nt">-i</span> genome.fasta <span class="se">\</span>
-  <span class="nt">-o</span> dram_out <span class="se">\</span>
-  <span class="nt">--threads</span> 32
-</code></pre></div></div>
+<p>✅ <strong>Always report stress (NMDS)</strong> and variance explained (PCA/PCoA)</p>
 
-<p>DRAM distillation (summaries)</p>
+<p>✅ <strong>Clear visualization improves interpretation</strong> but doesn’t replace proper analysis</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DRAM.py distill <span class="se">\</span>
-  <span class="nt">-i</span> dram_out/annotations.tsv <span class="se">\</span>
-  <span class="nt">-o</span> dram_out/genome_summaries
-</code></pre></div></div>
+<hr>
 
-<p>DRAM excels at
-✔ Central carbon metabolism
-✔ Nitrogen, sulfur, hydrogen pathways
-✔ CAZymes and polysaccharide utilization
-✔ Transporters and redox systems</p>
+<h2 id="-whats-next">🔜 What’s Next?</h2>
 
-<p>This moves annotation from gene lists → biological interpretation.
-🧠 Focus Areas: Core Metabolic Pathways</p>
+<p><strong>Day 4: Volcano Plots</strong></p>
 
-<p>DRAM distillation gives details on core metabolic potential, including:</p>
+<p><strong>Day 5: Bubble plots</strong></p>
 
-<p>🔹 Energy metabolism</p>
+<hr>
 
-<p>Glycolysis</p>
+<p><em>This is part of the “Visualize Your Data” series. Check out <a href="/blog/visualize-your-data-day1-box-vs-violin/">Day 1: Box Plots and Violin Plots</a> and <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2: Heatmaps</a> if you missed them.</em></p>
 
-<p>TCA cycle</p>
-
-<p>Oxidative phosphorylation</p>
-
-<p>Fermentation pathways</p>
-
-<p>🔹 Carbon utilization</p>
-
-<p>Sugar transporters</p>
-
-<p>Polysaccharide degradation</p>
-
-<p>Organic acid metabolism</p>
-
-<p>🔹 Nitrogen &amp; sulfur metabolism</p>
-
-<p>Nitrate/nitrite reduction</p>
-
-<p>Amino acid biosynthesis</p>
-
-<p>Sulfur assimilation</p>
-
-<p><strong>These pathways define how organisms:</strong></p>
-
-<p>● Acquire energy</p>
-
-<p>● Use resources</p>
-
-<p>● Interact with their environment</p>
-
-<h1 id="-scaling-annotation-to-100-genomes">📊 Scaling Annotation to 100+ Genomes</h1>
-
-<p>For large genome sets:</p>
-
-<p>✔ Run Prokka and Prodigal in batch mode
-✔ Use DRAM summaries for comparison tables
-✔ Aggregate pathway presence/absence matrices
-✔ Combine with Day 3 taxonomy and phylogeny</p>
-
-<p>This enables:</p>
-
-<p>● Functional clustering</p>
-
-<p>● Ecological stratification</p>
-
-<p>● Trait-based comparisons</p>
-
-<p><img src="/assets/img/dram.png" alt="dram annotation"></p>
-
-<h1 id="-trait-based-screening-from-annotation-to-ecology">🔍 Trait-Based Screening: From Annotation to Ecology</h1>
-
-<p>Once annotation is complete, we can screen genomes for specific ecological traits, such as:</p>
-
-<p>● Biofilm formation</p>
-
-<p>● EPS (exopolysaccharide) production</p>
-
-<p>● Motility</p>
-
-<p>● Stress response</p>
-
-<p>● Host or particle association</p>
-
-<p>This is especially powerful for comparative genomics and functional redundancy analyses.</p>
-
-<p><strong>🧬 Example 1: Screening for Biofilm-Related Genes (InterProScan)</strong></p>
-
-<p>Step 1: Create a reference keyword list</p>
-
-<p>Create a simple table (CSV or Excel) with keywords or domain IDs:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Keyword
-biofilm
-adhesion
-fimbrial
-pilus
-curli
-polysaccharide-binding
-</code></pre></div></div>
-
-<p>This can also include:</p>
-
-<p>● Pfam IDs</p>
-
-<p>● GO terms</p>
-
-<p>● InterPro IDs</p>
-
-<p>Step 2: Filter InterProScan results using pandas</p>
-
-<p>You can use filter.py for filtering the annotation file with reference file.
-All codes can be found at :
-https://github.com/jojyjohn28/whole-genome-sequencing-analysis
-This produces a genome-specific list of candidate biofilm genes.</p>
-
-<p><strong>🧬 Example 2: Screening for EPS-Related Genes (DRAM / KEGG)</strong></p>
-
-<p>DRAM outputs include KEGG IDs, CAZymes, and functional descriptions, making them ideal for EPS screening.</p>
-
-<p>Step 1: Prepare a reference list</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Keyword
-exopolysaccharide
-capsule
-glycosyltransferase
-alginate
-cellulose
-levan
-</code></pre></div></div>
-
-<h1 id="-merging-functional-traits-with-quantitative-data">🧬 Merging Functional Traits with Quantitative Data</h1>
-
-<p>Trait screening becomes even more powerful when merged with abundance or expression data.</p>
-
-<p>A generalized version of workflow is given in /scripts as merge.py</p>
-
-<h1 id="-how-keywords-are-used-for-functional-screening">🔑 How Keywords Are Used for Functional Screening</h1>
-
-<p>Many ecological traits (e.g., biofilm formation, EPS production, adhesion, motility) are not represented by a single gene, but by groups of genes, domains, or pathways.
-Keyword-based screening provides a flexible, transparent way to identify such traits across genomes.</p>
-
-<p>Below are two common and complementary approaches.</p>
-
-<p>🧭 Option 1: Build Keyword-Based References from Databases</p>
-
-<p>Keywords can be translated into reference identifiers using established databases.</p>
-
-<p>🔹 InterPro / Pfam (protein domains)</p>
-
-<p>Use keywords on the InterPro or Pfam websites to identify relevant domains:</p>
-
-<p>Examples:</p>
-
-<p>● biofilm → adhesion domains, pili, fimbriae</p>
-
-<p>● EPS → glycosyltransferases, polysaccharide biosynthesis proteins</p>
-
-<p>You can then screen InterProScan outputs using:</p>
-
-<p>● InterPro IDs</p>
-
-<p>● Pfam accessions</p>
-
-<p>● Domain descriptions</p>
-
-<p>This approach is robust for trait-level inference, even when gene names are ambiguous.</p>
-
-<p>🔹 KEGG (pathways &amp; enzymes)</p>
-
-<p>KEGG keywords can be used to identify:</p>
-
-<p>● Pathway modules (e.g., polysaccharide biosynthesis)</p>
-
-<p>● Enzyme classes (e.g., glycosyltransferases)</p>
-
-<p>● KO identifiers linked to EPS or biofilm pathways</p>
-
-<p>DRAM outputs already integrate KEGG annotations, making KEGG-based screening especially convenient.</p>
-
-<h1 id="️-option-2-create-a-keyword-filter-list-and-screen-locally">🗂️ Option 2: Create a Keyword Filter List and Screen Locally</h1>
-
-<p>For large genome sets, a practical approach is to create a simple keyword reference file and use it to filter annotation outputs.</p>
-
-<p>Example keyword list (trait_keywords.txt):</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>biofilm
-adhesion
-pilus
-fimbrial
-exopolysaccharide
-capsule
-glycosyltransferase
-alginate
-cellulose
-</code></pre></div></div>
-
-<p>This file can be reused across:</p>
-
-<p>● InterProScan outputs</p>
-
-<p>● DRAM annotations</p>
-
-<p>● Prokka product descriptions</p>
-
-<h1 id="-example-keyword-based-screening-in-r">📊 Example: Keyword-Based Screening in R</h1>
-
-<p>You can use screening_traits.R as minimal R workflow for screening annotation tables using keywords.</p>
-
-<p>What this does</p>
-
-<p>● Searches annotation descriptions for any keyword match</p>
-
-<p>● Returns a genome-specific list of candidate trait genes</p>
-
-<p>● Scales easily to hundreds of genomes</p>
-
-<h1 id="-best-practices">🧠 Best Practices</h1>
-
-<p>● Use keywords + domain IDs when possible</p>
-
-<p>● Keep keyword lists transparent and version-controlled</p>
-
-<p>● Treat results as hypothesis-generating, not definitive proof</p>
-
-<p>● Combine with pathway context (DRAM) and expression data when available</p>
-
-<p>This keyword-driven approach bridges the gap between raw annotation tables and ecological interpretation, making it especially powerful for comparative genomics and other downstream analyses.</p>
-
-<h2 id="-key-takeaways-from-day-4">🧠 Key Takeaways from Day 4</h2>
-
-<p>● Annotation works best in layers
-● Prodigal ensures accurate gene prediction
-● Prokka provides rapid functional context
-● InterProScan enables trait-level screening
-● DRAM connects genes into metabolic pathways
-● Simple keyword-based filtering can reveal powerful ecological insights</p>
-
-<h2 id="-coming-up-day-5">🔜 Coming Up: Day 5</h2>
-
-<p>Day 5 — Comparative Genomics &amp; Functional Comparisons</p>
-
-<p>We’ll integrate taxonomy (Day 3) and function (Day 4) to compare genomes across environments, clades, and ecological strategies.</p>
-
-<p>All codes can be found at :
-https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
-
-<p><strong>These functional screening results can be combined with genome taxonomy and phylogeny and used as annotation layers in iTOL.</strong>
-For example, the figure below illustrates biofilm-related gene screening across 200+ genomes, where the presence or absence of biofilm-associated traits is overlaid onto the phylogenomic tree as metadata strips or heatmaps.
-This integration allows rapid visualization of how functional traits are distributed across taxonomic lineages and evolutionary clades, enabling direct comparison of functional potential within and between groups.</p>
-
-<p><img src="/assets/img/d3.png" alt="phylo and function"></p>
+<p><strong>Have questions about ordination? Drop a comment below!</strong></p>
 
     </div>
   </article>
