@@ -1,7 +1,8 @@
----
-permalink: /robots.txt
----
 User-agent: *
-Disallow:
+Allow: /
 
-Sitemap: {{ site.baseurl | prepend: site.url }}/sitemap.xml
+# Sitemap location
+Sitemap: https://jojyjohn28.github.io/sitemap.xml
+
+# Crawl-delay (optional - helps with GitHub Pages rate limits)
+Crawl-delay: 1
