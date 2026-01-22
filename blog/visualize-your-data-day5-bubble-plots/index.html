@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Visualize Your Data — Day 5: Bubble Plots in Bioinformatics | Jojy John
+    
+  
+</title>
+<meta name="author" content="Jojy John">
+<meta name="description" content="Day 5 of the Visualize Your Data series: using bubble plots to visualize multi-dimensional relationships in genomics and functional ecology.">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="" integrity="" crossorigin="anonymous">
+
+<!-- Bootstrap Table -->
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" type="text/css" href="">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+<!-- pseudocode -->
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+<!-- GeoJSON support via Leaflet -->
+
+
+<!-- diff2html -->
+
+
+
+
+
+
+<!-- GoatCounter analytics -->
+<script data-goatcounter="https://jojyjohn28.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Jojy</span>
+            
+            
+            John
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">Jojy John
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/mentoring/">Mentoring
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/collaborations/">Collaboration
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/repositories/">Repositories
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Visualize Your Data — Day 5: Bubble Plots in Bioinformatics</h1>
+    <p class="post-meta">
+      Created in January 22, 2026
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+
+      
+
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    <div id="markdown-content">
+      <h1 id="-visualize-your-data--day-5-bubble-plots">📊 Visualize Your Data – Day 5: Bubble Plots</h1>
+
+<p>In <a href="/blog/visualize-your-data-day1/">Day 1</a>, we explored distributions with box and violin plots.<br>
+In <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2</a>, we revealed patterns using heatmaps.<br>
+In <a href="/blog/visualize-your-data-day3-ordination/">Day 3</a>, we visualized sample relationships with ordination plots.<br>
+In <a href="/blog/visualize-your-data-day4-volcano-plots/">Day 4</a>, we combined statistics and biology with volcano plots.</p>
+
+<p>Today, we’re exploring <strong>bubble plots</strong>—a powerful way to visualize multi-dimensional data where you need to show relationships across three or more variables simultaneously.</p>
+
+<p>Bubble plots are particularly useful in functional genomics, metabolic profiling, and ecological studies where you want to display abundance, diversity, and context all in one figure.</p>
+
+<hr>
+
+<h2 id="-what-do-bubble-plots-show">🎯 What Do Bubble Plots Show?</h2>
+
+<p>A bubble plot extends a scatter plot by encoding additional variables:</p>
+
+<ul>
+  <li>
+<strong>X-axis:</strong> First categorical or continuous variable (e.g., taxonomic order, sample type)</li>
+  <li>
+<strong>Y-axis:</strong> Second categorical or continuous variable (e.g., metabolic function, gene family)</li>
+  <li>
+<strong>Bubble size:</strong> Quantitative variable (e.g., gene abundance, expression level)</li>
+  <li>
+<strong>Bubble color:</strong> Additional variable (e.g., genome count, diversity metric)</li>
+</ul>
+
+<p>This allows you to visualize 4 dimensions of data in a single plot—far more information than a traditional scatter plot or heatmap.</p>
+
+<hr>
+
+<h2 id="-where-youll-see-bubble-plots">🔬 Where You’ll See Bubble Plots</h2>
+
+<p>Bubble plots are commonly used for:</p>
+
+<ul>
+  <li>
+<strong>Functional genomics:</strong> Gene abundance across taxa and functions</li>
+  <li>
+<strong>Metabolic potential:</strong> Distribution of metabolic pathways across microbial communities</li>
+  <li>
+<strong>Pathway analysis:</strong> Enrichment of pathways across conditions</li>
+  <li>
+<strong>Ecological studies:</strong> Species abundance across sites and environmental gradients</li>
+  <li>
+<strong>Comparative genomics:</strong> Gene presence/absence with genomic context</li>
+  <li>
+<strong>Multi-omics integration:</strong> Combining abundance, expression, and metadata</li>
+</ul>
+
+<p>If you need to show “which taxa have which functions and how abundant they are,” a bubble plot is your friend.</p>
+
+<hr>
+
+<h2 id="-toy-dataset-metabolic-potential">🧪 Toy Dataset (Metabolic Potential)</h2>
+
+<p>Let’s simulate a dataset similar to functional gene abundance across microbial orders—a common use case in metagenomics.</p>
+
+<h3 id="r-version">R Version</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Simulate microbial orders</span><span class="w">
+</span><span class="n">orders</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Burkholderiales"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Rhodobacterales"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Flavobacteriales"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Alteromonadales"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Oceanospirillales"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Simulate metabolic functions</span><span class="w">
+</span><span class="n">functions</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Nitrogen_fixation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Sulfur_oxidation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Carbon_fixation"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"Denitrification"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Methanogenesis"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Simulate locations</span><span class="w">
+</span><span class="n">locations</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Delaware"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Chesapeake"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Create all combinations</span><span class="w">
+</span><span class="n">bubble_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">expand.grid</span><span class="p">(</span><span class="w">
+  </span><span class="n">Order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orders</span><span class="p">,</span><span class="w">
+  </span><span class="n">Function</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">functions</span><span class="p">,</span><span class="w">
+  </span><span class="n">Bay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">locations</span><span class="p">,</span><span class="w">
+  </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Simulate gene abundance (some orders have more genes for certain functions)</span><span class="w">
+</span><span class="n">bubble_data</span><span class="o">$</span><span class="n">gene_abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rpois</span><span class="p">(</span><span class="n">nrow</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">),</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Simulate number of genomes (context)</span><span class="w">
+</span><span class="n">bubble_data</span><span class="o">$</span><span class="n">num_genomes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sample</span><span class="p">(</span><span class="m">5</span><span class="o">:</span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">),</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Add some biological realism: not all orders have all functions</span><span class="w">
+</span><span class="n">bubble_data</span><span class="o">$</span><span class="n">gene_abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="w">
+  </span><span class="n">runif</span><span class="p">(</span><span class="n">nrow</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w">
+  </span><span class="m">0</span><span class="p">,</span><span class="w">
+  </span><span class="n">bubble_data</span><span class="o">$</span><span class="n">gene_abundance</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Remove zero-abundance rows for cleaner visualization</span><span class="w">
+</span><span class="n">bubble_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bubble_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">gene_abundance</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+
+</span><span class="n">head</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              Order          Function        Bay gene_abundance num_genomes
+1  Burkholderiales Nitrogen_fixation   Delaware             18          32
+2 Rhodobacterales Nitrogen_fixation   Delaware             22          45
+3 Burkholderiales  Sulfur_oxidation   Delaware             11          28
+4 Rhodobacterales  Sulfur_oxidation   Delaware             19          41
+5  Burkholderiales  Carbon_fixation   Delaware             15          35
+6 Rhodobacterales  Carbon_fixation   Delaware             20          38
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="-basic-bubble-plot-in-r">📊 Basic Bubble Plot in R</h2>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Order</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Function</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene_abundance</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">num_genomes</span><span class="p">),</span><span class="w">
+    </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.75</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_size_continuous</span><span class="p">(</span><span class="w">
+    </span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">),</span><span class="w">
+    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gene\nabundance"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_viridis_c</span><span class="p">(</span><span class="w">
+    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of\ngenomes"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">Bay</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey90"</span><span class="p">),</span><span class="w">
+    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Metabolic Potential Across Microbial Orders"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/img/bp1.png" alt="bp basic"></p>
+
+<p><strong>What this shows:</strong></p>
+
+<ul>
+  <li>
+<strong>Bubble size:</strong> How abundant each gene is in that order</li>
+  <li>
+<strong>Bubble color:</strong> How many genomes contribute to that order</li>
+  <li>
+<strong>Position:</strong> Which order has which function</li>
+  <li>
+<strong>Facets:</strong> Comparison across locations</li>
+</ul>
+
+<hr>
+
+<h2 id="-enhanced-bubble-plot-with-better-styling">🎨 Enhanced Bubble Plot with Better Styling</h2>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Order</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Function</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene_abundance</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">num_genomes</span><span class="p">),</span><span class="w">
+    </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.75</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_size_continuous</span><span class="p">(</span><span class="w">
+    </span><span class="n">limits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">bubble_data</span><span class="o">$</span><span class="n">gene_abundance</span><span class="p">)),</span><span class="w">
+    </span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">),</span><span class="w">
+    </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="m">25</span><span class="p">,</span><span class="w"> </span><span class="m">35</span><span class="p">),</span><span class="w">
+    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Normalized\ngene abundance"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_gradient</span><span class="p">(</span><span class="w">
+    </span><span class="n">low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#3B4CC0"</span><span class="p">,</span><span class="w">
+    </span><span class="n">high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#F7A501"</span><span class="p">,</span><span class="w">
+    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of\ngenomes"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">Bay</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w">
+    </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">strip.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Community-level Metabolic Potential"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2><img src="/assets/img/bp2.png" alt="bp enhanced"></h2>
+
+<h2 id="-python-version">🐍 Python Version</h2>
+
+<h3 id="create-toy-data-python">Create Toy Data (Python)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">itertools</span>
+
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="c1"># Define categories
+</span><span class="n">orders</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">Burkholderiales</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Rhodobacterales</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Flavobacteriales</span><span class="sh">"</span><span class="p">,</span>
+          <span class="sh">"</span><span class="s">Alteromonadales</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Oceanospirillales</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">functions</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">Nitrogen_fixation</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Sulfur_oxidation</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Carbon_fixation</span><span class="sh">"</span><span class="p">,</span>
+             <span class="sh">"</span><span class="s">Denitrification</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Methanogenesis</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">locations</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">Delaware</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Chesapeake</span><span class="sh">"</span><span class="p">]</span>
+
+<span class="c1"># Create all combinations
+</span><span class="n">combinations</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">itertools</span><span class="p">.</span><span class="nf">product</span><span class="p">(</span><span class="n">orders</span><span class="p">,</span> <span class="n">functions</span><span class="p">,</span> <span class="n">locations</span><span class="p">))</span>
+
+<span class="n">bubble_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">combinations</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">Order</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Function</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Bay</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># Simulate gene abundance
+</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">gene_abundance</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">poisson</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">))</span>
+
+<span class="c1"># Simulate number of genomes
+</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">))</span>
+
+<span class="c1"># Add sparsity (some orders don't have all functions)
+</span><span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">random</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">0.3</span>
+<span class="n">bubble_data</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="sh">'</span><span class="s">gene_abundance</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Remove zeros for cleaner visualization
+</span><span class="n">bubble_data</span> <span class="o">=</span> <span class="n">bubble_data</span><span class="p">[</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">gene_abundance</span><span class="sh">'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">.</span><span class="nf">head</span><span class="p">())</span>
+</code></pre></div></div>
+
+<h3 id="basic-bubble-plot-python">Basic Bubble Plot (Python)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="c1"># Prepare data for Delaware
+</span><span class="n">delaware_data</span> <span class="o">=</span> <span class="n">bubble_data</span><span class="p">[</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Bay</span><span class="sh">'</span><span class="p">]</span> <span class="o">==</span> <span class="sh">'</span><span class="s">Delaware</span><span class="sh">'</span><span class="p">]</span>
+
+<span class="c1"># Create figure
+</span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Delaware
+</span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">delaware_data</span><span class="p">.</span><span class="nf">iterrows</span><span class="p">():</span>
+    <span class="n">ax1</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span>
+        <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">Order</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">Function</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">gene_abundance</span><span class="sh">'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span>  <span class="c1"># Scale size
+</span>        <span class="n">c</span><span class="o">=</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">]],</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">viridis</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+        <span class="n">vmin</span><span class="o">=</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">].</span><span class="nf">min</span><span class="p">(),</span>
+        <span class="n">vmax</span><span class="o">=</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">].</span><span class="nf">max</span><span class="p">()</span>
+    <span class="p">)</span>
+
+<span class="n">ax1</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Delaware</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">''</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">''</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">x</span><span class="sh">'</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">grid</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Chesapeake
+</span><span class="n">chesapeake_data</span> <span class="o">=</span> <span class="n">bubble_data</span><span class="p">[</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Bay</span><span class="sh">'</span><span class="p">]</span> <span class="o">==</span> <span class="sh">'</span><span class="s">Chesapeake</span><span class="sh">'</span><span class="p">]</span>
+
+<span class="n">scatter</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">chesapeake_data</span><span class="p">.</span><span class="nf">iterrows</span><span class="p">():</span>
+    <span class="n">scatter</span> <span class="o">=</span> <span class="n">ax2</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span>
+        <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">Order</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">Function</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">gene_abundance</span><span class="sh">'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">c</span><span class="o">=</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">]],</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">viridis</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+        <span class="n">vmin</span><span class="o">=</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">].</span><span class="nf">min</span><span class="p">(),</span>
+        <span class="n">vmax</span><span class="o">=</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">].</span><span class="nf">max</span><span class="p">()</span>
+    <span class="p">)</span>
+
+<span class="n">ax2</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Chesapeake</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">''</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">.</span><span class="nf">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">x</span><span class="sh">'</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">.</span><span class="nf">grid</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Add colorbars
+</span><span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">colorbar</span><span class="p">(</span><span class="n">scatter</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Number of genomes</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">suptitle</span><span class="p">(</span><span class="sh">'</span><span class="s">Metabolic Potential Across Microbial Orders</span><span class="sh">'</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="enhanced-with-seaborn-python">Enhanced with Seaborn (Python)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># Create numeric mappings for categorical variables
+</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Order_num</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">Categorical</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Order</span><span class="sh">'</span><span class="p">]).</span><span class="n">codes</span>
+<span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Function_num</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">Categorical</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Function</span><span class="sh">'</span><span class="p">]).</span><span class="n">codes</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">bay</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">([</span><span class="sh">'</span><span class="s">Delaware</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Chesapeake</span><span class="sh">'</span><span class="p">]):</span>
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">bubble_data</span><span class="p">[</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Bay</span><span class="sh">'</span><span class="p">]</span> <span class="o">==</span> <span class="n">bay</span><span class="p">]</span>
+
+    <span class="n">scatter</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">scatter</span><span class="p">(</span>
+        <span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">Order_num</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">Function_num</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">gene_abundance</span><span class="sh">'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">c</span><span class="o">=</span><span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">viridis</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span>
+    <span class="p">)</span>
+
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_xticks</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">orders</span><span class="p">)))</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_xticklabels</span><span class="p">(</span><span class="n">orders</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_yticks</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">functions</span><span class="p">)))</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_yticklabels</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="n">bay</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">''</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">''</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">grid</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Add colorbar
+</span><span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">colorbar</span><span class="p">(</span><span class="n">scatter</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Number of genomes</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">suptitle</span><span class="p">(</span><span class="sh">'</span><span class="s">Community-level Metabolic Potential</span><span class="sh">'</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.98</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="-1"><img src="/assets/img/bp-py1.png" alt="bp enhanced"></h2>
+
+<h2 id="️-common-mistakes-with-bubble-plots">⚠️ Common Mistakes with Bubble Plots</h2>
+
+<h3 id="1-overlapping-bubbles-that-hide-data">1. Overlapping bubbles that hide data</h3>
+
+<p><strong>The problem:</strong> Too many bubbles in the same location make interpretation impossible<br>
+<strong>Solutions:</strong></p>
+
+<ul>
+  <li>Use <code class="language-plaintext highlighter-rouge">alpha</code> transparency</li>
+  <li>Jitter positions slightly</li>
+  <li>Filter to show only top N features</li>
+  <li>Use faceting to separate groups</li>
+</ul>
+
+<h3 id="2-inconsistent-bubble-scaling">2. Inconsistent bubble scaling</h3>
+
+<p><strong>The mistake:</strong> Bubble area doesn’t scale proportionally with values<br>
+<strong>Why it matters:</strong> Human perception interprets area, not radius<br>
+<strong>Solution:</strong> Use <code class="language-plaintext highlighter-rouge">scale_size_area()</code> in ggplot2 or properly scale in Python</p>
+
+<h3 id="3-too-many-categories">3. Too many categories</h3>
+
+<p><strong>The problem:</strong> 20+ categories on X or Y axis become unreadable<br>
+<strong>Better approach:</strong> Filter to top categories, use hierarchical grouping, or consider a heatmap instead</p>
+
+<h3 id="4-poor-color-choice-for-third-variable">4. Poor color choice for third variable</h3>
+
+<p><strong>The mistake:</strong> Using a diverging palette for sequential data<br>
+<strong>Better approach:</strong></p>
+
+<ul>
+  <li>Sequential data (counts, abundance) → sequential palette (viridis, blues)</li>
+  <li>Diverging data (fold changes) → diverging palette (RdBu)</li>
+</ul>
+
+<h3 id="5-not-normalizing-data-appropriately">5. Not normalizing data appropriately</h3>
+
+<p><strong>The mistake:</strong> Comparing raw counts across samples with different sequencing depths<br>
+<strong>Solution:</strong> Normalize by:</p>
+
+<ul>
+  <li>Sequencing depth (reads per million)</li>
+  <li>Genome completeness (for MAG-based analyses)</li>
+  <li>Sample size or effort</li>
+</ul>
+
+<h3 id="6-missing-context-in-legends">6. Missing context in legends</h3>
+
+<p><strong>The mistake:</strong> Legend says “size” without units<br>
+<strong>Better:</strong> “Gene abundance (normalized by genome completeness)”</p>
+
+<h3 id="7-forgetting-to-filter-zeros">7. Forgetting to filter zeros</h3>
+
+<p><strong>The problem:</strong> Empty bubbles (size = 0) clutter the plot<br>
+<strong>Solution:</strong> Remove zero-abundance entries before plotting</p>
+
+<hr>
+
+<h2 id="-best-practices-for-bubble-plots">✅ Best Practices for Bubble Plots</h2>
+
+<h3 id="1-normalize-your-data-appropriately">1. Normalize your data appropriately</h3>
+
+<p>For genomic data:</p>
+
+<ul>
+  <li>Normalize by sequencing depth</li>
+  <li>Adjust for genome completeness (MAGs)</li>
+  <li>Use relative abundances when comparing across samples</li>
+</ul>
+
+<h3 id="2-choose-bubble-sizes-carefully">2. Choose bubble sizes carefully</h3>
+
+<ul>
+  <li>
+<strong>Too small:</strong> Hard to see differences</li>
+  <li>
+<strong>Too large:</strong> Overlapping obscures patterns</li>
+  <li>
+<strong>Sweet spot:</strong> <code class="language-plaintext highlighter-rouge">range = c(3, 15)</code> in ggplot2 works well for most cases</li>
+</ul>
+
+<h3 id="3-use-meaningful-color-scales">3. Use meaningful color scales</h3>
+
+<ul>
+  <li>Sequential for counts/abundance (viridis, YlOrRd)</li>
+  <li>Diverging for fold changes (RdBu, PiYG)</li>
+  <li>Ensure colorblind-friendly palettes</li>
+</ul>
+
+<h3 id="4-limit-categories">4. Limit categories</h3>
+
+<ul>
+  <li>Keep X and Y axes to ≤ 10-15 categories</li>
+  <li>Filter to top taxa/functions if needed</li>
+  <li>Use faceting for additional grouping variables</li>
+</ul>
+
+<h3 id="5-add-context-with-additional-variables">5. Add context with additional variables</h3>
+
+<p>Bubble plots shine when you encode 4+ dimensions:</p>
+
+<ul>
+  <li>Position (X, Y)</li>
+  <li>Size (abundance)</li>
+  <li>Color (diversity, genome count, p-value)</li>
+  <li>Shape (optional, but use sparingly)</li>
+</ul>
+
+<h3 id="6-use-transparency-wisely">6. Use transparency wisely</h3>
+
+<p><code class="language-plaintext highlighter-rouge">alpha = 0.6-0.8</code> helps see overlapping bubbles without losing visibility</p>
+
+<h3 id="7-clean-up-axes">7. Clean up axes</h3>
+
+<ul>
+  <li>Remove grid lines if they clutter</li>
+  <li>Rotate X-axis labels for readability</li>
+  <li>Use bold fonts for categorical labels</li>
+</ul>
+
+<h3 id="8-state-normalization-in-legends">8. State normalization in legends</h3>
+
+<p>Always document: “Gene abundance normalized by average genome completeness”</p>
+
+<hr>
+
+<h2 id="-real-world-example-metabolic-potential-in-estuaries">🔍 Real-World Example: Metabolic Potential in Estuaries</h2>
+
+<p>I used bubble plot answer Which microbial orders possess key metabolic functions in estuarine ecosystems, and how does this vary between Delaware and Chesapeake Bays? The below figure is from my upcoming manuscript which is accepted in ISME communications. More details coming soon.</p>
+
+<p><img src="/assets/img/fred_2.png" alt="Real example"></p>
+
+<h3 id="the-data">The Data</h3>
+
+<ul>
+  <li>
+<strong>X-axis:</strong> Microbial orders (from MAG taxonomy)</li>
+  <li>
+<strong>Y-axis:</strong> Metabolic marker genes (nitrogen fixation, sulfur cycling, etc.)</li>
+  <li>
+<strong>Bubble size:</strong> Normalized gene abundance</li>
+  <li>
+<strong>Bubble color:</strong> Number of genomes contributing (genomic context)</li>
+  <li>
+<strong>Facets:</strong> Geographic location (Delaware vs. Chesapeake)</li>
+</ul>
+
+<h3 id="key-insights-from-this-type-of-plot">Key Insights from This Type of Plot</h3>
+
+<p>✓ <strong>Taxonomic distribution:</strong> Which orders are metabolically diverse<br>
+✓ <strong>Functional specialization:</strong> Orders with high abundance of specific genes<br>
+✓ <strong>Geographic patterns:</strong> Differences between Delaware and Chesapeake<br>
+✓ <strong>Genomic context:</strong> Whether patterns are driven by many genomes or few</p>
+
+<h2 id="-bubble-plot-vs-heatmap-when-to-use-which">🆚 Bubble Plot vs. Heatmap: When to Use Which?</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Bubble Plot</th>
+      <th>Heatmap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Best for</strong></td>
+      <td>Sparse data, multi-dimensional</td>
+      <td>Dense data, continuous values</td>
+    </tr>
+    <tr>
+      <td><strong>Handles zeros</strong></td>
+      <td>Excellent (just no bubble)</td>
+      <td>Poor (empty cells look odd)</td>
+    </tr>
+    <tr>
+      <td><strong>Shows magnitude</strong></td>
+      <td>Via size (less precise)</td>
+      <td>Via color (precise)</td>
+    </tr>
+    <tr>
+      <td><strong>Additional variable</strong></td>
+      <td>Color can encode 4th dimension</td>
+      <td>Limited to 3 dimensions</td>
+    </tr>
+    <tr>
+      <td><strong>Readability</strong></td>
+      <td>Good for ≤100 cells</td>
+      <td>Good for hundreds of cells</td>
+    </tr>
+    <tr>
+      <td><strong>Pattern recognition</strong></td>
+      <td>Moderate</td>
+      <td>Excellent with clustering</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Rule of thumb:</strong></p>
+
+<ul>
+  <li>Sparse, multi-dimensional data → Bubble plot</li>
+  <li>Dense, continuous matrix → Heatmap</li>
+</ul>
+
+<hr>
+
+<h2 id="-key-takeaways">📌 Key Takeaways</h2>
+
+<p>✅ <strong>Bubble plots encode 4+ dimensions</strong> in one visualization</p>
+
+<p>✅ <strong>Best for sparse, categorical data</strong> with quantitative values</p>
+
+<p>✅ <strong>Normalize appropriately</strong>—especially for genomic data</p>
+
+<p>✅ <strong>Filter categories</strong> to maintain readability (≤15 per axis)</p>
+
+<p>✅ <strong>Use transparency</strong> to handle overlapping bubbles</p>
+
+<p>✅ <strong>Color should be meaningful</strong>—not just decorative</p>
+
+<p>✅ <strong>Document normalization</strong> in legends and captions</p>
+
+<p>✅ <strong>Pair with statistical testing</strong>—bubble plots are exploratory</p>
+
+<hr>
+
+<p><em>This is part of the “Visualize Your Data” series. Check out <a href="/blog/visualize-your-data-day1/">Day 1: Box Plots</a>, <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2: Heatmaps</a>, <a href="/blog/visualize-your-data-day3-ordination/">Day 3: Ordination Plots</a>, and <a href="/blog/visualize-your-data-day4-volcano-plots/">Day 4: Volcano Plots</a> if you missed them.</em></p>
+
+<p><strong>Have questions about bubble plots or functional genomics visualization? Drop a comment below!</strong></p>
+
+<hr>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      © Copyright 2026
+      Jojy
+      
+      John. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+      
+      
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+    <!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/assets/js/mdb.min.js"></script> -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+    
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  <!-- Medium Zoom JS -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+<!-- Bootstrap Table -->
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+    
+  
+    <!-- MathJax -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          tags: 'ams',
+        },
+      };
+    </script>
+    <script defer type="text/javascript" id="MathJax-script" src="" integrity="" crossorigin="anonymous"></script>
+    <script defer src="" crossorigin="anonymous"></script>
+  
+
+
+    
+
+    
+
+
+
+    
+  <!-- Scrolling Progress Bar -->
+  <script type="text/javascript">
+    /*
+     * This JavaScript code has been adapted from the article
+     * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar,
+     * published on the website https://css-tricks.com on the 7th of May, 2014.
+     * Couple of changes were made to the original code to make it compatible
+     * with the `al-foio` theme.
+     */
+    const progressBar = $('#progress');
+    /*
+     * We set up the bar after all elements are done loading.
+     * In some cases, if the images in the page are larger than the intended
+     * size they'll have on the page, they'll be resized via CSS to accomodate
+     * the desired size. This mistake, however, breaks the computations as the
+     * scroll size is computed as soon as the elements finish loading.
+     * To account for this, a minimal delay was introduced before computing the
+     * values.
+     */
+    window.onload = function () {
+      setTimeout(progressBarSetup, 50);
+    };
+    /*
+     * We set up the bar according to the browser.
+     * If the browser supports the progress element we use that.
+     * Otherwise, we resize the bar thru CSS styling
+     */
+    function progressBarSetup() {
+      if ('max' in document.createElement('progress')) {
+        initializeProgressElement();
+        $(document).on('scroll', function () {
+          progressBar.attr({ value: getCurrentScrollPosition() });
+        });
+        $(window).on('resize', initializeProgressElement);
+      } else {
+        resizeProgressBar();
+        $(document).on('scroll', resizeProgressBar);
+        $(window).on('resize', resizeProgressBar);
+      }
+    }
+    /*
+     * The vertical scroll position is the same as the number of pixels that
+     * are hidden from view above the scrollable area. Thus, a value > 0 is
+     * how much the user has scrolled from the top
+     */
+    function getCurrentScrollPosition() {
+      return $(window).scrollTop();
+    }
+
+    function initializeProgressElement() {
+      let navbarHeight = $('#navbar').outerHeight(true);
+      $('body').css({ 'padding-top': navbarHeight });
+      $('progress-container').css({ 'padding-top': navbarHeight });
+      progressBar.css({ top: navbarHeight });
+      progressBar.attr({
+        max: getDistanceToScroll(),
+        value: getCurrentScrollPosition(),
+      });
+    }
+    /*
+     * The offset between the html document height and the browser viewport
+     * height will be greater than zero if vertical scroll is possible.
+     * This is the distance the user can scroll
+     */
+    function getDistanceToScroll() {
+      return $(document).height() - $(window).height();
+    }
+
+    function resizeProgressBar() {
+      progressBar.css({ width: getWidthPercentage() + '%' });
+    }
+    // The scroll ratio equals the percentage to resize the bar
+    function getWidthPercentage() {
+      return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+    }
+  </script>
+
+
+    
+
+    
+
+    
+
+    
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+    
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?601a2d3465e2a52bec38b600518d5f70"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script>
+    let searchTheme = determineComputedTheme();
+    const ninjaKeys = document.querySelector('ninja-keys');
+
+    if (searchTheme === 'dark') {
+      ninjaKeys.classList.add('dark');
+    } else {
+      ninjaKeys.classList.remove('dark');
+    }
+
+    const openSearchModal = () => {
+      // collapse navbarNav if expanded on mobile
+      const $navbarNav = $('#navbarNav');
+      if ($navbarNav.hasClass('show')) {
+        $navbarNav.collapse('hide');
+      }
+      ninjaKeys.open();
+    };
+  </script>
+  <script>
+    // get the ninja-keys element
+    const ninja = document.querySelector('ninja-keys');
+
+    // add the home and posts menu items
+    ninja.data = [{
+        id: "nav-jojy-john",
+        title: "Jojy John",
+        section: "Navigation",
+        handler: () => {
+          window.location.href = "/";
+        },
+      },{id: "nav-publications",
+              title: "Publications",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/publications/";
+              },
+            },{id: "nav-blog",
+              title: "Blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "nav-projects",
+              title: "Projects",
+              description: "Research projects spanning microbial ecology, genomics, and multi-omics..",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/projects/";
+              },
+            },{id: "nav-mentoring",
+              title: "Mentoring",
+              description: "Graduate, undergraduate, and intern research mentorship in microbial ecology, bioinformatics, and multi-omics analysis.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/mentoring/";
+              },
+            },{id: "nav-collaboration",
+              title: "Collaboration",
+              description: "Interdisciplinary research collaborations in microbial ecology, genomics, bioinformatics, and environmental biotechnology.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/collaborations/";
+              },
+            },{id: "nav-teaching",
+              title: "Teaching",
+              description: "Teaching experience from 2014",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/teaching/";
+              },
+            },{id: "nav-repositories",
+              title: "Repositories",
+              description: "Research code, bioinformatics pipelines, and reproducible workflows.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/repositories/";
+              },
+            },{id: "post-visualize-your-data-day-5-bubble-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 5: Bubble Plots in Bioinformatics",
+          
+          description: "Day 5 of the Visualize Your Data series: using bubble plots to visualize multi-dimensional relationships in genomics and functional ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day5-bubble-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-4-volcano-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 4: Volcano Plots in Bioinformatics",
+          
+          description: "Day 4 of the Visualize Your Data series: mastering volcano plots for differential expression and abundance analysis in bioinformatics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day4-volcano-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-3-ordination-plots-pca-pcoa-nmds-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 3: Ordination Plots (PCA, PCoA, NMDS) in Bioinformatics...",
+          
+          description: "Day 3 of the Visualize Your Data series: exploring PCA, PCoA, and NMDS to visualize sample relationships and community structure in bioinformatics and microbial ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day3-ordination/";
+            
+          },
+        },{id: "post-visualize-your-data-day-2-heatmaps-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 2: Heatmaps in Bioinformatics",
+          
+          description: "Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps,  commonly used in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day2-heatmaps/";
+            
+          },
+        },{id: "post-visualize-your-data-day-1-box-plot-vs-violin-plot-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics...",
+          
+          description: "Day 1 of the Visualize Your Data series: understanding when and how to use box plots and violin plots to visualize data distributions in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day1-box-vs-violin/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-5-comparative-amp-downstream-genomic-analyses",
+          
+            title: "Whole Genome Sequencing — Day 5: Comparative &amp; Downstream Genomic Analyses",
+          
+          description: "Day 5 of the WGS series: moving from individual genomes to comparative insights through pangenome analysis, secondary metabolite screening, and pathogen detection",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day5-comparative-genomics/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-4-genome-annotation-amp-functional-potential",
+          
+            title: "Whole Genome Sequencing — Day 4: Genome Annotation &amp; Functional Potential",
+          
+          description: "Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day4-annotation-function/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-3-taxonomy-phylogeny-amp-genome-similarity",
+          
+            title: "Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp; Genome Similarity",
+          
+          description: "Day 3 of the WGS series: genome-based taxonomy using GTDB-Tk, phylogenomic tree construction, and species/genus boundary testing using ANI, AAI, and dDDH across large genome sets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day3-taxonomy-phylogeny/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-2-genome-assembly-quality-assessment-and-topology",
+          
+            title: "Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology",
+          
+          description: "Day 2 of the WGS series: short- and long-read genome assembly using SPAdes, MEGAHIT, Shovill, and Flye, followed by assembly evaluation with QUAST, GC content visualization, topology assessment, and graph inspection with Bandage.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day2-genome-assembly/";
+            
+          },
+        },{id: "post-whole-genome-analysis-day-1-from-raw-reads-to-clean-assembly-ready-data",
+          
+            title: "Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data...",
+          
+          description: "Day 1 of a whole-genome analysis series covering raw Illumina and Nanopore reads, integrity checks, quality control with FastQC and NanoPlot, and read trimming using Trimmomatic and Cutadapt.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day1-raw-reads-qc/";
+            
+          },
+        },{id: "post-exploring-the-pan-genome-with-panx-a-practical-workflow-for-darpa-isolates",
+          
+            title: "Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates",
+          
+          description: "5 complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/panx-pangenome-analysis/";
+            
+          },
+        },{id: "post-extracting-full-length-16s-rrna-from-bacterial-genomes-using-barrnap",
+          
+            title: "Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap",
+          
+          description: "A quick and reproducible workflow to extract 16S rRNA genes from assembled genomes and validate taxonomy using NCBI BLAST.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/barrnap-16s-extraction/";
+            
+          },
+        },{id: "post-from-genome-assembly-to-novel-species-a-step-by-step-genomic-workflow",
+          
+            title: "From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow",
+          
+          description: "How do we confidently determine whether a newly sequenced genome represents a novel bacterial species?",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/novel-species-a-step-by-step-guide/";
+            
+          },
+        },{id: "post-using-syncthing-tmux-and-git-to-sync-my-bioinformatics-workflow-across-devices",
+          
+            title: "Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices",
+          
+          description: "How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/syncthing-tmux-git-workflow/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-3-species-level-profiling-with-motus",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs",
+          
+          description: "Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day3/";
+            
+          },
+        },{id: "post-genome-topology-and-genome-announcement-reports-a-practical-reviewer-safe-workflow",
+          
+            title: "Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow",
+          
+          description: "A step-by-step guide to answering NCBI genome topology questions and generating a complete, automated genome report table for Genome Resource Announcements.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-topology-and-genome-report/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-2-kaiju-classification-and-extraction-of-bacterial-amp-archaeal-reads",
+          
+            title: "Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial...",
+          
+          description: "Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day2/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-anlaysis-day-1-from-raw-reads-to-clean-data",
+          
+            title: "Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data...",
+          
+          description: "Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day1/";
+            
+          },
+        },{id: "post-amplicon-week-day-6-wrap-up-from-reads-to-insights",
+          
+            title: "Amplicon Week — Day 6: Wrap-Up: From Reads to Insights",
+          
+          description: "Day 6 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day6/";
+            
+          },
+        },{id: "post-amplicon-week-day-5-web-based-microbiome-analysis-with-easy16s",
+          
+            title: "Amplicon Week — Day 5: Web-based microbiome analysis with easy16S",
+          
+          description: "Day 5 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day5/";
+            
+          },
+        },{id: "post-amplicon-week-day-4-functional-prediction-from-amplicon-data-picrust2-tax4fun2-faprotax",
+          
+            title: "Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)...",
+          
+          description: "Day 4 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day4/";
+            
+          },
+        },{id: "post-amplicon-week-day-3-visualization-amp-ecological-analysis-using-qiime2-microeco-r",
+          
+            title: "Amplicon Week — Day 3: Visualization &amp; Ecological Analysis Using QIIME2 + Microeco...",
+          
+          description: "Day 3 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day3/";
+            
+          },
+        },{id: "post-amplicon-week-day-2-qiime2-setup-importing-data-amp-classifier-training",
+          
+            title: "Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training",
+          
+          description: "Day 2 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day2/";
+            
+          },
+        },{id: "post-amplicon-week-day-1-introduction-to-16s-its-18s-12s-and-coi-metabarcoding",
+          
+            title: "Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI...",
+          
+          description: "Day 1 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day1/";
+            
+          },
+        },{id: "post-cleaning-and-preparing-genomes-for-ncbi-submission-a-complete-workflow",
+          
+            title: "Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow",
+          
+          description: "Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/ncbi-submission-cleaning/";
+            
+          },
+        },{id: "post-machine-learning-mag-binning-with-semibin2-and-snakemake-soil-metagenomes",
+          
+            title: "Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)",
+          
+          description: "How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/semibin-snakemake-soil-mag-workflow/";
+            
+          },
+        },{id: "post-installing-amp-setting-up-my-new-linux-laptop-a-real-journey-through-dual-boot-partitions-amp-persistence",
+          
+            title: "Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot,...",
+          
+          description: "A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/dual-booting-with-linux/";
+            
+          },
+        },{id: "post-gtdb-tk-complete-workflow",
+          
+            title: "GTDB-Tk Complete Workflow",
+          
+          description: "A practical walkthrough of GTDB-Tk Complete Workflow",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/gtdbtk-tree-custom/";
+            
+          },
+        },{id: "post-genome-assembly-day-shovill-for-illumina-amp-flye-for-nanopore-reads",
+          
+            title: "Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads",
+          
+          description: "A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-assembly-day/";
+            
+          },
+        },{id: "post-visualizing-genome-assemblies-with-bandage-building-from-source-on-linux",
+          
+            title: "Visualizing Genome Assemblies with Bandage: Building from Source on Linux",
+          
+          description: "A practical guide to installing Bandage from source using Qt and visualizing assembly graphs generated by Flye and Shovill.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-visualization/";
+            
+          },
+        },{id: "post-re-working-figure-5-visualizing-functional-redundancy-fred-across-bays-seasons-and-salinity",
+          
+            title: "Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity",
+          
+          description: "Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/reworking-a-figure-manuscript-revision-story/";
+            
+          },
+        },{id: "post-my-journey-into-microbiology-the-deep-sea-and-bioinformatics",
+          
+            title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics",
+          
+          description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics/";
+            
+          },
+        },{id: "news-aaas-membership-and-science-magazine-subscription-nominated-by-cynthia-y-young-dean-of-college-of-science-clemson-university",
+              title: 'AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of...',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-asm-2025-los-angeles-usa",
+              title: 'Abstract accepted for **ASM 2025**, Los Angeles, USA.',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-aslo-2025-charlotte-usa",
+              title: 'Abstract accepted for **ASLO 2025**, Charlotte, USA',
+              description: "",
+              section: "News",},{id: "news-188-whole-genome-sequences-submitted-to-ncbi",
+              title: '188 whole-genome sequences submitted to NCBI.',
+              description: "",
+              section: "News",},{id: "projects-bacteriophages-and-auxiliary-metabolic-genes-of-the-chesapeake-and-delaware-bays",
+              title: 'Bacteriophages and Auxiliary Metabolic Genes of the Chesapeake and Delaware Bays',
+              description: "Integrative viromics using metagenomes, metatranscriptomes, and viral fractions to characterize viral taxonomy, auxiliary metabolic genes, host interactions, and ecosystem function in estuarine systems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Estury_Virome/";
+                },},{id: "projects-microbial-biofouling-interactions-on-autonomous-navy-gliders",
+              title: 'Microbial Biofouling Interactions on Autonomous Navy Gliders',
+              description: "Genome-resolved and metagenomic analysis of marine biofilm communities on autonomous underwater vehicles to design a stable, invasion-resistant synthetic biofilm.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/darpa-biofouling-gliders/";
+                },},{id: "projects-diversity-genomic-studies-and-resistance-mechanisms-of-moderately-halophilic-bacteria",
+              title: 'Diversity, Genomic Studies, and Resistance Mechanisms of Moderately Halophilic Bacteria',
+              description: "Genomic and physiological characterization of halophilic bacteria from salt pan ecosystems to understand stress adaptation, resistance mechanisms, and biotechnological potential.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/diversity_and_genomics/";
+                },},{id: "projects-biological-and-microbial-responses-to-deep-sea-mining-hypoxia-and-anthropogenic-disturbance",
+              title: 'Biological and Microbial Responses to Deep-Sea Mining, Hypoxia, and Anthropogenic Disturbance',
+              description: "Environmental impact assessment of deep-sea mining, monsoon-driven hypoxia, and industrial disturbance using molecular and genomic approaches.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/environmental-impact-assessment/";
+                },},{id: "projects-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays",
+              title: 'Functional Redundancy and Metabolic Flexibility of Microbial Communities in Two Mid-Atlantic Bays',
+              description: "Genome-resolved metagenomic and metatranscriptomic analysis of functional redundancy and metabolic flexibility in estuarine microbial communities from the Chesapeake and Delaware Bays.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/functional-redundancy/";
+                },},{id: "projects-resource-partitioning-and-co-occurrence-of-size-fractionated-microbiomes-in-the-delaware-and-chesapeake-bays",
+              title: 'Resource Partitioning and Co-occurrence of Size-Fractionated Microbiomes in the Delaware and Chesapeake Bays...',
+              description: "Integrative metagenomic and metatranscriptomic analysis of free-living and particle-associated microbial communities to understand resource partitioning, co-occurrence patterns, and functional redundancy in estuarine ecosystems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/size-fractionated-resource-partitioning/";
+                },},{
+            id: 'socials-email',
+            title: 'Send email',
+            section: 'Socials',
+            handler: () => {
+              window.open("mailto:%6A%6F%6A%79%6A@%63%6C%65%6D%73%6F%6E.%65%64%75", "_blank");
+            },
+          },{
+            id: 'socials-orcid',
+            title: 'ORCID',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://orcid.org/0000-0002-8739-9741", "_blank");
+            },
+          },{
+            id: 'socials-google-scholar',
+            title: 'Google Scholar',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://scholar.google.com/citations?user=w74rUUAAAAAJ", "_blank");
+            },
+          },{
+            id: 'socials-github',
+            title: 'GitHub',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://github.com/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-linkedin',
+            title: 'LinkedIn',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://www.linkedin.com/in/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-x',
+            title: 'X',
+            description: 'Twitter',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://twitter.com/JojyJon", "_blank");
+            },
+          },{
+            id: 'socials-rss',
+            title: 'RSS Feed',
+            section: 'Socials',
+            handler: () => {
+              window.open("/feed.xml", "_blank");
+            },
+          },{
+          id: 'light-theme',
+          title: 'Change theme to light',
+          description: 'Change the theme of the site to Light',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("light");
+          },
+        },
+        {
+          id: 'dark-theme',
+          title: 'Change theme to dark',
+          description: 'Change the theme of the site to Dark',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("dark");
+          },
+        },
+        {
+          id: 'system-theme',
+          title: 'Use system default theme',
+          description: 'Change the theme of the site to System Default',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("system");
+          },
+        },];
+  </script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+  </body>
+</html>

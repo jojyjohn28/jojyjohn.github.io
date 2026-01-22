@@ -1,5 +1,556 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-22T10:40:15-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Visualize Your Data — Day 4: Volcano Plots in Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots/" rel="alternate" type="text/html" title="Visualize Your Data — Day 4: Volcano Plots in Bioinformatics" /><published>2026-01-21T00:00:00-05:00</published><updated>2026-01-21T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots/"><![CDATA[<h1 id="-visualize-your-data--day-4-volcano-plots">📊 Visualize Your Data – Day 4: Volcano Plots</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-22T11:12:41-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Visualize Your Data — Day 5: Bubble Plots in Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots/" rel="alternate" type="text/html" title="Visualize Your Data — Day 5: Bubble Plots in Bioinformatics" /><published>2026-01-22T00:00:00-05:00</published><updated>2026-01-22T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots/"><![CDATA[<h1 id="-visualize-your-data--day-5-bubble-plots">📊 Visualize Your Data – Day 5: Bubble Plots</h1>
+
+<p>In <a href="/blog/visualize-your-data-day1/">Day 1</a>, we explored distributions with box and violin plots.<br />
+In <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2</a>, we revealed patterns using heatmaps.<br />
+In <a href="/blog/visualize-your-data-day3-ordination/">Day 3</a>, we visualized sample relationships with ordination plots.<br />
+In <a href="/blog/visualize-your-data-day4-volcano-plots/">Day 4</a>, we combined statistics and biology with volcano plots.</p>
+
+<p>Today, we’re exploring <strong>bubble plots</strong>—a powerful way to visualize multi-dimensional data where you need to show relationships across three or more variables simultaneously.</p>
+
+<p>Bubble plots are particularly useful in functional genomics, metabolic profiling, and ecological studies where you want to display abundance, diversity, and context all in one figure.</p>
+
+<hr />
+
+<h2 id="-what-do-bubble-plots-show">🎯 What Do Bubble Plots Show?</h2>
+
+<p>A bubble plot extends a scatter plot by encoding additional variables:</p>
+
+<ul>
+  <li><strong>X-axis:</strong> First categorical or continuous variable (e.g., taxonomic order, sample type)</li>
+  <li><strong>Y-axis:</strong> Second categorical or continuous variable (e.g., metabolic function, gene family)</li>
+  <li><strong>Bubble size:</strong> Quantitative variable (e.g., gene abundance, expression level)</li>
+  <li><strong>Bubble color:</strong> Additional variable (e.g., genome count, diversity metric)</li>
+</ul>
+
+<p>This allows you to visualize 4 dimensions of data in a single plot—far more information than a traditional scatter plot or heatmap.</p>
+
+<hr />
+
+<h2 id="-where-youll-see-bubble-plots">🔬 Where You’ll See Bubble Plots</h2>
+
+<p>Bubble plots are commonly used for:</p>
+
+<ul>
+  <li><strong>Functional genomics:</strong> Gene abundance across taxa and functions</li>
+  <li><strong>Metabolic potential:</strong> Distribution of metabolic pathways across microbial communities</li>
+  <li><strong>Pathway analysis:</strong> Enrichment of pathways across conditions</li>
+  <li><strong>Ecological studies:</strong> Species abundance across sites and environmental gradients</li>
+  <li><strong>Comparative genomics:</strong> Gene presence/absence with genomic context</li>
+  <li><strong>Multi-omics integration:</strong> Combining abundance, expression, and metadata</li>
+</ul>
+
+<p>If you need to show “which taxa have which functions and how abundant they are,” a bubble plot is your friend.</p>
+
+<hr />
+
+<h2 id="-toy-dataset-metabolic-potential">🧪 Toy Dataset (Metabolic Potential)</h2>
+
+<p>Let’s simulate a dataset similar to functional gene abundance across microbial orders—a common use case in metagenomics.</p>
+
+<h3 id="r-version">R Version</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Simulate microbial orders</span><span class="w">
+</span><span class="n">orders</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Burkholderiales"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Rhodobacterales"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Flavobacteriales"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Alteromonadales"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Oceanospirillales"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Simulate metabolic functions</span><span class="w">
+</span><span class="n">functions</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Nitrogen_fixation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Sulfur_oxidation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Carbon_fixation"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"Denitrification"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Methanogenesis"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Simulate locations</span><span class="w">
+</span><span class="n">locations</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Delaware"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Chesapeake"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Create all combinations</span><span class="w">
+</span><span class="n">bubble_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">expand.grid</span><span class="p">(</span><span class="w">
+  </span><span class="n">Order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orders</span><span class="p">,</span><span class="w">
+  </span><span class="n">Function</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">functions</span><span class="p">,</span><span class="w">
+  </span><span class="n">Bay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">locations</span><span class="p">,</span><span class="w">
+  </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Simulate gene abundance (some orders have more genes for certain functions)</span><span class="w">
+</span><span class="n">bubble_data</span><span class="o">$</span><span class="n">gene_abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rpois</span><span class="p">(</span><span class="n">nrow</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">),</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Simulate number of genomes (context)</span><span class="w">
+</span><span class="n">bubble_data</span><span class="o">$</span><span class="n">num_genomes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sample</span><span class="p">(</span><span class="m">5</span><span class="o">:</span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">),</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Add some biological realism: not all orders have all functions</span><span class="w">
+</span><span class="n">bubble_data</span><span class="o">$</span><span class="n">gene_abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="w">
+  </span><span class="n">runif</span><span class="p">(</span><span class="n">nrow</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w">
+  </span><span class="m">0</span><span class="p">,</span><span class="w">
+  </span><span class="n">bubble_data</span><span class="o">$</span><span class="n">gene_abundance</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Remove zero-abundance rows for cleaner visualization</span><span class="w">
+</span><span class="n">bubble_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bubble_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">gene_abundance</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+
+</span><span class="n">head</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              Order          Function        Bay gene_abundance num_genomes
+1  Burkholderiales Nitrogen_fixation   Delaware             18          32
+2 Rhodobacterales Nitrogen_fixation   Delaware             22          45
+3 Burkholderiales  Sulfur_oxidation   Delaware             11          28
+4 Rhodobacterales  Sulfur_oxidation   Delaware             19          41
+5  Burkholderiales  Carbon_fixation   Delaware             15          35
+6 Rhodobacterales  Carbon_fixation   Delaware             20          38
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-basic-bubble-plot-in-r">📊 Basic Bubble Plot in R</h2>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Order</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Function</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene_abundance</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">num_genomes</span><span class="p">),</span><span class="w">
+    </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.75</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_size_continuous</span><span class="p">(</span><span class="w">
+    </span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">),</span><span class="w">
+    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gene\nabundance"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_viridis_c</span><span class="p">(</span><span class="w">
+    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of\ngenomes"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">Bay</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey90"</span><span class="p">),</span><span class="w">
+    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Metabolic Potential Across Microbial Orders"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/img/bp1.png" alt="bp basic" /></p>
+
+<p><strong>What this shows:</strong></p>
+
+<ul>
+  <li><strong>Bubble size:</strong> How abundant each gene is in that order</li>
+  <li><strong>Bubble color:</strong> How many genomes contribute to that order</li>
+  <li><strong>Position:</strong> Which order has which function</li>
+  <li><strong>Facets:</strong> Comparison across locations</li>
+</ul>
+
+<hr />
+
+<h2 id="-enhanced-bubble-plot-with-better-styling">🎨 Enhanced Bubble Plot with Better Styling</h2>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Order</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Function</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene_abundance</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">num_genomes</span><span class="p">),</span><span class="w">
+    </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.75</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_size_continuous</span><span class="p">(</span><span class="w">
+    </span><span class="n">limits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">bubble_data</span><span class="o">$</span><span class="n">gene_abundance</span><span class="p">)),</span><span class="w">
+    </span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">),</span><span class="w">
+    </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="m">25</span><span class="p">,</span><span class="w"> </span><span class="m">35</span><span class="p">),</span><span class="w">
+    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Normalized\ngene abundance"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_gradient</span><span class="p">(</span><span class="w">
+    </span><span class="n">low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#3B4CC0"</span><span class="p">,</span><span class="w">
+    </span><span class="n">high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#F7A501"</span><span class="p">,</span><span class="w">
+    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of\ngenomes"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">Bay</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w">
+    </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">strip.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Community-level Metabolic Potential"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2><img src="/assets/img/bp2.png" alt="bp enhanced" /></h2>
+
+<h2 id="-python-version">🐍 Python Version</h2>
+
+<h3 id="create-toy-data-python">Create Toy Data (Python)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">itertools</span>
+
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="c1"># Define categories
+</span><span class="n">orders</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">Burkholderiales</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Rhodobacterales</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Flavobacteriales</span><span class="sh">"</span><span class="p">,</span>
+          <span class="sh">"</span><span class="s">Alteromonadales</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Oceanospirillales</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">functions</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">Nitrogen_fixation</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Sulfur_oxidation</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Carbon_fixation</span><span class="sh">"</span><span class="p">,</span>
+             <span class="sh">"</span><span class="s">Denitrification</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Methanogenesis</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">locations</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">Delaware</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Chesapeake</span><span class="sh">"</span><span class="p">]</span>
+
+<span class="c1"># Create all combinations
+</span><span class="n">combinations</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">itertools</span><span class="p">.</span><span class="nf">product</span><span class="p">(</span><span class="n">orders</span><span class="p">,</span> <span class="n">functions</span><span class="p">,</span> <span class="n">locations</span><span class="p">))</span>
+
+<span class="n">bubble_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">combinations</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">Order</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Function</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Bay</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># Simulate gene abundance
+</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">gene_abundance</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">poisson</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">))</span>
+
+<span class="c1"># Simulate number of genomes
+</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">))</span>
+
+<span class="c1"># Add sparsity (some orders don't have all functions)
+</span><span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">random</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">0.3</span>
+<span class="n">bubble_data</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="sh">'</span><span class="s">gene_abundance</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Remove zeros for cleaner visualization
+</span><span class="n">bubble_data</span> <span class="o">=</span> <span class="n">bubble_data</span><span class="p">[</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">gene_abundance</span><span class="sh">'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">.</span><span class="nf">head</span><span class="p">())</span>
+</code></pre></div></div>
+
+<h3 id="basic-bubble-plot-python">Basic Bubble Plot (Python)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="c1"># Prepare data for Delaware
+</span><span class="n">delaware_data</span> <span class="o">=</span> <span class="n">bubble_data</span><span class="p">[</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Bay</span><span class="sh">'</span><span class="p">]</span> <span class="o">==</span> <span class="sh">'</span><span class="s">Delaware</span><span class="sh">'</span><span class="p">]</span>
+
+<span class="c1"># Create figure
+</span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Delaware
+</span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">delaware_data</span><span class="p">.</span><span class="nf">iterrows</span><span class="p">():</span>
+    <span class="n">ax1</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span>
+        <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">Order</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">Function</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">gene_abundance</span><span class="sh">'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span>  <span class="c1"># Scale size
+</span>        <span class="n">c</span><span class="o">=</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">]],</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">viridis</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+        <span class="n">vmin</span><span class="o">=</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">].</span><span class="nf">min</span><span class="p">(),</span>
+        <span class="n">vmax</span><span class="o">=</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">].</span><span class="nf">max</span><span class="p">()</span>
+    <span class="p">)</span>
+
+<span class="n">ax1</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Delaware</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">''</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">''</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">x</span><span class="sh">'</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">grid</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Chesapeake
+</span><span class="n">chesapeake_data</span> <span class="o">=</span> <span class="n">bubble_data</span><span class="p">[</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Bay</span><span class="sh">'</span><span class="p">]</span> <span class="o">==</span> <span class="sh">'</span><span class="s">Chesapeake</span><span class="sh">'</span><span class="p">]</span>
+
+<span class="n">scatter</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">chesapeake_data</span><span class="p">.</span><span class="nf">iterrows</span><span class="p">():</span>
+    <span class="n">scatter</span> <span class="o">=</span> <span class="n">ax2</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span>
+        <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">Order</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">Function</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">gene_abundance</span><span class="sh">'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">c</span><span class="o">=</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">]],</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">viridis</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+        <span class="n">vmin</span><span class="o">=</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">].</span><span class="nf">min</span><span class="p">(),</span>
+        <span class="n">vmax</span><span class="o">=</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">].</span><span class="nf">max</span><span class="p">()</span>
+    <span class="p">)</span>
+
+<span class="n">ax2</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Chesapeake</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">''</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">.</span><span class="nf">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">x</span><span class="sh">'</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">.</span><span class="nf">grid</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Add colorbars
+</span><span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">colorbar</span><span class="p">(</span><span class="n">scatter</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Number of genomes</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">suptitle</span><span class="p">(</span><span class="sh">'</span><span class="s">Metabolic Potential Across Microbial Orders</span><span class="sh">'</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="enhanced-with-seaborn-python">Enhanced with Seaborn (Python)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># Create numeric mappings for categorical variables
+</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Order_num</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">Categorical</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Order</span><span class="sh">'</span><span class="p">]).</span><span class="n">codes</span>
+<span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Function_num</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">Categorical</span><span class="p">(</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Function</span><span class="sh">'</span><span class="p">]).</span><span class="n">codes</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">bay</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">([</span><span class="sh">'</span><span class="s">Delaware</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Chesapeake</span><span class="sh">'</span><span class="p">]):</span>
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">bubble_data</span><span class="p">[</span><span class="n">bubble_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Bay</span><span class="sh">'</span><span class="p">]</span> <span class="o">==</span> <span class="n">bay</span><span class="p">]</span>
+
+    <span class="n">scatter</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">scatter</span><span class="p">(</span>
+        <span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">Order_num</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">Function_num</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">gene_abundance</span><span class="sh">'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">c</span><span class="o">=</span><span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">num_genomes</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">viridis</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span>
+    <span class="p">)</span>
+
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_xticks</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">orders</span><span class="p">)))</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_xticklabels</span><span class="p">(</span><span class="n">orders</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_yticks</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">functions</span><span class="p">)))</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_yticklabels</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="n">bay</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">''</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">''</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="nf">grid</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Add colorbar
+</span><span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">colorbar</span><span class="p">(</span><span class="n">scatter</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Number of genomes</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">suptitle</span><span class="p">(</span><span class="sh">'</span><span class="s">Community-level Metabolic Potential</span><span class="sh">'</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.98</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="-1"><img src="/assets/img/bp-py1.png" alt="bp enhanced" /></h2>
+
+<h2 id="️-common-mistakes-with-bubble-plots">⚠️ Common Mistakes with Bubble Plots</h2>
+
+<h3 id="1-overlapping-bubbles-that-hide-data">1. Overlapping bubbles that hide data</h3>
+
+<p><strong>The problem:</strong> Too many bubbles in the same location make interpretation impossible<br />
+<strong>Solutions:</strong></p>
+
+<ul>
+  <li>Use <code class="language-plaintext highlighter-rouge">alpha</code> transparency</li>
+  <li>Jitter positions slightly</li>
+  <li>Filter to show only top N features</li>
+  <li>Use faceting to separate groups</li>
+</ul>
+
+<h3 id="2-inconsistent-bubble-scaling">2. Inconsistent bubble scaling</h3>
+
+<p><strong>The mistake:</strong> Bubble area doesn’t scale proportionally with values<br />
+<strong>Why it matters:</strong> Human perception interprets area, not radius<br />
+<strong>Solution:</strong> Use <code class="language-plaintext highlighter-rouge">scale_size_area()</code> in ggplot2 or properly scale in Python</p>
+
+<h3 id="3-too-many-categories">3. Too many categories</h3>
+
+<p><strong>The problem:</strong> 20+ categories on X or Y axis become unreadable<br />
+<strong>Better approach:</strong> Filter to top categories, use hierarchical grouping, or consider a heatmap instead</p>
+
+<h3 id="4-poor-color-choice-for-third-variable">4. Poor color choice for third variable</h3>
+
+<p><strong>The mistake:</strong> Using a diverging palette for sequential data<br />
+<strong>Better approach:</strong></p>
+
+<ul>
+  <li>Sequential data (counts, abundance) → sequential palette (viridis, blues)</li>
+  <li>Diverging data (fold changes) → diverging palette (RdBu)</li>
+</ul>
+
+<h3 id="5-not-normalizing-data-appropriately">5. Not normalizing data appropriately</h3>
+
+<p><strong>The mistake:</strong> Comparing raw counts across samples with different sequencing depths<br />
+<strong>Solution:</strong> Normalize by:</p>
+
+<ul>
+  <li>Sequencing depth (reads per million)</li>
+  <li>Genome completeness (for MAG-based analyses)</li>
+  <li>Sample size or effort</li>
+</ul>
+
+<h3 id="6-missing-context-in-legends">6. Missing context in legends</h3>
+
+<p><strong>The mistake:</strong> Legend says “size” without units<br />
+<strong>Better:</strong> “Gene abundance (normalized by genome completeness)”</p>
+
+<h3 id="7-forgetting-to-filter-zeros">7. Forgetting to filter zeros</h3>
+
+<p><strong>The problem:</strong> Empty bubbles (size = 0) clutter the plot<br />
+<strong>Solution:</strong> Remove zero-abundance entries before plotting</p>
+
+<hr />
+
+<h2 id="-best-practices-for-bubble-plots">✅ Best Practices for Bubble Plots</h2>
+
+<h3 id="1-normalize-your-data-appropriately">1. Normalize your data appropriately</h3>
+
+<p>For genomic data:</p>
+
+<ul>
+  <li>Normalize by sequencing depth</li>
+  <li>Adjust for genome completeness (MAGs)</li>
+  <li>Use relative abundances when comparing across samples</li>
+</ul>
+
+<h3 id="2-choose-bubble-sizes-carefully">2. Choose bubble sizes carefully</h3>
+
+<ul>
+  <li><strong>Too small:</strong> Hard to see differences</li>
+  <li><strong>Too large:</strong> Overlapping obscures patterns</li>
+  <li><strong>Sweet spot:</strong> <code class="language-plaintext highlighter-rouge">range = c(3, 15)</code> in ggplot2 works well for most cases</li>
+</ul>
+
+<h3 id="3-use-meaningful-color-scales">3. Use meaningful color scales</h3>
+
+<ul>
+  <li>Sequential for counts/abundance (viridis, YlOrRd)</li>
+  <li>Diverging for fold changes (RdBu, PiYG)</li>
+  <li>Ensure colorblind-friendly palettes</li>
+</ul>
+
+<h3 id="4-limit-categories">4. Limit categories</h3>
+
+<ul>
+  <li>Keep X and Y axes to ≤ 10-15 categories</li>
+  <li>Filter to top taxa/functions if needed</li>
+  <li>Use faceting for additional grouping variables</li>
+</ul>
+
+<h3 id="5-add-context-with-additional-variables">5. Add context with additional variables</h3>
+
+<p>Bubble plots shine when you encode 4+ dimensions:</p>
+
+<ul>
+  <li>Position (X, Y)</li>
+  <li>Size (abundance)</li>
+  <li>Color (diversity, genome count, p-value)</li>
+  <li>Shape (optional, but use sparingly)</li>
+</ul>
+
+<h3 id="6-use-transparency-wisely">6. Use transparency wisely</h3>
+
+<p><code class="language-plaintext highlighter-rouge">alpha = 0.6-0.8</code> helps see overlapping bubbles without losing visibility</p>
+
+<h3 id="7-clean-up-axes">7. Clean up axes</h3>
+
+<ul>
+  <li>Remove grid lines if they clutter</li>
+  <li>Rotate X-axis labels for readability</li>
+  <li>Use bold fonts for categorical labels</li>
+</ul>
+
+<h3 id="8-state-normalization-in-legends">8. State normalization in legends</h3>
+
+<p>Always document: “Gene abundance normalized by average genome completeness”</p>
+
+<hr />
+
+<h2 id="-real-world-example-metabolic-potential-in-estuaries">🔍 Real-World Example: Metabolic Potential in Estuaries</h2>
+
+<p>I used bubble plot answer Which microbial orders possess key metabolic functions in estuarine ecosystems, and how does this vary between Delaware and Chesapeake Bays? The below figure is from my upcoming manuscript which is accepted in ISME communications. More details coming soon.</p>
+
+<p><img src="/assets/img/fred_2.png" alt="Real example" /></p>
+
+<h3 id="the-data">The Data</h3>
+
+<ul>
+  <li><strong>X-axis:</strong> Microbial orders (from MAG taxonomy)</li>
+  <li><strong>Y-axis:</strong> Metabolic marker genes (nitrogen fixation, sulfur cycling, etc.)</li>
+  <li><strong>Bubble size:</strong> Normalized gene abundance</li>
+  <li><strong>Bubble color:</strong> Number of genomes contributing (genomic context)</li>
+  <li><strong>Facets:</strong> Geographic location (Delaware vs. Chesapeake)</li>
+</ul>
+
+<h3 id="key-insights-from-this-type-of-plot">Key Insights from This Type of Plot</h3>
+
+<p>✓ <strong>Taxonomic distribution:</strong> Which orders are metabolically diverse<br />
+✓ <strong>Functional specialization:</strong> Orders with high abundance of specific genes<br />
+✓ <strong>Geographic patterns:</strong> Differences between Delaware and Chesapeake<br />
+✓ <strong>Genomic context:</strong> Whether patterns are driven by many genomes or few</p>
+
+<h2 id="-bubble-plot-vs-heatmap-when-to-use-which">🆚 Bubble Plot vs. Heatmap: When to Use Which?</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Bubble Plot</th>
+      <th>Heatmap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Best for</strong></td>
+      <td>Sparse data, multi-dimensional</td>
+      <td>Dense data, continuous values</td>
+    </tr>
+    <tr>
+      <td><strong>Handles zeros</strong></td>
+      <td>Excellent (just no bubble)</td>
+      <td>Poor (empty cells look odd)</td>
+    </tr>
+    <tr>
+      <td><strong>Shows magnitude</strong></td>
+      <td>Via size (less precise)</td>
+      <td>Via color (precise)</td>
+    </tr>
+    <tr>
+      <td><strong>Additional variable</strong></td>
+      <td>Color can encode 4th dimension</td>
+      <td>Limited to 3 dimensions</td>
+    </tr>
+    <tr>
+      <td><strong>Readability</strong></td>
+      <td>Good for ≤100 cells</td>
+      <td>Good for hundreds of cells</td>
+    </tr>
+    <tr>
+      <td><strong>Pattern recognition</strong></td>
+      <td>Moderate</td>
+      <td>Excellent with clustering</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Rule of thumb:</strong></p>
+
+<ul>
+  <li>Sparse, multi-dimensional data → Bubble plot</li>
+  <li>Dense, continuous matrix → Heatmap</li>
+</ul>
+
+<hr />
+
+<h2 id="-key-takeaways">📌 Key Takeaways</h2>
+
+<p>✅ <strong>Bubble plots encode 4+ dimensions</strong> in one visualization</p>
+
+<p>✅ <strong>Best for sparse, categorical data</strong> with quantitative values</p>
+
+<p>✅ <strong>Normalize appropriately</strong>—especially for genomic data</p>
+
+<p>✅ <strong>Filter categories</strong> to maintain readability (≤15 per axis)</p>
+
+<p>✅ <strong>Use transparency</strong> to handle overlapping bubbles</p>
+
+<p>✅ <strong>Color should be meaningful</strong>—not just decorative</p>
+
+<p>✅ <strong>Document normalization</strong> in legends and captions</p>
+
+<p>✅ <strong>Pair with statistical testing</strong>—bubble plots are exploratory</p>
+
+<hr />
+
+<p><em>This is part of the “Visualize Your Data” series. Check out <a href="/blog/visualize-your-data-day1/">Day 1: Box Plots</a>, <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2: Heatmaps</a>, <a href="/blog/visualize-your-data-day3-ordination/">Day 3: Ordination Plots</a>, and <a href="/blog/visualize-your-data-day4-volcano-plots/">Day 4: Volcano Plots</a> if you missed them.</em></p>
+
+<p><strong>Have questions about bubble plots or functional genomics visualization? Drop a comment below!</strong></p>
+
+<hr />]]></content><author><name></name></author><summary type="html"><![CDATA[Day 5 of the Visualize Your Data series: using bubble plots to visualize multi-dimensional relationships in genomics and functional ecology.]]></summary></entry><entry><title type="html">Visualize Your Data — Day 4: Volcano Plots in Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots/" rel="alternate" type="text/html" title="Visualize Your Data — Day 4: Volcano Plots in Bioinformatics" /><published>2026-01-21T00:00:00-05:00</published><updated>2026-01-21T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots/"><![CDATA[<h1 id="-visualize-your-data--day-4-volcano-plots">📊 Visualize Your Data – Day 4: Volcano Plots</h1>
 
 <p>In <a href="/blog/visualize-your-data-day1/">Day 1</a>, we explored distributions with box and violin plots.<br />
 In <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2</a>, we revealed patterns using heatmaps.<br />
@@ -3749,222 +4300,4 @@ sample_nanopore.fastq.gz (QC-validated)
 
 <p>• Bias comparative genomics</p>
 
-<p><strong>Clean input = trustworthy genomes</strong></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of a whole-genome analysis series covering raw Illumina and Nanopore reads, integrity checks, quality control with FastQC and NanoPlot, and read trimming using Trimmomatic and Cutadapt.]]></summary></entry><entry><title type="html">Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates</title><link href="https://jojyjohn28.github.io/blog/panx-pangenome-analysis/" rel="alternate" type="text/html" title="Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates" /><published>2026-01-01T00:00:00-05:00</published><updated>2026-01-01T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/PanX_pangenome_analysis</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/panx-pangenome-analysis/"><![CDATA[<p><strong>🧬 Exploring the Pan-Genome with panX</strong></p>
-
-<p>Today’s post walks through the complete setup and execution of <strong>panX</strong>, a powerful tool for analyzing bacterial pan-genomes.</p>
-
-<p>One of my Master’s students is working on a project involving <strong>DARPA isolate genomes</strong>, focusing on:</p>
-
-<ul>
-  <li>Abiotic stress adaptation</li>
-  <li>Niche classification (generalist vs specialist)</li>
-  <li>Functional redundancy</li>
-</ul>
-
-<p>As part of the analysis, she selected <strong>20 isolates</strong> and classified them using:</p>
-
-<ul>
-  <li>Genome size</li>
-  <li>Total gene count</li>
-  <li>CAZyme profiles</li>
-  <li>Transporters</li>
-  <li>Growth on carbon sources</li>
-</ul>
-
-<p>But after carbon utilization assays, we realized there was still a missing piece:<br />
-👉 <strong>The pangenome perspective</strong><br />
-So we turned to <strong>panX</strong>.</p>
-
-<p>panX (Neher et al., 2016) integrates:</p>
-
-<ul>
-  <li>Ortholog clustering</li>
-  <li>Gene presence/absence matrix</li>
-  <li>Phylogenetic inference</li>
-  <li>Interactive web visualization</li>
-</ul>
-
-<p>I often use <strong>Anvi’o</strong>, but because of time constraints, panX was the best choice:<br />
-✔ Fast<br />
-✔ Lightweight<br />
-✔ Clear cluster outputs<br />
-✔ Better suited for quick exploratory analysis</p>
-
-<hr />
-
-<h5 id="️-step-1--cloning-and-setup">⚙️ Step 1 — Cloning and Setup</h5>
-
-<p>Clone the official repository:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/neherlab/pan-genome-analysis.git
-<span class="nb">cd </span>pan-genome-analysis
-</code></pre></div></div>
-
-<h5 id="-step-2--install-panx-dependencies-conda">🧱 Step 2 — Install panX Dependencies (Conda)</h5>
-
-<p>The documentation suggests Miniconda2, but Miniconda3 works perfectly.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-<span class="nb">source</span> ~/miniconda3/etc/profile.d/conda.sh
-</code></pre></div></div>
-
-<p>Create the panX environment:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">env </span>create <span class="nt">-f</span> panX-environment.yml
-conda activate panX
-</code></pre></div></div>
-
-<p>***If you see dependency conflicts: conda env create -f panX-environment.yml –solver=libmamba
-Test your installation:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh run-TestSet.sh
-</code></pre></div></div>
-
-<h5 id="-step-3--preparing-genomes-with-prokka">🧬 Step 3 — Preparing Genomes with Prokka</h5>
-
-<p>panX requires GenBank (.gbk) files.
-So I annotated all genomes using Prokka.
-Install Prokka:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> prokka_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge prokka
-conda activate prokka_env
-</code></pre></div></div>
-
-<p>Batch annotation:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-  </span><span class="nv">base</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> .fa<span class="si">)</span>
-  prokka <span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span> <span class="se">\</span>
-    <span class="nt">--outdir</span> ../prokka_out/<span class="k">${</span><span class="nv">base</span><span class="k">}</span> <span class="se">\</span>
-    <span class="nt">--prefix</span> <span class="k">${</span><span class="nv">base</span><span class="k">}</span> <span class="se">\</span>
-    <span class="nt">--cpus</span> 8 <span class="se">\</span>
-    <span class="nt">--force</span> <span class="se">\</span>
-    <span class="nt">--rnammer</span> off
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>Collect all .gbk files:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> ../panx_input
-find ../prokka_out <span class="nt">-name</span> <span class="s2">"*.gbk"</span> <span class="nt">-exec</span> <span class="nb">cp</span> <span class="o">{}</span> ../panx_input/ <span class="se">\;</span>
-</code></pre></div></div>
-
-<h5 id="-step-4--running-panx">🚀 Step 4 — Running panX</h5>
-
-<p>Move into the panX project directory:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/pan-genome-analysis/projects
-<span class="nb">mkdir </span>DARPA_20
-<span class="nb">cp</span> /project/bcampb7/camplab/Alisha/pangenome_analysis/panx_input/<span class="k">*</span>.gbk DARPA_20/
-<span class="nb">cd </span>DARPA_20
-</code></pre></div></div>
-
-<p>Run the full pipeline:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python ../../scripts/run-pipeline.py <span class="se">\</span>
-    <span class="nt">-fn</span> <span class="nb">.</span> <span class="se">\</span>
-    <span class="nt">-sl</span> all <span class="se">\</span>
-    <span class="nt">-st</span> 13456 <span class="se">\</span>
-    <span class="nt">--threads</span> 32 <span class="se">\</span>
-    <span class="nt">--diamond</span>
-</code></pre></div></div>
-
-<p>You will get output folders like:
-● 1_parsed_input/
-● 2_clusters/
-● 3_alignments/
-● 4_trees/
-● 5_statistics/
-● summary/</p>
-
-<h5 id="-step-5--interactive-visualization-optional">🌐 Step 5 — Interactive Visualization (Optional)</h5>
-
-<p>panX includes a full browser-based viewer using Node.js.
-Clone visualization module:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/neherlab/pan-genome-visualization
-<span class="nb">cd </span>pan-genome-visualization
-npm <span class="nb">install</span> <span class="nt">--legacy-peer-deps</span>
-git submodule update <span class="nt">--init</span> <span class="nt">--recursive</span>
-</code></pre></div></div>
-
-<p>Build and launch:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">DATA_ROOT_URL</span><span class="o">=</span>/dataset/
-npm run build
-npm start
-</code></pre></div></div>
-
-<p>Open:👉 http://localhost:8000
-<strong>📂 Linking Your Dataset to the Viewer</strong>
-Edit:
-public/dataset/all_downloads_table.json
-{
-“panX link”: “gbk”,
-“species name”: “GBK dataset”,
-“source”: “Local”,
-“gene cluster json”: “dataset/gbk/geneCluster.json”,
-“metadata table”: “dataset/gbk/metainfo.tsv”,
-“strain/species tree”: “dataset/gbk/strain_tree.nwk”
-}
-Refresh the page → your dataset appears in the menu.</p>
-
-<h5 id="-step-6--extracting-core-and-pan-genes-without-visualization">🧬 Step 6 — Extracting Core and Pan Genes Without Visualization</h5>
-
-<p><strong>Often on HPC (like Palmetto) you only need:</strong></p>
-
-<p>● Core gene count
-● Pan gene count
-● Accessory genes per genome
-● PanX provides allclusters_final.tsv which we can parse directly.</p>
-
-<p>👉 Here is the Python script:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
-</span><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">from</span> <span class="n">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-
-<span class="n">infile</span> <span class="o">=</span> <span class="sh">"</span><span class="s">allclusters_final.tsv</span><span class="sh">"</span>
-<span class="n">outfile</span> <span class="o">=</span> <span class="sh">"</span><span class="s">core_pan_gene_counts_per_genome.tsv</span><span class="sh">"</span>
-
-<span class="n">clusters</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">genes</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">line</span><span class="p">.</span><span class="nf">strip</span><span class="p">().</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">.</span><span class="nf">strip</span><span class="p">()]</span>
-        <span class="n">clusters</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">genes</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">genome_name</span><span class="p">(</span><span class="n">g</span><span class="p">):</span> <span class="k">return</span> <span class="n">g</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">|</span><span class="sh">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="n">cluster_genomes</span> <span class="o">=</span> <span class="p">[</span><span class="nf">list</span><span class="p">(</span><span class="nf">set</span><span class="p">(</span><span class="nf">genome_name</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">cl</span><span class="p">))</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">]</span>
-<span class="n">all_genomes</span> <span class="o">=</span> <span class="nf">sorted</span><span class="p">({</span><span class="n">g</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">cluster_genomes</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">cl</span><span class="p">})</span>
-
-<span class="n">core_clusters</span> <span class="o">=</span> <span class="p">[</span><span class="n">cl</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">cluster_genomes</span> <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span> <span class="o">==</span> <span class="nf">len</span><span class="p">(</span><span class="n">all_genomes</span><span class="p">)]</span>
-<span class="n">genome_counter</span> <span class="o">=</span> <span class="nc">Counter</span><span class="p">(</span><span class="n">g</span> <span class="k">for</span> <span class="n">cl</span> <span class="ow">in</span> <span class="n">cluster_genomes</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">cl</span><span class="p">)</span>
-
-<span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span>
-    <span class="sh">"</span><span class="s">Genome</span><span class="sh">"</span><span class="p">:</span> <span class="n">all_genomes</span><span class="p">,</span>
-    <span class="sh">"</span><span class="s">Pan_genes</span><span class="sh">"</span><span class="p">:</span> <span class="p">[</span><span class="n">genome_counter</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">all_genomes</span><span class="p">],</span>
-<span class="p">})</span>
-<span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Core_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">core_clusters</span><span class="p">)</span>
-<span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Accessory_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Pan_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">-</span> <span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Core_genes</span><span class="sh">"</span><span class="p">]</span>
-<span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Core_fraction(%)</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Core_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">/</span> <span class="n">summary</span><span class="p">[</span><span class="sh">"</span><span class="s">Pan_genes</span><span class="sh">"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">).</span><span class="nf">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="n">summary</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">✅ Saved:</span><span class="sh">"</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Run with:python core_pan_from_list.py
-Output file: core_pan_gene_counts_per_genome.tsv
-<strong>Contains:</strong></p>
-
-<p>● Core genes
-● Pan genes
-● Accessory genes
-● Core gene % per genome</p>
-
-<p><strong>Perfect for downstream comparative genomics.</strong></p>
-
-<p>For more details on PanX visit :https://pangenome.org/</p>
-
-<p><img src="/assets/img/panx.png" alt="ncbi_submission" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[5 complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.]]></summary></entry></feed>
+<p><strong>Clean input = trustworthy genomes</strong></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of a whole-genome analysis series covering raw Illumina and Nanopore reads, integrity checks, quality control with FastQC and NanoPlot, and read trimming using Trimmomatic and Cutadapt.]]></summary></entry></feed>
