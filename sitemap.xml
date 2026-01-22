@@ -1,151 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/blog/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/codes/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/collaborations/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/contact/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/cv/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/_pages/dropdown/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/assets/css/main.css</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/mentoring/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/news/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/people/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/projects/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/publications/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/repositories/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/sitemap.xml</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/teaching/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/blog/2025/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/blog/2026/</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/feed.xml</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-  
-  <url>
-    <loc>https://jojyjohn28.github.io/assets/css/main.css.map</loc>
-    <lastmod>2026-01-22</lastmod>
-  </url>
-  
-
-</urlset>
   
   <!-- Main Pages -->
+  <url>
+    <loc>https://jojyjohn28.github.io/</loc>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
   <url>
     <loc>https://jojyjohn28.github.io/publications/</loc>
     <lastmod>2026-01-21</lastmod>
@@ -412,4 +275,5 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  
 </urlset>
