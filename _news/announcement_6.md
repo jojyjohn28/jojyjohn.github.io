@@ -6,7 +6,7 @@ inline: true
 related_posts: false
 ---
 
-# A new publication is out!
+**A new publication is out!**
 
 “Comparative genomic and phenotypic analysis of Streptomyces rochei SOSIST-3 isolated from the Southern Ocean”
 This work is a part of colloboration and it’s great to finally see it published.
