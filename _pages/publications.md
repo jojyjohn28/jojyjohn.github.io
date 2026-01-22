@@ -13,22 +13,25 @@ nav_order: 2
 
 **1. Functional redundancy and metabolic flexibility of microbial communities in two Mid-Atlantic bays**
 
-**Jojy John**, Maximiliano Ortiz, Pierre Ramond, and Barbara J. Campbell (2025)  
+**Jojy John**, Maximiliano Ortiz, Pierre Ramond, and Barbara J. Campbell (2026)  
 _Status: **Accepted**; minor revisions completed; awaiting proofs — **ISME Communications**_  
 **Keywords:** metagenomes, metatranscriptomes, statistical modeling, functional redundancy
 
----
+**2. Draft genome sequence of a novel species of Winogradskyella (strain PC D3.3) isolated from a red Antarctic macroalgae**
+**Jojy John**, Amit Kumar, Jenifer Alvarez, Radhakrishnan Mannikam, Luis Vargas-Chacoff, and Sergio Leiva Poveda
+\_Status: **Accepted**; awaiting proofs — Microbiology Resource Announcements
 
-**2. Comparative genomic and phenotypic analysis of _Streptomyces rochei_ SOSIST-3 isolated from the Southern Ocean**
+<br>
 
-**Jojy John†**, Manigundan K.†, Radhakrishnan M., Amit Kumar, Abirami B., and Parli V. B. (2025)  
-_Status: **Accepted**; awaiting final proofs — **Molecular Biology Reports**_  
-**Keywords:** whole-genome analysis, Southern Ocean, biosynthetic gene clusters
+# 📚 Published Papers
 
-**3. Baseline evaluation of the toxicity potential of steel slag using the green mussel Perna viridis for sustainable marine reuse applications**
-Dineshram Ramadoss,**Jojy John**,Firoz Badesab,Muralidhar Kocherla,Anto Vasanth,Chellandi Mohandass
-This is an old work done during my Ph.D
-_Status:**Accepted**; awaiting final proofs — **EnvironmentalGeochemistry and Health**_
+<!-- Bibsearch Feature -->
+
+{% include bib_search.liquid %}
+
+<div class="publications">
+{% bibliography %}
+</div>
 
 ## 📄 **Manuscripts Under Review**
 
@@ -45,17 +48,13 @@ Preprint available on request
 **Keywords:** Whole genome sequencing, Novel strain, Carageenase degradation
 Preprint available on request
 
-**3. Draft genome sequence of a novel species of Winogradskyella (strain PC D3.3) isolated from a red Antarctic macroalgae**
-**Jojy John**, Amit Kumar, Jenifer Alvarez, Radhakrishnan Mannikam, Luis Vargas-Chacoff, and Sergio Leiva Poveda
-Status: Submitted to Microbiology Resource Announcements.
-
-**4. Phototrophy and chemolithotrophy drive microbial resilience to monsoon hypoxia in the Arabian Sea**
+**3. Phototrophy and chemolithotrophy drive microbial resilience to monsoon hypoxia in the Arabian Sea**
 **Jojy John**, R. Dineshram (2025)  
 _Status: Under review in **Anthropocene Coasts**_  
 **Keywords:** Metagenomics, Hypoxia, Arabian Sea-preprint available on request
 Preprint available on request
 
-**5. Ecological distribution and environmental drivers of Actinobacteriota in two Mid-Atlantic estuaries**
+**4. Ecological distribution and environmental drivers of Actinobacteriota in two Mid-Atlantic estuaries**
 Mir Alvee Ahmed, **Jojy John**, Barbara J. Campbell (2025)  
 \_Status: Under review in **AEM**
 **Keywords:** Metagenomes, Metatranscriptomes, Estuarine microbiomes
@@ -74,15 +73,3 @@ Preprint available on request
 Chaulagain D, **John J**, Paul B, Harrington EG, McCarthy G, Sathe M, Shamabadi NS, Carter E, Leonhardt J, Nawaz MS, Suleman M, Campbell BJ, Karig DK.  
 \_Status: \_Waiting for co-author approval
 **\_All genome (170+) are also availble in NCBI**
-
-<br>
-
-# 📚 Published Papers
-
-<!-- Bibsearch Feature -->
-
-{% include bib_search.liquid %}
-
-<div class="publications">
-{% bibliography %}
-</div>
