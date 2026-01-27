@@ -1,5 +1,518 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-22T14:07:53-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Visualize Your Data — Day 5: Bubble Plots in Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots/" rel="alternate" type="text/html" title="Visualize Your Data — Day 5: Bubble Plots in Bioinformatics" /><published>2026-01-22T00:00:00-05:00</published><updated>2026-01-22T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots/"><![CDATA[<h1 id="-visualize-your-data--day-5-bubble-plots">📊 Visualize Your Data – Day 5: Bubble Plots</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-26T23:41:34-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Building Custom HUMAnN3 Databases with Struo2 and GTDB: A Realistic Guide from the Trenches</title><link href="https://jojyjohn28.github.io/blog/building-custom-humann3-databases-struo2-gtdb/" rel="alternate" type="text/html" title="Building Custom HUMAnN3 Databases with Struo2 and GTDB: A Realistic Guide from the Trenches" /><published>2026-01-26T00:00:00-05:00</published><updated>2026-01-26T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/building-custom-humann3-databases-struo2-gtdb</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/building-custom-humann3-databases-struo2-gtdb/"><![CDATA[<h1 id="building-custom-humann3-databases-with-struo2-and-gtdb-r220-a-realistic-guide-from-the-trenches">Building Custom HUMAnN3 Databases with Struo2 and GTDB r220: A Realistic Guide from the Trenches</h1>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Creating custom HUMAnN3 databases sounds straightforward in theory, but in practice, it’s a journey filled with environment conflicts, memory issues, and mysterious errors. This guide documents the <strong>real</strong> process of building a custom HUMAnN3 database using Struo2 with GTDB release 220, including all the troubleshooting, workarounds, and hard-won lessons.</p>
+
+<p><strong>Spoiler alert:</strong> If you need results quickly, download the pre-built databases from Struo2’s FTP server. But if you want to learn the process or need a truly custom database, read on. The pre built database is built on an older version of GTDBtk, thats why I tried to build newone.</p>
+
+<h2 id="why-build-custom-databases">Why Build Custom Databases?</h2>
+
+<ul>
+  <li><strong>Latest taxonomy</strong>: GTDB r220 (released 2024) has significantly improved archaeal and bacterial classifications</li>
+  <li><strong>Ecosystem-specific</strong>: Focus on genomes relevant to your study system</li>
+  <li><strong>Updated gene annotations</strong>: Latest UniRef annotations for functional profiling</li>
+  <li><strong>Research reproducibility</strong>: Control exactly which genomes are included</li>
+</ul>
+
+<h2 id="reality-check-resource-requirements">Reality Check: Resource Requirements</h2>
+
+<h3 id="minimal-setup-100-test-genomes">Minimal Setup (100 test genomes)</h3>
+
+<ul>
+  <li><strong>Time</strong>: 4-8 hours</li>
+  <li><strong>RAM</strong>: 200-250 GB</li>
+  <li><strong>CPUs</strong>: 32 cores</li>
+  <li><strong>Storage</strong>: 500 GB</li>
+  <li><strong>Outcome</strong>: Proof of concept, ~60K genes</li>
+</ul>
+
+<h3 id="full-gtdb-r220-setup-85000-genomes">Full GTDB r220 Setup (~85,000 genomes)</h3>
+
+<ul>
+  <li><strong>Time</strong>: 2-4 months (yes, months!)</li>
+  <li><strong>RAM</strong>: 500+ GB</li>
+  <li><strong>CPUs</strong>: 90+ cores recommended</li>
+  <li><strong>Storage</strong>: 10+ TB</li>
+  <li><strong>Outcome</strong>: Comprehensive database, ~30 million genes</li>
+</ul>
+
+<p><strong>My recommendation</strong>: Start with 100-1000 representative genomes unless you have unlimited compute time.
+I used this to fix all run erorr and in the mean time I was looking to find a quick solution.</p>
+
+<h2 id="step-1-environment-setup-the-first-battle">Step 1: Environment Setup (The First Battle)</h2>
+
+<h3 id="the-path-problem">The PATH Problem</h3>
+
+<p>The biggest challenge isn’t Struo2 itself—it’s environment conflicts. Here’s what you’ll encounter:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># You think you're using conda environment A</span>
+conda activate struo2_fresh
+
+<span class="c"># But your PATH says otherwise</span>
+which python
+<span class="c"># /some/old/environment/bin/python  ← NOT what you want!</span>
+</code></pre></div></div>
+
+<p><strong>Solution</strong>: Clean your environment completely:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Deactivate EVERYTHING</span>
+conda deactivate
+conda deactivate
+conda deactivate
+
+<span class="c"># Check your .bashrc for sneaky PATH additions</span>
+<span class="nb">grep</span> <span class="nt">-n</span> <span class="s2">"export PATH"</span> ~/.bashrc
+
+<span class="c"># Comment out any conda auto-init or old environment additions</span>
+nano ~/.bashrc
+
+<span class="c"># Start fresh</span>
+<span class="nb">source</span> ~/.bashrc
+conda activate struo2_fresh
+</code></pre></div></div>
+
+<h3 id="create-a-clean-snakemake-environment">Create a Clean Snakemake Environment</h3>
+
+<p>Don’t mix Struo2 dependencies with Snakemake—keep them separate:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Snakemake environment (just for running the pipeline)</span>
+conda create <span class="nt">-n</span> snakemake_env <span class="nv">python</span><span class="o">=</span>3.9 <span class="nt">-y</span>
+conda activate snakemake_env
+conda <span class="nb">install</span> <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda <span class="nv">snakemake</span><span class="o">=</span>7.32.4 <span class="nt">-y</span>
+
+<span class="c"># Load system modules instead of installing everything via conda</span>
+module load vsearch/2.21.1
+module load bowtie2/2.4.4
+module load samtools/1.15.1
+module load diamond/2.0.13
+module load seqkit/2.10.0
+</code></pre></div></div>
+
+<p><strong>Critical</strong>: DO NOT use <code class="language-plaintext highlighter-rouge">--use-conda</code> with Snakemake if your HPC has SSL certificate issues!</p>
+
+<h2 id="step-2-download-gtdb-data">Step 2: Download GTDB Data</h2>
+
+<h3 id="get-the-metadata">Get the Metadata</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> data/taxdump_r220
+<span class="nb">cd </span>data
+
+<span class="c"># Download GTDB r220 metadata</span>
+wget https://data.gtdb.ecogenomic.org/releases/release220/220.0/ar53_metadata_r220.tsv
+wget https://data.gtdb.ecogenomic.org/releases/release220/220.0/bac120_metadata_r220.tsv
+
+<span class="c"># Download taxonomy files</span>
+wget http://ftp.tue.mpg.de/ebio/projects/struo2/GTDB_release220/taxdump/names.dmp <span class="nt">-P</span> taxdump_r220/
+wget http://ftp.tue.mpg.de/ebio/projects/struo2/GTDB_release220/taxdump/nodes.dmp <span class="nt">-P</span> taxdump_r220/
+</code></pre></div></div>
+
+<h3 id="download-genomes-the-smart-way">Download Genomes (The Smart Way)</h3>
+
+<p><strong>Option 1: Test subset (100 genomes)</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create a test table with 100 diverse genomes</span>
+<span class="nb">head</span> <span class="nt">-101</span> ar53_metadata_r220.tsv | <span class="nb">tail</span> <span class="nt">-100</span> <span class="o">&gt;</span> gtdb-r220_test100.tsv
+
+<span class="c"># Download genomes using GTDB accessions</span>
+<span class="c"># Use ncbi-genome-download or direct GTDB downloads</span>
+</code></pre></div></div>
+
+<p><strong>Option 2: Download pre-built Struo2 database (RECOMMENDED)</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Much faster than building from scratch!</span>
+git clone https://github.com/leylabmpi/Struo2.git
+<span class="nb">cd </span>Struo2
+
+<span class="c"># Download GTDB r207 complete database (~60K genomes)</span>
+./util_scripts/database_download.py <span class="nt">-t</span> 8 <span class="nt">-r</span> 207 <span class="se">\</span>
+    <span class="nt">-d</span> humann3 metadata taxdump <span class="nt">--</span> ../gtdb_r207_prebuilt
+
+<span class="c"># This downloads everything in ~1 day vs 2-4 months building</span>
+</code></pre></div></div>
+
+<h3 id="download-uniref-database">Download UniRef Database</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> data/mmseqs2_dbs/uniref90
+
+<span class="c"># Download UniRef90 (for gene annotation)</span>
+mmseqs databases UniRef90 data/mmseqs2_dbs/uniref90/uniref90 data/mmseqs2_TMP <span class="nt">--remove-tmp-files</span> 1
+</code></pre></div></div>
+
+<h2 id="step-3-prepare-your-sample-table">Step 3: Prepare Your Sample Table</h2>
+
+<p>Create <code class="language-plaintext highlighter-rouge">samples_single_per_species.tsv</code>:</p>
+
+<pre><code class="language-tsv">ncbi_organism_name	accession	fasta_file_path	gtdb_taxid	gtdb_taxonomy
+Methanosarcina_mazei	RS_GCF_000970205.1	/path/to/genome.fna.gz	3005035806	d__Archaea;p__Halobacteriota;...
+</code></pre>
+
+<p><strong>Critical tip</strong>: Use ONE genome per species to avoid Pandas DataFrame bugs in Struo2:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># If you have multiple assemblies per species</span>
+<span class="nb">awk</span> <span class="s1">'NR==1 || !seen[$1]++'</span> samples_full.tsv <span class="o">&gt;</span> samples_single_per_species.tsv
+</code></pre></div></div>
+
+<h2 id="step-4-configure-struo2">Step 4: Configure Struo2</h2>
+
+<p>Create <code class="language-plaintext highlighter-rouge">config_custom.yaml</code>:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">samples_file</span><span class="pi">:</span> <span class="s">/path/to/samples_single_per_species.tsv</span>
+<span class="na">output_dir</span><span class="pi">:</span> <span class="s">./databases/</span>
+<span class="na">tmp_dir</span><span class="pi">:</span> <span class="s">./tmp/</span>
+
+<span class="na">databases</span><span class="pi">:</span>
+  <span class="na">kraken2</span><span class="pi">:</span> <span class="s">Skip</span>
+  <span class="na">bracken</span><span class="pi">:</span> <span class="s">Skip</span>
+  <span class="na">genes</span><span class="pi">:</span> <span class="s">Create</span>
+  <span class="na">humann3_bowtie2</span><span class="pi">:</span> <span class="s">Create</span>
+  <span class="na">humann3_diamond</span><span class="pi">:</span> <span class="s">Create</span>
+
+<span class="na">uniref_name</span><span class="pi">:</span> <span class="s">uniref90</span>
+<span class="na">dmnd_name</span><span class="pi">:</span> <span class="s">uniref90_201901.dmnd</span>
+
+<span class="na">names_dmp</span><span class="pi">:</span> <span class="s">./data/taxdump_r220/names.dmp</span>
+<span class="na">nodes_dmp</span><span class="pi">:</span> <span class="s">./data/taxdump_r220/nodes.dmp</span>
+
+<span class="na">keep_intermediate</span><span class="pi">:</span> <span class="s">True</span>
+
+<span class="na">params</span><span class="pi">:</span>
+  <span class="na">humann3</span><span class="pi">:</span>
+    <span class="na">batches</span><span class="pi">:</span> <span class="m">4</span>
+    <span class="na">mmseqs_search</span><span class="pi">:</span>
+      <span class="na">db</span><span class="pi">:</span> <span class="s">./data/mmseqs2_dbs/uniref90/uniref90</span>
+      <span class="na">index</span><span class="pi">:</span> <span class="s">-s </span><span class="m">6</span>
+      <span class="na">run</span><span class="pi">:</span> <span class="s">-e 1e-3 --max-accept 1 --max-seqs </span><span class="m">100</span>
+</code></pre></div></div>
+
+<h2 id="step-5-the-mmseqs-problem-cpu-architecture-incompatibility">Step 5: The MMseqs Problem (CPU Architecture Incompatibility)</h2>
+
+<p><strong>Problem you WILL encounter:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Illegal instruction (core dumped)
+Error: indexdb died
+</code></pre></div></div>
+
+<p><strong>Why</strong>: The system module for MMseqs was compiled for a different CPU architecture.</p>
+
+<p><strong>Solution</strong>: Download a compatible MMseqs binary:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~
+wget https://mmseqs.com/latest/mmseqs-linux-avx2.tar.gz
+<span class="nb">tar </span>xvzf mmseqs-linux-avx2.tar.gz
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/mmseqs/bin:<span class="nv">$PATH</span>
+
+<span class="c"># Test it works</span>
+mmseqs version
+mmseqs createdb <span class="nt">--help</span>  <span class="c"># Should NOT crash</span>
+</code></pre></div></div>
+
+<h2 id="step-6-create-the-slurm-script">Step 6: Create the SLURM Script</h2>
+
+<p>Here’s a production-ready script that handles all the gotchas:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=struo2_humann3</span>
+<span class="c">#SBATCH --time=72:00:00</span>
+<span class="c">#SBATCH --cpus-per-task=32</span>
+<span class="c">#SBATCH --mem=250G</span>
+<span class="c">#SBATCH --output=struo2_%j.log</span>
+<span class="c">#SBATCH --error=struo2_%j.err</span>
+
+<span class="nb">cd</span> /path/to/struo2_fresh
+
+<span class="c"># Critical: Use downloaded MMseqs, not module</span>
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/mmseqs/bin:<span class="nv">$PATH</span>
+
+<span class="c"># Remove any conflicting paths</span>
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="nv">$PATH</span> | <span class="nb">tr</span> <span class="s1">':'</span> <span class="s1">'\n'</span> | <span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"metawrap</span><span class="se">\|</span><span class="s2">metaWRAP"</span> | <span class="nb">tr</span> <span class="s1">'\n'</span> <span class="s1">':'</span><span class="si">)</span>
+
+<span class="c"># SSL certificates (if needed)</span>
+<span class="nb">export </span><span class="nv">REQUESTS_CA_BUNDLE</span><span class="o">=</span>/etc/ssl/certs/ca-bundle.crt
+<span class="nb">export </span><span class="nv">SSL_CERT_FILE</span><span class="o">=</span>/etc/ssl/certs/ca-bundle.crt
+<span class="nb">export </span><span class="nv">CURL_CA_BUNDLE</span><span class="o">=</span>/etc/ssl/certs/ca-bundle.crt
+
+<span class="nb">source</span> ~/.bashrc
+conda activate snakemake_env
+
+<span class="c"># Load modules</span>
+module load vsearch/2.21.1
+module load bowtie2/2.4.4
+module load samtools/1.15.1
+module load diamond/2.0.13
+module load seqkit/2.10.0
+
+<span class="nb">echo</span> <span class="s2">"Verifying tools:"</span>
+<span class="nb">echo</span> <span class="s2">"  mmseqs: </span><span class="si">$(</span>which mmseqs<span class="si">)</span><span class="s2">"</span>
+mmseqs version
+
+<span class="c"># Run WITHOUT --use-conda to avoid SSL/conda issues</span>
+snakemake <span class="se">\</span>
+  <span class="nt">-j</span> 32 <span class="se">\</span>
+  <span class="nt">--configfile</span> config_custom.yaml <span class="se">\</span>
+  <span class="nt">--keep-going</span> <span class="se">\</span>
+  <span class="nt">--rerun-incomplete</span> <span class="se">\</span>
+  <span class="nt">--printshellcmds</span>
+
+<span class="nb">echo</span> <span class="s2">"Completed: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<h2 id="step-7-common-errors-and-solutions">Step 7: Common Errors and Solutions</h2>
+
+<h3 id="error-1-ssl-certificate-issues">Error 1: SSL Certificate Issues</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RuntimeError: Download error (77) Problem with the SSL CA cert
+</code></pre></div></div>
+
+<p><strong>Solution</strong>: DON’T use <code class="language-plaintext highlighter-rouge">--use-conda</code>. Load system modules instead.</p>
+
+<h3 id="error-2-bowtie2---threads-not-recognized">Error 2: Bowtie2 <code class="language-plaintext highlighter-rouge">--threads</code> Not Recognized</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bowtie2-build: unrecognized option '--threads'
+</code></pre></div></div>
+
+<p><strong>Your cluster has old Bowtie2 (v2.2.3)</strong>. Build indices manually:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>databases/humann3/uniref90/
+<span class="nb">gunzip</span> <span class="nt">-c</span> genome_reps_filt_annot.fna.gz <span class="o">&gt;</span> temp.fna
+bowtie2-build temp.fna genome_reps_filt_annot  <span class="c"># No --threads flag!</span>
+<span class="nb">rm </span>temp.fna
+</code></pre></div></div>
+
+<h3 id="error-3-out-of-memory-with-bowtie2">Error 3: Out of Memory with Bowtie2</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Out of memory allocating the offs[] array for the Bowtie index
+</code></pre></div></div>
+
+<p><strong>Why</strong>: 30 million genes = ~180GB Bowtie2 index</p>
+
+<p><strong>Solution</strong>: Request 300GB RAM minimum</p>
+
+<h3 id="error-4-wrong-database-version">Error 4: Wrong Database Version</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CRITICAL ERROR: ChocoPhlAn contains files that are not of expected version
+</code></pre></div></div>
+
+<p><strong>Solution</strong>: Add <code class="language-plaintext highlighter-rouge">--bypass-nucleotide-index</code> to HUMAnN3 commands</p>
+
+<h2 id="step-8-running-humann3-with-your-database">Step 8: Running HUMAnN3 with Your Database</h2>
+
+<h3 id="single-sample-test">Single Sample Test</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --cpus-per-task=16</span>
+<span class="c">#SBATCH --mem=300G</span>
+<span class="c">#SBATCH --time=24:00:00</span>
+
+module load humann/3.9
+
+<span class="nv">NUC_DB</span><span class="o">=</span>/path/to/databases/humann3/uniref90
+<span class="nv">PROT_DB</span><span class="o">=</span>/path/to/databases/protein
+
+humann <span class="nt">--input</span> sample.fasta <span class="se">\</span>
+  <span class="nt">--output</span> output_dir <span class="se">\</span>
+  <span class="nt">--nucleotide-database</span> <span class="nv">$NUC_DB</span> <span class="se">\</span>
+  <span class="nt">--protein-database</span> <span class="nv">$PROT_DB</span> <span class="se">\</span>
+  <span class="nt">--bypass-nucleotide-index</span> <span class="se">\</span>
+  <span class="nt">--bypass-prescreen</span> <span class="se">\</span>
+  <span class="nt">--threads</span> 16
+</code></pre></div></div>
+
+<h3 id="batch-processing-32-samples">Batch Processing (32 samples)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=humann3_batch</span>
+<span class="c">#SBATCH --array=1-32</span>
+<span class="c">#SBATCH --cpus-per-task=16</span>
+<span class="c">#SBATCH --mem=300G</span>
+<span class="c">#SBATCH --time=48:00:00</span>
+
+module load humann/3.9
+
+<span class="nv">SAMPLES</span><span class="o">=(</span><span class="si">$(</span><span class="nb">ls</span> /path/to/assemblies/<span class="k">*</span>.fasta<span class="si">)</span><span class="o">)</span>
+<span class="nv">SAMPLE</span><span class="o">=</span><span class="k">${</span><span class="nv">SAMPLES</span><span class="p">[</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="p">-1]</span><span class="k">}</span>
+<span class="nv">BASENAME</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="nv">$SAMPLE</span> .fasta<span class="si">)</span>
+
+humann <span class="nt">--input</span> <span class="nv">$SAMPLE</span> <span class="se">\</span>
+  <span class="nt">--output</span> /path/to/output <span class="se">\</span>
+  <span class="nt">--nucleotide-database</span> <span class="nv">$NUC_DB</span> <span class="se">\</span>
+  <span class="nt">--protein-database</span> <span class="nv">$PROT_DB</span> <span class="se">\</span>
+  <span class="nt">--output-basename</span> <span class="k">${</span><span class="nv">BASENAME</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--bypass-nucleotide-index</span> <span class="se">\</span>
+  <span class="nt">--bypass-prescreen</span> <span class="se">\</span>
+  <span class="nt">--threads</span> 16
+</code></pre></div></div>
+
+<h2 id="step-9-understanding-your-output">Step 9: Understanding Your Output</h2>
+
+<h3 id="what-you-get">What You Get</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>databases/
+├── genes/
+│   ├── genome_reps_filtered.fna.gz       # 22 MB (100 genomes)
+│   ├── genome_reps_filtered.faa.gz       # 16 MB
+│   └── genome_reps_filtered.txt.gz       # 2 MB
+└── humann3/
+    ├── uniref90/
+    │   ├── genome_reps_filt_annot.fna.gz # 25 GB (full GTDB)
+    │   ├── genome_reps_filt_annot.tsv.gz # 3.3 GB - THE KEY FILE!
+    │   └── *.bt2l                         # ~180 GB total
+    └── protein/
+        └── uniref90.dmnd                  # 36 GB
+</code></pre></div></div>
+
+<h3 id="the-magic-tsv-file">The Magic TSV File</h3>
+
+<p><code class="language-plaintext highlighter-rouge">genome_reps_filt_annot.tsv.gz</code> contains gene-to-genome mappings:</p>
+
+<pre><code class="language-tsv">seq_uuid	genome_name	species	annotation
+hash123	RS_GCF_000970205.1	s__Methanosarcina_mazei	UniRef90_Q8TUR2
+</code></pre>
+
+<p>This file lets you:</p>
+
+<ol>
+  <li>Map gene families back to genomes</li>
+  <li>Calculate genome-level abundances</li>
+  <li>Build trait tables for functional redundancy analysis</li>
+</ol>
+
+<h2 id="lessons-learned">Lessons Learned</h2>
+
+<h3 id="what-worked">What Worked</h3>
+
+<p>✅ <strong>Separate Snakemake environment</strong> from tool dependencies<br />
+✅ <strong>System modules</strong> instead of conda for tools<br />
+✅ <strong>Downloaded MMseqs binary</strong> instead of system module<br />
+✅ <strong>One genome per species</strong> to avoid Pandas bugs<br />
+✅ <strong>Starting with 100 genomes</strong> for testing</p>
+
+<h3 id="what-didnt-work">What Didn’t Work</h3>
+
+<p>❌ Using <code class="language-plaintext highlighter-rouge">--use-conda</code> with SSL certificate issues<br />
+❌ Mixing conda environments<br />
+❌ System MMseqs module (CPU incompatibility)<br />
+❌ Building Bowtie2 index with old version’s flags<br />
+❌ Trying to build full GTDB without months of compute time</p>
+
+<h3 id="time-investment">Time Investment</h3>
+
+<ul>
+  <li><strong>Setup and troubleshooting</strong>: 2-3 days</li>
+  <li><strong>Test run (100 genomes)</strong>: 4-8 hours</li>
+  <li><strong>Full build (if attempted)</strong>: 2-4 months</li>
+  <li><strong>Using pre-built database</strong>: 1 day</li>
+</ul>
+
+<h2 id="alternative-strategies">Alternative Strategies</h2>
+
+<h3 id="strategy-1-smart-subsetting-this-is-the-way-i-find-to-proceed">Strategy 1: Smart Subsetting (This is the way I find to proceed)</h3>
+
+<p>Instead of using all 85K genomes:</p>
+
+<ol>
+  <li>Run HUMAnN3 on your samples with pre-built database (older gtdbtk based)</li>
+  <li>Extract list of detected genomes (from gene mappings)</li>
+  <li>Download only those ~500-5000 genomes</li>
+  <li>Build custom database from your ecosystem-specific subset</li>
+  <li>Re-run samples for accurate genome abundances</li>
+</ol>
+
+<p><strong>This is probably the best approach for most projects!</strong></p>
+
+<h3 id="strategy-2-use-mags-based-custom-database">Strategy 2: Use MAGs based custom database</h3>
+
+<p>If you alredy have MAGs from same data, you can use them instead of the genomes from GTDBtk.
+But remebr that you still have the issue of limited coverage, as MAGs many not give you all genomes in each samples.</p>
+
+<h2 id="final-recommendations">Final Recommendations</h2>
+
+<p><strong>If you want to analyze data TODAY:</strong></p>
+
+<ul>
+  <li>Download pre-built Struo2 GTDB r207 database</li>
+  <li>Use MetaPhlAn for taxonomy</li>
+  <li>Use HUMAnN3 for functional profiling</li>
+</ul>
+
+<p><strong>If you have 1 week:</strong></p>
+
+<ul>
+  <li>Build custom database with ~1000 representative genomes</li>
+  <li>Test thoroughly with pilot samples</li>
+  <li>Scale to full dataset</li>
+</ul>
+
+<p><strong>If you have 2-4 months and unlimited compute:</strong></p>
+
+<ul>
+  <li>Build full GTDB r220 database</li>
+  <li>Enjoy the most comprehensive reference available</li>
+  <li>Share it with the community!</li>
+</ul>
+
+<h2 id="computational-costs">Computational Costs</h2>
+
+<p>For our HPC cluster (Clemson University Palmetto):</p>
+
+<p><strong>100 genome test:</strong></p>
+
+<ul>
+  <li>SUs consumed: ~500</li>
+  <li>Cost: ~$50</li>
+  <li>Time: 8 hours</li>
+</ul>
+
+<p><strong>Full GTDB build (estimated):</strong></p>
+
+<ul>
+  <li>SUs consumed: ~50,000+</li>
+  <li>Cost: ~$5,000+</li>
+  <li>Time: 2-4 months</li>
+</ul>
+
+<p><strong>Using pre-built database:</strong></p>
+
+<ul>
+  <li>SUs consumed: ~10 (download only)</li>
+  <li>Cost: ~$1</li>
+  <li>Time: 1 day</li>
+</ul>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Building custom HUMAnN3 databases with Struo2 is powerful but challenging. The pipeline works, but you’ll fight with:</p>
+
+<ul>
+  <li>Environment conflicts</li>
+  <li>Memory requirements</li>
+  <li>CPU architecture incompatibilities</li>
+  <li>Time constraints</li>
+</ul>
+
+<p>For most projects, I recommend:</p>
+
+<ol>
+  <li>Use pre-built databases for initial analysis</li>
+  <li>Identify genomes relevant to your system</li>
+  <li>Build targeted custom databases if needed</li>
+</ol>
+
+<p>The functional profiling is worth it—just be realistic about the time investment!</p>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><strong>Struo2 GitHub</strong>: <a href="https://github.com/leylabmpi/Struo2">https://github.com/leylabmpi/Struo2</a></li>
+  <li><strong>Pre-built databases</strong>: <a href="http://ftp.tue.mpg.de/ebio/projects/struo2/">http://ftp.tue.mpg.de/ebio/projects/struo2/</a></li>
+  <li><strong>GTDB</strong>: <a href="https://gtdb.ecogenomic.org/">https://gtdb.ecogenomic.org/</a></li>
+  <li><strong>HUMAnN3</strong>: <a href="https://huttenhower.sph.harvard.edu/humann/">https://huttenhower.sph.harvard.edu/humann/</a></li>
+</ul>
+
+<p>Special thanks to Claude for helping troubleshoot every single error message in this journey!</p>
+
+<p><img src="/assets/img/struo.png" alt="struo2" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="humann3" /><category term="struo2" /><category term="gtdb" /><category term="bioinformatics" /><category term="database-building" /><category term="troubleshooting" /><summary type="html"><![CDATA[A comprehensive, honest guide to building custom HUMAnN3 databases using Struo2 with GTDB r220, including all the troubleshooting, workarounds, and lessons learned from 40 hours in the trenches.]]></summary></entry><entry><title type="html">Visualize Your Data — Day 5: Bubble Plots in Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots/" rel="alternate" type="text/html" title="Visualize Your Data — Day 5: Bubble Plots in Bioinformatics" /><published>2026-01-22T00:00:00-05:00</published><updated>2026-01-22T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots/"><![CDATA[<h1 id="-visualize-your-data--day-5-bubble-plots">📊 Visualize Your Data – Day 5: Bubble Plots</h1>
 
 <p>In <a href="/blog/visualize-your-data-day1/">Day 1</a>, we explored distributions with box and violin plots.<br />
 In <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2</a>, we revealed patterns using heatmaps.<br />
@@ -4004,300 +4517,4 @@ Assembly graph visulization using bandage can be find at : https://jojyjohn28.gi
 <p><strong>All batch scripts are available in the project repository.</strong>
 https://github.com/jojyjohn28/whole-genome-sequencing-analysis/day2</p>
 
-<p><strong>In Day 3</strong>, we will move from assemblies to taxonomy, phylogeny, and species delineation using GTDB-Tk, ANI, AAI, and dDDH.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 2 of the WGS series: short- and long-read genome assembly using SPAdes, MEGAHIT, Shovill, and Flye, followed by assembly evaluation with QUAST, GC content visualization, topology assessment, and graph inspection with Bandage.]]></summary></entry><entry><title type="html">Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data</title><link href="https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc/" rel="alternate" type="text/html" title="Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data" /><published>2026-01-07T00:00:00-05:00</published><updated>2026-01-07T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day1-raw-reads-qc/"><![CDATA[<h2 id="-whole-genome-analysis--day-1">🧬 Whole Genome Analysis — Day 1</h2>
-
-<h3 id="from-raw-reads-to-clean-assembly-ready-data">From Raw Reads to Clean, Assembly-Ready Data</h3>
-
-<p>Every genome project starts at the same place: <strong>raw sequencing files</strong>.<br />
-Before assembly, annotation, or comparative genomics, it is critical to confirm that the data you received is <strong>complete, uncorrupted, and of sufficient quality</strong>.</p>
-
-<p>In this post, I walk through <strong>Day 1 of a whole-genome sequencing (WGS) workflow</strong>, covering both <strong>Illumina (short reads)</strong> and <strong>Oxford Nanopore (long reads)</strong>.</p>
-
-<h2 id="-input-data-formats">📂 Input Data Formats</h2>
-
-<p>Typical WGS inputs include:</p>
-
-<h3 id="illumina-paired-end">Illumina (paired-end)</h3>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_R1.fastq.gz
-sample_R2.fastq.gz
-</code></pre></div></div>
-
-<h2 id="-oxford-nanopore">📂 Oxford Nanopore</h2>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_nanopore.fastq.gz
-</code></pre></div></div>
-
-<p><strong>These files often arrive from sequencing facilities or collaborators and should never be trusted blindly.</strong></p>
-
-<h2 id="-step-0--file-integrity-check-md5sum">🔐 Step 0 — File Integrity Check (md5sum)</h2>
-
-<p>Before opening or processing FASTQ files, verify they were transferred correctly.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">md5sum</span> <span class="k">*</span>.fastq.gz
-</code></pre></div></div>
-
-<p>Compare the output against checksums provided by the sequencing facility.</p>
-
-<p><strong>✅ Why this matters</strong></p>
-
-<p>• Prevents silent file corruption</p>
-
-<p>• Saves hours of debugging downstream</p>
-
-<p>• Essential for reproducible genomics</p>
-
-<h2 id="-step-1--quality-control-of-illumina-reads-fastqc">🔍 Step 1 — Quality Control of Illumina Reads (FastQC)</h2>
-
-<p>What is FastQC?</p>
-
-<p>FastQC provides a quick visual summary of sequencing quality for FASTQ files.
-It works on raw or trimmed Illumina data and produces an interactive HTML report.</p>
-
-<p><strong>Installation</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda fastqc
-</code></pre></div></div>
-
-<p>or on HPC systems you can use module load.</p>
-
-<p><strong>Run FastQC</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>fastqc_raw
-fastqc <span class="nt">-o</span> fastqc_raw <span class="k">*</span>.fastq.gz
-</code></pre></div></div>
-
-<h2 id="-scaling-fastqc-for-100-genomes">🔁 Scaling FastQC for 100+ Genomes</h2>
-
-<p>Running FastQC on one or two samples is easy.
-But real projects often involve hundreds of genomes or metagenomes, each with paired-end reads.</p>
-
-<p>Instead of running FastQC manually for each sample, you can automate it using either:</p>
-
-<p>• a simple Bash loop (local or login node)</p>
-
-<p>• a SLURM batch script (recommended for HPC environments)</p>
-
-<p><strong>🧪 Option 1 — FastQC Using a Bash Loop</strong></p>
-
-<p>This approach works well for:</p>
-
-<p>• local machines</p>
-
-<p>• small to medium datasets</p>
-
-<p>• quick exploratory QC</p>
-
-<p><strong>✅ Advantages</strong></p>
-
-<p>• Simple</p>
-
-<p>• Transparent</p>
-
-<p>• Easy to debug</p>
-
-<p><strong>⚠️ Limitations</strong></p>
-
-<p>• Runs sequentially</p>
-
-<p>• Not ideal for very large datasets</p>
-
-<p><strong>🖥️ Option 2 — FastQC as a SLURM Batch Job (HPC-friendly)</strong></p>
-
-<p>For large projects (100+ samples), always prefer batch execution.</p>
-
-<p><strong>⚙️ Why Batch Processing Matters</strong></p>
-
-<p>When working with large datasets, batch processing:</p>
-
-<p>• avoids overloading login nodes</p>
-
-<p>• scales efficiently across cores</p>
-
-<p>• ensures reproducibility</p>
-
-<p>• allows unattended execution</p>
-
-<p>💡 Tip: Combine FastQC with MultiQC later to summarize all reports in one dashboard.</p>
-
-<p><strong>All example scripts are available in the project repository.</strong>
-https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
-
-<h2 id="-interpreting-fastqc-reports">📊 Interpreting FastQC Reports</h2>
-
-<p>Key modules to inspect:</p>
-
-<p>• Basic Statistics – total reads, GC %, read length</p>
-
-<p>• Per Base Sequence Quality – look for quality drops at read ends</p>
-
-<p>• Per Sequence Quality Scores – distribution of read quality</p>
-
-<p>• Adapter Content – presence of sequencing adapters</p>
-
-<p>• Overrepresented Sequences – contamination or adapters</p>
-
-<p>• Sequence Duplication Levels – PCR artifacts or bias</p>
-
-<p>Understanding the plot</p>
-
-<p>• Red line → median quality</p>
-
-<p>• Yellow box → interquartile range (25–75%)</p>
-
-<p>• Whiskers → 10–90%</p>
-
-<p>• Blue line → mean quality</p>
-
-<p>• Green / Orange / Red background → good / warning / poor quality</p>
-
-<p>📌 Raw data often looks messy — that’s normal.</p>
-
-<p>See the plots below as an example to learn (source-Google)</p>
-
-<p><img src="/assets/img/fastqc.png" alt="FastQC quality report example" /></p>
-
-<p>Left: Raw reads with severe quality drop toward read ends
-Right: Trimmed reads with stabilized base quality
-(These plots clearly show why trimming is required before assembly.)</p>
-
-<p><strong>If you have many genomes you can use standalone Python script that parses FastQC outputs and generates a summary table you can use for reporting, plotting, or downstream filtering.</strong>
-For more details please see Day 1 in https://github.com/jojyjohn28/whole-genome-sequencing-analysis look for fastqc_to_table.py and fastqc_to_table.md.</p>
-
-<h2 id="-step-2--quality-control-of-nanopore-reads-nanoplot">🔬 Step 2 — Quality Control of Nanopore Reads (NanoPlot)</h2>
-
-<p>Illumina-style QC tools are not suitable for Nanopore data.</p>
-
-<p><strong>What is NanoPlot?</strong></p>
-
-<p>NanoPlot visualizes:</p>
-
-<p>• Read length distribution</p>
-
-<p>• Quality vs read length</p>
-
-<p>• Yield over time</p>
-
-<p>• N50 / N90 statistics</p>
-
-<p><strong>Installation</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda nanoplot
-</code></pre></div></div>
-
-<p><strong>Run NanoPlot</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NanoPlot <span class="se">\</span>
-  <span class="nt">--fastq</span> sample_nanopore.fastq.gz <span class="se">\</span>
-  <span class="nt">--outdir</span> nanoplot_results <span class="se">\</span>
-  <span class="nt">--threads</span> 8
-</code></pre></div></div>
-
-<p><strong>For loop/batch script please visit the project repository (Day1).</strong>
-https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
-
-<p><strong>What to look for</strong></p>
-
-<p>• Wide read length distribution (expected)</p>
-
-<p>• No extreme quality collapse</p>
-
-<p>• Reasonable N50 for your library type</p>
-
-<h2 id="️-step-3--read-trimming-illumina">✂️ Step 3 — Read Trimming (Illumina)</h2>
-
-<p>Raw Illumina reads almost always contain:</p>
-
-<p>• Adapter contamination</p>
-
-<p>• Low-quality bases at ends</p>
-
-<p>Two commonly used tools are Trimmomatic and Cutadapt.</p>
-
-<p><strong>🔧 Trimmomatic</strong>
-Installation</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda trimmomatic
-</code></pre></div></div>
-
-<p><strong>General Default Command</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>trimmomatic PE <span class="nt">-threads</span> 16 <span class="se">\</span>
-  sample_R1.fastq.gz sample_R2.fastq.gz <span class="se">\</span>
-  sample_R1.paired.fastq.gz sample_R1.unpaired.fastq.gz <span class="se">\</span>
-  sample_R2.paired.fastq.gz sample_R2.unpaired.fastq.gz <span class="se">\</span>
-  ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 <span class="se">\</span>
-  LEADING:3 <span class="se">\</span>
-  TRAILING:3 <span class="se">\</span>
-  SLIDINGWINDOW:4:15 <span class="se">\</span>
-  MINLEN:50
-</code></pre></div></div>
-
-<p><strong>Key Trimming Options</strong></p>
-
-<p>• ILLUMINACLIP → adapter removal</p>
-
-<p>• SLIDINGWINDOW → dynamic quality trimming</p>
-
-<p>• LEADING / TRAILING → end trimming</p>
-
-<p>• MINLEN → drop short reads</p>
-
-<p><strong>✂️ Cutadapt (Alternative)</strong></p>
-
-<p>Cutadapt provides more flexible adapter handling and is increasingly popular.
-<strong>General Default Command</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cutadapt <span class="se">\</span>
-  <span class="nt">-a</span> AGATCGGAAGAGC <span class="se">\</span>
-  <span class="nt">-A</span> AGATCGGAAGAGC <span class="se">\</span>
-  <span class="nt">-q</span> 20,20 <span class="se">\</span>
-  <span class="nt">-m</span> 50 <span class="se">\</span>
-  <span class="nt">-o</span> sample_R1.trimmed.fastq.gz <span class="se">\</span>
-  <span class="nt">-p</span> sample_R2.trimmed.fastq.gz <span class="se">\</span>
-  sample_R1.fastq.gz sample_R2.fastq.gz
-</code></pre></div></div>
-
-<h2 id="-step-4--post-trimming-qc">🔁 Step 4 — Post-Trimming QC</h2>
-
-<p>Always rerun FastQC after trimming:</p>
-
-<p><strong>You should observe:</strong></p>
-
-<p>• Cleaner base quality profiles</p>
-
-<p>• Reduced adapter content</p>
-
-<p>• More uniform read lengths</p>
-
-<h2 id="-output-of-day-1">📁 Output of Day 1</h2>
-
-<p>By the end of Day 1, you should have:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Illumina:
-sample_R1.trimmed.fastq.gz
-sample_R2.trimmed.fastq.gz
-
-Nanopore:
-sample_nanopore.fastq.gz (QC-validated)
-</code></pre></div></div>
-
-<h2 id="-why-day-1-matters">🧠 Why Day 1 Matters</h2>
-
-<p>All downstream steps assume:</p>
-
-<p>• Accurate base calls</p>
-
-<p>• Minimal sequencing artifacts</p>
-
-<p>• Reliable read lengths</p>
-
-<p>Skipping or rushing QC can:</p>
-
-<p>• Break assemblies</p>
-
-<p>• Inflate errors</p>
-
-<p>• Bias comparative genomics</p>
-
-<p><strong>Clean input = trustworthy genomes</strong></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of a whole-genome analysis series covering raw Illumina and Nanopore reads, integrity checks, quality control with FastQC and NanoPlot, and read trimming using Trimmomatic and Cutadapt.]]></summary></entry></feed>
+<p><strong>In Day 3</strong>, we will move from assemblies to taxonomy, phylogeny, and species delineation using GTDB-Tk, ANI, AAI, and dDDH.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 2 of the WGS series: short- and long-read genome assembly using SPAdes, MEGAHIT, Shovill, and Flye, followed by assembly evaluation with QUAST, GC content visualization, topology assessment, and graph inspection with Bandage.]]></summary></entry></feed>
