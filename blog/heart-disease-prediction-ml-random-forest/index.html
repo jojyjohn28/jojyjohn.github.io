@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Predicting Heart Disease with Machine Learning: A Data Scientist's Return to Clinical ML | Jojy John
+    
+  
+</title>
+<meta name="author" content="Jojy John">
+<meta name="description" content="Revisiting my masters in datascience project on heart disease prediction to explore Random Forest applications in microbial ecosystem multifunctionality research. A comprehensive comparison of 5 ML algorithms with real results and lessons learned.">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="" integrity="" crossorigin="anonymous">
+
+<!-- Bootstrap Table -->
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" type="text/css" href="">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+<!-- pseudocode -->
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/heart-disease-prediction-ml-random-forest/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+<!-- GeoJSON support via Leaflet -->
+
+
+<!-- diff2html -->
+
+
+
+
+
+
+<!-- GoatCounter analytics -->
+<script data-goatcounter="https://jojyjohn28.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Jojy</span>
+            
+            
+            John
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">Jojy John
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/mentoring/">Mentoring
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/collaborations/">Collaboration
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/repositories/">Repositories
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Predicting Heart Disease with Machine Learning: A Data Scientist's Return to Clinical ML</h1>
+    <p class="post-meta">
+      Created in January 28, 2026
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/tag/machine-learning"> <i class="fa-solid fa-hashtag fa-sm"></i> machine-learning </a>
+          
+           
+        
+          
+            <a href="/blog/tag/random-forest"> <i class="fa-solid fa-hashtag fa-sm"></i> random-forest </a>
+          
+           
+        
+          
+            <a href="/blog/tag/healthcare"> <i class="fa-solid fa-hashtag fa-sm"></i> healthcare </a>
+          
+           
+        
+          
+            <a href="/blog/tag/data-science"> <i class="fa-solid fa-hashtag fa-sm"></i> data-science </a>
+          
+           
+        
+          
+            <a href="/blog/tag/classification"> <i class="fa-solid fa-hashtag fa-sm"></i> classification </a>
+          
+           
+        
+          
+            <a href="/blog/tag/model-comparison"> <i class="fa-solid fa-hashtag fa-sm"></i> model-comparison </a>
+          
+          
+        
+      
+
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    <div id="markdown-content">
+      <h1 id="predicting-heart-disease-with-machine-learning-when-clinical-ml-meets-ecological-research">Predicting Heart Disease with Machine Learning: When Clinical ML Meets Ecological Research</h1>
+
+<h2 id="introduction-why-am-i-doing-this">Introduction: Why Am I Doing This?</h2>
+
+<p>Today I’m slightly moving from my regular bioinformatics work, and you may wonder why the sudden change. However, I’m refreshing an old project I did as part of my masters program in data science. The reason? <strong>We’re trying to figure out whether we can use Random Forest models—which I originally applied to heart disease prediction—for analyzing microbial ecosystem multifunctionality across different cover crops</strong> (similar to the approach described in our recent Nature paper on soil functions:https://www.nature.com/articles/s41467-025-67353-9).</p>
+
+<p>The question is: can the same ML techniques that predict heart disease from clinical indicators <strong>also predict ecosystem functions from microbial community data?</strong> To answer this, I first needed to revisit and properly evaluate my original heart disease project.</p>
+
+<p><strong>Spoiler alert:</strong> Logistic Regression won (91.18% recall!), but Random Forest was a close second with the best discrimination ability. Both models taught me important lessons about when to prioritize different metrics—lessons that directly apply to our ecosystem research.</p>
+
+<h2 id="the-dataset-303-patients-14-features">The Dataset: 303 Patients, 14 Features</h2>
+
+<p>The heart disease dataset is a classic in ML education, but working with it properly requires more nuance than most tutorials show. We have:</p>
+
+<ul>
+  <li><strong>303 patient records</strong></li>
+  <li>
+<strong>13 clinical features</strong>: age, sex, chest pain type, resting blood pressure, cholesterol, maximum heart rate, ST depression, etc.</li>
+  <li>
+<strong>1 target variable</strong>: presence (1) or absence (0) of heart disease</li>
+  <li>
+<strong>Balanced dataset</strong>: 165 with disease, 138 without (no class imbalance issues!)</li>
+</ul>
+
+<p>This is actually quite similar to our soil ecosystem data structure. We have many cover crops individually and in combination. The main difference? In medical diagnosis, false negatives (missing a disease) are dangerous. <strong>In ecosystem research, we need to understand which environmental factors drive multifunctionality.</strong> Thus provide a strong additional support to Functional Redundnacy.</p>
+
+<h2 id="the-models-5-algorithms-compared">The Models: 5 Algorithms Compared</h2>
+
+<p>I didn’t just run one algorithm and call it done. I evaluated <strong>five different approaches</strong> to see which performed best:</p>
+
+<ol>
+  <li>
+<strong>Logistic Regression</strong> - Linear, interpretable, fast</li>
+  <li>
+<strong>Random Forest</strong> - Ensemble, handles non-linearity, feature importance</li>
+  <li>
+<strong>XGBoost</strong> - Gradient boosting, regularization</li>
+  <li>
+<strong>Support Vector Machine (SVM)</strong> - Maximum margin classifier</li>
+  <li>
+<strong>K-Nearest Neighbors (KNN)</strong> - Instance-based learning</li>
+</ol>
+
+<p>Why so many? Because different algorithms make different assumptions. Just like choosing between GTDB and NCBI for taxonomy, or deciding between MetaPhlAn and Kraken for profiling, <strong>the choice of algorithm matters</strong> and depends on your specific use case.</p>
+
+<h2 id="preprocessing-the-critical-steps-everyone-forgets">Preprocessing: The Critical Steps Everyone Forgets</h2>
+
+<h3 id="the-data-leakage-bug-i-almost-made">The Data Leakage Bug I Almost Made</h3>
+
+<p>Here’s a mistake I see constantly in tutorials (and almost made myself):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ❌ WRONG - This leaks test information into training!
+</span><span class="n">scaler</span> <span class="o">=</span> <span class="nc">StandardScaler</span><span class="p">()</span>
+<span class="n">dataset</span><span class="p">[</span><span class="n">scaled_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">scaled_columns</span><span class="p">])</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="nf">train_test_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="c1"># ✅ CORRECT - Fit only on training data
+</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="nf">train_test_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="nc">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train</span><span class="p">[</span><span class="n">scaled_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">scaled_columns</span><span class="p">])</span>
+<span class="n">X_test</span><span class="p">[</span><span class="n">scaled_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="nf">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">scaled_columns</span><span class="p">])</span>  <span class="c1"># Only transform!
+</span></code></pre></div></div>
+
+<p>This is like using your entire <strong>metagenome to pick reference genomes, then claiming your database is “independent” for validation. Always split BEFORE preprocessing!</strong></p>
+
+<h3 id="categorical-encoding">Categorical Encoding</h3>
+
+<p>I used one-hot encoding for categorical variables (chest pain type, ECG results, etc.):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Convert categorical variables to dummy variables
+</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">get_dummies</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">categorical_features</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>After encoding, our 13 features expanded to 30+ binary features. This is similar to how we might encode soil texture (clay/loam/sand) or land use (cropland/grassland/woodland) in ecosystem models.</p>
+
+<h2 id="results-the-winner-and-why-it-won">Results: The Winner and Why It Won</h2>
+
+<h3 id="complete-performance-summary">Complete Performance Summary</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Accuracy</th>
+      <th>Precision</th>
+      <th>Recall</th>
+      <th>F1-Score</th>
+      <th>ROC-AUC</th>
+      <th>CV Mean</th>
+      <th>CV Std</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Logistic Regression ⭐</strong></td>
+      <td><strong>88.52%</strong></td>
+      <td><strong>88.57%</strong></td>
+      <td><strong>91.18%</strong></td>
+      <td><strong>89.86%</strong></td>
+      <td><strong>93.79%</strong></td>
+      <td><strong>83.90%</strong></td>
+      <td><strong>3.44%</strong></td>
+    </tr>
+    <tr>
+      <td>Random Forest</td>
+      <td>88.52%</td>
+      <td>90.91%</td>
+      <td>88.24%</td>
+      <td>89.55%</td>
+      <td>94.06%</td>
+      <td>81.85%</td>
+      <td>4.43%</td>
+    </tr>
+    <tr>
+      <td>XGBoost</td>
+      <td>83.61%</td>
+      <td>90.00%</td>
+      <td>79.41%</td>
+      <td>84.38%</td>
+      <td>91.83%</td>
+      <td>81.04%</td>
+      <td>4.76%</td>
+    </tr>
+    <tr>
+      <td>SVM</td>
+      <td>81.97%</td>
+      <td>87.10%</td>
+      <td>79.41%</td>
+      <td>83.08%</td>
+      <td>93.36%</td>
+      <td>82.24%</td>
+      <td>3.49%</td>
+    </tr>
+    <tr>
+      <td>KNN</td>
+      <td>80.33%</td>
+      <td>82.35%</td>
+      <td>82.35%</td>
+      <td>82.35%</td>
+      <td>90.63%</td>
+      <td>82.27%</td>
+      <td>4.48%</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="why-logistic-regression-won">Why Logistic Regression Won</h3>
+
+<p><strong>Logistic Regression achieved:</strong></p>
+
+<ul>
+  <li>✅ Highest recall (91.18%) - Caught 31 out of 34 disease cases</li>
+  <li>✅ Only 3 false negatives (best safety profile)</li>
+  <li>✅ Most stable (±3.44% cross-validation variance)</li>
+  <li>✅ Tied for best accuracy (88.52%)</li>
+  <li>✅ Best F1-score (89.86%)</li>
+</ul>
+
+<p><strong>Random Forest was a close second with:</strong></p>
+
+<ul>
+  <li>✅ Highest ROC-AUC (94.06%) - Best discrimination ability</li>
+  <li>✅ Highest precision (90.91%)</li>
+  <li>✅ Tied for accuracy (88.52%)</li>
+  <li>⚠️ Slightly lower recall (88.24% vs 91.18%)</li>
+</ul>
+
+<h2 id="why-this-matters-for-ecosystem-research">Why This Matters for Ecosystem Research</h2>
+
+<h3 id="lesson-1-recall-vs-precision-depends-on-context">Lesson 1: Recall vs Precision Depends on Context</h3>
+
+<p>In medical diagnosis:</p>
+
+<ul>
+  <li>
+<strong>Recall matters most</strong> - Missing a disease is dangerous</li>
+  <li>False positives → more tests (acceptable)</li>
+  <li>False negatives → no treatment (unacceptable)</li>
+</ul>
+
+<p>In ecosystem multifunctionality prediction:</p>
+
+<ul>
+  <li>
+<strong>Both matter equally</strong> - We want accurate understanding</li>
+  <li>False positives → wrong drivers identified</li>
+  <li>False negatives → miss important factors</li>
+</ul>
+
+<p>This means for our soil function work, we might prefer <strong>Random Forest’s balanced performance</strong> over Logistic Regression’s high recall focus.</p>
+
+<h3 id="lesson-2-random-forests-strengths-for-ecology">Lesson 2: Random Forest’s Strengths for Ecology</h3>
+
+<p>Random Forest excelled in several ways relevant to ecosystem research:</p>
+
+<p><strong>1. Feature Importance Analysis</strong></p>
+
+<p>Random Forest directly tells us which features matter most:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Top predictors (from heart disease):
+1. Chest pain type (cp_0, cp_1, cp_2)
+2. Number of major vessels (ca_0, ca_1, ca_2)
+3. Thalassemia type (thal_1, thal_2)
+4. ST depression (oldpeak)
+5. Maximum heart rate (thalach)
+</code></pre></div></div>
+
+<p>For our soil work, this could identify:</p>
+
+<ul>
+  <li>Which microbial taxa drive multifunctionality</li>
+  <li>Whether pH or climate matters more</li>
+  <li>Which enzyme activities are most predictive</li>
+</ul>
+
+<p><strong>2. Non-linear Relationships</strong></p>
+
+<p>Random Forest handles complex interactions naturally. Heart disease isn’t linear (age + cholesterol ≠ simple risk). Similarly, soil function responses to pH, climate, and microbiome are highly non-linear with threshold effects.</p>
+
+<p><strong>3. Robustness to Outliers</strong></p>
+
+<p>Ecosystems have outliers (extreme pH, unusual communities). Random Forest handles these better than linear models.</p>
+
+<h3 id="lesson-3-cross-validation-is-essential">Lesson 3: Cross-Validation is Essential</h3>
+
+<p>All models showed similar 5-fold CV performance (~82%), but Logistic Regression had the lowest variance (±3.44%). This stability is crucial when you have limited samples.</p>
+
+<p>Our soil dataset (484 samples) is similar in size. High CV variance would indicate overfitting—a real concern with complex models on moderate datasets.</p>
+
+<h2 id="feature-importance-what-drives-heart-disease">Feature Importance: What Drives Heart Disease?</h2>
+
+<p>Using Random Forest’s feature importance:</p>
+
+<p><strong>Top 5 Predictors:</strong></p>
+
+<ol>
+  <li>
+<strong>Chest pain type</strong> - Typical angina patients had lower disease rates</li>
+  <li>
+<strong>Number of major vessels</strong> - More blocked vessels = higher risk</li>
+  <li>
+<strong>Thalassemia</strong> - Blood disorder indicator</li>
+  <li>
+<strong>ST depression</strong> - Exercise-induced ECG change</li>
+  <li>
+<strong>Maximum heart rate</strong> - Exercise capacity</li>
+</ol>
+
+<p>Interestingly, age and cholesterol—what you’d expect to be most important—were moderate predictors. The model found <strong>functional indicators</strong> (exercise capacity, chest pain patterns) more predictive than static measurements.</p>
+
+<p><strong>Ecosystem parallel:</strong> We might find microbial functional genes more predictive of soil functions than taxonomic composition alone.</p>
+
+<h2 id="the-roc-curves-discrimination-ability">The ROC Curves: Discrimination Ability</h2>
+
+<p>All models showed excellent discrimination (ROC-AUC &gt; 90%), but Random Forest topped out at 94.06%.</p>
+
+<p>What does this mean? At ANY decision threshold, Random Forest best separates disease from no-disease cases. This is exactly what we need for ecosystem research: the ability to distinguish high-functioning from low-functioning soils across different thresholds.</p>
+
+<h2 id="confusion-matrix-insights-where-models-fail">Confusion Matrix Insights: Where Models Fail</h2>
+
+<p><strong>Logistic Regression confusion matrix:</strong></p>
+
+<ul>
+  <li>True Negatives: 23 (correctly identified healthy)</li>
+  <li>False Positives: 4 (wrongly flagged as disease)</li>
+  <li>False Negatives: 3 (missed diseases) ⚠️</li>
+  <li>True Positives: 31 (correctly caught diseases)</li>
+</ul>
+
+<p><strong>Random Forest confusion matrix:</strong></p>
+
+<ul>
+  <li>True Negatives: 23</li>
+  <li>False Positives: 4</li>
+  <li>False Negatives: 4 (one more miss than LR)</li>
+  <li>True Positives: 30</li>
+</ul>
+
+<p>The key difference? <strong>One patient</strong>. Logistic Regression caught one more disease case than Random Forest. In medical diagnosis, this matters. In ecosystem research, the models are essentially tied.</p>
+
+<h2 id="computational-efficiency-time-vs-accuracy">Computational Efficiency: Time vs Accuracy</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Training Time</th>
+      <th>Prediction Time</th>
+      <th>Memory</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Logistic Regression</td>
+      <td>&lt;1 sec</td>
+      <td>Instant</td>
+      <td>Minimal</td>
+    </tr>
+    <tr>
+      <td>Random Forest</td>
+      <td>~5 sec</td>
+      <td>Fast</td>
+      <td>Moderate</td>
+    </tr>
+    <tr>
+      <td>XGBoost</td>
+      <td>~10 sec</td>
+      <td>Fast</td>
+      <td>Moderate</td>
+    </tr>
+    <tr>
+      <td>SVM</td>
+      <td>~3 sec</td>
+      <td>Slow</td>
+      <td>High</td>
+    </tr>
+    <tr>
+      <td>KNN</td>
+      <td>Instant</td>
+      <td>Very Slow</td>
+      <td>High</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For soil samples, any of these would work. <strong>For 10,000+ metagenomes? Logistic Regression or Random Forest are the practical choices.</strong></p>
+
+<h2 id="hyperparameter-tuning-did-it-help">Hyperparameter Tuning: Did It Help?</h2>
+
+<p>I performed GridSearchCV on Random Forest:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">n_estimators</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">],</span>
+    <span class="sh">'</span><span class="s">max_depth</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="bp">None</span><span class="p">],</span>
+    <span class="sh">'</span><span class="s">min_samples_split</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+    <span class="sh">'</span><span class="s">min_samples_leaf</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Result:</strong> Tiny improvement (88.52% → 88.85% accuracy)</p>
+
+<p><strong>Lesson:</strong> Default parameters work surprisingly well. Don’t over-optimize on small datasets—you’re likely fitting noise.</p>
+
+<h2 id="applying-this-to-ecosystem-research">Applying This to Ecosystem Research</h2>
+
+<h3 id="our-soil-multifunctionality-challenge">Our Soil Multifunctionality Challenge</h3>
+
+<p>We have:</p>
+
+<ul>
+  <li>severa/ soil samples</li>
+  <li>functional measurements at gene and transcript level</li>
+  <li>Many predictors: microbiome, pH, crop type, soil type etc</li>
+</ul>
+
+<p>Questions Random Forest can answer:</p>
+
+<ol>
+  <li>Which predictors explain most variance in multifunctionality?</li>
+  <li>Are there non-linear responses to pH or temperature?</li>
+  <li>Which microbial taxa are most important?</li>
+  <li>Can we predict function from taxonomy alone?</li>
+</ol>
+
+<h3 id="the-analysis-strategy">The Analysis Strategy</h3>
+
+<p>Based on heart disease results, I’d use:</p>
+
+<p><strong>Primary model:</strong> Random Forest</p>
+
+<ul>
+  <li>Handles non-linearity (critical for ecology)</li>
+  <li>Provides feature importance (what drives functions?)</li>
+  <li>Robust to outliers (extreme pH, unusual communities)</li>
+</ul>
+
+<p><strong>Comparison model:</strong> Logistic Regression</p>
+
+<ul>
+  <li>Interpretable coefficients (direction of effects)</li>
+  <li>Fast for exploratory analysis</li>
+  <li>Good baseline performance</li>
+</ul>
+
+<p><strong>Validation approach:</strong></p>
+
+<ul>
+  <li>5-fold cross-validation (like heart disease)</li>
+  <li>Geographic stratification (don’t test on same region you train on)</li>
+  <li>Feature permutation importance (which predictors matter?)</li>
+</ul>
+
+<h2 id="code-and-reproducibility">Code and Reproducibility</h2>
+
+<p>All code is available on my GitHub: [link]</p>
+
+<p>Key files:</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">heart_disease_FINAL_WORKING.py</code> - Full analysis pipeline</li>
+  <li>Generated plots: confusion matrices, ROC curves, feature importance</li>
+</ul>
+
+<p>The pipeline is modular and can be adapted for any classification problem, including our ecosystem research.</p>
+
+<h2 id="lessons-learned-medical-ml-vs-ecological-ml">Lessons Learned: Medical ML vs Ecological ML</h2>
+
+<h3 id="similarities">Similarities</h3>
+
+<p>✅ Both need proper train-test splits<br>
+✅ Cross-validation is essential<br>
+✅ Feature scaling matters<br>
+✅ Multiple metrics needed (not just accuracy)<br>
+✅ Interpretability is valuable</p>
+
+<h3 id="differences">Differences</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Medical ML</th>
+      <th>Ecological ML</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Recall &gt; Precision</td>
+      <td>Balanced performance</td>
+    </tr>
+    <tr>
+      <td>Binary outcomes common</td>
+      <td>Often continuous or multi-class</td>
+    </tr>
+    <tr>
+      <td>Well-defined features</td>
+      <td>Feature engineering critical</td>
+    </tr>
+    <tr>
+      <td>Individual predictions</td>
+      <td>Population-level patterns</td>
+    </tr>
+    <tr>
+      <td>High-stakes errors</td>
+      <td>Scientific understanding</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="whats-next">What’s Next?</h2>
+
+<p>Now that I’ve validated the approach on clinical data, I’m applying Random Forest to our soil ecosystem dataset. The questions I’m asking:</p>
+
+<ol>
+  <li>Can we predict soil multifunctionality from microbial composition?</li>
+  <li>Which environmental factors are most important?</li>
+  <li>Are there threshold effects in pH or climate?</li>
+  <li>Can we identify keystone taxa for ecosystem functions?</li>
+</ol>
+
+<p>Stay tuned for a follow-up post on <strong>“Predicting Soil Ecosystem Multifunctionality with Random Forest: From Hearts to Soils”</strong></p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+
+<p>Revisiting this heart disease project reminded me why I love machine learning: it’s not about finding the single “best” algorithm. It’s about understanding your data, asking the right questions, and choosing tools that match your goals.</p>
+
+<p><strong>For medical diagnosis:</strong> Logistic Regression (high recall, interpretable)<br>
+<strong>For ecosystem research:</strong> Random Forest (handles complexity, feature importance)<br>
+<strong>For both:</strong> Proper validation, multiple metrics, and honest reporting of limitations</p>
+
+<p>The skills transfer beautifully between domains. Whether predicting heart disease or soil function, the principles remain the same: clean data, appropriate models, rigorous validation, and clear interpretation.</p>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li>
+<strong>Code Repository</strong>: <a href="https://github.com/jojyjohn28/ML-heart-to-ecosystem" rel="external nofollow noopener" target="_blank">[GitHub link]</a>
+</li>
+  <li>
+<strong>Dataset</strong>: <a href="https://archive.ics.uci.edu/ml/datasets/heart+disease" rel="external nofollow noopener" target="_blank">UCI ML Repository - Heart Disease</a>
+</li>
+  <li>
+<strong>Related Paper</strong>: [Ecosystem multifunctionality Nature paper] (https://www.nature.com/articles/s41467-025-67353-9)</li>
+</ul>
+
+<p><img src="/assets/img/confusion_matrices.png" alt="confusion_matrices">
+<em>Figure 1: Confusion matrices for all five models. Logistic Regression (top left) had the fewest false negatives.</em></p>
+
+<p><img src="/assets/img/roc_curves.png" alt="roc_curves">
+<em>Figure 2: ROC curves showing discrimination ability. Random Forest achieved the highest AUC (94.06%).</em></p>
+
+<p><img src="/assets/img/feature_importance.png" alt="feature_importance">
+<em>Figure 3: Feature importance from Random Forest (left) and XGBoost (right). Chest pain type and vessel count were top predictors.</em></p>
+
+<hr>
+
+<p><strong>Questions?</strong> Comment below or reach out.</p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      © Copyright 2026
+      Jojy
+      
+      John. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+      
+      
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+    <!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/assets/js/mdb.min.js"></script> -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+    
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  <!-- Medium Zoom JS -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+<!-- Bootstrap Table -->
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+    
+  
+    <!-- MathJax -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          tags: 'ams',
+        },
+      };
+    </script>
+    <script defer type="text/javascript" id="MathJax-script" src="" integrity="" crossorigin="anonymous"></script>
+    <script defer src="" crossorigin="anonymous"></script>
+  
+
+
+    
+
+    
+
+
+
+    
+  <!-- Scrolling Progress Bar -->
+  <script type="text/javascript">
+    /*
+     * This JavaScript code has been adapted from the article
+     * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar,
+     * published on the website https://css-tricks.com on the 7th of May, 2014.
+     * Couple of changes were made to the original code to make it compatible
+     * with the `al-foio` theme.
+     */
+    const progressBar = $('#progress');
+    /*
+     * We set up the bar after all elements are done loading.
+     * In some cases, if the images in the page are larger than the intended
+     * size they'll have on the page, they'll be resized via CSS to accomodate
+     * the desired size. This mistake, however, breaks the computations as the
+     * scroll size is computed as soon as the elements finish loading.
+     * To account for this, a minimal delay was introduced before computing the
+     * values.
+     */
+    window.onload = function () {
+      setTimeout(progressBarSetup, 50);
+    };
+    /*
+     * We set up the bar according to the browser.
+     * If the browser supports the progress element we use that.
+     * Otherwise, we resize the bar thru CSS styling
+     */
+    function progressBarSetup() {
+      if ('max' in document.createElement('progress')) {
+        initializeProgressElement();
+        $(document).on('scroll', function () {
+          progressBar.attr({ value: getCurrentScrollPosition() });
+        });
+        $(window).on('resize', initializeProgressElement);
+      } else {
+        resizeProgressBar();
+        $(document).on('scroll', resizeProgressBar);
+        $(window).on('resize', resizeProgressBar);
+      }
+    }
+    /*
+     * The vertical scroll position is the same as the number of pixels that
+     * are hidden from view above the scrollable area. Thus, a value > 0 is
+     * how much the user has scrolled from the top
+     */
+    function getCurrentScrollPosition() {
+      return $(window).scrollTop();
+    }
+
+    function initializeProgressElement() {
+      let navbarHeight = $('#navbar').outerHeight(true);
+      $('body').css({ 'padding-top': navbarHeight });
+      $('progress-container').css({ 'padding-top': navbarHeight });
+      progressBar.css({ top: navbarHeight });
+      progressBar.attr({
+        max: getDistanceToScroll(),
+        value: getCurrentScrollPosition(),
+      });
+    }
+    /*
+     * The offset between the html document height and the browser viewport
+     * height will be greater than zero if vertical scroll is possible.
+     * This is the distance the user can scroll
+     */
+    function getDistanceToScroll() {
+      return $(document).height() - $(window).height();
+    }
+
+    function resizeProgressBar() {
+      progressBar.css({ width: getWidthPercentage() + '%' });
+    }
+    // The scroll ratio equals the percentage to resize the bar
+    function getWidthPercentage() {
+      return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+    }
+  </script>
+
+
+    
+
+    
+
+    
+
+    
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+    
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?601a2d3465e2a52bec38b600518d5f70"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script>
+    let searchTheme = determineComputedTheme();
+    const ninjaKeys = document.querySelector('ninja-keys');
+
+    if (searchTheme === 'dark') {
+      ninjaKeys.classList.add('dark');
+    } else {
+      ninjaKeys.classList.remove('dark');
+    }
+
+    const openSearchModal = () => {
+      // collapse navbarNav if expanded on mobile
+      const $navbarNav = $('#navbarNav');
+      if ($navbarNav.hasClass('show')) {
+        $navbarNav.collapse('hide');
+      }
+      ninjaKeys.open();
+    };
+  </script>
+  <script>
+    // get the ninja-keys element
+    const ninja = document.querySelector('ninja-keys');
+
+    // add the home and posts menu items
+    ninja.data = [{
+        id: "nav-jojy-john",
+        title: "Jojy John",
+        section: "Navigation",
+        handler: () => {
+          window.location.href = "/";
+        },
+      },{id: "nav-publications",
+              title: "Publications",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/publications/";
+              },
+            },{id: "nav-blog",
+              title: "Blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "nav-projects",
+              title: "Projects",
+              description: "Research projects spanning microbial ecology, genomics, and multi-omics..",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/projects/";
+              },
+            },{id: "nav-mentoring",
+              title: "Mentoring",
+              description: "Graduate, undergraduate, and intern research mentorship in microbial ecology, bioinformatics, and multi-omics analysis.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/mentoring/";
+              },
+            },{id: "nav-collaboration",
+              title: "Collaboration",
+              description: "Interdisciplinary research collaborations in microbial ecology, genomics, bioinformatics, and environmental biotechnology.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/collaborations/";
+              },
+            },{id: "nav-teaching",
+              title: "Teaching",
+              description: "Teaching experience from 2014",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/teaching/";
+              },
+            },{id: "nav-repositories",
+              title: "Repositories",
+              description: "Research code, bioinformatics pipelines, and reproducible workflows.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/repositories/";
+              },
+            },{id: "post-predicting-heart-disease-with-machine-learning-a-data-scientist-39-s-return-to-clinical-ml",
+          
+            title: "Predicting Heart Disease with Machine Learning: A Data Scientist&#39;s Return to Clinical ML...",
+          
+          description: "Revisiting my masters in datascience project on heart disease prediction to explore Random Forest applications in microbial ecosystem multifunctionality research. A comprehensive comparison of 5 ML algorithms with real results and lessons learned.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/heart-disease-prediction-ml-random-forest/";
+            
+          },
+        },{id: "post-building-custom-humann3-databases-with-struo2-and-gtdb-a-realistic-guide-from-the-trenches",
+          
+            title: "Building Custom HUMAnN3 Databases with Struo2 and GTDB: A Realistic Guide from the...",
+          
+          description: "A comprehensive, honest guide to building custom HUMAnN3 databases using Struo2 with GTDB r220, including all the troubleshooting, workarounds, and lessons learned from 40 hours in the trenches.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/building-custom-humann3-databases-struo2-gtdb/";
+            
+          },
+        },{id: "post-visualize-your-data-day-5-bubble-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 5: Bubble Plots in Bioinformatics",
+          
+          description: "Day 5 of the Visualize Your Data series: using bubble plots to visualize multi-dimensional relationships in genomics and functional ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day5-bubble-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-4-volcano-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 4: Volcano Plots in Bioinformatics",
+          
+          description: "Day 4 of the Visualize Your Data series: mastering volcano plots for differential expression and abundance analysis in bioinformatics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day4-volcano-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-3-ordination-plots-pca-pcoa-nmds-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 3: Ordination Plots (PCA, PCoA, NMDS) in Bioinformatics...",
+          
+          description: "Day 3 of the Visualize Your Data series: exploring PCA, PCoA, and NMDS to visualize sample relationships and community structure in bioinformatics and microbial ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day3-ordination/";
+            
+          },
+        },{id: "post-visualize-your-data-day-2-heatmaps-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 2: Heatmaps in Bioinformatics",
+          
+          description: "Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps,  commonly used in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day2-heatmaps/";
+            
+          },
+        },{id: "post-visualize-your-data-day-1-box-plot-vs-violin-plot-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics...",
+          
+          description: "Day 1 of the Visualize Your Data series: understanding when and how to use box plots and violin plots to visualize data distributions in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day1-box-vs-violin/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-5-comparative-amp-downstream-genomic-analyses",
+          
+            title: "Whole Genome Sequencing — Day 5: Comparative &amp; Downstream Genomic Analyses",
+          
+          description: "Day 5 of the WGS series: moving from individual genomes to comparative insights through pangenome analysis, secondary metabolite screening, and pathogen detection",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day5-comparative-genomics/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-4-genome-annotation-amp-functional-potential",
+          
+            title: "Whole Genome Sequencing — Day 4: Genome Annotation &amp; Functional Potential",
+          
+          description: "Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day4-annotation-function/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-3-taxonomy-phylogeny-amp-genome-similarity",
+          
+            title: "Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp; Genome Similarity",
+          
+          description: "Day 3 of the WGS series: genome-based taxonomy using GTDB-Tk, phylogenomic tree construction, and species/genus boundary testing using ANI, AAI, and dDDH across large genome sets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day3-taxonomy-phylogeny/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-2-genome-assembly-quality-assessment-and-topology",
+          
+            title: "Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology",
+          
+          description: "Day 2 of the WGS series: short- and long-read genome assembly using SPAdes, MEGAHIT, Shovill, and Flye, followed by assembly evaluation with QUAST, GC content visualization, topology assessment, and graph inspection with Bandage.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day2-genome-assembly/";
+            
+          },
+        },{id: "post-whole-genome-analysis-day-1-from-raw-reads-to-clean-assembly-ready-data",
+          
+            title: "Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data...",
+          
+          description: "Day 1 of a whole-genome analysis series covering raw Illumina and Nanopore reads, integrity checks, quality control with FastQC and NanoPlot, and read trimming using Trimmomatic and Cutadapt.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day1-raw-reads-qc/";
+            
+          },
+        },{id: "post-exploring-the-pan-genome-with-panx-a-practical-workflow-for-darpa-isolates",
+          
+            title: "Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates",
+          
+          description: "5 complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/panx-pangenome-analysis/";
+            
+          },
+        },{id: "post-extracting-full-length-16s-rrna-from-bacterial-genomes-using-barrnap",
+          
+            title: "Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap",
+          
+          description: "A quick and reproducible workflow to extract 16S rRNA genes from assembled genomes and validate taxonomy using NCBI BLAST.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/barrnap-16s-extraction/";
+            
+          },
+        },{id: "post-from-genome-assembly-to-novel-species-a-step-by-step-genomic-workflow",
+          
+            title: "From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow",
+          
+          description: "How do we confidently determine whether a newly sequenced genome represents a novel bacterial species?",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/novel-species-a-step-by-step-guide/";
+            
+          },
+        },{id: "post-using-syncthing-tmux-and-git-to-sync-my-bioinformatics-workflow-across-devices",
+          
+            title: "Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices",
+          
+          description: "How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/syncthing-tmux-git-workflow/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-3-species-level-profiling-with-motus",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs",
+          
+          description: "Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day3/";
+            
+          },
+        },{id: "post-genome-topology-and-genome-announcement-reports-a-practical-reviewer-safe-workflow",
+          
+            title: "Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow",
+          
+          description: "A step-by-step guide to answering NCBI genome topology questions and generating a complete, automated genome report table for Genome Resource Announcements.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-topology-and-genome-report/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-2-kaiju-classification-and-extraction-of-bacterial-amp-archaeal-reads",
+          
+            title: "Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial...",
+          
+          description: "Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day2/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-anlaysis-day-1-from-raw-reads-to-clean-data",
+          
+            title: "Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data...",
+          
+          description: "Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day1/";
+            
+          },
+        },{id: "post-amplicon-week-day-6-wrap-up-from-reads-to-insights",
+          
+            title: "Amplicon Week — Day 6: Wrap-Up: From Reads to Insights",
+          
+          description: "Day 6 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day6/";
+            
+          },
+        },{id: "post-amplicon-week-day-5-web-based-microbiome-analysis-with-easy16s",
+          
+            title: "Amplicon Week — Day 5: Web-based microbiome analysis with easy16S",
+          
+          description: "Day 5 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day5/";
+            
+          },
+        },{id: "post-amplicon-week-day-4-functional-prediction-from-amplicon-data-picrust2-tax4fun2-faprotax",
+          
+            title: "Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)...",
+          
+          description: "Day 4 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day4/";
+            
+          },
+        },{id: "post-amplicon-week-day-3-visualization-amp-ecological-analysis-using-qiime2-microeco-r",
+          
+            title: "Amplicon Week — Day 3: Visualization &amp; Ecological Analysis Using QIIME2 + Microeco...",
+          
+          description: "Day 3 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day3/";
+            
+          },
+        },{id: "post-amplicon-week-day-2-qiime2-setup-importing-data-amp-classifier-training",
+          
+            title: "Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training",
+          
+          description: "Day 2 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day2/";
+            
+          },
+        },{id: "post-amplicon-week-day-1-introduction-to-16s-its-18s-12s-and-coi-metabarcoding",
+          
+            title: "Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI...",
+          
+          description: "Day 1 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day1/";
+            
+          },
+        },{id: "post-cleaning-and-preparing-genomes-for-ncbi-submission-a-complete-workflow",
+          
+            title: "Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow",
+          
+          description: "Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/ncbi-submission-cleaning/";
+            
+          },
+        },{id: "post-machine-learning-mag-binning-with-semibin2-and-snakemake-soil-metagenomes",
+          
+            title: "Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)",
+          
+          description: "How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/semibin-snakemake-soil-mag-workflow/";
+            
+          },
+        },{id: "post-installing-amp-setting-up-my-new-linux-laptop-a-real-journey-through-dual-boot-partitions-amp-persistence",
+          
+            title: "Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot,...",
+          
+          description: "A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/dual-booting-with-linux/";
+            
+          },
+        },{id: "post-gtdb-tk-complete-workflow",
+          
+            title: "GTDB-Tk Complete Workflow",
+          
+          description: "A practical walkthrough of GTDB-Tk Complete Workflow",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/gtdbtk-tree-custom/";
+            
+          },
+        },{id: "post-genome-assembly-day-shovill-for-illumina-amp-flye-for-nanopore-reads",
+          
+            title: "Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads",
+          
+          description: "A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-assembly-day/";
+            
+          },
+        },{id: "post-visualizing-genome-assemblies-with-bandage-building-from-source-on-linux",
+          
+            title: "Visualizing Genome Assemblies with Bandage: Building from Source on Linux",
+          
+          description: "A practical guide to installing Bandage from source using Qt and visualizing assembly graphs generated by Flye and Shovill.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-visualization/";
+            
+          },
+        },{id: "post-re-working-figure-5-visualizing-functional-redundancy-fred-across-bays-seasons-and-salinity",
+          
+            title: "Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity",
+          
+          description: "Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/reworking-a-figure-manuscript-revision-story/";
+            
+          },
+        },{id: "post-my-journey-into-microbiology-the-deep-sea-and-bioinformatics",
+          
+            title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics",
+          
+          description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics/";
+            
+          },
+        },{id: "news-aaas-membership-and-science-magazine-subscription-nominated-by-cynthia-y-young-dean-of-college-of-science-clemson-university",
+              title: 'AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of...',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-asm-2025-los-angeles-usa",
+              title: 'Abstract accepted for **ASM 2025**, Los Angeles, USA.',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-aslo-2025-charlotte-usa",
+              title: 'Abstract accepted for **ASLO 2025**, Charlotte, USA',
+              description: "",
+              section: "News",},{id: "news-188-whole-genome-sequences-submitted-to-ncbi",
+              title: '188 whole-genome sequences submitted to NCBI.',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-baseline-evaluation-of-the-toxicity-potential-of-steel-slag-using-the-green-mussel-perna-viridis-for-sustainable-marine-reuse-applications-this-work-was-originally-completed-during-2019-2020-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Baseline evaluation of the toxicity potential of steel...',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-comparative-genomic-and-phenotypic-analysis-of-streptomyces-rochei-sosist-3-isolated-from-the-southern-ocean-this-work-is-a-part-of-colloboration-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Comparative genomic and phenotypic analysis of Streptomyces rochei...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-accepted-𝐀-𝐯𝐞𝐫𝐲-𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥-𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞-today-i-m-sharing-some-happy-news-𝐦𝐲-𝐟𝐢𝐫𝐬𝐭-𝐩𝐨𝐬𝐭𝐝𝐨𝐜𝐭𝐨𝐫𝐚𝐥-𝐩𝐚𝐩𝐞𝐫-𝐡𝐚𝐬-𝐛𝐞𝐞𝐧-𝐚𝐜𝐜𝐞𝐩𝐭𝐞𝐝-𝐢𝐧-𝐈𝐒𝐌𝐄-𝐂𝐨𝐦𝐦𝐮𝐧𝐢𝐜𝐚𝐭𝐢𝐨𝐧𝐬",
+              title: '**A new paper accepted!** “✨ 𝐀 𝐯𝐞𝐫𝐲 𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥 𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞 ✨ Today, I’m sharing...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-accepted-quot-nanoliposome-mediated-co-delivery-of-amoxicillin-and-tazobactam-remediate-intracellular-infection-by-a-multidrug-resistant-salmonella-enterica-serovar-typhimurium-quot-in-nature-journal-of-antibiotics",
+              title: '**A new paper accepted!** &quot;Nanoliposome Mediated Co-delivery of Amoxicillin and Tazobactam Remediate Intracellular...',
+              description: "",
+              section: "News",},{id: "projects-bacteriophages-and-auxiliary-metabolic-genes-of-the-chesapeake-and-delaware-bays",
+              title: 'Bacteriophages and Auxiliary Metabolic Genes of the Chesapeake and Delaware Bays',
+              description: "Integrative viromics using metagenomes, metatranscriptomes, and viral fractions to characterize viral taxonomy, auxiliary metabolic genes, host interactions, and ecosystem function in estuarine systems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Estury_Virome/";
+                },},{id: "projects-microbial-biofouling-interactions-on-autonomous-navy-gliders",
+              title: 'Microbial Biofouling Interactions on Autonomous Navy Gliders',
+              description: "Genome-resolved and metagenomic analysis of marine biofilm communities on autonomous underwater vehicles to design a stable, invasion-resistant synthetic biofilm.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/darpa-biofouling-gliders/";
+                },},{id: "projects-diversity-genomic-studies-and-resistance-mechanisms-of-moderately-halophilic-bacteria",
+              title: 'Diversity, Genomic Studies, and Resistance Mechanisms of Moderately Halophilic Bacteria',
+              description: "Genomic and physiological characterization of halophilic bacteria from salt pan ecosystems to understand stress adaptation, resistance mechanisms, and biotechnological potential.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/diversity_and_genomics/";
+                },},{id: "projects-biological-and-microbial-responses-to-deep-sea-mining-hypoxia-and-anthropogenic-disturbance",
+              title: 'Biological and Microbial Responses to Deep-Sea Mining, Hypoxia, and Anthropogenic Disturbance',
+              description: "Environmental impact assessment of deep-sea mining, monsoon-driven hypoxia, and industrial disturbance using molecular and genomic approaches.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/environmental-impact-assessment/";
+                },},{id: "projects-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays",
+              title: 'Functional Redundancy and Metabolic Flexibility of Microbial Communities in Two Mid-Atlantic Bays',
+              description: "Genome-resolved metagenomic and metatranscriptomic analysis of functional redundancy and metabolic flexibility in estuarine microbial communities from the Chesapeake and Delaware Bays.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/functional-redundancy/";
+                },},{id: "projects-resource-partitioning-and-co-occurrence-of-size-fractionated-microbiomes-in-the-delaware-and-chesapeake-bays",
+              title: 'Resource Partitioning and Co-occurrence of Size-Fractionated Microbiomes in the Delaware and Chesapeake Bays...',
+              description: "Integrative metagenomic and metatranscriptomic analysis of free-living and particle-associated microbial communities to understand resource partitioning, co-occurrence patterns, and functional redundancy in estuarine ecosystems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/size-fractionated-resource-partitioning/";
+                },},{
+            id: 'socials-email',
+            title: 'Send email',
+            section: 'Socials',
+            handler: () => {
+              window.open("mailto:%6A%6F%6A%79%6A@%63%6C%65%6D%73%6F%6E.%65%64%75", "_blank");
+            },
+          },{
+            id: 'socials-orcid',
+            title: 'ORCID',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://orcid.org/0000-0002-8739-9741", "_blank");
+            },
+          },{
+            id: 'socials-google-scholar',
+            title: 'Google Scholar',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://scholar.google.com/citations?user=w74rUUAAAAAJ", "_blank");
+            },
+          },{
+            id: 'socials-github',
+            title: 'GitHub',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://github.com/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-linkedin',
+            title: 'LinkedIn',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://www.linkedin.com/in/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-x',
+            title: 'X',
+            description: 'Twitter',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://twitter.com/JojyJon", "_blank");
+            },
+          },{
+            id: 'socials-rss',
+            title: 'RSS Feed',
+            section: 'Socials',
+            handler: () => {
+              window.open("/feed.xml", "_blank");
+            },
+          },{
+          id: 'light-theme',
+          title: 'Change theme to light',
+          description: 'Change the theme of the site to Light',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("light");
+          },
+        },
+        {
+          id: 'dark-theme',
+          title: 'Change theme to dark',
+          description: 'Change the theme of the site to Dark',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("dark");
+          },
+        },
+        {
+          id: 'system-theme',
+          title: 'Use system default theme',
+          description: 'Change the theme of the site to System Default',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("system");
+          },
+        },];
+  </script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+  </body>
+</html>
