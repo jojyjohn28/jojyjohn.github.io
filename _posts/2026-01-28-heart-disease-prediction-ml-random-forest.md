@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Predicting Heart Disease with Machine Learning: A Data Scientist's Return to Clinical ML"
+title: " Bridging Clinical and Ecological ML: From Heart Disease to Soil Ecosystem Multifunctionality"
 date: 2026-01-28
 description: "Revisiting my masters in datascience project on heart disease prediction to explore Random Forest applications in microbial ecosystem multifunctionality research. A comprehensive comparison of 5 ML algorithms with real results and lessons learned."
 comments: true
