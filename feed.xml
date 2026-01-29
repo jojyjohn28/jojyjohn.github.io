@@ -1,5 +1,500 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-29T16:04:26-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Bridging Clinical and Ecological ML: From Heart Disease to Soil Ecosystem Multifunctionality</title><link href="https://jojyjohn28.github.io/blog/heart-disease-prediction-ml-random-forest/" rel="alternate" type="text/html" title="Bridging Clinical and Ecological ML: From Heart Disease to Soil Ecosystem Multifunctionality" /><published>2026-01-28T00:00:00-05:00</published><updated>2026-01-28T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/heart-disease-prediction-ml-random-forest</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/heart-disease-prediction-ml-random-forest/"><![CDATA[<h3 id="predicting-heart-disease-with-machine-learning-when-clinical-ml-meets-ecological-research">Predicting Heart Disease with Machine Learning: When Clinical ML Meets Ecological Research</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-29T16:07:41-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp;amp; Functional Annotation</title><link href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day4/" rel="alternate" type="text/html" title="Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp;amp; Functional Annotation" /><published>2026-01-29T00:00:00-05:00</published><updated>2026-01-29T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day4</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day4/"><![CDATA[<h4 id="-size-fractionated-microbiome-analysis--day-4">🌊 Size-Fractionated Microbiome Analysis — Day 4</h4>
+
+<p>In Day 1 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1/), we focused on metagenome preprocessing, in Day 2 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/), we explored taxonomic profiling using Kaiju, and in Day 3 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day3/), we conducted species-level profiling with mOTUs.</p>
+
+<p><strong>Today, in Day 4, I introduce gene catalog construction—a critical foundation for functional profiling of microbial communities.</strong></p>
+
+<p>This approach enables downstream analyses of substrate uptake transporters (ABC transporters, TonB-dependent receptors), CAZymes, and other functional genes. By building a unified, non-redundant gene catalog from metagenomes, we can map both DNA (metagenome) and RNA (metatranscriptome) reads to quantify functional potential and expression.</p>
+
+<hr />
+
+<h4 id="-why-build-a-gene-catalog">🧬 Why Build a Gene Catalog?</h4>
+
+<p><strong>Traditional approach:</strong> Annotate each metagenome assembly independently</p>
+
+<ul>
+  <li>Results in redundant gene sets across samples</li>
+  <li>Difficult to compare gene presence/absence across communities</li>
+  <li>Inflates computational costs for downstream analyses</li>
+</ul>
+
+<p><strong>Gene catalog approach:</strong></p>
+
+<ul>
+  <li>Pool all assembled genes from all metagenomes</li>
+  <li>Cluster at high identity (e.g., 90%) to create a non-redundant reference</li>
+  <li>Annotate once with functional databases</li>
+  <li>Map reads from all samples (MG + MT) to the same catalog</li>
+  <li>Enables direct comparison of functional potential (DNA) vs expression (RNA)</li>
+</ul>
+
+<p>This workflow follows the methodology described in metagenomic studies for constructing prokaryotic gene catalogs.</p>
+
+<hr />
+
+<h4 id="️-workflow-overview">🛠️ Workflow Overview</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Metagenome Assemblies
+        ↓
+    Prodigal (gene prediction)
+        ↓
+    Concatenate all genes
+        ↓
+    CD-HIT (90% clustering)
+        ↓
+    Non-redundant Gene Catalog
+        ↓
+    Prodigal (protein prediction on catalog)
+        ↓
+    eggNOG-mapper (functional annotation)
+        ↓
+    Annotated Gene Catalog
+</code></pre></div></div>
+
+<hr />
+
+<h4 id="-step-0-project-directory-setup">📁 Step 0: Project Directory Setup</h4>
+
+<p>First, create an organized directory structure:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /project/bcampb7/camplab/AL_JJ_oct23
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> substrate_FRed/<span class="o">{</span>00_logs,01_catalog,02_mapping_MG,03_mapping_MT,04_counts,05_eggnog,06_function_sets,07_FRed<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Directory purposes:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">00_logs/</code> — SLURM job outputs and error logs</li>
+  <li><code class="language-plaintext highlighter-rouge">01_catalog/</code> — Gene prediction and catalog files</li>
+  <li><code class="language-plaintext highlighter-rouge">02_mapping_MG/</code> — Metagenome read mappings</li>
+  <li><code class="language-plaintext highlighter-rouge">03_mapping_MT/</code> — Metatranscriptome read mappings</li>
+  <li><code class="language-plaintext highlighter-rouge">04_counts/</code> — Gene abundance tables</li>
+  <li><code class="language-plaintext highlighter-rouge">05_eggnog/</code> — Functional annotations</li>
+  <li><code class="language-plaintext highlighter-rouge">06_function_sets/</code> — Substrate-specific gene sets</li>
+  <li><code class="language-plaintext highlighter-rouge">07_FRed/</code> — Functional redundancy analyses</li>
+</ul>
+
+<hr />
+
+<h4 id="-step-1-gene-prediction-from-metagenome-assemblies">🧪 Step 1: Gene Prediction from Metagenome Assemblies</h4>
+
+<p><strong>Tool:</strong> Prodigal v2.6.3 (metagenome mode)</p>
+
+<p>Prodigal identifies open reading frames (ORFs) and predicts protein-coding genes from assembled contigs.</p>
+
+<h5 id="1a-predict-genes-from-individual-assemblies">1A. Predict genes from individual assemblies</h5>
+
+<p>Input: Individual metagenome assemblies (contigs ≥200 bp)</p>
+
+<p>Output: <code class="language-plaintext highlighter-rouge">.fna</code> (nucleotide), <code class="language-plaintext highlighter-rouge">.faa</code> (protein), <code class="language-plaintext highlighter-rouge">.gff</code> (annotations)</p>
+
+<p><strong>SLURM batch script:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> 01_prodigal_MGs.sh <span class="o">&lt;&lt;</span><span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+#!/bin/bash
+#SBATCH --job-name=prodigal_MGs
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=16G
+#SBATCH --time=24:00:00
+#SBATCH --partition=camplab
+#SBATCH --array=1-N  # Replace N with number of samples
+#SBATCH -o /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/prodigal_MG_%A_%a.out
+#SBATCH -e /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/prodigal_MG_%A_%a.err
+
+module load prodigal/2.6.3
+
+# Get sample name from array
+SAMPLE_LIST="/project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog/mg_assembly_list.txt"
+SAMPLE=</span><span class="si">$(</span><span class="nb">sed</span> <span class="nt">-n</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SLURM_ARRAY_TASK_ID</span><span class="k">}</span><span class="s2">p"</span> <span class="k">${</span><span class="nv">SAMPLE_LIST</span><span class="k">}</span><span class="si">)</span><span class="sh">
+
+ASSEMBLY_DIR="/project/bcampb7/camplab/0_Raw_Data/Metagenome_estury/Assembly_All/MGs"
+OUT_DIR="/project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog/prodigal_MGs/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="sh">"
+
+mkdir -p </span><span class="k">${</span><span class="nv">OUT_DIR</span><span class="k">}</span><span class="sh">
+
+prodigal </span><span class="se">\</span><span class="sh">
+  -i </span><span class="k">${</span><span class="nv">ASSEMBLY_DIR</span><span class="k">}</span><span class="sh">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="sh">/final.contigs.fa </span><span class="se">\</span><span class="sh">
+  -a </span><span class="k">${</span><span class="nv">OUT_DIR</span><span class="k">}</span><span class="sh">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="sh">.faa </span><span class="se">\</span><span class="sh">
+  -d </span><span class="k">${</span><span class="nv">OUT_DIR</span><span class="k">}</span><span class="sh">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="sh">.fna </span><span class="se">\</span><span class="sh">
+  -f gff </span><span class="se">\</span><span class="sh">
+  -o </span><span class="k">${</span><span class="nv">OUT_DIR</span><span class="k">}</span><span class="sh">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="sh">.gff </span><span class="se">\</span><span class="sh">
+  -p meta
+
+echo "Prodigal complete for </span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="sh">"
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<p><strong>Key parameters:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-p meta</code> — Metagenome mode (handles mixed community gene models)</li>
+  <li><code class="language-plaintext highlighter-rouge">-a</code> — Amino acid (protein) output</li>
+  <li><code class="language-plaintext highlighter-rouge">-d</code> — Nucleotide (gene) output</li>
+  <li><code class="language-plaintext highlighter-rouge">-f gff</code> — Gene feature format for downstream tools</li>
+</ul>
+
+<p>Submit the job:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbatch 01_prodigal_MGs.slurm
+</code></pre></div></div>
+
+<h5 id="1b-concatenate-all-predicted-genes">1B. Concatenate all predicted genes</h5>
+
+<p>After all Prodigal jobs complete, combine genes from all samples:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog
+
+<span class="nb">cat </span>prodigal_MGs/<span class="k">*</span>/<span class="k">*</span>.fna <span class="o">&gt;</span> all_MG_genes.fna
+
+<span class="c"># Check total gene count</span>
+<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> all_MG_genes.fna
+</code></pre></div></div>
+
+<p><strong>In my case:</strong></p>
+
+<ul>
+  <li>Total genes before clustering: <strong>67,609,507</strong></li>
+</ul>
+
+<hr />
+
+<h4 id="-step-2-non-redundant-gene-catalog-construction-with-cd-hit">🔗 Step 2: Non-Redundant Gene Catalog Construction with CD-HIT</h4>
+
+<p><strong>Tool:</strong> CD-HIT-EST v4.8.1</p>
+
+<p>CD-HIT clusters highly similar sequences to create a non-redundant gene set. This step removes redundancy across samples while preserving gene diversity.</p>
+
+<h5 id="2a-cluster-genes-at-90-identity">2A. Cluster genes at 90% identity</h5>
+
+<p><strong>SLURM script:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> 02_cdhit_catalog90.sh <span class="o">&lt;&lt;</span><span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+#!/bin/bash
+#SBATCH --job-name=catalog90
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=200G
+#SBATCH --time=48:00:00
+#SBATCH --partition=camplab
+#SBATCH -o /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/catalog90_%j.out
+#SBATCH -e /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/catalog90_%j.err
+
+# Load CD-HIT module or activate conda environment
+# module load cd-hit/4.8.1
+
+IN="/project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog"
+OUT="</span><span class="k">${</span><span class="nv">IN</span><span class="k">}</span><span class="sh">"
+
+cd-hit-est </span><span class="se">\</span><span class="sh">
+  -i </span><span class="k">${</span><span class="nv">IN</span><span class="k">}</span><span class="sh">/all_MG_genes.fna </span><span class="se">\</span><span class="sh">
+  -o </span><span class="k">${</span><span class="nv">OUT</span><span class="k">}</span><span class="sh">/MG_gene_catalog90.fna </span><span class="se">\</span><span class="sh">
+  -c 0.90 </span><span class="se">\</span><span class="sh">
+  -n 8 </span><span class="se">\</span><span class="sh">
+  -G 0 </span><span class="se">\</span><span class="sh">
+  -aS 0.90 </span><span class="se">\</span><span class="sh">
+  -T 32 </span><span class="se">\</span><span class="sh">
+  -M 0
+
+echo "CD-HIT clustering complete"
+</span><span class="no">EOF
+
+</span>sbatch 02_cdhit_catalog90.slurm
+</code></pre></div></div>
+
+<p><strong>Key parameters:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-c 0.90</code> — 90% sequence identity threshold</li>
+  <li><code class="language-plaintext highlighter-rouge">-n 8</code> — Word size (optimized for 90% identity)</li>
+  <li><code class="language-plaintext highlighter-rouge">-G 0</code> — Global sequence identity (not local alignment)</li>
+  <li><code class="language-plaintext highlighter-rouge">-aS 0.90</code> — Alignment coverage for shorter sequence (90%)</li>
+  <li><code class="language-plaintext highlighter-rouge">-T 32</code> — Threads</li>
+  <li><code class="language-plaintext highlighter-rouge">-M 0</code> — Use all available memory</li>
+</ul>
+
+<h5 id="2b-verify-clustering-results">2B. Verify clustering results</h5>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog
+
+<span class="c"># Original genes</span>
+<span class="nb">echo</span> <span class="s2">"Original genes:"</span>
+<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> all_MG_genes.fna
+
+<span class="c"># Non-redundant catalog</span>
+<span class="nb">echo</span> <span class="s2">"Non-redundant catalog (90%):"</span>
+<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> MG_gene_catalog90.fna
+
+<span class="c"># Cluster information</span>
+<span class="nb">wc</span> <span class="nt">-l</span> MG_gene_catalog90.fna.clstr
+</code></pre></div></div>
+
+<p><strong>My results:</strong></p>
+
+<ul>
+  <li>Original genes: <strong>67,609,507</strong></li>
+  <li>Non-redundant catalog: <strong>40,619,901</strong></li>
+  <li><strong>Redundancy removed: ~40%</strong> (27 million redundant genes)</li>
+</ul>
+
+<hr />
+
+<h4 id="-step-3-protein-prediction-on-non-redundant-catalog">🧬 Step 3: Protein Prediction on Non-Redundant Catalog</h4>
+
+<p>Since CD-HIT operates on nucleotide sequences, we need to predict proteins from the clustered gene catalog for functional annotation.</p>
+
+<p><strong>SLURM script:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> 03_prodigal_catalog.sh <span class="o">&lt;&lt;</span><span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+#!/bin/bash
+#SBATCH --job-name=prodigal_catalog
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=32G
+#SBATCH --time=6:00:00
+#SBATCH --partition=camplab
+#SBATCH -o /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/prodigal_catalog_%j.out
+#SBATCH -e /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/prodigal_catalog_%j.err
+
+module load prodigal/2.6.3
+
+cd /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog
+
+prodigal </span><span class="se">\</span><span class="sh">
+  -i MG_gene_catalog90.fna </span><span class="se">\</span><span class="sh">
+  -a MG_gene_catalog90.faa </span><span class="se">\</span><span class="sh">
+  -d MG_gene_catalog90.genes.fna </span><span class="se">\</span><span class="sh">
+  -f gff </span><span class="se">\</span><span class="sh">
+  -o MG_gene_catalog90.gff </span><span class="se">\</span><span class="sh">
+  -p meta
+
+echo "Prodigal complete on gene catalog"
+</span><span class="no">EOF
+
+</span>sbatch 03_prodigal_catalog.slurm
+</code></pre></div></div>
+
+<p><strong>Output files:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">MG_gene_catalog90.faa</code> — Protein sequences (for eggNOG)</li>
+  <li><code class="language-plaintext highlighter-rouge">MG_gene_catalog90.genes.fna</code> — CDS nucleotide sequences</li>
+  <li><code class="language-plaintext highlighter-rouge">MG_gene_catalog90.gff</code> — Gene annotations</li>
+</ul>
+
+<hr />
+
+<h4 id="-step-4-functional-annotation-with-eggnog-mapper">📊 Step 4: Functional Annotation with eggNOG-mapper</h4>
+
+<p><strong>Tool:</strong> eggNOG-mapper v2.1+</p>
+
+<p>eggNOG-mapper assigns functional annotations by mapping proteins to the eggNOG database, which integrates:</p>
+
+<ul>
+  <li>KEGG Orthology (KO)</li>
+  <li>COG/NOG functional categories</li>
+  <li>Gene Ontology (GO)</li>
+  <li>EC numbers</li>
+  <li>KEGG pathways</li>
+</ul>
+
+<h5 id="4a-download-eggnog-database-one-time-setup">4A. Download eggNOG database (one-time setup)</h5>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Set database directory</span>
+<span class="nb">export </span><span class="nv">EGGNOG_DATA_DIR</span><span class="o">=</span>/project/bcampb7/camplab/AL_JJ_oct23/databases/eggnog
+
+<span class="c"># Download database</span>
+download_eggnog_data.py <span class="nt">--data_dir</span> <span class="k">${</span><span class="nv">EGGNOG_DATA_DIR</span><span class="k">}</span>
+</code></pre></div></div>
+
+<h5 id="4b-run-eggnog-mapper-on-the-catalog">4B. Run eggNOG-mapper on the catalog</h5>
+
+<p><strong>SLURM script:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> 01_eggnog_catalog.sh <span class="o">&lt;&lt;</span><span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+#!/bin/bash
+#SBATCH --job-name=eggnog_catalog
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=100G
+#SBATCH --time=48:00:00
+#SBATCH --partition=camplab
+#SBATCH -o /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/eggnog_catalog_%j.out
+#SBATCH -e /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/eggnog_catalog_%j.err
+
+export EGGNOG_DATA_DIR=/project/bcampb7/camplab/AL_JJ_oct23/databases/eggnog
+
+# Load eggnog-mapper module or activate conda environment
+# module load eggnog-mapper
+# conda activate eggnog_env
+
+OUTDIR="/project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/05_eggnog"
+mkdir -p </span><span class="k">${</span><span class="nv">OUTDIR</span><span class="k">}</span><span class="sh">
+
+emapper.py </span><span class="se">\</span><span class="sh">
+  -i /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog/MG_gene_catalog90.faa </span><span class="se">\</span><span class="sh">
+  --itype proteins </span><span class="se">\</span><span class="sh">
+  -o </span><span class="k">${</span><span class="nv">OUTDIR</span><span class="k">}</span><span class="sh">/MG_catalog </span><span class="se">\</span><span class="sh">
+  --output_dir </span><span class="k">${</span><span class="nv">OUTDIR</span><span class="k">}</span><span class="sh"> </span><span class="se">\</span><span class="sh">
+  --cpu 32 </span><span class="se">\</span><span class="sh">
+  --data_dir </span><span class="k">${</span><span class="nv">EGGNOG_DATA_DIR</span><span class="k">}</span><span class="sh">
+
+echo "eggNOG annotation complete"
+</span><span class="no">EOF
+
+</span>sbatch 01_eggnog_catalog.slurm
+</code></pre></div></div>
+
+<p><strong>Expected output:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">MG_catalog.emapper.annotations</code> — Main annotation table</li>
+  <li><code class="language-plaintext highlighter-rouge">MG_catalog.emapper.seed_orthologs</code> — Ortholog assignments</li>
+  <li><code class="language-plaintext highlighter-rouge">MG_catalog.emapper.hits</code> — DIAMOND search results</li>
+</ul>
+
+<p><strong>Runtime note:</strong> With ~40M proteins, eggNOG annotation may take 24-48+ hours.</p>
+
+<hr />
+
+<h4 id="-step-5-extracting-substrate-uptake-genes">🔍 Step 5: Extracting Substrate Uptake Genes</h4>
+
+<p>After eggNOG annotation completes, we’ll extract specific functional gene categories:</p>
+
+<ol>
+  <li><strong>ABC transporters</strong> — Substrate-specific import systems</li>
+  <li><strong>TonB-dependent receptors (TBDTs)</strong> — Outer membrane transporters</li>
+  <li><strong>CAZymes</strong> — Carbohydrate-active enzymes</li>
+</ol>
+
+<p><strong>Parsing strategy (to be implemented):</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Extract ABC transporters</span>
+<span class="nb">grep</span> <span class="nt">-i</span> <span class="s2">"ABC transporter"</span> MG_catalog.emapper.annotations <span class="o">&gt;</span> ABC_transporters.tsv
+
+<span class="c"># Extract TBDTs</span>
+<span class="nb">grep</span> <span class="nt">-i</span> <span class="s2">"TonB.*receptor"</span> MG_catalog.emapper.annotations <span class="o">&gt;</span> TBDTs.tsv
+
+<span class="c"># Further substrate assignment based on eggNOG/KEGG annotations</span>
+</code></pre></div></div>
+
+<p>This step will be detailed in <strong>Day 5</strong> when we focus on functional categorization and substrate specificity.</p>
+
+<hr />
+
+<h4 id="-next-steps-day-5-preview">📈 Next Steps (Day 5 Preview)</h4>
+
+<p>With the annotated gene catalog complete, the next steps include:</p>
+
+<ol>
+  <li><strong>Read mapping</strong> — Map MG and MT reads to the catalog using Bowtie2</li>
+  <li><strong>Gene abundance quantification</strong> — Calculate TPM/RPKM values</li>
+  <li><strong>Functional categorization</strong> — Assign substrate specificity to transporters</li>
+  <li><strong>Functional redundancy (FRed)</strong> — Compare PA vs FL communities</li>
+  <li><strong>RNA/DNA ratios</strong> — Identify actively expressed vs dormant functions</li>
+</ol>
+
+<hr />
+
+<h4 id="-summary-of-day-4">✅ Summary of Day 4</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Tool</th>
+      <th>Input</th>
+      <th>Output</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Gene prediction</td>
+      <td>Prodigal</td>
+      <td>Assemblies</td>
+      <td>Gene sequences (.fna, .faa)</td>
+      <td>Identify ORFs</td>
+    </tr>
+    <tr>
+      <td>Concatenation</td>
+      <td>bash</td>
+      <td>All genes</td>
+      <td>Combined FASTA</td>
+      <td>Pool genes</td>
+    </tr>
+    <tr>
+      <td>Clustering</td>
+      <td>CD-HIT</td>
+      <td>All genes</td>
+      <td>Non-redundant catalog (90%)</td>
+      <td>Remove redundancy</td>
+    </tr>
+    <tr>
+      <td>Protein prediction</td>
+      <td>Prodigal</td>
+      <td>Catalog genes</td>
+      <td>Protein sequences (.faa)</td>
+      <td>Prepare for annotation</td>
+    </tr>
+    <tr>
+      <td>Functional annotation</td>
+      <td>eggNOG-mapper</td>
+      <td>Catalog proteins</td>
+      <td>Annotated genes</td>
+      <td>Assign functions</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Key achievements:</strong></p>
+
+<ul>
+  <li>Built a <strong>40.6 million non-redundant gene catalog</strong> from 67.6 million raw genes</li>
+  <li>Removed ~40% redundancy across samples</li>
+  <li>Created a unified reference for functional profiling</li>
+  <li>Annotated genes with KEGG, COG, and GO terms</li>
+</ul>
+
+<hr />
+
+<h4 id="-resources">🔗 Resources</h4>
+
+<ul>
+  <li><strong>Prodigal documentation:</strong> https://github.com/hyattpd/Prodigal</li>
+  <li><strong>CD-HIT user guide:</strong> http://weizhong-lab.ucsd.edu/cd-hit/</li>
+  <li><strong>eggNOG-mapper:</strong> http://eggnog-mapper.embl.de/</li>
+  <li><strong>KEGG database:</strong> https://www.genome.jp/kegg/</li>
+</ul>
+
+<hr />
+
+<h4 id="-repository-structure">📂 Repository Structure</h4>
+
+<p>Please visit : https://github.com/jojyjohn28/Size_Fractionated_Microbiome_Analysis</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>day04_gene_catalog/
+├── README.md                      # Workflow overview
+├── NOTES.md                       # Analysis notes and troubleshooting
+├── scripts/
+    ├── 01_prodigal_MGs.sh
+    ├── 02_cdhit_catalog90.sh
+    ├── 03_prodigal_catalog.sh
+    └── 01_eggnog_catalog.sh
+
+</code></pre></div></div>
+
+<hr />
+
+<p><strong>Stay tuned for Day 5, where we’ll map reads to the catalog and begin quantifying functional gene expression!</strong></p>
+
+<p><strong>Questions?</strong> Comment below or reach out.</p>
+
+<p><img src="/assets/img/sub.png" alt="roc_curves" /></p>
+
+<p>As my aim is to fins the resouce partitioning the image showing different substrte uptake pattern by order in the metagnome. This is a draft picture.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 4 of the size-fractionated microbiome series: Building a non-redundant prokaryotic gene catalog from metagenomes using Prodigal, CD-HIT clustering, and eggNOG functional annotation.]]></summary></entry><entry><title type="html">Bridging Clinical and Ecological ML: From Heart Disease to Soil Ecosystem Multifunctionality</title><link href="https://jojyjohn28.github.io/blog/heart-disease-prediction-ml-random-forest/" rel="alternate" type="text/html" title="Bridging Clinical and Ecological ML: From Heart Disease to Soil Ecosystem Multifunctionality" /><published>2026-01-28T00:00:00-05:00</published><updated>2026-01-28T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/heart-disease-prediction-ml-random-forest</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/heart-disease-prediction-ml-random-forest/"><![CDATA[<h3 id="predicting-heart-disease-with-machine-learning-when-clinical-ml-meets-ecological-research">Predicting Heart Disease with Machine Learning: When Clinical ML Meets Ecological Research</h3>
 
 <h4 id="introduction-why-am-i-doing-this"><strong>Introduction: Why Am I Doing This?</strong></h4>
 
@@ -4356,314 +4851,4 @@ https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
 For example, the figure below illustrates biofilm-related gene screening across 200+ genomes, where the presence or absence of biofilm-associated traits is overlaid onto the phylogenomic tree as metadata strips or heatmaps.
 This integration allows rapid visualization of how functional traits are distributed across taxonomic lineages and evolutionary clades, enabling direct comparison of functional potential within and between groups.</p>
 
-<p><img src="/assets/img/d3.png" alt="phylo and function" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.]]></summary></entry><entry><title type="html">Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp;amp; Genome Similarity</title><link href="https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp;amp; Genome Similarity" /><published>2026-01-12T00:00:00-05:00</published><updated>2026-01-12T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day3-taxonomy-phylogeny/"><![CDATA[<h1 id="-whole-genome-sequencing--day-3">🧬 Whole Genome Sequencing — Day 3</h1>
-
-<p><strong>Taxonomy, Phylogeny &amp; Genome Similarity</strong></p>
-
-<p>In <strong>Day 1</strong>, we focused on raw read quality control.
-In <strong>Day 2</strong>, we assembled genomes and evaluated assembly quality and topology.</p>
-
-<p>Today, in Day 3, we move from sequence reconstruction to biological identity.</p>
-
-<p><strong>👉Who is this genome related to?</strong>
-<strong>👉Where does it sit in the tree of life?</strong>
-<strong>👉Is it a known species or something new?</strong></p>
-
-<h2 id="-goal-of-day-3">🎯 Goal of Day 3</h2>
-
-<p>Place genomes in an evolutionary and taxonomic context</p>
-
-<p>Specifically, we aim to:</p>
-
-<p>✔ Assign standardized genome-based taxonomy
-✔ Construct phylogenomic trees
-✔ Test species and genus boundaries
-✔ Support NCBI submissions, MRAs, and comparative studies</p>
-
-<p>This workflow is designed for dozens to hundreds of genomes, including:</p>
-
-<p>• Isolate genomes</p>
-
-<p>• MAG collections</p>
-
-<p>• Mixed genome datasets</p>
-
-<h1 id="-why-genome-based-taxonomy">🧠 Why Genome-Based Taxonomy?</h1>
-
-<p>Historically, microbial taxonomy relied heavily on 16S rRNA genes. While useful, 16S alone:</p>
-
-<p>• Lacks species-level resolution</p>
-
-<p>• Is often fragmented or missing in MAGs</p>
-
-<p>• Cannot resolve closely related taxa</p>
-
-<p>Genome-based taxonomy solves these issues by using:</p>
-
-<p>• Hundreds of conserved marker genes</p>
-
-<p>• Whole-genome similarity metrics</p>
-
-<p>• Curated, standardized reference frameworks</p>
-
-<p>This is now the recommended approach for modern microbial genomics.</p>
-
-<h1 id="-core-analyses-in-day-3">🧪 Core Analyses in Day 3</h1>
-
-<p>1️⃣ Genome Taxonomy Assignment</p>
-
-<p>Assign taxonomy using conserved marker genes rather than single loci.</p>
-
-<p>2️⃣ Phylogenomic Tree Construction</p>
-
-<p>Infer evolutionary relationships using genome-scale alignments.</p>
-
-<p>3️⃣ Species &amp; Genus Boundary Testing</p>
-
-<p>Evaluate novelty and relatedness using:</p>
-
-<p>• ANI (nucleotide-level)</p>
-
-<p>• AAI (protein-level)</p>
-
-<p>• dDDH (digital DNA–DNA hybridization)</p>
-
-<p>Using multiple metrics together provides robust taxonomic conclusions.</p>
-
-<h1 id="-tools-used">🧰 Tools Used</h1>
-
-<p>• GTDB-Tk – Genome-based taxonomy and phylogeny</p>
-
-<p>• iTOL – Interactive phylogenomic tree visualization</p>
-
-<p>• FastANI – Species-level genome similarity</p>
-
-<p>• CompareM – Amino acid identity across genomes</p>
-
-<p>• GGDC – Digital DNA–DNA hybridization (web-based)</p>
-
-<p>• NCBI Datasets CLI – Reference genome retrieval</p>
-
-<p>Each tool contributes a different layer of confidence.</p>
-
-<h1 id="-gtdb-tk-genome-based-taxonomy">🧬 GTDB-Tk: Genome-Based Taxonomy</h1>
-
-<p>GTDB-Tk (Genome Taxonomy Database Toolkit) assigns taxonomy based on a curated set of conserved marker genes and reference phylogenies.</p>
-
-<p>1️⃣ Installing GTDB-Tk (Conda)</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> gtdbtk_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge gtdbtk
-conda activate gtdbtk_env
-gtdbtk <span class="nt">--version</span>
-</code></pre></div></div>
-
-<p>For large projects, installing in a custom path is recommended due to database size.</p>
-
-<p>2️⃣ Downloading the GTDB Reference Database</p>
-
-<p>GTDB-Tk requires the full GTDB reference database (&gt;100 GB).</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://data.gtdb.ecogenomic.org/releases/release214/214.1/gtdbtk/gtdbtk_r214_data.tar.gz
-<span class="nb">tar</span> <span class="nt">-xzf</span> gtdbtk_r214_data.tar.gz <span class="nt">-C</span> /project/bcampb7/camplab/databases/
-</code></pre></div></div>
-
-<p>Set the environment variable:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">GTDBTK_DATA_PATH</span><span class="o">=</span>/project/bcampb7/camplab/databases/gtdbtk_r214_data
-<span class="nb">echo</span> <span class="s2">"export GTDBTK_DATA_PATH=/project/bcampb7/camplab/databases/gtdbtk_r214_data"</span> <span class="o">&gt;&gt;</span> ~/.bashrc
-gtdbtk check_install
-</code></pre></div></div>
-
-<p>3️⃣ GTDB-Tk Standard Workflow</p>
-
-<p>(Identify → Align → Classify)</p>
-
-<p>Identify conserved marker genes</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk identify <span class="se">\</span>
-  <span class="nt">--genome_dir</span> genomes/ <span class="se">\</span>
-  <span class="nt">--out_dir</span> gtdbtk/identify <span class="se">\</span>
-  <span class="nt">--extension</span> fa <span class="se">\</span>
-  <span class="nt">--cpus</span> 32
-</code></pre></div></div>
-
-<p>Align marker genes</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk align <span class="se">\</span>
-  <span class="nt">--identify_dir</span> gtdbtk/identify <span class="se">\</span>
-  <span class="nt">--out_dir</span> gtdbtk/align <span class="se">\</span>
-  <span class="nt">--cpus</span> 32
-</code></pre></div></div>
-
-<p>Classify genomes</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk classify <span class="se">\</span>
-  <span class="nt">--genome_dir</span> genomes/ <span class="se">\</span>
-  <span class="nt">--align_dir</span> gtdbtk/align <span class="se">\</span>
-  <span class="nt">--out_dir</span> gtdbtk/classify <span class="se">\</span>
-  <span class="nt">--cpus</span> 32 <span class="se">\</span>
-  <span class="nt">--mash_db</span> gtdbtk/mash_db
-</code></pre></div></div>
-
-<p>📄 Key output file</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk.bac120.summary.tsv
-</code></pre></div></div>
-
-<p>This table provides:</p>
-
-<p>• GTDB taxonomy (domain → species)</p>
-
-<p>• Closest reference genomes</p>
-
-<p>• Novelty indicators</p>
-
-<p>• This file becomes the starting point for ANI, AAI, and dDDH analyses.\</p>
-
-<p>• This file is also needed for running Denovo work flow in next step</p>
-
-<p>Below is an example screenshort of gtdbtk.bac120.summary.tsv</p>
-
-<p><img src="/assets/img/clsfy.png" alt="custom taxonomy" /></p>
-
-<p>4️⃣ Full de_novo_wf (Automatic Tree Building)</p>
-
-<p>For phylogenomic tree construction across many genomes:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk de_novo_wf <span class="se">\</span>
-  <span class="nt">--genome_dir</span> genomes/ <span class="se">\</span>
-  <span class="nt">--out_dir</span> gtdbtk/de_novo <span class="se">\</span>
-  <span class="nt">--extension</span> fa <span class="se">\</span>
-  <span class="nt">--bacteria</span> <span class="se">\</span>
-  <span class="nt">--cpus</span> 32 <span class="se">\</span>
-  <span class="nt">--outgroup_taxon</span> p__Chloroflexota <span class="se">\</span>
-  <span class="nt">--skip_gtdb_refs</span>
-</code></pre></div></div>
-
-<p>Notes</p>
-
-<p>Choose an outgroup not present in your dataset</p>
-
-<p>–skip_gtdb_refs reduces tree size for large studies</p>
-
-<p>📄 Output tree:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk.bac120.decorated.tree
-</code></pre></div></div>
-
-<p>🌳 Tree Visualization with iTOL</p>
-
-<p>Convert GTDB-Tk trees for iTOL:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk convert_to_itol <span class="se">\</span>
-  <span class="nt">--input_tree</span> gtdbtk/de_novo/gtdbtk.bac120.decorated.tree <span class="se">\</span>
-  <span class="nt">--output_tree</span> phylogeny_itol/OUTPUT_TREE
-</code></pre></div></div>
-
-<p>Upload to 👉 https://itol.embl.de/</p>
-
-<p><img src="/assets/img/itol.png" alt="itol" /></p>
-
-<p>What iTOL allows you to do</p>
-
-<p>✔ Color branches by taxonomy
-✔ Add metadata strips (sample type, site, season)
-✔ Add heatmaps (genome size, gene counts, FRed, CAZymes)
-✔ Collapse or expand clades
-✔ Export publication-quality figures (SVG, PDF)</p>
-
-<p>For more deatils on GTDBTk and iTol please see https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/
-A video tutorial will be coming soon too. please stay tuned.</p>
-
-<h1 id="-genome-similarity-metrics-batch-mode">🧮 Genome Similarity Metrics (Batch Mode)</h1>
-
-<p>Taxonomy alone is not sufficient for species-level conclusions.
-We therefore apply three complementary genome similarity metrics.</p>
-
-<p>🔢 ANI — Average Nucleotide Identity (FastANI)</p>
-
-<p>✔ Purpose: Species-level resolution</p>
-
-<p>✔ Typical cutoff: ~95–96%</p>
-
-<p>✔ FastANI is fast and suitable for large genome collections.</p>
-
-<p>🔬 AAI — Average Amino Acid Identity (CompareM)</p>
-
-<p>✔ Purpose: Genus- and higher-level resolution</p>
-
-<p>Typical cutoffs:</p>
-
-<p>✔ Species: ~95%</p>
-
-<p>✔ Genus: ~65–75%</p>
-
-<p>✔ AAI is especially useful when ANI is very low or ambiguous.</p>
-
-<p>🧬 dDDH — Digital DNA–DNA Hybridization (GGDC)</p>
-
-<p>Purpose: Classical species validation
-Species cutoff: 70%</p>
-
-<p>GGDC is currently web-based:
-👉 https://ggdc.dsmz.de/</p>
-
-<p>Used primarily for:</p>
-
-<p>✔ Novel species descriptions</p>
-
-<p>✔ MRAs</p>
-
-<p>✔ Formal taxonomic studies</p>
-
-<p>🧠 Why Use ANI + AAI + dDDH Together?</p>
-
-<p>Each metric captures different evolutionary signals:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Metric</th>
-      <th>Resolution</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>ANI</td>
-      <td>Species</td>
-    </tr>
-    <tr>
-      <td>AAI</td>
-      <td>Genus and above</td>
-    </tr>
-    <tr>
-      <td>dDDH</td>
-      <td>Classical species confirmation</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>✔ Agreement across all three = strong taxonomic confidence
-✔ Disagreement flags borderline or novel taxa</p>
-
-<p>For more deatails about each analysis and codes can be find at :
-https://jojyjohn28.github.io/blog/novel-species-a-step-by-step-guide/</p>
-
-<h1 id="-key-takeaways-from-day-3">🧠 Key Takeaways from Day 3</h1>
-
-<p>● Genome-based taxonomy is now the standard
-● GTDB-Tk provides reproducible, scalable classification
-● Phylogenomic trees add essential evolutionary context
-● Species delineation requires multiple similarity metrics
-● This workflow scales cleanly to 100+ genomes</p>
-
-<h1 id="-coming-up-day-4">🔜 Coming Up: Day 4</h1>
-
-<p>Day 4 — Genome Annotation &amp; Functional Potential</p>
-
-<p>We move from who the genome is to what the genome can do — covering gene prediction, functional annotation, and metabolic reconstruction.</p>
-
-<p>All codes can be found at :
-https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
-
-<p><img src="/assets/img/tr.png" alt="tree taxonomy" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 3 of the WGS series: genome-based taxonomy using GTDB-Tk, phylogenomic tree construction, and species/genus boundary testing using ANI, AAI, and dDDH across large genome sets.]]></summary></entry></feed>
+<p><img src="/assets/img/d3.png" alt="phylo and function" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.]]></summary></entry></feed>
