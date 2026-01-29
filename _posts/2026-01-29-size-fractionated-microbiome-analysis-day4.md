@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction & Functional Annotation"
-date: 2025-01-29
+date: 2026-01-29
 description: "Day 4 of the size-fractionated microbiome series: Building a non-redundant prokaryotic gene catalog from metagenomes using Prodigal, CD-HIT clustering, and eggNOG functional annotation."
 comments: true
 giscus_comments: true
