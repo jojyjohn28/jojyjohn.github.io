@@ -17,12 +17,12 @@
   
   
     
-      Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads | Jojy John
+      Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp; Functional Annotation | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.">
+<meta name="description" content="Day 4 of the size-fractionated microbiome series: Building a non-redundant prokaryotic gene catalog from metagenomes using Prodigal, CD-HIT clustering, and eggNOG functional annotation.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +60,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/blog/genome-assembly-day/">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day4/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -310,9 +310,9 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads</h1>
+    <h1 class="post-title">Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp; Functional Annotation</h1>
     <p class="post-meta">
-      Created in December 02, 2025
+      Created in January 29, 2025
       
       
       
@@ -331,145 +331,542 @@
 
   <article class="post-content">
     <div id="markdown-content">
-      <p>As I said in earlier post about NCBI submission (https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/), I missed few genome assembly previously.
-So Today, I am focusing on these missed assemblies.</p>
+      <h4 id="-size-fractionated-microbiome-analysis--day-4">🌊 Size-Fractionated Microbiome Analysis — Day 4</h4>
 
-<p><strong>🧬 Whole-Genome Assembly Using Shovill &amp; Flye</strong></p>
+<p>In Day 1 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1/), we focused on metagenome preprocessing, in Day 2 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/), we explored taxonomic profiling using Kaiju, and in Day 3 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day3/), we conducted species-level profiling with mOTUs.</p>
 
-<p>Today’s work focused on reconstructing complete bacterial genomes using two complementary assembly strategies:</p>
+<p><strong>Today, in Day 4, I introduce gene catalog construction—a critical foundation for functional profiling of microbial communities.</strong></p>
+
+<p>This approach enables downstream analyses of substrate uptake transporters (ABC transporters, TonB-dependent receptors), CAZymes, and other functional genes. By building a unified, non-redundant gene catalog from metagenomes, we can map both DNA (metagenome) and RNA (metatranscriptome) reads to quantify functional potential and expression.</p>
+
+<hr>
+
+<h4 id="-why-build-a-gene-catalog">🧬 Why Build a Gene Catalog?</h4>
+
+<p><strong>Traditional approach:</strong> Annotate each metagenome assembly independently</p>
+
+<ul>
+  <li>Results in redundant gene sets across samples</li>
+  <li>Difficult to compare gene presence/absence across communities</li>
+  <li>Inflates computational costs for downstream analyses</li>
+</ul>
+
+<p><strong>Gene catalog approach:</strong></p>
+
+<ul>
+  <li>Pool all assembled genes from all metagenomes</li>
+  <li>Cluster at high identity (e.g., 90%) to create a non-redundant reference</li>
+  <li>Annotate once with functional databases</li>
+  <li>Map reads from all samples (MG + MT) to the same catalog</li>
+  <li>Enables direct comparison of functional potential (DNA) vs expression (RNA)</li>
+</ul>
+
+<p>This workflow follows the methodology described in metagenomic studies for constructing prokaryotic gene catalogs.</p>
+
+<hr>
+
+<h4 id="️-workflow-overview">🛠️ Workflow Overview</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Metagenome Assemblies
+        ↓
+    Prodigal (gene prediction)
+        ↓
+    Concatenate all genes
+        ↓
+    CD-HIT (90% clustering)
+        ↓
+    Non-redundant Gene Catalog
+        ↓
+    Prodigal (protein prediction on catalog)
+        ↓
+    eggNOG-mapper (functional annotation)
+        ↓
+    Annotated Gene Catalog
+</code></pre></div></div>
+
+<hr>
+
+<h4 id="-step-0-project-directory-setup">📁 Step 0: Project Directory Setup</h4>
+
+<p>First, create an organized directory structure:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /project/bcampb7/camplab/AL_JJ_oct23
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> substrate_FRed/<span class="o">{</span>00_logs,01_catalog,02_mapping_MG,03_mapping_MT,04_counts,05_eggnog,06_function_sets,07_FRed<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Directory purposes:</strong></p>
 
 <ul>
   <li>
-<strong>Shovill</strong> for Illumina short reads</li>
+<code class="language-plaintext highlighter-rouge">00_logs/</code> — SLURM job outputs and error logs</li>
   <li>
-<strong>Flye</strong> for Nanopore long reads</li>
+<code class="language-plaintext highlighter-rouge">01_catalog/</code> — Gene prediction and catalog files</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">02_mapping_MG/</code> — Metagenome read mappings</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">03_mapping_MT/</code> — Metatranscriptome read mappings</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">04_counts/</code> — Gene abundance tables</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">05_eggnog/</code> — Functional annotations</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">06_function_sets/</code> — Substrate-specific gene sets</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">07_FRed/</code> — Functional redundancy analyses</li>
 </ul>
 
-<p>These assemblies are part of 200+ genomes of DARPA, which primarly focus on synthetic biofilm producing commuities.</p>
+<hr>
+
+<h4 id="-step-1-gene-prediction-from-metagenome-assemblies">🧪 Step 1: Gene Prediction from Metagenome Assemblies</h4>
+
+<p><strong>Tool:</strong> Prodigal v2.6.3 (metagenome mode)</p>
+
+<p>Prodigal identifies open reading frames (ORFs) and predicts protein-coding genes from assembled contigs.</p>
+
+<h5 id="1a-predict-genes-from-individual-assemblies">1A. Predict genes from individual assemblies</h5>
+
+<p>Input: Individual metagenome assemblies (contigs ≥200 bp)</p>
+
+<p>Output: <code class="language-plaintext highlighter-rouge">.fna</code> (nucleotide), <code class="language-plaintext highlighter-rouge">.faa</code> (protein), <code class="language-plaintext highlighter-rouge">.gff</code> (annotations)</p>
+
+<p><strong>SLURM batch script:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> 01_prodigal_MGs.sh <span class="o">&lt;&lt;</span><span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+#!/bin/bash
+#SBATCH --job-name=prodigal_MGs
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=16G
+#SBATCH --time=24:00:00
+#SBATCH --partition=camplab
+#SBATCH --array=1-N  # Replace N with number of samples
+#SBATCH -o /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/prodigal_MG_%A_%a.out
+#SBATCH -e /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/prodigal_MG_%A_%a.err
+
+module load prodigal/2.6.3
+
+# Get sample name from array
+SAMPLE_LIST="/project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog/mg_assembly_list.txt"
+SAMPLE=</span><span class="si">$(</span><span class="nb">sed</span> <span class="nt">-n</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SLURM_ARRAY_TASK_ID</span><span class="k">}</span><span class="s2">p"</span> <span class="k">${</span><span class="nv">SAMPLE_LIST</span><span class="k">}</span><span class="si">)</span><span class="sh">
+
+ASSEMBLY_DIR="/project/bcampb7/camplab/0_Raw_Data/Metagenome_estury/Assembly_All/MGs"
+OUT_DIR="/project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog/prodigal_MGs/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="sh">"
+
+mkdir -p </span><span class="k">${</span><span class="nv">OUT_DIR</span><span class="k">}</span><span class="sh">
+
+prodigal </span><span class="se">\</span><span class="sh">
+  -i </span><span class="k">${</span><span class="nv">ASSEMBLY_DIR</span><span class="k">}</span><span class="sh">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="sh">/final.contigs.fa </span><span class="se">\</span><span class="sh">
+  -a </span><span class="k">${</span><span class="nv">OUT_DIR</span><span class="k">}</span><span class="sh">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="sh">.faa </span><span class="se">\</span><span class="sh">
+  -d </span><span class="k">${</span><span class="nv">OUT_DIR</span><span class="k">}</span><span class="sh">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="sh">.fna </span><span class="se">\</span><span class="sh">
+  -f gff </span><span class="se">\</span><span class="sh">
+  -o </span><span class="k">${</span><span class="nv">OUT_DIR</span><span class="k">}</span><span class="sh">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="sh">.gff </span><span class="se">\</span><span class="sh">
+  -p meta
+
+echo "Prodigal complete for </span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="sh">"
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<p><strong>Key parameters:</strong></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">-p meta</code> — Metagenome mode (handles mixed community gene models)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">-a</code> — Amino acid (protein) output</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">-d</code> — Nucleotide (gene) output</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">-f gff</code> — Gene feature format for downstream tools</li>
+</ul>
+
+<p>Submit the job:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbatch 01_prodigal_MGs.slurm
+</code></pre></div></div>
+
+<h5 id="1b-concatenate-all-predicted-genes">1B. Concatenate all predicted genes</h5>
+
+<p>After all Prodigal jobs complete, combine genes from all samples:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog
+
+<span class="nb">cat </span>prodigal_MGs/<span class="k">*</span>/<span class="k">*</span>.fna <span class="o">&gt;</span> all_MG_genes.fna
+
+<span class="c"># Check total gene count</span>
+<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> all_MG_genes.fna
+</code></pre></div></div>
+
+<p><strong>In my case:</strong></p>
+
+<ul>
+  <li>Total genes before clustering: <strong>67,609,507</strong>
+</li>
+</ul>
 
 <hr>
 
-<h2 id="-why-shovill-instead-of-running-spades-directly">🔍 Why Shovill (Instead of Running SPAdes Directly)</h2>
+<h4 id="-step-2-non-redundant-gene-catalog-construction-with-cd-hit">🔗 Step 2: Non-Redundant Gene Catalog Construction with CD-HIT</h4>
 
-<p>Shovill is a high-performance wrapper around SPAdes specifically optimized for bacterial WGS data.<br>
-I chose it over raw SPAdes because Shovill provides:</p>
+<p><strong>Tool:</strong> CD-HIT-EST v4.8.1</p>
 
-<p>✔ <strong>Automatic adapter trimming</strong><br>
-✔ <strong>Read correction &amp; subsampling</strong> (reduces runtime)<br>
-✔ <strong>Optimized SPAdes parameters for bacteria</strong><br>
-✔ <strong>Cleaner, smaller output folders</strong><br>
-✔ <strong>Much faster and significantly lower memory usage</strong></p>
+<p>CD-HIT clusters highly similar sequences to create a non-redundant gene set. This step removes redundancy across samples while preserving gene diversity.</p>
 
-<p>For five bacterial genomes, Shovill saved hours of compute time and produced polished assemblies with minimal tweaking.</p>
+<h5 id="2a-cluster-genes-at-90-identity">2A. Cluster genes at 90% identity</h5>
+
+<p><strong>SLURM script:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> 02_cdhit_catalog90.sh <span class="o">&lt;&lt;</span><span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+#!/bin/bash
+#SBATCH --job-name=catalog90
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=200G
+#SBATCH --time=48:00:00
+#SBATCH --partition=camplab
+#SBATCH -o /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/catalog90_%j.out
+#SBATCH -e /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/catalog90_%j.err
+
+# Load CD-HIT module or activate conda environment
+# module load cd-hit/4.8.1
+
+IN="/project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog"
+OUT="</span><span class="k">${</span><span class="nv">IN</span><span class="k">}</span><span class="sh">"
+
+cd-hit-est </span><span class="se">\</span><span class="sh">
+  -i </span><span class="k">${</span><span class="nv">IN</span><span class="k">}</span><span class="sh">/all_MG_genes.fna </span><span class="se">\</span><span class="sh">
+  -o </span><span class="k">${</span><span class="nv">OUT</span><span class="k">}</span><span class="sh">/MG_gene_catalog90.fna </span><span class="se">\</span><span class="sh">
+  -c 0.90 </span><span class="se">\</span><span class="sh">
+  -n 8 </span><span class="se">\</span><span class="sh">
+  -G 0 </span><span class="se">\</span><span class="sh">
+  -aS 0.90 </span><span class="se">\</span><span class="sh">
+  -T 32 </span><span class="se">\</span><span class="sh">
+  -M 0
+
+echo "CD-HIT clustering complete"
+</span><span class="no">EOF
+
+</span>sbatch 02_cdhit_catalog90.slurm
+</code></pre></div></div>
+
+<p><strong>Key parameters:</strong></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">-c 0.90</code> — 90% sequence identity threshold</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">-n 8</code> — Word size (optimized for 90% identity)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">-G 0</code> — Global sequence identity (not local alignment)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">-aS 0.90</code> — Alignment coverage for shorter sequence (90%)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">-T 32</code> — Threads</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">-M 0</code> — Use all available memory</li>
+</ul>
+
+<h5 id="2b-verify-clustering-results">2B. Verify clustering results</h5>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog
+
+<span class="c"># Original genes</span>
+<span class="nb">echo</span> <span class="s2">"Original genes:"</span>
+<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> all_MG_genes.fna
+
+<span class="c"># Non-redundant catalog</span>
+<span class="nb">echo</span> <span class="s2">"Non-redundant catalog (90%):"</span>
+<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> MG_gene_catalog90.fna
+
+<span class="c"># Cluster information</span>
+<span class="nb">wc</span> <span class="nt">-l</span> MG_gene_catalog90.fna.clstr
+</code></pre></div></div>
+
+<p><strong>My results:</strong></p>
+
+<ul>
+  <li>Original genes: <strong>67,609,507</strong>
+</li>
+  <li>Non-redundant catalog: <strong>40,619,901</strong>
+</li>
+  <li>
+<strong>Redundancy removed: ~40%</strong> (27 million redundant genes)</li>
+</ul>
 
 <hr>
 
-<h2 id="️-step-1--installing-shovill-conda">⚙️ Step 1 — Installing Shovill (Conda)</h2>
+<h4 id="-step-3-protein-prediction-on-non-redundant-catalog">🧬 Step 3: Protein Prediction on Non-Redundant Catalog</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> shovill_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge shovill
-conda activate shovill_env
+<p>Since CD-HIT operates on nucleotide sequences, we need to predict proteins from the clustered gene catalog for functional annotation.</p>
+
+<p><strong>SLURM script:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> 03_prodigal_catalog.sh <span class="o">&lt;&lt;</span><span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+#!/bin/bash
+#SBATCH --job-name=prodigal_catalog
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=32G
+#SBATCH --time=6:00:00
+#SBATCH --partition=camplab
+#SBATCH -o /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/prodigal_catalog_%j.out
+#SBATCH -e /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/prodigal_catalog_%j.err
+
+module load prodigal/2.6.3
+
+cd /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog
+
+prodigal </span><span class="se">\</span><span class="sh">
+  -i MG_gene_catalog90.fna </span><span class="se">\</span><span class="sh">
+  -a MG_gene_catalog90.faa </span><span class="se">\</span><span class="sh">
+  -d MG_gene_catalog90.genes.fna </span><span class="se">\</span><span class="sh">
+  -f gff </span><span class="se">\</span><span class="sh">
+  -o MG_gene_catalog90.gff </span><span class="se">\</span><span class="sh">
+  -p meta
+
+echo "Prodigal complete on gene catalog"
+</span><span class="no">EOF
+
+</span>sbatch 03_prodigal_catalog.slurm
 </code></pre></div></div>
 
-<h2 id="-step-2--running-shovill-on-hpc-batch-script">🚀 Step 2 — Running Shovill on HPC (Batch Script)</h2>
+<p><strong>Output files:</strong></p>
 
-<p>Below is the script I used for assembling 5 isolates:</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">MG_gene_catalog90.faa</code> — Protein sequences (for eggNOG)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">MG_gene_catalog90.genes.fna</code> — CDS nucleotide sequences</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">MG_gene_catalog90.gff</code> — Gene annotations</li>
+</ul>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<hr>
 
-<span class="nv">READS_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies"</span>
-<span class="nv">OUTPUT_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies/Shovil_assembly"</span>
-<span class="nv">THREADS</span><span class="o">=</span>32
+<h4 id="-step-4-functional-annotation-with-eggnog-mapper">📊 Step 4: Functional Annotation with eggNOG-mapper</h4>
 
-<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">"</span>
+<p><strong>Tool:</strong> eggNOG-mapper v2.1+</p>
 
-<span class="k">for </span>FORWARD_READ <span class="k">in</span> <span class="s2">"</span><span class="nv">$READS_DIR</span><span class="s2">"</span>/<span class="k">*</span>_R1.fastq.gz<span class="p">;</span> <span class="k">do
-    </span><span class="nv">SAMPLE</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$FORWARD_READ</span><span class="s2">"</span> _R1.fastq.gz<span class="si">)</span>
-    <span class="nv">REVERSE_READ</span><span class="o">=</span><span class="s2">"</span><span class="nv">$READS_DIR</span><span class="s2">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_R2.fastq.gz"</span>
+<p>eggNOG-mapper assigns functional annotations by mapping proteins to the eggNOG database, which integrates:</p>
 
-    <span class="k">if</span> <span class="o">[[</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$REVERSE_READ</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
-        </span><span class="nb">echo</span> <span class="s2">"Processing </span><span class="nv">$SAMPLE</span><span class="s2">..."</span>
+<ul>
+  <li>KEGG Orthology (KO)</li>
+  <li>COG/NOG functional categories</li>
+  <li>Gene Ontology (GO)</li>
+  <li>EC numbers</li>
+  <li>KEGG pathways</li>
+</ul>
 
-        shovill <span class="se">\</span>
-            <span class="nt">--outdir</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/</span><span class="nv">$SAMPLE</span><span class="s2">"</span> <span class="se">\</span>
-            <span class="nt">--R1</span> <span class="s2">"</span><span class="nv">$FORWARD_READ</span><span class="s2">"</span> <span class="se">\</span>
-            <span class="nt">--R2</span> <span class="s2">"</span><span class="nv">$REVERSE_READ</span><span class="s2">"</span> <span class="se">\</span>
-            <span class="nt">--cpus</span> <span class="s2">"</span><span class="nv">$THREADS</span><span class="s2">"</span>
+<h5 id="4a-download-eggnog-database-one-time-setup">4A. Download eggNOG database (one-time setup)</h5>
 
-        <span class="nb">echo</span> <span class="s2">"Assembly for </span><span class="nv">$SAMPLE</span><span class="s2"> completed."</span>
-    <span class="k">else
-        </span><span class="nb">echo</span> <span class="s2">"Reverse read file missing for </span><span class="nv">$SAMPLE</span><span class="s2">. Skipping..."</span>
-    <span class="k">fi
-done</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Set database directory</span>
+<span class="nb">export </span><span class="nv">EGGNOG_DATA_DIR</span><span class="o">=</span>/project/bcampb7/camplab/AL_JJ_oct23/databases/eggnog
+
+<span class="c"># Download database</span>
+download_eggnog_data.py <span class="nt">--data_dir</span> <span class="k">${</span><span class="nv">EGGNOG_DATA_DIR</span><span class="k">}</span>
 </code></pre></div></div>
 
-<p>save it as shovil.sh in the working directory (where raw sequences are saved)
-direct the terminal to working directory</p>
+<h5 id="4b-run-eggnog-mapper-on-the-catalog">4B. Run eggNOG-mapper on the catalog</h5>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x shovil_new.sh
-./shovil_new.sh
+<p><strong>SLURM script:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> 01_eggnog_catalog.sh <span class="o">&lt;&lt;</span><span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+#!/bin/bash
+#SBATCH --job-name=eggnog_catalog
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=100G
+#SBATCH --time=48:00:00
+#SBATCH --partition=camplab
+#SBATCH -o /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/eggnog_catalog_%j.out
+#SBATCH -e /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/00_logs/eggnog_catalog_%j.err
+
+export EGGNOG_DATA_DIR=/project/bcampb7/camplab/AL_JJ_oct23/databases/eggnog
+
+# Load eggnog-mapper module or activate conda environment
+# module load eggnog-mapper
+# conda activate eggnog_env
+
+OUTDIR="/project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/05_eggnog"
+mkdir -p </span><span class="k">${</span><span class="nv">OUTDIR</span><span class="k">}</span><span class="sh">
+
+emapper.py </span><span class="se">\</span><span class="sh">
+  -i /project/bcampb7/camplab/AL_JJ_oct23/substrate_FRed/01_catalog/MG_gene_catalog90.faa </span><span class="se">\</span><span class="sh">
+  --itype proteins </span><span class="se">\</span><span class="sh">
+  -o </span><span class="k">${</span><span class="nv">OUTDIR</span><span class="k">}</span><span class="sh">/MG_catalog </span><span class="se">\</span><span class="sh">
+  --output_dir </span><span class="k">${</span><span class="nv">OUTDIR</span><span class="k">}</span><span class="sh"> </span><span class="se">\</span><span class="sh">
+  --cpu 32 </span><span class="se">\</span><span class="sh">
+  --data_dir </span><span class="k">${</span><span class="nv">EGGNOG_DATA_DIR</span><span class="k">}</span><span class="sh">
+
+echo "eggNOG annotation complete"
+</span><span class="no">EOF
+
+</span>sbatch 01_eggnog_catalog.slurm
 </code></pre></div></div>
 
-<p>Shovill outputs:</p>
+<p><strong>Expected output:</strong></p>
 
-<p>● contigs.fa</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">MG_catalog.emapper.annotations</code> — Main annotation table</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">MG_catalog.emapper.seed_orthologs</code> — Ortholog assignments</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">MG_catalog.emapper.hits</code> — DIAMOND search results</li>
+</ul>
 
-<p>● SPAdes log files</p>
+<p><strong>Runtime note:</strong> With ~40M proteins, eggNOG annotation may take 24-48+ hours.</p>
 
-<p>● assembly statistics</p>
+<hr>
 
-<h2 id="-long-read-assembly-using-flye">🧬 Long-Read Assembly Using Flye</h2>
+<h4 id="-step-5-extracting-substrate-uptake-genes">🔍 Step 5: Extracting Substrate Uptake Genes</h4>
 
-<p>For three Nanopore samples, I used Flye, a robust long-read assembler that works beautifully on HPC.</p>
+<p>After eggNOG annotation completes, we’ll extract specific functional gene categories:</p>
 
-<p>🔍 Why Flye (Instead of Epi2me Labs)</p>
+<ol>
+  <li>
+<strong>ABC transporters</strong> — Substrate-specific import systems</li>
+  <li>
+<strong>TonB-dependent receptors (TBDTs)</strong> — Outer membrane transporters</li>
+  <li>
+<strong>CAZymes</strong> — Carbohydrate-active enzymes</li>
+</ol>
 
-<p>I prefer Flye because:</p>
+<p><strong>Parsing strategy (to be implemented):</strong></p>
 
-<p>✔ Works entirely on HPC (no GUI required)</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Extract ABC transporters</span>
+<span class="nb">grep</span> <span class="nt">-i</span> <span class="s2">"ABC transporter"</span> MG_catalog.emapper.annotations <span class="o">&gt;</span> ABC_transporters.tsv
 
-<p>✔ No need for ONT’s desktop software</p>
+<span class="c"># Extract TBDTs</span>
+<span class="nb">grep</span> <span class="nt">-i</span> <span class="s2">"TonB.*receptor"</span> MG_catalog.emapper.annotations <span class="o">&gt;</span> TBDTs.tsv
 
-<p>✔ Excellent for bacterial genomes</p>
-
-<p>✔ Transparent logs &amp; customizable parameters</p>
-
-<p>✔ Supports polishing and repeat resolution</p>
-
-<p>Epi2me is great for small standalone analyses, but Flye is far better for reproducible, scriptable, HPC-scale assembly.</p>
-
-<h2 id="️-step-1--installing-flye">⚙️ Step 1 — Installing Flye</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/fenderglass/Flye.git
-<span class="nb">cd </span>Flye
-python setup.py <span class="nb">install</span> <span class="nt">--user</span>
+<span class="c"># Further substrate assignment based on eggNOG/KEGG annotations</span>
 </code></pre></div></div>
 
-<h2 id="-step-2--running-flye-on-an-interactive-node">🚀 Step 2 — Running Flye on an Interactive Node</h2>
+<p>This step will be detailed in <strong>Day 5</strong> when we focus on functional categorization and substrate specificity.</p>
 
-<p>I assembled each genome individually on my interactive node, as the number of genomes are less:</p>
+<hr>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /home/jojyj/Flye
-python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw sequence <span class="nt">--threads</span> 32 <span class="nt">--out-dir</span> path to output folde
+<h4 id="-next-steps-day-5-preview">📈 Next Steps (Day 5 Preview)</h4>
+
+<p>With the annotated gene catalog complete, the next steps include:</p>
+
+<ol>
+  <li>
+<strong>Read mapping</strong> — Map MG and MT reads to the catalog using Bowtie2</li>
+  <li>
+<strong>Gene abundance quantification</strong> — Calculate TPM/RPKM values</li>
+  <li>
+<strong>Functional categorization</strong> — Assign substrate specificity to transporters</li>
+  <li>
+<strong>Functional redundancy (FRed)</strong> — Compare PA vs FL communities</li>
+  <li>
+<strong>RNA/DNA ratios</strong> — Identify actively expressed vs dormant functions</li>
+</ol>
+
+<hr>
+
+<h4 id="-summary-of-day-4">✅ Summary of Day 4</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Tool</th>
+      <th>Input</th>
+      <th>Output</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Gene prediction</td>
+      <td>Prodigal</td>
+      <td>Assemblies</td>
+      <td>Gene sequences (.fna, .faa)</td>
+      <td>Identify ORFs</td>
+    </tr>
+    <tr>
+      <td>Concatenation</td>
+      <td>bash</td>
+      <td>All genes</td>
+      <td>Combined FASTA</td>
+      <td>Pool genes</td>
+    </tr>
+    <tr>
+      <td>Clustering</td>
+      <td>CD-HIT</td>
+      <td>All genes</td>
+      <td>Non-redundant catalog (90%)</td>
+      <td>Remove redundancy</td>
+    </tr>
+    <tr>
+      <td>Protein prediction</td>
+      <td>Prodigal</td>
+      <td>Catalog genes</td>
+      <td>Protein sequences (.faa)</td>
+      <td>Prepare for annotation</td>
+    </tr>
+    <tr>
+      <td>Functional annotation</td>
+      <td>eggNOG-mapper</td>
+      <td>Catalog proteins</td>
+      <td>Annotated genes</td>
+      <td>Assign functions</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Key achievements:</strong></p>
+
+<ul>
+  <li>Built a <strong>40.6 million non-redundant gene catalog</strong> from 67.6 million raw genes</li>
+  <li>Removed ~40% redundancy across samples</li>
+  <li>Created a unified reference for functional profiling</li>
+  <li>Annotated genes with KEGG, COG, and GO terms</li>
+</ul>
+
+<hr>
+
+<h4 id="-resources">🔗 Resources</h4>
+
+<ul>
+  <li>
+<strong>Prodigal documentation:</strong> https://github.com/hyattpd/Prodigal</li>
+  <li>
+<strong>CD-HIT user guide:</strong> http://weizhong-lab.ucsd.edu/cd-hit/</li>
+  <li>
+<strong>eggNOG-mapper:</strong> http://eggnog-mapper.embl.de/</li>
+  <li>
+<strong>KEGG database:</strong> https://www.genome.jp/kegg/</li>
+</ul>
+
+<hr>
+
+<h4 id="-repository-structure">📂 Repository Structure</h4>
+
+<p>Please visit : https://github.com/jojyjohn28/Size_Fractionated_Microbiome_Analysis</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>day04_gene_catalog/
+├── README.md                      # Workflow overview
+├── NOTES.md                       # Analysis notes and troubleshooting
+├── scripts/
+    ├── 01_prodigal_MGs.sh
+    ├── 02_cdhit_catalog90.sh
+    ├── 03_prodigal_catalog.sh
+    └── 01_eggnog_catalog.sh
+
 </code></pre></div></div>
 
-<p>Flye outputs include:
-● assembly.fasta</p>
+<hr>
 
-<p>● assembly_graph.gfa</p>
+<p><strong>Stay tuned for Day 5, where we’ll map reads to the catalog and begin quantifying functional gene expression!</strong></p>
 
-<p>● assembly_info.txt</p>
+<p><strong>Questions?</strong> Comment below or reach out.</p>
 
-<h2 id="-summary">🧭 Summary</h2>
+<p><img src="/assets/img/sub.png" alt="roc_curves"></p>
 
-<p>Today’s assembly workflow produced:</p>
-
-<p>✔ Five high-quality Illumina assemblies (Shovill)</p>
-
-<p>✔ Three Nanopore long-read assemblies (Flye)</p>
-
-<p>✔ Clean contigs ready for downstream steps (QC, annotation, pangenome, etc.)</p>
-
-<p><img src="/assets/img/flye.png" alt="Flye_ruuning"></p>
+<p>As my aim is to fins the resouce partitioning the image showing different substrte uptake pattern by order in the metagnome. This is a draft picture.</p>
 
     </div>
   </article>
