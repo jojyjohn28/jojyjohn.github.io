@@ -11,7 +11,7 @@ permalink: /blog/size-fractionated-microbiome-analysis-day4/
 
 #### 🌊 Size-Fractionated Microbiome Analysis — Day 4
 
-In Day 1 (/blog/size-fractionated-microbiome-analysis-day1/), we focused on metagenome preprocessing, in Day 2 (/blog/size-fractionated-microbiome-analysis-day2/), we explored taxonomic profiling using Kaiju, and in Day 3 (/blog/size-fractionated-microbiome-analysis-day3/), we conducted species-level profiling with mOTUs.
+In [Day 1](/blog/size-fractionated-microbiome-analysis-day1/), we focused on metagenome preprocessing, in [Day 1](/blog/size-fractionated-microbiome-analysis-day2/), we explored taxonomic profiling using Kaiju, and in [Day 3](/blog/size-fractionated-microbiome-analysis-day3/), we conducted species-level profiling with mOTUs.
 
 **Today, in Day 4, I introduce gene catalog construction—a critical foundation for functional profiling of microbial communities.**
 
