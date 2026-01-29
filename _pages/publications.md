@@ -14,19 +14,19 @@ nav_order: 2
 **1. Functional redundancy and metabolic flexibility of microbial communities in two Mid-Atlantic bays**
 
 **Jojy John**, Maximiliano Ortiz, Pierre Ramond, and Barbara J. Campbell (2026)  
-_Status: **Accepted**; minor revisions completed; awaiting proofs — **ISME Communications**_  
+Status: **Accepted**; minor revisions completed; awaiting proofs — **ISME Communications**\_  
 **Keywords:** metagenomes, metatranscriptomes, statistical modeling, functional redundancy
 
 **2. Nanoliposome co-delivery of Amoxicillin and Tazobactam remediates intracellular infection by multidrug-resistant _Salmonella enterica_ serovar Typhimurium**
 
 Trisha S., Unnikrishnan K., Satwik M., **Jojy John**, Charles V., Zhixuan F., Marie B., Jennifer R., Saji George (2025)  
-_Status: Under review in **Nature – Journal of Antibiotics**_  
+Status: Accepted in **Nature – Journal of Antibiotics**\_  
 **Keywords:** Whole-genome sequencing, Plasmid analysis
 Preprint available on request
 
 **3. Draft genome sequence of a novel species of Winogradskyella (strain PC D3.3) isolated from a red Antarctic macroalgae**
 **Jojy John**, Amit Kumar, Jenifer Alvarez, Radhakrishnan Mannikam, Luis Vargas-Chacoff, and Sergio Leiva Poveda
-\_Status: **Accepted**; awaiting proofs — Microbiology Resource Announcements
+Status: **Accepted**; awaiting proofs — Microbiology Resource Announcements
 
 <br>
 
