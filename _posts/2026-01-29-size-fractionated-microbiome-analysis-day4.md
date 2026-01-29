@@ -11,7 +11,7 @@ permalink: /blog/size-fractionated-microbiome-analysis-day4/
 
 #### 🌊 Size-Fractionated Microbiome Analysis — Day 4
 
-In Day 1 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day1/), we focused on metagenome preprocessing, in Day 2 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day2/), we explored taxonomic profiling using Kaiju, and in Day 3 (https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day3/), we conducted species-level profiling with mOTUs.
+In Day 1 (/blog/size-fractionated-microbiome-analysis-day1/), we focused on metagenome preprocessing, in Day 2 (/blog/size-fractionated-microbiome-analysis-day2/), we explored taxonomic profiling using Kaiju, and in Day 3 (/blog/size-fractionated-microbiome-analysis-day3/), we conducted species-level profiling with mOTUs.
 
 **Today, in Day 4, I introduce gene catalog construction—a critical foundation for functional profiling of microbial communities.**
 
@@ -439,12 +439,10 @@ day04_gene_catalog/
 
 ```
 
----
+![roc_curves](/assets/img/sub.png)
+
+As my aim is to find the resouce partitioning the image showing different substrte uptake pattern by order in the metagnome. This is a draft picture.
 
 **Stay tuned for Day 5, where we'll map reads to the catalog and begin quantifying functional gene expression!**
 
 **Questions?** Comment below or reach out.
-
-![roc_curves](/assets/img/sub.png)
-
-As my aim is to fins the resouce partitioning the image showing different substrte uptake pattern by order in the metagnome. This is a draft picture.
