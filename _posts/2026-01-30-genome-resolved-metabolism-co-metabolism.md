@@ -589,7 +589,7 @@ ggraph(g, layout = "fr") +
 
 ## ![network](/assets/img/conet.png)
 
-## 🧠 Part 10: How to Read the Network
+## 🧠 Part 9: How to Read the Network
 
 ### Node Interpretation
 
