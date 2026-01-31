@@ -1,5 +1,778 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-29T16:17:35-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp;amp; Functional Annotation</title><link href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day4/" rel="alternate" type="text/html" title="Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp;amp; Functional Annotation" /><published>2026-01-29T00:00:00-05:00</published><updated>2026-01-29T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day4</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day4/"><![CDATA[<h4 id="-size-fractionated-microbiome-analysis--day-4">🌊 Size-Fractionated Microbiome Analysis — Day 4</h4>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-01-30T23:33:43-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Genome-Resolved Metabolism: From Metabolic Potential to Co-Metabolism Networks</title><link href="https://jojyjohn28.github.io/blog/genome-resolved-metabolism-co-metabolism/" rel="alternate" type="text/html" title="Genome-Resolved Metabolism: From Metabolic Potential to Co-Metabolism Networks" /><published>2026-01-30T00:00:00-05:00</published><updated>2026-01-30T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/genome-resolved-metabolism-co-metabolism</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/genome-resolved-metabolism-co-metabolism/"><![CDATA[<h1 id="-genome-resolved-metabolism-from-metabolic-potential-to-co-metabolism-networks">🧬 Genome-Resolved Metabolism: From Metabolic Potential to Co-Metabolism Networks</h1>
+
+<p>Hydrocarbon degradation is rarely a standalone process. In microbial genomes, it is embedded within broader metabolic frameworks that support energy conservation, redox balance, and carbon flow.</p>
+
+<p>In this post, I walk through a complete workflow for analyzing <strong>metabolic potential</strong>, <strong>co-energy metabolism</strong>, and <strong>co-metabolism networks</strong> in hydrocarbon-degrading MAGs—starting from marker gene detection and ending with bipartite network visualization.</p>
+
+<p>This workflow is directly applicable to metagenome-assembled genomes (MAGs) and is essential for functional ecology, biogeochemistry, and multi-omics studies.</p>
+
+<hr />
+
+<h2 id="-what-are-we-trying-to-answer">🎯 What Are We Trying to Answer?</h2>
+
+<p>Three related but distinct questions drive this analysis:</p>
+
+<h3 id="1-metabolic-potential">1. <strong>Metabolic Potential</strong></h3>
+
+<p><em>What other metabolic capabilities are encoded in MAGs that contain hydrocarbon degradation genes?</em></p>
+
+<p>This asks: <strong>What is possible?</strong></p>
+
+<h3 id="2-co-energy-metabolism">2. <strong>Co-Energy Metabolism</strong></h3>
+
+<p><em>Which energy generation and conservation pathways co-occur with hydrocarbon degradation?</em></p>
+
+<p>This asks: <strong>How is degradation energetically supported?</strong></p>
+
+<h3 id="3-co-metabolism">3. <strong>Co-Metabolism</strong></h3>
+
+<p><em>Which metabolic pathways are actively expressed together within the same genome?</em></p>
+
+<p>This asks: <strong>What is actually used together?</strong></p>
+
+<p>These questions require different analytical approaches:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Data Type</th>
+      <th>Visualization</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Metabolic potential</td>
+      <td>Gene presence/absence</td>
+      <td>Binary heatmap</td>
+    </tr>
+    <tr>
+      <td>Co-energy</td>
+      <td>Gene presence/absence</td>
+      <td>Binary heatmap</td>
+    </tr>
+    <tr>
+      <td>Co-metabolism</td>
+      <td>Gene expression</td>
+      <td>Scaled heatmap + Network</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-part-1-identifying-hydrocarbon-degrading-mags">🧪 Part 1: Identifying Hydrocarbon-Degrading MAGs</h2>
+
+<p>We first subset MAGs that contain <strong>at least one hydrocarbon degradation gene</strong> (e.g., <em>alkB</em>, <em>bssA</em>, <em>assA</em>, or DSR-associated alkyl pathways).</p>
+
+<p>These MAGs form the foundation for all downstream analyses.</p>
+
+<h2 id="-part-2-assessing-metabolic-flexibility">🔍 Part 2: Assessing Metabolic Flexibility</h2>
+
+<p><strong>Metabolic flexibility</strong> describes the capacity of a genome to encode and potentially utilize multiple metabolic pathways simultaneously, allowing organisms to adapt to fluctuating environmental conditions and substrate availability.</p>
+
+<h3 id="-step-by-step-workflow">🧬 Step-by-Step Workflow</h3>
+
+<h4 id="step-1-download-metabolic-marker-gene-sets"><strong>Step 1: Download Metabolic Marker Gene Sets</strong></h4>
+
+<p>We downloaded curated metabolic marker protein sequences from the <a href="https://bridges.monash.edu/collections/Greening_lab_metabolic_marker_gene_databases/5230745">Greening Lab Metabolic Marker Database</a>, which includes high-confidence markers for:</p>
+
+<ul>
+  <li><strong>Respiration</strong> (aerobic and anaerobic)</li>
+  <li><strong>Sulfur cycling</strong> (oxidation and reduction)</li>
+  <li><strong>Nitrogen cycling</strong> (fixation, nitrification, denitrification)</li>
+  <li><strong>Carbon fixation</strong> (CBB cycle, rTCA, Wood-Ljungdahl)</li>
+  <li><strong>Phototrophy</strong> (photosystems, reaction centers)</li>
+</ul>
+
+<h4 id="step-2-build-a-diamond-database"><strong>Step 2: Build a DIAMOND Database</strong></h4>
+
+<p>The downloaded marker protein sequences were combined into a single FASTA file and formatted as a DIAMOND database:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>diamond makedb <span class="se">\</span>
+  <span class="nt">--in</span> metabolic_markers.faa <span class="se">\</span>
+  <span class="nt">--db</span> metabolic_markers <span class="se">\</span>
+  <span class="nt">--threads</span> 16
+</code></pre></div></div>
+
+<h4 id="step-3-predict-proteins-from-mags"><strong>Step 3: Predict Proteins from MAGs</strong></h4>
+
+<p>Protein-coding genes were predicted from MAGs using Prodigal:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prodigal <span class="se">\</span>
+  <span class="nt">-i</span> MAGs.fna <span class="se">\</span>
+  <span class="nt">-a</span> MAGs_proteins.faa <span class="se">\</span>
+  <span class="nt">-p</span> meta <span class="se">\</span>
+  <span class="nt">-q</span>
+</code></pre></div></div>
+
+<h4 id="step-4-search-mag-proteins-against-metabolic-markers"><strong>Step 4: Search MAG Proteins Against Metabolic Markers</strong></h4>
+
+<p>Predicted proteins from each MAG were queried against the metabolic marker database using DIAMOND BLASTp:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>diamond blastp <span class="se">\</span>
+  <span class="nt">--query</span> MAGs_proteins.faa <span class="se">\</span>
+  <span class="nt">--db</span> metabolic_markers <span class="se">\</span>
+  <span class="nt">--out</span> metabolic_hits.tsv <span class="se">\</span>
+  <span class="nt">--outfmt</span> 6 qseqid sseqid pident length evalue bitscore <span class="se">\</span>
+  <span class="nt">--evalue</span> 1e-5 <span class="se">\</span>
+  <span class="nt">--max-target-seqs</span> 1 <span class="se">\</span>
+  <span class="nt">--threads</span> 16
+</code></pre></div></div>
+
+<h4 id="step-5-summarize-metabolic-marker-presence"><strong>Step 5: Summarize Metabolic Marker Presence</strong></h4>
+
+<p>DIAMOND hits were parsed to generate a <strong>MAG × metabolic marker table</strong>, summarizing:</p>
+
+<ul>
+  <li>Presence/absence of each metabolic marker</li>
+  <li>Number of marker genes per metabolic process per MAG</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Parse DIAMOND output</span>
+<span class="nb">awk</span> <span class="s1">'{print $1,$2}'</span> metabolic_hits.tsv | <span class="se">\</span>
+  <span class="nb">sed</span> <span class="s1">'s/_.*//'</span> | <span class="se">\</span>
+  <span class="nb">sort</span> <span class="nt">-u</span> <span class="o">&gt;</span> MAG_marker_presence.tsv
+</code></pre></div></div>
+
+<p>This table forms the basis for downstream analyses of <strong>metabolic potential</strong> and <strong>metabolic flexibility</strong>.</p>
+
+<hr />
+
+<h2 id="-part-3-visualizing-metabolic-potential">📊 Part 3: Visualizing Metabolic Potential</h2>
+
+<h3 id="what-does-this-show">What Does This Show?</h3>
+
+<p>For each hydrocarbon-degrading MAG, we determine whether it encodes key marker genes for:</p>
+
+<ul>
+  <li><strong>Respiration</strong> (terminal oxidases, electron transport)</li>
+  <li><strong>Sulfur cycling</strong> (sulfur oxidation, sulfate reduction)</li>
+  <li><strong>Nitrogen cycling</strong> (nitrogen fixation, denitrification)</li>
+  <li><strong>Carbon fixation</strong> (autotrophic pathways)</li>
+  <li><strong>Phototrophy</strong> (light harvesting, energy conversion)</li>
+</ul>
+
+<p><strong>This is genomic potential—not expression.</strong></p>
+
+<h3 id="-input-format-example">📁 Input Format (Example)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>MAG</th>
+      <th>Order</th>
+      <th>Gene</th>
+      <th>Process</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MAG_01</td>
+      <td>Burkholderiales</td>
+      <td>AtpA</td>
+      <td>Respiration</td>
+    </tr>
+    <tr>
+      <td>MAG_01</td>
+      <td>Burkholderiales</td>
+      <td>Sqr</td>
+      <td>Sulfur cycle</td>
+    </tr>
+    <tr>
+      <td>MAG_02</td>
+      <td>Pseudomonadales</td>
+      <td>NarG</td>
+      <td>Nitrogen cycle</td>
+    </tr>
+    <tr>
+      <td>MAG_02</td>
+      <td>Pseudomonadales</td>
+      <td>RuBisCO</td>
+      <td>Carbon fixation</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="-presenceabsence-heatmap-in-r">📊 Presence–Absence Heatmap in R</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Read metabolic potential data</span><span class="w">
+</span><span class="n">metabolic_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"MAG_metabolic_markers.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Create binary matrix: 1 = gene present, 0 = absent</span><span class="w">
+</span><span class="n">pot_mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metabolic_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">present</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_wider</span><span class="p">(</span><span class="w">
+    </span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAG</span><span class="p">,</span><span class="w">
+    </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">present</span><span class="p">,</span><span class="w">
+    </span><span class="n">values_fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">pot_mat</span><span class="p">[,</span><span class="w"> </span><span class="m">-1</span><span class="p">])</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pot_mat</span><span class="o">$</span><span class="n">Gene</span><span class="w">
+
+</span><span class="c1"># Create heatmap</span><span class="w">
+</span><span class="n">pheatmap</span><span class="p">(</span><span class="w">
+  </span><span class="n">mat</span><span class="p">,</span><span class="w">
+  </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="s2">"steelblue"</span><span class="p">),</span><span class="w">
+  </span><span class="n">cluster_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+  </span><span class="n">cluster_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">show_rownames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">show_colnames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">fontsize_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w">
+  </span><span class="n">fontsize_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w">
+  </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Metabolic Potential of Hydrocarbon-Degrading MAGs"</span><span class="p">,</span><span class="w">
+  </span><span class="n">cellwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w">
+  </span><span class="n">cellheight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/img/energy.png" alt="energy" /></p>
+
+<h3 id="-interpretation">🧠 Interpretation</h3>
+
+<p><strong>Key findings:</strong></p>
+
+<p>✅ <strong>Respiration genes</strong> are widespread across most MAGs<br />
+✅ <strong>Sulfur and nitrogen cycling genes</strong> are patchy and taxon-specific<br />
+✅ <strong>Carbon fixation and phototrophy</strong> are restricted to a subset of genomes</p>
+
+<p><strong>Key insight:</strong><br />
+Hydrocarbon degradation occurs within <strong>metabolically diverse genomic backgrounds</strong>, not a single conserved metabolic blueprint.</p>
+
+<hr />
+
+<h2 id="-part-4-co-energy-metabolism-analysis">⚡ Part 4: Co-Energy Metabolism Analysis</h2>
+
+<h3 id="what-is-co-energy">What Is Co-Energy?</h3>
+
+<p><strong>Co-energy</strong> examines which <strong>energy generation and conservation pathways</strong> co-occur with hydrocarbon degradation in the same genome.</p>
+
+<p>Key pathways analyzed:</p>
+
+<ul>
+  <li><strong>Aerobic respiration</strong> (cytochrome c oxidases)</li>
+  <li><strong>Anaerobic respiration</strong> (nitrate, sulfate, Fe(III) reduction)</li>
+  <li><strong>Fermentation</strong> (substrate-level phosphorylation)</li>
+  <li><strong>ATP synthase</strong> (energy conservation)</li>
+</ul>
+
+<h3 id="-co-energy-heatmap">📊 Co-Energy Heatmap</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Subset to energy-related markers only</span><span class="w">
+</span><span class="n">energy_genes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+  </span><span class="s2">"coxA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"coxB"</span><span class="p">,</span><span class="w"> </span><span class="s2">"cydA"</span><span class="p">,</span><span class="w">           </span><span class="c1"># Aerobic respiration</span><span class="w">
+  </span><span class="s2">"narG"</span><span class="p">,</span><span class="w"> </span><span class="s2">"napA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"nirK"</span><span class="p">,</span><span class="w"> </span><span class="s2">"nosZ"</span><span class="p">,</span><span class="w">   </span><span class="c1"># Denitrification</span><span class="w">
+  </span><span class="s2">"dsrA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"aprA"</span><span class="p">,</span><span class="w">                   </span><span class="c1"># Sulfate reduction</span><span class="w">
+  </span><span class="s2">"atpA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"atpD"</span><span class="p">,</span><span class="w">                   </span><span class="c1"># ATP synthase</span><span class="w">
+  </span><span class="s2">"pdhA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ackA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pta"</span><span class="w">             </span><span class="c1"># Fermentation</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">energy_mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mat</span><span class="p">[</span><span class="n">rownames</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">energy_genes</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="n">pheatmap</span><span class="p">(</span><span class="w">
+  </span><span class="n">energy_mat</span><span class="p">,</span><span class="w">
+  </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#d95f02"</span><span class="p">),</span><span class="w">
+  </span><span class="n">cluster_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">cluster_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Co-Energy: Energy Pathways in HC-Degrading MAGs"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Key insight:</strong><br />
+Energy metabolism is <strong>heterogeneous</strong> across hydrocarbon-degrading taxa, suggesting niche partitioning along redox gradients.</p>
+
+<hr />
+
+<h2 id="-part-5-from-potential-to-co-metabolism">🔥 Part 5: From Potential to Co-Metabolism</h2>
+
+<p><strong>Metabolic potential</strong> tells us <strong>what is possible</strong>.<br />
+<strong>Co-metabolism</strong> asks <strong>what is used together</strong>.</p>
+
+<p>We now shift from <strong>presence/absence</strong> to <strong>gene expression</strong> data.</p>
+
+<h3 id="focus-five-core-metabolic-categories">Focus: Five Core Metabolic Categories</h3>
+
+<ol>
+  <li><strong>Hydrocarbon degradation</strong> — Primary substrate utilization</li>
+  <li><strong>C1 metabolism</strong> — Single-carbon compound cycling</li>
+  <li><strong>Complex carbon degradation</strong> — Polymeric substrate breakdown</li>
+  <li><strong>Fermentation</strong> — Anaerobic energy generation</li>
+  <li><strong>Central carbon metabolism</strong> — Glycolysis, TCA cycle, pentose phosphate pathway</li>
+</ol>
+
+<hr />
+
+<h2 id="-part-6-prepare-expression-data">📥 Part 6: Prepare Expression Data</h2>
+
+<h3 id="data-structure">Data Structure</h3>
+
+<p>Expression data should contain:</p>
+
+<ul>
+  <li><strong>MAG identifiers</strong> (e.g., Burkholderiales_MAG_10)</li>
+  <li><strong>Gene names</strong> (e.g., enolase, citrate synthase)</li>
+  <li><strong>Metabolic categories</strong> (e.g., Central carbon metabolism)</li>
+  <li><strong>Sample-specific counts</strong> (raw counts or TPM values)</li>
+</ul>
+
+<h3 id="r-code-for-data-preparation">R Code for Data Preparation</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Load expression data</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"Burk_gene_summed_filtered.xlsx"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Clean column names</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">gsub</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="s2">"_"</span><span class="p">,</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">df</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1"># Preserve raw categories for QC</span><span class="w">
+</span><span class="n">df</span><span class="o">$</span><span class="n">category_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="w">
+
+</span><span class="c1"># Define metadata vs count columns</span><span class="w">
+</span><span class="n">meta_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"mags"</span><span class="p">,</span><span class="w"> </span><span class="s2">"order"</span><span class="p">,</span><span class="w"> </span><span class="s2">"gene.name"</span><span class="p">,</span><span class="w"> </span><span class="s2">"category"</span><span class="p">,</span><span class="w"> </span><span class="s2">"category_raw"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pathway"</span><span class="p">)</span><span class="w">
+</span><span class="n">count_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">setdiff</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">df</span><span class="p">),</span><span class="w"> </span><span class="n">meta_cols</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Convert counts to numeric</span><span class="w">
+</span><span class="n">df</span><span class="p">[</span><span class="n">count_cols</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">count_cols</span><span class="p">],</span><span class="w"> </span><span class="n">as.numeric</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Check for NA values</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">any</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">count_cols</span><span class="p">])))</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">stop</span><span class="p">(</span><span class="s2">"❌ NA values found in count columns — check input file"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="critical-qc-step-standardize-categories">Critical QC Step: Standardize Categories</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Normalize category names</span><span class="w">
+</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">category_raw</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">str_trim</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">str_to_lower</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">str_replace_all</span><span class="p">(</span><span class="s2">"\\s+"</span><span class="p">,</span><span class="w"> </span><span class="s2">" "</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Recode to standard names</span><span class="w">
+</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
+  </span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="s2">"hydrocarbon"</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Hydrocarbon degradation"</span><span class="p">,</span><span class="w">
+  </span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="s2">"^c1"</span><span class="p">)</span><span class="w">         </span><span class="o">~</span><span class="w"> </span><span class="s2">"C1 metabolism"</span><span class="p">,</span><span class="w">
+  </span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="s2">"complex"</span><span class="p">)</span><span class="w">     </span><span class="o">~</span><span class="w"> </span><span class="s2">"Complex carbon degradation"</span><span class="p">,</span><span class="w">
+  </span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="s2">"ferment"</span><span class="p">)</span><span class="w">     </span><span class="o">~</span><span class="w"> </span><span class="s2">"Fermentation"</span><span class="p">,</span><span class="w">
+  </span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="s2">"central"</span><span class="p">)</span><span class="w">     </span><span class="o">~</span><span class="w"> </span><span class="s2">"Central carbon metabolism"</span><span class="p">,</span><span class="w">
+  </span><span class="kc">TRUE</span><span class="w">                                   </span><span class="o">~</span><span class="w"> </span><span class="kc">NA_character_</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Remove uncategorized genes</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"\n📊 Category distribution BEFORE removing NAs:\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">useNA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"ifany"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">category</span><span class="p">))</span><span class="w">
+
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"\n✅ Category distribution AFTER removing NAs:\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">useNA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"ifany"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Why this matters:</strong><br />
+Inconsistent category names (e.g., “Hydrocarbon Degradation” vs “hydrocarbon degradation”) will create duplicate categories and an “NA” group in your heatmap legend.</p>
+
+<h3 id="create-factor-levels">Create Factor Levels</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="w">
+  </span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w">
+  </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"Hydrocarbon degradation"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"C1 metabolism"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Complex carbon degradation"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Fermentation"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Central carbon metabolism"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="log2-transform-expression-data">Log2 Transform Expression Data</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Create expression matrix</span><span class="w">
+</span><span class="n">mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">df</span><span class="p">[,</span><span class="w"> </span><span class="n">count_cols</span><span class="p">])</span><span class="w">
+
+</span><span class="c1"># Create unique gene IDs</span><span class="w">
+</span><span class="n">df</span><span class="o">$</span><span class="n">gene_id</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">make.unique</span><span class="p">(</span><span class="w">
+  </span><span class="n">paste</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">mags</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">gene.name</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"|"</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">gene_id</span><span class="w">
+
+</span><span class="c1"># Log2 transform: stabilizes variance, makes patterns visible</span><span class="w">
+</span><span class="n">mat_log</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">log2</span><span class="p">(</span><span class="n">mat</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Why log2(x + 1)?</strong></p>
+
+<ul>
+  <li>Stabilizes variance across expression ranges</li>
+  <li>Makes patterns more visible</li>
+  <li>The “+1” prevents log(0) = -∞ (pseudocount)</li>
+  <li><strong>Standard for RNA-seq and metatranscriptomics</strong></li>
+</ul>
+
+<hr />
+
+<h2 id="-part-7-co-metabolism-heatmap-row-scaled">🎨 Part 7: Co-Metabolism Heatmap (Row-Scaled)</h2>
+
+<h3 id="row-scaling-the-critical-decision">Row Scaling: The Critical Decision</h3>
+
+<p><strong>Row scaling</strong> converts expression values to <strong>Z-scores</strong> for each gene:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Z-score = (value - gene_mean) / gene_standard_deviation
+</code></pre></div></div>
+
+<p><strong>Why use row scaling?</strong></p>
+
+<ul>
+  <li>✅ Genes have vastly different expression levels</li>
+  <li>✅ Highlights <strong>relative patterns</strong> within each gene</li>
+  <li>✅ Makes all genes visually comparable</li>
+  <li>✅ <strong>Standard for gene expression publications</strong></li>
+</ul>
+
+<p><strong>Color interpretation:</strong></p>
+
+<ul>
+  <li><strong>Blue (negative)</strong>: Gene is expressed <strong>below</strong> its own average</li>
+  <li><strong>White (zero)</strong>: Gene is at its average expression</li>
+  <li><strong>Red (positive)</strong>: Gene is expressed <strong>above</strong> its own average</li>
+</ul>
+
+<h3 id="prepare-row-annotations">Prepare Row Annotations</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Extract MAG number</span><span class="w">
+</span><span class="n">df</span><span class="o">$</span><span class="n">mag_num</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="w">
+  </span><span class="n">str_extract</span><span class="p">(</span><span class="n">tolower</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">mags</span><span class="p">),</span><span class="w"> </span><span class="s2">"(?&lt;=_mag_)\\d+"</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Remove rows with unextractable MAG numbers</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">any</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">mag_num</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">mag_num</span><span class="p">))</span><span class="w">
+  </span><span class="n">mat_log</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mat_log</span><span class="p">[</span><span class="n">rownames</span><span class="p">(</span><span class="n">mat_log</span><span class="p">)</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">gene_id</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1"># Order by MAG, then category</span><span class="w">
+</span><span class="n">row_order</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">order</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">mag_num</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">)</span><span class="w">
+</span><span class="n">heat_sorted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mat_log</span><span class="p">[</span><span class="n">row_order</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="n">df_sorted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">row_order</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># Create annotation data frame</span><span class="w">
+</span><span class="n">ann_row</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">MAG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">df_sorted</span><span class="o">$</span><span class="n">mag_num</span><span class="p">),</span><span class="w">
+  </span><span class="n">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_sorted</span><span class="o">$</span><span class="n">category</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">ann_row</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">heat_sorted</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="define-color-schemes">Define Color Schemes</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ann_colors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="w">
+  </span><span class="n">MAG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">setNames</span><span class="p">(</span><span class="w">
+    </span><span class="n">rainbow</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">df_sorted</span><span class="o">$</span><span class="n">mag_num</span><span class="p">))),</span><span class="w">
+    </span><span class="n">sort</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">df_sorted</span><span class="o">$</span><span class="n">mag_num</span><span class="p">))</span><span class="w">
+  </span><span class="p">),</span><span class="w">
+  </span><span class="n">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"Hydrocarbon degradation"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#e31a1c"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"C1 metabolism"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#1f78b4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Complex carbon degradation"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#33a02c"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Fermentation"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#ff7f00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Central carbon metabolism"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#6a3d9a"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="clean-sample-labels">Clean Sample Labels</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pretty_labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">toupper</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">heat_sorted</span><span class="p">))</span><span class="w">
+</span><span class="n">pretty_labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span><span class="w"> </span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="n">pretty_labels</span><span class="p">)</span><span class="w">
+</span><span class="n">gene_labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_sorted</span><span class="o">$</span><span class="n">gene.name</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="generate-the-heatmap">Generate the Heatmap</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span><span class="w">
+
+</span><span class="n">pheatmap</span><span class="p">(</span><span class="w">
+  </span><span class="n">heat_sorted</span><span class="p">,</span><span class="w">
+  </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"row"</span><span class="p">,</span><span class="w">                    </span><span class="c1"># Z-score normalization</span><span class="w">
+  </span><span class="n">cluster_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">             </span><span class="c1"># Preserve MAG/category order</span><span class="w">
+  </span><span class="n">cluster_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">             </span><span class="c1"># Preserve sample order</span><span class="w">
+  </span><span class="n">show_rownames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">             </span><span class="c1"># Display gene names</span><span class="w">
+  </span><span class="n">labels_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene_labels</span><span class="p">,</span><span class="w">
+  </span><span class="n">labels_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pretty_labels</span><span class="p">,</span><span class="w">
+  </span><span class="n">angle_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w">
+  </span><span class="n">fontsize_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">                 </span><span class="c1"># Small font for many genes</span><span class="w">
+  </span><span class="n">fontsize_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w">
+  </span><span class="n">gaps_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cumsum</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">df_sorted</span><span class="o">$</span><span class="n">mag_num</span><span class="p">)),</span><span class="w">  </span><span class="c1"># Visual gaps between MAGs</span><span class="w">
+  </span><span class="n">annotation_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ann_row</span><span class="p">,</span><span class="w">
+  </span><span class="n">annotation_colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ann_colors</span><span class="p">,</span><span class="w">
+  </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">colorRampPalette</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"navy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="s2">"firebrick3"</span><span class="p">))(</span><span class="m">100</span><span class="p">),</span><span class="w">
+  </span><span class="n">legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">legend_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">-2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w">
+  </span><span class="n">legend_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"-2"</span><span class="p">,</span><span class="w"> </span><span class="s2">"-1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"2"</span><span class="p">),</span><span class="w">
+  </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Co-Metabolism Gene Expression by MAG"</span><span class="p">,</span><span class="w">
+  </span><span class="n">fontsize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="-legend-interpretation">📖 Legend Interpretation</h3>
+
+<p><strong>Your legend should read:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Abundance
+(Log 2+1)
+Z-score
+</code></pre></div></div>
+
+<p><strong>Values:</strong> -2, -1, 0, 1, 2</p>
+
+<p>These represent <strong>standard deviations from the mean</strong>, NOT:</p>
+
+<ul>
+  <li>❌ Raw counts</li>
+  <li>❌ Fold-changes</li>
+  <li>❌ Absolute abundance</li>
+</ul>
+
+<hr />
+
+<p><img src="/assets/img/cometa.png" alt="co-metabolism" /></p>
+
+<h2 id="-part-8-build-a-co-metabolism-network">🌐 Part 8: Build a Co-Metabolism Network</h2>
+
+<p><strong>Heatmaps show patterns.<br />
+Networks reveal structure.</strong></p>
+
+<p>We now convert the expression matrix into a <strong>bipartite network</strong> where:</p>
+
+<ul>
+  <li><strong>Nodes</strong> = MAGs and metabolic categories</li>
+  <li><strong>Edges</strong> = Average co-expression strength between MAG and category</li>
+</ul>
+
+<h3 id="step-1-aggregate-expression-by-mag--category">Step 1: Aggregate Expression by MAG × Category</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">igraph</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggraph</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Calculate mean expression per MAG-category pair</span><span class="w">
+</span><span class="n">agg_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_sorted</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">rowwise</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">mean_expr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">c_across</span><span class="p">(</span><span class="n">all_of</span><span class="p">(</span><span class="n">count_cols</span><span class="p">))))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">MAG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mags</span><span class="p">,</span><span class="w"> </span><span class="n">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">category</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">mean_expr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">mean_expr</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Normalize edge weights</span><span class="w">
+</span><span class="n">agg_df</span><span class="o">$</span><span class="n">weight</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">agg_df</span><span class="o">$</span><span class="n">mean_expr</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">agg_df</span><span class="o">$</span><span class="n">mean_expr</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-2-create-bipartite-graph">Step 2: Create Bipartite Graph</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Create edge list</span><span class="w">
+</span><span class="n">edges</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">agg_df</span><span class="o">$</span><span class="n">MAG</span><span class="p">,</span><span class="w">
+  </span><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">agg_df</span><span class="o">$</span><span class="n">Category</span><span class="p">,</span><span class="w">
+  </span><span class="n">weight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">agg_df</span><span class="o">$</span><span class="n">weight</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Build graph</span><span class="w">
+</span><span class="n">g</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">graph_from_data_frame</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span><span class="w"> </span><span class="n">directed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Assign node types</span><span class="w">
+</span><span class="n">V</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">$</span><span class="n">type</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">$</span><span class="n">name</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">unique</span><span class="p">(</span><span class="n">agg_df</span><span class="o">$</span><span class="n">MAG</span><span class="p">),</span><span class="w"> </span><span class="s2">"MAG"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Category"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Calculate node degree</span><span class="w">
+</span><span class="n">V</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">$</span><span class="n">degree</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">degree</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-3-visualize-the-network">Step 3: Visualize the Network</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span><span class="w">  </span><span class="c1"># For reproducibility</span><span class="w">
+
+</span><span class="n">ggraph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fr"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_edge_link</span><span class="p">(</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">weight</span><span class="p">),</span><span class="w">
+    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_node_point</span><span class="p">(</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">degree</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">type</span><span class="p">),</span><span class="w">
+    </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_node_text</span><span class="p">(</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">),</span><span class="w">
+    </span><span class="n">repel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+    </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
+    </span><span class="n">fontface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_edge_width</span><span class="p">(</span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">guide</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_edge_alpha</span><span class="p">(</span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="m">0.9</span><span class="p">),</span><span class="w"> </span><span class="n">guide</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_size</span><span class="p">(</span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">16</span><span class="p">),</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Degree"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="w">
+    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"MAG"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#377eb8"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Category"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#e41a1c"</span><span class="p">),</span><span class="w">
+    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Node Type"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_void</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="p">,</span><span class="w">
+    </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">"MAG–Category Co-Metabolism Network"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2><img src="/assets/img/conet.png" alt="network" /></h2>
+
+<h2 id="-part-10-how-to-read-the-network">🧠 Part 10: How to Read the Network</h2>
+
+<h3 id="node-interpretation">Node Interpretation</h3>
+
+<p><strong>Category nodes (red):</strong></p>
+
+<ul>
+  <li>Metabolic hubs</li>
+  <li>Node size = number of MAGs connected</li>
+  <li>Larger nodes = more broadly used pathways</li>
+</ul>
+
+<p><strong>MAG nodes (blue):</strong></p>
+
+<ul>
+  <li>Individual genomes</li>
+  <li>Node size = number of pathways engaged</li>
+  <li>Larger nodes = more metabolically integrated genomes</li>
+</ul>
+
+<h3 id="edge-interpretation">Edge Interpretation</h3>
+
+<p><strong>Edge thickness:</strong></p>
+
+<ul>
+  <li>Represents strength of co-metabolic activity</li>
+  <li>Thicker edges = stronger co-expression</li>
+  <li>Thinner edges = weaker or conditional usage</li>
+</ul>
+
+<h2 id="-why-this-matters">🧪 Why This Matters</h2>
+
+<p>This workflow demonstrates that:</p>
+
+<h3 id="1-hydrocarbon-degradation-is-metabolically-embedded">1. <strong>Hydrocarbon Degradation Is Metabolically Embedded</strong></h3>
+
+<ul>
+  <li>Not an isolated function</li>
+  <li>Requires coordinated energy metabolism</li>
+  <li>Supported by central carbon pathways</li>
+</ul>
+
+<h3 id="2-taxa-differ-in-metabolic-integration">2. <strong>Taxa Differ in Metabolic Integration</strong></h3>
+
+<ul>
+  <li>Pseudomonadales: high integration, constitutive expression</li>
+  <li>Burkholderiales: flexible, condition-responsive expression</li>
+  <li>Reflects different ecological strategies</li>
+</ul>
+
+<h3 id="3-co-metabolism-networks-reveal-hidden-structure">3. <strong>Co-Metabolism Networks Reveal Hidden Structure</strong></h3>
+
+<ul>
+  <li>Heatmaps show expression patterns</li>
+  <li>Networks reveal <strong>metabolic integration architecture</strong></li>
+  <li>Essential for understanding microbial community function</li>
+</ul>
+
+<hr />
+
+<h2 id="-when-to-use-each-visualization">🆚 When to Use Each Visualization</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Visualization</th>
+      <th>Best For</th>
+      <th>Data Type</th>
+      <th>Interpretation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Binary heatmap</strong></td>
+      <td>Metabolic potential</td>
+      <td>Presence/absence</td>
+      <td>What is possible?</td>
+    </tr>
+    <tr>
+      <td><strong>Binary heatmap</strong></td>
+      <td>Co-energy</td>
+      <td>Presence/absence</td>
+      <td>Which energy pathways co-occur?</td>
+    </tr>
+    <tr>
+      <td><strong>Scaled heatmap</strong></td>
+      <td>Co-metabolism</td>
+      <td>Gene expression</td>
+      <td>What is used together?</td>
+    </tr>
+    <tr>
+      <td><strong>Network</strong></td>
+      <td>Metabolic integration</td>
+      <td>Aggregated expression</td>
+      <td>How are pathways structurally connected?</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-key-takeaways">📌 Key Takeaways</h2>
+
+<p>✅ <strong>Separate metabolic potential from co-metabolism</strong></p>
+
+<ul>
+  <li>Potential = what’s encoded (genomic)</li>
+  <li>Co-metabolism = what’s expressed (functional)</li>
+</ul>
+
+<p>✅ <strong>Use row scaling (Z-scores) for expression heatmaps</strong></p>
+
+<ul>
+  <li>Standard for gene expression analysis</li>
+  <li>Enables comparison across genes with different expression ranges</li>
+</ul>
+
+<p>✅ <strong>Networks reveal metabolic integration structure</strong></p>
+
+<ul>
+  <li>Complements heatmaps</li>
+  <li>Shows hub pathways and specialist taxa</li>
+</ul>
+
+<p>✅ <strong>Co-metabolism differs strongly across taxa</strong></p>
+
+<ul>
+  <li>Not all hydrocarbon degraders are metabolically equivalent</li>
+  <li>Functional diversity emerges from co-metabolic strategies</li>
+</ul>
+
+<p>✅ <strong>Genome-resolved approaches are essential</strong></p>
+
+<ul>
+  <li>Bulk metagenomics/metatranscriptomics miss this complexity</li>
+  <li>MAG-level resolution reveals individual strategies</li>
+</ul>
+
+<h2 id="-questions">💬 Questions?</h2>
+
+<p><strong>Drop a comment below!</strong> I’m happy to help troubleshoot or discuss adaptations for different systems.</p>]]></content><author><name></name></author><category term="metagenomics" /><category term="MAGs" /><category term="co-metabolism" /><category term="metabolic-flexibility" /><category term="networks" /><category term="R" /><category term="bioinformatics" /><summary type="html"><![CDATA[A comprehensive workflow for analyzing metabolic flexibility, co-energy metabolism, and co-metabolism networks in hydrocarbon-degrading MAGs using heatmaps and network visualization.]]></summary></entry><entry><title type="html">Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp;amp; Functional Annotation</title><link href="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day4/" rel="alternate" type="text/html" title="Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp;amp; Functional Annotation" /><published>2026-01-29T00:00:00-05:00</published><updated>2026-01-29T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day4</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/size-fractionated-microbiome-analysis-day4/"><![CDATA[<h4 id="-size-fractionated-microbiome-analysis--day-4">🌊 Size-Fractionated Microbiome Analysis — Day 4</h4>
 
 <p>In <a href="/blog/size-fractionated-microbiome-analysis-day1/">Day 1</a>, we focused on metagenome preprocessing, in <a href="/blog/size-fractionated-microbiome-analysis-day2/">Day 1</a>, we explored taxonomic profiling using Kaiju, and in <a href="/blog/size-fractionated-microbiome-analysis-day3/">Day 3</a>, we conducted species-level profiling with mOTUs.</p>
 
@@ -4419,434 +5192,4 @@ https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>]]></content><
 
 <p>● Presence–absence plots</p>
 
-<p><strong>If you’re learning bioinformatics or preparing figures for a manuscript, I hope this series helps you visualize your data with confidence.</strong></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of the Visualize Your Data series: understanding when and how to use box plots and violin plots to visualize data distributions in bioinformatics and molecular genomics.]]></summary></entry><entry><title type="html">Whole Genome Sequencing — Day 4: Genome Annotation &amp;amp; Functional Potential</title><link href="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/" rel="alternate" type="text/html" title="Whole Genome Sequencing — Day 4: Genome Annotation &amp;amp; Functional Potential" /><published>2026-01-13T00:00:00-05:00</published><updated>2026-01-13T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/wgs-day4-annotation-function</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/wgs-day4-annotation-function/"><![CDATA[<h1 id="-whole-genome-sequencing--day-4">🧬 Whole Genome Sequencing — Day 4</h1>
-
-<p>Genome Annotation &amp; Functional Potential</p>
-
-<p>👉In Day 1, we cleaned raw reads.
-👉In Day 2, we assembled genomes and evaluated quality and topology.
-👉In Day 3, we placed genomes in a taxonomic and phylogenetic context.</p>
-
-<p>Today, in Day 4, <strong>we answer the most biologically meaningful question:</strong></p>
-
-<p><strong>What can this genome actually do?</strong></p>
-
-<p>This step transforms assembled genomes into functional blueprints by identifying genes, protein domains, pathways, and metabolic capabilities.</p>
-
-<h2 id="-goal-of-day-4">🎯 Goal of Day 4</h2>
-
-<p>Identify genes, pathways, and metabolic potential encoded in genomes</p>
-
-<p>Specifically, we aim to:</p>
-
-<p>✔ Predict protein-coding genes
-✔ Assign functional annotations
-✔ Reconstruct metabolic pathways
-✔ Compare functional potential across many genomes</p>
-
-<p>This workflow is designed for isolate genomes and MAG collections, and scales cleanly to hundreds of genomes.</p>
-
-<h1 id="-annotation-strategy-a-layered-approach">🧪 Annotation Strategy: A Layered Approach</h1>
-
-<p>Genome annotation works best when done in layers, each answering a different question:
-| Layer | Question |
-| —————— | —————————————- |
-| Gene prediction | Where are the genes? |
-| Rapid annotation | What are they likely doing? |
-| Domain annotation | What conserved functions do they encode? |
-| Pathway annotation | How do genes connect into metabolism? |
-| Trait screening | What ecological traits are present? |</p>
-
-<h2 id="-why-genome-annotation-matters">🧠 Why Genome Annotation Matters</h2>
-
-<p>A genome sequence without annotation is just a long string of nucleotides.</p>
-
-<p>Genome annotation enables us to:</p>
-
-<p>● Interpret ecological strategies</p>
-
-<p>● Predict metabolic roles</p>
-
-<p>● Identify functional redundancy or specialization</p>
-
-<p>● Link taxonomy to ecosystem function</p>
-
-<p>● Good annotation is the foundation for:</p>
-
-<p>● Comparative genomics</p>
-
-<p>● Metabolic modeling</p>
-
-<p>● Transcriptomic integration</p>
-
-<p>● Functional redundancy analyses</p>
-
-<h2 id="-annotation-strategy-overview">🧪 Annotation Strategy Overview</h2>
-
-<p>Genome annotation is best approached in layers, not with a single tool.</p>
-
-<p>Layered annotation strategy used here:</p>
-
-<p>1️⃣ Gene prediction – Where are the genes?
-2️⃣ Rapid annotation – What are they likely doing?
-3️⃣ Domain-based annotation – What functional motifs do proteins contain?
-4️⃣ Pathway-level reconstruction – How do genes connect into metabolism?</p>
-
-<h2 id="-tools-used-in-day-4">🧰 Tools Used in Day 4</h2>
-
-<p>🔹 Prokka</p>
-
-<p>Rapid, genome-scale annotation pipeline for bacterial and archaeal genomes.</p>
-
-<p>🔹 Prodigal</p>
-
-<p>Accurate gene prediction engine used internally by many annotation tools.</p>
-
-<p>🔹 InterProScan</p>
-
-<p>Protein domain and motif identification across multiple databases.</p>
-
-<p>🔹 DRAM</p>
-
-<p>High-level metabolic and pathway-centric genome annotation.</p>
-
-<p>Each tool complements the others rather than replacing them.</p>
-
-<h1 id="-step-1-gene-prediction-with-prodigal">🧬 Step 1: Gene Prediction with Prodigal</h1>
-
-<p>Gene prediction identifies open reading frames (ORFs) and defines the basic gene catalog.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prodigal <span class="se">\</span>
-  <span class="nt">-i</span> genome.fasta <span class="se">\</span>
-  <span class="nt">-a</span> genome.faa <span class="se">\</span>
-  <span class="nt">-d</span> genome.fna <span class="se">\</span>
-  <span class="nt">-o</span> genome.genes.gbk <span class="se">\</span>
-  <span class="nt">-p</span> single
-</code></pre></div></div>
-
-<p>Key outputs</p>
-
-<p>● faa → predicted proteins</p>
-
-<p>● fna → nucleotide CDS</p>
-
-<p>● gbk → gene coordinates</p>
-
-<p>Prodigal is:
-✔ Fast
-✔ Accurate
-✔ Well-suited for isolates and high-quality MAGs</p>
-
-<h1 id="-step-2-rapid-genome-annotation-with-prokka">🧬 Step 2: Rapid Genome Annotation with Prokka</h1>
-
-<p>Prokka wraps gene prediction and functional assignment into a single, fast pipeline.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prokka genome.fasta <span class="se">\</span>
-  <span class="nt">--outdir</span> prokka_out <span class="se">\</span>
-  <span class="nt">--prefix</span> genome <span class="se">\</span>
-  <span class="nt">--cpus</span> 16
-</code></pre></div></div>
-
-<p>What Prokka provides</p>
-
-<p>● Gene names and product descriptions</p>
-
-<p>● rRNA, tRNA, tmRNA prediction</p>
-
-<p>● GFF, GenBank, and protein FASTA files</p>
-
-<p>Prokka is ideal for:
-✔ First-pass annotation
-✔ NCBI submissions
-✔ Comparative gene counts</p>
-
-<h1 id="-step-3-protein-domain-annotation-with-interproscan">🧬 Step 3: Protein Domain Annotation with InterProScan</h1>
-
-<p>While Prokka assigns gene names, InterProScan identifies conserved protein domains, which is critical for:</p>
-
-<p>● Novel proteins</p>
-
-<p>● Hypothetical genes</p>
-
-<p>● Functional inference beyond BLAST hits</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interproscan.sh <span class="se">\</span>
-  <span class="nt">-i</span> genome.faa <span class="se">\</span>
-  <span class="nt">-o</span> genome.interpro.tsv <span class="se">\</span>
-  <span class="nt">-f</span> TSV <span class="se">\</span>
-  <span class="nt">-dp</span> <span class="se">\</span>
-  <span class="nt">--cpu</span> 32
-</code></pre></div></div>
-
-<p>Why domain-based annotation matters</p>
-
-<p>● Domains are more conserved than full-length proteins</p>
-
-<p>● Enables functional inference for unknown genes</p>
-
-<p>● Links proteins to GO terms and enzyme classes</p>
-
-<h1 id="-step-4-metabolic--pathway-annotation-with-dram">🧬 Step 4: Metabolic &amp; Pathway Annotation with DRAM</h1>
-
-<p>DRAM integrates multiple databases to reconstruct genome-scale metabolic potential.
-<strong>DRAM annotation</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DRAM.py annotate <span class="se">\</span>
-  <span class="nt">-i</span> genome.fasta <span class="se">\</span>
-  <span class="nt">-o</span> dram_out <span class="se">\</span>
-  <span class="nt">--threads</span> 32
-</code></pre></div></div>
-
-<p>DRAM distillation (summaries)</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DRAM.py distill <span class="se">\</span>
-  <span class="nt">-i</span> dram_out/annotations.tsv <span class="se">\</span>
-  <span class="nt">-o</span> dram_out/genome_summaries
-</code></pre></div></div>
-
-<p>DRAM excels at
-✔ Central carbon metabolism
-✔ Nitrogen, sulfur, hydrogen pathways
-✔ CAZymes and polysaccharide utilization
-✔ Transporters and redox systems</p>
-
-<p>This moves annotation from gene lists → biological interpretation.
-🧠 Focus Areas: Core Metabolic Pathways</p>
-
-<p>DRAM distillation gives details on core metabolic potential, including:</p>
-
-<p>🔹 Energy metabolism</p>
-
-<p>Glycolysis</p>
-
-<p>TCA cycle</p>
-
-<p>Oxidative phosphorylation</p>
-
-<p>Fermentation pathways</p>
-
-<p>🔹 Carbon utilization</p>
-
-<p>Sugar transporters</p>
-
-<p>Polysaccharide degradation</p>
-
-<p>Organic acid metabolism</p>
-
-<p>🔹 Nitrogen &amp; sulfur metabolism</p>
-
-<p>Nitrate/nitrite reduction</p>
-
-<p>Amino acid biosynthesis</p>
-
-<p>Sulfur assimilation</p>
-
-<p><strong>These pathways define how organisms:</strong></p>
-
-<p>● Acquire energy</p>
-
-<p>● Use resources</p>
-
-<p>● Interact with their environment</p>
-
-<h1 id="-scaling-annotation-to-100-genomes">📊 Scaling Annotation to 100+ Genomes</h1>
-
-<p>For large genome sets:</p>
-
-<p>✔ Run Prokka and Prodigal in batch mode
-✔ Use DRAM summaries for comparison tables
-✔ Aggregate pathway presence/absence matrices
-✔ Combine with Day 3 taxonomy and phylogeny</p>
-
-<p>This enables:</p>
-
-<p>● Functional clustering</p>
-
-<p>● Ecological stratification</p>
-
-<p>● Trait-based comparisons</p>
-
-<p><img src="/assets/img/dram.png" alt="dram annotation" /></p>
-
-<h1 id="-trait-based-screening-from-annotation-to-ecology">🔍 Trait-Based Screening: From Annotation to Ecology</h1>
-
-<p>Once annotation is complete, we can screen genomes for specific ecological traits, such as:</p>
-
-<p>● Biofilm formation</p>
-
-<p>● EPS (exopolysaccharide) production</p>
-
-<p>● Motility</p>
-
-<p>● Stress response</p>
-
-<p>● Host or particle association</p>
-
-<p>This is especially powerful for comparative genomics and functional redundancy analyses.</p>
-
-<p><strong>🧬 Example 1: Screening for Biofilm-Related Genes (InterProScan)</strong></p>
-
-<p>Step 1: Create a reference keyword list</p>
-
-<p>Create a simple table (CSV or Excel) with keywords or domain IDs:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Keyword
-biofilm
-adhesion
-fimbrial
-pilus
-curli
-polysaccharide-binding
-</code></pre></div></div>
-
-<p>This can also include:</p>
-
-<p>● Pfam IDs</p>
-
-<p>● GO terms</p>
-
-<p>● InterPro IDs</p>
-
-<p>Step 2: Filter InterProScan results using pandas</p>
-
-<p>You can use filter.py for filtering the annotation file with reference file.
-All codes can be found at :
-https://github.com/jojyjohn28/whole-genome-sequencing-analysis
-This produces a genome-specific list of candidate biofilm genes.</p>
-
-<p><strong>🧬 Example 2: Screening for EPS-Related Genes (DRAM / KEGG)</strong></p>
-
-<p>DRAM outputs include KEGG IDs, CAZymes, and functional descriptions, making them ideal for EPS screening.</p>
-
-<p>Step 1: Prepare a reference list</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Keyword
-exopolysaccharide
-capsule
-glycosyltransferase
-alginate
-cellulose
-levan
-</code></pre></div></div>
-
-<h1 id="-merging-functional-traits-with-quantitative-data">🧬 Merging Functional Traits with Quantitative Data</h1>
-
-<p>Trait screening becomes even more powerful when merged with abundance or expression data.</p>
-
-<p>A generalized version of workflow is given in /scripts as merge.py</p>
-
-<h1 id="-how-keywords-are-used-for-functional-screening">🔑 How Keywords Are Used for Functional Screening</h1>
-
-<p>Many ecological traits (e.g., biofilm formation, EPS production, adhesion, motility) are not represented by a single gene, but by groups of genes, domains, or pathways.
-Keyword-based screening provides a flexible, transparent way to identify such traits across genomes.</p>
-
-<p>Below are two common and complementary approaches.</p>
-
-<p>🧭 Option 1: Build Keyword-Based References from Databases</p>
-
-<p>Keywords can be translated into reference identifiers using established databases.</p>
-
-<p>🔹 InterPro / Pfam (protein domains)</p>
-
-<p>Use keywords on the InterPro or Pfam websites to identify relevant domains:</p>
-
-<p>Examples:</p>
-
-<p>● biofilm → adhesion domains, pili, fimbriae</p>
-
-<p>● EPS → glycosyltransferases, polysaccharide biosynthesis proteins</p>
-
-<p>You can then screen InterProScan outputs using:</p>
-
-<p>● InterPro IDs</p>
-
-<p>● Pfam accessions</p>
-
-<p>● Domain descriptions</p>
-
-<p>This approach is robust for trait-level inference, even when gene names are ambiguous.</p>
-
-<p>🔹 KEGG (pathways &amp; enzymes)</p>
-
-<p>KEGG keywords can be used to identify:</p>
-
-<p>● Pathway modules (e.g., polysaccharide biosynthesis)</p>
-
-<p>● Enzyme classes (e.g., glycosyltransferases)</p>
-
-<p>● KO identifiers linked to EPS or biofilm pathways</p>
-
-<p>DRAM outputs already integrate KEGG annotations, making KEGG-based screening especially convenient.</p>
-
-<h1 id="️-option-2-create-a-keyword-filter-list-and-screen-locally">🗂️ Option 2: Create a Keyword Filter List and Screen Locally</h1>
-
-<p>For large genome sets, a practical approach is to create a simple keyword reference file and use it to filter annotation outputs.</p>
-
-<p>Example keyword list (trait_keywords.txt):</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>biofilm
-adhesion
-pilus
-fimbrial
-exopolysaccharide
-capsule
-glycosyltransferase
-alginate
-cellulose
-</code></pre></div></div>
-
-<p>This file can be reused across:</p>
-
-<p>● InterProScan outputs</p>
-
-<p>● DRAM annotations</p>
-
-<p>● Prokka product descriptions</p>
-
-<h1 id="-example-keyword-based-screening-in-r">📊 Example: Keyword-Based Screening in R</h1>
-
-<p>You can use screening_traits.R as minimal R workflow for screening annotation tables using keywords.</p>
-
-<p>What this does</p>
-
-<p>● Searches annotation descriptions for any keyword match</p>
-
-<p>● Returns a genome-specific list of candidate trait genes</p>
-
-<p>● Scales easily to hundreds of genomes</p>
-
-<h1 id="-best-practices">🧠 Best Practices</h1>
-
-<p>● Use keywords + domain IDs when possible</p>
-
-<p>● Keep keyword lists transparent and version-controlled</p>
-
-<p>● Treat results as hypothesis-generating, not definitive proof</p>
-
-<p>● Combine with pathway context (DRAM) and expression data when available</p>
-
-<p>This keyword-driven approach bridges the gap between raw annotation tables and ecological interpretation, making it especially powerful for comparative genomics and other downstream analyses.</p>
-
-<h2 id="-key-takeaways-from-day-4">🧠 Key Takeaways from Day 4</h2>
-
-<p>● Annotation works best in layers
-● Prodigal ensures accurate gene prediction
-● Prokka provides rapid functional context
-● InterProScan enables trait-level screening
-● DRAM connects genes into metabolic pathways
-● Simple keyword-based filtering can reveal powerful ecological insights</p>
-
-<h2 id="-coming-up-day-5">🔜 Coming Up: Day 5</h2>
-
-<p>Day 5 — Comparative Genomics &amp; Functional Comparisons</p>
-
-<p>We’ll integrate taxonomy (Day 3) and function (Day 4) to compare genomes across environments, clades, and ecological strategies.</p>
-
-<p>All codes can be found at :
-https://github.com/jojyjohn28/whole-genome-sequencing-analysis</p>
-
-<p><strong>These functional screening results can be combined with genome taxonomy and phylogeny and used as annotation layers in iTOL.</strong>
-For example, the figure below illustrates biofilm-related gene screening across 200+ genomes, where the presence or absence of biofilm-associated traits is overlaid onto the phylogenomic tree as metadata strips or heatmaps.
-This integration allows rapid visualization of how functional traits are distributed across taxonomic lineages and evolutionary clades, enabling direct comparison of functional potential within and between groups.</p>
-
-<p><img src="/assets/img/d3.png" alt="phylo and function" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.]]></summary></entry></feed>
+<p><strong>If you’re learning bioinformatics or preparing figures for a manuscript, I hope this series helps you visualize your data with confidence.</strong></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 1 of the Visualize Your Data series: understanding when and how to use box plots and violin plots to visualize data distributions in bioinformatics and molecular genomics.]]></summary></entry></feed>

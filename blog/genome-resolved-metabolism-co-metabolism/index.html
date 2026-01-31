@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Genome-Resolved Metabolism: From Metabolic Potential to Co-Metabolism Networks | Jojy John
+    
+  
+</title>
+<meta name="author" content="Jojy John">
+<meta name="description" content="A comprehensive workflow for analyzing metabolic flexibility, co-energy metabolism, and co-metabolism networks in hydrocarbon-degrading MAGs using heatmaps and network visualization.">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="" integrity="" crossorigin="anonymous">
+
+<!-- Bootstrap Table -->
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" type="text/css" href="">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+<!-- pseudocode -->
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/genome-resolved-metabolism-co-metabolism/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+<!-- GeoJSON support via Leaflet -->
+
+
+<!-- diff2html -->
+
+
+
+
+
+
+<!-- GoatCounter analytics -->
+<script data-goatcounter="https://jojyjohn28.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Jojy</span>
+            
+            
+            John
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">Jojy John
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/mentoring/">Mentoring
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/collaborations/">Collaboration
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/repositories/">Repositories
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Genome-Resolved Metabolism: From Metabolic Potential to Co-Metabolism Networks</h1>
+    <p class="post-meta">
+      Created in January 30, 2026
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/tag/metagenomics"> <i class="fa-solid fa-hashtag fa-sm"></i> metagenomics </a>
+          
+           
+        
+          
+            <a href="/blog/tag/mags"> <i class="fa-solid fa-hashtag fa-sm"></i> MAGs </a>
+          
+           
+        
+          
+            <a href="/blog/tag/co-metabolism"> <i class="fa-solid fa-hashtag fa-sm"></i> co-metabolism </a>
+          
+           
+        
+          
+            <a href="/blog/tag/metabolic-flexibility"> <i class="fa-solid fa-hashtag fa-sm"></i> metabolic-flexibility </a>
+          
+           
+        
+          
+            <a href="/blog/tag/networks"> <i class="fa-solid fa-hashtag fa-sm"></i> networks </a>
+          
+           
+        
+          
+            <a href="/blog/tag/r"> <i class="fa-solid fa-hashtag fa-sm"></i> R </a>
+          
+           
+        
+          
+            <a href="/blog/tag/bioinformatics"> <i class="fa-solid fa-hashtag fa-sm"></i> bioinformatics </a>
+          
+          
+        
+      
+
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    <div id="markdown-content">
+      <h1 id="-genome-resolved-metabolism-from-metabolic-potential-to-co-metabolism-networks">🧬 Genome-Resolved Metabolism: From Metabolic Potential to Co-Metabolism Networks</h1>
+
+<p>Hydrocarbon degradation is rarely a standalone process. In microbial genomes, it is embedded within broader metabolic frameworks that support energy conservation, redox balance, and carbon flow.</p>
+
+<p>In this post, I walk through a complete workflow for analyzing <strong>metabolic potential</strong>, <strong>co-energy metabolism</strong>, and <strong>co-metabolism networks</strong> in hydrocarbon-degrading MAGs—starting from marker gene detection and ending with bipartite network visualization.</p>
+
+<p>This workflow is directly applicable to metagenome-assembled genomes (MAGs) and is essential for functional ecology, biogeochemistry, and multi-omics studies.</p>
+
+<hr>
+
+<h2 id="-what-are-we-trying-to-answer">🎯 What Are We Trying to Answer?</h2>
+
+<p>Three related but distinct questions drive this analysis:</p>
+
+<h3 id="1-metabolic-potential">1. <strong>Metabolic Potential</strong>
+</h3>
+
+<p><em>What other metabolic capabilities are encoded in MAGs that contain hydrocarbon degradation genes?</em></p>
+
+<p>This asks: <strong>What is possible?</strong></p>
+
+<h3 id="2-co-energy-metabolism">2. <strong>Co-Energy Metabolism</strong>
+</h3>
+
+<p><em>Which energy generation and conservation pathways co-occur with hydrocarbon degradation?</em></p>
+
+<p>This asks: <strong>How is degradation energetically supported?</strong></p>
+
+<h3 id="3-co-metabolism">3. <strong>Co-Metabolism</strong>
+</h3>
+
+<p><em>Which metabolic pathways are actively expressed together within the same genome?</em></p>
+
+<p>This asks: <strong>What is actually used together?</strong></p>
+
+<p>These questions require different analytical approaches:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Data Type</th>
+      <th>Visualization</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Metabolic potential</td>
+      <td>Gene presence/absence</td>
+      <td>Binary heatmap</td>
+    </tr>
+    <tr>
+      <td>Co-energy</td>
+      <td>Gene presence/absence</td>
+      <td>Binary heatmap</td>
+    </tr>
+    <tr>
+      <td>Co-metabolism</td>
+      <td>Gene expression</td>
+      <td>Scaled heatmap + Network</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="-part-1-identifying-hydrocarbon-degrading-mags">🧪 Part 1: Identifying Hydrocarbon-Degrading MAGs</h2>
+
+<p>We first subset MAGs that contain <strong>at least one hydrocarbon degradation gene</strong> (e.g., <em>alkB</em>, <em>bssA</em>, <em>assA</em>, or DSR-associated alkyl pathways).</p>
+
+<p>These MAGs form the foundation for all downstream analyses.</p>
+
+<h2 id="-part-2-assessing-metabolic-flexibility">🔍 Part 2: Assessing Metabolic Flexibility</h2>
+
+<p><strong>Metabolic flexibility</strong> describes the capacity of a genome to encode and potentially utilize multiple metabolic pathways simultaneously, allowing organisms to adapt to fluctuating environmental conditions and substrate availability.</p>
+
+<h3 id="-step-by-step-workflow">🧬 Step-by-Step Workflow</h3>
+
+<h4 id="step-1-download-metabolic-marker-gene-sets"><strong>Step 1: Download Metabolic Marker Gene Sets</strong></h4>
+
+<p>We downloaded curated metabolic marker protein sequences from the <a href="https://bridges.monash.edu/collections/Greening_lab_metabolic_marker_gene_databases/5230745" rel="external nofollow noopener" target="_blank">Greening Lab Metabolic Marker Database</a>, which includes high-confidence markers for:</p>
+
+<ul>
+  <li>
+<strong>Respiration</strong> (aerobic and anaerobic)</li>
+  <li>
+<strong>Sulfur cycling</strong> (oxidation and reduction)</li>
+  <li>
+<strong>Nitrogen cycling</strong> (fixation, nitrification, denitrification)</li>
+  <li>
+<strong>Carbon fixation</strong> (CBB cycle, rTCA, Wood-Ljungdahl)</li>
+  <li>
+<strong>Phototrophy</strong> (photosystems, reaction centers)</li>
+</ul>
+
+<h4 id="step-2-build-a-diamond-database"><strong>Step 2: Build a DIAMOND Database</strong></h4>
+
+<p>The downloaded marker protein sequences were combined into a single FASTA file and formatted as a DIAMOND database:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>diamond makedb <span class="se">\</span>
+  <span class="nt">--in</span> metabolic_markers.faa <span class="se">\</span>
+  <span class="nt">--db</span> metabolic_markers <span class="se">\</span>
+  <span class="nt">--threads</span> 16
+</code></pre></div></div>
+
+<h4 id="step-3-predict-proteins-from-mags"><strong>Step 3: Predict Proteins from MAGs</strong></h4>
+
+<p>Protein-coding genes were predicted from MAGs using Prodigal:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prodigal <span class="se">\</span>
+  <span class="nt">-i</span> MAGs.fna <span class="se">\</span>
+  <span class="nt">-a</span> MAGs_proteins.faa <span class="se">\</span>
+  <span class="nt">-p</span> meta <span class="se">\</span>
+  <span class="nt">-q</span>
+</code></pre></div></div>
+
+<h4 id="step-4-search-mag-proteins-against-metabolic-markers"><strong>Step 4: Search MAG Proteins Against Metabolic Markers</strong></h4>
+
+<p>Predicted proteins from each MAG were queried against the metabolic marker database using DIAMOND BLASTp:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>diamond blastp <span class="se">\</span>
+  <span class="nt">--query</span> MAGs_proteins.faa <span class="se">\</span>
+  <span class="nt">--db</span> metabolic_markers <span class="se">\</span>
+  <span class="nt">--out</span> metabolic_hits.tsv <span class="se">\</span>
+  <span class="nt">--outfmt</span> 6 qseqid sseqid pident length evalue bitscore <span class="se">\</span>
+  <span class="nt">--evalue</span> 1e-5 <span class="se">\</span>
+  <span class="nt">--max-target-seqs</span> 1 <span class="se">\</span>
+  <span class="nt">--threads</span> 16
+</code></pre></div></div>
+
+<h4 id="step-5-summarize-metabolic-marker-presence"><strong>Step 5: Summarize Metabolic Marker Presence</strong></h4>
+
+<p>DIAMOND hits were parsed to generate a <strong>MAG × metabolic marker table</strong>, summarizing:</p>
+
+<ul>
+  <li>Presence/absence of each metabolic marker</li>
+  <li>Number of marker genes per metabolic process per MAG</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Parse DIAMOND output</span>
+<span class="nb">awk</span> <span class="s1">'{print $1,$2}'</span> metabolic_hits.tsv | <span class="se">\</span>
+  <span class="nb">sed</span> <span class="s1">'s/_.*//'</span> | <span class="se">\</span>
+  <span class="nb">sort</span> <span class="nt">-u</span> <span class="o">&gt;</span> MAG_marker_presence.tsv
+</code></pre></div></div>
+
+<p>This table forms the basis for downstream analyses of <strong>metabolic potential</strong> and <strong>metabolic flexibility</strong>.</p>
+
+<hr>
+
+<h2 id="-part-3-visualizing-metabolic-potential">📊 Part 3: Visualizing Metabolic Potential</h2>
+
+<h3 id="what-does-this-show">What Does This Show?</h3>
+
+<p>For each hydrocarbon-degrading MAG, we determine whether it encodes key marker genes for:</p>
+
+<ul>
+  <li>
+<strong>Respiration</strong> (terminal oxidases, electron transport)</li>
+  <li>
+<strong>Sulfur cycling</strong> (sulfur oxidation, sulfate reduction)</li>
+  <li>
+<strong>Nitrogen cycling</strong> (nitrogen fixation, denitrification)</li>
+  <li>
+<strong>Carbon fixation</strong> (autotrophic pathways)</li>
+  <li>
+<strong>Phototrophy</strong> (light harvesting, energy conversion)</li>
+</ul>
+
+<p><strong>This is genomic potential—not expression.</strong></p>
+
+<h3 id="-input-format-example">📁 Input Format (Example)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>MAG</th>
+      <th>Order</th>
+      <th>Gene</th>
+      <th>Process</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MAG_01</td>
+      <td>Burkholderiales</td>
+      <td>AtpA</td>
+      <td>Respiration</td>
+    </tr>
+    <tr>
+      <td>MAG_01</td>
+      <td>Burkholderiales</td>
+      <td>Sqr</td>
+      <td>Sulfur cycle</td>
+    </tr>
+    <tr>
+      <td>MAG_02</td>
+      <td>Pseudomonadales</td>
+      <td>NarG</td>
+      <td>Nitrogen cycle</td>
+    </tr>
+    <tr>
+      <td>MAG_02</td>
+      <td>Pseudomonadales</td>
+      <td>RuBisCO</td>
+      <td>Carbon fixation</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="-presenceabsence-heatmap-in-r">📊 Presence–Absence Heatmap in R</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Read metabolic potential data</span><span class="w">
+</span><span class="n">metabolic_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"MAG_metabolic_markers.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Create binary matrix: 1 = gene present, 0 = absent</span><span class="w">
+</span><span class="n">pot_mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metabolic_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">present</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_wider</span><span class="p">(</span><span class="w">
+    </span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAG</span><span class="p">,</span><span class="w">
+    </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">present</span><span class="p">,</span><span class="w">
+    </span><span class="n">values_fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">pot_mat</span><span class="p">[,</span><span class="w"> </span><span class="m">-1</span><span class="p">])</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pot_mat</span><span class="o">$</span><span class="n">Gene</span><span class="w">
+
+</span><span class="c1"># Create heatmap</span><span class="w">
+</span><span class="n">pheatmap</span><span class="p">(</span><span class="w">
+  </span><span class="n">mat</span><span class="p">,</span><span class="w">
+  </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="s2">"steelblue"</span><span class="p">),</span><span class="w">
+  </span><span class="n">cluster_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+  </span><span class="n">cluster_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">show_rownames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">show_colnames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">fontsize_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w">
+  </span><span class="n">fontsize_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w">
+  </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Metabolic Potential of Hydrocarbon-Degrading MAGs"</span><span class="p">,</span><span class="w">
+  </span><span class="n">cellwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w">
+  </span><span class="n">cellheight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/img/energy.png" alt="energy"></p>
+
+<h3 id="-interpretation">🧠 Interpretation</h3>
+
+<p><strong>Key findings:</strong></p>
+
+<p>✅ <strong>Respiration genes</strong> are widespread across most MAGs<br>
+✅ <strong>Sulfur and nitrogen cycling genes</strong> are patchy and taxon-specific<br>
+✅ <strong>Carbon fixation and phototrophy</strong> are restricted to a subset of genomes</p>
+
+<p><strong>Key insight:</strong><br>
+Hydrocarbon degradation occurs within <strong>metabolically diverse genomic backgrounds</strong>, not a single conserved metabolic blueprint.</p>
+
+<hr>
+
+<h2 id="-part-4-co-energy-metabolism-analysis">⚡ Part 4: Co-Energy Metabolism Analysis</h2>
+
+<h3 id="what-is-co-energy">What Is Co-Energy?</h3>
+
+<p><strong>Co-energy</strong> examines which <strong>energy generation and conservation pathways</strong> co-occur with hydrocarbon degradation in the same genome.</p>
+
+<p>Key pathways analyzed:</p>
+
+<ul>
+  <li>
+<strong>Aerobic respiration</strong> (cytochrome c oxidases)</li>
+  <li>
+<strong>Anaerobic respiration</strong> (nitrate, sulfate, Fe(III) reduction)</li>
+  <li>
+<strong>Fermentation</strong> (substrate-level phosphorylation)</li>
+  <li>
+<strong>ATP synthase</strong> (energy conservation)</li>
+</ul>
+
+<h3 id="-co-energy-heatmap">📊 Co-Energy Heatmap</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Subset to energy-related markers only</span><span class="w">
+</span><span class="n">energy_genes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+  </span><span class="s2">"coxA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"coxB"</span><span class="p">,</span><span class="w"> </span><span class="s2">"cydA"</span><span class="p">,</span><span class="w">           </span><span class="c1"># Aerobic respiration</span><span class="w">
+  </span><span class="s2">"narG"</span><span class="p">,</span><span class="w"> </span><span class="s2">"napA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"nirK"</span><span class="p">,</span><span class="w"> </span><span class="s2">"nosZ"</span><span class="p">,</span><span class="w">   </span><span class="c1"># Denitrification</span><span class="w">
+  </span><span class="s2">"dsrA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"aprA"</span><span class="p">,</span><span class="w">                   </span><span class="c1"># Sulfate reduction</span><span class="w">
+  </span><span class="s2">"atpA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"atpD"</span><span class="p">,</span><span class="w">                   </span><span class="c1"># ATP synthase</span><span class="w">
+  </span><span class="s2">"pdhA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ackA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pta"</span><span class="w">             </span><span class="c1"># Fermentation</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">energy_mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mat</span><span class="p">[</span><span class="n">rownames</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">energy_genes</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="n">pheatmap</span><span class="p">(</span><span class="w">
+  </span><span class="n">energy_mat</span><span class="p">,</span><span class="w">
+  </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#d95f02"</span><span class="p">),</span><span class="w">
+  </span><span class="n">cluster_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">cluster_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Co-Energy: Energy Pathways in HC-Degrading MAGs"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Key insight:</strong><br>
+Energy metabolism is <strong>heterogeneous</strong> across hydrocarbon-degrading taxa, suggesting niche partitioning along redox gradients.</p>
+
+<hr>
+
+<h2 id="-part-5-from-potential-to-co-metabolism">🔥 Part 5: From Potential to Co-Metabolism</h2>
+
+<p><strong>Metabolic potential</strong> tells us <strong>what is possible</strong>.<br>
+<strong>Co-metabolism</strong> asks <strong>what is used together</strong>.</p>
+
+<p>We now shift from <strong>presence/absence</strong> to <strong>gene expression</strong> data.</p>
+
+<h3 id="focus-five-core-metabolic-categories">Focus: Five Core Metabolic Categories</h3>
+
+<ol>
+  <li>
+<strong>Hydrocarbon degradation</strong> — Primary substrate utilization</li>
+  <li>
+<strong>C1 metabolism</strong> — Single-carbon compound cycling</li>
+  <li>
+<strong>Complex carbon degradation</strong> — Polymeric substrate breakdown</li>
+  <li>
+<strong>Fermentation</strong> — Anaerobic energy generation</li>
+  <li>
+<strong>Central carbon metabolism</strong> — Glycolysis, TCA cycle, pentose phosphate pathway</li>
+</ol>
+
+<hr>
+
+<h2 id="-part-6-prepare-expression-data">📥 Part 6: Prepare Expression Data</h2>
+
+<h3 id="data-structure">Data Structure</h3>
+
+<p>Expression data should contain:</p>
+
+<ul>
+  <li>
+<strong>MAG identifiers</strong> (e.g., Burkholderiales_MAG_10)</li>
+  <li>
+<strong>Gene names</strong> (e.g., enolase, citrate synthase)</li>
+  <li>
+<strong>Metabolic categories</strong> (e.g., Central carbon metabolism)</li>
+  <li>
+<strong>Sample-specific counts</strong> (raw counts or TPM values)</li>
+</ul>
+
+<h3 id="r-code-for-data-preparation">R Code for Data Preparation</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Load expression data</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"Burk_gene_summed_filtered.xlsx"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Clean column names</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">gsub</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="s2">"_"</span><span class="p">,</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">df</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1"># Preserve raw categories for QC</span><span class="w">
+</span><span class="n">df</span><span class="o">$</span><span class="n">category_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="w">
+
+</span><span class="c1"># Define metadata vs count columns</span><span class="w">
+</span><span class="n">meta_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"mags"</span><span class="p">,</span><span class="w"> </span><span class="s2">"order"</span><span class="p">,</span><span class="w"> </span><span class="s2">"gene.name"</span><span class="p">,</span><span class="w"> </span><span class="s2">"category"</span><span class="p">,</span><span class="w"> </span><span class="s2">"category_raw"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pathway"</span><span class="p">)</span><span class="w">
+</span><span class="n">count_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">setdiff</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">df</span><span class="p">),</span><span class="w"> </span><span class="n">meta_cols</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Convert counts to numeric</span><span class="w">
+</span><span class="n">df</span><span class="p">[</span><span class="n">count_cols</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">count_cols</span><span class="p">],</span><span class="w"> </span><span class="n">as.numeric</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Check for NA values</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">any</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">count_cols</span><span class="p">])))</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">stop</span><span class="p">(</span><span class="s2">"❌ NA values found in count columns — check input file"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="critical-qc-step-standardize-categories">Critical QC Step: Standardize Categories</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Normalize category names</span><span class="w">
+</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">category_raw</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">str_trim</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">str_to_lower</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">str_replace_all</span><span class="p">(</span><span class="s2">"\\s+"</span><span class="p">,</span><span class="w"> </span><span class="s2">" "</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Recode to standard names</span><span class="w">
+</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
+  </span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="s2">"hydrocarbon"</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Hydrocarbon degradation"</span><span class="p">,</span><span class="w">
+  </span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="s2">"^c1"</span><span class="p">)</span><span class="w">         </span><span class="o">~</span><span class="w"> </span><span class="s2">"C1 metabolism"</span><span class="p">,</span><span class="w">
+  </span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="s2">"complex"</span><span class="p">)</span><span class="w">     </span><span class="o">~</span><span class="w"> </span><span class="s2">"Complex carbon degradation"</span><span class="p">,</span><span class="w">
+  </span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="s2">"ferment"</span><span class="p">)</span><span class="w">     </span><span class="o">~</span><span class="w"> </span><span class="s2">"Fermentation"</span><span class="p">,</span><span class="w">
+  </span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="s2">"central"</span><span class="p">)</span><span class="w">     </span><span class="o">~</span><span class="w"> </span><span class="s2">"Central carbon metabolism"</span><span class="p">,</span><span class="w">
+  </span><span class="kc">TRUE</span><span class="w">                                   </span><span class="o">~</span><span class="w"> </span><span class="kc">NA_character_</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Remove uncategorized genes</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"\n📊 Category distribution BEFORE removing NAs:\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">useNA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"ifany"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">category</span><span class="p">))</span><span class="w">
+
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"\n✅ Category distribution AFTER removing NAs:\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">useNA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"ifany"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Why this matters:</strong><br>
+Inconsistent category names (e.g., “Hydrocarbon Degradation” vs “hydrocarbon degradation”) will create duplicate categories and an “NA” group in your heatmap legend.</p>
+
+<h3 id="create-factor-levels">Create Factor Levels</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="w">
+  </span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w">
+  </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"Hydrocarbon degradation"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"C1 metabolism"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Complex carbon degradation"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Fermentation"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Central carbon metabolism"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="log2-transform-expression-data">Log2 Transform Expression Data</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Create expression matrix</span><span class="w">
+</span><span class="n">mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">df</span><span class="p">[,</span><span class="w"> </span><span class="n">count_cols</span><span class="p">])</span><span class="w">
+
+</span><span class="c1"># Create unique gene IDs</span><span class="w">
+</span><span class="n">df</span><span class="o">$</span><span class="n">gene_id</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">make.unique</span><span class="p">(</span><span class="w">
+  </span><span class="n">paste</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">mags</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">gene.name</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"|"</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">gene_id</span><span class="w">
+
+</span><span class="c1"># Log2 transform: stabilizes variance, makes patterns visible</span><span class="w">
+</span><span class="n">mat_log</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">log2</span><span class="p">(</span><span class="n">mat</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Why log2(x + 1)?</strong></p>
+
+<ul>
+  <li>Stabilizes variance across expression ranges</li>
+  <li>Makes patterns more visible</li>
+  <li>The “+1” prevents log(0) = -∞ (pseudocount)</li>
+  <li><strong>Standard for RNA-seq and metatranscriptomics</strong></li>
+</ul>
+
+<hr>
+
+<h2 id="-part-7-co-metabolism-heatmap-row-scaled">🎨 Part 7: Co-Metabolism Heatmap (Row-Scaled)</h2>
+
+<h3 id="row-scaling-the-critical-decision">Row Scaling: The Critical Decision</h3>
+
+<p><strong>Row scaling</strong> converts expression values to <strong>Z-scores</strong> for each gene:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Z-score = (value - gene_mean) / gene_standard_deviation
+</code></pre></div></div>
+
+<p><strong>Why use row scaling?</strong></p>
+
+<ul>
+  <li>✅ Genes have vastly different expression levels</li>
+  <li>✅ Highlights <strong>relative patterns</strong> within each gene</li>
+  <li>✅ Makes all genes visually comparable</li>
+  <li>✅ <strong>Standard for gene expression publications</strong>
+</li>
+</ul>
+
+<p><strong>Color interpretation:</strong></p>
+
+<ul>
+  <li>
+<strong>Blue (negative)</strong>: Gene is expressed <strong>below</strong> its own average</li>
+  <li>
+<strong>White (zero)</strong>: Gene is at its average expression</li>
+  <li>
+<strong>Red (positive)</strong>: Gene is expressed <strong>above</strong> its own average</li>
+</ul>
+
+<h3 id="prepare-row-annotations">Prepare Row Annotations</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Extract MAG number</span><span class="w">
+</span><span class="n">df</span><span class="o">$</span><span class="n">mag_num</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="w">
+  </span><span class="n">str_extract</span><span class="p">(</span><span class="n">tolower</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">mags</span><span class="p">),</span><span class="w"> </span><span class="s2">"(?&lt;=_mag_)\\d+"</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Remove rows with unextractable MAG numbers</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">any</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">mag_num</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">mag_num</span><span class="p">))</span><span class="w">
+  </span><span class="n">mat_log</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mat_log</span><span class="p">[</span><span class="n">rownames</span><span class="p">(</span><span class="n">mat_log</span><span class="p">)</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">gene_id</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1"># Order by MAG, then category</span><span class="w">
+</span><span class="n">row_order</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">order</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">mag_num</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">category</span><span class="p">)</span><span class="w">
+</span><span class="n">heat_sorted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mat_log</span><span class="p">[</span><span class="n">row_order</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="n">df_sorted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">row_order</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># Create annotation data frame</span><span class="w">
+</span><span class="n">ann_row</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">MAG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">df_sorted</span><span class="o">$</span><span class="n">mag_num</span><span class="p">),</span><span class="w">
+  </span><span class="n">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_sorted</span><span class="o">$</span><span class="n">category</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">ann_row</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">heat_sorted</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="define-color-schemes">Define Color Schemes</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ann_colors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="w">
+  </span><span class="n">MAG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">setNames</span><span class="p">(</span><span class="w">
+    </span><span class="n">rainbow</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">df_sorted</span><span class="o">$</span><span class="n">mag_num</span><span class="p">))),</span><span class="w">
+    </span><span class="n">sort</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">df_sorted</span><span class="o">$</span><span class="n">mag_num</span><span class="p">))</span><span class="w">
+  </span><span class="p">),</span><span class="w">
+  </span><span class="n">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"Hydrocarbon degradation"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#e31a1c"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"C1 metabolism"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#1f78b4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Complex carbon degradation"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#33a02c"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Fermentation"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#ff7f00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Central carbon metabolism"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#6a3d9a"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="clean-sample-labels">Clean Sample Labels</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pretty_labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">toupper</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">heat_sorted</span><span class="p">))</span><span class="w">
+</span><span class="n">pretty_labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span><span class="w"> </span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="n">pretty_labels</span><span class="p">)</span><span class="w">
+</span><span class="n">gene_labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_sorted</span><span class="o">$</span><span class="n">gene.name</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="generate-the-heatmap">Generate the Heatmap</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span><span class="w">
+
+</span><span class="n">pheatmap</span><span class="p">(</span><span class="w">
+  </span><span class="n">heat_sorted</span><span class="p">,</span><span class="w">
+  </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"row"</span><span class="p">,</span><span class="w">                    </span><span class="c1"># Z-score normalization</span><span class="w">
+  </span><span class="n">cluster_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">             </span><span class="c1"># Preserve MAG/category order</span><span class="w">
+  </span><span class="n">cluster_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">             </span><span class="c1"># Preserve sample order</span><span class="w">
+  </span><span class="n">show_rownames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">             </span><span class="c1"># Display gene names</span><span class="w">
+  </span><span class="n">labels_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene_labels</span><span class="p">,</span><span class="w">
+  </span><span class="n">labels_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pretty_labels</span><span class="p">,</span><span class="w">
+  </span><span class="n">angle_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w">
+  </span><span class="n">fontsize_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">                 </span><span class="c1"># Small font for many genes</span><span class="w">
+  </span><span class="n">fontsize_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w">
+  </span><span class="n">gaps_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cumsum</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">df_sorted</span><span class="o">$</span><span class="n">mag_num</span><span class="p">)),</span><span class="w">  </span><span class="c1"># Visual gaps between MAGs</span><span class="w">
+  </span><span class="n">annotation_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ann_row</span><span class="p">,</span><span class="w">
+  </span><span class="n">annotation_colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ann_colors</span><span class="p">,</span><span class="w">
+  </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">colorRampPalette</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"navy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="s2">"firebrick3"</span><span class="p">))(</span><span class="m">100</span><span class="p">),</span><span class="w">
+  </span><span class="n">legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">legend_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">-2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w">
+  </span><span class="n">legend_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"-2"</span><span class="p">,</span><span class="w"> </span><span class="s2">"-1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"2"</span><span class="p">),</span><span class="w">
+  </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Co-Metabolism Gene Expression by MAG"</span><span class="p">,</span><span class="w">
+  </span><span class="n">fontsize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="-legend-interpretation">📖 Legend Interpretation</h3>
+
+<p><strong>Your legend should read:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Abundance
+(Log 2+1)
+Z-score
+</code></pre></div></div>
+
+<p><strong>Values:</strong> -2, -1, 0, 1, 2</p>
+
+<p>These represent <strong>standard deviations from the mean</strong>, NOT:</p>
+
+<ul>
+  <li>❌ Raw counts</li>
+  <li>❌ Fold-changes</li>
+  <li>❌ Absolute abundance</li>
+</ul>
+
+<hr>
+
+<p><img src="/assets/img/cometa.png" alt="co-metabolism"></p>
+
+<h2 id="-part-8-build-a-co-metabolism-network">🌐 Part 8: Build a Co-Metabolism Network</h2>
+
+<p><strong>Heatmaps show patterns.<br>
+Networks reveal structure.</strong></p>
+
+<p>We now convert the expression matrix into a <strong>bipartite network</strong> where:</p>
+
+<ul>
+  <li>
+<strong>Nodes</strong> = MAGs and metabolic categories</li>
+  <li>
+<strong>Edges</strong> = Average co-expression strength between MAG and category</li>
+</ul>
+
+<h3 id="step-1-aggregate-expression-by-mag--category">Step 1: Aggregate Expression by MAG × Category</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">igraph</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggraph</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Calculate mean expression per MAG-category pair</span><span class="w">
+</span><span class="n">agg_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_sorted</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">rowwise</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">mean_expr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">c_across</span><span class="p">(</span><span class="n">all_of</span><span class="p">(</span><span class="n">count_cols</span><span class="p">))))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">MAG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mags</span><span class="p">,</span><span class="w"> </span><span class="n">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">category</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">mean_expr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">mean_expr</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Normalize edge weights</span><span class="w">
+</span><span class="n">agg_df</span><span class="o">$</span><span class="n">weight</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">agg_df</span><span class="o">$</span><span class="n">mean_expr</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">agg_df</span><span class="o">$</span><span class="n">mean_expr</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-2-create-bipartite-graph">Step 2: Create Bipartite Graph</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Create edge list</span><span class="w">
+</span><span class="n">edges</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">agg_df</span><span class="o">$</span><span class="n">MAG</span><span class="p">,</span><span class="w">
+  </span><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">agg_df</span><span class="o">$</span><span class="n">Category</span><span class="p">,</span><span class="w">
+  </span><span class="n">weight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">agg_df</span><span class="o">$</span><span class="n">weight</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Build graph</span><span class="w">
+</span><span class="n">g</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">graph_from_data_frame</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span><span class="w"> </span><span class="n">directed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Assign node types</span><span class="w">
+</span><span class="n">V</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">$</span><span class="n">type</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">$</span><span class="n">name</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">unique</span><span class="p">(</span><span class="n">agg_df</span><span class="o">$</span><span class="n">MAG</span><span class="p">),</span><span class="w"> </span><span class="s2">"MAG"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Category"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Calculate node degree</span><span class="w">
+</span><span class="n">V</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">$</span><span class="n">degree</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">degree</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-3-visualize-the-network">Step 3: Visualize the Network</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span><span class="w">  </span><span class="c1"># For reproducibility</span><span class="w">
+
+</span><span class="n">ggraph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fr"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_edge_link</span><span class="p">(</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">weight</span><span class="p">),</span><span class="w">
+    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_node_point</span><span class="p">(</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">degree</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">type</span><span class="p">),</span><span class="w">
+    </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_node_text</span><span class="p">(</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">),</span><span class="w">
+    </span><span class="n">repel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+    </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
+    </span><span class="n">fontface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_edge_width</span><span class="p">(</span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">guide</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_edge_alpha</span><span class="p">(</span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="m">0.9</span><span class="p">),</span><span class="w"> </span><span class="n">guide</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_size</span><span class="p">(</span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">16</span><span class="p">),</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Degree"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="w">
+    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"MAG"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#377eb8"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Category"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#e41a1c"</span><span class="p">),</span><span class="w">
+    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Node Type"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_void</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="p">,</span><span class="w">
+    </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">"MAG–Category Co-Metabolism Network"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2><img src="/assets/img/conet.png" alt="network"></h2>
+
+<h2 id="-part-10-how-to-read-the-network">🧠 Part 10: How to Read the Network</h2>
+
+<h3 id="node-interpretation">Node Interpretation</h3>
+
+<p><strong>Category nodes (red):</strong></p>
+
+<ul>
+  <li>Metabolic hubs</li>
+  <li>Node size = number of MAGs connected</li>
+  <li>Larger nodes = more broadly used pathways</li>
+</ul>
+
+<p><strong>MAG nodes (blue):</strong></p>
+
+<ul>
+  <li>Individual genomes</li>
+  <li>Node size = number of pathways engaged</li>
+  <li>Larger nodes = more metabolically integrated genomes</li>
+</ul>
+
+<h3 id="edge-interpretation">Edge Interpretation</h3>
+
+<p><strong>Edge thickness:</strong></p>
+
+<ul>
+  <li>Represents strength of co-metabolic activity</li>
+  <li>Thicker edges = stronger co-expression</li>
+  <li>Thinner edges = weaker or conditional usage</li>
+</ul>
+
+<h2 id="-why-this-matters">🧪 Why This Matters</h2>
+
+<p>This workflow demonstrates that:</p>
+
+<h3 id="1-hydrocarbon-degradation-is-metabolically-embedded">1. <strong>Hydrocarbon Degradation Is Metabolically Embedded</strong>
+</h3>
+
+<ul>
+  <li>Not an isolated function</li>
+  <li>Requires coordinated energy metabolism</li>
+  <li>Supported by central carbon pathways</li>
+</ul>
+
+<h3 id="2-taxa-differ-in-metabolic-integration">2. <strong>Taxa Differ in Metabolic Integration</strong>
+</h3>
+
+<ul>
+  <li>Pseudomonadales: high integration, constitutive expression</li>
+  <li>Burkholderiales: flexible, condition-responsive expression</li>
+  <li>Reflects different ecological strategies</li>
+</ul>
+
+<h3 id="3-co-metabolism-networks-reveal-hidden-structure">3. <strong>Co-Metabolism Networks Reveal Hidden Structure</strong>
+</h3>
+
+<ul>
+  <li>Heatmaps show expression patterns</li>
+  <li>Networks reveal <strong>metabolic integration architecture</strong>
+</li>
+  <li>Essential for understanding microbial community function</li>
+</ul>
+
+<hr>
+
+<h2 id="-when-to-use-each-visualization">🆚 When to Use Each Visualization</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Visualization</th>
+      <th>Best For</th>
+      <th>Data Type</th>
+      <th>Interpretation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Binary heatmap</strong></td>
+      <td>Metabolic potential</td>
+      <td>Presence/absence</td>
+      <td>What is possible?</td>
+    </tr>
+    <tr>
+      <td><strong>Binary heatmap</strong></td>
+      <td>Co-energy</td>
+      <td>Presence/absence</td>
+      <td>Which energy pathways co-occur?</td>
+    </tr>
+    <tr>
+      <td><strong>Scaled heatmap</strong></td>
+      <td>Co-metabolism</td>
+      <td>Gene expression</td>
+      <td>What is used together?</td>
+    </tr>
+    <tr>
+      <td><strong>Network</strong></td>
+      <td>Metabolic integration</td>
+      <td>Aggregated expression</td>
+      <td>How are pathways structurally connected?</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="-key-takeaways">📌 Key Takeaways</h2>
+
+<p>✅ <strong>Separate metabolic potential from co-metabolism</strong></p>
+
+<ul>
+  <li>Potential = what’s encoded (genomic)</li>
+  <li>Co-metabolism = what’s expressed (functional)</li>
+</ul>
+
+<p>✅ <strong>Use row scaling (Z-scores) for expression heatmaps</strong></p>
+
+<ul>
+  <li>Standard for gene expression analysis</li>
+  <li>Enables comparison across genes with different expression ranges</li>
+</ul>
+
+<p>✅ <strong>Networks reveal metabolic integration structure</strong></p>
+
+<ul>
+  <li>Complements heatmaps</li>
+  <li>Shows hub pathways and specialist taxa</li>
+</ul>
+
+<p>✅ <strong>Co-metabolism differs strongly across taxa</strong></p>
+
+<ul>
+  <li>Not all hydrocarbon degraders are metabolically equivalent</li>
+  <li>Functional diversity emerges from co-metabolic strategies</li>
+</ul>
+
+<p>✅ <strong>Genome-resolved approaches are essential</strong></p>
+
+<ul>
+  <li>Bulk metagenomics/metatranscriptomics miss this complexity</li>
+  <li>MAG-level resolution reveals individual strategies</li>
+</ul>
+
+<h2 id="-questions">💬 Questions?</h2>
+
+<p><strong>Drop a comment below!</strong> I’m happy to help troubleshoot or discuss adaptations for different systems.</p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      © Copyright 2026
+      Jojy
+      
+      John. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+      
+      
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+    <!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/assets/js/mdb.min.js"></script> -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+    
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  <!-- Medium Zoom JS -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+<!-- Bootstrap Table -->
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+    
+  
+    <!-- MathJax -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          tags: 'ams',
+        },
+      };
+    </script>
+    <script defer type="text/javascript" id="MathJax-script" src="" integrity="" crossorigin="anonymous"></script>
+    <script defer src="" crossorigin="anonymous"></script>
+  
+
+
+    
+
+    
+
+
+
+    
+  <!-- Scrolling Progress Bar -->
+  <script type="text/javascript">
+    /*
+     * This JavaScript code has been adapted from the article
+     * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar,
+     * published on the website https://css-tricks.com on the 7th of May, 2014.
+     * Couple of changes were made to the original code to make it compatible
+     * with the `al-foio` theme.
+     */
+    const progressBar = $('#progress');
+    /*
+     * We set up the bar after all elements are done loading.
+     * In some cases, if the images in the page are larger than the intended
+     * size they'll have on the page, they'll be resized via CSS to accomodate
+     * the desired size. This mistake, however, breaks the computations as the
+     * scroll size is computed as soon as the elements finish loading.
+     * To account for this, a minimal delay was introduced before computing the
+     * values.
+     */
+    window.onload = function () {
+      setTimeout(progressBarSetup, 50);
+    };
+    /*
+     * We set up the bar according to the browser.
+     * If the browser supports the progress element we use that.
+     * Otherwise, we resize the bar thru CSS styling
+     */
+    function progressBarSetup() {
+      if ('max' in document.createElement('progress')) {
+        initializeProgressElement();
+        $(document).on('scroll', function () {
+          progressBar.attr({ value: getCurrentScrollPosition() });
+        });
+        $(window).on('resize', initializeProgressElement);
+      } else {
+        resizeProgressBar();
+        $(document).on('scroll', resizeProgressBar);
+        $(window).on('resize', resizeProgressBar);
+      }
+    }
+    /*
+     * The vertical scroll position is the same as the number of pixels that
+     * are hidden from view above the scrollable area. Thus, a value > 0 is
+     * how much the user has scrolled from the top
+     */
+    function getCurrentScrollPosition() {
+      return $(window).scrollTop();
+    }
+
+    function initializeProgressElement() {
+      let navbarHeight = $('#navbar').outerHeight(true);
+      $('body').css({ 'padding-top': navbarHeight });
+      $('progress-container').css({ 'padding-top': navbarHeight });
+      progressBar.css({ top: navbarHeight });
+      progressBar.attr({
+        max: getDistanceToScroll(),
+        value: getCurrentScrollPosition(),
+      });
+    }
+    /*
+     * The offset between the html document height and the browser viewport
+     * height will be greater than zero if vertical scroll is possible.
+     * This is the distance the user can scroll
+     */
+    function getDistanceToScroll() {
+      return $(document).height() - $(window).height();
+    }
+
+    function resizeProgressBar() {
+      progressBar.css({ width: getWidthPercentage() + '%' });
+    }
+    // The scroll ratio equals the percentage to resize the bar
+    function getWidthPercentage() {
+      return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+    }
+  </script>
+
+
+    
+
+    
+
+    
+
+    
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+    
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?601a2d3465e2a52bec38b600518d5f70"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script>
+    let searchTheme = determineComputedTheme();
+    const ninjaKeys = document.querySelector('ninja-keys');
+
+    if (searchTheme === 'dark') {
+      ninjaKeys.classList.add('dark');
+    } else {
+      ninjaKeys.classList.remove('dark');
+    }
+
+    const openSearchModal = () => {
+      // collapse navbarNav if expanded on mobile
+      const $navbarNav = $('#navbarNav');
+      if ($navbarNav.hasClass('show')) {
+        $navbarNav.collapse('hide');
+      }
+      ninjaKeys.open();
+    };
+  </script>
+  <script>
+    // get the ninja-keys element
+    const ninja = document.querySelector('ninja-keys');
+
+    // add the home and posts menu items
+    ninja.data = [{
+        id: "nav-jojy-john",
+        title: "Jojy John",
+        section: "Navigation",
+        handler: () => {
+          window.location.href = "/";
+        },
+      },{id: "nav-publications",
+              title: "Publications",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/publications/";
+              },
+            },{id: "nav-blog",
+              title: "Blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "nav-projects",
+              title: "Projects",
+              description: "Research projects spanning microbial ecology, genomics, and multi-omics..",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/projects/";
+              },
+            },{id: "nav-mentoring",
+              title: "Mentoring",
+              description: "Graduate, undergraduate, and intern research mentorship in microbial ecology, bioinformatics, and multi-omics analysis.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/mentoring/";
+              },
+            },{id: "nav-collaboration",
+              title: "Collaboration",
+              description: "Interdisciplinary research collaborations in microbial ecology, genomics, bioinformatics, and environmental biotechnology.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/collaborations/";
+              },
+            },{id: "nav-teaching",
+              title: "Teaching",
+              description: "Teaching experience from 2014",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/teaching/";
+              },
+            },{id: "nav-repositories",
+              title: "Repositories",
+              description: "Research code, bioinformatics pipelines, and reproducible workflows.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/repositories/";
+              },
+            },{id: "post-genome-resolved-metabolism-from-metabolic-potential-to-co-metabolism-networks",
+          
+            title: "Genome-Resolved Metabolism: From Metabolic Potential to Co-Metabolism Networks",
+          
+          description: "A comprehensive workflow for analyzing metabolic flexibility, co-energy metabolism, and co-metabolism networks in hydrocarbon-degrading MAGs using heatmaps and network visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-resolved-metabolism-co-metabolism/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-4-gene-catalog-construction-amp-functional-annotation",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp; Functional Annotation",
+          
+          description: "Day 4 of the size-fractionated microbiome series: Building a non-redundant prokaryotic gene catalog from metagenomes using Prodigal, CD-HIT clustering, and eggNOG functional annotation.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day4/";
+            
+          },
+        },{id: "post-bridging-clinical-and-ecological-ml-from-heart-disease-to-soil-ecosystem-multifunctionality",
+          
+            title: "Bridging Clinical and Ecological ML: From Heart Disease to Soil Ecosystem Multifunctionality",
+          
+          description: "Revisiting my masters in datascience project on heart disease prediction to explore Random Forest applications in microbial ecosystem multifunctionality research. A comprehensive comparison of 5 ML algorithms with real results and lessons learned.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/heart-disease-prediction-ml-random-forest/";
+            
+          },
+        },{id: "post-building-custom-humann3-databases-with-struo2-and-gtdb-a-realistic-guide-from-the-trenches",
+          
+            title: "Building Custom HUMAnN3 Databases with Struo2 and GTDB: A Realistic Guide from the...",
+          
+          description: "A comprehensive, honest guide to building custom HUMAnN3 databases using Struo2 with GTDB r220, including all the troubleshooting, workarounds, and lessons learned from 40 hours in the trenches.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/building-custom-humann3-databases-struo2-gtdb/";
+            
+          },
+        },{id: "post-visualize-your-data-day-5-bubble-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 5: Bubble Plots in Bioinformatics",
+          
+          description: "Day 5 of the Visualize Your Data series: using bubble plots to visualize multi-dimensional relationships in genomics and functional ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day5-bubble-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-4-volcano-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 4: Volcano Plots in Bioinformatics",
+          
+          description: "Day 4 of the Visualize Your Data series: mastering volcano plots for differential expression and abundance analysis in bioinformatics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day4-volcano-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-3-ordination-plots-pca-pcoa-nmds-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 3: Ordination Plots (PCA, PCoA, NMDS) in Bioinformatics...",
+          
+          description: "Day 3 of the Visualize Your Data series: exploring PCA, PCoA, and NMDS to visualize sample relationships and community structure in bioinformatics and microbial ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day3-ordination/";
+            
+          },
+        },{id: "post-visualize-your-data-day-2-heatmaps-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 2: Heatmaps in Bioinformatics",
+          
+          description: "Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps,  commonly used in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day2-heatmaps/";
+            
+          },
+        },{id: "post-visualize-your-data-day-1-box-plot-vs-violin-plot-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics...",
+          
+          description: "Day 1 of the Visualize Your Data series: understanding when and how to use box plots and violin plots to visualize data distributions in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day1-box-vs-violin/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-5-comparative-amp-downstream-genomic-analyses",
+          
+            title: "Whole Genome Sequencing — Day 5: Comparative &amp; Downstream Genomic Analyses",
+          
+          description: "Day 5 of the WGS series: moving from individual genomes to comparative insights through pangenome analysis, secondary metabolite screening, and pathogen detection",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day5-comparative-genomics/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-4-genome-annotation-amp-functional-potential",
+          
+            title: "Whole Genome Sequencing — Day 4: Genome Annotation &amp; Functional Potential",
+          
+          description: "Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day4-annotation-function/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-3-taxonomy-phylogeny-amp-genome-similarity",
+          
+            title: "Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp; Genome Similarity",
+          
+          description: "Day 3 of the WGS series: genome-based taxonomy using GTDB-Tk, phylogenomic tree construction, and species/genus boundary testing using ANI, AAI, and dDDH across large genome sets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day3-taxonomy-phylogeny/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-2-genome-assembly-quality-assessment-and-topology",
+          
+            title: "Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology",
+          
+          description: "Day 2 of the WGS series: short- and long-read genome assembly using SPAdes, MEGAHIT, Shovill, and Flye, followed by assembly evaluation with QUAST, GC content visualization, topology assessment, and graph inspection with Bandage.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day2-genome-assembly/";
+            
+          },
+        },{id: "post-whole-genome-analysis-day-1-from-raw-reads-to-clean-assembly-ready-data",
+          
+            title: "Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data...",
+          
+          description: "Day 1 of a whole-genome analysis series covering raw Illumina and Nanopore reads, integrity checks, quality control with FastQC and NanoPlot, and read trimming using Trimmomatic and Cutadapt.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day1-raw-reads-qc/";
+            
+          },
+        },{id: "post-exploring-the-pan-genome-with-panx-a-practical-workflow-for-darpa-isolates",
+          
+            title: "Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates",
+          
+          description: "5 complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/panx-pangenome-analysis/";
+            
+          },
+        },{id: "post-extracting-full-length-16s-rrna-from-bacterial-genomes-using-barrnap",
+          
+            title: "Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap",
+          
+          description: "A quick and reproducible workflow to extract 16S rRNA genes from assembled genomes and validate taxonomy using NCBI BLAST.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/barrnap-16s-extraction/";
+            
+          },
+        },{id: "post-from-genome-assembly-to-novel-species-a-step-by-step-genomic-workflow",
+          
+            title: "From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow",
+          
+          description: "How do we confidently determine whether a newly sequenced genome represents a novel bacterial species?",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/novel-species-a-step-by-step-guide/";
+            
+          },
+        },{id: "post-using-syncthing-tmux-and-git-to-sync-my-bioinformatics-workflow-across-devices",
+          
+            title: "Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices",
+          
+          description: "How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/syncthing-tmux-git-workflow/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-3-species-level-profiling-with-motus",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs",
+          
+          description: "Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day3/";
+            
+          },
+        },{id: "post-genome-topology-and-genome-announcement-reports-a-practical-reviewer-safe-workflow",
+          
+            title: "Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow",
+          
+          description: "A step-by-step guide to answering NCBI genome topology questions and generating a complete, automated genome report table for Genome Resource Announcements.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-topology-and-genome-report/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-2-kaiju-classification-and-extraction-of-bacterial-amp-archaeal-reads",
+          
+            title: "Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial...",
+          
+          description: "Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day2/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-anlaysis-day-1-from-raw-reads-to-clean-data",
+          
+            title: "Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data...",
+          
+          description: "Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day1/";
+            
+          },
+        },{id: "post-amplicon-week-day-6-wrap-up-from-reads-to-insights",
+          
+            title: "Amplicon Week — Day 6: Wrap-Up: From Reads to Insights",
+          
+          description: "Day 6 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day6/";
+            
+          },
+        },{id: "post-amplicon-week-day-5-web-based-microbiome-analysis-with-easy16s",
+          
+            title: "Amplicon Week — Day 5: Web-based microbiome analysis with easy16S",
+          
+          description: "Day 5 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day5/";
+            
+          },
+        },{id: "post-amplicon-week-day-4-functional-prediction-from-amplicon-data-picrust2-tax4fun2-faprotax",
+          
+            title: "Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)...",
+          
+          description: "Day 4 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day4/";
+            
+          },
+        },{id: "post-amplicon-week-day-3-visualization-amp-ecological-analysis-using-qiime2-microeco-r",
+          
+            title: "Amplicon Week — Day 3: Visualization &amp; Ecological Analysis Using QIIME2 + Microeco...",
+          
+          description: "Day 3 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day3/";
+            
+          },
+        },{id: "post-amplicon-week-day-2-qiime2-setup-importing-data-amp-classifier-training",
+          
+            title: "Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training",
+          
+          description: "Day 2 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day2/";
+            
+          },
+        },{id: "post-amplicon-week-day-1-introduction-to-16s-its-18s-12s-and-coi-metabarcoding",
+          
+            title: "Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI...",
+          
+          description: "Day 1 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day1/";
+            
+          },
+        },{id: "post-cleaning-and-preparing-genomes-for-ncbi-submission-a-complete-workflow",
+          
+            title: "Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow",
+          
+          description: "Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/ncbi-submission-cleaning/";
+            
+          },
+        },{id: "post-machine-learning-mag-binning-with-semibin2-and-snakemake-soil-metagenomes",
+          
+            title: "Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)",
+          
+          description: "How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/semibin-snakemake-soil-mag-workflow/";
+            
+          },
+        },{id: "post-installing-amp-setting-up-my-new-linux-laptop-a-real-journey-through-dual-boot-partitions-amp-persistence",
+          
+            title: "Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot,...",
+          
+          description: "A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/dual-booting-with-linux/";
+            
+          },
+        },{id: "post-gtdb-tk-complete-workflow",
+          
+            title: "GTDB-Tk Complete Workflow",
+          
+          description: "A practical walkthrough of GTDB-Tk Complete Workflow",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/gtdbtk-tree-custom/";
+            
+          },
+        },{id: "post-genome-assembly-day-shovill-for-illumina-amp-flye-for-nanopore-reads",
+          
+            title: "Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads",
+          
+          description: "A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-assembly-day/";
+            
+          },
+        },{id: "post-visualizing-genome-assemblies-with-bandage-building-from-source-on-linux",
+          
+            title: "Visualizing Genome Assemblies with Bandage: Building from Source on Linux",
+          
+          description: "A practical guide to installing Bandage from source using Qt and visualizing assembly graphs generated by Flye and Shovill.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-visualization/";
+            
+          },
+        },{id: "post-re-working-figure-5-visualizing-functional-redundancy-fred-across-bays-seasons-and-salinity",
+          
+            title: "Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity",
+          
+          description: "Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/reworking-a-figure-manuscript-revision-story/";
+            
+          },
+        },{id: "post-my-journey-into-microbiology-the-deep-sea-and-bioinformatics",
+          
+            title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics",
+          
+          description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics/";
+            
+          },
+        },{id: "news-aaas-membership-and-science-magazine-subscription-nominated-by-cynthia-y-young-dean-of-college-of-science-clemson-university",
+              title: 'AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of...',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-asm-2025-los-angeles-usa",
+              title: 'Abstract accepted for **ASM 2025**, Los Angeles, USA.',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-aslo-2025-charlotte-usa",
+              title: 'Abstract accepted for **ASLO 2025**, Charlotte, USA',
+              description: "",
+              section: "News",},{id: "news-188-whole-genome-sequences-submitted-to-ncbi",
+              title: '188 whole-genome sequences submitted to NCBI.',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-baseline-evaluation-of-the-toxicity-potential-of-steel-slag-using-the-green-mussel-perna-viridis-for-sustainable-marine-reuse-applications-this-work-was-originally-completed-during-2019-2020-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Baseline evaluation of the toxicity potential of steel...',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-comparative-genomic-and-phenotypic-analysis-of-streptomyces-rochei-sosist-3-isolated-from-the-southern-ocean-this-work-is-a-part-of-colloboration-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Comparative genomic and phenotypic analysis of Streptomyces rochei...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-accepted-𝐀-𝐯𝐞𝐫𝐲-𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥-𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞-today-i-m-sharing-some-happy-news-𝐦𝐲-𝐟𝐢𝐫𝐬𝐭-𝐩𝐨𝐬𝐭𝐝𝐨𝐜𝐭𝐨𝐫𝐚𝐥-𝐩𝐚𝐩𝐞𝐫-𝐡𝐚𝐬-𝐛𝐞𝐞𝐧-𝐚𝐜𝐜𝐞𝐩𝐭𝐞𝐝-𝐢𝐧-𝐈𝐒𝐌𝐄-𝐂𝐨𝐦𝐦𝐮𝐧𝐢𝐜𝐚𝐭𝐢𝐨𝐧𝐬",
+              title: '**A new paper accepted!** “✨ 𝐀 𝐯𝐞𝐫𝐲 𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥 𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞 ✨ Today, I’m sharing...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-accepted-quot-nanoliposome-mediated-co-delivery-of-amoxicillin-and-tazobactam-remediate-intracellular-infection-by-a-multidrug-resistant-salmonella-enterica-serovar-typhimurium-quot-in-nature-journal-of-antibiotics",
+              title: '**A new paper accepted!** &quot;Nanoliposome Mediated Co-delivery of Amoxicillin and Tazobactam Remediate Intracellular...',
+              description: "",
+              section: "News",},{id: "projects-bacteriophages-and-auxiliary-metabolic-genes-of-the-chesapeake-and-delaware-bays",
+              title: 'Bacteriophages and Auxiliary Metabolic Genes of the Chesapeake and Delaware Bays',
+              description: "Integrative viromics using metagenomes, metatranscriptomes, and viral fractions to characterize viral taxonomy, auxiliary metabolic genes, host interactions, and ecosystem function in estuarine systems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Estury_Virome/";
+                },},{id: "projects-microbial-biofouling-interactions-on-autonomous-navy-gliders",
+              title: 'Microbial Biofouling Interactions on Autonomous Navy Gliders',
+              description: "Genome-resolved and metagenomic analysis of marine biofilm communities on autonomous underwater vehicles to design a stable, invasion-resistant synthetic biofilm.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/darpa-biofouling-gliders/";
+                },},{id: "projects-diversity-genomic-studies-and-resistance-mechanisms-of-moderately-halophilic-bacteria",
+              title: 'Diversity, Genomic Studies, and Resistance Mechanisms of Moderately Halophilic Bacteria',
+              description: "Genomic and physiological characterization of halophilic bacteria from salt pan ecosystems to understand stress adaptation, resistance mechanisms, and biotechnological potential.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/diversity_and_genomics/";
+                },},{id: "projects-biological-and-microbial-responses-to-deep-sea-mining-hypoxia-and-anthropogenic-disturbance",
+              title: 'Biological and Microbial Responses to Deep-Sea Mining, Hypoxia, and Anthropogenic Disturbance',
+              description: "Environmental impact assessment of deep-sea mining, monsoon-driven hypoxia, and industrial disturbance using molecular and genomic approaches.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/environmental-impact-assessment/";
+                },},{id: "projects-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays",
+              title: 'Functional Redundancy and Metabolic Flexibility of Microbial Communities in Two Mid-Atlantic Bays',
+              description: "Genome-resolved metagenomic and metatranscriptomic analysis of functional redundancy and metabolic flexibility in estuarine microbial communities from the Chesapeake and Delaware Bays.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/functional-redundancy/";
+                },},{id: "projects-resource-partitioning-and-co-occurrence-of-size-fractionated-microbiomes-in-the-delaware-and-chesapeake-bays",
+              title: 'Resource Partitioning and Co-occurrence of Size-Fractionated Microbiomes in the Delaware and Chesapeake Bays...',
+              description: "Integrative metagenomic and metatranscriptomic analysis of free-living and particle-associated microbial communities to understand resource partitioning, co-occurrence patterns, and functional redundancy in estuarine ecosystems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/size-fractionated-resource-partitioning/";
+                },},{
+            id: 'socials-email',
+            title: 'Send email',
+            section: 'Socials',
+            handler: () => {
+              window.open("mailto:%6A%6F%6A%79%6A@%63%6C%65%6D%73%6F%6E.%65%64%75", "_blank");
+            },
+          },{
+            id: 'socials-orcid',
+            title: 'ORCID',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://orcid.org/0000-0002-8739-9741", "_blank");
+            },
+          },{
+            id: 'socials-google-scholar',
+            title: 'Google Scholar',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://scholar.google.com/citations?user=w74rUUAAAAAJ", "_blank");
+            },
+          },{
+            id: 'socials-github',
+            title: 'GitHub',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://github.com/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-linkedin',
+            title: 'LinkedIn',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://www.linkedin.com/in/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-x',
+            title: 'X',
+            description: 'Twitter',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://twitter.com/JojyJon", "_blank");
+            },
+          },{
+            id: 'socials-rss',
+            title: 'RSS Feed',
+            section: 'Socials',
+            handler: () => {
+              window.open("/feed.xml", "_blank");
+            },
+          },{
+          id: 'light-theme',
+          title: 'Change theme to light',
+          description: 'Change the theme of the site to Light',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("light");
+          },
+        },
+        {
+          id: 'dark-theme',
+          title: 'Change theme to dark',
+          description: 'Change the theme of the site to Dark',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("dark");
+          },
+        },
+        {
+          id: 'system-theme',
+          title: 'Use system default theme',
+          description: 'Change the theme of the site to System Default',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("system");
+          },
+        },];
+  </script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+  </body>
+</html>
