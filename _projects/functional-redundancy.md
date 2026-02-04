@@ -106,9 +106,8 @@ This project represents my **primary postdoctoral research**.
 
 **📄 Publications**
 
-- **Functional redundancy and metabolic flexibility of microbial communities in two Mid-Atlantic bays**  
-  _ISME Communications_ — **under revision (Round 2)**  
-  Preprint available upon request.
+John, J., Ramond, P., Ortiz, M., & Campbell, B. J. (2026). Functional redundancy and metabolic flexibility of microbial communities in two Mid-Atlantic bays. ISME communications, 6(1), ycag021.DOI:https://doi.org/10.1093/ismeco/ycag021
+Read at :https://academic.oup.com/ismecommun/advance-article/doi/10.1093/ismeco/ycag021/8454622
 
 ---
 
