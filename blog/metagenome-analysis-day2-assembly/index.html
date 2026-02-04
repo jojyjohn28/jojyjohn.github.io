@@ -1,0 +1,2619 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads | Jojy John
+    
+  
+</title>
+<meta name="author" content="Jojy John">
+<meta name="description" content="A comprehensive guide to assembling metagenomic data using metaSPAdes and MEGAHIT, with quality assessment, parameter optimization, and comparison strategies. Includes desktop-friendly workflows and multi-language analysis scripts.">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="" integrity="" crossorigin="anonymous">
+
+<!-- Bootstrap Table -->
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" type="text/css" href="">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+<!-- pseudocode -->
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+<!-- GeoJSON support via Leaflet -->
+
+
+<!-- diff2html -->
+
+
+
+
+
+
+<!-- GoatCounter analytics -->
+<script data-goatcounter="https://jojyjohn28.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Jojy</span>
+            
+            
+            John
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">Jojy John
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/mentoring/">Mentoring
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/collaborations/">Collaboration
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/repositories/">Repositories
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads</h1>
+    <p class="post-meta">
+      Created in February 04, 2026
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/tag/metagenomics"> <i class="fa-solid fa-hashtag fa-sm"></i> metagenomics </a>
+          
+           
+        
+          
+            <a href="/blog/tag/assembly"> <i class="fa-solid fa-hashtag fa-sm"></i> assembly </a>
+          
+           
+        
+          
+            <a href="/blog/tag/metaspades"> <i class="fa-solid fa-hashtag fa-sm"></i> metaSPAdes </a>
+          
+           
+        
+          
+            <a href="/blog/tag/megahit"> <i class="fa-solid fa-hashtag fa-sm"></i> MEGAHIT </a>
+          
+           
+        
+          
+            <a href="/blog/tag/metaquast"> <i class="fa-solid fa-hashtag fa-sm"></i> MetaQUAST </a>
+          
+           
+        
+          
+            <a href="/blog/tag/bioinformatics"> <i class="fa-solid fa-hashtag fa-sm"></i> bioinformatics </a>
+          
+           
+        
+          
+            <a href="/blog/tag/tutorial"> <i class="fa-solid fa-hashtag fa-sm"></i> tutorial </a>
+          
+           
+        
+          
+            <a href="/blog/tag/python"> <i class="fa-solid fa-hashtag fa-sm"></i> python </a>
+          
+           
+        
+          
+            <a href="/blog/tag/r"> <i class="fa-solid fa-hashtag fa-sm"></i> R </a>
+          
+          
+        
+      
+
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    <div id="markdown-content">
+      <h1 id="day-2-metagenome-assembly---reconstructing-genomes-from-short-reads">Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads</h1>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ol>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#assembly-fundamentals">Assembly Fundamentals</a></li>
+  <li><a href="#assembler-comparison">Assembler Comparison</a></li>
+  <li><a href="#metaspades-assembly">metaSPAdes Assembly</a></li>
+  <li><a href="#megahit-assembly">MEGAHIT Assembly</a></li>
+  <li><a href="#other-assembly-tools">Other Assembly Tools</a></li>
+  <li><a href="#long-read-assembly">Long-Read Assembly (ONT/PacBio)</a></li>
+  <li><a href="#assembly-quality-assessment">Assembly Quality Assessment</a></li>
+  <li><a href="#parameter-optimization">Parameter Optimization</a></li>
+  <li><a href="#multi-language-analysis">Multi-Language Analysis</a></li>
+  <li><a href="#desktop-tutorial">Desktop Tutorial</a></li>
+  <li><a href="#best-practices">Best Practices</a></li>
+  <li><a href="#troubleshooting">Troubleshooting</a></li>
+</ol>
+
+<hr>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Welcome to Day 2 of our metagenome analysis series! After quality control and taxonomic profiling in Day 1, we now tackle one of the most computationally intensive and critical steps: <strong>de novo metagenome assembly</strong>.</p>
+
+<h3 id="what-is-metagenome-assembly">What is Metagenome Assembly?</h3>
+
+<p>Assembly is the process of reconstructing longer DNA sequences (contigs and scaffolds) from millions of short sequencing reads. Unlike single-genome assembly, <strong>metagenomic assembly</strong> is particularly challenging because:</p>
+
+<ul>
+  <li>
+<strong>Multiple genomes</strong> present simultaneously</li>
+  <li>
+<strong>Varying abundance</strong> (high to extremely low)</li>
+  <li>
+<strong>Strain variation</strong> within species</li>
+  <li>
+<strong>Repetitive sequences</strong> shared across organisms</li>
+  <li><strong>Uneven sequencing coverage</strong></li>
+</ul>
+
+<h3 id="why-assembly-matters">Why Assembly Matters</h3>
+
+<p>Assembly is crucial for:</p>
+
+<ul>
+  <li>📊 Recovering <strong>complete or near-complete genomes</strong> (MAGs)</li>
+  <li>🧬 Identifying <strong>novel genes</strong> and biosynthetic gene clusters</li>
+  <li>🔬 Enabling <strong>functional annotation</strong> beyond marker genes</li>
+  <li>🌐 Understanding <strong>genomic context</strong>
+</li>
+  <li>📈 Improving <strong>resolution</strong> of community structure</li>
+</ul>
+
+<h3 id="what-youll-learn-today">What You’ll Learn Today</h3>
+
+<p>By the end of this tutorial, you’ll be able to:</p>
+
+<ul>
+  <li>✅ Assemble metagenomes using multiple assemblers</li>
+  <li>✅ Understand assembly parameters and optimization</li>
+  <li>✅ Assess assembly quality with MetaQUAST</li>
+  <li>✅ Compare different assembly strategies</li>
+  <li>✅ Use Python and R for assembly analysis</li>
+  <li>✅ Run assemblies on desktop (with limited resources)</li>
+  <li>✅ Handle both short-read and long-read data</li>
+</ul>
+
+<hr>
+
+<h2 id="assembly-fundamentals">Assembly Fundamentals</h2>
+
+<h3 id="the-de-bruijn-graph-approach">The De Bruijn Graph Approach</h3>
+
+<p>Modern metagenomic assemblers use <strong>de Bruijn graphs</strong> to construct contigs:</p>
+
+<ol>
+  <li>
+<strong>K-mer decomposition</strong>: Reads are broken into overlapping k-mers</li>
+  <li>
+<strong>Graph construction</strong>: K-mers become nodes, overlaps become edges</li>
+  <li>
+<strong>Path finding</strong>: Contigs are paths through the graph</li>
+  <li>
+<strong>Graph simplification</strong>: Remove bubbles, tips, and low-coverage paths</li>
+</ol>
+
+<h3 id="key-concepts">Key Concepts</h3>
+
+<p><strong>Contig</strong>: A contiguous assembled sequence with no gaps</p>
+
+<p><strong>Scaffold</strong>: Multiple contigs connected by gap information (paired-end/mate-pair reads)</p>
+
+<p><strong>N50</strong>: The contig length at which 50% of the assembly is in contigs of this size or larger (higher is better)</p>
+
+<p><strong>Coverage</strong>: Average number of reads covering each base position</p>
+
+<p><strong>k-mer size</strong>: Length of subsequences used in assembly (critical parameter!)</p>
+
+<hr>
+
+<h2 id="assembler-comparison">Assembler Comparison</h2>
+
+<h3 id="metaspades-vs-megahit-vs-others">metaSPAdes vs MEGAHIT vs Others</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>metaSPAdes</th>
+      <th>MEGAHIT</th>
+      <th>IDBA-UD</th>
+      <th>Flye (Long-read)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Algorithm</strong></td>
+      <td>Multi-k-mer SPAdes</td>
+      <td>Succinct de Bruijn</td>
+      <td>Multi-k-mer IDBA</td>
+      <td>Repeat graph</td>
+    </tr>
+    <tr>
+      <td><strong>Memory Usage</strong></td>
+      <td>High (64-256 GB)</td>
+      <td>Low (16-64 GB)</td>
+      <td>Medium (32-128 GB)</td>
+      <td>Medium (32-128 GB)</td>
+    </tr>
+    <tr>
+      <td><strong>Speed</strong></td>
+      <td>Slow (hours-days)</td>
+      <td>Fast (30min-hours)</td>
+      <td>Medium (hours)</td>
+      <td>Medium (hours)</td>
+    </tr>
+    <tr>
+      <td><strong>Contig Quality</strong></td>
+      <td>Excellent</td>
+      <td>Very Good</td>
+      <td>Good</td>
+      <td>Excellent</td>
+    </tr>
+    <tr>
+      <td><strong>N50</strong></td>
+      <td>Highest</td>
+      <td>High</td>
+      <td>Medium</td>
+      <td>Very High</td>
+    </tr>
+    <tr>
+      <td><strong>Best For</strong></td>
+      <td>High-quality assemblies</td>
+      <td>Large datasets, limited RAM</td>
+      <td>Uneven coverage</td>
+      <td>Long reads (ONT/PacBio)</td>
+    </tr>
+    <tr>
+      <td><strong>Max k-mer</strong></td>
+      <td>127 (default)</td>
+      <td>255</td>
+      <td>124</td>
+      <td>N/A (overlap-based)</td>
+    </tr>
+    <tr>
+      <td><strong>Error Correction</strong></td>
+      <td>Built-in BayesHammer</td>
+      <td>Basic</td>
+      <td>Moderate</td>
+      <td>Consensus-based</td>
+    </tr>
+    <tr>
+      <td><strong>Read Type</strong></td>
+      <td>Illumina</td>
+      <td>Illumina</td>
+      <td>Illumina</td>
+      <td>ONT/PacBio</td>
+    </tr>
+    <tr>
+      <td><strong>Hybrid Mode</strong></td>
+      <td>Yes (trusted contigs)</td>
+      <td>No</td>
+      <td>Limited</td>
+      <td>Yes (with Illumina polishing)</td>
+    </tr>
+    <tr>
+      <td><strong>Typical RAM</strong></td>
+      <td>100-200 GB</td>
+      <td>30-60 GB</td>
+      <td>60-100 GB</td>
+      <td>50-120 GB</td>
+    </tr>
+    <tr>
+      <td><strong>Typical Time</strong></td>
+      <td>12-48 hours</td>
+      <td>2-8 hours</td>
+      <td>6-24 hours</td>
+      <td>4-16 hours</td>
+    </tr>
+    <tr>
+      <td><strong>Citation</strong></td>
+      <td>Nurk et al. 2017</td>
+      <td>Li et al. 2015</td>
+      <td>Peng et al. 2012</td>
+      <td>Kolmogorov et al. 2019</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="when-to-use-which-assembler">When to Use Which Assembler?</h3>
+
+<p><strong>Use metaSPAdes when:</strong></p>
+
+<ul>
+  <li>✅ You need the highest quality assembly</li>
+  <li>✅ You have access to HPC with ample RAM (128GB+)</li>
+  <li>✅ Assembly time is not critical</li>
+  <li>✅ You’re working with complex metagenomes</li>
+  <li>✅ You want the best N50 and fewer misassemblies</li>
+</ul>
+
+<p><strong>Use MEGAHIT when:</strong></p>
+
+<ul>
+  <li>✅ You have limited computational resources</li>
+  <li>✅ You need fast results (rapid prototyping)</li>
+  <li>✅ You’re assembling very large datasets (100GB+)</li>
+  <li>✅ You’re running on a desktop or laptop</li>
+  <li>✅ Memory is the limiting factor</li>
+</ul>
+
+<p><strong>Use IDBA-UD when:</strong></p>
+
+<ul>
+  <li>✅ You have highly uneven coverage</li>
+  <li>✅ You want a middle ground between metaSPAdes and MEGAHIT</li>
+  <li>✅ You have specific experience with IDBA</li>
+</ul>
+
+<p><strong>Use Flye when:</strong></p>
+
+<ul>
+  <li>✅ You have long-read data (ONT/PacBio)</li>
+  <li>✅ You want to resolve repetitive regions</li>
+  <li>✅ You’re doing hybrid assembly (long + short reads)</li>
+</ul>
+
+<h3 id="recommendation">Recommendation</h3>
+
+<p>For this tutorial, we’ll focus on <strong>metaSPAdes</strong> (gold standard) and <strong>MEGAHIT</strong> (practical alternative). We’ll also cover Flye basics for long-read enthusiasts.</p>
+
+<hr>
+
+<h2 id="which-assembler-should-i-use-quick-decision-guide">Which Assembler Should I Use? (Quick Decision Guide)</h2>
+
+<p>Use this decision tree to quickly choose the right assembler for your situation:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>START
+  │
+  ├─ What type of reads do you have?
+  │   ├─ Illumina short reads → Continue below
+  │   ├─ ONT/PacBio long reads → Use Flye (--meta)
+  │   └─ Both (hybrid) → Use Flye + Pilon polishing
+  │
+  ├─ How much RAM do you have?
+  │   ├─ ≤16 GB (laptop/desktop) → Use MEGAHIT
+  │   ├─ 32-64 GB (workstation) → Use MEGAHIT or IDBA-UD
+  │   └─ ≥128 GB (HPC) → Use metaSPAdes
+  │
+  ├─ What's your priority?
+  │   ├─ Highest quality assembly → Use metaSPAdes
+  │   ├─ Fastest results → Use MEGAHIT
+  │   └─ Uneven coverage → Use IDBA-UD
+  │
+  └─ Special cases:
+      ├─ Very large dataset (&gt;100 GB) → Use MEGAHIT
+      ├─ Extremely uneven coverage → Use IDBA-UD
+      └─ Novel/complex metagenome → Use metaSPAdes
+</code></pre></div></div>
+
+<h3 id="quick-reference-table">Quick Reference Table</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Your Situation</th>
+      <th>Recommended Assembler</th>
+      <th>Alternative</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>💻 <strong>Laptop (8-16GB RAM)</strong>
+</td>
+      <td>MEGAHIT</td>
+      <td>Subsample + metaSPAdes</td>
+    </tr>
+    <tr>
+      <td>🖥️ <strong>Desktop (32-64GB RAM)</strong>
+</td>
+      <td>MEGAHIT or IDBA-UD</td>
+      <td>metaSPAdes (small samples)</td>
+    </tr>
+    <tr>
+      <td>🏢 <strong>HPC (128GB+ RAM)</strong>
+</td>
+      <td>metaSPAdes</td>
+      <td>MEGAHIT (for speed)</td>
+    </tr>
+    <tr>
+      <td>📊 <strong>Uneven coverage</strong>
+</td>
+      <td>IDBA-UD</td>
+      <td>metaSPAdes</td>
+    </tr>
+    <tr>
+      <td>🧬 <strong>Long reads (ONT)</strong>
+</td>
+      <td>Flye –meta</td>
+      <td>metaFlye</td>
+    </tr>
+    <tr>
+      <td>🧬 <strong>Long reads (PacBio)</strong>
+</td>
+      <td>Flye –pacbio-hifi</td>
+      <td>Hifiasm-meta</td>
+    </tr>
+    <tr>
+      <td>🔬 <strong>Hybrid (long + short)</strong>
+</td>
+      <td>Flye + Pilon</td>
+      <td>metaSPAdes + long-read scaffolding</td>
+    </tr>
+    <tr>
+      <td>⚡ <strong>Need speed</strong>
+</td>
+      <td>MEGAHIT</td>
+      <td>Skip assembly, use reads directly</td>
+    </tr>
+    <tr>
+      <td>🎯 <strong>Need quality</strong>
+</td>
+      <td>metaSPAdes</td>
+      <td>Multiple assemblers + comparison</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="real-world-examples">Real-World Examples</h3>
+
+<p><strong>Scenario 1: PhD Student with Laptop</strong></p>
+
+<ul>
+  <li>RAM: 16 GB</li>
+  <li>Sample: Human gut metagenome</li>
+  <li>
+<strong>Solution</strong>: Subsample to 2M reads → MEGAHIT → 2-3 hours</li>
+</ul>
+
+<p><strong>Scenario 2: Research Lab with HPC</strong></p>
+
+<ul>
+  <li>RAM: 256 GB</li>
+  <li>Sample: Soil metagenome (complex)</li>
+  <li>
+<strong>Solution</strong>: metaSPAdes with default parameters → 24-36 hours</li>
+</ul>
+
+<p><strong>Scenario 3: Clinical Lab, Time-Critical</strong></p>
+
+<ul>
+  <li>RAM: 64 GB</li>
+  <li>Sample: Patient sample</li>
+  <li>
+<strong>Solution</strong>: MEGAHIT (meta-sensitive preset) → 3-4 hours</li>
+</ul>
+
+<p><strong>Scenario 4: Long-Read Sequencing Project</strong></p>
+
+<ul>
+  <li>Data: ONT reads (N50=15kb)</li>
+  <li>
+<strong>Solution</strong>: Flye –nano-hq –meta → Polish with Medaka → 6-8 hours</li>
+</ul>
+
+<hr>
+
+<h2 id="metaspades-assembly">metaSPAdes Assembly</h2>
+
+<p>metaSPAdes is part of the SPAdes assembler family, specifically designed for metagenomic data.</p>
+
+<h3 id="installation">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Using conda (recommended)</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda spades
+
+<span class="c"># Or download binary</span>
+wget http://cab.spbu.ru/files/release3.15.5/SPAdes-3.15.5-Linux.tar.gz
+<span class="nb">tar</span> <span class="nt">-xzf</span> SPAdes-3.15.5-Linux.tar.gz
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/path/to/SPAdes-3.15.5-Linux/bin
+</code></pre></div></div>
+
+<h3 id="basic-usage">Basic Usage</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single sample, paired-end</span>
+metaspades.py <span class="se">\</span>
+    <span class="nt">-1</span> clean_R1.fastq.gz <span class="se">\</span>
+    <span class="nt">-2</span> clean_R2.fastq.gz <span class="se">\</span>
+    <span class="nt">-o</span> metaspades_output <span class="se">\</span>
+    <span class="nt">-t</span> 32 <span class="se">\</span>
+    <span class="nt">-m</span> 200
+
+<span class="c"># Options explained:</span>
+<span class="c"># -1/-2    : Paired-end input files</span>
+<span class="c"># -o       : Output directory</span>
+<span class="c"># -t       : Number of threads</span>
+<span class="c"># -m       : Memory limit in GB</span>
+</code></pre></div></div>
+
+<h3 id="important-parameters">Important Parameters</h3>
+
+<p><strong>K-mer sizes</strong> (<code class="language-plaintext highlighter-rouge">-k</code>):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Default: automatic selection (21,33,55,77,99,127)</span>
+metaspades.py <span class="nt">-k</span> 21,33,55,77,99,127 ...
+
+<span class="c"># For low-complexity samples:</span>
+metaspades.py <span class="nt">-k</span> 21,33,55,77 ...
+
+<span class="c"># For high-quality, deep sequencing:</span>
+metaspades.py <span class="nt">-k</span> 33,55,77,99,127 ...
+</code></pre></div></div>
+
+<p><strong>Coverage cutoff</strong> (<code class="language-plaintext highlighter-rouge">--cov-cutoff</code>):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Auto (recommended):</span>
+<span class="nt">--cov-cutoff</span> auto
+
+<span class="c"># Manual (if you know your coverage):</span>
+<span class="nt">--cov-cutoff</span> 5  <span class="c"># Remove contigs with &lt;5x coverage</span>
+</code></pre></div></div>
+
+<p><strong>Additional options</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Continue from checkpoint (if interrupted)</span>
+metaspades.py <span class="nt">--continue</span> <span class="nt">-o</span> metaspades_output
+
+<span class="c"># Use only contigs &gt;500bp</span>
+<span class="c"># (controlled post-assembly, not during)</span>
+</code></pre></div></div>
+
+<h3 id="understanding-metaspades-output">Understanding metaSPAdes Output</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>metaspades_output/
+├── assembly_graph.fastg          # Assembly graph
+├── assembly_graph_with_scaffolds.gfa  # Scaffold graph
+├── before_rr.fasta              # Before repeat resolution
+├── contigs.fasta                # Final contigs
+├── scaffolds.fasta              # Final scaffolds
+├── contigs.paths                # Contig paths
+├── scaffolds.paths              # Scaffold paths
+├── K21/                         # K-mer 21 assembly
+├── K33/                         # K-mer 33 assembly
+├── ...
+├── params.txt                   # Parameters used
+├── spades.log                   # Assembly log
+└── warnings.log                 # Warnings
+</code></pre></div></div>
+
+<p><strong>Key files:</strong></p>
+
+<ul>
+  <li>
+<strong>contigs.fasta</strong>: Use for binning and annotation</li>
+  <li>
+<strong>scaffolds.fasta</strong>: Use if you need scaffold information</li>
+  <li>
+<strong>spades.log</strong>: Check for errors and statistics</li>
+</ul>
+
+<h3 id="contigs-vs-scaffolds-which-should-i-use">Contigs vs Scaffolds: Which Should I Use?</h3>
+
+<p><strong>IMPORTANT:</strong> This is a common source of confusion for beginners!</p>
+
+<p>✅ <strong>Use contigs.fasta for:</strong></p>
+
+<ul>
+  <li>
+<strong>Genome binning</strong> (MetaBAT2, MaxBin2, CONCOCT, SemiBin)</li>
+  <li>
+<strong>Coverage calculation</strong> (essential for Day 3)</li>
+  <li>
+<strong>Functional annotation</strong> (Prokka, DRAM)</li>
+  <li>
+<strong>Gene prediction</strong> (Prodigal)</li>
+  <li><strong>Most downstream analyses</strong></li>
+</ul>
+
+<p>⚠️ <strong>Use scaffolds.fasta ONLY if:</strong></p>
+
+<ul>
+  <li>You need scaffold-level information for specific analyses</li>
+  <li>You understand how to handle gaps (N’s in sequences)</li>
+  <li>You’re doing structural genomic analysis</li>
+  <li>You’re specifically asked to use scaffolds by a tool</li>
+</ul>
+
+<p><strong>Why contigs for binning?</strong></p>
+
+<p>Scaffolds contain gaps (represented by N’s) where paired-end information suggests two contigs are connected, but the exact sequence is unknown. These gaps can:</p>
+
+<ul>
+  <li>Interfere with coverage calculation</li>
+  <li>Cause issues with gene prediction</li>
+  <li>Create artificial breaks in binning algorithms</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Contig:   ATCGATCGATCG (actual sequence, 100% certain)
+Scaffold: ATCGATCG[NNNNNNNN]ATCGATCG (contig + gap + contig)
+</code></pre></div></div>
+
+<p><strong>Rule of thumb:</strong> If you’re not sure, use <strong>contigs.fasta</strong>. You can always generate scaffolds later if needed.</p>
+
+<h3 id="example-output-statistics">Example Output Statistics</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Contigs:
+  Total: 125,842
+  &gt;= 500 bp: 45,231
+  &gt;= 1000 bp: 28,567
+  &gt;= 5000 bp: 8,234
+
+Total length: 345,678,901 bp
+N50: 2,847 bp
+N75: 1,234 bp
+Longest contig: 234,567 bp
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="megahit-assembly">MEGAHIT Assembly</h2>
+
+<p>MEGAHIT is designed for efficiency, using a succinct de Bruijn graph.</p>
+
+<h3 id="installation-1">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Using conda</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda megahit
+
+<span class="c"># Or from source</span>
+git clone https://github.com/voutcn/megahit.git
+<span class="nb">cd </span>megahit
+make
+</code></pre></div></div>
+
+<h3 id="basic-usage-1">Basic Usage</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single sample</span>
+megahit <span class="se">\</span>
+    <span class="nt">-1</span> clean_R1.fastq.gz <span class="se">\</span>
+    <span class="nt">-2</span> clean_R2.fastq.gz <span class="se">\</span>
+    <span class="nt">-o</span> megahit_output <span class="se">\</span>
+    <span class="nt">-t</span> 32 <span class="se">\</span>
+    <span class="nt">-m</span> 0.9
+
+<span class="c"># Options explained:</span>
+<span class="c"># -m 0.9   : Use 90% of available memory</span>
+<span class="c"># -t       : Number of threads</span>
+</code></pre></div></div>
+
+<h3 id="important-parameters-1">Important Parameters</h3>
+
+<p><strong>K-mer range</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Default: 21,29,39,59,79,99,119,141</span>
+megahit <span class="nt">--k-min</span> 21 <span class="nt">--k-max</span> 141 <span class="nt">--k-step</span> 20 ...
+
+<span class="c"># For low-complexity:</span>
+megahit <span class="nt">--k-min</span> 21 <span class="nt">--k-max</span> 99 <span class="nt">--k-step</span> 20 ...
+
+<span class="c"># For high-quality data:</span>
+megahit <span class="nt">--k-min</span> 27 <span class="nt">--k-max</span> 127 <span class="nt">--k-step</span> 20 ...
+</code></pre></div></div>
+
+<p><strong>Presets</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For metagenomic data (default)</span>
+megahit <span class="nt">--presets</span> meta-sensitive ...
+
+<span class="c"># For large and complex metagenomes</span>
+megahit <span class="nt">--presets</span> meta-large ...
+</code></pre></div></div>
+
+<p><strong>Minimum contig length</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Filter short contigs (default: 200)</span>
+megahit <span class="nt">--min-contig-len</span> 500 ...
+</code></pre></div></div>
+
+<h3 id="megahit-output">MEGAHIT Output</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>megahit_output/
+├── final.contigs.fa             # Final assembly
+├── intermediate_contigs/        # Intermediate k-mer assemblies
+├── log                          # Assembly log
+└── options.json                 # Parameters used
+</code></pre></div></div>
+
+<h3 id="memory-efficiency-tips">Memory Efficiency Tips</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use memory efficiently</span>
+megahit <span class="nt">-m</span> 0.8 ...  <span class="c"># Use 80% of RAM</span>
+
+<span class="c"># For very large datasets, use:</span>
+megahit <span class="nt">--mem-flag</span> 2 ...  <span class="c"># Reduce memory at cost of speed</span>
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="other-assembly-tools">Other Assembly Tools</h2>
+
+<h3 id="idba-ud-iterative-de-bruijn-graph-assembler-for-uneven-depth">IDBA-UD (Iterative de Bruijn graph Assembler for Uneven Depth)</h3>
+
+<p><strong>Strengths:</strong></p>
+
+<ul>
+  <li>Handles uneven coverage well</li>
+  <li>Good for samples with extreme abundance variation</li>
+</ul>
+
+<p><strong>Installation:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda idba
+</code></pre></div></div>
+
+<p><strong>Usage:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># IDBA requires fasta input</span>
+fq2fa <span class="nt">--merge</span> clean_R1.fastq.gz clean_R2.fastq.gz reads.fasta
+
+<span class="c"># Run assembly</span>
+idba_ud <span class="nt">-r</span> reads.fasta <span class="nt">-o</span> idba_output <span class="nt">--num_threads</span> 32 <span class="nt">--mink</span> 20 <span class="nt">--maxk</span> 120 <span class="nt">--step</span> 20
+</code></pre></div></div>
+
+<h3 id="other-notable-assemblers">Other Notable Assemblers</h3>
+
+<p><strong>Ray Meta</strong>: Distributed assembler (for clusters)
+<strong>metaVelvet</strong>: Early metagenomic assembler (deprecated)
+<strong>OPERA-MS</strong>: Hybrid assembler using reference genomes
+<strong>SOAPdenovo2</strong>: Large-scale assembler (memory-intensive)</p>
+
+<hr>
+
+<h2 id="long-read-assembly-ontpacbio">Long-Read Assembly (ONT/PacBio)</h2>
+
+<h3 id="why-long-reads">Why Long Reads?</h3>
+
+<p>Oxford Nanopore (ONT) and PacBio provide reads of 10kb-100kb+, enabling:</p>
+
+<ul>
+  <li>✅ Better resolution of repetitive regions</li>
+  <li>✅ Complete genomes with fewer contigs</li>
+  <li>✅ Improved scaffold quality</li>
+  <li>✅ Structural variant detection</li>
+</ul>
+
+<h3 id="flye-for-metagenomic-long-reads">Flye for Metagenomic Long Reads</h3>
+
+<p><strong>Installation:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda flye
+</code></pre></div></div>
+
+<p><strong>Basic Usage:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ONT raw reads</span>
+flye <span class="nt">--nano-raw</span> ont_reads.fastq.gz <span class="se">\</span>
+     <span class="nt">--out-dir</span> flye_output <span class="se">\</span>
+     <span class="nt">--threads</span> 32 <span class="se">\</span>
+     <span class="nt">--meta</span>
+
+<span class="c"># ONT high-quality reads (Guppy5+)</span>
+flye <span class="nt">--nano-hq</span> ont_reads.fastq.gz <span class="se">\</span>
+     <span class="nt">--out-dir</span> flye_output <span class="se">\</span>
+     <span class="nt">--threads</span> 32 <span class="se">\</span>
+     <span class="nt">--meta</span>
+
+<span class="c"># PacBio HiFi reads</span>
+flye <span class="nt">--pacbio-hifi</span> hifi_reads.fastq.gz <span class="se">\</span>
+     <span class="nt">--out-dir</span> flye_output <span class="se">\</span>
+     <span class="nt">--threads</span> 32 <span class="se">\</span>
+     <span class="nt">--meta</span>
+</code></pre></div></div>
+
+<p><strong>Important:</strong> Always use the <code class="language-plaintext highlighter-rouge">--meta</code> flag for metagenomic data!</p>
+
+<h3 id="metaflye">metaFlye</h3>
+
+<p>metaFlye is specifically designed for metagenomic long reads:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Same as flye with --meta flag</span>
+flye <span class="nt">--nano-raw</span> reads.fastq.gz <span class="nt">--meta</span> <span class="nt">--out-dir</span> metaflye_output <span class="nt">--threads</span> 32
+</code></pre></div></div>
+
+<h3 id="hybrid-assembly-long--short-reads">Hybrid Assembly (Long + Short Reads)</h3>
+
+<p><strong>Strategy 1: Long-read assembly + short-read polishing</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Assemble with Flye</span>
+flye <span class="nt">--nano-raw</span> ont_reads.fastq.gz <span class="nt">--meta</span> <span class="nt">-o</span> flye_output <span class="nt">-t</span> 32
+
+<span class="c"># 2. Polish with Illumina reads using Pilon</span>
+bwa index flye_output/assembly.fasta
+bwa mem <span class="nt">-t</span> 32 flye_output/assembly.fasta illumina_R1.fastq.gz illumina_R2.fastq.gz | <span class="se">\</span>
+    samtools <span class="nb">sort</span> <span class="nt">-o</span> aligned.bam
+samtools index aligned.bam
+
+pilon <span class="nt">--genome</span> flye_output/assembly.fasta <span class="se">\</span>
+      <span class="nt">--frags</span> aligned.bam <span class="se">\</span>
+      <span class="nt">--output</span> polished <span class="se">\</span>
+      <span class="nt">--threads</span> 32
+</code></pre></div></div>
+
+<p><strong>Strategy 2: Short-read assembly + long-read scaffolding</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Assemble with metaSPAdes</span>
+metaspades.py <span class="nt">-1</span> R1.fastq.gz <span class="nt">-2</span> R2.fastq.gz <span class="nt">-o</span> spades_output <span class="nt">-t</span> 32
+
+<span class="c"># 2. Scaffold with long reads using npScarf</span>
+npScarf <span class="nt">-s</span> spades_output/scaffolds.fasta <span class="se">\</span>
+        <span class="nt">-l</span> ont_reads.fastq.gz <span class="se">\</span>
+        <span class="nt">-o</span> scaffolded.fasta <span class="se">\</span>
+        <span class="nt">-t</span> 32
+</code></pre></div></div>
+
+<h3 id="recommendations-for-long-read-assembly">Recommendations for Long-Read Assembly</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Data Type</th>
+      <th>Recommended Assembler</th>
+      <th>Polishing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ONT (raw, &lt;90% accuracy)</td>
+      <td>Flye</td>
+      <td>Racon + Medaka</td>
+    </tr>
+    <tr>
+      <td>ONT (HQ, &gt;95% accuracy)</td>
+      <td>Flye (–nano-hq)</td>
+      <td>Medaka or Pilon</td>
+    </tr>
+    <tr>
+      <td>PacBio HiFi</td>
+      <td>Flye or Hifiasm-meta</td>
+      <td>Usually not needed</td>
+    </tr>
+    <tr>
+      <td>Hybrid (ONT + Illumina)</td>
+      <td>Flye + Pilon</td>
+      <td>Pilon (Illumina)</td>
+    </tr>
+    <tr>
+      <td>Hybrid (PacBio + Illumina)</td>
+      <td>Flye + Pilon</td>
+      <td>Pilon (Illumina)</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="assembly-quality-assessment">Assembly Quality Assessment</h2>
+
+<h3 id="metaquast-the-standard-for-assembly-evaluation">MetaQUAST: The Standard for Assembly Evaluation</h3>
+
+<p>MetaQUAST (Quality Assessment Tool for Metagenome Assemblies) provides comprehensive quality metrics.</p>
+
+<p><strong>Installation:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda quast
+</code></pre></div></div>
+
+<p><strong>Basic Usage:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single assembly</span>
+metaquast.py contigs.fasta <span class="nt">-o</span> metaquast_output <span class="nt">-t</span> 32
+
+<span class="c"># Multiple assemblies (comparison)</span>
+metaquast.py <span class="se">\</span>
+    metaspades_contigs.fasta <span class="se">\</span>
+    megahit_contigs.fasta <span class="se">\</span>
+    idba_contigs.fasta <span class="se">\</span>
+    <span class="nt">-o</span> metaquast_comparison <span class="se">\</span>
+    <span class="nt">-t</span> 32 <span class="se">\</span>
+    <span class="nt">--labels</span> metaSPAdes,MEGAHIT,IDBA-UD
+
+<span class="c"># With reference genomes (if available)</span>
+metaquast.py contigs.fasta <span class="se">\</span>
+    <span class="nt">-r</span> reference_genomes/<span class="k">*</span>.fasta <span class="se">\</span>
+    <span class="nt">-o</span> metaquast_with_ref <span class="se">\</span>
+    <span class="nt">-t</span> 32
+</code></pre></div></div>
+
+<h3 id="understanding-metaquast-output">Understanding MetaQUAST Output</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>metaquast_output/
+├── report.html              # Interactive HTML report
+├── report.pdf               # PDF report
+├── report.txt               # Text summary
+├── report.tsv               # Tab-separated values
+├── contigs_reports/         # Per-contig statistics
+├── basic_stats/             # Basic statistics
+└── icarus.html             # Contig browser
+</code></pre></div></div>
+
+<h3 id="key-metrics-explained">Key Metrics Explained</h3>
+
+<p><strong>Basic Statistics:</strong></p>
+
+<ul>
+  <li>
+<strong># contigs</strong>: Total number of contigs</li>
+  <li>
+<strong>Largest contig</strong>: Length of longest contig</li>
+  <li>
+<strong>Total length</strong>: Sum of all contig lengths</li>
+  <li>
+<strong>N50</strong>: Contig length at 50% of assembly</li>
+  <li>
+<strong>L50</strong>: Number of contigs comprising 50% of assembly</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># contigs (&gt;= 0 bp):       125,842
+# contigs (&gt;= 1000 bp):     28,567
+# contigs (&gt;= 5000 bp):      8,234
+# contigs (&gt;= 10000 bp):     3,456
+# contigs (&gt;= 25000 bp):       892
+# contigs (&gt;= 50000 bp):       234
+
+Total length (&gt;= 0 bp):      345,678,901
+Total length (&gt;= 1000 bp):   298,456,123
+Total length (&gt;= 5000 bp):   245,123,456
+Total length (&gt;= 10000 bp):  198,765,432
+Total length (&gt;= 25000 bp):  145,234,567
+Total length (&gt;= 50000 bp):   89,012,345
+
+Largest contig:              234,567
+N50:                          2,847
+N75:                          1,234
+L50:                         32,456
+L75:                         78,901
+
+GC (%):                       52.34
+</code></pre></div></div>
+
+<p><strong>What Makes a Good Assembly?</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Poor</th>
+      <th>Acceptable</th>
+      <th>Good</th>
+      <th>Excellent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>N50</strong></td>
+      <td>&lt;1 kb</td>
+      <td>1-5 kb</td>
+      <td>5-20 kb</td>
+      <td>&gt;20 kb</td>
+    </tr>
+    <tr>
+      <td><strong># contigs (&gt;1kb)</strong></td>
+      <td>&gt;100k</td>
+      <td>50-100k</td>
+      <td>10-50k</td>
+      <td>&lt;10k</td>
+    </tr>
+    <tr>
+      <td><strong>Largest contig</strong></td>
+      <td>&lt;10 kb</td>
+      <td>10-50 kb</td>
+      <td>50-200 kb</td>
+      <td>&gt;200 kb</td>
+    </tr>
+    <tr>
+      <td><strong>Total length</strong></td>
+      <td>Variable</td>
+      <td>Variable</td>
+      <td>Variable</td>
+      <td>Variable</td>
+    </tr>
+    <tr>
+      <td><strong>L50</strong></td>
+      <td>&gt;50k</td>
+      <td>20-50k</td>
+      <td>5-20k</td>
+      <td>&lt;5k</td>
+    </tr>
+    <tr>
+      <td><strong>Misassemblies*</strong></td>
+      <td>&gt;1000</td>
+      <td>100-1000</td>
+      <td>10-100</td>
+      <td>&lt;10</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>*When reference genomes available</p>
+
+<hr>
+
+<h2 id="parameter-optimization">Parameter Optimization</h2>
+
+<h3 id="k-mer-size-selection">K-mer Size Selection</h3>
+
+<p><strong>General guidelines:</strong></p>
+
+<ul>
+  <li>
+<strong>Shorter k-mers (21-55)</strong>: Better for low coverage, high error rate</li>
+  <li>
+<strong>Longer k-mers (77-127)</strong>: Better for high coverage, low error rate</li>
+  <li>
+<strong>Multiple k-mers</strong>: Best approach (used by metaSPAdes, MEGAHIT)</li>
+</ul>
+
+<p><strong>Empirical testing:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Test different k-mer ranges</span>
+<span class="k">for </span>KMAX <span class="k">in </span>99 127 141<span class="p">;</span> <span class="k">do
+    </span>megahit <span class="nt">-1</span> R1.fq.gz <span class="nt">-2</span> R2.fq.gz <span class="se">\</span>
+            <span class="nt">--k-max</span> <span class="k">${</span><span class="nv">KMAX</span><span class="k">}</span> <span class="se">\</span>
+            <span class="nt">-o</span> megahit_k<span class="k">${</span><span class="nv">KMAX</span><span class="k">}</span> <span class="se">\</span>
+            <span class="nt">-t</span> 32
+<span class="k">done</span>
+
+<span class="c"># Compare with MetaQUAST</span>
+metaquast.py megahit_k<span class="k">*</span>/final.contigs.fa <span class="se">\</span>
+    <span class="nt">-o</span> kmer_comparison <span class="se">\</span>
+    <span class="nt">--labels</span> k99,k127,k141
+</code></pre></div></div>
+
+<h3 id="coverage-cutoff-optimization">Coverage Cutoff Optimization</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># metaSPAdes with different cutoffs</span>
+<span class="k">for </span>COV <span class="k">in </span>auto 3 5 10<span class="p">;</span> <span class="k">do
+    </span>metaspades.py <span class="nt">-1</span> R1.fq.gz <span class="nt">-2</span> R2.fq.gz <span class="se">\</span>
+        <span class="nt">--cov-cutoff</span> <span class="k">${</span><span class="nv">COV</span><span class="k">}</span> <span class="se">\</span>
+        <span class="nt">-o</span> spades_cov<span class="k">${</span><span class="nv">COV</span><span class="k">}</span> <span class="se">\</span>
+        <span class="nt">-t</span> 32 <span class="nt">-m</span> 200
+<span class="k">done</span>
+</code></pre></div></div>
+
+<h3 id="assembly-strategy-comparison">Assembly Strategy Comparison</h3>
+
+<p>Test multiple assemblers and parameters:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># assembly_comparison.sh</span>
+
+<span class="c"># metaSPAdes default</span>
+metaspades.py <span class="nt">-1</span> R1.fq.gz <span class="nt">-2</span> R2.fq.gz <span class="nt">-o</span> spades_default <span class="nt">-t</span> 32 <span class="nt">-m</span> 200
+
+<span class="c"># metaSPAdes optimized</span>
+metaspades.py <span class="nt">-1</span> R1.fq.gz <span class="nt">-2</span> R2.fq.gz <span class="nt">-o</span> spades_opt <span class="se">\</span>
+    <span class="nt">-k</span> 33,55,77,99,127 <span class="nt">--cov-cutoff</span> 5 <span class="nt">-t</span> 32 <span class="nt">-m</span> 200
+
+<span class="c"># MEGAHIT default</span>
+megahit <span class="nt">-1</span> R1.fq.gz <span class="nt">-2</span> R2.fq.gz <span class="nt">-o</span> megahit_default <span class="nt">-t</span> 32
+
+<span class="c"># MEGAHIT meta-large</span>
+megahit <span class="nt">-1</span> R1.fq.gz <span class="nt">-2</span> R2.fq.gz <span class="nt">-o</span> megahit_large <span class="se">\</span>
+    <span class="nt">--presets</span> meta-large <span class="nt">-t</span> 32
+
+<span class="c"># Compare all</span>
+metaquast.py <span class="se">\</span>
+    spades_default/contigs.fasta <span class="se">\</span>
+    spades_opt/contigs.fasta <span class="se">\</span>
+    megahit_default/final.contigs.fa <span class="se">\</span>
+    megahit_large/final.contigs.fa <span class="se">\</span>
+    <span class="nt">-o</span> assembly_comparison <span class="se">\</span>
+    <span class="nt">--labels</span> SPAdes_def,SPAdes_opt,MEGAHIT_def,MEGAHIT_large <span class="se">\</span>
+    <span class="nt">-t</span> 32
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="multi-language-analysis">Multi-Language Analysis</h2>
+
+<h3 id="python-scripts-for-assembly-analysis">Python Scripts for Assembly Analysis</h3>
+
+<p>See: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day2-assembly/scripts" rel="external nofollow noopener" target="_blank"><code class="language-plaintext highlighter-rouge">scripts/01_parse_metaquast.py</code></a></p>
+
+<h3 id="r-scripts-for-visualization">R Scripts for Visualization</h3>
+
+<p>See: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day2-assembly/scripts" rel="external nofollow noopener" target="_blank"><code class="language-plaintext highlighter-rouge">scripts/02_assembly_visualization.R</code></a></p>
+
+<h3 id="bash-scripts-for-automation">Bash Scripts for Automation</h3>
+
+<p>All batch processing scripts available in: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day2-assembly/scripts" rel="external nofollow noopener" target="_blank"><code class="language-plaintext highlighter-rouge">scripts/</code></a></p>
+
+<hr>
+
+<h2 id="desktop-tutorial">Desktop Tutorial</h2>
+
+<h3 id="running-assembly-on-your-laptop">Running Assembly on Your Laptop</h3>
+
+<blockquote>
+  <p><strong>💻 Desktop Resources:</strong> You can absolutely learn metagenome assembly on your personal computer! We provide optimized workflows for systems with 8-16GB RAM.</p>
+</blockquote>
+
+<p>For complete desktop tutorial with step-by-step instructions, see: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day2-assembly/running-on-your-laptop" rel="external nofollow noopener" target="_blank"><code class="language-plaintext highlighter-rouge">RUNNING_ON_LAPTOP.md</code></a></p>
+
+<p><strong>Quick Desktop Guide:</strong></p>
+
+<ol>
+  <li>Subsample your data to 500K-1M read pairs</li>
+  <li>Use MEGAHIT (memory-efficient)</li>
+  <li>Limit threads to n-2 cores</li>
+  <li>Monitor RAM usage with <code class="language-plaintext highlighter-rouge">htop</code>
+</li>
+  <li>Expect 2-4 hours for small datasets</li>
+</ol>
+
+<hr>
+
+<h2 id="preparing-for-day-3-coverage-calculation">Preparing for Day 3: Coverage Calculation</h2>
+
+<p>Before moving to genome binning (Day 3), you’ll need to calculate <strong>contig coverage</strong>. This is essential for all binning algorithms!</p>
+
+<h3 id="why-coverage-matters-for-binning">Why Coverage Matters for Binning</h3>
+
+<p>Binning algorithms use coverage information to:</p>
+
+<ul>
+  <li>Group contigs from the same organism (similar coverage patterns)</li>
+  <li>Distinguish high-abundance from low-abundance organisms</li>
+  <li>Improve bin quality and completeness</li>
+</ul>
+
+<h3 id="quick-coverage-calculation">Quick Coverage Calculation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Build Bowtie2 index from your assembly</span>
+bowtie2-build contigs.fasta contigs_index
+
+<span class="c"># 2. Map cleaned reads back to contigs</span>
+bowtie2 <span class="nt">-x</span> contigs_index <span class="se">\</span>
+        <span class="nt">-1</span> clean_R1.fastq.gz <span class="se">\</span>
+        <span class="nt">-2</span> clean_R2.fastq.gz <span class="se">\</span>
+        <span class="nt">-p</span> 32 <span class="se">\</span>
+        <span class="nt">--no-unal</span> | <span class="se">\</span>
+    samtools view <span class="nt">-bS</span> - | <span class="se">\</span>
+    samtools <span class="nb">sort</span> <span class="nt">-o</span> contigs.bam -
+
+<span class="c"># 3. Index the BAM file</span>
+samtools index contigs.bam
+
+<span class="c"># 4. Calculate coverage statistics</span>
+samtools depth contigs.bam <span class="o">&gt;</span> contigs_depth.txt
+
+<span class="c"># Or calculate per-contig coverage</span>
+samtools coverage contigs.bam <span class="o">&gt;</span> contigs_coverage.txt
+</code></pre></div></div>
+
+<h3 id="understanding-the-output">Understanding the Output</h3>
+
+<p><strong>contigs_depth.txt</strong> (per-base depth):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>contig1    1    45
+contig1    2    47
+contig1    3    48
+...
+</code></pre></div></div>
+
+<p><strong>contigs_coverage.txt</strong> (per-contig summary):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#rname          startpos  endpos  numreads  covbases  coverage  meandepth  meanbaseq  meanmapq
+contig1         1         5432    15234     5432      100       45.3       37.2       60
+contig2         1         12456   8765      12456     100       38.7       36.8       60
+</code></pre></div></div>
+
+<h3 id="alternative-using-metabats-jgi_summarize_bam_contig_depths">Alternative: Using MetaBAT’s jgi_summarize_bam_contig_depths</h3>
+
+<p>This is the preferred method for binning:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Map reads (as above)</span>
+bowtie2-build contigs.fasta contigs_index
+bowtie2 <span class="nt">-x</span> contigs_index <span class="nt">-1</span> R1.fastq.gz <span class="nt">-2</span> R2.fastq.gz <span class="nt">-p</span> 32 | <span class="se">\</span>
+    samtools <span class="nb">sort</span> <span class="nt">-o</span> contigs.bam -
+samtools index contigs.bam
+
+<span class="c"># Calculate coverage for MetaBAT</span>
+jgi_summarize_bam_contig_depths <span class="nt">--outputDepth</span> depth.txt contigs.bam
+</code></pre></div></div>
+
+<p><strong>Output (depth.txt):</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>contigName      contigLen   totalAvgDepth   sample1.bam   sample1.bam-var
+contig1         5432        45.3            45.3          2.1
+contig2         12456       38.7            38.7          1.8
+</code></pre></div></div>
+
+<h3 id="for-multiple-samples">For Multiple Samples</h3>
+
+<p>If you have multiple samples (essential for co-assembly binning):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Map each sample</span>
+<span class="k">for </span>sample <span class="k">in </span>sample1 sample2 sample3<span class="p">;</span> <span class="k">do
+    </span>bowtie2 <span class="nt">-x</span> contigs_index <span class="se">\</span>
+            <span class="nt">-1</span> <span class="k">${</span><span class="nv">sample</span><span class="k">}</span>_R1.fastq.gz <span class="se">\</span>
+            <span class="nt">-2</span> <span class="k">${</span><span class="nv">sample</span><span class="k">}</span>_R2.fastq.gz <span class="se">\</span>
+            <span class="nt">-p</span> 32 | <span class="se">\</span>
+        samtools <span class="nb">sort</span> <span class="nt">-o</span> <span class="k">${</span><span class="nv">sample</span><span class="k">}</span>.bam -
+    samtools index <span class="k">${</span><span class="nv">sample</span><span class="k">}</span>.bam
+<span class="k">done</span>
+
+<span class="c"># Calculate coverage across all samples</span>
+jgi_summarize_bam_contig_depths <span class="nt">--outputDepth</span> depth_all_samples.txt <span class="k">*</span>.bam
+</code></pre></div></div>
+
+<h3 id="time-estimates">Time Estimates</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Small Sample (5M pairs)</th>
+      <th>Medium Sample (20M pairs)</th>
+      <th>Large Sample (50M pairs)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Index building</td>
+      <td>2-5 min</td>
+      <td>5-10 min</td>
+      <td>10-20 min</td>
+    </tr>
+    <tr>
+      <td>Read mapping</td>
+      <td>30-60 min</td>
+      <td>2-4 hours</td>
+      <td>6-12 hours</td>
+    </tr>
+    <tr>
+      <td>BAM sorting</td>
+      <td>5-10 min</td>
+      <td>20-40 min</td>
+      <td>1-2 hours</td>
+    </tr>
+    <tr>
+      <td>Coverage calc</td>
+      <td>2-5 min</td>
+      <td>10-20 min</td>
+      <td>30-60 min</td>
+    </tr>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td><strong>~1 hour</strong></td>
+      <td><strong>~3-5 hours</strong></td>
+      <td><strong>~8-15 hours</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="checkpoint-files-needed-for-day-3">Checkpoint: Files Needed for Day 3</h3>
+
+<p>Before starting Day 3, ensure you have:</p>
+
+<ul>
+  <li>✅ <code class="language-plaintext highlighter-rouge">contigs.fasta</code> - Your assembled contigs</li>
+  <li>✅ <code class="language-plaintext highlighter-rouge">contigs.bam</code> - Mapped reads (sorted and indexed)</li>
+  <li>✅ <code class="language-plaintext highlighter-rouge">contigs.bam.bai</code> - BAM index file</li>
+  <li>✅ <code class="language-plaintext highlighter-rouge">depth.txt</code> - Coverage information (from jgi_summarize)</li>
+</ul>
+
+<p><strong>We’ll use these files extensively in Day 3 for genome binning!</strong></p>
+
+<h3 id="quick-quality-check">Quick Quality Check</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check BAM file statistics</span>
+samtools flagstat contigs.bam
+
+<span class="c"># Expected output:</span>
+<span class="c"># 10000000 + 0 in total (QC-passed reads + QC-failed reads)</span>
+<span class="c"># 9500000 + 0 mapped (95.00% : N/A)</span>
+<span class="c"># 10000000 + 0 paired in sequencing</span>
+<span class="c"># 5000000 + 0 read1</span>
+<span class="c"># 5000000 + 0 read2</span>
+<span class="c"># 9000000 + 0 properly paired (90.00% : N/A)</span>
+<span class="c"># 9500000 + 0 with itself and mate mapped</span>
+<span class="c"># 500000 + 0 singletons (5.00% : N/A)</span>
+</code></pre></div></div>
+
+<p><strong>Good mapping:</strong> &gt;70% mapped reads
+<strong>Excellent mapping:</strong> &gt;85% mapped reads</p>
+
+<p>If mapping rate is low (&lt;50%), check:</p>
+
+<ul>
+  <li>Did you use the correct cleaned reads from Day 1?</li>
+  <li>Is the assembly quality acceptable?</li>
+  <li>Are you mapping to the right assembly?</li>
+</ul>
+
+<hr>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<h3 id="before-assembly">Before Assembly</h3>
+
+<p>✅ <strong>Quality control completed</strong> (Day 1)
+✅ <strong>Host contamination removed</strong>
+✅ <strong>Sufficient sequencing depth</strong> (&gt;5-10 million pairs)
+✅ <strong>Adequate computational resources</strong> planned</p>
+
+<h3 id="during-assembly">During Assembly</h3>
+
+<p>✅ <strong>Use screen/tmux</strong> for long-running jobs
+✅ <strong>Monitor log files</strong> for errors
+✅ <strong>Check disk space</strong> regularly (assemblies are large!)
+✅ <strong>Save parameters</strong> used for reproducibility</p>
+
+<h3 id="after-assembly">After Assembly</h3>
+
+<p>✅ <strong>Run MetaQUAST</strong> for quality assessment
+✅ <strong>Filter contigs</strong> by length (≥500bp or ≥1000bp)
+✅ <strong>Calculate coverage</strong> for each contig
+✅ <strong>Compare</strong> multiple assembly strategies if time permits
+✅ <strong>Document</strong> which assembly to use for downstream analysis</p>
+
+<hr>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="problem-out-of-memory">Problem: Out of Memory</h3>
+
+<p><strong>Solutions:</strong></p>
+
+<ul>
+  <li>Use MEGAHIT instead of metaSPAdes</li>
+  <li>Reduce k-mer maximum</li>
+  <li>Decrease thread count</li>
+  <li>Subsample reads</li>
+  <li>Use HPC resources</li>
+</ul>
+
+<h3 id="problem-assembly-takes-forever">Problem: Assembly Takes Forever</h3>
+
+<p><strong>Solutions:</strong></p>
+
+<ul>
+  <li>Use MEGAHIT (faster)</li>
+  <li>Reduce maximum k-mer</li>
+  <li>Subsample data for testing</li>
+  <li>Check if job is actually running (use <code class="language-plaintext highlighter-rouge">top</code> or <code class="language-plaintext highlighter-rouge">htop</code>)</li>
+</ul>
+
+<h3 id="problem-poor-assembly-quality-low-n50">Problem: Poor Assembly Quality (Low N50)</h3>
+
+<p><strong>Possible causes:</strong></p>
+
+<ul>
+  <li>Low sequencing depth</li>
+  <li>High diversity/complexity</li>
+  <li>Poor read quality</li>
+</ul>
+
+<p><strong>Solutions:</strong></p>
+
+<ul>
+  <li>Ensure proper QC (Day 1)</li>
+  <li>Try different assemblers</li>
+  <li>Optimize k-mer range</li>
+  <li>Consider more sequencing</li>
+</ul>
+
+<h3 id="problem-too-many-short-contigs">Problem: Too Many Short Contigs</h3>
+
+<p><strong>Solutions:</strong></p>
+
+<ul>
+  <li>Increase minimum contig length filter</li>
+  <li>Use higher coverage cutoff</li>
+  <li>Ensure adequate sequencing depth</li>
+  <li>Try different assemblers</li>
+</ul>
+
+<hr>
+
+<h2 id="summary">Summary</h2>
+
+<p>Congratulations! You now know how to:</p>
+
+<p>✅ Assemble metagenomes with metaSPAdes and MEGAHIT
+✅ Understand the trade-offs between assemblers
+✅ Assess assembly quality with MetaQUAST
+✅ Optimize assembly parameters
+✅ Handle long-read data
+✅ Use Python and R for assembly analysis
+✅ Run assemblies on desktop computers</p>
+
+<h3 id="outputs-from-day-2">Outputs from Day 2</h3>
+
+<p>You should now have:</p>
+
+<ul>
+  <li>📁 Assembled contigs (contigs.fasta)</li>
+  <li>📊 Assembly quality reports (MetaQUAST)</li>
+  <li>📈 Comparison statistics</li>
+  <li>🎨 Visualization plots</li>
+</ul>
+
+<h3 id="next-steps-day-3">Next Steps: Day 3</h3>
+
+<p><strong>Ready for genome binning?</strong></p>
+
+<p><a href="../day3-binning/">Proceed to Day 3: Genome Binning (MAG Recovery) →</a></p>
+
+<p>Learn to separate individual genomes from your metagenomic assembly!</p>
+
+<hr>
+
+<h2 id="additional-resources">Additional Resources</h2>
+
+<h3 id="documentation">Documentation</h3>
+
+<ul>
+  <li><a href="http://cab.spbu.ru/software/spades/" rel="external nofollow noopener" target="_blank">metaSPAdes Manual</a></li>
+  <li><a href="https://github.com/voutcn/megahit" rel="external nofollow noopener" target="_blank">MEGAHIT GitHub</a></li>
+  <li><a href="http://quast.sourceforge.net/metaquast" rel="external nofollow noopener" target="_blank">MetaQUAST Documentation</a></li>
+  <li><a href="https://github.com/fenderglass/Flye" rel="external nofollow noopener" target="_blank">Flye Documentation</a></li>
+</ul>
+
+<p><img src="/assets/img/d2-mg.png" alt="day2 mg"></p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      © Copyright 2026
+      Jojy
+      
+      John. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+      
+      
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+    <!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/assets/js/mdb.min.js"></script> -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+    
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  <!-- Medium Zoom JS -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+<!-- Bootstrap Table -->
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+    
+  
+    <!-- MathJax -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          tags: 'ams',
+        },
+      };
+    </script>
+    <script defer type="text/javascript" id="MathJax-script" src="" integrity="" crossorigin="anonymous"></script>
+    <script defer src="" crossorigin="anonymous"></script>
+  
+
+
+    
+
+    
+
+
+
+    
+  <!-- Scrolling Progress Bar -->
+  <script type="text/javascript">
+    /*
+     * This JavaScript code has been adapted from the article
+     * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar,
+     * published on the website https://css-tricks.com on the 7th of May, 2014.
+     * Couple of changes were made to the original code to make it compatible
+     * with the `al-foio` theme.
+     */
+    const progressBar = $('#progress');
+    /*
+     * We set up the bar after all elements are done loading.
+     * In some cases, if the images in the page are larger than the intended
+     * size they'll have on the page, they'll be resized via CSS to accomodate
+     * the desired size. This mistake, however, breaks the computations as the
+     * scroll size is computed as soon as the elements finish loading.
+     * To account for this, a minimal delay was introduced before computing the
+     * values.
+     */
+    window.onload = function () {
+      setTimeout(progressBarSetup, 50);
+    };
+    /*
+     * We set up the bar according to the browser.
+     * If the browser supports the progress element we use that.
+     * Otherwise, we resize the bar thru CSS styling
+     */
+    function progressBarSetup() {
+      if ('max' in document.createElement('progress')) {
+        initializeProgressElement();
+        $(document).on('scroll', function () {
+          progressBar.attr({ value: getCurrentScrollPosition() });
+        });
+        $(window).on('resize', initializeProgressElement);
+      } else {
+        resizeProgressBar();
+        $(document).on('scroll', resizeProgressBar);
+        $(window).on('resize', resizeProgressBar);
+      }
+    }
+    /*
+     * The vertical scroll position is the same as the number of pixels that
+     * are hidden from view above the scrollable area. Thus, a value > 0 is
+     * how much the user has scrolled from the top
+     */
+    function getCurrentScrollPosition() {
+      return $(window).scrollTop();
+    }
+
+    function initializeProgressElement() {
+      let navbarHeight = $('#navbar').outerHeight(true);
+      $('body').css({ 'padding-top': navbarHeight });
+      $('progress-container').css({ 'padding-top': navbarHeight });
+      progressBar.css({ top: navbarHeight });
+      progressBar.attr({
+        max: getDistanceToScroll(),
+        value: getCurrentScrollPosition(),
+      });
+    }
+    /*
+     * The offset between the html document height and the browser viewport
+     * height will be greater than zero if vertical scroll is possible.
+     * This is the distance the user can scroll
+     */
+    function getDistanceToScroll() {
+      return $(document).height() - $(window).height();
+    }
+
+    function resizeProgressBar() {
+      progressBar.css({ width: getWidthPercentage() + '%' });
+    }
+    // The scroll ratio equals the percentage to resize the bar
+    function getWidthPercentage() {
+      return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+    }
+  </script>
+
+
+    
+
+    
+
+    
+
+    
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+    
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?601a2d3465e2a52bec38b600518d5f70"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script>
+    let searchTheme = determineComputedTheme();
+    const ninjaKeys = document.querySelector('ninja-keys');
+
+    if (searchTheme === 'dark') {
+      ninjaKeys.classList.add('dark');
+    } else {
+      ninjaKeys.classList.remove('dark');
+    }
+
+    const openSearchModal = () => {
+      // collapse navbarNav if expanded on mobile
+      const $navbarNav = $('#navbarNav');
+      if ($navbarNav.hasClass('show')) {
+        $navbarNav.collapse('hide');
+      }
+      ninjaKeys.open();
+    };
+  </script>
+  <script>
+    // get the ninja-keys element
+    const ninja = document.querySelector('ninja-keys');
+
+    // add the home and posts menu items
+    ninja.data = [{
+        id: "nav-jojy-john",
+        title: "Jojy John",
+        section: "Navigation",
+        handler: () => {
+          window.location.href = "/";
+        },
+      },{id: "nav-publications",
+              title: "Publications",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/publications/";
+              },
+            },{id: "nav-blog",
+              title: "Blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "nav-projects",
+              title: "Projects",
+              description: "Research projects spanning microbial ecology, genomics, and multi-omics..",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/projects/";
+              },
+            },{id: "nav-mentoring",
+              title: "Mentoring",
+              description: "Graduate, undergraduate, and intern research mentorship in microbial ecology, bioinformatics, and multi-omics analysis.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/mentoring/";
+              },
+            },{id: "nav-collaboration",
+              title: "Collaboration",
+              description: "Interdisciplinary research collaborations in microbial ecology, genomics, bioinformatics, and environmental biotechnology.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/collaborations/";
+              },
+            },{id: "nav-teaching",
+              title: "Teaching",
+              description: "Teaching experience from 2014",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/teaching/";
+              },
+            },{id: "nav-repositories",
+              title: "Repositories",
+              description: "Research code, bioinformatics pipelines, and reproducible workflows.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/repositories/";
+              },
+            },{id: "post-day-2-metagenome-assembly-reconstructing-genomes-from-short-reads",
+          
+            title: "Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads",
+          
+          description: "A comprehensive guide to assembling metagenomic data using metaSPAdes and MEGAHIT, with quality assessment, parameter optimization, and comparison strategies. Includes desktop-friendly workflows and multi-language analysis scripts.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day2-assembly/";
+            
+          },
+        },{id: "post-day-1-quality-control-contamination-removal-and-read-based-taxonomic-analysis",
+          
+            title: "Day 1: Quality Control, Contamination Removal, and Read-Based Taxonomic Analysis",
+          
+          description: "A comprehensive guide to preprocessing metagenomic sequencing data, from raw reads to clean, taxonomically profiled datasets ready for assembly. Includes workflows for HPC, personal desktop, Linux, and Windows environments.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day1-qc-taxonomy/";
+            
+          },
+        },{id: "post-genome-resolved-metabolism-from-metabolic-potential-to-co-metabolism-networks",
+          
+            title: "Genome-Resolved Metabolism: From Metabolic Potential to Co-Metabolism Networks",
+          
+          description: "A comprehensive workflow for analyzing metabolic flexibility, co-energy metabolism, and co-metabolism networks in hydrocarbon-degrading MAGs using heatmaps and network visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-resolved-metabolism-co-metabolism/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-4-gene-catalog-construction-amp-functional-annotation",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp; Functional Annotation",
+          
+          description: "Day 4 of the size-fractionated microbiome series: Building a non-redundant prokaryotic gene catalog from metagenomes using Prodigal, CD-HIT clustering, and eggNOG functional annotation.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day4/";
+            
+          },
+        },{id: "post-bridging-clinical-and-ecological-ml-from-heart-disease-to-soil-ecosystem-multifunctionality",
+          
+            title: "Bridging Clinical and Ecological ML: From Heart Disease to Soil Ecosystem Multifunctionality",
+          
+          description: "Revisiting my masters in datascience project on heart disease prediction to explore Random Forest applications in microbial ecosystem multifunctionality research. A comprehensive comparison of 5 ML algorithms with real results and lessons learned.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/heart-disease-prediction-ml-random-forest/";
+            
+          },
+        },{id: "post-building-custom-humann3-databases-with-struo2-and-gtdb-a-realistic-guide-from-the-trenches",
+          
+            title: "Building Custom HUMAnN3 Databases with Struo2 and GTDB: A Realistic Guide from the...",
+          
+          description: "A comprehensive, honest guide to building custom HUMAnN3 databases using Struo2 with GTDB r220, including all the troubleshooting, workarounds, and lessons learned from 40 hours in the trenches.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/building-custom-humann3-databases-struo2-gtdb/";
+            
+          },
+        },{id: "post-visualize-your-data-day-5-bubble-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 5: Bubble Plots in Bioinformatics",
+          
+          description: "Day 5 of the Visualize Your Data series: using bubble plots to visualize multi-dimensional relationships in genomics and functional ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day5-bubble-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-4-volcano-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 4: Volcano Plots in Bioinformatics",
+          
+          description: "Day 4 of the Visualize Your Data series: mastering volcano plots for differential expression and abundance analysis in bioinformatics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day4-volcano-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-3-ordination-plots-pca-pcoa-nmds-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 3: Ordination Plots (PCA, PCoA, NMDS) in Bioinformatics...",
+          
+          description: "Day 3 of the Visualize Your Data series: exploring PCA, PCoA, and NMDS to visualize sample relationships and community structure in bioinformatics and microbial ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day3-ordination/";
+            
+          },
+        },{id: "post-visualize-your-data-day-2-heatmaps-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 2: Heatmaps in Bioinformatics",
+          
+          description: "Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps,  commonly used in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day2-heatmaps/";
+            
+          },
+        },{id: "post-visualize-your-data-day-1-box-plot-vs-violin-plot-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics...",
+          
+          description: "Day 1 of the Visualize Your Data series: understanding when and how to use box plots and violin plots to visualize data distributions in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day1-box-vs-violin/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-5-comparative-amp-downstream-genomic-analyses",
+          
+            title: "Whole Genome Sequencing — Day 5: Comparative &amp; Downstream Genomic Analyses",
+          
+          description: "Day 5 of the WGS series: moving from individual genomes to comparative insights through pangenome analysis, secondary metabolite screening, and pathogen detection",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day5-comparative-genomics/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-4-genome-annotation-amp-functional-potential",
+          
+            title: "Whole Genome Sequencing — Day 4: Genome Annotation &amp; Functional Potential",
+          
+          description: "Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day4-annotation-function/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-3-taxonomy-phylogeny-amp-genome-similarity",
+          
+            title: "Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp; Genome Similarity",
+          
+          description: "Day 3 of the WGS series: genome-based taxonomy using GTDB-Tk, phylogenomic tree construction, and species/genus boundary testing using ANI, AAI, and dDDH across large genome sets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day3-taxonomy-phylogeny/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-2-genome-assembly-quality-assessment-and-topology",
+          
+            title: "Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology",
+          
+          description: "Day 2 of the WGS series: short- and long-read genome assembly using SPAdes, MEGAHIT, Shovill, and Flye, followed by assembly evaluation with QUAST, GC content visualization, topology assessment, and graph inspection with Bandage.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day2-genome-assembly/";
+            
+          },
+        },{id: "post-whole-genome-analysis-day-1-from-raw-reads-to-clean-assembly-ready-data",
+          
+            title: "Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data...",
+          
+          description: "Day 1 of a whole-genome analysis series covering raw Illumina and Nanopore reads, integrity checks, quality control with FastQC and NanoPlot, and read trimming using Trimmomatic and Cutadapt.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day1-raw-reads-qc/";
+            
+          },
+        },{id: "post-exploring-the-pan-genome-with-panx-a-practical-workflow-for-darpa-isolates",
+          
+            title: "Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates",
+          
+          description: "5 complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/panx-pangenome-analysis/";
+            
+          },
+        },{id: "post-extracting-full-length-16s-rrna-from-bacterial-genomes-using-barrnap",
+          
+            title: "Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap",
+          
+          description: "A quick and reproducible workflow to extract 16S rRNA genes from assembled genomes and validate taxonomy using NCBI BLAST.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/barrnap-16s-extraction/";
+            
+          },
+        },{id: "post-from-genome-assembly-to-novel-species-a-step-by-step-genomic-workflow",
+          
+            title: "From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow",
+          
+          description: "How do we confidently determine whether a newly sequenced genome represents a novel bacterial species?",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/novel-species-a-step-by-step-guide/";
+            
+          },
+        },{id: "post-using-syncthing-tmux-and-git-to-sync-my-bioinformatics-workflow-across-devices",
+          
+            title: "Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices",
+          
+          description: "How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/syncthing-tmux-git-workflow/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-3-species-level-profiling-with-motus",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs",
+          
+          description: "Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day3/";
+            
+          },
+        },{id: "post-genome-topology-and-genome-announcement-reports-a-practical-reviewer-safe-workflow",
+          
+            title: "Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow",
+          
+          description: "A step-by-step guide to answering NCBI genome topology questions and generating a complete, automated genome report table for Genome Resource Announcements.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-topology-and-genome-report/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-2-kaiju-classification-and-extraction-of-bacterial-amp-archaeal-reads",
+          
+            title: "Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial...",
+          
+          description: "Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day2/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-anlaysis-day-1-from-raw-reads-to-clean-data",
+          
+            title: "Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data...",
+          
+          description: "Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day1/";
+            
+          },
+        },{id: "post-amplicon-week-day-6-wrap-up-from-reads-to-insights",
+          
+            title: "Amplicon Week — Day 6: Wrap-Up: From Reads to Insights",
+          
+          description: "Day 6 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day6/";
+            
+          },
+        },{id: "post-amplicon-week-day-5-web-based-microbiome-analysis-with-easy16s",
+          
+            title: "Amplicon Week — Day 5: Web-based microbiome analysis with easy16S",
+          
+          description: "Day 5 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day5/";
+            
+          },
+        },{id: "post-amplicon-week-day-4-functional-prediction-from-amplicon-data-picrust2-tax4fun2-faprotax",
+          
+            title: "Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)...",
+          
+          description: "Day 4 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day4/";
+            
+          },
+        },{id: "post-amplicon-week-day-3-visualization-amp-ecological-analysis-using-qiime2-microeco-r",
+          
+            title: "Amplicon Week — Day 3: Visualization &amp; Ecological Analysis Using QIIME2 + Microeco...",
+          
+          description: "Day 3 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day3/";
+            
+          },
+        },{id: "post-amplicon-week-day-2-qiime2-setup-importing-data-amp-classifier-training",
+          
+            title: "Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training",
+          
+          description: "Day 2 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day2/";
+            
+          },
+        },{id: "post-amplicon-week-day-1-introduction-to-16s-its-18s-12s-and-coi-metabarcoding",
+          
+            title: "Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI...",
+          
+          description: "Day 1 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day1/";
+            
+          },
+        },{id: "post-cleaning-and-preparing-genomes-for-ncbi-submission-a-complete-workflow",
+          
+            title: "Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow",
+          
+          description: "Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/ncbi-submission-cleaning/";
+            
+          },
+        },{id: "post-machine-learning-mag-binning-with-semibin2-and-snakemake-soil-metagenomes",
+          
+            title: "Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)",
+          
+          description: "How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/semibin-snakemake-soil-mag-workflow/";
+            
+          },
+        },{id: "post-installing-amp-setting-up-my-new-linux-laptop-a-real-journey-through-dual-boot-partitions-amp-persistence",
+          
+            title: "Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot,...",
+          
+          description: "A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/dual-booting-with-linux/";
+            
+          },
+        },{id: "post-gtdb-tk-complete-workflow",
+          
+            title: "GTDB-Tk Complete Workflow",
+          
+          description: "A practical walkthrough of GTDB-Tk Complete Workflow",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/gtdbtk-tree-custom/";
+            
+          },
+        },{id: "post-genome-assembly-day-shovill-for-illumina-amp-flye-for-nanopore-reads",
+          
+            title: "Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads",
+          
+          description: "A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-assembly-day/";
+            
+          },
+        },{id: "post-visualizing-genome-assemblies-with-bandage-building-from-source-on-linux",
+          
+            title: "Visualizing Genome Assemblies with Bandage: Building from Source on Linux",
+          
+          description: "A practical guide to installing Bandage from source using Qt and visualizing assembly graphs generated by Flye and Shovill.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-visualization/";
+            
+          },
+        },{id: "post-re-working-figure-5-visualizing-functional-redundancy-fred-across-bays-seasons-and-salinity",
+          
+            title: "Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity",
+          
+          description: "Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/reworking-a-figure-manuscript-revision-story/";
+            
+          },
+        },{id: "post-my-journey-into-microbiology-the-deep-sea-and-bioinformatics",
+          
+            title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics",
+          
+          description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics/";
+            
+          },
+        },{id: "news-aaas-membership-and-science-magazine-subscription-nominated-by-cynthia-y-young-dean-of-college-of-science-clemson-university",
+              title: 'AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of...',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-asm-2025-los-angeles-usa",
+              title: 'Abstract accepted for **ASM 2025**, Los Angeles, USA.',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-aslo-2025-charlotte-usa",
+              title: 'Abstract accepted for **ASLO 2025**, Charlotte, USA',
+              description: "",
+              section: "News",},{id: "news-188-whole-genome-sequences-submitted-to-ncbi",
+              title: '188 whole-genome sequences submitted to NCBI.',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-baseline-evaluation-of-the-toxicity-potential-of-steel-slag-using-the-green-mussel-perna-viridis-for-sustainable-marine-reuse-applications-this-work-was-originally-completed-during-2019-2020-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Baseline evaluation of the toxicity potential of steel...',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-comparative-genomic-and-phenotypic-analysis-of-streptomyces-rochei-sosist-3-isolated-from-the-southern-ocean-this-work-is-a-part-of-colloboration-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Comparative genomic and phenotypic analysis of Streptomyces rochei...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-accepted-𝐀-𝐯𝐞𝐫𝐲-𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥-𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞-today-i-m-sharing-some-happy-news-𝐦𝐲-𝐟𝐢𝐫𝐬𝐭-𝐩𝐨𝐬𝐭𝐝𝐨𝐜𝐭𝐨𝐫𝐚𝐥-𝐩𝐚𝐩𝐞𝐫-𝐡𝐚𝐬-𝐛𝐞𝐞𝐧-𝐚𝐜𝐜𝐞𝐩𝐭𝐞𝐝-𝐢𝐧-𝐈𝐒𝐌𝐄-𝐂𝐨𝐦𝐦𝐮𝐧𝐢𝐜𝐚𝐭𝐢𝐨𝐧𝐬",
+              title: '**A new paper accepted!** “✨ 𝐀 𝐯𝐞𝐫𝐲 𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥 𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞 ✨ Today, I’m sharing...',
+              description: "",
+              section: "News",},{id: "news-the-accepted-version-available-online-quot-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays-quot-doi-https-doi-org-10-1093-ismeco-ycag021-link-https-academic-oup-com-ismecommun-advance-article-doi-10-1093-ismeco-ycag021-8454622-fr-ic-assets-img-fr-ic-png",
+              title: '**The accepted version available online!** &quot;Functional redundancy and metabolic flexibility of microbial communities...',
+              description: "",
+              section: "News",},{id: "projects-bacteriophages-and-auxiliary-metabolic-genes-of-the-chesapeake-and-delaware-bays",
+              title: 'Bacteriophages and Auxiliary Metabolic Genes of the Chesapeake and Delaware Bays',
+              description: "Integrative viromics using metagenomes, metatranscriptomes, and viral fractions to characterize viral taxonomy, auxiliary metabolic genes, host interactions, and ecosystem function in estuarine systems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Estury_Virome/";
+                },},{id: "projects-microbial-biofouling-interactions-on-autonomous-navy-gliders",
+              title: 'Microbial Biofouling Interactions on Autonomous Navy Gliders',
+              description: "Genome-resolved and metagenomic analysis of marine biofilm communities on autonomous underwater vehicles to design a stable, invasion-resistant synthetic biofilm.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/darpa-biofouling-gliders/";
+                },},{id: "projects-diversity-genomic-studies-and-resistance-mechanisms-of-moderately-halophilic-bacteria",
+              title: 'Diversity, Genomic Studies, and Resistance Mechanisms of Moderately Halophilic Bacteria',
+              description: "Genomic and physiological characterization of halophilic bacteria from salt pan ecosystems to understand stress adaptation, resistance mechanisms, and biotechnological potential.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/diversity_and_genomics/";
+                },},{id: "projects-biological-and-microbial-responses-to-deep-sea-mining-hypoxia-and-anthropogenic-disturbance",
+              title: 'Biological and Microbial Responses to Deep-Sea Mining, Hypoxia, and Anthropogenic Disturbance',
+              description: "Environmental impact assessment of deep-sea mining, monsoon-driven hypoxia, and industrial disturbance using molecular and genomic approaches.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/environmental-impact-assessment/";
+                },},{id: "projects-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays",
+              title: 'Functional Redundancy and Metabolic Flexibility of Microbial Communities in Two Mid-Atlantic Bays',
+              description: "Genome-resolved metagenomic and metatranscriptomic analysis of functional redundancy and metabolic flexibility in estuarine microbial communities from the Chesapeake and Delaware Bays.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/functional-redundancy/";
+                },},{id: "projects-resource-partitioning-and-co-occurrence-of-size-fractionated-microbiomes-in-the-delaware-and-chesapeake-bays",
+              title: 'Resource Partitioning and Co-occurrence of Size-Fractionated Microbiomes in the Delaware and Chesapeake Bays...',
+              description: "Integrative metagenomic and metatranscriptomic analysis of free-living and particle-associated microbial communities to understand resource partitioning, co-occurrence patterns, and functional redundancy in estuarine ecosystems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/size-fractionated-resource-partitioning/";
+                },},{
+            id: 'socials-email',
+            title: 'Send email',
+            section: 'Socials',
+            handler: () => {
+              window.open("mailto:%6A%6F%6A%79%6A@%63%6C%65%6D%73%6F%6E.%65%64%75", "_blank");
+            },
+          },{
+            id: 'socials-orcid',
+            title: 'ORCID',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://orcid.org/0000-0002-8739-9741", "_blank");
+            },
+          },{
+            id: 'socials-google-scholar',
+            title: 'Google Scholar',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://scholar.google.com/citations?user=w74rUUAAAAAJ", "_blank");
+            },
+          },{
+            id: 'socials-github',
+            title: 'GitHub',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://github.com/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-linkedin',
+            title: 'LinkedIn',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://www.linkedin.com/in/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-x',
+            title: 'X',
+            description: 'Twitter',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://twitter.com/JojyJon", "_blank");
+            },
+          },{
+            id: 'socials-rss',
+            title: 'RSS Feed',
+            section: 'Socials',
+            handler: () => {
+              window.open("/feed.xml", "_blank");
+            },
+          },{
+          id: 'light-theme',
+          title: 'Change theme to light',
+          description: 'Change the theme of the site to Light',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("light");
+          },
+        },
+        {
+          id: 'dark-theme',
+          title: 'Change theme to dark',
+          description: 'Change the theme of the site to Dark',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("dark");
+          },
+        },
+        {
+          id: 'system-theme',
+          title: 'Use system default theme',
+          description: 'Change the theme of the site to System Default',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("system");
+          },
+        },];
+  </script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+  </body>
+</html>
