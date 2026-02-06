@@ -1372,14 +1372,6 @@ Found this helpful? Have suggestions?
 
 🔗 **[See my complete repo →](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day3-binning/)**
 
-<div align="center">
-
-**[⬆ Back to Main](../README.md)** | **[← Day 2](../day2-assembly/)** | **[Day 4 →](../day4-functional-annotation/)**
-
-Made with ❤️ for the metagenomics community
-
-_Last updated: February 2025_
-
-</div>
+Last updated: February 2025\_
 
 ![day2 mg](/assets/img/d3_mg.png)
