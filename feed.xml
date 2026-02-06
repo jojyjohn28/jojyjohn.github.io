@@ -1,5 +1,1663 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-04T12:48:54-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly/" rel="alternate" type="text/html" title="Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads" /><published>2026-02-04T00:00:00-05:00</published><updated>2026-02-04T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly/"><![CDATA[<h1 id="day-2-metagenome-assembly---reconstructing-genomes-from-short-reads">Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-06T16:46:19-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Day 3: Genome Binning - Recovering Individual Genomes (MAGs) from Metagenomes</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning/" rel="alternate" type="text/html" title="Day 3: Genome Binning - Recovering Individual Genomes (MAGs) from Metagenomes" /><published>2026-02-06T00:00:00-05:00</published><updated>2026-02-06T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning/"><![CDATA[<h1 id="day-3-genome-binning---recovering-individual-genomes-from-metagenomes">Day 3: Genome Binning - Recovering Individual Genomes from Metagenomes</h1>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Estimated Time:</strong> 8-12 hours</td>
+      <td><strong>Difficulty:</strong> Intermediate</td>
+      <td><strong>Prerequisites:</strong> Day 2 (Assembly)</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-table-of-contents">📚 Table of Contents</h2>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#what-is-genome-binning">What is Genome Binning?</a></li>
+  <li><a href="#modern-metawrap-setup">Modern MetaWRAP Setup</a></li>
+  <li><a href="#binning-workflow">Binning Workflow</a></li>
+  <li><a href="#semibin2-overview">SemiBin2 Overview</a></li>
+  <li><a href="#bin-refinement">Bin Refinement</a></li>
+  <li><a href="#quality-assessment-with-checkm2">Quality Assessment with CheckM2</a></li>
+  <li><a href="#mag-classification">MAG Classification</a></li>
+  <li><a href="#best-practices">Best Practices</a></li>
+  <li><a href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-introduction">🎯 Introduction</h2>
+
+<p>Welcome to Day 3 of the metagenome analysis series! After assembling contigs in Day 2, we now face the challenge of <strong>separating individual genomes</strong> from the complex mixture. This process, called <strong>binning</strong>, is crucial for recovering Metagenome-Assembled Genomes (MAGs).</p>
+
+<h3 id="what-youll-learn">What You’ll Learn</h3>
+
+<p>By the end of this tutorial, you’ll be able to:</p>
+
+<ul>
+  <li>✅ Set up MetaWRAP with Python 3 (modern, stable approach)</li>
+  <li>✅ Run complementary binning algorithms (MetaBAT2, MaxBin2, CONCOCT)</li>
+  <li>✅ Use SemiBin2 for deep learning-based binning</li>
+  <li>✅ Refine bins to improve quality</li>
+  <li>✅ Assess MAG completeness and contamination with CheckM2</li>
+  <li>✅ Classify and annotate recovered genomes</li>
+</ul>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>From Day 2, you need:</p>
+
+<ul>
+  <li>✅ Assembled contigs (<code class="language-plaintext highlighter-rouge">contigs.fasta</code>)</li>
+  <li>✅ Sorted BAM file (<code class="language-plaintext highlighter-rouge">contigs.bam</code>)</li>
+  <li>✅ Coverage depth file (<code class="language-plaintext highlighter-rouge">depth.txt</code>)</li>
+</ul>
+
+<hr />
+
+<h2 id="-what-is-genome-binning">🔬 What is Genome Binning?</h2>
+
+<p><strong>Genome binning</strong> groups contigs that likely originated from the same organism based on:</p>
+
+<h3 id="key-features-used-for-binning">Key Features Used for Binning</h3>
+
+<ol>
+  <li><strong>Sequence Composition (Tetranucleotide Frequency)</strong>
+    <ul>
+      <li>GC content patterns</li>
+      <li>Codon usage bias</li>
+      <li>k-mer frequencies</li>
+      <li>Different organisms have unique “genomic signatures”</li>
+    </ul>
+  </li>
+  <li><strong>Coverage Patterns (Abundance)</strong>
+    <ul>
+      <li>Contigs from the same organism have similar coverage</li>
+      <li>Multi-sample binning: co-abundance across samples</li>
+      <li>More samples = better resolution</li>
+    </ul>
+  </li>
+  <li><strong>Taxonomic Markers</strong>
+    <ul>
+      <li>Single-copy marker genes</li>
+      <li>Phylogenetic placement</li>
+      <li>Reference database similarity</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="️-modern-metawrap-setup">🛠️ Modern MetaWRAP Setup</h2>
+
+<h3 id="️-important-note-on-installation">⚠️ Important Note on Installation</h3>
+
+<p><strong>DO NOT use <code class="language-plaintext highlighter-rouge">metawrap-mg</code>!</strong> It’s outdated and has numerous dependency conflicts. Instead, we’ll set up MetaWRAP properly with Python 3.</p>
+
+<h3 id="why-this-approach-is-better">Why This Approach is Better</h3>
+
+<p>✅ <strong>Python 3 compatible</strong> - All major dependencies now support Python 3<br />
+✅ <strong>Stable</strong> - Avoid dependency hell and version conflicts<br />
+✅ <strong>Modular</strong> - Separate environments for problematic tools (Prokka, Salmon)<br />
+✅ <strong>Maintainable</strong> - Easy to update individual components<br />
+✅ <strong>Future-proof</strong> - Python 2 is officially deprecated</p>
+
+<h3 id="step-1-create-main-metawrap-environment">Step 1: Create Main MetaWRAP Environment</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create clean Python 3 environment</span>
+conda create <span class="nt">-n</span> metawrap <span class="nv">python</span><span class="o">=</span>3.9
+conda activate metawrap
+
+<span class="c"># Install MetaWRAP</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda metawrap-mg
+
+<span class="c"># Install core dependencies manually</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge <span class="se">\</span>
+    bwa <span class="se">\</span>
+    samtools <span class="se">\</span>
+    metabat2 <span class="se">\</span>
+    maxbin2 <span class="se">\</span>
+    concoct <span class="se">\</span>
+    checkm-genome <span class="se">\</span>
+    pplacer <span class="se">\</span>
+    blast <span class="se">\</span>
+    megahit <span class="se">\</span>
+    spades <span class="se">\</span>
+    quast <span class="se">\</span>
+    biopython <span class="se">\</span>
+    pandas <span class="se">\</span>
+    seaborn <span class="se">\</span>
+    matplotlib
+</code></pre></div></div>
+
+<h3 id="step-2-create-separate-environments-for-problematic-tools">Step 2: Create Separate Environments for Problematic Tools</h3>
+
+<p><strong>Prokka Environment (for annotation):</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> prokka <span class="nv">python</span><span class="o">=</span>3.8
+conda activate prokka
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda prokka
+
+<span class="c"># Get Prokka path</span>
+which prokka
+<span class="c"># Example: /home/user/miniconda3/envs/prokka/bin/prokka</span>
+</code></pre></div></div>
+
+<p><strong>Salmon Environment (for quantification):</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> salmon <span class="nv">python</span><span class="o">=</span>3.8
+conda activate salmon
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda salmon
+
+<span class="c"># Get Salmon path</span>
+which salmon
+<span class="c"># Example: /home/user/miniconda3/envs/salmon/bin/salmon</span>
+</code></pre></div></div>
+
+<h3 id="step-3-configure-metawrap-paths">Step 3: Configure MetaWRAP Paths</h3>
+
+<p>Edit MetaWRAP configuration to point to separate environments:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Activate main environment</span>
+conda activate metawrap
+
+<span class="c"># Find MetaWRAP installation</span>
+<span class="nv">METAWRAP_PATH</span><span class="o">=</span><span class="si">$(</span>which metawrap<span class="si">)</span>
+<span class="nv">METAWRAP_DIR</span><span class="o">=</span><span class="si">$(</span><span class="nb">dirname</span> <span class="si">$(</span><span class="nb">dirname</span> <span class="nv">$METAWRAP_PATH</span><span class="si">))</span>
+
+<span class="c"># Edit configuration (if needed)</span>
+<span class="c"># Most scripts will auto-detect conda environments</span>
+<span class="c"># If you encounter issues, manually edit scripts to use full paths:</span>
+
+<span class="c"># Example: Edit bin_refinement.sh</span>
+nano <span class="nv">$METAWRAP_DIR</span>/bin/metawrap-scripts/bin_refinement.sh
+
+<span class="c"># Replace:</span>
+<span class="c">#   prokka</span>
+<span class="c"># With:</span>
+<span class="c">#   /full/path/to/prokka/bin/prokka</span>
+</code></pre></div></div>
+
+<h3 id="step-4-handle-python-2-legacy-scripts">Step 4: Handle Python 2 Legacy Scripts</h3>
+
+<p>Some auxiliary scripts still use Python 2. Create a Python 2 environment:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> python2 <span class="nv">python</span><span class="o">=</span>2.7
+conda activate python2
+conda <span class="nb">install </span>biopython numpy
+
+<span class="c"># Get Python 2 path</span>
+which python
+<span class="c"># Example: /home/user/miniconda3/envs/python2/bin/python</span>
+</code></pre></div></div>
+
+<p><strong>Update shebang lines in legacy scripts:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Find Python 2 scripts</span>
+<span class="nb">grep</span> <span class="nt">-r</span> <span class="s2">"#!/usr/bin/env python$"</span> <span class="nv">$METAWRAP_DIR</span>/bin/metawrap-scripts/
+
+<span class="c"># Edit each script to use Python 2 explicitly</span>
+<span class="c"># Change:</span>
+<span class="c">#   #!/usr/bin/env python</span>
+<span class="c"># To:</span>
+<span class="c">#   #!/home/user/miniconda3/envs/python2/bin/python</span>
+</code></pre></div></div>
+
+<h3 id="step-5-install-checkm2-modern-alternative-to-checkm">Step 5: Install CheckM2 (Modern Alternative to CheckM)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate metawrap
+
+<span class="c"># Install CheckM2 (faster, more accurate than CheckM)</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda checkm2
+
+<span class="c"># Download database (~3.5 GB)</span>
+checkm2 database <span class="nt">--download</span> <span class="nt">--path</span> ~/checkm2_db/
+</code></pre></div></div>
+
+<h3 id="verification">Verification</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Activate main environment</span>
+conda activate metawrap
+
+<span class="c"># Test installations</span>
+metawrap <span class="nt">--help</span>
+metabat2 <span class="nt">--help</span>
+maxbin2 <span class="nt">-h</span>
+concoct <span class="nt">--help</span>
+checkm2 <span class="nt">-h</span>
+
+<span class="c"># Test separate environments</span>
+conda activate prokka
+prokka <span class="nt">--version</span>
+
+conda activate salmon
+salmon <span class="nt">--version</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-binning-workflow">🔄 Binning Workflow</h2>
+
+<h3 id="overview-of-the-complete-pipeline">Overview of the Complete Pipeline</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Clean FASTQ Files + Contigs (from Day 1 &amp; 2)
+                ↓
+┌───────────────────────────────────┐
+│  MetaWRAP Initial Binning         │
+│  (All-in-One Command)             │
+│  • Automatic read mapping         │
+│  • Coverage calculation           │
+│  • MetaBAT2 binning               │
+│  • MaxBin2 binning                │
+│  • CONCOCT binning                │
+│  • CheckM quality assessment      │
+└───────────────────────────────────┘
+            ↓
+┌───────────────────────────────────┐
+│  Bin Refinement (MetaWRAP)        │
+│  • Consolidate bins               │
+│  • Remove contamination           │
+│  • Improve completeness           │
+│  • Re-validate with CheckM        │
+└───────────────────────────────────┘
+            ↓
+┌───────────────────────────────────┐
+│  Quality Assessment (CheckM2)     │
+│  • Completeness &gt; 50%             │
+│  • Contamination &lt; 10%            │
+│  • Quality tiers (HQ/MQ/LQ)       │
+└───────────────────────────────────┘
+            ↓
+┌───────────────────────────────────┐
+│  Abundance Profiling (CoverM)     │
+│  • Relative abundance             │
+│  • Mean coverage depth            │
+│  • RPKM / TPM normalization       │
+│  • Multi-sample comparison        │
+└───────────────────────────────────┘
+            ↓
+┌───────────────────────────────────┐
+│  Coverage Validation (SingleM)    │
+│  • MAG detection in samples       │
+│  • % genome covered by reads      │
+│  • Identify unbinned organisms    │
+│  • Strain-level analysis          │
+└───────────────────────────────────┘
+            ↓
+┌───────────────────────────────────┐
+│  Bin Quantification (MetaWRAP)    │
+│  • Track across time series       │
+│  • Core vs variable microbiome    │
+│  • Abundance heatmaps             │
+└───────────────────────────────────┘
+            ↓
+High-Quality MAGs + Abundance + Coverage Data
+</code></pre></div></div>
+
+<h3 id="step-1-initial-binning-with-metawrap-all-in-one">Step 1: Initial Binning with MetaWRAP (All-in-One)</h3>
+
+<p><strong>Modern Approach:</strong> MetaWRAP can run all three binners (MetaBAT2, MaxBin2, CONCOCT) in a single command!</p>
+
+<p><strong>Why use multiple binners?</strong></p>
+
+<ul>
+  <li>Each algorithm has different strengths</li>
+  <li>Combining results improves MAG quality</li>
+  <li>Captures more of the community diversity</li>
+  <li>MetaWRAP automatically handles coverage calculation</li>
+</ul>
+
+<h4 id="run-metawrap-binning-module">Run MetaWRAP Binning Module</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate metawrap
+
+<span class="c"># Run all three binners + CheckM in one command</span>
+metawrap binning <span class="se">\</span>
+    <span class="nt">-o</span> INITIAL_BINNING <span class="se">\</span>
+    <span class="nt">-t</span> 32 <span class="se">\</span>
+    <span class="nt">-a</span> contigs.fasta <span class="se">\</span>
+    <span class="nt">--metabat2</span> <span class="se">\</span>
+    <span class="nt">--maxbin2</span> <span class="se">\</span>
+    <span class="nt">--concoct</span> <span class="se">\</span>
+    clean_reads_R1.fastq <span class="se">\</span>
+    clean_reads_R2.fastq <span class="se">\</span>
+    <span class="nt">-m</span> 1500 <span class="se">\</span>
+    <span class="nt">--run-checkm</span>
+</code></pre></div></div>
+
+<p><strong>What this does:</strong></p>
+
+<ol>
+  <li>✅ Maps reads back to contigs automatically</li>
+  <li>✅ Calculates coverage depth</li>
+  <li>✅ Runs MetaBAT2 binning</li>
+  <li>✅ Runs MaxBin2 binning</li>
+  <li>✅ Runs CONCOCT binning</li>
+  <li>✅ Runs CheckM on all bins</li>
+  <li>✅ Generates summary statistics</li>
+</ol>
+
+<p><strong>Parameters explained:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-o INITIAL_BINNING</code>: Output directory</li>
+  <li><code class="language-plaintext highlighter-rouge">-t 32</code>: Number of threads</li>
+  <li><code class="language-plaintext highlighter-rouge">-a contigs.fasta</code>: Assembled contigs from Day 2</li>
+  <li><code class="language-plaintext highlighter-rouge">--metabat2 --maxbin2 --concoct</code>: Enable all three binners</li>
+  <li><code class="language-plaintext highlighter-rouge">clean_reads_R1.fastq clean_reads_R2.fastq</code>: Clean reads from Day 1</li>
+  <li><code class="language-plaintext highlighter-rouge">-m 1500</code>: Minimum bin size (1.5 Mb)</li>
+  <li><code class="language-plaintext highlighter-rouge">--run-checkm</code>: Run quality assessment immediately</li>
+</ul>
+
+<p><strong>Expected output structure:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INITIAL_BINNING/
+├── metabat2_bins/          # MetaBAT2 results
+│   ├── bin.1.fa
+│   ├── bin.2.fa
+│   └── ...
+├── maxbin2_bins/           # MaxBin2 results
+│   ├── bin.001.fasta
+│   ├── bin.002.fasta
+│   └── ...
+├── concoct_bins/           # CONCOCT results
+│   ├── 0.fa
+│   ├── 1.fa
+│   └── ...
+├── metabat2_bins.stats     # CheckM results
+├── maxbin2_bins.stats
+├── concoct_bins.stats
+└── work_files/             # Intermediate files
+</code></pre></div></div>
+
+<p><strong>Time:</strong> 4-8 hours depending on data size and number of samples (for me 32 metagenomes took many days in batch to finish the binning)</p>
+
+<p><strong>Algorithm Strengths:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Binner</th>
+      <th>Best For</th>
+      <th>Approach</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>MetaBAT2</strong></td>
+      <td>High-coverage bins</td>
+      <td>Coverage + tetranucleotide frequency</td>
+    </tr>
+    <tr>
+      <td><strong>MaxBin2</strong></td>
+      <td>Low-abundance organisms</td>
+      <td>Marker genes (107 genes) + coverage</td>
+    </tr>
+    <tr>
+      <td><strong>CONCOCT</strong></td>
+      <td>Complex communities</td>
+      <td>Gaussian mixture models on coverage</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="step-2-bin-refinement-with-metawrap">Step 2: Bin Refinement with MetaWRAP</h3>
+
+<p><strong>Bin refinement consolidates</strong> the three binning results to produce the best possible MAGs.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate metawrap
+
+metawrap bin_refinement <span class="se">\</span>
+    <span class="nt">-o</span> BIN_REFINEMENT <span class="se">\</span>
+    <span class="nt">-t</span> 32 <span class="se">\</span>
+    <span class="nt">-A</span> INITIAL_BINNING/metabat2_bins/ <span class="se">\</span>
+    <span class="nt">-B</span> INITIAL_BINNING/maxbin2_bins/ <span class="se">\</span>
+    <span class="nt">-C</span> INITIAL_BINNING/concoct_bins/ <span class="se">\</span>
+    <span class="nt">-c</span> 50 <span class="se">\</span>
+    <span class="nt">-x</span> 10 <span class="se">\</span>
+    <span class="nt">-m</span> 1500
+
+<span class="c"># Alternative: Stricter quality thresholds for publication</span>
+metawrap bin_refinement <span class="se">\</span>
+    <span class="nt">-o</span> BIN_REFINEMENT_STRICT <span class="se">\</span>
+    <span class="nt">-t</span> 32 <span class="se">\</span>
+    <span class="nt">-A</span> INITIAL_BINNING/metabat2_bins/ <span class="se">\</span>
+    <span class="nt">-B</span> INITIAL_BINNING/maxbin2_bins/ <span class="se">\</span>
+    <span class="nt">-C</span> INITIAL_BINNING/concoct_bins/ <span class="se">\</span>
+    <span class="nt">-c</span> 70 <span class="se">\</span>
+    <span class="nt">-x</span> 5 <span class="se">\</span>
+    <span class="nt">-m</span> 1500
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-o</code>: Output directory</li>
+  <li><code class="language-plaintext highlighter-rouge">-t 32</code>: Number of threads</li>
+  <li><code class="language-plaintext highlighter-rouge">-A/-B/-C</code>: Paths to the three binning results</li>
+  <li><code class="language-plaintext highlighter-rouge">-c 50</code>: Minimum completeness (50%, or 70% for strict)</li>
+  <li><code class="language-plaintext highlighter-rouge">-x 10</code>: Maximum contamination (10%, or 5% for strict)</li>
+  <li><code class="language-plaintext highlighter-rouge">-m 1500</code>: Minimum bin size (1.5 Mb)</li>
+</ul>
+
+<p><strong>What refinement does:</strong></p>
+
+<ol>
+  <li>Identifies overlapping bins across methods</li>
+  <li>Picks best contigs from each method</li>
+  <li>Removes contaminating contigs</li>
+  <li>Validates with CheckM</li>
+  <li>Produces consensus bins</li>
+  <li>Creates visualization plots</li>
+</ol>
+
+<p><strong>Expected output:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BIN_REFINEMENT/
+├── metawrap_50_10_bins/          # Final refined bins
+│   ├── bin.1.fa
+│   ├── bin.2.fa
+│   └── ...
+├── metawrap_50_10_bins.stats     # Quality statistics
+├── metawrap_50_10_bins.contigs   # Contig assignments
+├── figures/
+│   ├── binning_results.png       # Venn diagram
+│   └── bin_refinement_stats.png  # Quality metrics
+└── work_files/
+</code></pre></div></div>
+
+<h3 id="step-3-bin-quality-assessment">Step 3: Bin Quality Assessment</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run CheckM on refined bins</span>
+checkm lineage_wf <span class="se">\</span>
+    <span class="nt">-t</span> 16 <span class="se">\</span>
+    <span class="nt">-x</span> fa <span class="se">\</span>
+    BIN_REFINEMENT/metawrap_50_10_bins/ <span class="se">\</span>
+    checkm_output/
+
+<span class="c"># Generate summary table</span>
+checkm qa <span class="se">\</span>
+    checkm_output/lineage.ms <span class="se">\</span>
+    checkm_output/ <span class="se">\</span>
+    <span class="nt">-o</span> 2 <span class="se">\</span>
+    <span class="nt">-f</span> checkm_summary.txt <span class="se">\</span>
+    <span class="nt">--tab_table</span>
+</code></pre></div></div>
+
+<p><strong>Interpreting Results:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Quality Tier</th>
+      <th>Completeness</th>
+      <th>Contamination</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>High-Quality (HQ)</strong></td>
+      <td>&gt;90%</td>
+      <td>&lt;5%</td>
+      <td>Publications, reference genomes</td>
+    </tr>
+    <tr>
+      <td><strong>Medium-Quality (MQ)</strong></td>
+      <td>50-90%</td>
+      <td>&lt;10%</td>
+      <td>Most analyses, gene mining</td>
+    </tr>
+    <tr>
+      <td><strong>Low-Quality (LQ)</strong></td>
+      <td>&lt;50%</td>
+      <td>&gt;10%</td>
+      <td>Exploratory, presence/absence</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="step-4-bin-quantification-abundance">Step 4: Bin Quantification (Abundance)</h3>
+
+<p>Calculate the abundance of each MAG across your samples:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate metawrap
+
+<span class="c"># Quantify bins across samples</span>
+metawrap quant_bins <span class="se">\</span>
+    <span class="nt">-b</span> BIN_REFINEMENT/metawrap_50_10_bins <span class="se">\</span>
+    <span class="nt">-o</span> QUANT_BINS <span class="se">\</span>
+    <span class="nt">-a</span> contigs.fasta <span class="se">\</span>
+    clean_reads_<span class="k">*</span>.fastq <span class="se">\</span>
+    <span class="nt">-t</span> 32
+
+<span class="c"># For multiple samples (time series, spatial)</span>
+metawrap quant_bins <span class="se">\</span>
+    <span class="nt">-b</span> BIN_REFINEMENT/metawrap_50_10_bins <span class="se">\</span>
+    <span class="nt">-o</span> QUANT_BINS <span class="se">\</span>
+    <span class="nt">-a</span> contigs.fasta <span class="se">\</span>
+    sample1_R<span class="k">*</span>.fastq sample2_R<span class="k">*</span>.fastq sample3_R<span class="k">*</span>.fastq <span class="se">\</span>
+    <span class="nt">-t</span> 32
+</code></pre></div></div>
+
+<p><strong>What quantification does:</strong></p>
+
+<ol>
+  <li>Maps reads from each sample to refined bins</li>
+  <li>Calculates coverage and abundance</li>
+  <li>Generates abundance table</li>
+  <li>Identifies dominant vs rare community members</li>
+</ol>
+
+<p><strong>Output:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>QUANT_BINS/
+├── bin_abundance_table.tab        # Abundance matrix
+├── bin_abundance_heatmap.png      # Visualization
+└── sample_logs/                   # Per-sample mapping logs
+</code></pre></div></div>
+
+<p><strong>Use cases:</strong></p>
+
+<ul>
+  <li>Track MAG abundance across time series</li>
+  <li>Compare communities between samples</li>
+  <li>Identify core vs variable microbiome members</li>
+  <li>Calculate relative abundance</li>
+</ul>
+
+<hr />
+
+<h3 id="step-5-mag-abundance-profiling-with-coverm">Step 5: MAG Abundance Profiling with CoverM</h3>
+
+<p><strong>CoverM</strong> provides comprehensive abundance metrics including relative abundance, mean coverage, and RPKM.</p>
+
+<h4 id="installation">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install CoverM</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda coverm
+
+<span class="c"># Verify installation</span>
+coverm <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h4 id="calculate-mag-abundance-across-multiple-samples">Calculate MAG Abundance Across Multiple Samples</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create directory for results</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> mag_abundance
+
+<span class="c"># Run CoverM genome mode</span>
+coverm genome <span class="se">\</span>
+    <span class="nt">--coupled</span> <span class="se">\</span>
+        sample1_R1.fastq.gz sample1_R2.fastq.gz <span class="se">\</span>
+        sample2_R1.fastq.gz sample2_R2.fastq.gz <span class="se">\</span>
+        sample3_R1.fastq.gz sample3_R2.fastq.gz <span class="se">\</span>
+    <span class="nt">--genome-fasta-directory</span> BIN_REFINEMENT/metawrap_50_10_bins <span class="se">\</span>
+    <span class="nt">--genome-fasta-extension</span> fa <span class="se">\</span>
+    <span class="nt">--output-file</span> mag_abundance/mag_abundance_table.tsv <span class="se">\</span>
+    <span class="nt">--threads</span> 32 <span class="se">\</span>
+    <span class="nt">--methods</span> relative_abundance mean trimmed_mean covered_fraction <span class="se">\</span>
+    <span class="nt">--min-covered-fraction</span> 0.1
+
+<span class="c"># Alternative: If you already have BAM files</span>
+coverm genome <span class="se">\</span>
+    <span class="nt">--bam-files</span> sample1.bam sample2.bam sample3.bam <span class="se">\</span>
+    <span class="nt">--genome-fasta-directory</span> BIN_REFINEMENT/metawrap_50_10_bins <span class="se">\</span>
+    <span class="nt">--genome-fasta-extension</span> fa <span class="se">\</span>
+    <span class="nt">--output-file</span> mag_abundance/mag_abundance_table.tsv <span class="se">\</span>
+    <span class="nt">--methods</span> relative_abundance mean covered_fraction
+</code></pre></div></div>
+
+<h4 id="coverm-methods-explained">CoverM Methods Explained</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Description</th>
+      <th>When to Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>relative_abundance</strong></td>
+      <td>% of total reads mapping to MAG</td>
+      <td>Community composition</td>
+    </tr>
+    <tr>
+      <td><strong>mean</strong></td>
+      <td>Mean coverage depth</td>
+      <td>Abundance estimation</td>
+    </tr>
+    <tr>
+      <td><strong>trimmed_mean</strong></td>
+      <td>Mean after trimming outliers</td>
+      <td>Robust abundance</td>
+    </tr>
+    <tr>
+      <td><strong>covered_fraction</strong></td>
+      <td>% of genome covered by reads</td>
+      <td>MAG detection confidence</td>
+    </tr>
+    <tr>
+      <td><strong>rpkm</strong></td>
+      <td>Reads Per Kilobase per Million</td>
+      <td>Cross-sample normalization</td>
+    </tr>
+    <tr>
+      <td><strong>tpm</strong></td>
+      <td>Transcripts Per Million</td>
+      <td>RNA-seq abundance</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="analyze-coverm-output">Analyze CoverM Output</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># View abundance table</span>
+column <span class="nt">-t</span> mag_abundance/mag_abundance_table.tsv | less <span class="nt">-S</span>
+
+<span class="c"># Extract relative abundance only</span>
+<span class="nb">cut</span> <span class="nt">-f1</span>,2,5,8,11 mag_abundance/mag_abundance_table.tsv <span class="o">&gt;</span> mag_relative_abundance.tsv
+</code></pre></div></div>
+
+<p><strong>Example output:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Genome              Sample1_RA  Sample2_RA  Sample3_RA  Sample1_Mean  Sample2_Mean
+bin.1.fa            15.2        18.4        12.1        45.3          52.1
+bin.2.fa            8.7         6.2         9.3         28.4          21.7
+bin.3.fa            2.1         3.4         1.8         8.9           12.3
+</code></pre></div></div>
+
+<h4 id="visualize-mag-abundance">Visualize MAG Abundance</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+# visualize_mag_abundance.py
+</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="c1"># Read CoverM output
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">mag_abundance/mag_abundance_table.tsv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Extract relative abundance columns (every 3rd column starting from 1)
+</span><span class="n">ra_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="sh">'</span><span class="s">Relative Abundance</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">col</span><span class="p">]</span>
+<span class="n">abundance_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">]</span> <span class="o">+</span> <span class="n">ra_cols</span><span class="p">]</span>
+
+<span class="c1"># Clean column names
+</span><span class="n">abundance_df</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sh">'</span><span class="s">MAG</span><span class="sh">'</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">col</span><span class="p">.</span><span class="nf">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">ra_cols</span><span class="p">]</span>
+
+<span class="c1"># Set MAG as index
+</span><span class="n">abundance_df</span> <span class="o">=</span> <span class="n">abundance_df</span><span class="p">.</span><span class="nf">set_index</span><span class="p">(</span><span class="sh">'</span><span class="s">MAG</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Create heatmap
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span><span class="n">abundance_df</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="sh">'</span><span class="s">.2f</span><span class="sh">'</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">YlOrRd</span><span class="sh">'</span><span class="p">,</span>
+            <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">Relative Abundance (%)</span><span class="sh">'</span><span class="p">})</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">MAG Relative Abundance Across Samples</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Sample</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">MAG</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">mag_abundance/abundance_heatmap.pdf</span><span class="sh">'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">✓ Heatmap saved: mag_abundance/abundance_heatmap.pdf</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Create stacked bar chart
+</span><span class="n">abundance_df</span><span class="p">.</span><span class="n">T</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="sh">'</span><span class="s">bar</span><span class="sh">'</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+                     <span class="n">colormap</span><span class="o">=</span><span class="sh">'</span><span class="s">tab20</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">MAG Community Composition</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Sample</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Relative Abundance (%)</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">MAG</span><span class="sh">'</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="sh">'</span><span class="s">upper left</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">mag_abundance/composition_barplot.pdf</span><span class="sh">'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">✓ Barplot saved: mag_abundance/composition_barplot.pdf</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="step-6-mag-detection-and-coverage-with-singlem">Step 6: MAG Detection and Coverage with SingleM</h3>
+
+<p><strong>SingleM</strong> analyzes what percentage of each MAG is actually represented in your samples using single-copy marker genes.</p>
+
+<h4 id="why-use-singlem">Why Use SingleM?</h4>
+
+<ul>
+  <li>✅ <strong>Strain-level detection</strong>: Identify MAG presence even at low abundance</li>
+  <li>✅ <strong>Coverage estimation</strong>: % of MAG covered by sample reads</li>
+  <li>✅ <strong>Completeness check</strong>: Validate MAG recovery across samples</li>
+  <li>✅ <strong>Compare samples</strong>: Track MAG presence/absence across conditions</li>
+</ul>
+
+<h4 id="installation-1">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install SingleM</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda singlem
+
+<span class="c"># Download database (~2 GB)</span>
+singlem data
+</code></pre></div></div>
+
+<h4 id="run-singlem-analysis">Run SingleM Analysis</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create directory for results</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> singlem_results
+
+<span class="c"># Run SingleM pipe on reads and MAGs</span>
+singlem pipe <span class="se">\</span>
+    <span class="nt">--coupled</span> <span class="se">\</span>
+        sample1_R1.fastq.gz sample1_R2.fastq.gz <span class="se">\</span>
+    <span class="nt">--otu-table</span> singlem_results/sample1_otu_table.tsv <span class="se">\</span>
+    <span class="nt">--threads</span> 32
+
+<span class="c"># Process all samples</span>
+<span class="k">for </span>sample <span class="k">in </span>sample1 sample2 sample3<span class="p">;</span> <span class="k">do
+    </span>singlem pipe <span class="se">\</span>
+        <span class="nt">--coupled</span> <span class="k">${</span><span class="nv">sample</span><span class="k">}</span>_R1.fastq.gz <span class="k">${</span><span class="nv">sample</span><span class="k">}</span>_R2.fastq.gz <span class="se">\</span>
+        <span class="nt">--otu-table</span> singlem_results/<span class="k">${</span><span class="nv">sample</span><span class="k">}</span>_otu_table.tsv <span class="se">\</span>
+        <span class="nt">--threads</span> 32
+<span class="k">done</span>
+
+<span class="c"># Run SingleM on MAGs to get reference profiles</span>
+singlem pipe <span class="se">\</span>
+    <span class="nt">--genome-fasta-files</span> BIN_REFINEMENT/metawrap_50_10_bins/<span class="k">*</span>.fa <span class="se">\</span>
+    <span class="nt">--otu-table</span> singlem_results/mags_otu_table.tsv <span class="se">\</span>
+    <span class="nt">--threads</span> 32
+</code></pre></div></div>
+
+<h4 id="appraise-mag-coverage-in-samples">Appraise MAG Coverage in Samples</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Compare sample OTUs to MAG OTUs</span>
+singlem appraise <span class="se">\</span>
+    <span class="nt">--metagenome-otu-tables</span> singlem_results/sample<span class="k">*</span>_otu_table.tsv <span class="se">\</span>
+    <span class="nt">--genome-otu-tables</span> singlem_results/mags_otu_table.tsv <span class="se">\</span>
+    <span class="nt">--output-binned-otu-table</span> singlem_results/binned_otus.tsv <span class="se">\</span>
+    <span class="nt">--output-unbinned-otu-table</span> singlem_results/unbinned_otus.tsv
+
+<span class="c"># Calculate MAG recovery percentage</span>
+singlem summarise <span class="se">\</span>
+    <span class="nt">--input-otu-tables</span> singlem_results/sample<span class="k">*</span>_otu_table.tsv <span class="se">\</span>
+    <span class="nt">--output-otu-table</span> singlem_results/summary_otu_table.tsv
+
+<span class="c"># Detailed appraisal with stats</span>
+singlem appraise <span class="se">\</span>
+    <span class="nt">--metagenome-otu-tables</span> singlem_results/sample<span class="k">*</span>_otu_table.tsv <span class="se">\</span>
+    <span class="nt">--genome-otu-tables</span> singlem_results/mags_otu_table.tsv <span class="se">\</span>
+    <span class="nt">--plot</span> singlem_results/appraisal_plot.png <span class="se">\</span>
+    <span class="nt">--output-found-in-metagenome</span> singlem_results/found_mags.tsv
+</code></pre></div></div>
+
+<h4 id="interpreting-singlem-results">Interpreting SingleM Results</h4>
+
+<p><strong>Binned OTUs (<code class="language-plaintext highlighter-rouge">binned_otus.tsv</code>):</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MAG        Sample      Gene    Coverage    Marker_count
+bin.1.fa   sample1     riboL2  95.2%       14/14
+bin.1.fa   sample2     riboL2  78.4%       11/14
+bin.2.fa   sample1     riboL2  45.8%       6/14
+</code></pre></div></div>
+
+<p><strong>What this tells you:</strong></p>
+
+<ul>
+  <li><strong>95.2% coverage</strong>: MAG is well-represented in sample1</li>
+  <li><strong>78.4% coverage</strong>: MAG present but lower abundance in sample2</li>
+  <li><strong>45.8% coverage</strong>: Partial MAG detection (low abundance or incomplete)</li>
+</ul>
+
+<p><strong>Unbinned OTUs (<code class="language-plaintext highlighter-rouge">unbinned_otus.tsv</code>):</strong></p>
+
+<ul>
+  <li>Sequences in samples that don’t match any MAG</li>
+  <li>Indicates organisms you haven’t recovered</li>
+  <li>Useful for identifying missing community members</li>
+</ul>
+
+<h4 id="visualize-singlem-results">Visualize SingleM Results</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+# visualize_singlem_coverage.py
+</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="c1"># Read SingleM appraisal results
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">singlem_results/found_mags.tsv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Create pivot table: MAGs vs Samples
+</span><span class="n">pivot</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">pivot_table</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="sh">'</span><span class="s">Coverage</span><span class="sh">'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="sh">'</span><span class="s">MAG</span><span class="sh">'</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="sh">'</span><span class="s">Sample</span><span class="sh">'</span><span class="p">,</span> <span class="n">aggfunc</span><span class="o">=</span><span class="sh">'</span><span class="s">mean</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Plot coverage heatmap
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span><span class="n">pivot</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="sh">'</span><span class="s">.1f</span><span class="sh">'</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">RdYlGn</span><span class="sh">'</span><span class="p">,</span>
+            <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">Coverage (%)</span><span class="sh">'</span><span class="p">})</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">MAG Coverage Across Samples (SingleM)</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Sample</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">MAG</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">singlem_results/mag_coverage_heatmap.pdf</span><span class="sh">'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">✓ Coverage heatmap saved</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Calculate summary statistics
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="sh">"</span> <span class="o">+</span> <span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">  MAG DETECTION SUMMARY</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">Total MAGs analyzed: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">pivot</span><span class="p">)</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Total samples: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">pivot</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">Mean coverage: </span><span class="si">{</span><span class="n">pivot</span><span class="p">.</span><span class="nf">mean</span><span class="p">().</span><span class="nf">mean</span><span class="p">()</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">%</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">MAGs with &gt;90% coverage: </span><span class="si">{</span><span class="p">(</span><span class="n">pivot</span> <span class="o">&gt;</span> <span class="mi">90</span><span class="p">).</span><span class="nf">sum</span><span class="p">().</span><span class="nf">sum</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">MAGs with &gt;50% coverage: </span><span class="si">{</span><span class="p">(</span><span class="n">pivot</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">).</span><span class="nf">sum</span><span class="p">().</span><span class="nf">sum</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">MAGs with &lt;10% coverage: </span><span class="si">{</span><span class="p">(</span><span class="n">pivot</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">).</span><span class="nf">sum</span><span class="p">().</span><span class="nf">sum</span><span class="p">()</span><span class="si">}</span><span class="s"> (likely false positives)</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="combine-coverm-and-singlem-results">Combine CoverM and SingleM Results</h4>
+
+<p>Create a comprehensive abundance + coverage table:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+# combine_abundance_coverage.py
+</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="c1"># Read CoverM abundance
+</span><span class="n">coverm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">mag_abundance/mag_abundance_table.tsv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ra_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">coverm_df</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="sh">'</span><span class="s">Relative Abundance</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">col</span><span class="p">]</span>
+<span class="n">abundance</span> <span class="o">=</span> <span class="n">coverm_df</span><span class="p">[[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">]</span> <span class="o">+</span> <span class="n">ra_cols</span><span class="p">]</span>
+
+<span class="c1"># Read SingleM coverage
+</span><span class="n">singlem_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">singlem_results/found_mags.tsv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">coverage_pivot</span> <span class="o">=</span> <span class="n">singlem_df</span><span class="p">.</span><span class="nf">pivot_table</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="sh">'</span><span class="s">Coverage</span><span class="sh">'</span><span class="p">,</span>
+                                         <span class="n">index</span><span class="o">=</span><span class="sh">'</span><span class="s">MAG</span><span class="sh">'</span><span class="p">,</span>
+                                         <span class="n">columns</span><span class="o">=</span><span class="sh">'</span><span class="s">Sample</span><span class="sh">'</span><span class="p">,</span>
+                                         <span class="n">aggfunc</span><span class="o">=</span><span class="sh">'</span><span class="s">mean</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Merge
+</span><span class="n">combined</span> <span class="o">=</span> <span class="n">abundance</span><span class="p">.</span><span class="nf">set_index</span><span class="p">(</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">).</span><span class="nf">join</span><span class="p">(</span><span class="n">coverage_pivot</span><span class="p">,</span> <span class="n">rsuffix</span><span class="o">=</span><span class="sh">'</span><span class="s">_coverage</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Save
+</span><span class="n">combined</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">mag_abundance/combined_abundance_coverage.tsv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">✓ Combined table saved: mag_abundance/combined_abundance_coverage.tsv</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">Example output:</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">combined</span><span class="p">.</span><span class="nf">head</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p><strong>Example combined output:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MAG        Sample1_RA  Sample1_Cov  Sample2_RA  Sample2_Cov  Interpretation
+bin.1.fa   15.2%       95.2%        18.4%       92.1%        High abundance, well-covered
+bin.2.fa   8.7%        78.4%        6.2%        71.3%        Medium abundance, good coverage
+bin.3.fa   0.5%        15.2%        0.3%        8.7%         Low abundance, poor coverage
+</code></pre></div></div>
+
+<h4 id="decision-matrix-abundance--coverage">Decision Matrix: Abundance + Coverage</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Relative Abundance</th>
+      <th>Coverage</th>
+      <th>Interpretation</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>High (&gt;5%)</strong></td>
+      <td><strong>High (&gt;80%)</strong></td>
+      <td>Abundant, well-recovered</td>
+      <td>✓ Use for analysis</td>
+    </tr>
+    <tr>
+      <td><strong>High (&gt;5%)</strong></td>
+      <td><strong>Low (&lt;50%)</strong></td>
+      <td>Abundant but incomplete MAG</td>
+      <td>Reassemble or refine</td>
+    </tr>
+    <tr>
+      <td><strong>Low (&lt;1%)</strong></td>
+      <td><strong>High (&gt;80%)</strong></td>
+      <td>Rare but complete MAG</td>
+      <td>✓ Use with caution</td>
+    </tr>
+    <tr>
+      <td><strong>Low (&lt;1%)</strong></td>
+      <td><strong>Low (&lt;50%)</strong></td>
+      <td>Rare and incomplete</td>
+      <td>Consider removing</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="summary-abundance-analysis-workflow">Summary: Abundance Analysis Workflow</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Basic quantification (MetaWRAP)</span>
+metawrap quant_bins ...
+
+<span class="c"># 2. Detailed abundance (CoverM)</span>
+coverm genome <span class="nt">--methods</span> relative_abundance mean covered_fraction ...
+
+<span class="c"># 3. Coverage validation (SingleM)</span>
+singlem pipe ...
+singlem appraise ...
+
+<span class="c"># 4. Visualize and combine</span>
+python visualize_mag_abundance.py
+python visualize_singlem_coverage.py
+python combine_abundance_coverage.py
+</code></pre></div></div>
+
+<p><strong>What you learn:</strong></p>
+
+<ul>
+  <li>📊 <strong>Relative abundance</strong>: Which MAGs dominate the community</li>
+  <li>📈 <strong>Coverage depth</strong>: How well each MAG is sampled</li>
+  <li>✅ <strong>Detection confidence</strong>: % of MAG represented in reads</li>
+  <li>🔍 <strong>Missing organisms</strong>: Unbinned OTUs indicate gaps in MAG recovery</li>
+</ul>
+
+<hr />
+
+<h2 id="-semibin2-overview">🤖 SemiBin2 Overview</h2>
+
+<p><strong>SemiBin2</strong> is a modern, deep learning-based binner that often outperforms traditional methods.</p>
+
+<h3 id="why-use-semibin2">Why Use SemiBin2?</h3>
+
+<p>✅ <strong>Deep learning-based</strong> - Neural networks learn genomic patterns<br />
+✅ <strong>Self-supervised</strong> - No need for labeled training data<br />
+✅ <strong>Multi-sample aware</strong> - Excellent for time series/spatial data<br />
+✅ <strong>Fast</strong> - GPU acceleration available<br />
+✅ <strong>High precision</strong> - Lower contamination rates</p>
+
+<h3 id="quick-start">Quick Start</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single-sample binning</span>
+SemiBin single_easy_bin <span class="se">\</span>
+    <span class="nt">-i</span> contigs.fasta <span class="se">\</span>
+    <span class="nt">-b</span> contigs.bam <span class="se">\</span>
+    <span class="nt">-o</span> semibin_output <span class="se">\</span>
+    <span class="nt">--sequencing-type</span> short_read
+
+<span class="c"># Multi-sample binning (recommended for ≥3 samples)</span>
+SemiBin multi_easy_bin <span class="se">\</span>
+    <span class="nt">-i</span> contigs.fasta <span class="se">\</span>
+    <span class="nt">-b</span> sample1.bam sample2.bam sample3.bam <span class="se">\</span>
+    <span class="nt">-o</span> semibin_multi_output <span class="se">\</span>
+    <span class="nt">--sequencing-type</span> short_read
+</code></pre></div></div>
+
+<h3 id="for-detailed-tutorial">For Detailed Tutorial</h3>
+
+<p>🔗 <strong><a href="https://jojyjohn28.github.io/blog/semibin-snakemake-soil-mag-workflow/">See my complete SemiBin2 guide →</a></strong></p>
+
+<p>This covers:</p>
+
+<ul>
+  <li>Installation and setup</li>
+  <li>Single vs multi-sample strategies</li>
+  <li>GPU acceleration</li>
+  <li>Parameter optimization</li>
+  <li>Integration with MetaWRAP</li>
+  <li>Benchmarking against other binners</li>
+</ul>
+
+<hr />
+
+<h2 id="-quality-assessment-with-checkm2">🔍 Quality Assessment with CheckM2</h2>
+
+<p><strong>CheckM2</strong> is the modern successor to CheckM - faster, more accurate, and easier to use.</p>
+
+<h3 id="why-checkm2--checkm">Why CheckM2 &gt; CheckM?</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>CheckM2</th>
+      <th>CheckM (old)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Speed</strong></td>
+      <td>13x faster</td>
+      <td>Slow</td>
+    </tr>
+    <tr>
+      <td><strong>Database</strong></td>
+      <td>21,000 genomes</td>
+      <td>5,000 genomes</td>
+    </tr>
+    <tr>
+      <td><strong>Memory</strong></td>
+      <td>Low</td>
+      <td>High</td>
+    </tr>
+    <tr>
+      <td><strong>Accuracy</strong></td>
+      <td>Higher</td>
+      <td>Good</td>
+    </tr>
+    <tr>
+      <td><strong>Installation</strong></td>
+      <td>Easy</td>
+      <td>Complex</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="installation--setup">Installation &amp; Setup</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate metawrap
+
+<span class="c"># Install CheckM2</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda checkm2
+
+<span class="c"># Download database (~3.5 GB, one-time)</span>
+checkm2 database <span class="nt">--download</span> <span class="nt">--path</span> ~/checkm2_db/
+
+<span class="c"># Verify installation</span>
+checkm2 <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h3 id="running-checkm2">Running CheckM2</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Assess all refined bins</span>
+checkm2 predict <span class="se">\</span>
+    <span class="nt">--threads</span> 16 <span class="se">\</span>
+    <span class="nt">--input</span> BIN_REFINEMENT/metawrap_50_10_bins <span class="se">\</span>
+    <span class="nt">--output-directory</span> checkm2_output <span class="se">\</span>
+    <span class="nt">-x</span> fa
+
+<span class="c"># Generate quality report</span>
+checkm2 quality_report <span class="se">\</span>
+    <span class="nt">--tsv_file</span> checkm2_output/quality_report.tsv
+</code></pre></div></div>
+
+<h3 id="interpreting-output">Interpreting Output</h3>
+
+<p><strong>Key Metrics:</strong></p>
+
+<ol>
+  <li><strong>Completeness</strong> - % of expected marker genes found
+    <ul>
+      <li>
+        <blockquote>
+          <p>90% = Excellent</p>
+        </blockquote>
+      </li>
+      <li>70-90% = Good</li>
+      <li>50-70% = Fair</li>
+      <li>&lt;50% = Incomplete</li>
+    </ul>
+  </li>
+  <li><strong>Contamination</strong> - % of duplicated marker genes
+    <ul>
+      <li>&lt;5% = Excellent</li>
+      <li>5-10% = Acceptable</li>
+      <li>
+        <blockquote>
+          <p>10% = Needs refinement</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Strain Heterogeneity</strong> - Mixed strains indicator
+    <ul>
+      <li>Low = Single strain</li>
+      <li>High = Multiple strains mixed</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Example output:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Name      Completeness  Contamination  Strain_heterogeneity
+bin.1     95.2%        2.1%           0.0%          # HQ MAG
+bin.2     87.3%        8.5%           10.2%         # MQ MAG
+bin.3     45.8%        15.3%          25.6%         # LQ MAG - discard
+</code></pre></div></div>
+
+<h3 id="quality-filtering">Quality Filtering</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Keep only high/medium quality MAGs</span>
+python <span class="o">&lt;&lt;</span> <span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+import pandas as pd
+
+# Read CheckM2 output
+df = pd.read_csv('checkm2_output/quality_report.tsv', sep='</span><span class="se">\t</span><span class="sh">')
+
+# Define quality thresholds
+hq = df[(df['Completeness'] &gt; 90) &amp; (df['Contamination'] &lt; 5)]
+mq = df[(df['Completeness'] &gt; 50) &amp; (df['Contamination'] &lt; 10)]
+
+print(f"High-quality MAGs: {len(hq)}")
+print(f"Medium-quality MAGs: {len(mq)}")
+
+# Save filtered list
+mq.to_csv('quality_mags.csv', index=False)
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="️-mag-classification">🏷️ MAG Classification</h2>
+
+<p>After quality assessment, classify your MAGs taxonomically.</p>
+
+<h3 id="using-gtdb-tk-recommended">Using GTDB-Tk (Recommended)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> gtdbtk <span class="nv">python</span><span class="o">=</span>3.8
+conda activate gtdbtk
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda gtdbtk
+
+<span class="c"># Download GTDB database (~65 GB)</span>
+download-db.sh
+
+<span class="c"># Classify MAGs</span>
+gtdbtk classify_wf <span class="se">\</span>
+    <span class="nt">--genome_dir</span> BIN_REFINEMENT/metawrap_50_10_bins <span class="se">\</span>
+    <span class="nt">--out_dir</span> gtdbtk_output <span class="se">\</span>
+    <span class="nt">--extension</span> fa <span class="se">\</span>
+    <span class="nt">--cpus</span> 32
+
+<span class="c"># Output: gtdbtk.bac120.summary.tsv</span>
+</code></pre></div></div>
+
+<p><strong>GTDB advantages:</strong></p>
+
+<ul>
+  <li>Most up-to-date bacterial taxonomy</li>
+  <li>~402,000 reference genomes</li>
+  <li>Standardized nomenclature</li>
+  <li>ANI-based species delineation</li>
+</ul>
+
+<h3 id="quick-classification-with-kraken2">Quick Classification with Kraken2</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Faster alternative for quick checks</span>
+kraken2 <span class="se">\</span>
+    <span class="nt">--db</span> ~/kraken2_db/standard <span class="se">\</span>
+    <span class="nt">--threads</span> 16 <span class="se">\</span>
+    <span class="nt">--report</span> bin1_report.txt <span class="se">\</span>
+    <span class="nt">--output</span> bin1_kraken.out <span class="se">\</span>
+    bin.1.fa
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="for-detailed-tutorial-1">For Detailed Tutorial</h3>
+
+<p>🔗 <strong><a href="https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/">See my complete GTDBTK guide →</a></strong></p>
+
+<h2 id="-visualizing-results">📊 Visualizing Results</h2>
+
+<h3 id="create-bin-quality-plot">Create Bin Quality Plot</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+# plot_bin_quality.py
+</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="c1"># Read CheckM2 output
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">checkm2_output/quality_report.tsv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Create scatter plot
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">scatter</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Contamination</span><span class="sh">'</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Completeness</span><span class="sh">'</span><span class="p">],</span>
+                     <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Completeness</span><span class="sh">'</span><span class="p">]</span><span class="o">-</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Contamination</span><span class="sh">'</span><span class="p">],</span>
+                     <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">RdYlGn</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Add quality thresholds
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">green</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">HQ threshold (90%)</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">orange</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">MQ threshold (50%)</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">green</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">HQ contamination (5%)</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">orange</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">MQ contamination (10%)</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Contamination (%)</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Completeness (%)</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">MAG Quality Assessment</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">colorbar</span><span class="p">(</span><span class="n">scatter</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Quality Score (Comp - Cont)</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">mag_quality.pdf</span><span class="sh">'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">mag_quality.png</span><span class="sh">'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">✓ Plot saved: mag_quality.pdf/png</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="generate-summary-report">Generate Summary Report</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="o">&lt;&lt;</span> <span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+import pandas as pd
+from collections import Counter
+
+# Read data
+checkm = pd.read_csv('checkm2_output/quality_report.tsv', sep='</span><span class="se">\t</span><span class="sh">')
+gtdbtk = pd.read_csv('gtdbtk_output/gtdbtk.bac120.summary.tsv', sep='</span><span class="se">\t</span><span class="sh">')
+
+# Quality summary
+hq = len(checkm[(checkm['Completeness']&gt;90) &amp; (checkm['Contamination']&lt;5)])
+mq = len(checkm[(checkm['Completeness']&gt;50) &amp; (checkm['Contamination']&lt;10) &amp;
+                ~((checkm['Completeness']&gt;90) &amp; (checkm['Contamination']&lt;5))])
+lq = len(checkm) - hq - mq
+
+print("="*60)
+print("  MAG Recovery Summary")
+print("="*60)
+print(f"Total bins recovered: {len(checkm)}")
+print(f"  High-quality (HQ):    {hq} ({hq/len(checkm)*100:.1f}%)")
+print(f"  Medium-quality (MQ):  {mq} ({mq/len(checkm)*100:.1f}%)")
+print(f"  Low-quality (LQ):     {lq} ({lq/len(checkm)*100:.1f}%)")
+print()
+
+# Taxonomy summary
+phyla = [tax.split(';')[1] for tax in gtdbtk['classification']]
+phyla_counts = Counter(phyla)
+
+print("Top 5 Phyla:")
+for phylum, count in phyla_counts.most_common(5):
+    print(f"  {phylum}: {count} MAGs")
+print()
+
+# Size statistics
+print("Genome Size Statistics:")
+print(f"  Mean: {checkm['Genome_size'].mean()/1e6:.2f} Mb")
+print(f"  Median: {checkm['Genome_size'].median()/1e6:.2f} Mb")
+print(f"  Range: {checkm['Genome_size'].min()/1e6:.2f} - {checkm['Genome_size'].max()/1e6:.2f} Mb")
+print("="*60)
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="-best-practices">💡 Best Practices</h2>
+
+<h3 id="before-binning">Before Binning</h3>
+
+<ul>
+  <li>✅ <strong>Good assembly quality</strong> (N50 &gt; 5kb recommended)</li>
+  <li>✅ <strong>Sufficient coverage</strong> (&gt;10x mean coverage minimum)</li>
+  <li>✅ <strong>Multiple samples</strong> (if available) improve binning</li>
+  <li>✅ <strong>Long contigs</strong> (&gt;2500 bp) bin better</li>
+  <li>✅ <strong>Clean data</strong> from Day 1 QC</li>
+</ul>
+
+<h3 id="during-binning">During Binning</h3>
+
+<ul>
+  <li>✅ <strong>Use multiple binners</strong> (3+ recommended)</li>
+  <li>✅ <strong>Refine bins</strong> with MetaWRAP or DAS Tool</li>
+  <li>✅ <strong>Document parameters</strong> for reproducibility</li>
+  <li>✅ <strong>Monitor resources</strong> (disk space, memory)</li>
+  <li>✅ <strong>Save intermediate files</strong> until verified</li>
+</ul>
+
+<h3 id="after-binning">After Binning</h3>
+
+<ul>
+  <li>✅ <strong>Quality check ALL bins</strong> with CheckM2</li>
+  <li>✅ <strong>Filter by quality</strong> (keep MQ+ for most analyses)</li>
+  <li>✅ <strong>Classify taxonomically</strong> with GTDB-Tk</li>
+  <li>✅ <strong>Dereplicate</strong> if many similar MAGs</li>
+  <li>✅ <strong>Backup MAGs</strong> - they’re valuable!</li>
+</ul>
+
+<h3 id="quality-thresholds-by-use-case">Quality Thresholds by Use Case</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Use Case</th>
+      <th>Min Completeness</th>
+      <th>Max Contamination</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Reference genome</strong></td>
+      <td>95%</td>
+      <td>2%</td>
+    </tr>
+    <tr>
+      <td><strong>Publication</strong></td>
+      <td>90%</td>
+      <td>5%</td>
+    </tr>
+    <tr>
+      <td><strong>Gene mining</strong></td>
+      <td>70%</td>
+      <td>10%</td>
+    </tr>
+    <tr>
+      <td><strong>Metabolic analysis</strong></td>
+      <td>50%</td>
+      <td>10%</td>
+    </tr>
+    <tr>
+      <td><strong>Presence/absence</strong></td>
+      <td>50%</td>
+      <td>15%</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-troubleshooting">🔧 Troubleshooting</h2>
+
+<h3 id="problem-few-or-no-bins-recovered">Problem: Few or No Bins Recovered</h3>
+
+<p><strong>Possible causes:</strong></p>
+
+<ul>
+  <li>Low sequencing depth</li>
+  <li>Poor assembly quality</li>
+  <li>High community complexity</li>
+  <li>Incorrect coverage calculation</li>
+</ul>
+
+<p><strong>Solutions:</strong></p>
+
+<ol>
+  <li>Check assembly N50 (should be &gt;1kb)</li>
+  <li>Verify coverage file is correct</li>
+  <li>
+    <p>Adjust binning parameters:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Lower minimum bin size</span>
+metabat2 <span class="nt">-m</span> 1000  <span class="c"># instead of 1500</span>
+
+<span class="c"># Lower minimum contig length</span>
+<span class="nt">--minContig</span> 1500  <span class="c"># instead of 2500</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Try SemiBin2 (often better for complex samples)</li>
+</ol>
+
+<h3 id="problem-high-contamination-in-bins">Problem: High Contamination in Bins</h3>
+
+<p><strong>Solutions:</strong></p>
+
+<ol>
+  <li>
+    <p><strong>Stricter refinement:</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>metawrap bin_refinement <span class="nt">-c</span> 70 <span class="nt">-x</span> 5  <span class="c"># More stringent</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Manual curation:</strong></p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use RefineM for interactive refinement</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda refinem
+refinem scaffold_stats <span class="nt">-c</span> 70 <span class="nt">-x</span> 5 bins/ bins/
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Re-bin with different parameters</strong></p>
+  </li>
+</ol>
+
+<h3 id="problem-metawrap-refinement-fails">Problem: MetaWRAP Refinement Fails</h3>
+
+<p><strong>Common issues:</strong></p>
+
+<p><strong>Issue 1: Prokka fails</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Verify Prokka environment</span>
+conda activate prokka
+prokka <span class="nt">--version</span>
+
+<span class="c"># Re-install if needed</span>
+conda remove prokka
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda prokka
+</code></pre></div></div>
+
+<p><strong>Issue 2: CheckM database missing</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Download CheckM database</span>
+checkm data setRoot ~/checkm_db/
+</code></pre></div></div>
+
+<p><strong>Issue 3: Memory issues</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Reduce threads</span>
+metawrap bin_refinement <span class="nt">-t</span> 8  <span class="c"># instead of 32</span>
+
+<span class="c"># Or use checkm_lite mode (faster, less memory)</span>
+metawrap bin_refinement <span class="nt">--quick</span>
+</code></pre></div></div>
+
+<h3 id="problem-checkm2-fails">Problem: CheckM2 Fails</h3>
+
+<p><strong>Solutions:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Re-download database</span>
+<span class="nb">rm</span> <span class="nt">-rf</span> ~/checkm2_db/
+checkm2 database <span class="nt">--download</span> <span class="nt">--path</span> ~/checkm2_db/
+
+<span class="c"># Verify database integrity</span>
+checkm2 testrun
+
+<span class="c"># Check available memory</span>
+free <span class="nt">-h</span>  <span class="c"># Need at least 16GB</span>
+
+<span class="c"># Reduce parallel jobs if memory limited</span>
+checkm2 predict <span class="nt">--threads</span> 8  <span class="c"># instead of 16</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-expected-results">📈 Expected Results</h2>
+
+<h3 id="typical-recovery-rates">Typical Recovery Rates</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sample Type</th>
+      <th>Expected HQ MAGs</th>
+      <th>Expected MQ MAGs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Soil</strong></td>
+      <td>5-20</td>
+      <td>20-50</td>
+    </tr>
+    <tr>
+      <td><strong>Human gut</strong></td>
+      <td>10-40</td>
+      <td>30-80</td>
+    </tr>
+    <tr>
+      <td><strong>Marine</strong></td>
+      <td>5-15</td>
+      <td>15-40</td>
+    </tr>
+    <tr>
+      <td><strong>Wastewater</strong></td>
+      <td>10-30</td>
+      <td>30-70</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Factors affecting recovery:</strong></p>
+
+<ul>
+  <li>Community complexity (α-diversity)</li>
+  <li>Sequencing depth (&gt;20M reads = better)</li>
+  <li>Assembly quality (N50 &gt;5kb = better)</li>
+  <li>Number of samples (more = better for SemiBin2)</li>
+</ul>
+
+<h3 id="benchmark-comparison">Benchmark Comparison</h3>
+
+<p><strong>On a mock community (known composition):</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Binner</th>
+      <th>Precision</th>
+      <th>Recall</th>
+      <th>F1-Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>SemiBin2</strong></td>
+      <td>96%</td>
+      <td>94%</td>
+      <td>95%</td>
+    </tr>
+    <tr>
+      <td><strong>MetaWRAP Refined</strong></td>
+      <td>94%</td>
+      <td>91%</td>
+      <td>92.5%</td>
+    </tr>
+    <tr>
+      <td><strong>MetaBAT2</strong></td>
+      <td>90%</td>
+      <td>88%</td>
+      <td>89%</td>
+    </tr>
+    <tr>
+      <td><strong>MaxBin2</strong></td>
+      <td>88%</td>
+      <td>89%</td>
+      <td>88.5%</td>
+    </tr>
+    <tr>
+      <td><strong>CONCOCT</strong></td>
+      <td>85%</td>
+      <td>86%</td>
+      <td>85.5%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Higher is better; refinement improves both metrics</em></p>
+
+<hr />
+
+<h2 id="-success-checklist">✅ Success Checklist</h2>
+
+<p>Before moving to Day 4:</p>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Multiple binners run successfully (3+ recommended)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Bins refined with MetaWRAP or DAS Tool</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />CheckM2 quality assessment completed</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />At least 5-10 MQ+ MAGs recovered</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Taxonomic classification with GTDB-Tk</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Quality plots generated</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />MAGs organized in final directory</li>
+</ul>
+
+<hr />
+
+<h2 id="-key-papers--resources">📚 Key Papers &amp; Resources</h2>
+
+<h3 id="essential-reading">Essential Reading</h3>
+
+<ol>
+  <li><strong>Binning Methods:</strong>
+    <ul>
+      <li>Kang et al. (2019) - MetaBAT2: <em>PeerJ</em></li>
+      <li>Wu et al. (2016) - MaxBin2: <em>Bioinformatics</em></li>
+      <li>Alneberg et al. (2014) - CONCOCT: <em>Nature Methods</em></li>
+      <li>Pan et al. (2022) - SemiBin2: <em>Nature Communications</em></li>
+    </ul>
+  </li>
+  <li><strong>Quality Assessment:</strong>
+    <ul>
+      <li>Chklovski et al. (2023) - CheckM2: <em>Nature Methods</em></li>
+      <li>Parks et al. (2015) - CheckM: <em>Genome Research</em></li>
+    </ul>
+  </li>
+  <li><strong>Refinement:</strong>
+    <ul>
+      <li>Uritskiy et al. (2018) - MetaWRAP: <em>Microbiome</em></li>
+      <li>Sieber et al. (2018) - DAS Tool: <em>Nature Microbiology</em></li>
+    </ul>
+  </li>
+  <li><strong>Taxonomy:</strong>
+    <ul>
+      <li>Chaumeil et al. (2020) - GTDB-Tk: <em>Bioinformatics</em></li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="helpful-links">Helpful Links</h3>
+
+<ul>
+  <li><a href="https://gtdb.ecogenomic.org/">GTDB Database</a></li>
+  <li><a href="https://github.com/chklovski/CheckM2">CheckM2 Documentation</a></li>
+  <li><a href="https://github.com/bxlab/metaWRAP">MetaWRAP GitHub</a></li>
+  <li><a href="link-to-your-semibin2-post">SemiBin2 Detailed Guide</a></li>
+</ul>
+
+<hr />
+
+<h2 id="️-whats-next">➡️ What’s Next?</h2>
+
+<p><strong>Congratulations!</strong> You’ve recovered individual genomes from your metagenome!</p>
+
+<p><strong>Day 4: Functional Annotation</strong> (Coming Soon)</p>
+
+<ul>
+  <li>Predict genes with Prodigal</li>
+  <li>Annotate with eggNOG-mapper</li>
+  <li>Identify biosynthetic gene clusters</li>
+  <li>Pathway reconstruction with KEGG</li>
+</ul>
+
+<hr />
+
+<h2 id="-feedback">💬 Feedback</h2>
+
+<p>Found this helpful? Have suggestions?</p>
+
+<ul>
+  <li>🐛 <a href="https://github.com/jojyjohn28/metagenome-analysis-series/issues">Report issues</a></li>
+  <li>💡 <a href="https://github.com/jojyjohn28/metagenome-analysis-series/discussions">Suggest improvements</a></li>
+  <li>⭐ <a href="https://github.com/jojyjohn28/metagenome-analysis-series">Star the repo</a></li>
+</ul>
+
+<hr />
+
+<h4 id="repo-for-todays-code-and-other-details">Repo for today’s code and other details</h4>
+
+<p>🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day3-binning/">See my complete repo →</a></strong></p>
+
+<div align="center">
+
+**[⬆ Back to Main](../README.md)** | **[← Day 2](../day2-assembly/)** | **[Day 4 →](../day4-functional-annotation/)**
+
+Made with ❤️ for the metagenomics community
+
+_Last updated: February 2025_
+
+</div>
+
+<p><img src="/assets/img/d3_mg.png" alt="day2 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="binning" /><category term="MetaWRAP" /><category term="MetaBAT2" /><category term="MaxBin2" /><category term="CONCOCT" /><category term="CheckM2" /><category term="MAGs" /><category term="SemiBin2" /><category term="bioinformatics" /><category term="tutorial" /><category term="python" /><summary type="html"><![CDATA[Master genome binning with modern MetaWRAP workflows, MetaBAT2, MaxBin2, and CONCOCT. Learn bin refinement, CheckM2 quality assessment, and MAG classification. Includes Python 3 setup, laptop-friendly workflows, and deep learning with SemiBin2.]]></summary></entry><entry><title type="html">Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly/" rel="alternate" type="text/html" title="Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads" /><published>2026-02-04T00:00:00-05:00</published><updated>2026-02-04T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly/"><![CDATA[<h1 id="day-2-metagenome-assembly---reconstructing-genomes-from-short-reads">Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads</h1>
 
 <h2 id="table-of-contents">Table of Contents</h2>
 
@@ -6583,418 +8241,4 @@ In <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2</a>, we visualized p
 
 <p><em>This is part of the “Visualize Your Data” series. Check out <a href="/blog/visualize-your-data-day1-box-vs-violin/">Day 1: Box Plots and Violin Plots</a> and <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2: Heatmaps</a> if you missed them.</em></p>
 
-<p><strong>Have questions about ordination? Drop a comment below!</strong></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 3 of the Visualize Your Data series: exploring PCA, PCoA, and NMDS to visualize sample relationships and community structure in bioinformatics and microbial ecology.]]></summary></entry><entry><title type="html">Visualize Your Data — Day 2: Heatmaps in Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/visualize-your-data-day2-heatmaps/" rel="alternate" type="text/html" title="Visualize Your Data — Day 2: Heatmaps in Bioinformatics" /><published>2026-01-19T00:00:00-05:00</published><updated>2026-01-19T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/visualize-your-data-day2-heatmaps</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/visualize-your-data-day2-heatmaps/"><![CDATA[<h1 id="-visualize-your-data--day-2-heatmaps">📊 Visualize Your Data – Day 2: Heatmaps</h1>
-
-<p>In Day 1, we explored box plots and violin plots for understanding data distributions. Today, we’re diving into one of the most ubiquitous visualization tools in bioinformatics: <strong>heatmaps</strong>.</p>
-
-<p>Heatmaps appear in virtually every bioinformatics paper, and for good reason. They excel at revealing patterns in high-dimensional data, from gene expression profiles to functional abundance matrices. However, they’re also frequently misused or misinterpreted.</p>
-
-<p>This post will help you create informative heatmaps, understand when to scale your data, and avoid common pitfalls that can mislead readers.</p>
-
-<hr />
-
-<h2 id="-what-well-cover-today">🎯 What We’ll Cover Today</h2>
-
-<ul>
-  <li>What heatmaps show (and what they don’t)</li>
-  <li>Scaling vs. non-scaling: when and why</li>
-  <li>Clustering rows and columns</li>
-  <li>Interactive heatmaps for exploration</li>
-  <li>Presence–absence heatmaps</li>
-  <li>Best practices and common mistakes</li>
-</ul>
-
-<hr />
-
-<h2 id="-why-heatmaps-dominate-bioinformatics">🔥 Why Heatmaps Dominate Bioinformatics</h2>
-
-<p>Heatmaps are the go-to visualization for:</p>
-
-<ul>
-  <li><strong>Gene expression data</strong> (RNA-seq, microarrays)</li>
-  <li><strong>Functional gene abundance</strong> (metagenomic annotations)</li>
-  <li><strong>MAG × pathway matrices</strong> (genome-resolved metagenomics)</li>
-  <li><strong>CAZyme or metabolic marker profiles</strong></li>
-  <li><strong>Sample × feature relationships</strong> (taxonomy, pathways, etc.)</li>
-</ul>
-
-<p>They allow you to spot patterns across dozens—or even hundreds—of samples and features simultaneously, especially when paired with hierarchical clustering.</p>
-
-<hr />
-
-<h2 id="️-first-what-a-heatmap-is-not">⚠️ First: What a Heatmap Is NOT</h2>
-
-<p>Before we dive into code, let’s be clear about what heatmaps cannot do:</p>
-
-<p>❌ <strong>Show absolute values precisely</strong> – Color gradients compress information<br />
-❌ <strong>Replace statistical testing</strong> – Visual patterns ≠ statistical significance<br />
-❌ <strong>Work well without scaling</strong> – Raw values often obscure biological patterns</p>
-
-<p><strong>A heatmap is exploratory and comparative, not a statistical test.</strong></p>
-
-<p>Think of heatmaps as hypothesis-generating tools. They reveal patterns that warrant further investigation through proper statistical methods.</p>
-
-<hr />
-
-<h2 id="-best-practices-for-heatmaps">✅ Best Practices for Heatmaps</h2>
-
-<h3 id="1-know-your-data-type">1. Know Your Data Type</h3>
-
-<p>Use heatmaps appropriately for abundance, expression, or binary (presence–absence) data. Mixing data types without normalization creates misleading visuals.</p>
-
-<h3 id="2-handle-missing-values-explicitly">2. Handle Missing Values Explicitly</h3>
-
-<p>Never plot data with unaddressed missing values. Options include:</p>
-
-<ul>
-  <li>Filtering features with &gt;X% missing data</li>
-  <li>Imputation (with clear documentation)</li>
-  <li>Using a distinct color for NA values</li>
-</ul>
-
-<p>Missing data creates artificial patterns and distorts clustering.</p>
-
-<h3 id="3-choose-scaling-deliberately">3. Choose Scaling Deliberately</h3>
-
-<p><strong>Row scaling</strong> (most common): Centers and scales each row independently</p>
-
-<ul>
-  <li>Use when: Comparing relative patterns across samples</li>
-  <li>Loses: Absolute magnitude information</li>
-  <li>Example: Gene expression across conditions</li>
-</ul>
-
-<p><strong>No scaling</strong>: Preserves absolute values</p>
-
-<ul>
-  <li>Use when: Absolute magnitudes are biologically meaningful</li>
-  <li>Example: Comparing highly abundant vs. rare taxa</li>
-</ul>
-
-<p><strong>Always state your scaling choice in the figure legend.</strong></p>
-
-<h3 id="4-limit-feature-number">4. Limit Feature Number</h3>
-
-<p>Heatmaps with 500+ rows become unreadable. Pre-filter based on:</p>
-
-<ul>
-  <li>Variance (keep most variable features)</li>
-  <li>Mean abundance (remove rare features)</li>
-  <li>Statistical significance</li>
-  <li>Biological relevance</li>
-</ul>
-
-<h3 id="5-use-readable-color-palettes">5. Use Readable Color Palettes</h3>
-
-<ul>
-  <li>❌ Avoid rainbow schemes (perceptually non-uniform)</li>
-  <li>✅ Use color-blind friendly palettes (viridis, RdBu, etc.)</li>
-  <li>✅ Use diverging palettes for scaled data (centered at zero)</li>
-  <li>✅ Use sequential palettes for abundance data</li>
-</ul>
-
-<h3 id="6-dont-overinterpret-clustering">6. Don’t Overinterpret Clustering</h3>
-
-<p>Dendrograms show similarity based on distance metrics, but:</p>
-
-<ul>
-  <li>Clustering ≠ causation</li>
-  <li>Clustering ≠ functional relationships</li>
-  <li>Different distance metrics produce different trees</li>
-</ul>
-
-<p>Use clustering to organize your heatmap, not as proof of biological relationships.</p>
-
-<h3 id="7-export-as-vector-graphics">7. Export as Vector Graphics</h3>
-
-<p>Save as PDF or SVG for final polishing in Adobe Illustrator or Inkscape. This allows:</p>
-
-<ul>
-  <li>Font unification across panels</li>
-  <li>Precise alignment</li>
-  <li>Professional-quality figures</li>
-</ul>
-
-<hr />
-
-<h2 id="-common-mistakes-to-avoid">🚫 Common Mistakes to Avoid</h2>
-
-<h3 id="ignoring-missing-values">Ignoring Missing Values</h3>
-
-<p>Unhandled NAs create gaps that distort both visual patterns and clustering algorithms.</p>
-
-<h3 id="forgetting-to-report-scaling">Forgetting to Report Scaling</h3>
-
-<p>“Heatmap of gene expression” is insufficient. Specify: “Row-scaled z-scores of log2-transformed expression values.”</p>
-
-<h3 id="overinterpreting-color-intensity">Overinterpreting Color Intensity</h3>
-
-<p>Darker colors don’t mean “more important” or “statistically significant.” They show relative values based on your scaling choice.</p>
-
-<h3 id="using-rainbow-palettes">Using Rainbow Palettes</h3>
-
-<p>Rainbow palettes exaggerate differences and aren’t accessible to colorblind readers (~8% of males, ~0.5% of females).</p>
-
-<h3 id="including-too-many-features">Including Too Many Features</h3>
-
-<p>A heatmap with 1,000 rows is decorative, not informative. Filter ruthlessly.</p>
-
-<h3 id="assuming-clustering--biology">Assuming Clustering = Biology</h3>
-
-<p>Just because two genes cluster together doesn’t mean they’re co-regulated. Validate patterns with orthogonal methods.</p>
-
-<h3 id="mixing-data-types">Mixing Data Types</h3>
-
-<p>Combining raw counts, normalized abundances, and presence–absence data in one heatmap without proper transformation is a recipe for confusion.</p>
-
-<h3 id="relying-on-heatmaps-alone">Relying on Heatmaps Alone</h3>
-
-<p>Heatmaps complement statistical analyses—they don’t replace them. Always support visual patterns with quantitative evidence.</p>
-
-<hr />
-
-<h2 id="-tools-pheatmap-vs-heatmaply">🧰 Tools: pheatmap vs. heatmaply</h2>
-
-<h3 id="pheatmap-static-publication-ready">pheatmap (Static, Publication-Ready)</h3>
-
-<p><strong>Best for:</strong></p>
-
-<ul>
-  <li>Final manuscript figures</li>
-  <li>Full control over aesthetics</li>
-  <li>Reproducible, high-quality PDFs</li>
-  <li>Simple, clean code</li>
-</ul>
-
-<p><strong>Why bioinformaticians love it:</strong>
-It does one thing extremely well—creating beautiful, customizable static heatmaps.</p>
-
-<h3 id="heatmaply-interactive-exploratory">heatmaply (Interactive, Exploratory)</h3>
-
-<p><strong>Best for:</strong></p>
-
-<ul>
-  <li>Data exploration</li>
-  <li>Teaching and presentations</li>
-  <li>Supplementary materials</li>
-  <li>Sharing with collaborators</li>
-</ul>
-
-<p><strong>Why it’s useful:</strong>
-Hovering reveals exact values, zooming helps navigate large datasets, and it’s excellent for exploratory analysis.</p>
-
-<h3 id="my-workflow">My Workflow</h3>
-
-<p>I use <strong>pheatmap</strong> for final figures and <strong>heatmaply</strong> during data exploration or when teaching. Choose the tool that matches your goal.</p>
-
-<hr />
-
-<h2 id="-code-examples">💻 Code Examples</h2>
-
-<h3 id="-create-toy-dataset-r">🧪 Create Toy Dataset (R)</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">
-
-</span><span class="n">heatmap_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="w">
-  </span><span class="n">rnorm</span><span class="p">(</span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w">
-  </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="n">rownames</span><span class="p">(</span><span class="n">heatmap_data</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Gene_"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">)</span><span class="w">
-</span><span class="n">colnames</span><span class="p">(</span><span class="n">heatmap_data</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Sample_"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h3 id="-basic-heatmap-pheatmap-no-scaling">📦 Basic Heatmap (pheatmap, No Scaling)</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span><span class="w">
-
-</span><span class="n">pheatmap</span><span class="p">(</span><span class="w">
-  </span><span class="n">heatmap_data</span><span class="p">,</span><span class="w">
-  </span><span class="n">cluster_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
-  </span><span class="n">cluster_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
-  </span><span class="n">fontsize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w">
-  </span><span class="n">border_color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/assets/img/hp1.png" alt="R based" /></p>
-
-<p><strong>When to use:</strong> Only when values are directly comparable across all rows (e.g., all in the same units and scale).</p>
-
-<hr />
-
-<h3 id="-row-scaled-heatmap-most-common">🔄 Row-Scaled Heatmap (Most Common)</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pheatmap</span><span class="p">(</span><span class="w">
-  </span><span class="n">heatmap_data</span><span class="p">,</span><span class="w">
-  </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"row"</span><span class="p">,</span><span class="w">
-  </span><span class="n">cluster_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
-  </span><span class="n">cluster_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
-  </span><span class="n">fontsize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w">
-  </span><span class="n">border_color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/assets/img/hp2.png" alt="R based" /></p>
-
-<p><strong>What row scaling means:</strong></p>
-
-<ul>
-  <li>Each row is centered (mean = 0) and scaled (SD = 1)</li>
-  <li>Highlights relative differences across samples</li>
-  <li>Loses absolute magnitude information</li>
-  <li>Perfect for comparing gene expression patterns</li>
-</ul>
-
-<p><strong>Critical:</strong> Always state “Row-scaled” in your figure legend.</p>
-
-<hr />
-
-<h3 id="-interactive-heatmap-heatmaply">🖱 Interactive Heatmap (heatmaply)</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">heatmaply</span><span class="p">)</span><span class="w">
-
-</span><span class="n">heatmaply</span><span class="p">(</span><span class="w">
-  </span><span class="n">heatmap_data</span><span class="p">,</span><span class="w">
-  </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"row"</span><span class="p">,</span><span class="w">
-  </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Samples"</span><span class="p">,</span><span class="w">
-  </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Genes"</span><span class="p">,</span><span class="w">
-  </span><span class="n">fontsize_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w">
-  </span><span class="n">fontsize_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/assets/img/hp3.png" alt="R based" /></p>
-
-<p><strong>Use cases:</strong></p>
-
-<ul>
-  <li>Exploring large datasets</li>
-  <li>Teaching workshops</li>
-  <li>Supplementary materials for papers</li>
-  <li>Sharing with collaborators who want to dig into the data</li>
-</ul>
-
-<hr />
-
-<h3 id="-python-equivalents">🐍 Python Equivalents</h3>
-
-<p>Many bioinformatics workflows use Python. Here’s how to create the same plots with seaborn.</p>
-
-<h4 id="create-toy-data-python">Create Toy Data (Python)</h4>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
-
-<span class="n">heatmap_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span>
-    <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">normal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)),</span>
-    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="sh">"</span><span class="s">Gene_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="sh">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)],</span>
-    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="sh">"</span><span class="s">Sample_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="sh">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<h4 id="basic-heatmap-python">Basic Heatmap (Python)</h4>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
-<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-
-<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span>
-    <span class="n">heatmap_data</span><span class="p">,</span>
-    <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">viridis</span><span class="sh">"</span><span class="p">,</span>
-    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-    <span class="n">linecolor</span><span class="o">=</span><span class="sh">"</span><span class="s">black</span><span class="sh">"</span>
-<span class="p">)</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Heatmap of Gene Abundance</span><span class="sh">"</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
-</code></pre></div></div>
-
-<h4 id="row-scaled-heatmap-python">Row-Scaled Heatmap (Python)</h4>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Manual row scaling (z-score)
-</span><span class="n">scaled_data</span> <span class="o">=</span> <span class="n">heatmap_data</span><span class="p">.</span><span class="nf">sub</span><span class="p">(</span><span class="n">heatmap_data</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">scaled_data</span> <span class="o">=</span> <span class="n">scaled_data</span><span class="p">.</span><span class="nf">div</span><span class="p">(</span><span class="n">heatmap_data</span><span class="p">.</span><span class="nf">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span>
-    <span class="n">scaled_data</span><span class="p">,</span>
-    <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">vlag</span><span class="sh">"</span><span class="p">,</span>
-    <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-    <span class="n">linecolor</span><span class="o">=</span><span class="sh">"</span><span class="s">black</span><span class="sh">"</span>
-<span class="p">)</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Row-Scaled Heatmap</span><span class="sh">"</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p><img src="/assets/img/py1.png" alt="Python based" /></p>
-
-<hr />
-
-<h2 id="-real-world-workflow-from-code-to-publication">🎨 Real-World Workflow: From Code to Publication</h2>
-
-<p>This is how most bioinformatics papers are made:</p>
-
-<ol>
-  <li><strong>Generate plots</strong> in R or Python</li>
-  <li><strong>Export as PDF or SVG</strong> (vector format)</li>
-  <li><strong>Final polishing</strong> in Adobe Illustrator:
-    <ul>
-      <li>Align panels perfectly</li>
-      <li>Unify fonts across all figures</li>
-      <li>Add panel labels (A, B, C)</li>
-      <li>Fine-tune colors and spacing</li>
-    </ul>
-  </li>
-</ol>
-
-<p>This workflow gives you reproducible code + publication-quality aesthetics.</p>
-
-<hr />
-
-<h2 id="-real-example-mag-abundance-heatmap">📊 Real Example: MAG Abundance Heatmap</h2>
-
-<p>Below is a heatmap from my upcoming publication, created using pheatmap. It shows the normalized abundance of the top 100 MAGs (metagenome-assembled genomes) across samples, with abundances estimated using CoverM.</p>
-
-<p><img src="/assets/img/d2.png" alt="Real publication figure" /></p>
-
-<p><strong>Key features:</strong></p>
-
-<ul>
-  <li>Row-scaled to highlight relative abundance patterns</li>
-  <li>Hierarchical clustering reveals sample groups</li>
-  <li>Color palette is colorblind-friendly</li>
-  <li>Top 100 MAGs selected by mean abundance (pre-filtering)</li>
-</ul>
-
-<hr />
-
-<h2 id="-key-takeaways">📌 Key Takeaways</h2>
-
-<p>✅ <strong>Heatmaps are comparative, not absolute</strong> – Use them to spot patterns, not measure exact values</p>
-
-<p>✅ <strong>Scaling matters more than colors</strong> – Always document whether you scaled rows, columns, or neither</p>
-
-<p>✅ <strong>Interactive heatmaps excel at exploration</strong> – But static heatmaps are better for papers</p>
-
-<p>✅ <strong>Filter ruthlessly</strong> – Fewer, well-chosen features beat visual clutter</p>
-
-<p>✅ <strong>State your methods</strong> – “Row-scaled z-scores of log2(TPM + 1)” beats “heatmap of expression”</p>
-
-<hr />
-
-<h2 id="whats-next">What’s Next?</h2>
-
-<p>In Day 3, we’ll explore ordination plots (PCA, PCoA, NMDS) for visualizing sample relationships and community structure.</p>
-
-<p>If you’re learning bioinformatics or preparing figures for a manuscript, I hope this series helps you visualize your data with confidence.</p>
-
-<p><strong>Have questions or suggestions? Drop a comment below!</strong></p>
-
-<hr />
-
-<p><em>This is part of the “Visualize Your Data” series. Check out <a href="/blog/visualize-your-data-day1-box-vs-violin/">Day 1: Box Plots and Violin Plots</a> if you missed it.</em></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps, commonly used in bioinformatics and molecular genomics.]]></summary></entry></feed>
+<p><strong>Have questions about ordination? Drop a comment below!</strong></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Day 3 of the Visualize Your Data series: exploring PCA, PCoA, and NMDS to visualize sample relationships and community structure in bioinformatics and microbial ecology.]]></summary></entry></feed>
