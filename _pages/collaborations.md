@@ -36,14 +36,13 @@ I collaborate with international partners to characterize **novel microbial line
 
 # Selected Outputs
 
+Kaari, M., **John, J**., Manikkam, R., Kumar, A., Baskaran, A., & Bhaskar, P. V. (2026). Comparative genomic and phenotypic analysis of Streptomyces rochei SOSIST-3 isolated from the Southern Ocean. Molecular Biology Reports, 53(1), 296. \*Kaari M and John J contributed equally
+
 - _Draft genome sequence of a novel species of Winogradskyella (strain PC D3.3) isolated from a red Antarctic macroalgae_  
   **Microbiology Resource Announcements** (submitted)
 
 - _Genomic insights into carbohydrate-active enzymes and antimicrobial potential of a novel species of Radiobacillus isolated from Antarctic red macroalgae_  
   **World Journal of Microbiology and Biotechnology** (under review)
-
-- _Comparative genomic and phenotypic analysis of Streptomyces rochei SOSIST-3 isolated from the Southern Ocean_  
-  **Molecular Biology Reports** (minor revision)
 
 # My Role
 
@@ -71,7 +70,7 @@ I collaborate on projects evaluating the **impact of nanomaterials on microbial 
 # Selected Outputs
 
 - _Nanoliposome-mediated co-delivery of amoxicillin and tazobactam remediate intracellular infection by multidrug-resistant Salmonella enterica_  
-  **Journal of Antibiotics** (under review, Round 3)
+  **Journal of Antibiotics**- accepted waiting proof
 
 - _Differential effects of food-borne nanoplastics on gut microbiota using an in vitro colon fermentation model_  
   (in preparation)
