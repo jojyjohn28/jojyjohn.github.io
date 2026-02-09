@@ -221,6 +221,20 @@
             
           
             
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
               
                 
                 <li class="nav-item ">
@@ -1617,57 +1631,6 @@ mq.to_csv('quality_mags.csv', index=False)
 </span><span class="no">EOF
 </span></code></pre></div></div>
 
-<hr>
-
-<h2 id="️-mag-classification">🏷️ MAG Classification</h2>
-
-<p>After quality assessment, classify your MAGs taxonomically.</p>
-
-<h3 id="using-gtdb-tk-recommended">Using GTDB-Tk (Recommended)</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> gtdbtk <span class="nv">python</span><span class="o">=</span>3.8
-conda activate gtdbtk
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda gtdbtk
-
-<span class="c"># Download GTDB database (~65 GB)</span>
-download-db.sh
-
-<span class="c"># Classify MAGs</span>
-gtdbtk classify_wf <span class="se">\</span>
-    <span class="nt">--genome_dir</span> BIN_REFINEMENT/metawrap_50_10_bins <span class="se">\</span>
-    <span class="nt">--out_dir</span> gtdbtk_output <span class="se">\</span>
-    <span class="nt">--extension</span> fa <span class="se">\</span>
-    <span class="nt">--cpus</span> 32
-
-<span class="c"># Output: gtdbtk.bac120.summary.tsv</span>
-</code></pre></div></div>
-
-<p><strong>GTDB advantages:</strong></p>
-
-<ul>
-  <li>Most up-to-date bacterial taxonomy</li>
-  <li>~402,000 reference genomes</li>
-  <li>Standardized nomenclature</li>
-  <li>ANI-based species delineation</li>
-</ul>
-
-<h3 id="quick-classification-with-kraken2">Quick Classification with Kraken2</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Faster alternative for quick checks</span>
-kraken2 <span class="se">\</span>
-    <span class="nt">--db</span> ~/kraken2_db/standard <span class="se">\</span>
-    <span class="nt">--threads</span> 16 <span class="se">\</span>
-    <span class="nt">--report</span> bin1_report.txt <span class="se">\</span>
-    <span class="nt">--output</span> bin1_kraken.out <span class="se">\</span>
-    bin.1.fa
-</code></pre></div></div>
-
-<hr>
-
-<h3 id="for-detailed-tutorial-1">For Detailed Tutorial</h3>
-
-<p>🔗 <strong><a href="https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/">See my complete GTDBTK guide →</a></strong></p>
-
 <h2 id="-visualizing-results">📊 Visualizing Results</h2>
 
 <h3 id="create-bin-quality-plot">Create Bin Quality Plot</h3>
@@ -2042,8 +2005,6 @@ checkm2 predict <span class="nt">--threads</span> 8  <span class="c"># instead o
   <li class="task-list-item">
 <input type="checkbox" class="task-list-item-checkbox" disabled>At least 5-10 MQ+ MAGs recovered</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>Taxonomic classification with GTDB-Tk</li>
-  <li class="task-list-item">
 <input type="checkbox" class="task-list-item-checkbox" disabled>Quality plots generated</li>
   <li class="task-list-item">
 <input type="checkbox" class="task-list-item-checkbox" disabled>MAGs organized in final directory</li>
@@ -2087,19 +2048,11 @@ checkm2 predict <span class="nt">--threads</span> 8  <span class="c"># instead o
 </li>
     </ul>
   </li>
-  <li>
-<strong>Taxonomy:</strong>
-    <ul>
-      <li>Chaumeil et al. (2020) - GTDB-Tk: <em>Bioinformatics</em>
-</li>
-    </ul>
-  </li>
 </ol>
 
 <h3 id="helpful-links">Helpful Links</h3>
 
 <ul>
-  <li><a href="https://gtdb.ecogenomic.org/" rel="external nofollow noopener" target="_blank">GTDB Database</a></li>
   <li><a href="https://github.com/chklovski/CheckM2" rel="external nofollow noopener" target="_blank">CheckM2 Documentation</a></li>
   <li><a href="https://github.com/bxlab/metaWRAP" rel="external nofollow noopener" target="_blank">MetaWRAP GitHub</a></li>
   <li><a href="link-to-your-semibin2-post">SemiBin2 Detailed Guide</a></li>
@@ -2111,13 +2064,13 @@ checkm2 predict <span class="nt">--threads</span> 8  <span class="c"># instead o
 
 <p><strong>Congratulations!</strong> You’ve recovered individual genomes from your metagenome!</p>
 
-<p><strong>Day 4: Functional Annotation</strong> (Coming Soon)</p>
+<p><strong>Day 4: Genome Dereplication &amp; Taxonomic Classification</strong> (Coming Soon)</p>
 
 <ul>
-  <li>Predict genes with Prodigal</li>
-  <li>Annotate with eggNOG-mapper</li>
-  <li>Identify biosynthetic gene clusters</li>
-  <li>Pathway reconstruction with KEGG</li>
+  <li>Dereplicate - Remove redundant genomes, keep best representatives</li>
+  <li>Classify - Assign accurate taxonomic names using GTDB</li>
+  <li>Visualize - Create beautiful phylogenetic trees</li>
+  <li>Curate - Select species representatives for downstream analysis</li>
 </ul>
 
 <hr>
@@ -2442,7 +2395,18 @@ checkm2 predict <span class="nt">--threads</span> 8  <span class="c"># instead o
               handler: () => {
                 window.location.href = "/repositories/";
               },
-            },{id: "post-day-3-genome-binning-recovering-individual-genomes-mags-from-metagenomes",
+            },{id: "post-day-4-genome-dereplication-amp-taxonomic-classification-from-mags-to-species",
+          
+            title: "Day 4: Genome Dereplication &amp; Taxonomic Classification - From MAGs to Species",
+          
+          description: "Master genome dereplication with dRep and taxonomic classification with GTDB-Tk. Learn to identify unique species, remove redundancy, construct phylogenetic trees with iTOL and ggtree, and select species representatives from metagenomic datasets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day4-dereplication-taxonomy/";
+            
+          },
+        },{id: "post-day-3-genome-binning-recovering-individual-genomes-mags-from-metagenomes",
           
             title: "Day 3: Genome Binning - Recovering Individual Genomes (MAGs) from Metagenomes",
           
