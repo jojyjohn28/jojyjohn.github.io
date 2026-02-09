@@ -992,57 +992,6 @@ mq.to_csv('quality_mags.csv', index=False)
 EOF
 ```
 
----
-
-## 🏷️ MAG Classification
-
-After quality assessment, classify your MAGs taxonomically.
-
-### Using GTDB-Tk (Recommended)
-
-```bash
-conda create -n gtdbtk python=3.8
-conda activate gtdbtk
-conda install -c bioconda gtdbtk
-
-# Download GTDB database (~65 GB)
-download-db.sh
-
-# Classify MAGs
-gtdbtk classify_wf \
-    --genome_dir BIN_REFINEMENT/metawrap_50_10_bins \
-    --out_dir gtdbtk_output \
-    --extension fa \
-    --cpus 32
-
-# Output: gtdbtk.bac120.summary.tsv
-```
-
-**GTDB advantages:**
-
-- Most up-to-date bacterial taxonomy
-- ~402,000 reference genomes
-- Standardized nomenclature
-- ANI-based species delineation
-
-### Quick Classification with Kraken2
-
-```bash
-# Faster alternative for quick checks
-kraken2 \
-    --db ~/kraken2_db/standard \
-    --threads 16 \
-    --report bin1_report.txt \
-    --output bin1_kraken.out \
-    bin.1.fa
-```
-
----
-
-### For Detailed Tutorial
-
-🔗 **[See my complete GTDBTK guide →](https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/)**
-
 ## 📊 Visualizing Results
 
 ### Create Bin Quality Plot
@@ -1309,7 +1258,6 @@ Before moving to Day 4:
 - [ ] Bins refined with MetaWRAP or DAS Tool
 - [ ] CheckM2 quality assessment completed
 - [ ] At least 5-10 MQ+ MAGs recovered
-- [ ] Taxonomic classification with GTDB-Tk
 - [ ] Quality plots generated
 - [ ] MAGs organized in final directory
 
@@ -1333,12 +1281,8 @@ Before moving to Day 4:
    - Uritskiy et al. (2018) - MetaWRAP: _Microbiome_
    - Sieber et al. (2018) - DAS Tool: _Nature Microbiology_
 
-4. **Taxonomy:**
-   - Chaumeil et al. (2020) - GTDB-Tk: _Bioinformatics_
-
 ### Helpful Links
 
-- [GTDB Database](https://gtdb.ecogenomic.org/)
 - [CheckM2 Documentation](https://github.com/chklovski/CheckM2)
 - [MetaWRAP GitHub](https://github.com/bxlab/metaWRAP)
 - [SemiBin2 Detailed Guide](link-to-your-semibin2-post)
@@ -1349,12 +1293,12 @@ Before moving to Day 4:
 
 **Congratulations!** You've recovered individual genomes from your metagenome!
 
-**Day 4: Functional Annotation** (Coming Soon)
+**Day 4: Genome Dereplication & Taxonomic Classification** (Coming Soon)
 
-- Predict genes with Prodigal
-- Annotate with eggNOG-mapper
-- Identify biosynthetic gene clusters
-- Pathway reconstruction with KEGG
+- Dereplicate - Remove redundant genomes, keep best representatives
+- Classify - Assign accurate taxonomic names using GTDB
+- Visualize - Create beautiful phylogenetic trees
+- Curate - Select species representatives for downstream analysis
 
 ---
 
