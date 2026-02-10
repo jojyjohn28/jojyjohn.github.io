@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-09T17:09:49-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-10T16:37:10-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 </subtitle><entry><title type="html">Day 4: Genome Dereplication &amp;amp; Taxonomic Classification - From MAGs to Species</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day4-dereplication-taxonomy/" rel="alternate" type="text/html" title="Day 4: Genome Dereplication &amp;amp; Taxonomic Classification - From MAGs to Species" /><published>2026-02-09T00:00:00-05:00</published><updated>2026-02-09T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome-analysis-day4-dereplication-taxonomy</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day4-dereplication-taxonomy/"><![CDATA[<h1 id="day-4-genome-dereplication--taxonomic-classification">Day 4: Genome Dereplication &amp; Taxonomic Classification</h1>
 
 <table>
@@ -890,7 +890,1007 @@ gtdbtk classify_wf ... <span class="nt">--scratch_dir</span> /tmp/gtdbtk
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/d4-mg.png" alt="day2 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="dereplication" /><category term="dRep" /><category term="GTDB-Tk" /><category term="taxonomy" /><category term="phylogenetics" /><category term="iTOL" /><category term="ggtree" /><category term="MAGs" /><category term="bioinformatics" /><category term="tutorial" /><summary type="html"><![CDATA[Master genome dereplication with dRep and taxonomic classification with GTDB-Tk. Learn to identify unique species, remove redundancy, construct phylogenetic trees with iTOL and ggtree, and select species representatives from metagenomic datasets.]]></summary></entry><entry><title type="html">Day 3: Genome Binning - Recovering Individual Genomes (MAGs) from Metagenomes</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning/" rel="alternate" type="text/html" title="Day 3: Genome Binning - Recovering Individual Genomes (MAGs) from Metagenomes" /><published>2026-02-06T00:00:00-05:00</published><updated>2026-02-06T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning/"><![CDATA[<h1 id="day-3-genome-binning---recovering-individual-genomes-from-metagenomes">Day 3: Genome Binning - Recovering Individual Genomes from Metagenomes</h1>
+<p><img src="/assets/img/d4-mg.png" alt="day2 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="dereplication" /><category term="dRep" /><category term="GTDB-Tk" /><category term="taxonomy" /><category term="phylogenetics" /><category term="iTOL" /><category term="ggtree" /><category term="MAGs" /><category term="bioinformatics" /><category term="tutorial" /><summary type="html"><![CDATA[Master genome dereplication with dRep and taxonomic classification with GTDB-Tk. Learn to identify unique species, remove redundancy, construct phylogenetic trees with iTOL and ggtree, and select species representatives from metagenomic datasets.]]></summary></entry><entry><title type="html">Day 5: Genome Annotation - Understanding Metabolic Potential</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day5-annotation/" rel="alternate" type="text/html" title="Day 5: Genome Annotation - Understanding Metabolic Potential" /><published>2026-02-07T00:00:00-05:00</published><updated>2026-02-07T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day5-annotation</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day5-annotation/"><![CDATA[<h1 id="day-5-genome-annotation---understanding-metabolic-potential">Day 5: Genome Annotation - Understanding Metabolic Potential</h1>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Estimated Time:</strong> 6-10 hours</td>
+      <td><strong>Difficulty:</strong> Intermediate</td>
+      <td><strong>Prerequisites:</strong> Day 4 (Taxonomy)</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-table-of-contents">📚 Table of Contents</h2>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#annotation-overview">Annotation Overview</a></li>
+  <li><a href="#software-installation">Software Installation</a></li>
+  <li><a href="#basic-annotation">Basic Annotation</a></li>
+  <li><a href="#advanced-annotation">Advanced Annotation</a></li>
+  <li><a href="#metabolic-reconstruction">Metabolic Reconstruction</a></li>
+  <li><a href="#comparative-analysis">Comparative Analysis</a></li>
+  <li><a href="#best-practices">Best Practices</a></li>
+  <li><a href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-introduction">🎯 Introduction</h2>
+
+<p>Welcome to Day 5! You’ve recovered high-quality MAGs and classified them taxonomically. Now the exciting question: <strong>What can these organisms do?</strong></p>
+
+<p><strong>Today’s goals:</strong></p>
+
+<ol>
+  <li>✅ <strong>Predict genes</strong> - Where are the genes in your genomes?</li>
+  <li>✅ <strong>Assign functions</strong> - What do these genes do?</li>
+  <li>✅ <strong>Reconstruct pathways</strong> - What metabolic capabilities exist?</li>
+  <li>✅ <strong>Compare genomes</strong> - How do species differ functionally?</li>
+</ol>
+
+<h3 id="why-annotate">Why Annotate?</h3>
+
+<p><strong>Unannotated genome:</strong> Just DNA sequences<br />
+<strong>Annotated genome:</strong> Blueprint of an organism’s capabilities</p>
+
+<p><strong>Answers you’ll get:</strong></p>
+
+<ul>
+  <li>Can it fix nitrogen?</li>
+  <li>Does it produce secondary metabolites?</li>
+  <li>What carbon sources can it use?</li>
+  <li>Does it have antibiotic resistance genes?</li>
+  <li>Can it degrade pollutants?</li>
+</ul>
+
+<hr />
+
+<h2 id="-annotation-overview">🔬 Annotation Overview</h2>
+
+<h3 id="the-annotation-hierarchy">The Annotation Hierarchy</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Level 1: Gene Prediction
+├─ Prodigal    (Fast, accurate)
+└─ Prokka      (Gene prediction + basic annotation)
+
+Level 2: Functional Annotation
+├─ eggNOG-mapper  (Orthology-based)
+└─ Prokka         (Swiss-Prot, Pfam)
+
+Level 3: Metabolic Annotation
+├─ DRAM          (Metabolic distillation)
+└─ METABOLIC     (Comprehensive pathways)
+</code></pre></div></div>
+
+<h3 id="tools-comparison">Tools Comparison</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Speed</th>
+      <th>Depth</th>
+      <th>Best For</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Prodigal</strong></td>
+      <td>⚡⚡⚡</td>
+      <td>Basic</td>
+      <td>Gene prediction only</td>
+    </tr>
+    <tr>
+      <td><strong>Prokka</strong></td>
+      <td>⚡⚡</td>
+      <td>Good</td>
+      <td>Quick annotation, publication</td>
+    </tr>
+    <tr>
+      <td><strong>eggNOG-mapper</strong></td>
+      <td>⚡</td>
+      <td>Excellent</td>
+      <td>Detailed functional annotation</td>
+    </tr>
+    <tr>
+      <td><strong>DRAM</strong></td>
+      <td>⚡</td>
+      <td>Excellent</td>
+      <td>Metabolic reconstruction</td>
+    </tr>
+    <tr>
+      <td><strong>METABOLIC</strong></td>
+      <td>⚡</td>
+      <td>Comprehensive</td>
+      <td>Full metabolic pathways</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-software-installation">📦 Software Installation</h2>
+
+<h3 id="basic-tools">Basic Tools</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Prodigal (gene prediction)</span>
+conda create <span class="nt">-n</span> prodigal
+conda activate prodigal
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda prodigal
+
+<span class="c"># Prokka (rapid annotation)</span>
+conda create <span class="nt">-n</span> prokka <span class="nv">python</span><span class="o">=</span>3.8
+conda activate prokka
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda prokka
+
+<span class="c"># Verify installations</span>
+prodigal <span class="nt">-v</span>
+prokka <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h3 id="advanced-tools">Advanced Tools</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># eggNOG-mapper</span>
+conda create <span class="nt">-n</span> eggnog <span class="nv">python</span><span class="o">=</span>3.9
+conda activate eggnog
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda eggnog-mapper
+
+<span class="c"># Download eggNOG database (~45 GB)</span>
+download_eggnog_data.py <span class="nt">-y</span>
+
+<span class="c"># DRAM</span>
+conda create <span class="nt">-n</span> dram <span class="nv">python</span><span class="o">=</span>3.10
+conda activate dram
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda dram
+
+<span class="c"># Setup DRAM databases (~200 GB!)</span>
+DRAM-setup.py prepare_databases <span class="nt">--output_dir</span> ~/DRAM_data
+
+<span class="c"># METABOLIC</span>
+conda create <span class="nt">-n</span> metabolic <span class="nv">python</span><span class="o">=</span>3.7
+conda activate metabolic
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda metabolic
+
+<span class="c"># Download METABOLIC databases</span>
+perl METABOLIC-G.pl <span class="nt">-test</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-basic-annotation">🚀 Basic Annotation</h2>
+
+<h3 id="level-1-gene-prediction-with-prodigal">Level 1: Gene Prediction with Prodigal</h3>
+
+<p><strong>Prodigal</strong> is the gold standard for bacterial gene prediction.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate prodigal
+
+<span class="c"># Single genome</span>
+prodigal <span class="nt">-i</span> genome.fasta <span class="se">\</span>
+         <span class="nt">-o</span> genes.gbk <span class="se">\</span>
+         <span class="nt">-a</span> proteins.faa <span class="se">\</span>
+         <span class="nt">-d</span> genes.fna <span class="se">\</span>
+         <span class="nt">-f</span> gbk
+
+<span class="c"># Batch processing</span>
+<span class="k">for </span>genome <span class="k">in </span>species_representatives/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
+    </span><span class="nv">name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="nv">$genome</span> .fa<span class="si">)</span>
+    prodigal <span class="nt">-i</span> <span class="nv">$genome</span> <span class="se">\</span>
+             <span class="nt">-o</span> prodigal_output/<span class="k">${</span><span class="nv">name</span><span class="k">}</span>.gbk <span class="se">\</span>
+             <span class="nt">-a</span> prodigal_output/<span class="k">${</span><span class="nv">name</span><span class="k">}</span>.faa <span class="se">\</span>
+             <span class="nt">-d</span> prodigal_output/<span class="k">${</span><span class="nv">name</span><span class="k">}</span>.fna <span class="se">\</span>
+             <span class="nt">-f</span> gbk
+    <span class="nb">echo</span> <span class="s2">"✓ </span><span class="k">${</span><span class="nv">name</span><span class="k">}</span><span class="s2"> completed"</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p><strong>Output files:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">.gbk</code> - GenBank format (annotations)</li>
+  <li><code class="language-plaintext highlighter-rouge">.faa</code> - Protein sequences (amino acids)</li>
+  <li><code class="language-plaintext highlighter-rouge">.fna</code> - Gene sequences (nucleotides)</li>
+</ul>
+
+<p><strong>Understanding output:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Count genes</span>
+<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"&gt;"</span> prodigal_output/<span class="k">*</span>.faa
+
+<span class="c"># Gene statistics</span>
+python <span class="o">&lt;&lt;</span> <span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+from Bio import SeqIO
+
+for record in SeqIO.parse("proteins.faa", "fasta"):
+    print(f"Gene: {record.id}, Length: {len(record.seq)} aa")
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<hr />
+
+<h3 id="level-2-quick-annotation-with-prokka">Level 2: Quick Annotation with Prokka</h3>
+
+<p><strong>Prokka</strong> does gene prediction AND functional annotation in one step.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate prokka
+
+<span class="c"># Single genome annotation</span>
+prokka <span class="se">\</span>
+    <span class="nt">--outdir</span> prokka_output/genome1 <span class="se">\</span>
+    <span class="nt">--prefix</span> genome1 <span class="se">\</span>
+    <span class="nt">--kingdom</span> Bacteria <span class="se">\</span>
+    <span class="nt">--cpus</span> 8 <span class="se">\</span>
+    <span class="nt">--force</span> <span class="se">\</span>
+    genome1.fa
+
+<span class="c"># With metadata for better annotation</span>
+prokka <span class="se">\</span>
+    <span class="nt">--outdir</span> prokka_output/genome1 <span class="se">\</span>
+    <span class="nt">--prefix</span> genome1 <span class="se">\</span>
+    <span class="nt">--kingdom</span> Bacteria <span class="se">\</span>
+    <span class="nt">--genus</span> Bacteroides <span class="se">\</span>
+    <span class="nt">--species</span> uniformis <span class="se">\</span>
+    <span class="nt">--strain</span> isolate123 <span class="se">\</span>
+    <span class="nt">--cpus</span> 8 <span class="se">\</span>
+    <span class="nt">--force</span> <span class="se">\</span>
+    genome1.fa
+</code></pre></div></div>
+
+<p><strong>Prokka output files:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prokka_output/genome1/
+├── genome1.faa      # Protein sequences
+├── genome1.ffn      # Gene sequences
+├── genome1.fna      # Genome sequence
+├── genome1.gbk      # GenBank format
+├── genome1.gff      # GFF3 format (for visualization)
+├── genome1.tsv      # Feature table
+├── genome1.txt      # Statistics
+└── genome1.sqn      # Sequin format (NCBI submission)
+</code></pre></div></div>
+
+<p><strong>Parse Prokka results:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># View statistics</span>
+<span class="nb">cat </span>prokka_output/genome1/genome1.txt
+
+<span class="c"># Extract annotations</span>
+<span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"^#"</span> prokka_output/genome1/genome1.tsv | <span class="se">\</span>
+    <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">'\t'</span> <span class="s1">'{print $1"\t"$2"\t"$3}'</span> | <span class="nb">head</span> <span class="nt">-20</span>
+
+<span class="c"># Count annotated vs hypothetical</span>
+<span class="nv">total</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"CDS"</span> prokka_output/genome1/genome1.tsv<span class="si">)</span>
+<span class="nv">hypo</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"hypothetical protein"</span> prokka_output/genome1/genome1.tsv<span class="si">)</span>
+<span class="nv">annotated</span><span class="o">=</span><span class="k">$((</span>total <span class="o">-</span> hypo<span class="k">))</span>
+
+<span class="nb">echo</span> <span class="s2">"Total CDSs: </span><span class="k">${</span><span class="nv">total</span><span class="k">}</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">"Annotated: </span><span class="k">${</span><span class="nv">annotated</span><span class="k">}</span><span class="s2"> (</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"scale=1; </span><span class="k">${</span><span class="nv">annotated</span><span class="k">}</span><span class="s2">*100/</span><span class="k">${</span><span class="nv">total</span><span class="k">}</span><span class="s2">"</span> | bc<span class="si">)</span><span class="s2">%)"</span>
+<span class="nb">echo</span> <span class="s2">"Hypothetical: </span><span class="k">${</span><span class="nv">hypo</span><span class="k">}</span><span class="s2"> (</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"scale=1; </span><span class="k">${</span><span class="nv">hypo</span><span class="k">}</span><span class="s2">*100/</span><span class="k">${</span><span class="nv">total</span><span class="k">}</span><span class="s2">"</span> | bc<span class="si">)</span><span class="s2">%)"</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-advanced-annotation">🔬 Advanced Annotation</h2>
+
+<h3 id="level-3-functional-annotation-with-eggnog-mapper">Level 3: Functional Annotation with eggNOG-mapper</h3>
+
+<p><strong>eggNOG-mapper</strong> provides deep functional annotation using orthology.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate eggnog
+
+<span class="c"># Annotate proteins from Prodigal</span>
+emapper.py <span class="se">\</span>
+    <span class="nt">-i</span> proteins.faa <span class="se">\</span>
+    <span class="nt">--itype</span> proteins <span class="se">\</span>
+    <span class="nt">-m</span> diamond <span class="se">\</span>
+    <span class="nt">--output</span> eggnog_output <span class="se">\</span>
+    <span class="nt">--output_dir</span> eggnog_results <span class="se">\</span>
+    <span class="nt">--cpu</span> 16 <span class="se">\</span>
+    <span class="nt">--data_dir</span> ~/eggnog_data
+
+<span class="c"># Batch annotation</span>
+<span class="k">for </span>faa <span class="k">in </span>prodigal_output/<span class="k">*</span>.faa<span class="p">;</span> <span class="k">do
+    </span><span class="nv">name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="nv">$faa</span> .faa<span class="si">)</span>
+    emapper.py <span class="se">\</span>
+        <span class="nt">-i</span> <span class="nv">$faa</span> <span class="se">\</span>
+        <span class="nt">--itype</span> proteins <span class="se">\</span>
+        <span class="nt">-m</span> diamond <span class="se">\</span>
+        <span class="nt">--output</span> <span class="k">${</span><span class="nv">name</span><span class="k">}</span> <span class="se">\</span>
+        <span class="nt">--output_dir</span> eggnog_results <span class="se">\</span>
+        <span class="nt">--cpu</span> 16
+    <span class="nb">echo</span> <span class="s2">"✓ </span><span class="k">${</span><span class="nv">name</span><span class="k">}</span><span class="s2"> annotated"</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p><strong>eggNOG output columns:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>query</td>
+      <td>Gene ID</td>
+    </tr>
+    <tr>
+      <td>eggNOG_OGs</td>
+      <td>Orthologous groups</td>
+    </tr>
+    <tr>
+      <td>max_annot_lvl</td>
+      <td>Taxonomic level</td>
+    </tr>
+    <tr>
+      <td>COG_category</td>
+      <td>COG functional category</td>
+    </tr>
+    <tr>
+      <td>Description</td>
+      <td>Gene function</td>
+    </tr>
+    <tr>
+      <td>Preferred_name</td>
+      <td>Gene name</td>
+    </tr>
+    <tr>
+      <td>GOs</td>
+      <td>Gene Ontology terms</td>
+    </tr>
+    <tr>
+      <td>EC</td>
+      <td>Enzyme Commission numbers</td>
+    </tr>
+    <tr>
+      <td>KEGG_ko</td>
+      <td>KEGG orthology</td>
+    </tr>
+    <tr>
+      <td>KEGG_Pathway</td>
+      <td>KEGG pathways</td>
+    </tr>
+    <tr>
+      <td>KEGG_Module</td>
+      <td>KEGG modules</td>
+    </tr>
+    <tr>
+      <td>KEGG_Reaction</td>
+      <td>KEGG reactions</td>
+    </tr>
+    <tr>
+      <td>CAZy</td>
+      <td>Carbohydrate-active enzymes</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Parse eggNOG results:</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+# parse_eggnog.py
+</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="c1"># Read eggNOG results
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">eggnog_results/genome1.emapper.annotations</span><span class="sh">'</span><span class="p">,</span>
+                 <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="sh">'</span><span class="s">#</span><span class="sh">'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+<span class="c1"># Add column names
+</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sh">'</span><span class="s">query</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">seed_ortholog</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">evalue</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">score</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">eggNOG_OGs</span><span class="sh">'</span><span class="p">,</span>
+           <span class="sh">'</span><span class="s">max_annot_lvl</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">COG_category</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Description</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Preferred_name</span><span class="sh">'</span><span class="p">,</span>
+           <span class="sh">'</span><span class="s">GOs</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">EC</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">KEGG_ko</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">KEGG_Pathway</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">KEGG_Module</span><span class="sh">'</span><span class="p">,</span>
+           <span class="sh">'</span><span class="s">KEGG_Reaction</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">KEGG_rclass</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">BRITE</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">KEGG_TC</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">CAZy</span><span class="sh">'</span><span class="p">,</span>
+           <span class="sh">'</span><span class="s">BiGG_Reaction</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">PFAMs</span><span class="sh">'</span><span class="p">]</span>
+<span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
+
+<span class="c1"># Summary statistics
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">  eggNOG Annotation Summary</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Total genes: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">With function: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Preferred_name</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">With EC number: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">EC</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">With KEGG pathway: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">KEGG_Pathway</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">With CAZy: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">CAZy</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># COG category distribution
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">COG Category Distribution:</span><span class="sh">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">COG_category</span><span class="sh">'</span><span class="p">].</span><span class="nf">value_counts</span><span class="p">().</span><span class="nf">head</span><span class="p">(</span><span class="mi">10</span><span class="p">).</span><span class="nf">items</span><span class="p">()):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  </span><span class="si">{</span><span class="n">cat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">cat</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Save functional summary
+</span><span class="n">functional</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Preferred_name</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">()][[</span><span class="sh">'</span><span class="s">query</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Preferred_name</span><span class="sh">'</span><span class="p">,</span>
+                                                <span class="sh">'</span><span class="s">Description</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">KEGG_ko</span><span class="sh">'</span><span class="p">,</span>
+                                                <span class="sh">'</span><span class="s">KEGG_Pathway</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">EC</span><span class="sh">'</span><span class="p">]]</span>
+<span class="n">functional</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">functional_summary.csv</span><span class="sh">'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">✓ Functional summary saved: functional_summary.csv</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="level-4-metabolic-annotation-with-dram">Level 4: Metabolic Annotation with DRAM</h3>
+
+<p><strong>DRAM</strong> (Distilled and Refined Annotation of Metabolism) specializes in metabolic reconstruction.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate dram
+
+<span class="c"># Annotate MAGs</span>
+DRAM.py annotate <span class="se">\</span>
+    <span class="nt">-i</span> <span class="s1">'species_representatives/*.fa'</span> <span class="se">\</span>
+    <span class="nt">-o</span> dram_output <span class="se">\</span>
+    <span class="nt">--threads</span> 16 <span class="se">\</span>
+    <span class="nt">--min_contig_size</span> 1000
+
+<span class="c"># Distill annotations into metabolic summary</span>
+DRAM.py distill <span class="se">\</span>
+    <span class="nt">-i</span> dram_output/annotations.tsv <span class="se">\</span>
+    <span class="nt">-o</span> dram_distillate <span class="se">\</span>
+    <span class="nt">--trna_path</span> dram_output/trnas.tsv <span class="se">\</span>
+    <span class="nt">--rrna_path</span> dram_output/rrnas.tsv
+</code></pre></div></div>
+
+<p><strong>DRAM outputs:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dram_output/
+├── annotations.tsv           # All annotations
+├── genes.faa                 # Predicted proteins
+├── genes.fna                 # Predicted genes
+├── genes.gff                 # GFF format
+├── trnas.tsv                # tRNA predictions
+└── rrnas.tsv                # rRNA predictions
+
+dram_distillate/
+├── metabolism_summary.xlsx   # Metabolic capabilities
+├── product.html             # Interactive visualization
+└── genome_stats.tsv         # Quality statistics
+</code></pre></div></div>
+
+<p><strong>Key DRAM features:</strong></p>
+
+<ol>
+  <li><strong>Metabolic pathways</strong> - Carbon, nitrogen, sulfur metabolism</li>
+  <li><strong>Transporters</strong> - What can organisms import/export</li>
+  <li><strong>CAZymes</strong> - Carbohydrate degradation capabilities</li>
+  <li><strong>Secondary metabolites</strong> - Antibiotic production</li>
+  <li><strong>Stress response</strong> - Environmental adaptation</li>
+</ol>
+
+<p><strong>Interpret DRAM results:</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+# parse_dram.py
+</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="c1"># Read annotations
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">dram_output/annotations.tsv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">  DRAM Annotation Summary</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+
+<span class="c1"># Count by category
+</span><span class="n">categories</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">CAZymes</span><span class="sh">'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">cazy_hits</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">(),</span>
+    <span class="sh">'</span><span class="s">Peptidases</span><span class="sh">'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">peptidase_family</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">(),</span>
+    <span class="sh">'</span><span class="s">Transporters</span><span class="sh">'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">transporter_classification</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">(),</span>
+    <span class="sh">'</span><span class="s">VOG</span><span class="sh">'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">vogdb_categories</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">(),</span>
+    <span class="sh">'</span><span class="s">KEGG</span><span class="sh">'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">kegg_hit</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">(),</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="n">cat</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">.</span><span class="nf">items</span><span class="p">():</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">cat</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Extract carbon metabolism genes
+</span><span class="n">carbon_meta</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">module_name</span><span class="sh">'</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">contains</span><span class="p">(</span><span class="sh">'</span><span class="s">carbon</span><span class="sh">'</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="bp">False</span><span class="p">)]</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">Carbon metabolism genes: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">carbon_meta</span><span class="p">)</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Extract nitrogen metabolism genes
+</span><span class="n">nitrogen_meta</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">module_name</span><span class="sh">'</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">contains</span><span class="p">(</span><span class="sh">'</span><span class="s">nitrogen</span><span class="sh">'</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="bp">False</span><span class="p">)]</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Nitrogen metabolism genes: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">nitrogen_meta</span><span class="p">)</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="level-5-comprehensive-annotation-with-metabolic">Level 5: Comprehensive Annotation with METABOLIC</h3>
+
+<p><strong>METABOLIC</strong> provides the most comprehensive metabolic annotation.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate metabolic
+
+<span class="c"># Run METABOLIC on MAGs</span>
+perl METABOLIC-G.pl <span class="se">\</span>
+    <span class="nt">-in-gn</span> species_representatives <span class="se">\</span>
+    <span class="nt">-o</span> metabolic_output <span class="se">\</span>
+    <span class="nt">-t</span> 16 <span class="se">\</span>
+    <span class="nt">-m-cutoff</span> 0.75
+
+<span class="c"># Generate visualization</span>
+perl METABOLIC-G.pl <span class="se">\</span>
+    <span class="nt">-in</span> metabolic_output <span class="se">\</span>
+    <span class="nt">-o</span> metabolic_viz <span class="se">\</span>
+    <span class="nt">-p</span> viz
+</code></pre></div></div>
+
+<p><strong>METABOLIC outputs:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>metabolic_output/
+├── METABOLIC_result.xlsx              # Main results
+├── METABOLIC_result_each_spreadsheet/ # Individual tables
+│   ├── HMM_hit_table.xlsx
+│   ├── CAZy_hit_table.xlsx
+│   ├── R_protein_hit_table.xlsx
+│   └── MW-CMRT_profile.xlsx
+├── intermediate_files/
+└── log.txt
+
+metabolic_viz/
+├── METABOLIC_Diagram/                 # Pathway diagrams
+└── METABOLIC_result_each_spreadsheet/
+</code></pre></div></div>
+
+<p><strong>METABOLIC features:</strong></p>
+
+<ul>
+  <li>✅ <strong>40+ metabolic pathways</strong> - Carbon, nitrogen, sulfur, methane, etc.</li>
+  <li>✅ <strong>Energy metabolism</strong> - Respiration, fermentation</li>
+  <li>✅ <strong>Biogeochemical cycles</strong> - Full cycling capabilities</li>
+  <li>✅ <strong>Interactive diagrams</strong> - Heatmaps of pathway presence</li>
+  <li>✅ <strong>Module completeness</strong> - % of pathway present</li>
+</ul>
+
+<p><strong>Parse METABOLIC results:</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+# parse_metabolic.py
+</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="c1"># Read main result
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_excel</span><span class="p">(</span><span class="sh">'</span><span class="s">metabolic_output/METABOLIC_result.xlsx</span><span class="sh">'</span><span class="p">,</span>
+                   <span class="n">sheet_name</span><span class="o">=</span><span class="sh">'</span><span class="s">Sheet1</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">  METABOLIC Analysis Summary</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+
+<span class="c1"># Count genomes
+</span><span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Genomes analyzed: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Key pathways
+</span><span class="n">pathways</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="sh">'</span><span class="s">Carbon fixation</span><span class="sh">'</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">Nitrogen fixation</span><span class="sh">'</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">Denitrification</span><span class="sh">'</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">Sulfate reduction</span><span class="sh">'</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">Methanogenesis</span><span class="sh">'</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">Aerobic respiration</span><span class="sh">'</span>
+<span class="p">]</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">Pathway Presence:</span><span class="sh">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">pathway</span> <span class="ow">in</span> <span class="n">pathways</span><span class="p">:</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">pathway</span><span class="p">.</span><span class="nf">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">c</span><span class="p">.</span><span class="nf">lower</span><span class="p">()]</span>
+    <span class="k">if</span> <span class="n">cols</span><span class="p">:</span>
+        <span class="n">present</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cols</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">).</span><span class="nf">sum</span><span class="p">()</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  </span><span class="si">{</span><span class="n">pathway</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">present</span><span class="si">}</span><span class="s"> genomes</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-complete-annotation-workflow">🔄 Complete Annotation Workflow</h2>
+
+<h3 id="recommended-pipeline">Recommended Pipeline</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Step 1: Gene prediction (Prodigal)</span>
+prodigal <span class="nt">-i</span> genome.fa <span class="nt">-a</span> proteins.faa <span class="nt">-d</span> genes.fna <span class="nt">-f</span> gbk <span class="nt">-o</span> genes.gbk
+
+<span class="c"># Step 2: Functional annotation (eggNOG-mapper)</span>
+emapper.py <span class="nt">-i</span> proteins.faa <span class="nt">-m</span> diamond <span class="nt">--output</span> genome <span class="nt">--cpu</span> 16
+
+<span class="c"># Step 3: Metabolic annotation (DRAM or METABOLIC)</span>
+<span class="c"># Option A: DRAM</span>
+DRAM.py annotate <span class="nt">-i</span> <span class="s1">'genomes/*.fa'</span> <span class="nt">-o</span> dram_output <span class="nt">--threads</span> 16
+DRAM.py distill <span class="nt">-i</span> dram_output/annotations.tsv <span class="nt">-o</span> dram_distillate
+
+<span class="c"># Option B: METABOLIC</span>
+perl METABOLIC-G.pl <span class="nt">-in-gn</span> genomes/ <span class="nt">-o</span> metabolic_output <span class="nt">-t</span> 16
+
+<span class="c"># Step 4: Quick annotation for NCBI submission (Prokka)</span>
+prokka <span class="nt">--outdir</span> prokka_out <span class="nt">--prefix</span> genome <span class="nt">--cpus</span> 8 genome.fa
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-comparative-analysis">📊 Comparative Analysis</h2>
+
+<h3 id="compare-metabolic-capabilities-across-genomes">Compare Metabolic Capabilities Across Genomes</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+# compare_metabolic_capabilities.py
+</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="c1"># Read DRAM distillate or METABOLIC results
+# Example with DRAM
+</span><span class="n">metabolism</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_excel</span><span class="p">(</span><span class="sh">'</span><span class="s">dram_distillate/metabolism_summary.xlsx</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Create heatmap of pathway presence/absence
+</span><span class="n">pathways</span> <span class="o">=</span> <span class="n">metabolism</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>  <span class="c1"># Skip genome column
+</span><span class="n">genome_names</span> <span class="o">=</span> <span class="n">metabolism</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Binary presence/absence
+</span><span class="n">binary</span> <span class="o">=</span> <span class="p">(</span><span class="n">pathways</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Create heatmap
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span><span class="n">binary</span><span class="p">.</span><span class="n">T</span><span class="p">,</span>
+            <span class="n">xticklabels</span><span class="o">=</span><span class="n">genome_names</span><span class="p">,</span>
+            <span class="n">yticklabels</span><span class="o">=</span><span class="n">pathways</span><span class="p">.</span><span class="n">columns</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">white</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">darkblue</span><span class="sh">'</span><span class="p">],</span>
+            <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">Presence</span><span class="sh">'</span><span class="p">})</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">Metabolic Pathway Presence Across Genomes</span><span class="sh">'</span><span class="p">,</span>
+          <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Metabolic Pathway</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">metabolic_comparison.pdf</span><span class="sh">'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">✓ Metabolic comparison heatmap saved</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="identify-unique-metabolic-capabilities">Identify Unique Metabolic Capabilities</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+# find_unique_capabilities.py
+</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="c1"># Read annotations
+</span><span class="n">dram</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">dram_output/annotations.tsv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Group by genome
+</span><span class="n">genomes</span> <span class="o">=</span> <span class="n">dram</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">'</span><span class="s">scaffold</span><span class="sh">'</span><span class="p">).</span><span class="nf">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nf">set</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="sh">'</span><span class="s">kegg_hit</span><span class="sh">'</span><span class="p">].</span><span class="nf">dropna</span><span class="p">()))</span>
+
+<span class="c1"># Find unique capabilities per genome
+</span><span class="k">for</span> <span class="n">genome</span><span class="p">,</span> <span class="n">kegg_hits</span> <span class="ow">in</span> <span class="n">genomes</span><span class="p">.</span><span class="nf">items</span><span class="p">():</span>
+    <span class="n">unique</span> <span class="o">=</span> <span class="n">kegg_hits</span>
+    <span class="k">for</span> <span class="n">other_genome</span><span class="p">,</span> <span class="n">other_hits</span> <span class="ow">in</span> <span class="n">genomes</span><span class="p">.</span><span class="nf">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">other_genome</span> <span class="o">!=</span> <span class="n">genome</span><span class="p">:</span>
+            <span class="n">unique</span> <span class="o">=</span> <span class="n">unique</span> <span class="o">-</span> <span class="n">other_hits</span>
+
+    <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="si">{</span><span class="n">genome</span><span class="si">}</span><span class="s"> unique capabilities:</span><span class="sh">"</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">unique</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]:</span>  <span class="c1"># Top 10
+</span>            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  </span><span class="si">{</span><span class="n">hit</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-best-practices">💡 Best Practices</h2>
+
+<h3 id="before-annotation">Before Annotation</h3>
+
+<ul>
+  <li>✅ Use dereplicated, high-quality MAGs (Day 4)</li>
+  <li>✅ Check genome quality (&gt;50% comp, &lt;10% cont)</li>
+  <li>✅ Remove short contigs (&lt;1000 bp)</li>
+  <li>✅ Ensure sufficient disk space (databases are large!)</li>
+</ul>
+
+<h3 id="during-annotation">During Annotation</h3>
+
+<ul>
+  <li>✅ Start with Prodigal (fastest)</li>
+  <li>✅ Use Prokka for quick functional overview</li>
+  <li>✅ Use DRAM/METABOLIC for metabolic focus</li>
+  <li>✅ Save all intermediate files</li>
+  <li>✅ Document parameters used</li>
+</ul>
+
+<h3 id="after-annotation">After Annotation</h3>
+
+<ul>
+  <li>✅ Validate results (check gene counts are reasonable)</li>
+  <li>✅ Compare to related organisms</li>
+  <li>✅ Create summary tables</li>
+  <li>✅ Visualize key pathways</li>
+  <li>✅ Back up annotation files</li>
+</ul>
+
+<hr />
+
+<h2 id="-troubleshooting">🔧 Troubleshooting</h2>
+
+<h3 id="prodigal-issues">Prodigal Issues</h3>
+
+<p><strong>Problem: No genes predicted</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check input FASTA format</span>
+<span class="nb">head </span>genome.fa
+
+<span class="c"># Ensure DNA sequences (not protein)</span>
+<span class="c"># Try closed mode for complete genomes</span>
+prodigal <span class="nt">-i</span> genome.fa <span class="nt">-a</span> proteins.faa <span class="nt">-c</span>
+
+<span class="c"># Or meta mode for metagenomes/fragments</span>
+prodigal <span class="nt">-i</span> genome.fa <span class="nt">-a</span> proteins.faa <span class="nt">-p</span> meta
+</code></pre></div></div>
+
+<h3 id="prokka-issues">Prokka Issues</h3>
+
+<p><strong>Problem: Prokka fails with kingdom error</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># List available databases</span>
+prokka <span class="nt">--listdb</span>
+
+<span class="c"># Force specific kingdom</span>
+prokka <span class="nt">--kingdom</span> Bacteria ...
+
+<span class="c"># Or use --rawproduct to skip complex annotations</span>
+prokka <span class="nt">--rawproduct</span> ...
+</code></pre></div></div>
+
+<p><strong>Problem: Low annotation rate</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update databases</span>
+prokka <span class="nt">--setupdb</span>
+
+<span class="c"># Use genus/species to improve annotation</span>
+prokka <span class="nt">--genus</span> Escherichia <span class="nt">--species</span> coli ...
+</code></pre></div></div>
+
+<h3 id="eggnog-mapper-issues">eggNOG-mapper Issues</h3>
+
+<p><strong>Problem: Database not found</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Download databases</span>
+download_eggnog_data.py <span class="nt">-y</span> <span class="nt">--data_dir</span> ~/eggnog_data
+
+<span class="c"># Set data directory</span>
+<span class="nb">export </span><span class="nv">EGGNOG_DATA_DIR</span><span class="o">=</span>~/eggnog_data
+emapper.py <span class="nt">--data_dir</span> ~/eggnog_data ...
+</code></pre></div></div>
+
+<p><strong>Problem: Out of memory</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use diamond (less memory) instead of mmseqs</span>
+emapper.py <span class="nt">-m</span> diamond ...
+
+<span class="c"># Reduce CPUs</span>
+emapper.py <span class="nt">--cpu</span> 4 ...
+</code></pre></div></div>
+
+<h3 id="dram-issues">DRAM Issues</h3>
+
+<p><strong>Problem: Database setup fails</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check disk space (need ~200 GB)</span>
+<span class="nb">df</span> <span class="nt">-h</span>
+
+<span class="c"># Download databases separately</span>
+DRAM-setup.py prepare_databases <span class="se">\</span>
+    <span class="nt">--output_dir</span> ~/DRAM_data <span class="se">\</span>
+    <span class="nt">--verbose</span>
+
+<span class="c"># Set database location</span>
+<span class="nb">export </span><span class="nv">DRAM_DB_LOC</span><span class="o">=</span>~/DRAM_data
+</code></pre></div></div>
+
+<p><strong>Problem: Annotation takes too long</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Skip optional databases</span>
+DRAM.py annotate <span class="nt">--skip_trnascan</span> ...
+
+<span class="c"># Increase min contig size</span>
+DRAM.py annotate <span class="nt">--min_contig_size</span> 2500 ...
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-expected-results">📈 Expected Results</h2>
+
+<h3 id="gene-prediction">Gene Prediction</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genome Size</th>
+      <th>Expected Genes</th>
+      <th>Genes per Mb</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2 Mb</td>
+      <td>1,800-2,200</td>
+      <td>~1,000</td>
+    </tr>
+    <tr>
+      <td>4 Mb</td>
+      <td>3,600-4,400</td>
+      <td>~1,000</td>
+    </tr>
+    <tr>
+      <td>6 Mb</td>
+      <td>5,400-6,600</td>
+      <td>~1,000</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Typical bacteria:</strong> ~1,000 genes per Mb</p>
+
+<h3 id="functional-annotation">Functional Annotation</h3>
+
+<p><strong>Expected annotation rates:</strong></p>
+
+<ul>
+  <li>Prodigal: 100% genes (no function)</li>
+  <li>Prokka: 60-80% with function</li>
+  <li>eggNOG-mapper: 70-90% with function</li>
+  <li>DRAM: 40-60% metabolically relevant</li>
+  <li>METABOLIC: 30-50% in pathways</li>
+</ul>
+
+<h3 id="processing-time">Processing Time</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>10 Genomes</th>
+      <th>50 Genomes</th>
+      <th>100 Genomes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Prodigal</td>
+      <td>5 min</td>
+      <td>20 min</td>
+      <td>40 min</td>
+    </tr>
+    <tr>
+      <td>Prokka</td>
+      <td>30 min</td>
+      <td>2-3 hrs</td>
+      <td>5-6 hrs</td>
+    </tr>
+    <tr>
+      <td>eggNOG</td>
+      <td>1-2 hrs</td>
+      <td>6-8 hrs</td>
+      <td>12-15 hrs</td>
+    </tr>
+    <tr>
+      <td>DRAM</td>
+      <td>2-4 hrs</td>
+      <td>10-15 hrs</td>
+      <td>20-30 hrs</td>
+    </tr>
+    <tr>
+      <td>METABOLIC</td>
+      <td>1-2 hrs</td>
+      <td>5-8 hrs</td>
+      <td>10-15 hrs</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-success-checklist">✅ Success Checklist</h2>
+
+<p>Before moving forward:</p>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Genes predicted for all MAGs</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Functional annotations generated</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Metabolic pathways reconstructed</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Key capabilities identified</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Comparative analysis completed</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Results visualized</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Annotation files organized</li>
+</ul>
+
+<hr />
+
+<h2 id="-key-papers--resources">📚 Key Papers &amp; Resources</h2>
+
+<h3 id="essential-reading">Essential Reading</h3>
+
+<ol>
+  <li><strong>Prodigal:</strong>
+    <ul>
+      <li>Hyatt et al. (2010) - BMC Bioinformatics</li>
+    </ul>
+  </li>
+  <li><strong>Prokka:</strong>
+    <ul>
+      <li>Seemann (2014) - Bioinformatics</li>
+    </ul>
+  </li>
+  <li><strong>eggNOG-mapper:</strong>
+    <ul>
+      <li>Cantalapiedra et al. (2021) - Molecular Biology and Evolution</li>
+    </ul>
+  </li>
+  <li><strong>DRAM:</strong>
+    <ul>
+      <li>Shaffer et al. (2020) - Nucleic Acids Research</li>
+    </ul>
+  </li>
+  <li><strong>METABOLIC:</strong>
+    <ul>
+      <li>Zhou et al. (2022) - Nature Communications</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="helpful-links">Helpful Links</h3>
+
+<ul>
+  <li><a href="https://github.com/hyattpd/Prodigal">Prodigal GitHub</a></li>
+  <li><a href="https://github.com/tseemann/prokka">Prokka GitHub</a></li>
+  <li><a href="http://eggnog-mapper.embl.de/">eggNOG Website</a></li>
+  <li><a href="https://github.com/WrightonLabCSU/DRAM">DRAM Docs</a></li>
+  <li><a href="https://github.com/AnantharamanLab/METABOLIC">METABOLIC GitHub</a></li>
+</ul>
+
+<hr />
+
+<h2 id="️-whats-next">➡️ What’s Next?</h2>
+
+<p><strong>Congratulations!</strong> You’ve annotated your MAGs and understand their metabolic potential!</p>
+
+<p><strong>Next Steps:</strong>
+<strong>Explore specialized genomic features and secondary metabolites.</strong></p>
+
+<p>🚧Topics Covered:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>antiSMASH for secondary metabolite detection
+CARD-RGI for antimicrobial resistance genes
+dbCAN for carbohydrate-active enzymes
+Prophage detection (PHASTER, VirSorter2)
+CRISPR detection
+Mobile genetic elements
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-feedback">💬 Feedback</h2>
+
+<p>Found this helpful? Have suggestions?</p>
+
+<ul>
+  <li>🐛 <a href="https://github.com/jojyjohn28/metagenome-analysis-series/issues">Report issues</a></li>
+  <li>💡 <a href="https://github.com/jojyjohn28/metagenome-analysis-series/discussions">Discussions</a></li>
+  <li>⭐ <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day5-annotation">Star the repo</a></li>
+</ul>
+
+<hr />
+
+<h4 id="repo-for-todays-code-and-other-details">Repo for today’s code and other details</h4>
+
+<p>🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day5-annotation/">Day 5 →</a></strong></p>
+
+<p>Last updated: February 2026</p>
+
+<p><img src="/assets/img/d5-mg.png" alt="day5 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="annotation" /><category term="Prodigal" /><category term="Prokka" /><category term="DRAM" /><category term="METABOLIC" /><category term="eggNOG" /><category term="functional-annotation" /><category term="metabolic-pathways" /><category term="bioinformatics" /><category term="tutorial" /><summary type="html"><![CDATA[Complete guide to genome annotation from basic (Prodigal, Prokka) to advanced (DRAM, METABOLIC). Learn to predict genes, assign functions, and reconstruct metabolic pathways from MAGs. Includes practical workflows for laptops and HPC.]]></summary></entry><entry><title type="html">Day 3: Genome Binning - Recovering Individual Genomes (MAGs) from Metagenomes</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning/" rel="alternate" type="text/html" title="Day 3: Genome Binning - Recovering Individual Genomes (MAGs) from Metagenomes" /><published>2026-02-06T00:00:00-05:00</published><updated>2026-02-06T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning/"><![CDATA[<h1 id="day-3-genome-binning---recovering-individual-genomes-from-metagenomes">Day 3: Genome Binning - Recovering Individual Genomes from Metagenomes</h1>
 
 <table>
   <tbody>
@@ -7826,744 +8826,4 @@ In <a href="/blog/visualize-your-data-day4-volcano-plots/">Day 4</a>, we combine
 
 <p><strong>Have questions about bubble plots or functional genomics visualization? Drop a comment below!</strong></p>
 
-<hr />]]></content><author><name></name></author><summary type="html"><![CDATA[Day 5 of the Visualize Your Data series: using bubble plots to visualize multi-dimensional relationships in genomics and functional ecology.]]></summary></entry><entry><title type="html">Visualize Your Data — Day 4: Volcano Plots in Bioinformatics</title><link href="https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots/" rel="alternate" type="text/html" title="Visualize Your Data — Day 4: Volcano Plots in Bioinformatics" /><published>2026-01-21T00:00:00-05:00</published><updated>2026-01-21T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots/"><![CDATA[<h1 id="-visualize-your-data--day-4-volcano-plots">📊 Visualize Your Data – Day 4: Volcano Plots</h1>
-
-<p>In <a href="/blog/visualize-your-data-day1/">Day 1</a>, we explored distributions with box and violin plots.<br />
-In <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2</a>, we revealed patterns using heatmaps.<br />
-In <a href="/blog/visualize-your-data-day3-ordination/">Day 3</a>, we visualized sample relationships with ordination plots.</p>
-
-<p>Today, we’re diving into <strong>volcano plots</strong>—the visualization where statistics meets biology.</p>
-
-<p>Volcano plots are the gold standard for displaying differential expression or abundance results. They simultaneously show both the <strong>magnitude of change</strong> (fold change) and <strong>statistical significance</strong> (p-value), making it easy to identify the most important features at a glance.</p>
-
-<hr />
-
-<h2 id="-what-do-volcano-plots-show">🎯 What Do Volcano Plots Show?</h2>
-
-<p>A volcano plot displays:</p>
-
-<ul>
-  <li><strong>X-axis:</strong> Log2 fold change (magnitude and direction of change)</li>
-  <li><strong>Y-axis:</strong> -log10(adjusted p-value) (statistical significance)</li>
-</ul>
-
-<p>This layout creates a “volcano” shape where:</p>
-
-<ul>
-  <li><strong>Significant upregulated features</strong> appear in the upper right</li>
-  <li><strong>Significant downregulated features</strong> appear in the upper left</li>
-  <li><strong>Non-significant features</strong> cluster at the bottom</li>
-</ul>
-
-<p><strong>The key insight:</strong> You want features that are both biologically meaningful (large fold change) AND statistically significant (small p-value).</p>
-
-<hr />
-
-<h2 id="-where-youll-see-volcano-plots">🔬 Where You’ll See Volcano Plots</h2>
-
-<p>Volcano plots are essential in:</p>
-
-<ul>
-  <li><strong>Differential gene expression</strong> (RNA-seq, microarray)</li>
-  <li><strong>Differential abundance analysis</strong> (metagenomics, proteomics)</li>
-  <li><strong>Metabolomics</strong> (compound abundance changes)</li>
-  <li><strong>Functional enrichment</strong> (pathway or enzyme differences)</li>
-  <li><strong>Any comparison</strong> where you have fold changes and p-values</li>
-</ul>
-
-<p>If you read papers involving “differential analysis,” you’ll see volcano plots.</p>
-
-<hr />
-
-<h2 id="-toy-dataset-differential-expression">🧪 Toy Dataset (Differential Expression)</h2>
-
-<p>Let’s simulate differential expression data similar to what you’d get from DESeq2 or edgeR.</p>
-
-<h3 id="r-version">R Version</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Simulate 1000 genes</span><span class="w">
-</span><span class="n">n_genes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1000</span><span class="w">
-
-</span><span class="c1"># Most genes: no change (log2FC near 0, high p-values)</span><span class="w">
-</span><span class="n">baseline_fc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rnorm</span><span class="p">(</span><span class="n">n_genes</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.85</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w">
-</span><span class="n">baseline_pval</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">runif</span><span class="p">(</span><span class="n">n_genes</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.85</span><span class="p">,</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Some upregulated genes (positive log2FC, low p-values)</span><span class="w">
-</span><span class="n">up_fc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rnorm</span><span class="p">(</span><span class="n">n_genes</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.075</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w">
-</span><span class="n">up_pval</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">runif</span><span class="p">(</span><span class="n">n_genes</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.075</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.01</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Some downregulated genes (negative log2FC, low p-values)</span><span class="w">
-</span><span class="n">down_fc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rnorm</span><span class="p">(</span><span class="n">n_genes</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.075</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-2</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w">
-</span><span class="n">down_pval</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">runif</span><span class="p">(</span><span class="n">n_genes</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.075</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.01</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Combine all</span><span class="w">
-</span><span class="n">volcano_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
-  </span><span class="n">Gene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Gene_"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">n_genes</span><span class="p">),</span><span class="w">
-  </span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">baseline_fc</span><span class="p">,</span><span class="w"> </span><span class="n">up_fc</span><span class="p">,</span><span class="w"> </span><span class="n">down_fc</span><span class="p">),</span><span class="w">
-  </span><span class="n">pvalue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">baseline_pval</span><span class="p">,</span><span class="w"> </span><span class="n">up_pval</span><span class="p">,</span><span class="w"> </span><span class="n">down_pval</span><span class="p">),</span><span class="w">
-  </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Calculate adjusted p-values (FDR correction)</span><span class="w">
-</span><span class="n">volcano_data</span><span class="o">$</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p.adjust</span><span class="p">(</span><span class="n">volcano_data</span><span class="o">$</span><span class="n">pvalue</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fdr"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Add significance classification</span><span class="w">
-</span><span class="n">volcano_data</span><span class="o">$</span><span class="n">Significant</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="w">
-  </span><span class="n">volcano_data</span><span class="o">$</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">volcano_data</span><span class="o">$</span><span class="n">log2FoldChange</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
-  </span><span class="n">ifelse</span><span class="p">(</span><span class="n">volcano_data</span><span class="o">$</span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"Upregulated"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Downregulated"</span><span class="p">),</span><span class="w">
-  </span><span class="s2">"Not Significant"</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="n">head</span><span class="p">(</span><span class="n">volcano_data</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="-basic-volcano-plot-in-r">📊 Basic Volcano Plot in R</h2>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">volcano_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Significant</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
-    </span><span class="s2">"Upregulated"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Downregulated"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Not Significant"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey"</span><span class="w">
-  </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Volcano Plot: Differential Expression"</span><span class="p">,</span><span class="w">
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 Fold Change"</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 Adjusted P-value"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">
-    </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>Key elements:</strong></p>
-
-<ul>
-  <li>Red points: significantly upregulated</li>
-  <li>Blue points: significantly downregulated</li>
-  <li>Grey points: not significant</li>
-  <li>Points higher on Y-axis: more significant</li>
-  <li>Points further from X=0: larger fold changes</li>
-</ul>
-
-<h2><img src="/assets/img/vp1.png" alt="volcano basic" /></h2>
-
-<h2 id="-enhanced-volcano-plot-with-thresholds">🎨 Enhanced Volcano Plot with Thresholds</h2>
-
-<p>Adding reference lines helps readers identify significance thresholds.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">volcano_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Significant</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-
-  </span><span class="c1"># Add threshold lines</span><span class="w">
-  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-
-  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
-    </span><span class="s2">"Upregulated"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Downregulated"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Not Significant"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey"</span><span class="w">
-  </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-
-  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Volcano Plot with Significance Thresholds"</span><span class="p">,</span><span class="w">
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 Fold Change"</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 Adjusted P-value"</span><span class="p">,</span><span class="w">
-    </span><span class="n">caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Thresholds: |log2FC| &gt; 1, padj &lt; 0.05"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">
-    </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h2 id="-1"><img src="/assets/img/vp2.png" alt="volcano enhanced" /></h2>
-
-<h2 id="️-labeling-top-genes">🏷️ Labeling Top Genes</h2>
-
-<p>For publication figures, you often want to label the most significant features.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Select top 10 most significant genes</span><span class="w">
-</span><span class="n">top_genes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">volcano_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">Significant</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"Not Significant"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">arrange</span><span class="p">(</span><span class="n">padj</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">volcano_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Significant</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-
-  </span><span class="c1"># Add labels for top genes</span><span class="w">
-  </span><span class="n">geom_text_repel</span><span class="p">(</span><span class="w">
-    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">top_genes</span><span class="p">,</span><span class="w">
-    </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Gene</span><span class="p">),</span><span class="w">
-    </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
-    </span><span class="n">box.padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w">
-    </span><span class="n">point.padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w">
-    </span><span class="n">segment.color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'grey50'</span><span class="p">,</span><span class="w">
-    </span><span class="n">max.overlaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-
-  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-
-  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
-    </span><span class="s2">"Upregulated"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Downregulated"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Not Significant"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey"</span><span class="w">
-  </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-
-  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Volcano Plot with Top Gene Labels"</span><span class="p">,</span><span class="w">
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 Fold Change"</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 Adjusted P-value"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">
-    </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h2 id="-2"><img src="/assets/img/vp3.png" alt="volcano label" /></h2>
-
-<h2 id="-real-example-deseq2-workflow">📐 Real Example: DESeq2 Workflow</h2>
-
-<p>Here’s how volcano plots fit into a typical DESeq2 analysis:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">DESeq2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Assume you have countData and colData prepared</span><span class="w">
-</span><span class="c1"># dds &lt;- DESeqDataSetFromMatrix(</span><span class="w">
-</span><span class="c1">#   countData = countData,</span><span class="w">
-</span><span class="c1">#   colData = colData,</span><span class="w">
-</span><span class="c1">#   design = ~ condition</span><span class="w">
-</span><span class="c1"># )</span><span class="w">
-
-</span><span class="c1"># Run DESeq2</span><span class="w">
-</span><span class="c1"># dds &lt;- DESeq(dds)</span><span class="w">
-</span><span class="c1"># results &lt;- results(dds)</span><span class="w">
-
-</span><span class="c1"># Extract results as data frame</span><span class="w">
-</span><span class="c1"># res_df &lt;- as.data.frame(results)</span><span class="w">
-</span><span class="c1"># res_df$Gene &lt;- rownames(res_df)</span><span class="w">
-
-</span><span class="c1"># Create volcano plot</span><span class="w">
-</span><span class="c1"># ggplot(res_df, aes(x = log2FoldChange, y = -log10(padj))) +</span><span class="w">
-</span><span class="c1">#   geom_point(aes(color = padj &lt; 0.05 &amp; abs(log2FoldChange) &gt; 1)) +</span><span class="w">
-</span><span class="c1">#   scale_color_manual(values = c("grey", "red")) +</span><span class="w">
-</span><span class="c1">#   theme_bw() +</span><span class="w">
-</span><span class="c1">#   labs(x = "Log2 Fold Change", y = "-Log10 Adjusted P-value")</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="-python-version">🐍 Python Version</h2>
-
-<h3 id="create-toy-data-python">Create Toy Data (Python)</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">from</span> <span class="n">scipy.stats</span> <span class="kn">import</span> <span class="n">false_discovery_control</span>
-
-<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
-
-<span class="n">n_genes</span> <span class="o">=</span> <span class="mi">1000</span>
-
-<span class="c1"># Baseline genes
-</span><span class="n">baseline_fc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nf">int</span><span class="p">(</span><span class="n">n_genes</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">))</span>
-<span class="n">baseline_pval</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">uniform</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nf">int</span><span class="p">(</span><span class="n">n_genes</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">))</span>
-
-<span class="c1"># Upregulated genes
-</span><span class="n">up_fc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">normal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nf">int</span><span class="p">(</span><span class="n">n_genes</span> <span class="o">*</span> <span class="mf">0.075</span><span class="p">))</span>
-<span class="n">up_pval</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="nf">int</span><span class="p">(</span><span class="n">n_genes</span> <span class="o">*</span> <span class="mf">0.075</span><span class="p">))</span>
-
-<span class="c1"># Downregulated genes
-</span><span class="n">down_fc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">normal</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nf">int</span><span class="p">(</span><span class="n">n_genes</span> <span class="o">*</span> <span class="mf">0.075</span><span class="p">))</span>
-<span class="n">down_pval</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="nf">int</span><span class="p">(</span><span class="n">n_genes</span> <span class="o">*</span> <span class="mf">0.075</span><span class="p">))</span>
-
-<span class="c1"># Combine
-</span><span class="n">volcano_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span>
-    <span class="sh">'</span><span class="s">Gene</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="sh">'</span><span class="s">Gene_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="sh">'</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_genes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
-    <span class="sh">'</span><span class="s">log2FoldChange</span><span class="sh">'</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">([</span><span class="n">baseline_fc</span><span class="p">,</span> <span class="n">up_fc</span><span class="p">,</span> <span class="n">down_fc</span><span class="p">]),</span>
-    <span class="sh">'</span><span class="s">pvalue</span><span class="sh">'</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">([</span><span class="n">baseline_pval</span><span class="p">,</span> <span class="n">up_pval</span><span class="p">,</span> <span class="n">down_pval</span><span class="p">])</span>
-<span class="p">})</span>
-
-<span class="c1"># FDR correction
-</span><span class="n">volcano_data</span><span class="p">[</span><span class="sh">'</span><span class="s">padj</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">false_discovery_control</span><span class="p">(</span><span class="n">volcano_data</span><span class="p">[</span><span class="sh">'</span><span class="s">pvalue</span><span class="sh">'</span><span class="p">])</span>
-
-<span class="c1"># Classify significance
-</span><span class="k">def</span> <span class="nf">classify_significance</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">padj</span><span class="sh">'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span> <span class="ow">and</span> <span class="nf">abs</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">log2FoldChange</span><span class="sh">'</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sh">'</span><span class="s">Upregulated</span><span class="sh">'</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">log2FoldChange</span><span class="sh">'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="sh">'</span><span class="s">Downregulated</span><span class="sh">'</span>
-    <span class="k">return</span> <span class="sh">'</span><span class="s">Not Significant</span><span class="sh">'</span>
-
-<span class="n">volcano_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Significant</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">volcano_data</span><span class="p">.</span><span class="nf">apply</span><span class="p">(</span><span class="n">classify_significance</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="basic-volcano-plot-python">Basic Volcano Plot (Python)</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-
-<span class="c1"># Create color mapping
-</span><span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">Upregulated</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">red</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Downregulated</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">blue</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Not Significant</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">grey</span><span class="sh">'</span><span class="p">}</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-
-<span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">.</span><span class="nf">items</span><span class="p">():</span>
-    <span class="n">subset</span> <span class="o">=</span> <span class="n">volcano_data</span><span class="p">[</span><span class="n">volcano_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Significant</span><span class="sh">'</span><span class="p">]</span> <span class="o">==</span> <span class="n">category</span><span class="p">]</span>
-    <span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span>
-        <span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">log2FoldChange</span><span class="sh">'</span><span class="p">],</span>
-        <span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="nf">log10</span><span class="p">(</span><span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">padj</span><span class="sh">'</span><span class="p">]),</span>
-        <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
-        <span class="n">s</span><span class="o">=</span><span class="mi">20</span>
-    <span class="p">)</span>
-
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Log2 Fold Change</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">-Log10 Adjusted P-value</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Volcano Plot: Differential Expression</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">legend</span><span class="p">()</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">grid</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p><img src="/assets/img/vp-py1.png" alt="volcano basic-py" /></p>
-
-<h3 id="enhanced-with-thresholds-python">Enhanced with Thresholds (Python)</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-
-<span class="c1"># Plot points
-</span><span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">.</span><span class="nf">items</span><span class="p">():</span>
-    <span class="n">subset</span> <span class="o">=</span> <span class="n">volcano_data</span><span class="p">[</span><span class="n">volcano_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Significant</span><span class="sh">'</span><span class="p">]</span> <span class="o">==</span> <span class="n">category</span><span class="p">]</span>
-    <span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span>
-        <span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">log2FoldChange</span><span class="sh">'</span><span class="p">],</span>
-        <span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="nf">log10</span><span class="p">(</span><span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">padj</span><span class="sh">'</span><span class="p">]),</span>
-        <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
-        <span class="n">s</span><span class="o">=</span><span class="mi">20</span>
-    <span class="p">)</span>
-
-<span class="c1"># Add threshold lines
-</span><span class="n">ax</span><span class="p">.</span><span class="nf">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=-</span><span class="n">np</span><span class="p">.</span><span class="nf">log10</span><span class="p">(</span><span class="mf">0.05</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">black</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">black</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">black</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Log2 Fold Change</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">-Log10 Adjusted P-value</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Volcano Plot with Significance Thresholds</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">legend</span><span class="p">()</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">grid</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
-</code></pre></div></div>
-
-<h3 id="with-labels-python">With Labels (Python)</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">from</span> <span class="n">adjustText</span> <span class="kn">import</span> <span class="n">adjust_text</span>  <span class="c1"># pip install adjustText
-</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
-
-<span class="c1"># Plot all points
-</span><span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">.</span><span class="nf">items</span><span class="p">():</span>
-    <span class="n">subset</span> <span class="o">=</span> <span class="n">volcano_data</span><span class="p">[</span><span class="n">volcano_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Significant</span><span class="sh">'</span><span class="p">]</span> <span class="o">==</span> <span class="n">category</span><span class="p">]</span>
-    <span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span>
-        <span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">log2FoldChange</span><span class="sh">'</span><span class="p">],</span>
-        <span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="nf">log10</span><span class="p">(</span><span class="n">subset</span><span class="p">[</span><span class="sh">'</span><span class="s">padj</span><span class="sh">'</span><span class="p">]),</span>
-        <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
-        <span class="n">s</span><span class="o">=</span><span class="mi">20</span>
-    <span class="p">)</span>
-
-<span class="c1"># Select top 10 genes for labeling
-</span><span class="n">top_genes</span> <span class="o">=</span> <span class="n">volcano_data</span><span class="p">[</span>
-    <span class="n">volcano_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Significant</span><span class="sh">'</span><span class="p">]</span> <span class="o">!=</span> <span class="sh">'</span><span class="s">Not Significant</span><span class="sh">'</span>
-<span class="p">].</span><span class="nf">nsmallest</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="sh">'</span><span class="s">padj</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="c1"># Add labels
-</span><span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">top_genes</span><span class="p">.</span><span class="nf">iterrows</span><span class="p">():</span>
-    <span class="n">texts</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span>
-        <span class="n">ax</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span>
-            <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">log2FoldChange</span><span class="sh">'</span><span class="p">],</span>
-            <span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="nf">log10</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">padj</span><span class="sh">'</span><span class="p">]),</span>
-            <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">Gene</span><span class="sh">'</span><span class="p">],</span>
-            <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-
-<span class="c1"># Adjust text to avoid overlaps
-</span><span class="nf">adjust_text</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">arrowprops</span><span class="o">=</span><span class="nf">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="sh">'</span><span class="s">-&gt;</span><span class="sh">'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">grey</span><span class="sh">'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
-
-<span class="c1"># Thresholds
-</span><span class="n">ax</span><span class="p">.</span><span class="nf">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=-</span><span class="n">np</span><span class="p">.</span><span class="nf">log10</span><span class="p">(</span><span class="mf">0.05</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">black</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">black</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">black</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Log2 Fold Change</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">-Log10 Adjusted P-value</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Volcano Plot with Top Gene Labels</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">legend</span><span class="p">()</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">grid</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="️-common-mistakes-with-volcano-plots">⚠️ Common Mistakes with Volcano Plots</h2>
-
-<h3 id="1-not-using-adjusted-p-values">1. Not using adjusted p-values</h3>
-
-<p><strong>The mistake:</strong> Plotting raw p-values instead of FDR-adjusted p-values<br />
-<strong>Why it matters:</strong> Multiple testing correction is essential—raw p-values inflate false positives</p>
-
-<h3 id="2-arbitrary-fold-change-thresholds">2. Arbitrary fold change thresholds</h3>
-
-<p><strong>The mistake:</strong> Using |log2FC| &gt; 2 when biological significance occurs at smaller changes<br />
-<strong>Better approach:</strong> Choose thresholds based on biological context, not arbitrary rules</p>
-
-<h3 id="3-ignoring-low-abundance-features">3. Ignoring low-abundance features</h3>
-
-<p><strong>The mistake:</strong> Including genes with very low counts that show large fold changes<br />
-<strong>Why it matters:</strong> Low-abundance features can have inflated fold changes due to small denominators</p>
-
-<h3 id="4-over-labeling">4. Over-labeling</h3>
-
-<p><strong>The mistake:</strong> Labeling too many genes, making the plot cluttered<br />
-<strong>Better approach:</strong> Label only the top 5-10 most significant features</p>
-
-<h3 id="5-not-stating-thresholds">5. Not stating thresholds</h3>
-
-<p><strong>The mistake:</strong> Showing significance cutoffs without documenting them<br />
-<strong>Better approach:</strong> Always state thresholds in figure legends (e.g., “padj &lt; 0.05, |log2FC| &gt; 1”)</p>
-
-<h3 id="6-confusing-fold-change-with-log2-fold-change">6. Confusing fold change with log2 fold change</h3>
-
-<p><strong>The mistake:</strong> Interpreting log2FC = 2 as “2-fold change”<br />
-<strong>Reality:</strong> log2FC = 2 means 4-fold change (2² = 4)</p>
-
-<h3 id="7-using-inappropriate-colors">7. Using inappropriate colors</h3>
-
-<p><strong>The mistake:</strong> Red/green color schemes (not colorblind-friendly)<br />
-<strong>Better approach:</strong> Use red/blue or other accessible color combinations</p>
-
-<hr />
-
-<h2 id="-best-practices-for-volcano-plots">✅ Best Practices for Volcano Plots</h2>
-
-<h3 id="1-always-use-adjusted-p-values">1. Always use adjusted p-values</h3>
-
-<p>Use FDR-corrected p-values (padj from DESeq2, qvalue from other tools).</p>
-
-<h3 id="2-pre-filter-low-abundance-features">2. Pre-filter low-abundance features</h3>
-
-<p>Remove genes/features with very low counts before differential analysis.</p>
-
-<h3 id="3-choose-biologically-meaningful-thresholds">3. Choose biologically meaningful thresholds</h3>
-
-<p>Common choices:</p>
-
-<ul>
-  <li><strong>padj &lt; 0.05</strong> (statistical significance)</li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>**</td>
-          <td>log2FC</td>
-          <td>&gt; 1** (2-fold change)</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-</ul>
-
-<p>But adjust based on your field and biology.</p>
-
-<h3 id="4-state-your-thresholds-clearly">4. State your thresholds clearly</h3>
-
-<table>
-  <tbody>
-    <tr>
-      <td>Always document in figure legends: “Significant features: padj &lt; 0.05 and</td>
-      <td>log2FC</td>
-      <td>&gt; 1”</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="5-label-strategically">5. Label strategically</h3>
-
-<p>Label only the most important features (top by padj or specific genes of interest).</p>
-
-<h3 id="6-use-accessible-colors">6. Use accessible colors</h3>
-
-<p>Avoid red/green combinations. Use red/blue or other colorblind-friendly palettes.</p>
-
-<h3 id="7-include-statistics-in-text">7. Include statistics in text</h3>
-
-<p>Don’t rely only on the plot—report numbers:</p>
-
-<ul>
-  <li>“457 genes were significantly upregulated”</li>
-  <li>“239 genes were significantly downregulated”</li>
-</ul>
-
-<h3 id="8-export-as-vector-graphics">8. Export as vector graphics</h3>
-
-<p>Save as PDF or SVG for publication-quality figures.</p>
-
-<hr />
-
-<h2 id="-understanding-log2-fold-change">🔍 Understanding Log2 Fold Change</h2>
-
-<p>Quick reference for interpreting log2FC values:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>log2FC</th>
-      <th>Actual Fold Change</th>
-      <th>Interpretation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>-3</td>
-      <td>0.125× (1/8)</td>
-      <td>8-fold decrease</td>
-    </tr>
-    <tr>
-      <td>-2</td>
-      <td>0.25× (1/4)</td>
-      <td>4-fold decrease</td>
-    </tr>
-    <tr>
-      <td>-1</td>
-      <td>0.5× (1/2)</td>
-      <td>2-fold decrease</td>
-    </tr>
-    <tr>
-      <td>0</td>
-      <td>1×</td>
-      <td>No change</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>2×</td>
-      <td>2-fold increase</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>4×</td>
-      <td>4-fold increase</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>8×</td>
-      <td>8-fold increase</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>Remember:</strong> log2FC is symmetric around zero, making it ideal for visualization.</p>
-
-<hr />
-
-<h2 id="-real-world-workflow">🎨 Real-World Workflow</h2>
-
-<p>Here’s how volcano plots fit into a complete analysis:</p>
-
-<ol>
-  <li><strong>Run differential analysis</strong> (DESeq2, edgeR, limma)</li>
-  <li><strong>Extract results</strong> with log2FC and adjusted p-values</li>
-  <li><strong>Filter low-abundance features</strong> (optional but recommended)</li>
-  <li><strong>Create volcano plot</strong> to visualize results</li>
-  <li><strong>Identify top hits</strong> for follow-up</li>
-  <li><strong>Validate with other methods</strong> (qPCR, orthogonal datasets)</li>
-  <li><strong>Integrate with other analyses</strong> (GO enrichment, pathway analysis)</li>
-</ol>
-
-<p><strong>Volcano plots are a visualization step, not a statistical test.</strong> The statistics come from your differential analysis tool (DESeq2, etc.).</p>
-
-<hr />
-
-<h2 id="-faceted-volcano-plots-multiple-comparisons">📊 Faceted Volcano Plots (Multiple Comparisons)</h2>
-
-<p>When you have multiple comparisons (e.g., different conditions), faceted plots help.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Simulate data for 3 conditions</span><span class="w">
-</span><span class="n">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">
-</span><span class="n">conditions</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"High_vs_Low"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Medium_vs_Low"</span><span class="p">,</span><span class="w"> </span><span class="s2">"High_vs_Medium"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">volcano_multi</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bind_rows</span><span class="p">(</span><span class="n">lapply</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1000</span><span class="w">
-  </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
-    </span><span class="n">Gene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Gene_"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">),</span><span class="w">
-    </span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
-      </span><span class="n">rnorm</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.85</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">),</span><span class="w">
-      </span><span class="n">rnorm</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.075</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">),</span><span class="w">
-      </span><span class="n">rnorm</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.075</span><span class="p">,</span><span class="w"> </span><span class="m">-2</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w">
-    </span><span class="p">),</span><span class="w">
-    </span><span class="n">pvalue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
-      </span><span class="n">runif</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.85</span><span class="p">,</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w">
-      </span><span class="n">runif</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.075</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.01</span><span class="p">),</span><span class="w">
-      </span><span class="n">runif</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.075</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.01</span><span class="p">)</span><span class="w">
-    </span><span class="p">),</span><span class="w">
-    </span><span class="n">Condition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cond</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span><span class="p">}))</span><span class="w">
-
-</span><span class="n">volcano_multi</span><span class="o">$</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p.adjust</span><span class="p">(</span><span class="n">volcano_multi</span><span class="o">$</span><span class="n">pvalue</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fdr"</span><span class="p">)</span><span class="w">
-</span><span class="n">volcano_multi</span><span class="o">$</span><span class="n">Significant</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="w">
-  </span><span class="n">volcano_multi</span><span class="o">$</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">volcano_multi</span><span class="o">$</span><span class="n">log2FoldChange</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"Significant"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Not Significant"</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Faceted plot</span><span class="w">
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">volcano_multi</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Significant</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">Condition</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_x"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Significant"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Not Significant"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Differential Abundance Across Conditions"</span><span class="p">,</span><span class="w">
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 Fold Change"</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 Adjusted P-value"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">
-    </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/assets/img/vp4.png" alt="volcano faceted" /></p>
-
-<hr />
-
-<h2 id="-key-takeaways">📌 Key Takeaways</h2>
-
-<p>✅ <strong>Volcano plots combine magnitude and significance</strong> in one view</p>
-
-<p>✅ <strong>Always use adjusted p-values</strong> (FDR correction is standard)</p>
-
-<p>✅ <strong>Choose thresholds based on biology</strong>, not arbitrary cutoffs</p>
-
-<p>✅ <strong>Label strategically</strong>—too many labels create clutter</p>
-
-<p>✅ <strong>State your thresholds clearly</strong> in figure legends</p>
-
-<p>✅ <strong>Pre-filter low-abundance features</strong> to avoid misleading fold changes</p>
-
-<p>✅ <strong>Export as vector graphics</strong> for publication</p>
-
-<p>✅ <strong>Volcano plots visualize results</strong>—the statistics come from your differential analysis tool</p>
-
-<hr />
-
-<h2 id="-special-note-metatranscriptomics-and-gene-copy-number">🧬 Special Note: Metatranscriptomics and Gene Copy Number</h2>
-
-<p>When working with <strong>metatranscriptomics (MTX) data</strong>, volcano plots from standard differential expression tools can be misleading. Here’s why:</p>
-
-<h3 id="the-problem-copy-number-confounding">The Problem: Copy Number Confounding</h3>
-
-<p>A gene might appear “differentially expressed” in your volcano plot, but the question is:</p>
-
-<p><strong>Is this gene truly upregulated at the transcript level, or does the sample simply have more copies of this gene (higher DNA abundance)?</strong></p>
-
-<p>Standard differential expression tools (DESeq2, edgeR) cannot distinguish between:</p>
-
-<ul>
-  <li>True transcriptional changes (biological regulation)</li>
-  <li>Differences in gene copy number (genomic abundance)</li>
-</ul>
-
-<h3 id="the-solution-mtx-modeling">The Solution: MTX Modeling</h3>
-
-<p>For metatranscriptomics studies, you should consider <strong>MTX modeling approaches</strong> that adjust for DNA abundance:</p>
-
-<p><strong>MTX (R package)</strong> is specifically designed for this:</p>
-
-<ul>
-  <li>Built on MaAsLin2 framework</li>
-  <li>Integrates feature-specific covariates</li>
-  <li><strong>Adjusts for DNA abundance as a continuous covariate</strong></li>
-  <li>Determines whether expression changes are independent of gene copy number</li>
-</ul>
-
-<h3 id="when-to-use-mtx-modeling">When to Use MTX Modeling</h3>
-
-<p>✅ <strong>Use MTX modeling when:</strong></p>
-
-<ul>
-  <li>You have paired metagenome (DNA) and metatranscriptome (RNA) data</li>
-  <li>You want to identify truly differentially expressed genes</li>
-  <li>You need to control for gene copy number variation</li>
-</ul>
-
-<p>❌ <strong>Standard DESeq2/edgeR alone when:</strong></p>
-
-<ul>
-  <li>You only have RNA-seq data (no paired DNA)</li>
-  <li>Working with isolate transcriptomics (not community-level)</li>
-</ul>
-
-<h3 id="workflow-integration">Workflow Integration</h3>
-
-<ol>
-  <li><strong>Standard approach:</strong> DESeq2 → Volcano plot (shows abundance changes)</li>
-  <li><strong>MTX approach:</strong> MTX modeling → Volcano plot (shows true expression changes, adjusted for DNA)</li>
-</ol>
-
-<p><strong>Key takeaway:</strong> If your volcano plot shows differential abundance in metatranscriptomics data, validate whether changes are due to expression or copy number by incorporating DNA abundance as a covariate.</p>
-
-<p>This is especially important in microbial ecology where community composition (DNA) and activity (RNA) can vary independently.</p>
-
-<p>📚 <strong>Learn more:</strong> https://github.com/biobakery/MTX_model</p>
-
-<hr />
-
-<h2 id="-whats-next">🔜 What’s Next?</h2>
-
-<p><strong>Day 5: Bubble plots</strong></p>
-
-<hr />
-
-<p><em>This is part of the “Visualize Your Data” series. Check out <a href="/blog/visualize-your-data-day1/">Day 1: Box Plots</a>, <a href="/blog/visualize-your-data-day2-heatmaps/">Day 2: Heatmaps</a>, and <a href="/blog/visualize-your-data-day3-ordination/">Day 3: Ordination Plots</a> if you missed them.</em></p>
-
-<p><strong>Have questions about volcano plots, differential analysis, or MTX modeling? Drop a comment below!</strong></p>
-
-<p>The image is created from real sets of data from one of my project and it is shoing differential expression of CAZYmes acorss different abiotic facotors.</p>
-
-<p><img src="/assets/img/vp-cazymes.png" alt="Real example" /></p>
-
-<hr />]]></content><author><name></name></author><summary type="html"><![CDATA[Day 4 of the Visualize Your Data series: mastering volcano plots for differential expression and abundance analysis in bioinformatics.]]></summary></entry></feed>
+<hr />]]></content><author><name></name></author><summary type="html"><![CDATA[Day 5 of the Visualize Your Data series: using bubble plots to visualize multi-dimensional relationships in genomics and functional ecology.]]></summary></entry></feed>
