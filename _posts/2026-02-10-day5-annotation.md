@@ -850,4 +850,4 @@ Found this helpful? Have suggestions?
 
 Last updated: February 2026
 
-![day5 mg](/assets/img/d5-mg.png)
+![day5 mg](/assets/img/mg-day5.png)
