@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Day 5: Genome Annotation - Understanding Metabolic Potential"
-date: 2026-02-07
+date: 2026-02-10
 description: "Complete guide to genome annotation from basic (Prodigal, Prokka) to advanced (DRAM, METABOLIC). Learn to predict genes, assign functions, and reconstruct metabolic pathways from MAGs. Includes practical workflows for laptops and HPC."
 comments: true
 giscus_comments: true
