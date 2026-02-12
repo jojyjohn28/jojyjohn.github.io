@@ -1,5 +1,815 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-11T14:53:37-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Day 6: Specialized Genomic Functions - Hidden Capabilities</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day6-specialized-functions/" rel="alternate" type="text/html" title="Day 6: Specialized Genomic Functions - Hidden Capabilities" /><published>2026-02-11T00:00:00-05:00</published><updated>2026-02-11T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-12T16:33:19-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Day 7: Comparative Genomics &amp;amp; Statistical Analysis - Connecting Genomes to Environment</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day7-comparative-statistical/" rel="alternate" type="text/html" title="Day 7: Comparative Genomics &amp;amp; Statistical Analysis - Connecting Genomes to Environment" /><published>2026-02-12T00:00:00-05:00</published><updated>2026-02-12T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day7-comparative-statistical</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day7-comparative-statistical/"><![CDATA[<h1 id="day-7-comparative-genomics--statistical-analysis">Day 7: Comparative Genomics &amp; Statistical Analysis</h1>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Estimated Time:</strong> 6-8 hours</td>
+      <td><strong>Difficulty:</strong> Advanced</td>
+      <td><strong>Prerequisites:</strong> Days 1-6</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-table-of-contents">📚 Table of Contents</h2>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#part-i-pangenome-analysis">Part I: Pangenome Analysis</a></li>
+  <li><a href="#part-ii-environmental-associations">Part II: Environmental Associations</a></li>
+  <li><a href="#part-iii-co-occurrence-networks">Part III: Co-occurrence Networks</a></li>
+  <li><a href="#part-iv-advanced-statistical-tests">Part IV: Advanced Statistical Tests</a></li>
+  <li><a href="#integration--interpretation">Integration &amp; Interpretation</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-introduction">🎯 Introduction</h2>
+
+<p>Welcome to Day 7! You’ve annotated genomes and discovered specialized functions. Now the critical questions:</p>
+
+<p><strong>Comparative Genomics:</strong></p>
+
+<ul>
+  <li>What genes are shared vs. unique?</li>
+  <li>How do strains differ functionally?</li>
+  <li>What defines core vs. accessory genome?</li>
+</ul>
+
+<p><strong>Environmental Associations:</strong></p>
+
+<ul>
+  <li>How do environmental factors influence microbiome composition?</li>
+  <li>Which taxa associate with specific conditions?</li>
+  <li>What drives community assembly?</li>
+</ul>
+
+<p><strong>Network Analysis:</strong></p>
+
+<ul>
+  <li>Which organisms co-occur?</li>
+  <li>What metabolic interactions exist?</li>
+  <li>How do communities respond to perturbations?</li>
+</ul>
+
+<hr />
+
+<h2 id="-part-i-pangenome-analysis">📊 Part I: Pangenome Analysis</h2>
+
+<h3 id="overview">Overview</h3>
+
+<p><strong>Pangenome</strong> = Core genome (all strains) + Accessory genome (some strains) + Unique genes (one strain)</p>
+
+<h3 id="quick-guide-to-tools">Quick Guide to Tools</h3>
+
+<h4 id="1-panx-recommended---detailed-post-available">1. PanX (Recommended - Detailed Post Available)</h4>
+
+<p><strong>See our comprehensive PanX tutorial:</strong> [Link to your detailed blog post]</p>
+
+<p><strong>Quick start:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install</span>
+git clone https://github.com/neherlab/pan-genome-analysis.git
+<span class="nb">cd </span>pan-genome-analysis
+
+<span class="c"># Run PanX</span>
+./panX.py <span class="nt">-fn</span> input_genomes/ <span class="nt">-sl</span> species_name <span class="nt">-t</span> 8
+
+<span class="c"># View results</span>
+firefox vis/index.html
+</code></pre></div></div>
+
+<p><strong>Key outputs:</strong></p>
+
+<ul>
+  <li>Core/accessory gene counts</li>
+  <li>Gene presence/absence matrix</li>
+  <li>Phylogenetic tree + gene gain/loss</li>
+  <li>Interactive visualization</li>
+</ul>
+
+<p><strong>When to use:</strong> Multiple strains of same species, want interactive viz</p>
+
+<p><strong>Detailed tutorial available</strong> - See our full PanX blog post for complete workflow!
+https://jojyjohn28.github.io/blog/panx-pangenome-analysis/</p>
+
+<hr />
+
+<h4 id="2-anvio-comprehensive-platform">2. Anvi’o (Comprehensive Platform)</h4>
+
+<p><strong>Installation:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> anvio-7.1 <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge <span class="nv">anvio</span><span class="o">=</span>7.1
+conda activate anvio-7.1
+</code></pre></div></div>
+
+<p><strong>Quick pangenome workflow:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Step 1: Create contigs database per genome</span>
+<span class="k">for </span>genome <span class="k">in </span>genomes/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
+    </span><span class="nv">name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="nv">$genome</span> .fa<span class="si">)</span>
+    anvi-gen-contigs-database <span class="nt">-f</span> <span class="nv">$genome</span> <span class="nt">-o</span> <span class="k">${</span><span class="nv">name</span><span class="k">}</span>.db
+    anvi-run-hmms <span class="nt">-c</span> <span class="k">${</span><span class="nv">name</span><span class="k">}</span>.db
+<span class="k">done</span>
+
+<span class="c"># Step 2: Create genomes storage</span>
+anvi-gen-genomes-storage <span class="nt">-e</span> external-genomes.txt <span class="nt">-o</span> GENOMES.db
+
+<span class="c"># Step 3: Run pangenome</span>
+anvi-pan-genome <span class="nt">-g</span> GENOMES.db <span class="se">\</span>
+                <span class="nt">--project-name</span> my_pangenome <span class="se">\</span>
+                <span class="nt">--num-threads</span> 8
+
+<span class="c"># Step 4: Visualize</span>
+anvi-display-pan <span class="nt">-p</span> my_pangenome/my_pangenome-PAN.db <span class="se">\</span>
+                 <span class="nt">-g</span> GENOMES.db
+</code></pre></div></div>
+
+<p><strong>Anvi’o strengths:</strong></p>
+
+<ul>
+  <li>Beautiful interactive interface</li>
+  <li>Integrates metabolism (KEGG)</li>
+  <li>Functional enrichment analysis</li>
+  <li>Publication-quality figures</li>
+</ul>
+
+<p><strong>Note:</strong> Full Anvi’o tutorial coming soon! This is a quick-start version.</p>
+
+<hr />
+
+<h4 id="3-roary-fast---good-for-windows">3. Roary (Fast - Good for Windows)</h4>
+
+<p><strong>Installation:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> roary <span class="nt">-c</span> bioconda roary
+conda activate roary
+</code></pre></div></div>
+
+<p><strong>Usage:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Requires GFF files from Prokka</span>
+roary <span class="nt">-p</span> 8 <span class="nt">-e</span> <span class="nt">-n</span> <span class="nt">-v</span> prokka_gff/<span class="k">*</span>.gff
+
+<span class="c"># Outputs</span>
+<span class="c"># gene_presence_absence.csv  - Main results</span>
+<span class="c"># core_gene_alignment.aln    - For phylogeny</span>
+</code></pre></div></div>
+
+<p><strong>Visualize with Phandango:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Upload to https://jameshadfield.github.io/phandango/</span>
+<span class="c"># Files: gene_presence_absence.csv + tree.nwk</span>
+</code></pre></div></div>
+
+<p><strong>Roary advantages:</strong></p>
+
+<ul>
+  <li>Very fast (1000s of genomes)</li>
+  <li>Simple to use</li>
+  <li>Works on Windows (via WSL or Conda)</li>
+  <li>Great for quick comparisons</li>
+</ul>
+
+<hr />
+
+<h4 id="4-bpga-bacterial-pangenome-analysis">4. BPGA (Bacterial Pangenome Analysis)</h4>
+
+<p><strong>Good for Windows users!</strong></p>
+
+<p><strong>Download:</strong> http://www.iicb.res.in/bpga/download.html</p>
+
+<p><strong>GUI workflow:</strong></p>
+
+<ol>
+  <li>Import GFF/GBK files</li>
+  <li>Select analysis options</li>
+  <li>Run pangenome</li>
+  <li>Export results</li>
+</ol>
+
+<p><strong>Features:</strong></p>
+
+<ul>
+  <li>User-friendly GUI</li>
+  <li>No command line needed</li>
+  <li>Phylogenetic analysis</li>
+  <li>Functional classification</li>
+</ul>
+
+<p><strong>Best for:</strong> Windows users, small-medium datasets (&lt;100 genomes)</p>
+
+<hr />
+
+<h3 id="pangenome-interpretation">Pangenome Interpretation</h3>
+
+<p><strong>Key metrics:</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Calculate pangenome statistics
+</span><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="c1"># Read gene presence/absence
+</span><span class="n">pa</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">gene_presence_absence.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">n_genomes</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">pa</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">-</span> <span class="mi">14</span>  <span class="c1"># Subtract metadata columns
+</span>
+<span class="c1"># Core genes (in all genomes)
+</span><span class="n">core</span> <span class="o">=</span> <span class="n">pa</span><span class="p">[</span><span class="n">pa</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">14</span><span class="p">:].</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">n_genomes</span><span class="p">]</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Core genes: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">core</span><span class="p">)</span><span class="si">}</span><span class="s"> (</span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">core</span><span class="p">)</span><span class="o">/</span><span class="nf">len</span><span class="p">(</span><span class="n">pa</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">%)</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Accessory genes (in some genomes)
+</span><span class="n">accessory</span> <span class="o">=</span> <span class="n">pa</span><span class="p">[(</span><span class="n">pa</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">14</span><span class="p">:].</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+               <span class="p">(</span><span class="n">pa</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">14</span><span class="p">:].</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">n_genomes</span><span class="p">)]</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Accessory genes: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">accessory</span><span class="p">)</span><span class="si">}</span><span class="s"> (</span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">accessory</span><span class="p">)</span><span class="o">/</span><span class="nf">len</span><span class="p">(</span><span class="n">pa</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">%)</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Unique genes (in one genome)
+</span><span class="n">unique</span> <span class="o">=</span> <span class="n">pa</span><span class="p">[</span><span class="n">pa</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">14</span><span class="p">:].</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Unique genes: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span><span class="si">}</span><span class="s"> (</span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span><span class="o">/</span><span class="nf">len</span><span class="p">(</span><span class="n">pa</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">%)</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Pangenome size
+</span><span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Pangenome size: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">pa</span><span class="p">)</span><span class="si">}</span><span class="s"> genes</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>Typical results:</strong></p>
+
+<ul>
+  <li>Core genome: 40-60% of pangenome</li>
+  <li>Accessory: 30-50%</li>
+  <li>Unique: 10-20%</li>
+</ul>
+
+<hr />
+
+<h2 id="-part-ii-environmental-associations">🌍 Part II: Environmental Associations</h2>
+
+<h3 id="understanding-metadata-effects">Understanding Metadata Effects</h3>
+
+<p><strong>Research questions:</strong></p>
+
+<ul>
+  <li>How does pH affect community composition?</li>
+  <li>Which taxa are enriched in diseased vs. healthy samples?</li>
+  <li>Do temporal patterns exist?</li>
+</ul>
+
+<h3 id="data-preparation">Data Preparation</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Load packages</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">phyloseq</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Create abundance matrix</span><span class="w">
+</span><span class="c1"># Rows = samples, Columns = MAGs/taxa</span><span class="w">
+</span><span class="n">abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s1">'mag_abundance.csv'</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Load metadata</span><span class="w">
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s1">'sample_metadata.csv'</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="c1"># Columns: pH, Temperature, Season, Treatment, etc.</span><span class="w">
+
+</span><span class="c1"># Ensure matching</span><span class="w">
+</span><span class="n">abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">abundance</span><span class="p">[</span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">),</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h3 id="permanova-testing-community-differences">PERMANOVA: Testing Community Differences</h3>
+
+<p><strong>PERMANOVA</strong> (Permutational Multivariate Analysis of Variance) tests if groups have different centroids.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Calculate Bray-Curtis distance</span><span class="w">
+</span><span class="n">dist_matrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vegdist</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"bray"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Test effect of treatment</span><span class="w">
+</span><span class="n">permanova_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">dist_matrix</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Treatment</span><span class="p">,</span><span class="w">
+                           </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span><span class="w">
+                           </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">permanova_result</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Multiple factors</span><span class="w">
+</span><span class="n">permanova_multi</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">dist_matrix</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Treatment</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">pH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="p">,</span><span class="w">
+                          </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span><span class="w">
+                          </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">permanova_multi</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Pairwise comparisons</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">pairwiseAdonis</span><span class="p">)</span><span class="w">
+</span><span class="n">pairwise</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pairwise.adonis</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">,</span><span class="w">
+                            </span><span class="n">metadata</span><span class="o">$</span><span class="n">Treatment</span><span class="p">,</span><span class="w">
+                            </span><span class="n">p.adjust.m</span><span class="o">=</span><span class="s2">"BH"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Interpretation:</strong></p>
+
+<ul>
+  <li>P &lt; 0.05: Groups significantly different</li>
+  <li>R² value: Proportion of variance explained</li>
+  <li>Higher R² = stronger effect</li>
+</ul>
+
+<hr />
+
+<h3 id="rda--db-rda-constrained-ordination">RDA &amp; db-RDA: Constrained Ordination</h3>
+
+<p><strong>RDA</strong> (Redundancy Analysis) = PCA + regression<br />
+<strong>db-RDA</strong> = RDA on distance matrix</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># RDA (for Hellinger-transformed data)</span><span class="w">
+</span><span class="n">abundance_hell</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">decostand</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"hellinger"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">rda_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rda</span><span class="p">(</span><span class="n">abundance_hell</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">pH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nutrients</span><span class="p">,</span><span class="w">
+                  </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Summary</span><span class="w">
+</span><span class="n">summary</span><span class="p">(</span><span class="n">rda_result</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plot</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">rda_result</span><span class="p">,</span><span class="w"> </span><span class="n">scaling</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span><span class="n">ordisurf</span><span class="p">(</span><span class="n">rda_result</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">pH</span><span class="p">,</span><span class="w"> </span><span class="n">add</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Significance testing</span><span class="w">
+</span><span class="n">anova</span><span class="p">(</span><span class="n">rda_result</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
+</span><span class="n">anova</span><span class="p">(</span><span class="n">rda_result</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s2">"terms"</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">  </span><span class="c1"># Individual terms</span><span class="w">
+</span><span class="n">anova</span><span class="p">(</span><span class="n">rda_result</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s2">"axis"</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">   </span><span class="c1"># Individual axes</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>db-RDA (distance-based):</strong></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># For Bray-Curtis or other distances</span><span class="w">
+</span><span class="n">dbrda_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">capscale</span><span class="p">(</span><span class="n">dist_matrix</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">pH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nutrients</span><span class="p">,</span><span class="w">
+                         </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plot with environmental vectors</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">dbrda_result</span><span class="p">)</span><span class="w">
+</span><span class="n">ef</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">envfit</span><span class="p">(</span><span class="n">dbrda_result</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="p">[,</span><span class="nf">c</span><span class="p">(</span><span class="s2">"pH"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Temperature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Nutrients"</span><span class="p">)],</span><span class="w">
+             </span><span class="n">perm</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">ef</span><span class="p">,</span><span class="w"> </span><span class="n">p.max</span><span class="o">=</span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Variance partitioning</span><span class="w">
+</span><span class="n">varpart_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">varpart</span><span class="p">(</span><span class="n">abundance_hell</span><span class="p">,</span><span class="w">
+                         </span><span class="o">~</span><span class="n">pH</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">Temperature</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">Nutrients</span><span class="p">,</span><span class="w">
+                         </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">varpart_result</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>When to use:</strong></p>
+
+<ul>
+  <li>RDA: Linear responses</li>
+  <li>db-RDA: Non-linear responses, any dissimilarity metric</li>
+  <li>PERMANOVA: Overall group differences</li>
+</ul>
+
+<hr />
+
+<h3 id="differential-abundance-analysis">Differential Abundance Analysis</h3>
+
+<h4 id="lefse-linear-discriminant-analysis-effect-size">LEfSe (Linear discriminant analysis Effect Size)</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Format data for LEfSe</span>
+<span class="c"># First line: sample IDs</span>
+<span class="c"># Second line: class (e.g., Healthy vs Disease)</span>
+<span class="c"># Third line: subclass (optional)</span>
+<span class="c"># Remaining: feature abundances</span>
+
+<span class="c"># Run LEfSe</span>
+lefse_format_input.py input.txt formatted.txt <span class="nt">-c</span> 2 <span class="nt">-u</span> 1 <span class="nt">-o</span> 1000000
+lefse_run.py formatted.txt lefse_results.txt
+lefse_plot_res.py lefse_results.txt lefse_plot.pdf
+</code></pre></div></div>
+
+<p><strong>LEfSe identifies:</strong> Taxa enriched in specific groups</p>
+
+<hr />
+
+<h3 id="ancom-analysis-of-compositions-of-microbiomes">ANCOM (Analysis of Compositions of Microbiomes)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ANCOMBC</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Run ANCOM-BC2</span><span class="w">
+</span><span class="n">ancom_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ancombc2</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">phyloseq_obj</span><span class="p">,</span><span class="w">
+                        </span><span class="n">fix_formula</span><span class="o">=</span><span class="s2">"Treatment + pH"</span><span class="p">,</span><span class="w">
+                        </span><span class="n">p_adj_method</span><span class="o">=</span><span class="s2">"BH"</span><span class="p">,</span><span class="w">
+                        </span><span class="n">prv_cut</span><span class="o">=</span><span class="m">0.10</span><span class="p">,</span><span class="w">
+                        </span><span class="n">group</span><span class="o">=</span><span class="s2">"Treatment"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># View results</span><span class="w">
+</span><span class="n">ancom_result</span><span class="o">$</span><span class="n">res</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>ANCOM advantage:</strong> Handles compositional data properly (avoids false positives)</p>
+
+<hr />
+
+<h2 id="️-part-iii-co-occurrence-networks">🕸️ Part III: Co-occurrence Networks</h2>
+
+<h3 id="why-networks">Why Networks?</h3>
+
+<p><strong>Research questions:</strong></p>
+
+<ul>
+  <li>Which organisms co-occur?</li>
+  <li>Are there keystone species?</li>
+  <li>What microbial interactions exist?</li>
+  <li>How does network structure change with conditions?</li>
+</ul>
+
+<hr />
+
+<h3 id="sparcc-correlation-for-compositional-data">SparCC: Correlation for Compositional Data</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install SparCC</span>
+git clone https://github.com/bio-developer/SparCC3.git
+<span class="nb">cd </span>SparCC3
+
+<span class="c"># Run SparCC</span>
+python SparCC.py abundance.txt <span class="nt">-i</span> 20 <span class="nt">--cor_file</span><span class="o">=</span>sparcc_corr.txt
+
+<span class="c"># Calculate p-values (100 permutations)</span>
+python MakeBootstraps.py abundance.txt <span class="nt">-n</span> 100 <span class="nt">-o</span> bootstraps/
+<span class="k">for </span>i <span class="k">in</span> <span class="o">{</span>0..99<span class="o">}</span><span class="p">;</span> <span class="k">do
+    </span>python SparCC.py bootstraps/boot_<span class="nv">$i</span>.txt <span class="nt">-i</span> 20 <span class="nt">--cor_file</span><span class="o">=</span>bootstraps/cor_<span class="nv">$i</span>.txt
+<span class="k">done
+</span>python PseudoPvals.py sparcc_corr.txt bootstraps/cor_ 100 <span class="nt">-o</span> sparcc_pvals.txt
+</code></pre></div></div>
+
+<p><strong>Why SparCC?</strong> Handles compositionality better than Pearson/Spearman</p>
+
+<hr />
+
+<h3 id="network-visualization">Network Visualization</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">igraph</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggraph</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Read correlations</span><span class="w">
+</span><span class="n">corr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s1">'sparcc_corr.txt'</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="w">
+</span><span class="n">pvals</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s1">'sparcc_pvals.txt'</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Filter significant correlations</span><span class="w">
+</span><span class="n">corr</span><span class="p">[</span><span class="n">pvals</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span><span class="n">corr</span><span class="p">[</span><span class="nf">abs</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.3</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w">  </span><span class="c1"># Only strong correlations</span><span class="w">
+
+</span><span class="c1"># Create network</span><span class="w">
+</span><span class="n">net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">graph_from_adjacency_matrix</span><span class="p">(</span><span class="n">as.matrix</span><span class="p">(</span><span class="n">corr</span><span class="p">),</span><span class="w">
+                                   </span><span class="n">mode</span><span class="o">=</span><span class="s2">"undirected"</span><span class="p">,</span><span class="w">
+                                   </span><span class="n">weighted</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+                                   </span><span class="n">diag</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Remove isolated nodes</span><span class="w">
+</span><span class="n">net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">delete.vertices</span><span class="p">(</span><span class="n">net</span><span class="p">,</span><span class="w"> </span><span class="n">degree</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="o">==</span><span class="m">0</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plot</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">net</span><span class="p">,</span><span class="w">
+     </span><span class="n">vertex.size</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w">
+     </span><span class="n">vertex.color</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="o">$</span><span class="n">corr</span><span class="o">&gt;</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">),</span><span class="w">
+     </span><span class="n">edge.color</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">E</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="o">$</span><span class="n">weight</span><span class="o">&gt;</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">),</span><span class="w">
+     </span><span class="n">edge.width</span><span class="o">=</span><span class="nf">abs</span><span class="p">(</span><span class="n">E</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="o">$</span><span class="n">weight</span><span class="p">)</span><span class="o">*</span><span class="m">2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Network statistics</span><span class="w">
+</span><span class="n">transitivity</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="w">  </span><span class="c1"># Clustering coefficient</span><span class="w">
+</span><span class="n">average.path.length</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="w">  </span><span class="c1"># Average path length</span><span class="w">
+</span><span class="n">degree.distribution</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="w">  </span><span class="c1"># Degree distribution</span><span class="w">
+
+</span><span class="c1"># Identify hubs (highly connected nodes)</span><span class="w">
+</span><span class="n">hubs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">which</span><span class="p">(</span><span class="n">degree</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">degree</span><span class="p">(</span><span class="n">net</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="o">*</span><span class="n">sd</span><span class="p">(</span><span class="n">degree</span><span class="p">(</span><span class="n">net</span><span class="p">)))</span><span class="w">
+</span><span class="n">V</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="o">$</span><span class="n">name</span><span class="p">[</span><span class="n">hubs</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h3 id="wgcna-weighted-gene-co-expression-network-analysis">WGCNA: Weighted Gene Co-expression Network Analysis</h3>
+
+<p><strong>For gene-level or MAG-level modules</strong></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">WGCNA</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Prepare data (samples as rows)</span><span class="w">
+</span><span class="n">datExpr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">abundance</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Choose soft threshold</span><span class="w">
+</span><span class="n">powers</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">20</span><span class="p">)</span><span class="w">
+</span><span class="n">sft</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pickSoftThreshold</span><span class="p">(</span><span class="n">datExpr</span><span class="p">,</span><span class="w"> </span><span class="n">powerVector</span><span class="o">=</span><span class="n">powers</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="m">5</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">sft</span><span class="o">$</span><span class="n">fitIndices</span><span class="p">[,</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">sft</span><span class="o">$</span><span class="n">fitIndices</span><span class="p">[,</span><span class="m">2</span><span class="p">],</span><span class="w">
+     </span><span class="n">xlab</span><span class="o">=</span><span class="s2">"Soft Threshold"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="o">=</span><span class="s2">"Scale Free Topology Model Fit"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Construct network</span><span class="w">
+</span><span class="n">net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">blockwiseModules</span><span class="p">(</span><span class="n">datExpr</span><span class="p">,</span><span class="w">
+                       </span><span class="n">power</span><span class="o">=</span><span class="n">sft</span><span class="o">$</span><span class="n">powerEstimate</span><span class="p">,</span><span class="w">
+                       </span><span class="n">TOMType</span><span class="o">=</span><span class="s2">"unsigned"</span><span class="p">,</span><span class="w">
+                       </span><span class="n">minModuleSize</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w">
+                       </span><span class="n">reassignThreshold</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w">
+                       </span><span class="n">mergeCutHeight</span><span class="o">=</span><span class="m">0.25</span><span class="p">,</span><span class="w">
+                       </span><span class="n">numericLabels</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+                       </span><span class="n">pamRespectsDendro</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+                       </span><span class="n">verbose</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Module colors</span><span class="w">
+</span><span class="n">moduleColors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">labels2colors</span><span class="p">(</span><span class="n">net</span><span class="o">$</span><span class="n">colors</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Correlate modules with traits</span><span class="w">
+</span><span class="n">moduleTraitCor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cor</span><span class="p">(</span><span class="n">net</span><span class="o">$</span><span class="n">MEs</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="p">[,</span><span class="nf">c</span><span class="p">(</span><span class="s2">"pH"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Temperature"</span><span class="p">)],</span><span class="w">
+                     </span><span class="n">use</span><span class="o">=</span><span class="s2">"p"</span><span class="p">)</span><span class="w">
+</span><span class="n">moduleTraitPvalue</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">corPvalueStudent</span><span class="p">(</span><span class="n">moduleTraitCor</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">datExpr</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># Visualize</span><span class="w">
+</span><span class="n">textMatrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="nf">signif</span><span class="p">(</span><span class="n">moduleTraitCor</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n("</span><span class="p">,</span><span class="w">
+                   </span><span class="nf">signif</span><span class="p">(</span><span class="n">moduleTraitPvalue</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="s2">")"</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span><span class="w">
+</span><span class="n">labeledHeatmap</span><span class="p">(</span><span class="n">Matrix</span><span class="o">=</span><span class="n">moduleTraitCor</span><span class="p">,</span><span class="w">
+              </span><span class="n">xLabels</span><span class="o">=</span><span class="n">colnames</span><span class="p">(</span><span class="n">metadata</span><span class="p">[,</span><span class="nf">c</span><span class="p">(</span><span class="s2">"pH"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Temperature"</span><span class="p">)]),</span><span class="w">
+              </span><span class="n">yLabels</span><span class="o">=</span><span class="nf">names</span><span class="p">(</span><span class="n">net</span><span class="o">$</span><span class="n">MEs</span><span class="p">),</span><span class="w">
+              </span><span class="n">colors</span><span class="o">=</span><span class="n">blueWhiteRed</span><span class="p">(</span><span class="m">50</span><span class="p">),</span><span class="w">
+              </span><span class="n">textMatrix</span><span class="o">=</span><span class="n">textMatrix</span><span class="p">,</span><span class="w">
+              </span><span class="n">cex.text</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Export network</span><span class="w">
+</span><span class="n">exportNetworkToCytoscape</span><span class="p">(</span><span class="n">net</span><span class="o">$</span><span class="n">TOM</span><span class="p">,</span><span class="w">
+                        </span><span class="n">edgeFile</span><span class="o">=</span><span class="s2">"CytoscapeInput-edges.txt"</span><span class="p">,</span><span class="w">
+                        </span><span class="n">nodeFile</span><span class="o">=</span><span class="s2">"CytoscapeInput-nodes.txt"</span><span class="p">,</span><span class="w">
+                        </span><span class="n">weighted</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+                        </span><span class="n">threshold</span><span class="o">=</span><span class="m">0.02</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>WGCNA identifies:</strong> Modules of co-expressed genes/MAGs and their environmental associations</p>
+
+<hr />
+
+<h2 id="-part-iv-advanced-statistical-tests">📈 Part IV: Advanced Statistical Tests</h2>
+
+<h3 id="mantel-test-matrix-correlation">Mantel Test: Matrix Correlation</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Test correlation between distance matrices</span><span class="w">
+</span><span class="n">mantel_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mantel</span><span class="p">(</span><span class="n">dist_matrix_community</span><span class="p">,</span><span class="w">
+                       </span><span class="n">dist_matrix_environmental</span><span class="p">,</span><span class="w">
+                       </span><span class="n">method</span><span class="o">=</span><span class="s2">"spearman"</span><span class="p">,</span><span class="w">
+                       </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Partial Mantel (control for third variable)</span><span class="w">
+</span><span class="n">partial_mantel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mantel.partial</span><span class="p">(</span><span class="n">dist_matrix_community</span><span class="p">,</span><span class="w">
+                                </span><span class="n">dist_matrix_environmental</span><span class="p">,</span><span class="w">
+                                </span><span class="n">dist_matrix_geographic</span><span class="p">,</span><span class="w">
+                                </span><span class="n">method</span><span class="o">=</span><span class="s2">"spearman"</span><span class="p">,</span><span class="w">
+                                </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Use case:</strong> Do environmental distances predict community distances?</p>
+
+<hr />
+
+<h3 id="procrustes-analysis-shape-comparison">Procrustes Analysis: Shape Comparison</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Compare two ordinations</span><span class="w">
+</span><span class="n">prc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">protest</span><span class="p">(</span><span class="n">rda1</span><span class="p">,</span><span class="w"> </span><span class="n">rda2</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">prc</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Correlation</span><span class="w">
+</span><span class="n">prc</span><span class="o">$</span><span class="n">t0</span><span class="w">  </span><span class="c1"># Procrustes correlation</span><span class="w">
+</span><span class="n">prc</span><span class="o">$</span><span class="n">signif</span><span class="w">  </span><span class="c1"># P-value</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Use case:</strong> Do two datasets show similar patterns?</p>
+
+<hr />
+
+<h3 id="distance-based-linear-models-distlm">Distance-based Linear Models (DistLM)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">mvabund</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Fit model</span><span class="w">
+</span><span class="n">distlm_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">manyglm</span><span class="p">(</span><span class="n">abundance</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">pH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Treatment</span><span class="p">,</span><span class="w">
+                        </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span><span class="w">
+                        </span><span class="n">family</span><span class="o">=</span><span class="s2">"negative.binomial"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># ANOVA</span><span class="w">
+</span><span class="n">anova</span><span class="p">(</span><span class="n">distlm_result</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plot</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">distlm_result</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="-integration--interpretation">🔗 Integration &amp; Interpretation</h2>
+
+<h3 id="complete-workflow-example">Complete Workflow Example</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 1. Test overall differences</span><span class="w">
+</span><span class="n">permanova</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">dist_matrix</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Treatment</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># 2. Identify which taxa differ</span><span class="w">
+</span><span class="n">deseq_results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeq2_analysis</span><span class="p">()</span><span class="w">
+</span><span class="n">sig_taxa</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">deseq_results</span><span class="p">[</span><span class="n">deseq_results</span><span class="o">$</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># 3. Test environmental associations</span><span class="w">
+</span><span class="n">rda_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rda</span><span class="p">(</span><span class="n">abundance</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">pH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># 4. Build co-occurrence network</span><span class="w">
+</span><span class="n">network</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sparcc_network</span><span class="p">(</span><span class="n">abundance</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># 5. Find modules correlated with environment</span><span class="w">
+</span><span class="n">wgcna_modules</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">WGCNA_analysis</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># 6. Identify keystone species</span><span class="w">
+</span><span class="n">keystone</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">identify_hubs</span><span class="p">(</span><span class="n">network</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># 7. Create integrated visualization</span><span class="w">
+</span><span class="n">integrated_plot</span><span class="p">(</span><span class="n">permanova</span><span class="p">,</span><span class="w"> </span><span class="n">deseq_results</span><span class="p">,</span><span class="w"> </span><span class="n">network</span><span class="p">,</span><span class="w"> </span><span class="n">wgcna_modules</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h3 id="interpretation-framework">Interpretation Framework</h3>
+
+<p><strong>Question 1: Are communities different?</strong></p>
+
+<ul>
+  <li>PERMANOVA: P &lt; 0.05 → Yes, significantly different</li>
+  <li>R² = 0.3 → Treatment explains 30% of variation</li>
+</ul>
+
+<p><strong>Question 2: Which taxa drive differences?</strong></p>
+
+<ul>
+  <li>DESeq2/LEfSe: 15 MAGs enriched in treatment</li>
+  <li>Indicator species analysis: 8 strong indicators</li>
+</ul>
+
+<p><strong>Question 3: What environmental factors matter?</strong></p>
+
+<ul>
+  <li>RDA: pH (R² = 0.25, P &lt; 0.001) most important</li>
+  <li>Temperature (R² = 0.10, P &lt; 0.01) secondary</li>
+</ul>
+
+<p><strong>Question 4: How do organisms interact?</strong></p>
+
+<ul>
+  <li>Network: 150 significant correlations</li>
+  <li>5 modules identified via WGCNA</li>
+  <li>3 keystone hub species</li>
+</ul>
+
+<p><strong>Question 5: Integration</strong></p>
+
+<ul>
+  <li>Hub species enriched in treatment group</li>
+  <li>Module 1 correlates with pH (r = 0.7, P &lt; 0.001)</li>
+  <li>Core pangenome includes pH response genes</li>
+</ul>
+
+<hr />
+
+<h2 id="-best-practices">💡 Best Practices</h2>
+
+<h3 id="statistical-considerations">Statistical Considerations</h3>
+
+<ol>
+  <li><strong>Multiple testing correction</strong> - Always adjust P-values (BH, Bonferroni)</li>
+  <li><strong>Sample size</strong> - Need n &gt; 20 for robust statistics</li>
+  <li><strong>Compositionality</strong> - Use appropriate methods (SparCC, ANCOM)</li>
+  <li><strong>Confounders</strong> - Control for batch effects, sequencing depth</li>
+  <li><strong>Replication</strong> - Biological replicates &gt; technical replicates</li>
+</ol>
+
+<h3 id="data-transformation">Data Transformation</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># For count data</span><span class="w">
+</span><span class="n">abundance_hell</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">decostand</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="s2">"hellinger"</span><span class="p">)</span><span class="w">  </span><span class="c1"># RDA</span><span class="w">
+</span><span class="n">abundance_clr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">compositions</span><span class="o">::</span><span class="n">clr</span><span class="p">(</span><span class="n">abundance</span><span class="p">)</span><span class="w">  </span><span class="c1"># PCA</span><span class="w">
+
+</span><span class="c1"># For distances</span><span class="w">
+</span><span class="n">dist_bray</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vegdist</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">)</span><span class="w">  </span><span class="c1"># General</span><span class="w">
+</span><span class="n">dist_jaccard</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vegdist</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="s2">"jaccard"</span><span class="p">)</span><span class="w">  </span><span class="c1"># Presence/absence</span><span class="w">
+</span><span class="n">dist_unifrac</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">UniFrac</span><span class="p">(</span><span class="n">phyloseq_obj</span><span class="p">,</span><span class="w"> </span><span class="n">weighted</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w">  </span><span class="c1"># Phylogenetic</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="-troubleshooting">🔧 Troubleshooting</h2>
+
+<h3 id="permanova-high-dispersion">PERMANOVA: High dispersion</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Test homogeneity of dispersion</span><span class="w">
+</span><span class="n">betadisper_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">betadisper</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Treatment</span><span class="p">)</span><span class="w">
+</span><span class="n">permutest</span><span class="p">(</span><span class="n">betadisper_result</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># If P &lt; 0.05, use PERMDISP2 instead of PERMANOVA</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="rda-collinearity-issues">RDA: Collinearity issues</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Check VIF (Variance Inflation Factor)</span><span class="w">
+</span><span class="n">vif.cca</span><span class="p">(</span><span class="n">rda_result</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># VIF &gt; 10: Remove collinear variables</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="networks-too-sparsedense">Networks: Too sparse/dense</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Adjust correlation threshold</span><span class="w">
+</span><span class="n">min_corr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.3</span><span class="w">  </span><span class="c1"># Increase for sparser network</span><span class="w">
+</span><span class="n">max_corr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.8</span><span class="w">  </span><span class="c1"># Decrease for denser network</span><span class="w">
+
+</span><span class="c1"># Adjust p-value</span><span class="w">
+</span><span class="n">max_pval</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.05</span><span class="w">  </span><span class="c1"># More stringent = sparser</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="-visualization-gallery">📊 Visualization Gallery</h2>
+
+<h3 id="publication-quality-plots">Publication-Quality Plots</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># NMDS with environmental vectors</span><span class="w">
+</span><span class="n">nmds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metaMDS</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="n">distance</span><span class="o">=</span><span class="s2">"bray"</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">nmds</span><span class="p">)</span><span class="w">
+</span><span class="n">ef</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">envfit</span><span class="p">(</span><span class="n">nmds</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">ef</span><span class="p">,</span><span class="w"> </span><span class="n">p.max</span><span class="o">=</span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="o">=</span><span class="m">1.2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Network with ggraph</span><span class="w">
+</span><span class="n">ggraph</span><span class="p">(</span><span class="n">network</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="o">=</span><span class="s2">"fr"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_edge_link</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">weight</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_node_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">degree</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">module</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_graph</span><span class="p">()</span><span class="w">
+
+</span><span class="c1"># Heatmap with metadata</span><span class="w">
+</span><span class="n">pheatmap</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w">
+        </span><span class="n">annotation_col</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span><span class="w">
+        </span><span class="n">scale</span><span class="o">=</span><span class="s2">"row"</span><span class="p">,</span><span class="w">
+        </span><span class="n">clustering_distance_rows</span><span class="o">=</span><span class="s2">"correlation"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="-success-checklist">✅ Success Checklist</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Pangenome analyzed (core/accessory defined)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />PERMANOVA tests completed</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Environmental associations identified (RDA/db-RDA)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Differential abundance analysis done</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Co-occurrence network constructed</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Network modules correlated with metadata</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Key findings integrated and interpreted</li>
+</ul>
+
+<hr />
+
+<h2 id="-key-resources">📚 Key Resources</h2>
+
+<h3 id="pangenomics">Pangenomics</h3>
+
+<ul>
+  <li><a href="https://github.com/neherlab/pan-genome-analysis">PanX</a> -
+<strong>See my detailed tutorial</strong> https://jojyjohn28.github.io/blog/panx-pangenome-analysis/</li>
+  <li><a href="https://anvio.org/">Anvi’o</a></li>
+  <li><a href="https://github.com/sanger-pathogens/Roary">Roary</a></li>
+  <li><a href="http://www.iicb.res.in/bpga/">BPGA</a></li>
+</ul>
+
+<h3 id="statistical-analysis">Statistical Analysis</h3>
+
+<ul>
+  <li><a href="https://cran.r-project.org/web/packages/vegan/">vegan</a> - R package for ecology</li>
+  <li><a href="https://joey711.github.io/phyloseq/">phyloseq</a> - Microbiome analysis in R</li>
+  <li><a href="https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/">WGCNA</a></li>
+</ul>
+
+<h3 id="networks">Networks</h3>
+
+<ul>
+  <li><a href="https://github.com/bio-developer/SparCC3">SparCC</a></li>
+  <li><a href="https://cytoscape.org/">Cytoscape</a> - Network visualization</li>
+</ul>
+
+<hr />
+
+<h2 id="️-whats-next">➡️ What’s Next?</h2>
+
+<p><strong>Congratulations!</strong> You’ve completed the core metagenomics analysis pipeline!</p>
+
+<p><strong>Next steps:</strong></p>
+
+<ul>
+  <li>Workflow Wrappers &amp; Web Platforms</li>
+  <li>MetaWRAP for complete workflows</li>
+  <li>Galaxy for web-based analysis</li>
+  <li>KBase platform</li>
+</ul>
+
+<hr />
+
+<h4 id="repo-for-todays-code-and-other-details">Repo for today’s code and other details</h4>
+
+<p>🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day7-comparative-statistical/">Day 7 →</a></strong></p>
+
+<p>Last updated: February 2026</p>
+
+<p><img src="/assets/img/d7-mg.png" alt="day6 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="pangenomics" /><category term="PanX" /><category term="Anvi&apos;o" /><category term="Roary" /><category term="BPGA" /><category term="PERMANOVA" /><category term="RDA" /><category term="dbRDA" /><category term="WGCNA" /><category term="co-occurrence" /><category term="statistical-analysis" /><category term="environmental-factors" /><category term="comparative-genomics" /><category term="network-analysis" /><summary type="html"><![CDATA[Master pangenome analysis (PanX, Anvi'o, Roary, BPGA), statistical ecology (PERMANOVA, RDA, dbRDA), co-occurrence networks (WGCNA, SparCC), and environmental associations. Complete guide to understanding how metadata influences microbiomes and comparative genomics.]]></summary></entry><entry><title type="html">Day 6: Specialized Genomic Functions - Hidden Capabilities</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day6-specialized-functions/" rel="alternate" type="text/html" title="Day 6: Specialized Genomic Functions - Hidden Capabilities" /><published>2026-02-11T00:00:00-05:00</published><updated>2026-02-11T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -8529,517 +9339,4 @@ echo "eggNOG annotation complete"
 
 <hr />
 
-<p><strong>Questions?</strong> Comment below or reach out.</p>]]></content><author><name></name></author><category term="machine-learning" /><category term="random-forest" /><category term="healthcare" /><category term="data-science" /><category term="classification" /><category term="model-comparison" /><summary type="html"><![CDATA[Revisiting my masters in datascience project on heart disease prediction to explore Random Forest applications in microbial ecosystem multifunctionality research. A comprehensive comparison of 5 ML algorithms with real results and lessons learned.]]></summary></entry><entry><title type="html">Building Custom HUMAnN3 Databases with Struo2 and GTDB: A Realistic Guide from the Trenches</title><link href="https://jojyjohn28.github.io/blog/building-custom-humann3-databases-struo2-gtdb/" rel="alternate" type="text/html" title="Building Custom HUMAnN3 Databases with Struo2 and GTDB: A Realistic Guide from the Trenches" /><published>2026-01-26T00:00:00-05:00</published><updated>2026-01-26T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/building-custom-humann3-databases-struo2-gtdb</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/building-custom-humann3-databases-struo2-gtdb/"><![CDATA[<h1 id="building-custom-humann3-databases-with-struo2-and-gtdb-r220-a-realistic-guide-from-the-trenches">Building Custom HUMAnN3 Databases with Struo2 and GTDB r220: A Realistic Guide from the Trenches</h1>
-
-<h2 id="introduction">Introduction</h2>
-
-<p>Creating custom HUMAnN3 databases sounds straightforward in theory, but in practice, it’s a journey filled with environment conflicts, memory issues, and mysterious errors. This guide documents the <strong>real</strong> process of building a custom HUMAnN3 database using Struo2 with GTDB release 220, including all the troubleshooting, workarounds, and hard-won lessons.</p>
-
-<p><strong>Spoiler alert:</strong> If you need results quickly, download the pre-built databases from Struo2’s FTP server. But if you want to learn the process or need a truly custom database, read on. The pre built database is built on an older version of GTDBtk, thats why I tried to build newone.</p>
-
-<h2 id="why-build-custom-databases">Why Build Custom Databases?</h2>
-
-<ul>
-  <li><strong>Latest taxonomy</strong>: GTDB r220 (released 2024) has significantly improved archaeal and bacterial classifications</li>
-  <li><strong>Ecosystem-specific</strong>: Focus on genomes relevant to your study system</li>
-  <li><strong>Updated gene annotations</strong>: Latest UniRef annotations for functional profiling</li>
-  <li><strong>Research reproducibility</strong>: Control exactly which genomes are included</li>
-</ul>
-
-<h2 id="reality-check-resource-requirements">Reality Check: Resource Requirements</h2>
-
-<h3 id="minimal-setup-100-test-genomes">Minimal Setup (100 test genomes)</h3>
-
-<ul>
-  <li><strong>Time</strong>: 4-8 hours</li>
-  <li><strong>RAM</strong>: 200-250 GB</li>
-  <li><strong>CPUs</strong>: 32 cores</li>
-  <li><strong>Storage</strong>: 500 GB</li>
-  <li><strong>Outcome</strong>: Proof of concept, ~60K genes</li>
-</ul>
-
-<h3 id="full-gtdb-r220-setup-85000-genomes">Full GTDB r220 Setup (~85,000 genomes)</h3>
-
-<ul>
-  <li><strong>Time</strong>: 2-4 months (yes, months!)</li>
-  <li><strong>RAM</strong>: 500+ GB</li>
-  <li><strong>CPUs</strong>: 90+ cores recommended</li>
-  <li><strong>Storage</strong>: 10+ TB</li>
-  <li><strong>Outcome</strong>: Comprehensive database, ~30 million genes</li>
-</ul>
-
-<p><strong>My recommendation</strong>: Start with 100-1000 representative genomes unless you have unlimited compute time.
-I used this to fix all run erorr and in the mean time I was looking to find a quick solution.</p>
-
-<h2 id="step-1-environment-setup-the-first-battle">Step 1: Environment Setup (The First Battle)</h2>
-
-<h3 id="the-path-problem">The PATH Problem</h3>
-
-<p>The biggest challenge isn’t Struo2 itself—it’s environment conflicts. Here’s what you’ll encounter:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># You think you're using conda environment A</span>
-conda activate struo2_fresh
-
-<span class="c"># But your PATH says otherwise</span>
-which python
-<span class="c"># /some/old/environment/bin/python  ← NOT what you want!</span>
-</code></pre></div></div>
-
-<p><strong>Solution</strong>: Clean your environment completely:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Deactivate EVERYTHING</span>
-conda deactivate
-conda deactivate
-conda deactivate
-
-<span class="c"># Check your .bashrc for sneaky PATH additions</span>
-<span class="nb">grep</span> <span class="nt">-n</span> <span class="s2">"export PATH"</span> ~/.bashrc
-
-<span class="c"># Comment out any conda auto-init or old environment additions</span>
-nano ~/.bashrc
-
-<span class="c"># Start fresh</span>
-<span class="nb">source</span> ~/.bashrc
-conda activate struo2_fresh
-</code></pre></div></div>
-
-<h3 id="create-a-clean-snakemake-environment">Create a Clean Snakemake Environment</h3>
-
-<p>Don’t mix Struo2 dependencies with Snakemake—keep them separate:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Snakemake environment (just for running the pipeline)</span>
-conda create <span class="nt">-n</span> snakemake_env <span class="nv">python</span><span class="o">=</span>3.9 <span class="nt">-y</span>
-conda activate snakemake_env
-conda <span class="nb">install</span> <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda <span class="nv">snakemake</span><span class="o">=</span>7.32.4 <span class="nt">-y</span>
-
-<span class="c"># Load system modules instead of installing everything via conda</span>
-module load vsearch/2.21.1
-module load bowtie2/2.4.4
-module load samtools/1.15.1
-module load diamond/2.0.13
-module load seqkit/2.10.0
-</code></pre></div></div>
-
-<p><strong>Critical</strong>: DO NOT use <code class="language-plaintext highlighter-rouge">--use-conda</code> with Snakemake if your HPC has SSL certificate issues!</p>
-
-<h2 id="step-2-download-gtdb-data">Step 2: Download GTDB Data</h2>
-
-<h3 id="get-the-metadata">Get the Metadata</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> data/taxdump_r220
-<span class="nb">cd </span>data
-
-<span class="c"># Download GTDB r220 metadata</span>
-wget https://data.gtdb.ecogenomic.org/releases/release220/220.0/ar53_metadata_r220.tsv
-wget https://data.gtdb.ecogenomic.org/releases/release220/220.0/bac120_metadata_r220.tsv
-
-<span class="c"># Download taxonomy files</span>
-wget http://ftp.tue.mpg.de/ebio/projects/struo2/GTDB_release220/taxdump/names.dmp <span class="nt">-P</span> taxdump_r220/
-wget http://ftp.tue.mpg.de/ebio/projects/struo2/GTDB_release220/taxdump/nodes.dmp <span class="nt">-P</span> taxdump_r220/
-</code></pre></div></div>
-
-<h3 id="download-genomes-the-smart-way">Download Genomes (The Smart Way)</h3>
-
-<p><strong>Option 1: Test subset (100 genomes)</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create a test table with 100 diverse genomes</span>
-<span class="nb">head</span> <span class="nt">-101</span> ar53_metadata_r220.tsv | <span class="nb">tail</span> <span class="nt">-100</span> <span class="o">&gt;</span> gtdb-r220_test100.tsv
-
-<span class="c"># Download genomes using GTDB accessions</span>
-<span class="c"># Use ncbi-genome-download or direct GTDB downloads</span>
-</code></pre></div></div>
-
-<p><strong>Option 2: Download pre-built Struo2 database (RECOMMENDED)</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Much faster than building from scratch!</span>
-git clone https://github.com/leylabmpi/Struo2.git
-<span class="nb">cd </span>Struo2
-
-<span class="c"># Download GTDB r207 complete database (~60K genomes)</span>
-./util_scripts/database_download.py <span class="nt">-t</span> 8 <span class="nt">-r</span> 207 <span class="se">\</span>
-    <span class="nt">-d</span> humann3 metadata taxdump <span class="nt">--</span> ../gtdb_r207_prebuilt
-
-<span class="c"># This downloads everything in ~1 day vs 2-4 months building</span>
-</code></pre></div></div>
-
-<h3 id="download-uniref-database">Download UniRef Database</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> data/mmseqs2_dbs/uniref90
-
-<span class="c"># Download UniRef90 (for gene annotation)</span>
-mmseqs databases UniRef90 data/mmseqs2_dbs/uniref90/uniref90 data/mmseqs2_TMP <span class="nt">--remove-tmp-files</span> 1
-</code></pre></div></div>
-
-<h2 id="step-3-prepare-your-sample-table">Step 3: Prepare Your Sample Table</h2>
-
-<p>Create <code class="language-plaintext highlighter-rouge">samples_single_per_species.tsv</code>:</p>
-
-<pre><code class="language-tsv">ncbi_organism_name	accession	fasta_file_path	gtdb_taxid	gtdb_taxonomy
-Methanosarcina_mazei	RS_GCF_000970205.1	/path/to/genome.fna.gz	3005035806	d__Archaea;p__Halobacteriota;...
-</code></pre>
-
-<p><strong>Critical tip</strong>: Use ONE genome per species to avoid Pandas DataFrame bugs in Struo2:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># If you have multiple assemblies per species</span>
-<span class="nb">awk</span> <span class="s1">'NR==1 || !seen[$1]++'</span> samples_full.tsv <span class="o">&gt;</span> samples_single_per_species.tsv
-</code></pre></div></div>
-
-<h2 id="step-4-configure-struo2">Step 4: Configure Struo2</h2>
-
-<p>Create <code class="language-plaintext highlighter-rouge">config_custom.yaml</code>:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">samples_file</span><span class="pi">:</span> <span class="s">/path/to/samples_single_per_species.tsv</span>
-<span class="na">output_dir</span><span class="pi">:</span> <span class="s">./databases/</span>
-<span class="na">tmp_dir</span><span class="pi">:</span> <span class="s">./tmp/</span>
-
-<span class="na">databases</span><span class="pi">:</span>
-  <span class="na">kraken2</span><span class="pi">:</span> <span class="s">Skip</span>
-  <span class="na">bracken</span><span class="pi">:</span> <span class="s">Skip</span>
-  <span class="na">genes</span><span class="pi">:</span> <span class="s">Create</span>
-  <span class="na">humann3_bowtie2</span><span class="pi">:</span> <span class="s">Create</span>
-  <span class="na">humann3_diamond</span><span class="pi">:</span> <span class="s">Create</span>
-
-<span class="na">uniref_name</span><span class="pi">:</span> <span class="s">uniref90</span>
-<span class="na">dmnd_name</span><span class="pi">:</span> <span class="s">uniref90_201901.dmnd</span>
-
-<span class="na">names_dmp</span><span class="pi">:</span> <span class="s">./data/taxdump_r220/names.dmp</span>
-<span class="na">nodes_dmp</span><span class="pi">:</span> <span class="s">./data/taxdump_r220/nodes.dmp</span>
-
-<span class="na">keep_intermediate</span><span class="pi">:</span> <span class="s">True</span>
-
-<span class="na">params</span><span class="pi">:</span>
-  <span class="na">humann3</span><span class="pi">:</span>
-    <span class="na">batches</span><span class="pi">:</span> <span class="m">4</span>
-    <span class="na">mmseqs_search</span><span class="pi">:</span>
-      <span class="na">db</span><span class="pi">:</span> <span class="s">./data/mmseqs2_dbs/uniref90/uniref90</span>
-      <span class="na">index</span><span class="pi">:</span> <span class="s">-s </span><span class="m">6</span>
-      <span class="na">run</span><span class="pi">:</span> <span class="s">-e 1e-3 --max-accept 1 --max-seqs </span><span class="m">100</span>
-</code></pre></div></div>
-
-<h2 id="step-5-the-mmseqs-problem-cpu-architecture-incompatibility">Step 5: The MMseqs Problem (CPU Architecture Incompatibility)</h2>
-
-<p><strong>Problem you WILL encounter:</strong></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Illegal instruction (core dumped)
-Error: indexdb died
-</code></pre></div></div>
-
-<p><strong>Why</strong>: The system module for MMseqs was compiled for a different CPU architecture.</p>
-
-<p><strong>Solution</strong>: Download a compatible MMseqs binary:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~
-wget https://mmseqs.com/latest/mmseqs-linux-avx2.tar.gz
-<span class="nb">tar </span>xvzf mmseqs-linux-avx2.tar.gz
-<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/mmseqs/bin:<span class="nv">$PATH</span>
-
-<span class="c"># Test it works</span>
-mmseqs version
-mmseqs createdb <span class="nt">--help</span>  <span class="c"># Should NOT crash</span>
-</code></pre></div></div>
-
-<h2 id="step-6-create-the-slurm-script">Step 6: Create the SLURM Script</h2>
-
-<p>Here’s a production-ready script that handles all the gotchas:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --job-name=struo2_humann3</span>
-<span class="c">#SBATCH --time=72:00:00</span>
-<span class="c">#SBATCH --cpus-per-task=32</span>
-<span class="c">#SBATCH --mem=250G</span>
-<span class="c">#SBATCH --output=struo2_%j.log</span>
-<span class="c">#SBATCH --error=struo2_%j.err</span>
-
-<span class="nb">cd</span> /path/to/struo2_fresh
-
-<span class="c"># Critical: Use downloaded MMseqs, not module</span>
-<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/mmseqs/bin:<span class="nv">$PATH</span>
-
-<span class="c"># Remove any conflicting paths</span>
-<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="nv">$PATH</span> | <span class="nb">tr</span> <span class="s1">':'</span> <span class="s1">'\n'</span> | <span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"metawrap</span><span class="se">\|</span><span class="s2">metaWRAP"</span> | <span class="nb">tr</span> <span class="s1">'\n'</span> <span class="s1">':'</span><span class="si">)</span>
-
-<span class="c"># SSL certificates (if needed)</span>
-<span class="nb">export </span><span class="nv">REQUESTS_CA_BUNDLE</span><span class="o">=</span>/etc/ssl/certs/ca-bundle.crt
-<span class="nb">export </span><span class="nv">SSL_CERT_FILE</span><span class="o">=</span>/etc/ssl/certs/ca-bundle.crt
-<span class="nb">export </span><span class="nv">CURL_CA_BUNDLE</span><span class="o">=</span>/etc/ssl/certs/ca-bundle.crt
-
-<span class="nb">source</span> ~/.bashrc
-conda activate snakemake_env
-
-<span class="c"># Load modules</span>
-module load vsearch/2.21.1
-module load bowtie2/2.4.4
-module load samtools/1.15.1
-module load diamond/2.0.13
-module load seqkit/2.10.0
-
-<span class="nb">echo</span> <span class="s2">"Verifying tools:"</span>
-<span class="nb">echo</span> <span class="s2">"  mmseqs: </span><span class="si">$(</span>which mmseqs<span class="si">)</span><span class="s2">"</span>
-mmseqs version
-
-<span class="c"># Run WITHOUT --use-conda to avoid SSL/conda issues</span>
-snakemake <span class="se">\</span>
-  <span class="nt">-j</span> 32 <span class="se">\</span>
-  <span class="nt">--configfile</span> config_custom.yaml <span class="se">\</span>
-  <span class="nt">--keep-going</span> <span class="se">\</span>
-  <span class="nt">--rerun-incomplete</span> <span class="se">\</span>
-  <span class="nt">--printshellcmds</span>
-
-<span class="nb">echo</span> <span class="s2">"Completed: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<h2 id="step-7-common-errors-and-solutions">Step 7: Common Errors and Solutions</h2>
-
-<h3 id="error-1-ssl-certificate-issues">Error 1: SSL Certificate Issues</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RuntimeError: Download error (77) Problem with the SSL CA cert
-</code></pre></div></div>
-
-<p><strong>Solution</strong>: DON’T use <code class="language-plaintext highlighter-rouge">--use-conda</code>. Load system modules instead.</p>
-
-<h3 id="error-2-bowtie2---threads-not-recognized">Error 2: Bowtie2 <code class="language-plaintext highlighter-rouge">--threads</code> Not Recognized</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bowtie2-build: unrecognized option '--threads'
-</code></pre></div></div>
-
-<p><strong>Your cluster has old Bowtie2 (v2.2.3)</strong>. Build indices manually:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>databases/humann3/uniref90/
-<span class="nb">gunzip</span> <span class="nt">-c</span> genome_reps_filt_annot.fna.gz <span class="o">&gt;</span> temp.fna
-bowtie2-build temp.fna genome_reps_filt_annot  <span class="c"># No --threads flag!</span>
-<span class="nb">rm </span>temp.fna
-</code></pre></div></div>
-
-<h3 id="error-3-out-of-memory-with-bowtie2">Error 3: Out of Memory with Bowtie2</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Out of memory allocating the offs[] array for the Bowtie index
-</code></pre></div></div>
-
-<p><strong>Why</strong>: 30 million genes = ~180GB Bowtie2 index</p>
-
-<p><strong>Solution</strong>: Request 300GB RAM minimum</p>
-
-<h3 id="error-4-wrong-database-version">Error 4: Wrong Database Version</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CRITICAL ERROR: ChocoPhlAn contains files that are not of expected version
-</code></pre></div></div>
-
-<p><strong>Solution</strong>: Add <code class="language-plaintext highlighter-rouge">--bypass-nucleotide-index</code> to HUMAnN3 commands</p>
-
-<h2 id="step-8-running-humann3-with-your-database">Step 8: Running HUMAnN3 with Your Database</h2>
-
-<h3 id="single-sample-test">Single Sample Test</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --cpus-per-task=16</span>
-<span class="c">#SBATCH --mem=300G</span>
-<span class="c">#SBATCH --time=24:00:00</span>
-
-module load humann/3.9
-
-<span class="nv">NUC_DB</span><span class="o">=</span>/path/to/databases/humann3/uniref90
-<span class="nv">PROT_DB</span><span class="o">=</span>/path/to/databases/protein
-
-humann <span class="nt">--input</span> sample.fasta <span class="se">\</span>
-  <span class="nt">--output</span> output_dir <span class="se">\</span>
-  <span class="nt">--nucleotide-database</span> <span class="nv">$NUC_DB</span> <span class="se">\</span>
-  <span class="nt">--protein-database</span> <span class="nv">$PROT_DB</span> <span class="se">\</span>
-  <span class="nt">--bypass-nucleotide-index</span> <span class="se">\</span>
-  <span class="nt">--bypass-prescreen</span> <span class="se">\</span>
-  <span class="nt">--threads</span> 16
-</code></pre></div></div>
-
-<h3 id="batch-processing-32-samples">Batch Processing (32 samples)</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --job-name=humann3_batch</span>
-<span class="c">#SBATCH --array=1-32</span>
-<span class="c">#SBATCH --cpus-per-task=16</span>
-<span class="c">#SBATCH --mem=300G</span>
-<span class="c">#SBATCH --time=48:00:00</span>
-
-module load humann/3.9
-
-<span class="nv">SAMPLES</span><span class="o">=(</span><span class="si">$(</span><span class="nb">ls</span> /path/to/assemblies/<span class="k">*</span>.fasta<span class="si">)</span><span class="o">)</span>
-<span class="nv">SAMPLE</span><span class="o">=</span><span class="k">${</span><span class="nv">SAMPLES</span><span class="p">[</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="p">-1]</span><span class="k">}</span>
-<span class="nv">BASENAME</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="nv">$SAMPLE</span> .fasta<span class="si">)</span>
-
-humann <span class="nt">--input</span> <span class="nv">$SAMPLE</span> <span class="se">\</span>
-  <span class="nt">--output</span> /path/to/output <span class="se">\</span>
-  <span class="nt">--nucleotide-database</span> <span class="nv">$NUC_DB</span> <span class="se">\</span>
-  <span class="nt">--protein-database</span> <span class="nv">$PROT_DB</span> <span class="se">\</span>
-  <span class="nt">--output-basename</span> <span class="k">${</span><span class="nv">BASENAME</span><span class="k">}</span> <span class="se">\</span>
-  <span class="nt">--bypass-nucleotide-index</span> <span class="se">\</span>
-  <span class="nt">--bypass-prescreen</span> <span class="se">\</span>
-  <span class="nt">--threads</span> 16
-</code></pre></div></div>
-
-<h2 id="step-9-understanding-your-output">Step 9: Understanding Your Output</h2>
-
-<h3 id="what-you-get">What You Get</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>databases/
-├── genes/
-│   ├── genome_reps_filtered.fna.gz       # 22 MB (100 genomes)
-│   ├── genome_reps_filtered.faa.gz       # 16 MB
-│   └── genome_reps_filtered.txt.gz       # 2 MB
-└── humann3/
-    ├── uniref90/
-    │   ├── genome_reps_filt_annot.fna.gz # 25 GB (full GTDB)
-    │   ├── genome_reps_filt_annot.tsv.gz # 3.3 GB - THE KEY FILE!
-    │   └── *.bt2l                         # ~180 GB total
-    └── protein/
-        └── uniref90.dmnd                  # 36 GB
-</code></pre></div></div>
-
-<h3 id="the-magic-tsv-file">The Magic TSV File</h3>
-
-<p><code class="language-plaintext highlighter-rouge">genome_reps_filt_annot.tsv.gz</code> contains gene-to-genome mappings:</p>
-
-<pre><code class="language-tsv">seq_uuid	genome_name	species	annotation
-hash123	RS_GCF_000970205.1	s__Methanosarcina_mazei	UniRef90_Q8TUR2
-</code></pre>
-
-<p>This file lets you:</p>
-
-<ol>
-  <li>Map gene families back to genomes</li>
-  <li>Calculate genome-level abundances</li>
-  <li>Build trait tables for functional redundancy analysis</li>
-</ol>
-
-<h2 id="lessons-learned">Lessons Learned</h2>
-
-<h3 id="what-worked">What Worked</h3>
-
-<p>✅ <strong>Separate Snakemake environment</strong> from tool dependencies<br />
-✅ <strong>System modules</strong> instead of conda for tools<br />
-✅ <strong>Downloaded MMseqs binary</strong> instead of system module<br />
-✅ <strong>One genome per species</strong> to avoid Pandas bugs<br />
-✅ <strong>Starting with 100 genomes</strong> for testing</p>
-
-<h3 id="what-didnt-work">What Didn’t Work</h3>
-
-<p>❌ Using <code class="language-plaintext highlighter-rouge">--use-conda</code> with SSL certificate issues<br />
-❌ Mixing conda environments<br />
-❌ System MMseqs module (CPU incompatibility)<br />
-❌ Building Bowtie2 index with old version’s flags<br />
-❌ Trying to build full GTDB without months of compute time</p>
-
-<h3 id="time-investment">Time Investment</h3>
-
-<ul>
-  <li><strong>Setup and troubleshooting</strong>: 2-3 days</li>
-  <li><strong>Test run (100 genomes)</strong>: 4-8 hours</li>
-  <li><strong>Full build (if attempted)</strong>: 2-4 months</li>
-  <li><strong>Using pre-built database</strong>: 1 day</li>
-</ul>
-
-<h2 id="alternative-strategies">Alternative Strategies</h2>
-
-<h3 id="strategy-1-smart-subsetting-this-is-the-way-i-find-to-proceed">Strategy 1: Smart Subsetting (This is the way I find to proceed)</h3>
-
-<p>Instead of using all 85K genomes:</p>
-
-<ol>
-  <li>Run HUMAnN3 on your samples with pre-built database (older gtdbtk based)</li>
-  <li>Extract list of detected genomes (from gene mappings)</li>
-  <li>Download only those ~500-5000 genomes</li>
-  <li>Build custom database from your ecosystem-specific subset</li>
-  <li>Re-run samples for accurate genome abundances</li>
-</ol>
-
-<p><strong>This is probably the best approach for most projects!</strong></p>
-
-<h3 id="strategy-2-use-mags-based-custom-database">Strategy 2: Use MAGs based custom database</h3>
-
-<p>If you alredy have MAGs from same data, you can use them instead of the genomes from GTDBtk.
-But remebr that you still have the issue of limited coverage, as MAGs many not give you all genomes in each samples.</p>
-
-<h2 id="final-recommendations">Final Recommendations</h2>
-
-<p><strong>If you want to analyze data TODAY:</strong></p>
-
-<ul>
-  <li>Download pre-built Struo2 GTDB r207 database</li>
-  <li>Use MetaPhlAn for taxonomy</li>
-  <li>Use HUMAnN3 for functional profiling</li>
-</ul>
-
-<p><strong>If you have 1 week:</strong></p>
-
-<ul>
-  <li>Build custom database with ~1000 representative genomes</li>
-  <li>Test thoroughly with pilot samples</li>
-  <li>Scale to full dataset</li>
-</ul>
-
-<p><strong>If you have 2-4 months and unlimited compute:</strong></p>
-
-<ul>
-  <li>Build full GTDB r220 database</li>
-  <li>Enjoy the most comprehensive reference available</li>
-  <li>Share it with the community!</li>
-</ul>
-
-<h2 id="computational-costs">Computational Costs</h2>
-
-<p>For our HPC cluster (Clemson University Palmetto):</p>
-
-<p><strong>100 genome test:</strong></p>
-
-<ul>
-  <li>SUs consumed: ~500</li>
-  <li>Cost: ~$50</li>
-  <li>Time: 8 hours</li>
-</ul>
-
-<p><strong>Full GTDB build (estimated):</strong></p>
-
-<ul>
-  <li>SUs consumed: ~50,000+</li>
-  <li>Cost: ~$5,000+</li>
-  <li>Time: 2-4 months</li>
-</ul>
-
-<p><strong>Using pre-built database:</strong></p>
-
-<ul>
-  <li>SUs consumed: ~10 (download only)</li>
-  <li>Cost: ~$1</li>
-  <li>Time: 1 day</li>
-</ul>
-
-<h2 id="conclusions">Conclusions</h2>
-
-<p>Building custom HUMAnN3 databases with Struo2 is powerful but challenging. The pipeline works, but you’ll fight with:</p>
-
-<ul>
-  <li>Environment conflicts</li>
-  <li>Memory requirements</li>
-  <li>CPU architecture incompatibilities</li>
-  <li>Time constraints</li>
-</ul>
-
-<p>For most projects, I recommend:</p>
-
-<ol>
-  <li>Use pre-built databases for initial analysis</li>
-  <li>Identify genomes relevant to your system</li>
-  <li>Build targeted custom databases if needed</li>
-</ol>
-
-<p>The functional profiling is worth it—just be realistic about the time investment!</p>
-
-<h2 id="resources">Resources</h2>
-
-<ul>
-  <li><strong>Struo2 GitHub</strong>: <a href="https://github.com/leylabmpi/Struo2">https://github.com/leylabmpi/Struo2</a></li>
-  <li><strong>Pre-built databases</strong>: <a href="http://ftp.tue.mpg.de/ebio/projects/struo2/">http://ftp.tue.mpg.de/ebio/projects/struo2/</a></li>
-  <li><strong>GTDB</strong>: <a href="https://gtdb.ecogenomic.org/">https://gtdb.ecogenomic.org/</a></li>
-  <li><strong>HUMAnN3</strong>: <a href="https://huttenhower.sph.harvard.edu/humann/">https://huttenhower.sph.harvard.edu/humann/</a></li>
-</ul>
-
-<p>Special thanks to Claude for helping troubleshoot every single error message in this journey!</p>
-
-<p><img src="/assets/img/struo.png" alt="struo2" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="humann3" /><category term="struo2" /><category term="gtdb" /><category term="bioinformatics" /><category term="database-building" /><category term="troubleshooting" /><summary type="html"><![CDATA[A comprehensive, honest guide to building custom HUMAnN3 databases using Struo2 with GTDB r220, including all the troubleshooting, workarounds, and lessons learned from 40 hours in the trenches.]]></summary></entry></feed>
+<p><strong>Questions?</strong> Comment below or reach out.</p>]]></content><author><name></name></author><category term="machine-learning" /><category term="random-forest" /><category term="healthcare" /><category term="data-science" /><category term="classification" /><category term="model-comparison" /><summary type="html"><![CDATA[Revisiting my masters in datascience project on heart disease prediction to explore Random Forest applications in microbial ecosystem multifunctionality research. A comprehensive comparison of 5 ML algorithms with real results and lessons learned.]]></summary></entry></feed>
