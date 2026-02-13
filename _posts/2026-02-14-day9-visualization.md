@@ -10,8 +10,6 @@ tags:
   [metagenomics, visualization, ggplot2, matplotlib, seaborn, Krona, Circos, networks, heatmaps, publication-figures, data-visualization, python, R]
 ---
 
-# Day 9: Visualization & Publication
-
 **Estimated Time:** 4-6 hours | **Difficulty:** Intermediate | **Prerequisites:** Days 1-8 (Analyzed data ready)
 
 ---
