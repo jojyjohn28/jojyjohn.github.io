@@ -14,6 +14,8 @@ tags:
 
 **Estimated Time:** 4-6 hours | **Difficulty:** Intermediate | **Prerequisites:** Days 1-8 (Analyzed data ready)
 
+---
+
 ## 📚 Table of Contents
 
 - [Introduction](#introduction)
@@ -22,6 +24,8 @@ tags:
 - [Part III: Specialized Tools](#part-iii-specialized-tools)
 - [Part IV: Interactive Visualizations](#part-iv-interactive-visualizations)
 - [Publication Guidelines](#publication-guidelines)
+
+---
 
 ## 🎯 Introduction
 
@@ -41,9 +45,13 @@ tags:
 - ✅ Tells compelling stories
 - ✅ Makes papers memorable
 
+---
+
 ### Today's Goal
 
 Create **publication-quality figures** that journals accept and readers love.
+
+---
 
 ## 📊 Part I: Quick R/ggplot2 Overview
 
@@ -73,6 +81,8 @@ ggplot(abundance_data, aes(x = Sample, y = Abundance, fill = Phylum)) +
 
 Try [ggplots](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/R) and compare your image with
 [toy data plots](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images). look for R in the figure name.
+
+---
 
 ## 🐍 Part II: Python Visualizations
 
@@ -130,6 +140,8 @@ Try [Interactive taxonomy .py](https://github.com/jojyjohn28/metagenome-analysis
 
 Try [Scatter plot](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/scatter.py) and compare your image with [scatter-toydata](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/scater-py.png)
 
+---
+
 **See my full visualization series for:**
 
 👉 **[Box & violin plots](https://jojyjohn28.github.io/blog/visualize-your-data-day1-box-vs-violin/)**
@@ -141,6 +153,8 @@ Try [Scatter plot](https://github.com/jojyjohn28/metagenome-analysis-series/tree
 👉 **[Volcano plots](https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots//)**
 
 👉 **[Bubble plots](https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots//)**
+
+---
 
 ## 🍩 Part III: Specialized Tools
 
@@ -192,6 +206,8 @@ ktImportText \
 ```
 
 **Output:** Interactive HTML with zoom, search, and hierarchy navigation
+
+---
 
 ## ⭕ 2. Circos - Genome Comparisons
 
@@ -291,6 +307,8 @@ circos.link(("chr1", 1000, 2000), ("chr2", 5000, 6000))
 # Save
 circos.savefig("genome_comparison.pdf")
 ```
+
+---
 
 ## 🕸️ 3. Network Visualizations
 
@@ -396,6 +414,8 @@ plt.savefig('cooccurrence_network.pdf', dpi=300, bbox_inches='tight')
 plt.show()
 ```
 
+---
+
 ### Cytoscape Export
 
 ```python
@@ -423,6 +443,8 @@ edges_df.to_csv('network_edges.csv', index=False)
 
 print("Import these files into Cytoscape for advanced styling")
 ```
+
+---
 
 ## 🎨 4. Advanced Heatmaps
 
@@ -492,6 +514,8 @@ plt.savefig('complex_heatmap.pdf', dpi=300, bbox_inches='tight')
 plt.show()
 ```
 
+---
+
 ## 🔬 Part IV: Interactive Visualizations
 
 ### 1. Anvi'o Interactive Interface
@@ -557,6 +581,8 @@ output_file("interactive_abundance.html")
 show(p)
 ```
 
+---
+
 ## 📐 Publication Guidelines
 
 ### General Principles
@@ -589,6 +615,8 @@ cb_friendly_div = plt.cm.RdBu_r
 # Use in plots
 plt.scatter(x, y, c=categories, cmap=cb_friendly_qual)
 ```
+
+---
 
 ### Figure Checklist
 
@@ -641,6 +669,8 @@ plt.savefig('figure1_composite.pdf', dpi=300, bbox_inches='tight')
 plt.show()
 ```
 
+---
+
 ## 💡 Best Practices
 
 ### 1. Data Preparation
@@ -682,6 +712,8 @@ plt.rcParams.update({
 })
 ```
 
+---
+
 ### 3. Save Multiple Formats
 
 ```python
@@ -692,6 +724,8 @@ def save_figure(fig, name):
     fig.savefig(f'{name}.svg', bbox_inches='tight')  # For editing
     print(f"✓ Saved {name} in PDF, PNG, and SVG formats")
 ```
+
+---
 
 ## ✅ Success Checklist
 
@@ -706,6 +740,8 @@ def save_figure(fig, name):
 - [ ] Used colorblind-friendly palettes
 - [ ] Saved in multiple formats
 
+---
+
 ## 📚 Key Resources
 
 **Python:**
@@ -719,6 +755,8 @@ def save_figure(fig, name):
 - [Krona](https://github.com/marbl/Krona)
 - [Circos](http://circos.ca/)
 - [Cytoscape](https://cytoscape.org/)
+
+---
 
 #### Repo for today's code and other details
 
