@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-13T11:39:36-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-13T11:50:35-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 </subtitle><entry><title type="html">Day 9: Visualization &amp;amp; Publication - Making Data Tell Stories</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day9-visualization/" rel="alternate" type="text/html" title="Day 9: Visualization &amp;amp; Publication - Making Data Tell Stories" /><published>2026-02-14T00:00:00-05:00</published><updated>2026-02-14T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day9-visualization</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day9-visualization/"><![CDATA[<h1 id="day-9-visualization--publication">Day 9: Visualization &amp; Publication</h1>
 
 <table>
@@ -11,6 +11,8 @@
   </tbody>
 </table>
 
+<hr />
+
 <h2 id="-table-of-contents">📚 Table of Contents</h2>
 
 <ul>
@@ -21,6 +23,8 @@
   <li><a href="#part-iv-interactive-visualizations">Part IV: Interactive Visualizations</a></li>
   <li><a href="#publication-guidelines">Publication Guidelines</a></li>
 </ul>
+
+<hr />
 
 <h2 id="-introduction">🎯 Introduction</h2>
 
@@ -44,9 +48,13 @@
   <li>✅ Makes papers memorable</li>
 </ul>
 
+<hr />
+
 <h3 id="todays-goal">Today’s Goal</h3>
 
 <p>Create <strong>publication-quality figures</strong> that journals accept and readers love.</p>
+
+<hr />
 
 <h2 id="-part-i-quick-rggplot2-overview">📊 Part I: Quick R/ggplot2 Overview</h2>
 
@@ -77,6 +85,8 @@
 
 <p>Try <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/R">ggplots</a> and compare your image with
 <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images">toy data plots</a>. look for R in the figure name.</p>
+
+<hr />
 
 <h2 id="-part-ii-python-visualizations">🐍 Part II: Python Visualizations</h2>
 
@@ -133,6 +143,8 @@
 
 <p>Try <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/scatter.py">Scatter plot</a> and compare your image with <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/scater-py.png">scatter-toydata</a></p>
 
+<hr />
+
 <p><strong>See my full visualization series for:</strong></p>
 
 <p>👉 <strong><a href="https://jojyjohn28.github.io/blog/visualize-your-data-day1-box-vs-violin/">Box &amp; violin plots</a></strong></p>
@@ -144,6 +156,8 @@
 <p>👉 <strong><a href="https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots//">Volcano plots</a></strong></p>
 
 <p>👉 <strong><a href="https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots//">Bubble plots</a></strong></p>
+
+<hr />
 
 <h2 id="-part-iii-specialized-tools">🍩 Part III: Specialized Tools</h2>
 
@@ -192,6 +206,8 @@ ktImportText <span class="se">\</span>
 </code></pre></div></div>
 
 <p><strong>Output:</strong> Interactive HTML with zoom, search, and hierarchy navigation</p>
+
+<hr />
 
 <h2 id="-2-circos---genome-comparisons">⭕ 2. Circos - Genome Comparisons</h2>
 
@@ -287,6 +303,8 @@ wget http://circos.ca/distribution/circos-0.69-9.tgz
 <span class="c1"># Save
 </span><span class="n">circos</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">"</span><span class="s">genome_comparison.pdf</span><span class="sh">"</span><span class="p">)</span>
 </code></pre></div></div>
+
+<hr />
 
 <h2 id="️-3-network-visualizations">🕸️ 3. Network Visualizations</h2>
 
@@ -390,6 +408,8 @@ wget http://circos.ca/distribution/circos-0.69-9.tgz
 <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
 </code></pre></div></div>
 
+<hr />
+
 <h3 id="cytoscape-export">Cytoscape Export</h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Export for Cytoscape
@@ -416,6 +436,8 @@ wget http://circos.ca/distribution/circos-0.69-9.tgz
 
 <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Import these files into Cytoscape for advanced styling</span><span class="sh">"</span><span class="p">)</span>
 </code></pre></div></div>
+
+<hr />
 
 <h2 id="-4-advanced-heatmaps">🎨 4. Advanced Heatmaps</h2>
 
@@ -484,6 +506,8 @@ wget http://circos.ca/distribution/circos-0.69-9.tgz
 <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
 </code></pre></div></div>
 
+<hr />
+
 <h2 id="-part-iv-interactive-visualizations">🔬 Part IV: Interactive Visualizations</h2>
 
 <h3 id="1-anvio-interactive-interface">1. Anvi’o Interactive Interface</h3>
@@ -547,6 +571,8 @@ anvi-display-pan <span class="nt">-g</span> GENOMES.db <span class="nt">-p</span
 <span class="nf">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </code></pre></div></div>
 
+<hr />
+
 <h2 id="-publication-guidelines">📐 Publication Guidelines</h2>
 
 <h3 id="general-principles">General Principles</h3>
@@ -583,6 +609,8 @@ anvi-display-pan <span class="nt">-g</span> GENOMES.db <span class="nt">-p</span
 <span class="c1"># Use in plots
 </span><span class="n">plt</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cb_friendly_qual</span><span class="p">)</span>
 </code></pre></div></div>
+
+<hr />
 
 <h3 id="figure-checklist">Figure Checklist</h3>
 
@@ -636,6 +664,8 @@ anvi-display-pan <span class="nt">-g</span> GENOMES.db <span class="nt">-p</span
 <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
 </code></pre></div></div>
 
+<hr />
+
 <h2 id="-best-practices">💡 Best Practices</h2>
 
 <h3 id="1-data-preparation">1. Data Preparation</h3>
@@ -675,6 +705,8 @@ anvi-display-pan <span class="nt">-g</span> GENOMES.db <span class="nt">-p</span
 <span class="p">})</span>
 </code></pre></div></div>
 
+<hr />
+
 <h3 id="3-save-multiple-formats">3. Save Multiple Formats</h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">save_figure</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
@@ -684,6 +716,8 @@ anvi-display-pan <span class="nt">-g</span> GENOMES.db <span class="nt">-p</span
     <span class="n">fig</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">.svg</span><span class="sh">'</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">'</span><span class="s">tight</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># For editing
 </span>    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">✓ Saved </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s"> in PDF, PNG, and SVG formats</span><span class="sh">"</span><span class="p">)</span>
 </code></pre></div></div>
+
+<hr />
 
 <h2 id="-success-checklist">✅ Success Checklist</h2>
 
@@ -699,6 +733,8 @@ anvi-display-pan <span class="nt">-g</span> GENOMES.db <span class="nt">-p</span
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Used colorblind-friendly palettes</li>
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Saved in multiple formats</li>
 </ul>
+
+<hr />
 
 <h2 id="-key-resources">📚 Key Resources</h2>
 
@@ -717,6 +753,8 @@ anvi-display-pan <span class="nt">-g</span> GENOMES.db <span class="nt">-p</span
   <li><a href="http://circos.ca/">Circos</a></li>
   <li><a href="https://cytoscape.org/">Cytoscape</a></li>
 </ul>
+
+<hr />
 
 <h4 id="repo-for-todays-code-and-other-details">Repo for today’s code and other details</h4>
 
