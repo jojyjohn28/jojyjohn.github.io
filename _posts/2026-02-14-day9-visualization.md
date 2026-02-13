@@ -14,8 +14,6 @@ tags:
 
 **Estimated Time:** 4-6 hours | **Difficulty:** Intermediate | **Prerequisites:** Days 1-8 (Analyzed data ready)
 
----
-
 ## 📚 Table of Contents
 
 - [Introduction](#introduction)
@@ -24,8 +22,6 @@ tags:
 - [Part III: Specialized Tools](#part-iii-specialized-tools)
 - [Part IV: Interactive Visualizations](#part-iv-interactive-visualizations)
 - [Publication Guidelines](#publication-guidelines)
-
----
 
 ## 🎯 Introduction
 
@@ -48,8 +44,6 @@ tags:
 ### Today's Goal
 
 Create **publication-quality figures** that journals accept and readers love.
-
----
 
 ## 📊 Part I: Quick R/ggplot2 Overview
 
@@ -77,7 +71,8 @@ ggplot(abundance_data, aes(x = Sample, y = Abundance, fill = Phylum)) +
 4. **Heatmaps** - Gene/MAG abundance
 5. **Faceted plots** - Multiple samples
 
-Try [ggplots](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/R) and compare your image with ![toy data plots](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images). look for R in the figure name.
+Try [ggplots](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/R) and compare your image with
+[toy data plots](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images). look for R in the figure name.
 
 ## 🐍 Part II: Python Visualizations
 
@@ -103,42 +98,48 @@ pip install matplotlib seaborn pandas numpy
 
 ### Basic Taxonomy Barplot
 
-Try [Basic taxonomy barplot](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/basic_taxonomy_bar_plot.py) and compare your image with ![basic_taxonomy_py](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/basic_taxonomy_py.png)
+Try [Basic taxonomy barplot](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/basic_taxonomy_bar_plot.py) and compare your image with
+[basic_taxonomy_py](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/basic_taxonomy_py.png)
 
 ### Alpha Diversity Boxplot
 
-Try [Alpha Diversity Boxplot](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/alpha_diversity.py) and compare your image with ![alpha_diversity_py](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/alpha_diversity_py.png)
+Try [Alpha Diversity Boxplot](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/alpha_diversity.py) and compare your image with
+[alpha_diversity_py](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/alpha_diversity_py.png)
 
 ## 🎨 2. Seaborn - Statistical Plots
 
 ### Heatmap with Clustering
 
-Try [Heatmap with Clustering](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/heatmap.py) and compare your image with ![heatmap](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/heatmap_py.png)
+Try [Heatmap with Clustering](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/heatmap.py) and compare your image with [heatmap](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/heatmap_py.png)
 
 ### Correlation Heatmap
 
-Try [correlation](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/correlations.py) and compare your image with ![Correlation_py](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/correlation-py.png)
+Try [correlation](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/correlations.py) and compare your image with [Correlation_py](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/correlation-py.png)
 
 ### Pairplot for Multivariate Data
 
-Try [Pairplot](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/Pairplot.py) and compare your image with ![Pairplot](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/multivariate_py.png)
+Try [Pairplot](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/Pairplot.py) and compare your image with [Pairplot](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/multivariate_py.png)
 
 ## 🌐 3. Plotly - Interactive Plots
 
 ### Interactive Taxonomy Sunburst
 
-Try [Interactive taxonomy .py](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/interactive_taxonomy.py) and compare your image with ![interactive tax plot ](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/interactive-tax.png)
+Try [Interactive taxonomy .py](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/interactive_taxonomy.py) and compare your image with [interactive tax plot ](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/interactive-tax.png)
 
 ### Interactive Scatter with Annotations
 
-Try [Scatter plot](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/scatter.py) and compare your image with ![scatter-toydata](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/scater-py.png)
+Try [Scatter plot](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/scatter.py) and compare your image with [scatter-toydata](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/scater-py.png)
 
 **See my full visualization series for:**
 
 👉 **[Box & violin plots](https://jojyjohn28.github.io/blog/visualize-your-data-day1-box-vs-violin/)**
+
 👉 **[Heatmaps](https://jojyjohn28.github.io/blog/visualize-your-data-day2-heatmaps//)**
+
 👉 **[Ordination plots](https://jojyjohn28.github.io/blog/visualize-your-data-day3-ordination/)**
+
 👉 **[Volcano plots](https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots//)**
+
 👉 **[Bubble plots](https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots//)**
 
 ## 🍩 Part III: Specialized Tools
@@ -191,8 +192,6 @@ ktImportText \
 ```
 
 **Output:** Interactive HTML with zoom, search, and hierarchy navigation
-
----
 
 ## ⭕ 2. Circos - Genome Comparisons
 
@@ -292,8 +291,6 @@ circos.link(("chr1", 1000, 2000), ("chr2", 5000, 6000))
 # Save
 circos.savefig("genome_comparison.pdf")
 ```
-
----
 
 ## 🕸️ 3. Network Visualizations
 
@@ -427,8 +424,6 @@ edges_df.to_csv('network_edges.csv', index=False)
 print("Import these files into Cytoscape for advanced styling")
 ```
 
----
-
 ## 🎨 4. Advanced Heatmaps
 
 ### ComplexHeatmap Style in Python
@@ -497,8 +492,6 @@ plt.savefig('complex_heatmap.pdf', dpi=300, bbox_inches='tight')
 plt.show()
 ```
 
----
-
 ## 🔬 Part IV: Interactive Visualizations
 
 ### 1. Anvi'o Interactive Interface
@@ -563,8 +556,6 @@ p.xgrid.grid_line_color = None
 output_file("interactive_abundance.html")
 show(p)
 ```
-
----
 
 ## 📐 Publication Guidelines
 
@@ -650,8 +641,6 @@ plt.savefig('figure1_composite.pdf', dpi=300, bbox_inches='tight')
 plt.show()
 ```
 
----
-
 ## 💡 Best Practices
 
 ### 1. Data Preparation
@@ -704,8 +693,6 @@ def save_figure(fig, name):
     print(f"✓ Saved {name} in PDF, PNG, and SVG formats")
 ```
 
----
-
 ## ✅ Success Checklist
 
 - [ ] Created taxonomic composition plots
@@ -718,8 +705,6 @@ def save_figure(fig, name):
 - [ ] All figures are publication-quality (300 DPI)
 - [ ] Used colorblind-friendly palettes
 - [ ] Saved in multiple formats
-
----
 
 ## 📚 Key Resources
 
@@ -734,8 +719,6 @@ def save_figure(fig, name):
 - [Krona](https://github.com/marbl/Krona)
 - [Circos](http://circos.ca/)
 - [Cytoscape](https://cytoscape.org/)
-
----
 
 #### Repo for today's code and other details
 
