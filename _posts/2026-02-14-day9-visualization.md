@@ -11,10 +11,6 @@ tags: [metagenomics, visualization, ggplot2, matplotlib, seaborn, Krona, Circos,
 Estimated Time: 4-6 hours | Difficulty: Intermediate | Prerequisites: Days 1-8 (Analyzed data ready)
 ---
 
-**Estimated Time:** 4-6 hours | **Difficulty:** Intermediate | **Prerequisites:** Days 1-8 (Analyzed data ready)
-
----
-
 ## 📚 Table of Contents
 
 - [Introduction](#introduction)
