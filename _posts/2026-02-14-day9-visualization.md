@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Day 9: Visualization & Publication - Making Data Tell Stories"
 date: 2026-02-14
 description: "Create publication-quality figures for metagenomics: R/ggplot2, Python/matplotlib/seaborn, Krona taxonomic wheels, Circos genome comparisons, interactive Anvi'o plots, network visualizations, and heatmaps. Complete guide to visual storytelling with your data."
@@ -6,8 +7,8 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/metagenome-analysis-day9-visualization/
-tags:
-  [metagenomics, visualization, ggplot2, matplotlib, seaborn, Krona, Circos, networks, heatmaps, publication-figures, data-visualization, python, R]
+tags: [metagenomics, visualization, ggplot2, matplotlib, seaborn, Krona, Circos, networks, heatmaps, publication-figures, data-visualization, python, R]
+Estimated Time: 4-6 hours | Difficulty: Intermediate | Prerequisites: Days 1-8 (Analyzed data ready)
 ---
 
 **Estimated Time:** 4-6 hours | **Difficulty:** Intermediate | **Prerequisites:** Days 1-8 (Analyzed data ready)
