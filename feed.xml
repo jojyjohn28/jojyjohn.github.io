@@ -1,5 +1,913 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-16T17:48:29-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Day 10: Multi-Omics Integration - Metagenomics &amp;amp; Metatranscriptomics</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day10-multiomics-integration/" rel="alternate" type="text/html" title="Day 10: Multi-Omics Integration - Metagenomics &amp;amp; Metatranscriptomics" /><published>2026-02-16T00:00:00-05:00</published><updated>2026-02-16T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day10-multiomics-integration</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day10-multiomics-integration/"><![CDATA[<h1 id="day-10-multi-omics-integration---metagenomics--metatranscriptomics">Day 10: Multi-Omics Integration - Metagenomics &amp; Metatranscriptomics</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-18T13:33:43-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">10-Day Metagenome Analysis Series - Complete Summary</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-10day-complete-summary/" rel="alternate" type="text/html" title="10-Day Metagenome Analysis Series - Complete Summary" /><published>2026-02-18T00:00:00-05:00</published><updated>2026-02-18T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome_series_summary</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-10day-complete-summary/"><![CDATA[<p><strong>Complete workflow from raw sequencing data to publication-ready insights</strong></p>
+
+<hr />
+
+<h2 id="-overview">📊 Overview</h2>
+
+<hr />
+
+<h2 id="day-1-metagenome-qc--taxonomic-profiling">Day 1: Metagenome QC &amp; Taxonomic Profiling</h2>
+
+<p><strong>From Raw Reads to Clean, Profiled Data</strong></p>
+
+<h3 id="what-youll-do">What You’ll Do:</h3>
+
+<ul>
+  <li>Quality control of raw sequencing reads</li>
+  <li>Adapter trimming and host contamination removal</li>
+  <li>Read-based taxonomic profiling</li>
+  <li>PhiX removal</li>
+</ul>
+
+<h3 id="key-tools">Key Tools:</h3>
+
+<ul>
+  <li><strong>FastQC / MultiQC</strong> - Quality assessment</li>
+  <li><strong>Trimmomatic</strong> - Adapter trimming</li>
+  <li><strong>Kraken2</strong> - K-mer matching taxonomy</li>
+  <li><strong>Kaiju</strong> - Protein-level classification</li>
+  <li><strong>MetaPhlAn</strong> - Marker gene profiling</li>
+  <li><strong>mOTUs</strong> - Universal marker genes</li>
+</ul>
+
+<h3 id="time-estimate-10-20-minutes-qc--30-min-1-hr-taxonomy">Time Estimate: 10-20 minutes (QC) + 30 min-1 hr (Taxonomy)</h3>
+
+<h3 id="deliverables">Deliverables:</h3>
+
+<ul>
+  <li>Clean FASTQ files</li>
+  <li>Taxonomic profiles</li>
+  <li>Quality reports</li>
+  <li>Ready for assembly</li>
+</ul>
+
+<hr />
+
+<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day1-qc-taxonomy/">Day 1</a></strong>
+📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1-qc-read-based">Metagenome Analysis Series Repo</a></strong></p>
+
+<hr />
+
+<h2 id="day-2-metagenome-assembly">Day 2: Metagenome Assembly</h2>
+
+<p><strong>Reconstructing Genomes from Short Reads</strong></p>
+
+<h3 id="what-youll-do-1">What You’ll Do:</h3>
+
+<ul>
+  <li>Assemble clean reads into contigs</li>
+  <li>Quality assessment of assemblies</li>
+  <li>Calculate coverage</li>
+  <li>Choose best assembler</li>
+</ul>
+
+<h3 id="key-tools-1">Key Tools:</h3>
+
+<ul>
+  <li><strong>metaSPAdes</strong> - Multi-k-mer assembly (high quality)</li>
+  <li><strong>MEGAHIT</strong> - Memory-efficient (fast)</li>
+  <li><strong>Flye</strong> - Long-read assembly</li>
+  <li><strong>MetaQUAST</strong> - Assembly quality assessment</li>
+  <li><strong>Bowtie2</strong> - Read mapping</li>
+  <li><strong>SAMtools</strong> - Coverage calculation</li>
+</ul>
+
+<h3 id="time-estimate-6-12-hours-megahit-2-8-hrs">Time Estimate: 6-12 hours (MEGAHIT: 2-8 hrs)</h3>
+
+<h3 id="deliverables-1">Deliverables:</h3>
+
+<ul>
+  <li>Assembled contigs (contigs.fasta)</li>
+  <li>Quality reports (N50, L50, total length)</li>
+  <li>Coverage files</li>
+  <li>Ready for binning</li>
+</ul>
+
+<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly/">Day 2</a></strong>
+📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day2-assembly">Metagenome Analysis Series Repo</a></strong></p>
+
+<hr />
+
+<h2 id="day-3-genome-binning">Day 3: Genome Binning</h2>
+
+<p><strong>Recovering Individual Genomes (MAGs) from Metagenomes</strong></p>
+
+<h3 id="what-youll-do-2">What You’ll Do:</h3>
+
+<ul>
+  <li>Bin contigs into individual genomes</li>
+  <li>Refine bins using multiple binners</li>
+  <li>Assess bin quality</li>
+  <li>Profile abundance across samples</li>
+</ul>
+
+<h3 id="key-tools-2">Key Tools:</h3>
+
+<ul>
+  <li><strong>MetaBAT2</strong> - Coverage-based binning</li>
+  <li><strong>MaxBin2</strong> - Marker gene binning</li>
+  <li><strong>CONCOCT</strong> - Composition-based binning</li>
+  <li><strong>MetaWRAP</strong> - Bin refinement (combines all 3)</li>
+  <li><strong>CheckM2</strong> - Quality assessment</li>
+  <li><strong>CoverM</strong> - Abundance profiling</li>
+  <li><strong>SingleM</strong> - Validation</li>
+</ul>
+
+<h3 id="time-estimate-12-24-hours-total">Time Estimate: 12-24 hours total</h3>
+
+<ul>
+  <li>Initial binning: 4-8 hrs</li>
+  <li>Refinement: 2-6 hrs</li>
+  <li>Quality check: 1-2 hrs</li>
+  <li>Abundance: 2-4 hrs</li>
+</ul>
+
+<h3 id="quality-metrics">Quality Metrics:</h3>
+
+<ul>
+  <li><strong>Completeness</strong> (target &gt;50%, ideally &gt;90%)</li>
+  <li><strong>Contamination</strong> (target &lt;10%, ideally &lt;5%)</li>
+  <li><strong>N50</strong> (contig length)</li>
+</ul>
+
+<h3 id="deliverables-2">Deliverables:</h3>
+
+<ul>
+  <li>High-quality MAGs (&gt;50% complete, &lt;10% contamination)</li>
+  <li>Abundance tables</li>
+  <li>Coverage metrics</li>
+  <li>Ready for annotation</li>
+</ul>
+
+<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning/">Day 3</a></strong>
+📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day3-binning">Metagenome Analysis Series Repo</a></strong></p>
+
+<hr />
+
+<h2 id="day-4-dereplication--taxonomy">Day 4: Dereplication &amp; Taxonomy</h2>
+
+<p><strong>Identifying Unique Species and Classifying Genomes</strong></p>
+
+<h3 id="what-youll-do-3">What You’ll Do:</h3>
+
+<ul>
+  <li>Remove redundant/duplicate genomes</li>
+  <li>Classify MAGs taxonomically</li>
+  <li>Build phylogenetic trees</li>
+  <li>Identify novel species</li>
+</ul>
+
+<h3 id="key-tools-3">Key Tools:</h3>
+
+<ul>
+  <li><strong>dRep</strong> - Dereplication (primary, 95% ANI for species)</li>
+  <li><strong>GTDB-Tk</strong> - GTDB taxonomy classification</li>
+  <li><strong>pyani</strong> - Average Nucleotide Identity</li>
+  <li><strong>iTOL</strong> - Interactive phylogenetic tree visualization</li>
+</ul>
+
+<h3 id="time-estimate-6-17-hours">Time Estimate: 6-17 hours</h3>
+
+<ul>
+  <li>dRep (MASH + ANI): 1-4 hrs</li>
+  <li>GTDB-Tk: 4-12 hrs (identify + classify)</li>
+  <li>Visualization: 1 hr</li>
+</ul>
+
+<h3 id="outputs">Outputs:</h3>
+
+<ul>
+  <li>Species representatives (40-70% fewer genomes)</li>
+  <li>Full GTDB taxonomy</li>
+  <li>ANI matrices</li>
+  <li>Phylogenetic trees</li>
+  <li>Novel species identified (ANI &lt;95%)</li>
+</ul>
+
+<h3 id="success-rates">Success Rates:</h3>
+
+<ul>
+  <li>Classification: 95-99% success</li>
+  <li>Novel species: 10-30% (ANI &lt;95%)</li>
+  <li>Novel genera: 1-5% (ANI &lt;85%)</li>
+</ul>
+
+<h3 id="deliverables-3">Deliverables:</h3>
+
+<ul>
+  <li>Dereplicated MAG set</li>
+  <li>Complete taxonomy assignments</li>
+  <li>Species catalog</li>
+  <li>Phylogenetic trees</li>
+</ul>
+
+<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day4-dereplication-taxonomy/">Day 4</a></strong>
+📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day4-derep-tax">Metagenome Analysis Repo</a></strong></p>
+
+<hr />
+
+<h2 id="day-5-genome-annotation">Day 5: Genome Annotation</h2>
+
+<p><strong>Understanding Metabolic Potential</strong></p>
+
+<h3 id="what-youll-do-4">What You’ll Do:</h3>
+
+<ul>
+  <li>Predict genes in MAGs</li>
+  <li>Annotate gene functions</li>
+  <li>Map to metabolic pathways</li>
+  <li>Identify biosynthetic potential</li>
+</ul>
+
+<h3 id="key-tools-4">Key Tools:</h3>
+
+<ul>
+  <li><strong>Prodigal</strong> - Gene prediction (100% genes)</li>
+  <li><strong>Prokka</strong> - Rapid annotation (60-80%)</li>
+  <li><strong>eggNOG-mapper</strong> - Functional annotation (70-90%)</li>
+  <li><strong>DRAM</strong> - Metabolic distillation (40-60% pathways)</li>
+  <li><strong>METABOLIC</strong> - Comprehensive pathways (40+ pathways)</li>
+</ul>
+
+<h3 id="time-estimate-3-4-hours-10-genomes">Time Estimate: 3-4 hours (10 genomes)</h3>
+
+<ul>
+  <li>Prodigal: 5 min</li>
+  <li>Prokka: 50 min</li>
+  <li>eggNOG: 5 hrs</li>
+  <li>DRAM: 3-4 hrs</li>
+</ul>
+
+<h3 id="annotation-coverage">Annotation Coverage:</h3>
+
+<ul>
+  <li><strong>Genes predicted</strong>: 100% (Prodigal)</li>
+  <li><strong>Functions assigned</strong>: 60-80% (Prokka), 70-90% (eggNOG)</li>
+  <li><strong>Pathways identified</strong>: 40+ (METABOLIC)</li>
+</ul>
+
+<h3 id="deliverables-4">Deliverables:</h3>
+
+<ul>
+  <li>Annotated gene files (.gbk, .gff, .faa)</li>
+  <li>Functional summaries (KEGG, COG, GO, EC)</li>
+  <li>Metabolic pathway maps</li>
+  <li>Interactive diagrams</li>
+  <li>Ready for comparative genomics</li>
+</ul>
+
+<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day5-annotation/">Day 5</a></strong>
+📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day5-annotation">Metagenome Analysis Repo</a></strong></p>
+
+<hr />
+
+<h2 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h2>
+
+<p><strong>Discovering Hidden Capabilities</strong></p>
+
+<h3 id="what-youll-do-5">What You’ll Do:</h3>
+
+<ul>
+  <li>Identify biosynthetic gene clusters (BGCs)</li>
+  <li>Find antimicrobial resistance genes</li>
+  <li>Detect CRISPR-Cas systems</li>
+  <li>Identify prophages</li>
+  <li>Discover mobile genetic elements</li>
+  <li>Find protein domains</li>
+</ul>
+
+<h3 id="key-tools-5">Key Tools:</h3>
+
+<ul>
+  <li><strong>antiSMASH</strong> - Secondary metabolites (BGCs: 5-30 per genome)</li>
+  <li><strong>CARD-RGI</strong> - Antimicrobial resistance (AMR genes)</li>
+  <li><strong>ABRicate</strong> - Resistance gene screening</li>
+  <li><strong>dbCAN2</strong> - Carbohydrate-active enzymes (CAZymes: 50-500)</li>
+  <li><strong>VirSorter2</strong> - Prophage detection (0-10 per genome)</li>
+  <li><strong>MinCED</strong> - CRISPR arrays</li>
+  <li><strong>IntegronFinder</strong> - Mobile genetic elements</li>
+  <li><strong>InterProScan</strong> - Protein domains (Pfam, PROSITE)</li>
+</ul>
+
+<h3 id="time-estimate-15-20-hours-10-genomes">Time Estimate: 15-20 hours (10 genomes)</h3>
+
+<ul>
+  <li>antiSMASH: 5 min (fast screen) to 2 hrs (complete, with antiSMASH)</li>
+  <li>CARD: Standard 1 hr, Complete 10 genomes: 15-20 hrs</li>
+</ul>
+
+<h3 id="expected-discoveries-per-genome">Expected Discoveries (per genome):</h3>
+
+<ul>
+  <li><strong>BGCs</strong>: 5-30 (antibiotics, siderophores, etc.)</li>
+  <li><strong>AMR genes</strong>: 0-50 (KPC, NDM, mcr-1, etc.)</li>
+  <li><strong>CAZymes</strong>: 50-500 (cellulose, starch, chitin degradation)</li>
+  <li><strong>Prophages</strong>: 0-10 (horizontal gene transfer)</li>
+  <li><strong>CRISPR arrays</strong>: 0-5 (adaptive immunity)</li>
+</ul>
+
+<h3 id="key-applications">Key Applications:</h3>
+
+<ul>
+  <li>Antibiotic biosynthesis potential</li>
+  <li>Drug resistance surveillance</li>
+  <li>Carbohydrate degradation capabilities</li>
+  <li>Phage-mediated horizontal gene transfer</li>
+  <li>Novel biosynthetic clusters</li>
+</ul>
+
+<h3 id="deliverables-5">Deliverables:</h3>
+
+<ul>
+  <li>Complete specialized function catalog</li>
+  <li>BGCs with chemical structures</li>
+  <li>AMR gene inventory</li>
+  <li>CAZyme families</li>
+  <li>Prophage sequences</li>
+  <li>CRISPR arrays</li>
+  <li>Mobile genetic elements</li>
+  <li>Protein domain architectures</li>
+</ul>
+
+<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day6-specialized-functions/">Day 6</a></strong>
+📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions">Metagenome Analysis Repo</a></strong></p>
+
+<hr />
+
+<h2 id="day-7-comparative-genomics--statistics">Day 7: Comparative Genomics &amp; Statistics</h2>
+
+<p><strong>Connecting Genomes to Environment</strong></p>
+
+<h3 id="what-youll-do-6">What You’ll Do:</h3>
+
+<ul>
+  <li>Pangenome analysis (core vs accessory genes)</li>
+  <li>Statistical testing of community differences</li>
+  <li>Environmental driver identification</li>
+  <li>Network analysis</li>
+  <li>Module detection</li>
+</ul>
+
+<h3 id="key-tools--methods">Key Tools &amp; Methods:</h3>
+
+<h4 id="part-i-pangenome-analysis">Part I: Pangenome Analysis</h4>
+
+<ul>
+  <li><strong>PanX</strong> - Interactive pangenome browser</li>
+  <li><strong>Anvi’o</strong> - Visual pangenome analysis</li>
+  <li><strong>Roary</strong> - Rapid pangenome pipeline</li>
+  <li><strong>BPGA</strong> - Windows GUI tool</li>
+</ul>
+
+<p><strong>Outputs</strong>: Core genes (present in all), Accessory genes (variable), Unique genes (strain-specific)</p>
+
+<h4 id="part-ii-statistical-tests">Part II: Statistical Tests</h4>
+
+<ul>
+  <li><strong>PERMANOVA</strong> (vegan R package)
+    <ul>
+      <li>Test: Do communities differ between groups?</li>
+      <li>Output: P-value, R² (variance explained)</li>
+      <li>Interpretation: Variance explained by treatment</li>
+    </ul>
+  </li>
+  <li><strong>RDA / db-RDA</strong> (vegan R package)
+    <ul>
+      <li>Test: Which environmental factors drive differences?</li>
+      <li>Output: Ordination plot, environmental vectors</li>
+      <li>Interpretation: pH, temperature, nutrients effects</li>
+    </ul>
+  </li>
+  <li><strong>LEfSe / ANCOM</strong> (Python/R)
+    <ul>
+      <li>Test: Which taxa are enriched in treatments?</li>
+      <li>Output: Biomarkers, effect sizes</li>
+      <li>Interpretation: Treatment-specific taxa</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="part-iii-networks">Part III: Networks</h4>
+
+<ul>
+  <li><strong>SparCC</strong> (Python) - Co-occurrence networks</li>
+  <li><strong>WGCNA</strong> (R) - Module detection</li>
+  <li><strong>igraph / Cytoscape</strong> - Network visualization</li>
+</ul>
+
+<p><strong>Outputs</strong>: Co-occurrence networks, Keystone species, Functional modules</p>
+
+<h3 id="time-estimate-6-8-hours">Time Estimate: 6-8 hours</h3>
+
+<ul>
+  <li>Pangenome (10 genomes): 1-2 hrs</li>
+  <li>PERMANOVA + RDA: 30 min</li>
+  <li>Network construction: 1-2 hrs</li>
+  <li>WGCNA: 1 hr</li>
+</ul>
+
+<h3 id="statistical-requirements">Statistical Requirements:</h3>
+
+<ul>
+  <li><strong>Sample size</strong>: n &gt; 20 for robust statistics</li>
+  <li><strong>Replicates</strong>: Biological &gt; Technical</li>
+  <li><strong>Multiple testing</strong>: BH correction</li>
+  <li><strong>Compositional data</strong>: Use SparCC, ANCOM</li>
+  <li><strong>Confounders</strong>: Control for batch effects</li>
+</ul>
+
+<h3 id="deliverables-6">Deliverables:</h3>
+
+<ul>
+  <li>Pangenome summary (Core/Accessory/Unique)</li>
+  <li>Statistical test results (P-values, R², biomarkers)</li>
+  <li>Environmental drivers identified</li>
+  <li>Co-occurrence networks</li>
+  <li>Keystone species</li>
+  <li>Functional modules</li>
+  <li>Trait associations</li>
+</ul>
+
+<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day7-comparative-statistical/">Day 7</a></strong>
+📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day7-comparative-statistical">Metagenome Analysis Repo</a></strong></p>
+
+<hr />
+
+<h2 id="day-8-workflow-wrappers--platforms">Day 8: Workflow Wrappers &amp; Platforms</h2>
+
+<p><strong>Streamlining Analysis - Automate Everything!</strong></p>
+
+<h3 id="what-youll-learn">What You’ll Learn:</h3>
+
+<ul>
+  <li>Automate Days 1-7 with single commands</li>
+  <li>Use web-based platforms (no installation!)</li>
+  <li>Scale to 100+ samples efficiently</li>
+  <li>Ensure reproducibility</li>
+</ul>
+
+<h3 id="workflow-wrappers-command-line">Workflow Wrappers (Command-line):</h3>
+
+<ol>
+  <li><strong>MetaWRAP</strong>
+    <ul>
+      <li>Complete pipeline (QC → Assembly → Binning → Annotation)</li>
+      <li>All-in-one solution</li>
+      <li>Bin refinement built-in</li>
+      <li><strong>Time</strong>: 2-3 days for 50 samples</li>
+    </ul>
+  </li>
+  <li><strong>nf-core/mag</strong>
+    <ul>
+      <li>Modern Nextflow pipeline</li>
+      <li>Automatic resume (restart from failures)</li>
+      <li>Reproducible &amp; scalable</li>
+      <li>MultiQC reports</li>
+      <li><strong>Time</strong>: 2-3 days for 50 samples</li>
+    </ul>
+  </li>
+  <li><strong>Anvi’o</strong>
+    <ul>
+      <li>Interactive platform</li>
+      <li>Real-time binning</li>
+      <li>Beautiful visualizations</li>
+      <li>Pangenomics integration</li>
+    </ul>
+  </li>
+  <li><strong>ATLAS</strong>
+    <ul>
+      <li>Snakemake pipeline</li>
+      <li>Large datasets (100+ samples)</li>
+      <li>Metatranscriptomics support</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="web-platforms-browser-based-no-installation">Web Platforms (Browser-based, No Installation):</h3>
+
+<ol>
+  <li><strong>Galaxy</strong>
+    <ul>
+      <li>1000+ tools available</li>
+      <li>User-friendly GUI</li>
+      <li>Free compute resources</li>
+      <li>Educational tutorials</li>
+      <li><strong>Best for</strong>: Learning, quick analysis</li>
+    </ul>
+  </li>
+  <li><strong>KBase</strong>
+    <ul>
+      <li>DOE platform</li>
+      <li>Metabolic modeling (unique!)</li>
+      <li>Narrative interface</li>
+      <li><strong>Best for</strong>: Systems biology</li>
+    </ul>
+  </li>
+  <li><strong>IMG/M</strong>
+    <ul>
+      <li>JGI database (40,000+ metagenomes)</li>
+      <li>Pre-computed annotations</li>
+      <li>Compare to public data</li>
+      <li><strong>Best for</strong>: Database queries</li>
+    </ul>
+  </li>
+  <li><strong>BV-BRC (PATRIC)</strong>
+    <ul>
+      <li>Bacterial/viral focus</li>
+      <li>AMR database</li>
+      <li>Clinical/pathogen analysis</li>
+      <li><strong>Best for</strong>: Pathogens, AMR studies</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="time-savings">Time Savings:</h3>
+
+<ul>
+  <li><strong>Manual</strong> (Days 1-7): 2-4 weeks per sample</li>
+  <li><strong>Automated</strong>: 2-3 days for 50 samples!</li>
+  <li><strong>10x-100x faster!</strong></li>
+</ul>
+
+<h3 id="when-to-use-each">When to Use Each:</h3>
+
+<ul>
+  <li><strong>Workflow Wrappers</strong>: HPC access, large datasets, customization</li>
+  <li><strong>Web Platforms</strong>: No Linux skills, learning, collaboration</li>
+</ul>
+
+<h3 id="key-benefits">Key Benefits:</h3>
+
+<ul>
+  <li>✅ Automation: 1 command runs entire pipeline</li>
+  <li>✅ Reproducibility: Same input = same output</li>
+  <li>✅ Best practices: Tools integrated properly</li>
+  <li>✅ Scalability: 1 to 1000 samples</li>
+  <li>✅ Documentation: Clear workflows for papers</li>
+</ul>
+
+<h3 id="deliverables-7">Deliverables:</h3>
+
+<ul>
+  <li>Complete analysis in days (not weeks!)</li>
+  <li>Automated quality control</li>
+  <li>Reproducible workflows</li>
+  <li>Publication-ready results</li>
+</ul>
+
+<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day8-workflows-platforms/">Day 8</a></strong>
+📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day8-workflows-platforms">Metagenome Analysis Repo</a></strong></p>
+
+<hr />
+
+<h2 id="day-9-visualization--publication">Day 9: Visualization &amp; Publication</h2>
+
+<p><strong>Making Data Tell Stories</strong></p>
+
+<h3 id="what-youll-learn-1">What You’ll Learn:</h3>
+
+<ul>
+  <li>Create publication-quality figures (300 DPI)</li>
+  <li>Master both Python and R visualization</li>
+  <li>Use specialized genomics tools</li>
+  <li>Make interactive plots</li>
+</ul>
+
+<h3 id="python-visualization">Python Visualization:</h3>
+
+<ol>
+  <li><strong>Matplotlib</strong> - Publication static plots
+    <ul>
+      <li>Taxonomy barplots</li>
+      <li>Alpha diversity boxplots</li>
+      <li>Multi-panel figures</li>
+    </ul>
+  </li>
+  <li><strong>Seaborn</strong> - Statistical visualizations
+    <ul>
+      <li>Clustered heatmaps</li>
+      <li>Correlation matrices</li>
+      <li>Pairplots</li>
+    </ul>
+  </li>
+  <li><strong>Plotly</strong> - Interactive HTML
+    <ul>
+      <li>Sunburst charts (taxonomy hierarchy)</li>
+      <li>Interactive scatter plots</li>
+      <li>Hover tooltips</li>
+    </ul>
+  </li>
+  <li><strong>NetworkX / igraph</strong> - Network graphs
+    <ul>
+      <li>Co-occurrence networks</li>
+      <li>Community detection</li>
+      <li>Hub identification</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="r-visualization">R Visualization:</h3>
+
+<ul>
+  <li><strong>ggplot2</strong> - Grammar of graphics</li>
+  <li><strong>pheatmap</strong> - Publication heatmaps</li>
+  <li><strong>vegan</strong> - Ordination plots</li>
+  <li><strong>See complete R visualization series</strong> at jojyjohn28.github.io</li>
+</ul>
+
+<h3 id="specialized-tools">Specialized Tools:</h3>
+
+<ol>
+  <li><strong>Krona</strong>
+    <ul>
+      <li>Interactive taxonomic wheels</li>
+      <li>Zoomable HTML output</li>
+      <li>Hierarchy navigation</li>
+    </ul>
+  </li>
+  <li><strong>Circos / pycirclize</strong>
+    <ul>
+      <li>Circular genome plots</li>
+      <li>GC content tracks</li>
+      <li>Synteny links</li>
+    </ul>
+  </li>
+  <li><strong>Cytoscape</strong>
+    <ul>
+      <li>Professional network viz</li>
+      <li>Publication-quality layouts</li>
+      <li>Advanced styling</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="plot-types-covered">Plot Types Covered:</h3>
+
+<ul>
+  <li>Stacked barplots (taxonomy)</li>
+  <li>Boxplots with statistics</li>
+  <li>Heatmaps (clustered)</li>
+  <li>Ordination (PCA, NMDS)</li>
+  <li>Networks (co-occurrence)</li>
+  <li>Circular genomes</li>
+  <li>Interactive HTML plots</li>
+</ul>
+
+<h3 id="publication-standards">Publication Standards:</h3>
+
+<ul>
+  <li>✅ 300 DPI minimum</li>
+  <li>✅ PDF (vector) preferred</li>
+  <li>✅ Colorblind-safe palettes</li>
+  <li>✅ Clear axis labels</li>
+  <li>✅ Multi-panel figures (A, B, C, D)</li>
+  <li>✅ Error bars where appropriate</li>
+</ul>
+
+<h3 id="time-estimate-4-6-hours">Time Estimate: 4-6 hours</h3>
+
+<h3 id="deliverables-8">Deliverables:</h3>
+
+<ul>
+  <li>Publication-ready figures (PDF + PNG + SVG)</li>
+  <li>Interactive HTML plots</li>
+  <li>Multi-panel composite figures</li>
+  <li>Journal-compliant formatting</li>
+  <li>Colorblind-friendly</li>
+  <li>Ready for submission!</li>
+</ul>
+
+<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day9-visualization/">Day 9</a></strong>
+📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization">Metagenome Analysis Repo</a></strong></p>
+
+<hr />
+
+<h2 id="day-10-multi-omics-integration">Day 10: Multi-Omics Integration</h2>
+
+<p><strong>Connecting Metagenomes to Function</strong></p>
+
+<h3 id="what-youll-learn-2">What You’ll Learn:</h3>
+
+<ul>
+  <li>Integrate metagenomics + metatranscriptomics</li>
+  <li>Link genes to expression</li>
+  <li>Map to metabolic pathways</li>
+  <li>Identify active vs inactive functions</li>
+</ul>
+
+<h3 id="multi-omics-workflow">Multi-Omics Workflow:</h3>
+
+<ol>
+  <li><strong>Load &amp; Align</strong>
+    <ul>
+      <li>Metagenome data (DNA)</li>
+      <li>Metatranscriptome data (RNA)</li>
+      <li>Align RNA reads to MAG genes</li>
+    </ul>
+  </li>
+  <li><strong>Normalize</strong>
+    <ul>
+      <li>CPM (Counts Per Million)</li>
+      <li>Account for sequencing depth</li>
+    </ul>
+  </li>
+  <li><strong>Expression Ratios</strong>
+    <ul>
+      <li>log2(RNA/DNA) for each gene</li>
+      <li>Identifies active genes</li>
+    </ul>
+  </li>
+  <li><strong>Differential Expression</strong>
+    <ul>
+      <li>DESeq2 analysis</li>
+      <li>Find treatment-responsive genes</li>
+    </ul>
+  </li>
+  <li><strong>Visualize</strong>
+    <ul>
+      <li>Heatmaps (gene expression)</li>
+      <li>Pathway maps (active functions)</li>
+    </ul>
+  </li>
+  <li><strong>Pathway Analysis</strong>
+    <ul>
+      <li>Map to KEGG pathways</li>
+      <li>Identify active functions</li>
+    </ul>
+  </li>
+  <li><strong>Taxonomy Integration</strong>
+    <ul>
+      <li>Link expression to species</li>
+      <li>Find active taxa</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="key-questions-answered">Key Questions Answered:</h3>
+
+<ul>
+  <li>Which genes are transcribed?</li>
+  <li>Which pathways are active?</li>
+  <li>Which species are metabolically active?</li>
+  <li>How does expression change with treatment?</li>
+</ul>
+
+<h3 id="tools">Tools:</h3>
+
+<ul>
+  <li><strong>Salmon / Kallisto</strong> - RNA quantification</li>
+  <li><strong>DESeq2</strong> - Differential expression</li>
+  <li><strong>KEGG Mapper</strong> - Pathway visualization</li>
+  <li><strong>R / Python</strong> - Integration &amp; plotting</li>
+</ul>
+
+<h3 id="time-estimate-4-6-hours-1">Time Estimate: 4-6 hours</h3>
+
+<h3 id="deliverables-9">Deliverables:</h3>
+
+<ul>
+  <li>Expression ratios (RNA/DNA)</li>
+  <li>Differentially expressed genes</li>
+  <li>Active metabolic pathways</li>
+  <li>Species-specific activity</li>
+  <li>Publication figures showing:
+    <ul>
+      <li>Gene expression heatmaps</li>
+      <li>Active pathway diagrams</li>
+      <li>Taxa-function links</li>
+      <li>Statistical results</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="biological-insights">Biological Insights:</h3>
+
+<ul>
+  <li>Distinguish potential (DNA) from activity (RNA)</li>
+  <li>Identify metabolically active species</li>
+  <li>Find treatment-responsive pathways</li>
+  <li>Discover unexpected functions</li>
+  <li>Link community structure to function</li>
+</ul>
+
+<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day10-multiomics-integration/">Day 10</a></strong>
+📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day10-multiomics-integration">Metagenome Analysis Repo</a></strong></p>
+
+<hr />
+
+<h2 id="-series-statistics">📊 Series Statistics</h2>
+
+<h3 id="total-tools-covered-50">Total Tools Covered: 50+</h3>
+
+<h3 id="total-time-investment-100-150-hours-learning--doing">Total Time Investment: 100-150 hours (learning + doing)</h3>
+
+<h3 id="deliverables-complete-publication-ready-dataset">Deliverables: Complete publication-ready dataset</h3>
+
+<h3 id="skill-progression">Skill Progression:</h3>
+
+<ul>
+  <li><strong>Day 1-3</strong>: Core skills (QC → Assembly → Binning)</li>
+  <li><strong>Day 4-6</strong>: Advanced annotation &amp; specialization</li>
+  <li><strong>Day 7-9</strong>: Analysis, statistics, visualization</li>
+  <li><strong>Day 10</strong>: Integration &amp; insights</li>
+</ul>
+
+<hr />
+
+<h2 id="quick-reference-card">Quick Reference Card</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Day</th>
+      <th>Topic</th>
+      <th>Key Tool</th>
+      <th>Time</th>
+      <th>Output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>QC &amp; Taxonomy</td>
+      <td>FastQC, Kraken2</td>
+      <td>1 hr</td>
+      <td>Clean reads + profiles</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Assembly</td>
+      <td>MEGAHIT</td>
+      <td>6-12 hrs</td>
+      <td>Contigs</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Binning</td>
+      <td>MetaBAT2</td>
+      <td>12-24 hrs</td>
+      <td>MAGs</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Dereplication</td>
+      <td>dRep, GTDB-Tk</td>
+      <td>6-17 hrs</td>
+      <td>Species catalog</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Annotation</td>
+      <td>Prokka, DRAM</td>
+      <td>3-4 hrs</td>
+      <td>Functional genes</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Specialized</td>
+      <td>antiSMASH, CARD</td>
+      <td>15-20 hrs</td>
+      <td>BGCs, AMR</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Comparative</td>
+      <td>PERMANOVA, RDA</td>
+      <td>6-8 hrs</td>
+      <td>Statistics</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Workflows</td>
+      <td>MetaWRAP, Galaxy</td>
+      <td>Days → Hours</td>
+      <td>Automation</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Visualization</td>
+      <td>Python, R</td>
+      <td>4-6 hrs</td>
+      <td>Figures</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Multi-omics</td>
+      <td>DESeq2</td>
+      <td>4-6 hrs</td>
+      <td>Integration</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p><strong>🎉 Congratulations on completing the 10-day series! 🎉</strong></p>
+
+<p>Last updated: February 2026</p>
+
+<p><img src="/assets/img/d10_mg.png" alt="day10 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="bioinformatics" /><category term="workflow" /><category term="tutorial" /><category term="quality-control" /><category term="assembly" /><category term="binning" /><category term="annotation" /><category term="comparative-genomics" /><category term="visualization" /><category term="multi-omics" /><category term="MAGs" /><category term="taxonomy" /><category term="GTDB-Tk" /><category term="MetaWRAP" /><category term="statistics" /><category term="Python" /><category term="R" /><category term="pipeline" /><category term="NGS" /><summary type="html"><![CDATA[Complete metagenome analysis workflow from raw sequencing to publication: QC, assembly, binning, annotation, specialized functions, comparative genomics, automation, visualization, and multi-omics integration. Master 50+ tools in 10 comprehensive days with step-by-step tutorials.]]></summary></entry><entry><title type="html">Day 10: Multi-Omics Integration - Metagenomics &amp;amp; Metatranscriptomics</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day10-multiomics-integration/" rel="alternate" type="text/html" title="Day 10: Multi-Omics Integration - Metagenomics &amp;amp; Metatranscriptomics" /><published>2026-02-16T00:00:00-05:00</published><updated>2026-02-16T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day10-multiomics-integration</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day10-multiomics-integration/"><![CDATA[<h1 id="day-10-multi-omics-integration---metagenomics--metatranscriptomics">Day 10: Multi-Omics Integration - Metagenomics &amp; Metatranscriptomics</h1>
 
 <p><strong>Status:</strong> 🚧 Active Learning | <strong>Time:</strong> 4-6 hours<br />
 <strong>Focus:</strong> Integrate processed metagenomics and metatranscriptomics data for comprehensive functional analysis</p>
@@ -8716,1232 +9624,4 @@ samtools flagstat contigs.bam
   <li><a href="https://github.com/fenderglass/Flye">Flye Documentation</a></li>
 </ul>
 
-<p><img src="/assets/img/d2-mg.png" alt="day2 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="assembly" /><category term="metaSPAdes" /><category term="MEGAHIT" /><category term="MetaQUAST" /><category term="bioinformatics" /><category term="tutorial" /><category term="python" /><category term="R" /><summary type="html"><![CDATA[A comprehensive guide to assembling metagenomic data using metaSPAdes and MEGAHIT, with quality assessment, parameter optimization, and comparison strategies. Includes desktop-friendly workflows and multi-language analysis scripts.]]></summary></entry><entry><title type="html">Day 1: Quality Control, Contamination Removal, and Read-Based Taxonomic Analysis</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day1-qc-taxonomy/" rel="alternate" type="text/html" title="Day 1: Quality Control, Contamination Removal, and Read-Based Taxonomic Analysis" /><published>2026-02-02T00:00:00-05:00</published><updated>2026-02-02T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome-analysis-day1-qc-taxonomy</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day1-qc-taxonomy/"><![CDATA[<h1 id="day-1-quality-control-contamination-removal-and-read-based-taxonomic-analysis">Day 1: Quality Control, Contamination Removal, and Read-Based Taxonomic Analysis</h1>
-
-<h2 id="table-of-contents">Table of Contents</h2>
-
-<ol>
-  <li><a href="#introduction">Introduction</a></li>
-  <li><a href="#prerequisites">Prerequisites</a></li>
-  <li><a href="#workflow-overview">Workflow Overview</a></li>
-  <li><a href="#quality-control-with-fastqc">Quality Control with FastQC</a></li>
-  <li><a href="#aggregating-qc-reports-with-multiqc">Aggregating QC Reports with MultiQC</a></li>
-  <li><a href="#adapter-trimming-and-quality-filtering">Adapter Trimming and Quality Filtering</a></li>
-  <li><a href="#host-and-contaminant-removal">Host and Contaminant Removal</a></li>
-  <li><a href="#phix-removal">PhiX Removal</a></li>
-  <li><a href="#read-based-taxonomic-profiling">Read-Based Taxonomic Profiling</a></li>
-  <li><a href="#comparing-results">Comparing Results</a></li>
-  <li><a href="#best-practices-and-tips">Best Practices and Tips</a></li>
-  <li><a href="#troubleshooting">Troubleshooting</a></li>
-  <li><a href="#next-steps">Next Steps</a></li>
-</ol>
-
-<hr />
-
-<h2 id="introduction">Introduction</h2>
-
-<p>Welcome to Day 1 of our comprehensive metagenome analysis series! Before we can assemble genomes or identify microbial functions, we need to ensure our raw sequencing data is of high quality and free from contamination.</p>
-
-<p>In shotgun metagenomic sequencing, we sequence all the DNA present in an environmental sample. This approach gives us access to:</p>
-
-<ul>
-  <li><strong>Complete genomes</strong> of microorganisms (not just marker genes like 16S rRNA)</li>
-  <li><strong>All genes</strong> including those involved in metabolism, antibiotic resistance, virulence</li>
-  <li><strong>Functional potential</strong> of the microbial community</li>
-</ul>
-
-<p>However, raw sequencing data often contains:</p>
-
-<ul>
-  <li>Low-quality bases</li>
-  <li>Adapter sequences from library preparation</li>
-  <li>Host DNA (human, mouse, plant, etc.)</li>
-  <li>PhiX control sequences (Illumina sequencing spike-in)</li>
-  <li>Environmental contaminants</li>
-</ul>
-
-<p>Today’s tutorial will guide you through cleaning and profiling your metagenomic data before assembly.</p>
-
-<hr />
-
-<h2 id="prerequisites">Prerequisites</h2>
-
-<h3 id="required-software">Required Software</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Quality Control</span>
-- FastQC <span class="o">(</span>v0.11.9 or higher<span class="o">)</span>
-- MultiQC <span class="o">(</span>v1.12 or higher<span class="o">)</span>
-
-<span class="c"># Read Processing</span>
-- Trimmomatic <span class="o">(</span>v0.39 or higher<span class="o">)</span>
-- BBTools <span class="o">(</span>BBDuk<span class="o">)</span> <span class="o">(</span>v38.90 or higher<span class="o">)</span>
-- KneadData <span class="o">(</span>v0.12.0 or higher<span class="o">)</span>
-
-<span class="c"># Taxonomic Profiling</span>
-- Kaiju <span class="o">(</span>v1.9.0 or higher<span class="o">)</span>
-- Kraken2 <span class="o">(</span>v2.1.2 or higher<span class="o">)</span>
-- Bracken <span class="o">(</span>v2.7 or higher<span class="o">)</span>
-- mOTUs <span class="o">(</span>v3.0.3 or higher<span class="o">)</span>
-- MetaPhlAn <span class="o">(</span>v4.0 or higher<span class="o">)</span>
-</code></pre></div></div>
-
-<h3 id="computational-resources">Computational Resources</h3>
-
-<ul>
-  <li><strong>Minimum:</strong> 16 GB RAM, 8 cores</li>
-  <li><strong>Recommended:</strong> 64 GB RAM, 32 cores</li>
-  <li><strong>Storage:</strong> 100 GB for databases + 50 GB per sample</li>
-</ul>
-
-<h3 id="database-preparation">Database Preparation</h3>
-
-<p>You’ll need to download reference databases for taxonomic profiling. This can take several hours.</p>
-
-<hr />
-
-<h2 id="running-on-different-platforms">Running on Different Platforms</h2>
-
-<blockquote>
-  <p><strong>Note:</strong> This tutorial is primarily designed for HPC (High-Performance Computing) environments where you have access to significant computational resources. However, you can absolutely learn and practice metagenome analysis on your personal desktop! Below are platform-specific guidelines.</p>
-</blockquote>
-
-<h3 id="️-for-personal-desktop-users">🖥️ For Personal Desktop Users</h3>
-
-<p>If you’re learning metagenomics on your personal computer, here are some considerations and modifications:</p>
-
-<h4 id="hardware-requirements-by-platform">Hardware Requirements by Platform</h4>
-
-<p><strong>Minimum for Learning (Small datasets):</strong></p>
-
-<ul>
-  <li><strong>RAM:</strong> 8 GB (can process subsampled data)</li>
-  <li><strong>CPU:</strong> 4 cores</li>
-  <li><strong>Storage:</strong> 50 GB free space</li>
-  <li><strong>Dataset size:</strong> Subsample to 1-5 million read pairs</li>
-</ul>
-
-<p><strong>Recommended for Real Analysis:</strong></p>
-
-<ul>
-  <li><strong>RAM:</strong> 32 GB</li>
-  <li><strong>CPU:</strong> 8+ cores</li>
-  <li><strong>Storage:</strong> 500 GB+ SSD</li>
-  <li><strong>Dataset size:</strong> Full metagenomes</li>
-</ul>
-
-<hr />
-
-<h3 id="-linux-desktop-installation">🐧 Linux Desktop Installation</h3>
-
-<p>Linux is the most straightforward platform for bioinformatics. Most tools have native Linux support.</p>
-
-<h4 id="option-1-using-conda-recommended">Option 1: Using Conda (Recommended)</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Miniconda (if not already installed)</span>
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-
-<span class="c"># Create environment for Day 1 tools</span>
-conda create <span class="nt">-n</span> metagenomics_day1 <span class="nv">python</span><span class="o">=</span>3.9
-conda activate metagenomics_day1
-
-<span class="c"># Install all tools at once</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge <span class="se">\</span>
-    fastqc <span class="se">\</span>
-    multiqc <span class="se">\</span>
-    trimmomatic <span class="se">\</span>
-    bbmap <span class="se">\</span>
-    kneaddata <span class="se">\</span>
-    kaiju <span class="se">\</span>
-    kraken2 <span class="se">\</span>
-    bracken <span class="se">\</span>
-    motus <span class="se">\</span>
-    metaphlan
-
-<span class="c"># Verify installations</span>
-fastqc <span class="nt">--version</span>
-kraken2 <span class="nt">--version</span>
-</code></pre></div></div>
-
-<h4 id="option-2-manual-installation">Option 2: Manual Installation</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># FastQC</span>
-<span class="nb">sudo </span>apt-get update
-<span class="nb">sudo </span>apt-get <span class="nb">install </span>fastqc
-
-<span class="c"># Trimmomatic</span>
-wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
-unzip Trimmomatic-0.39.zip
-<span class="nb">echo</span> <span class="s1">'alias trimmomatic="java -jar /path/to/Trimmomatic-0.39/trimmomatic-0.39.jar"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
-
-<span class="c"># BBTools</span>
-wget https://sourceforge.net/projects/bbmap/files/latest/download <span class="nt">-O</span> BBMap.tar.gz
-<span class="nb">tar</span> <span class="nt">-xzf</span> BBMap.tar.gz
-<span class="nb">echo</span> <span class="s1">'export PATH=$PATH:/path/to/bbmap'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
-<span class="nb">source</span> ~/.bashrc
-</code></pre></div></div>
-
-<h4 id="desktop-specific-tips-for-linux">Desktop-Specific Tips for Linux</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Adjust thread count for desktop (use n-1 cores)</span>
-<span class="nv">THREADS</span><span class="o">=</span><span class="si">$(</span><span class="nb">nproc</span> <span class="nt">--all</span><span class="si">)</span>
-<span class="nv">THREADS</span><span class="o">=</span><span class="k">$((</span>THREADS <span class="o">-</span> <span class="m">1</span><span class="k">))</span>
-
-<span class="c"># Subsample large files for testing</span>
-seqtk sample <span class="nt">-s100</span> large_file_R1.fastq.gz 1000000 | <span class="nb">gzip</span> <span class="o">&gt;</span> small_R1.fastq.gz
-seqtk sample <span class="nt">-s100</span> large_file_R2.fastq.gz 1000000 | <span class="nb">gzip</span> <span class="o">&gt;</span> small_R2.fastq.gz
-
-<span class="c"># Monitor resources</span>
-htop  <span class="c"># Install with: sudo apt-get install htop</span>
-</code></pre></div></div>
-
-<hr />
-
-<h3 id="-macos-installation">🍎 macOS Installation</h3>
-
-<p>macOS is Unix-based, so most Linux tools work with minor adjustments.</p>
-
-<h4 id="using-conda-recommended">Using Conda (Recommended)</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Homebrew (if not already installed)</span>
-/bin/bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="si">)</span><span class="s2">"</span>
-
-<span class="c"># Install Miniconda via Homebrew</span>
-brew <span class="nb">install</span> <span class="nt">--cask</span> miniconda
-
-<span class="c"># Initialize conda</span>
-conda init zsh  <span class="c"># or 'bash' if using bash</span>
-
-<span class="c"># Create environment (same as Linux)</span>
-conda create <span class="nt">-n</span> metagenomics_day1 <span class="nv">python</span><span class="o">=</span>3.9
-conda activate metagenomics_day1
-
-<span class="c"># Install tools</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge <span class="se">\</span>
-    fastqc multiqc trimmomatic bbmap <span class="se">\</span>
-    kaiju kraken2 bracken motus metaphlan
-</code></pre></div></div>
-
-<h4 id="macos-specific-considerations">macOS-Specific Considerations</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Java for Trimmomatic (if needed)</span>
-brew <span class="nb">install </span>openjdk@11
-<span class="nb">echo</span> <span class="s1">'export PATH="/usr/local/opt/openjdk@11/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.zshrc
-
-<span class="c"># Use all cores except 2 (leave some for system)</span>
-<span class="nv">THREADS</span><span class="o">=</span><span class="si">$(</span>sysctl <span class="nt">-n</span> hw.ncpu<span class="si">)</span>
-<span class="nv">THREADS</span><span class="o">=</span><span class="k">$((</span>THREADS <span class="o">-</span> <span class="m">2</span><span class="k">))</span>
-
-<span class="c"># Check memory before running</span>
-vm_stat | <span class="nb">head</span> <span class="nt">-n</span> 10
-</code></pre></div></div>
-
-<h4 id="known-macos-issues-and-solutions">Known macOS Issues and Solutions</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># If you encounter "command not found" after conda install</span>
-conda activate metagenomics_day1
-which fastqc  <span class="c"># Should show conda path</span>
-
-<span class="c"># If Java version conflicts (for Trimmomatic)</span>
-<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span><span class="si">$(</span>/usr/libexec/java_home <span class="nt">-v</span> 11<span class="si">)</span>
-
-<span class="c"># M1/M2 Mac users: Some tools need Rosetta 2</span>
-softwareupdate <span class="nt">--install-rosetta</span>
-</code></pre></div></div>
-
-<hr />
-
-<h3 id="-windows-installation-wsl2-recommended">🪟 Windows Installation (WSL2 Recommended)</h3>
-
-<p>Running bioinformatics tools natively on Windows is challenging. <strong>Windows Subsystem for Linux 2 (WSL2)</strong> is the best solution.</p>
-
-<h4 id="step-1-install-wsl2">Step 1: Install WSL2</h4>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Open PowerShell as Administrator and run:</span><span class="w">
-</span><span class="n">wsl</span><span class="w"> </span><span class="nt">--install</span><span class="w"> </span><span class="nt">-d</span><span class="w"> </span><span class="nx">Ubuntu-22.04</span><span class="w">
-
-</span><span class="c"># Restart your computer</span><span class="w">
-
-</span><span class="c"># After restart, set up Ubuntu username and password</span><span class="w">
-</span></code></pre></div></div>
-
-<h4 id="step-2-set-up-ubuntu-in-wsl2">Step 2: Set Up Ubuntu in WSL2</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update Ubuntu</span>
-<span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt upgrade <span class="nt">-y</span>
-
-<span class="c"># Install essential build tools</span>
-<span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> build-essential curl wget git
-
-<span class="c"># Install Miniconda</span>
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-<span class="nb">source</span> ~/.bashrc
-
-<span class="c"># Install tools (same as Linux)</span>
-conda create <span class="nt">-n</span> metagenomics_day1 <span class="nv">python</span><span class="o">=</span>3.9
-conda activate metagenomics_day1
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge <span class="se">\</span>
-    fastqc multiqc trimmomatic bbmap <span class="se">\</span>
-    kaiju kraken2 bracken motus metaphlan
-</code></pre></div></div>
-
-<h4 id="step-3-access-windows-files-from-wsl2">Step 3: Access Windows Files from WSL2</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Your Windows C: drive is at /mnt/c/</span>
-<span class="nb">cd</span> /mnt/c/Users/YourUsername/Documents/metagenomics
-
-<span class="c"># Or create a working directory in WSL2</span>
-<span class="nb">mkdir</span> <span class="nt">-p</span> ~/metagenomics_project
-<span class="nb">cd</span> ~/metagenomics_project
-</code></pre></div></div>
-
-<h4 id="windows-specific-tips">Windows-Specific Tips</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Find optimal thread count (in WSL2)</span>
-<span class="nv">THREADS</span><span class="o">=</span><span class="si">$(</span><span class="nb">nproc</span> <span class="nt">--all</span><span class="si">)</span>
-<span class="nv">THREADS</span><span class="o">=</span><span class="k">$((</span>THREADS <span class="o">/</span> <span class="m">2</span><span class="k">))</span>  <span class="c"># WSL2 typically gets half of Windows cores</span>
-
-<span class="c"># Set memory limit for WSL2</span>
-<span class="c"># Create file: C:\Users\YourUsername\.wslconfig</span>
-<span class="c"># Add these lines:</span>
-<span class="o">[</span>wsl2]
-<span class="nv">memory</span><span class="o">=</span>16GB
-<span class="nv">processors</span><span class="o">=</span>8
-<span class="nv">swap</span><span class="o">=</span>8GB
-
-<span class="c"># Restart WSL2</span>
-wsl <span class="nt">--shutdown</span>
-</code></pre></div></div>
-
-<h4 id="alternative-docker-desktop-on-windows">Alternative: Docker Desktop on Windows</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># After installing Docker Desktop with WSL2 backend</span>
-
-<span class="c"># Pull a bioinformatics image</span>
-docker pull quay.io/biocontainers/fastqc:0.11.9--0
-
-<span class="c"># Run FastQC</span>
-docker run <span class="nt">-v</span> <span class="k">${</span><span class="nv">PWD</span><span class="k">}</span>:/data quay.io/biocontainers/fastqc:0.11.9--0 <span class="se">\</span>
-    fastqc /data/<span class="k">*</span>.fastq.gz <span class="nt">-o</span> /data/qc_results
-</code></pre></div></div>
-
-<hr />
-
-<h3 id="-working-with-limited-resources">💾 Working with Limited Resources</h3>
-
-<p>If you have a personal desktop with limited RAM/CPU, here are strategies:</p>
-
-<h4 id="1-subsample-your-data">1. Subsample Your Data</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install seqtk</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda seqtk
-
-<span class="c"># Subsample to 1 million read pairs (for learning)</span>
-seqtk sample <span class="nt">-s100</span> original_R1.fastq.gz 1000000 <span class="o">&gt;</span> subset_R1.fastq
-seqtk sample <span class="nt">-s100</span> original_R2.fastq.gz 1000000 <span class="o">&gt;</span> subset_R2.fastq
-<span class="nb">gzip </span>subset_R<span class="k">*</span>.fastq
-
-<span class="c"># This gives you ~300 MB files instead of 10+ GB</span>
-</code></pre></div></div>
-
-<h4 id="2-use-lighter-weight-tools">2. Use Lighter-Weight Tools</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Instead of Kraken2 Standard (50GB database):</span>
-<span class="c"># Use Kraken2 MiniKraken (8GB database)</span>
-wget https://genome-idx.s3.amazonaws.com/kraken/minikraken2_v2_8GB_201904.tgz
-<span class="nb">tar</span> <span class="nt">-xzf</span> minikraken2_v2_8GB_201904.tgz
-
-<span class="c"># Instead of Kaiju nr (70GB):</span>
-<span class="c"># Use Kaiju RefSeq (30GB) or PROGENOMES (15GB)</span>
-kaiju-makedb <span class="nt">-s</span> refseq
-</code></pre></div></div>
-
-<h4 id="3-process-samples-sequentially">3. Process Samples Sequentially</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Instead of parallel processing:</span>
-<span class="k">for </span>sample <span class="k">in </span>sample1 sample2 sample3<span class="p">;</span> <span class="k">do
-    </span><span class="nb">echo</span> <span class="s2">"Processing </span><span class="k">${</span><span class="nv">sample</span><span class="k">}</span><span class="s2">..."</span>
-    <span class="c"># Run your analysis here</span>
-    <span class="c"># One sample at a time</span>
-<span class="k">done</span>
-</code></pre></div></div>
-
-<h4 id="4-use-cloud-free-alternatives-for-large-steps">4. Use Cloud-Free Alternatives for Large Steps</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Skip host removal if working with environmental samples</span>
-<span class="c"># (less critical than for human gut/skin samples)</span>
-
-<span class="c"># Use read-based taxonomy only (skip assembly until Day 2)</span>
-<span class="c"># This is sufficient for community profiling</span>
-</code></pre></div></div>
-
-<hr />
-
-<h3 id="-recommended-learning-workflow-for-desktop-users">📚 Recommended Learning Workflow for Desktop Users</h3>
-
-<p><strong>Week 1: Start Small</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use tutorial datasets (small, ~100MB)</span>
-wget http://example.com/tutorial_dataset.tar.gz
-
-<span class="c"># Practice all QC steps</span>
-<span class="c"># Get familiar with FastQC reports</span>
-<span class="c"># Understand trimming parameters</span>
-</code></pre></div></div>
-
-<p><strong>Week 2: Scale Up</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Subsample real data to 5M reads</span>
-<span class="c"># Run full QC pipeline</span>
-<span class="c"># Try different taxonomic profilers</span>
-</code></pre></div></div>
-
-<p><strong>Week 3: Full Dataset</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Process complete dataset (if resources allow)</span>
-<span class="c"># Or move to HPC/cloud for this step</span>
-</code></pre></div></div>
-
-<hr />
-
-<h3 id="-cloud-alternatives">🌐 Cloud Alternatives</h3>
-
-<p>If your desktop is insufficient, consider:</p>
-
-<ol>
-  <li><strong>Google Colab</strong> (Free, 12GB RAM)
-    <ul>
-      <li>Upload small datasets</li>
-      <li>Run FastQC, Trimmomatic</li>
-      <li>Good for learning</li>
-    </ul>
-  </li>
-  <li><strong>AWS Free Tier</strong>
-    <ul>
-      <li>750 hours/month of t2.micro</li>
-      <li>Scale up when needed</li>
-    </ul>
-  </li>
-  <li><strong>Galaxy Public Servers</strong> (Covered in Day 8)
-    <ul>
-      <li>No installation needed</li>
-      <li>Web-based interface</li>
-      <li>Free for academic use</li>
-    </ul>
-  </li>
-</ol>
-
-<hr />
-
-<h3 id="-platform-comparison-summary">🔧 Platform Comparison Summary</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Feature</th>
-      <th>HPC</th>
-      <th>Linux Desktop</th>
-      <th>macOS</th>
-      <th>Windows (WSL2)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Ease of Setup</strong></td>
-      <td>⭐⭐⭐⭐</td>
-      <td>⭐⭐⭐⭐⭐</td>
-      <td>⭐⭐⭐⭐</td>
-      <td>⭐⭐⭐</td>
-    </tr>
-    <tr>
-      <td><strong>Performance</strong></td>
-      <td>⭐⭐⭐⭐⭐</td>
-      <td>⭐⭐⭐</td>
-      <td>⭐⭐⭐</td>
-      <td>⭐⭐</td>
-    </tr>
-    <tr>
-      <td><strong>Tool Compatibility</strong></td>
-      <td>⭐⭐⭐⭐⭐</td>
-      <td>⭐⭐⭐⭐⭐</td>
-      <td>⭐⭐⭐⭐</td>
-      <td>⭐⭐⭐⭐</td>
-    </tr>
-    <tr>
-      <td><strong>Learning Friendly</strong></td>
-      <td>⭐⭐⭐</td>
-      <td>⭐⭐⭐⭐⭐</td>
-      <td>⭐⭐⭐⭐</td>
-      <td>⭐⭐⭐⭐</td>
-    </tr>
-    <tr>
-      <td><strong>Cost</strong></td>
-      <td>Varies</td>
-      <td>Free</td>
-      <td>Free</td>
-      <td>Free</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>Recommendation:</strong></p>
-
-<ul>
-  <li><strong>Learning:</strong> Linux desktop or WSL2</li>
-  <li><strong>Production:</strong> HPC or Cloud</li>
-  <li><strong>Mac users:</strong> Great for learning, may need cloud for large datasets</li>
-</ul>
-
-<hr />
-
-<h2 id="workflow-overview">Workflow Overview</h2>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Raw FASTQ files
-    ↓
-1. FastQC (initial quality check)
-    ↓
-2. MultiQC (aggregate reports)
-    ↓
-3. Trimmomatic (adapter removal, quality trimming)
-    ↓
-4. FastQC (post-trimming QC)
-    ↓
-5. KneadData/BBDuk (host and PhiX removal)
-    ↓
-6. FastQC (final QC check)
-    ↓
-7. Read-based taxonomic profiling
-   - Kaiju (protein-level)
-   - Kraken2 + Bracken (k-mer based)
-   - mOTUs (marker gene)
-   - MetaPhlAn (marker gene)
-    ↓
-Clean, profiled reads ready for assembly
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="quality-control-with-fastqc">Quality Control with FastQC</h2>
-
-<p>FastQC provides a quick overview of your sequencing data quality. It generates reports with various quality metrics.</p>
-
-<h3 id="running-fastqc">Running FastQC</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Navigate to your working directory</span>
-<span class="nb">cd</span> /path/to/your/project
-<span class="nb">mkdir</span> <span class="nt">-p</span> qc/fastqc_raw
-
-<span class="c"># Load FastQC (if using a module system like on HPC)</span>
-module load fastqc/0.11.9
-
-<span class="c"># Run FastQC on all raw FASTQ files</span>
-fastqc <span class="nt">-o</span> qc/fastqc_raw <span class="se">\</span>
-       <span class="nt">-t</span> 8 <span class="se">\</span>
-       <span class="nt">-f</span> fastq <span class="se">\</span>
-       raw_data/<span class="k">*</span>.fastq.gz
-
-<span class="c"># Options explained:</span>
-<span class="c"># -o : Output directory</span>
-<span class="c"># -t : Number of threads (parallel processing)</span>
-<span class="c"># -f : Input file format</span>
-</code></pre></div></div>
-
-<h3 id="understanding-fastqc-reports">Understanding FastQC Reports</h3>
-
-<p>Open the HTML files in <code class="language-plaintext highlighter-rouge">qc/fastqc_raw/</code> to view the reports. Key sections to check:</p>
-
-<h4 id="1-per-base-sequence-quality">1. Per Base Sequence Quality</h4>
-
-<ul>
-  <li><strong>Good:</strong> Phred scores &gt;28 (green zone) across all bases</li>
-  <li><strong>Warning:</strong> Scores between 20-28 (orange zone)</li>
-  <li><strong>Fail:</strong> Scores &lt;20 (red zone)</li>
-  <li><strong>What to look for:</strong> Quality typically drops at the 3’ end of reads</li>
-</ul>
-
-<h4 id="2-per-sequence-quality-scores">2. Per Sequence Quality Scores</h4>
-
-<ul>
-  <li>Most reads should have mean quality &gt;30</li>
-  <li>Low-quality reads (mean &lt;20) indicate sequencing issues</li>
-</ul>
-
-<h4 id="3-per-base-sequence-content">3. Per Base Sequence Content</h4>
-
-<ul>
-  <li>In random libraries, A/T/G/C should be roughly equal (~25% each)</li>
-  <li>First 10-15 bases may show bias (library prep artifacts)</li>
-  <li><strong>For metagenomes:</strong> Some variation is normal due to diverse organisms</li>
-</ul>
-
-<h4 id="4-sequence-duplication-levels">4. Sequence Duplication Levels</h4>
-
-<ul>
-  <li>High duplication may indicate PCR artifacts or low complexity samples</li>
-  <li><strong>For metagenomes:</strong> Some duplication is expected (high-abundance organisms)</li>
-</ul>
-
-<h4 id="5-adapter-content">5. Adapter Content</h4>
-
-<ul>
-  <li>Should be minimal (&lt;5%)</li>
-  <li>If present, needs trimming</li>
-</ul>
-
-<h4 id="6-overrepresented-sequences">6. Overrepresented Sequences</h4>
-
-<ul>
-  <li>May indicate contaminants, adapters, or highly abundant organisms</li>
-</ul>
-
-<h3 id="running-fastqc-on-multiple-samples">Running FastQC on Multiple Samples</h3>
-
-<p>For batch processing multiple samples, see the shell script: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/scripts"><code class="language-plaintext highlighter-rouge">01_fastqc_batch.sh</code></a></p>
-
-<hr />
-
-<h2 id="aggregating-qc-reports-with-multiqc">Aggregating QC Reports with MultiQC</h2>
-
-<p>MultiQC combines reports from multiple samples and tools into a single interactive HTML report.</p>
-
-<h3 id="installation">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Using pip</span>
-pip <span class="nb">install </span>multiqc
-
-<span class="c"># Using conda</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda multiqc
-</code></pre></div></div>
-
-<h3 id="running-multiqc">Running MultiQC</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Aggregate all FastQC reports</span>
-multiqc qc/fastqc_raw <span class="se">\</span>
-        <span class="nt">-o</span> qc/multiqc_raw <span class="se">\</span>
-        <span class="nt">-n</span> raw_reads_report
-
-<span class="c"># Options:</span>
-<span class="c"># -o : Output directory</span>
-<span class="c"># -n : Report name</span>
-</code></pre></div></div>
-
-<h3 id="interpreting-multiqc-reports">Interpreting MultiQC Reports</h3>
-
-<p>The MultiQC report provides:</p>
-
-<ul>
-  <li><strong>General Statistics:</strong> Read counts, %GC, %duplicates across all samples</li>
-  <li><strong>Sequence Quality Histograms:</strong> Compare quality across samples</li>
-  <li><strong>Adapter Content:</strong> Identify samples needing aggressive trimming</li>
-  <li><strong>Sample Clustering:</strong> Detect outlier samples</li>
-</ul>
-
-<p><strong>Red flags to watch for:</strong></p>
-
-<ul>
-  <li>Samples with &lt;1 million reads (may have low coverage)</li>
-  <li>Mean quality &lt;25 (poor sequencing run)</li>
-  <li>
-    <blockquote>
-      <p>20% adapter content (need trimming)</p>
-    </blockquote>
-  </li>
-  <li>Extreme %GC deviation (contamination or extraction issues)</li>
-</ul>
-
-<hr />
-
-<h2 id="adapter-trimming-and-quality-filtering">Adapter Trimming and Quality Filtering</h2>
-
-<p>After initial QC, we remove adapter sequences and low-quality bases using Trimmomatic.</p>
-
-<h3 id="trimmomatic-overview">Trimmomatic Overview</h3>
-
-<p>Trimmomatic performs several operations in a specific order:</p>
-
-<ol>
-  <li>Remove Illumina adapters (ILLUMINACLIP)</li>
-  <li>Remove leading low-quality bases (LEADING)</li>
-  <li>Remove trailing low-quality bases (TRAILING)</li>
-  <li>Scan with sliding window (SLIDINGWINDOW)</li>
-  <li>Drop reads below minimum length (MINLEN)</li>
-</ol>
-
-<h3 id="basic-trimmomatic-command">Basic Trimmomatic Command</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single sample, paired-end</span>
-java <span class="nt">-jar</span> /path/to/trimmomatic-0.39.jar PE <span class="se">\</span>
-     <span class="nt">-threads</span> 8 <span class="se">\</span>
-     <span class="nt">-phred33</span> <span class="se">\</span>
-     raw_data/sample1_R1.fastq.gz <span class="se">\</span>
-     raw_data/sample1_R2.fastq.gz <span class="se">\</span>
-     trimmed/sample1_R1_paired.fastq.gz <span class="se">\</span>
-     trimmed/sample1_R1_unpaired.fastq.gz <span class="se">\</span>
-     trimmed/sample1_R2_paired.fastq.gz <span class="se">\</span>
-     trimmed/sample1_R2_unpaired.fastq.gz <span class="se">\</span>
-     ILLUMINACLIP:adapters/TruSeq3-PE.fa:2:30:10:2:True <span class="se">\</span>
-     LEADING:3 <span class="se">\</span>
-     TRAILING:3 <span class="se">\</span>
-     SLIDINGWINDOW:4:15 <span class="se">\</span>
-     MINLEN:36
-
-<span class="c"># PE: Paired-end mode</span>
-<span class="c"># -threads: Number of CPU threads</span>
-<span class="c"># -phred33: Quality score encoding (standard for Illumina 1.8+)</span>
-</code></pre></div></div>
-
-<h3 id="understanding-trimmomatic-parameters">Understanding Trimmomatic Parameters</h3>
-
-<h4 id="illuminaclip-parameters">ILLUMINACLIP Parameters</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ILLUMINACLIP:TruSeq3-PE.fa:2:30:10:2:True
-                         │  │  │  │ └─ keepBothReads
-                         │  │  │  └─── minAdapterLength
-                         │  │  └────── simpleClipThreshold
-                         │  └───────── palindromeClipThreshold
-                         └──────────── seedMismatches
-</code></pre></div></div>
-
-<ul>
-  <li><strong>seedMismatches (2):</strong> Maximum mismatches in seed alignment</li>
-  <li><strong>palindromeClipThreshold (30):</strong> Threshold for palindrome alignment (paired reads)</li>
-  <li><strong>simpleClipThreshold (10):</strong> Threshold for simple alignment (single read)</li>
-  <li><strong>minAdapterLength (2):</strong> Minimum adapter length to detect</li>
-  <li><strong>keepBothReads (True):</strong> Keep both reads even if adapter in only one</li>
-</ul>
-
-<h4 id="quality-trimming-parameters">Quality Trimming Parameters</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LEADING:3      # Remove leading bases with quality &lt; 3
-TRAILING:3     # Remove trailing bases with quality &lt; 3
-SLIDINGWINDOW:4:15  # Window size:quality threshold
-MINLEN:36      # Minimum read length after trimming
-</code></pre></div></div>
-
-<p><strong>Recommended settings for metagenomics:</strong></p>
-
-<ul>
-  <li><strong>Conservative (high quality):</strong> SLIDINGWINDOW:4:20, MINLEN:50</li>
-  <li><strong>Standard:</strong> SLIDINGWINDOW:4:15, MINLEN:36</li>
-  <li><strong>Aggressive (maximize retention):</strong> SLIDINGWINDOW:4:10, MINLEN:30</li>
-</ul>
-
-<h3 id="batch-processing-with-trimmomatic">Batch Processing with Trimmomatic</h3>
-
-<p>For processing multiple samples, see: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/scripts"><code class="language-plaintext highlighter-rouge">02_trimmomatic_batch.sh</code></a></p>
-
-<p>The script also generates a summary CSV file with trimming statistics.</p>
-
-<h3 id="post-trimming-qc">Post-Trimming QC</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run FastQC on trimmed reads</span>
-<span class="nb">mkdir</span> <span class="nt">-p</span> qc/fastqc_trimmed
-
-fastqc <span class="nt">-o</span> qc/fastqc_trimmed <span class="se">\</span>
-       <span class="nt">-t</span> 8 <span class="se">\</span>
-       trimmed/<span class="k">*</span>_paired.fastq.gz
-
-<span class="c"># Generate MultiQC report</span>
-multiqc qc/fastqc_trimmed <span class="se">\</span>
-        <span class="nt">-o</span> qc/multiqc_trimmed <span class="se">\</span>
-        <span class="nt">-n</span> trimmed_reads_report
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="host-and-contaminant-removal">Host and Contaminant Removal</h2>
-
-<p>Metagenomic samples often contain host DNA (human, mouse, plant, etc.) that needs to be removed before analysis. We’ll use KneadData or BBDuk for this step.</p>
-
-<h3 id="option-1-kneaddata-recommended">Option 1: KneadData (Recommended)</h3>
-
-<p>KneadData is specifically designed for metagenomic data and integrates multiple tools.</p>
-
-<h4 id="installation-1">Installation</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Using conda (recommended)</span>
-conda create <span class="nt">-n</span> kneaddata <span class="nt">-c</span> bioconda kneaddata
-conda activate kneaddata
-
-<span class="c"># Download human reference database (GRCh38)</span>
-kneaddata_database <span class="nt">--download</span> human_genome bowtie2 /path/to/databases/kneaddata_db
-</code></pre></div></div>
-
-<h4 id="running-kneaddata">Running KneadData</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> decontaminated
-<span class="nb">mkdir</span> <span class="nt">-p</span> logs/kneaddata
-
-<span class="c"># Single sample</span>
-kneaddata <span class="se">\</span>
-    <span class="nt">--input</span> trimmed/sample1_R1_paired.fastq.gz <span class="se">\</span>
-    <span class="nt">--input</span> trimmed/sample1_R2_paired.fastq.gz <span class="se">\</span>
-    <span class="nt">--output</span> decontaminated/sample1 <span class="se">\</span>
-    <span class="nt">--reference-db</span> /path/to/databases/kneaddata_db/human_genome <span class="se">\</span>
-    <span class="nt">--threads</span> 16 <span class="se">\</span>
-    <span class="nt">--trimmomatic</span> /path/to/trimmomatic <span class="se">\</span>
-    <span class="nt">--bypass-trim</span> <span class="se">\</span>
-    <span class="nt">--log</span> logs/kneaddata/sample1.log
-
-<span class="c"># Options:</span>
-<span class="c"># --bypass-trim : Skip trimming (already done with Trimmomatic)</span>
-<span class="c"># --reference-db : Path to host genome database</span>
-<span class="c"># --threads : Number of threads</span>
-</code></pre></div></div>
-
-<h4 id="batch-processing-with-kneaddata">Batch Processing with KneadData</h4>
-
-<p>For batch processing, see: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/scripts"><code class="language-plaintext highlighter-rouge">03_kneaddata_batch.sh</code></a></p>
-
-<h3 id="option-2-bbduk-fast-alternative">Option 2: BBDuk (Fast alternative)</h3>
-
-<p>BBDuk from BBTools is faster and uses less memory than KneadData.</p>
-
-<h4 id="installation-2">Installation</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Download BBTools</span>
-wget https://sourceforge.net/projects/bbmap/files/latest/download <span class="nt">-O</span> BBMap.tar.gz
-<span class="nb">tar</span> <span class="nt">-xzf</span> BBMap.tar.gz
-<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/path/to/bbmap
-</code></pre></div></div>
-
-<h4 id="download-host-reference">Download Host Reference</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Download human genome</span>
-wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/GCA_000001405.15_GRCh38_genomic.fna.gz
-<span class="nb">gunzip </span>GCA_000001405.15_GRCh38_genomic.fna.gz
-<span class="nb">mv </span>GCA_000001405.15_GRCh38_genomic.fna human_ref.fna
-</code></pre></div></div>
-
-<h4 id="running-bbduk-for-host-removal">Running BBDuk for Host Removal</h4>
-
-<p>For batch processing, see: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/scripts"><code class="language-plaintext highlighter-rouge">04_bbduk_host_removal.sh</code></a></p>
-
-<hr />
-
-<h2 id="phix-removal">PhiX Removal</h2>
-
-<p>PhiX is a control DNA added by Illumina during sequencing. It must be removed before analysis.</p>
-
-<h3 id="using-bbduk-for-phix-removal">Using BBDuk for PhiX Removal</h3>
-
-<p>For batch processing, see: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/scripts"><code class="language-plaintext highlighter-rouge">05_phix_removal.sh</code></a></p>
-
-<h3 id="combined-host-and-phix-removal">Combined Host and PhiX Removal</h3>
-
-<p>You can remove both host and PhiX in a single step:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Concatenate references</span>
-<span class="nb">cat </span>databases/human_ref.fna bbmap/resources/phix174_ill.ref.fa.gz <span class="o">&gt;</span> databases/contaminants.fna
-
-<span class="c"># Run BBDuk once</span>
-bbduk.sh <span class="se">\</span>
-    <span class="nv">in1</span><span class="o">=</span>trimmed/sample1_R1_paired.fastq.gz <span class="se">\</span>
-    <span class="nv">in2</span><span class="o">=</span>trimmed/sample1_R2_paired.fastq.gz <span class="se">\</span>
-    <span class="nv">out1</span><span class="o">=</span>clean/sample1_R1_clean.fastq.gz <span class="se">\</span>
-    <span class="nv">out2</span><span class="o">=</span>clean/sample1_R2_clean.fastq.gz <span class="se">\</span>
-    <span class="nv">ref</span><span class="o">=</span>databases/contaminants.fna <span class="se">\</span>
-    <span class="nv">k</span><span class="o">=</span>31 <span class="se">\</span>
-    <span class="nv">hdist</span><span class="o">=</span>1 <span class="se">\</span>
-    <span class="nv">threads</span><span class="o">=</span>16
-</code></pre></div></div>
-
-<h3 id="final-qc-check">Final QC Check</h3>
-
-<p>Run FastQC and MultiQC on final cleaned reads, then generate a read count summary. See: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/scripts"><code class="language-plaintext highlighter-rouge">06_final_qc_summary.sh</code></a></p>
-
-<hr />
-
-<h2 id="read-based-taxonomic-profiling">Read-Based Taxonomic Profiling</h2>
-
-<p>Now that we have clean reads, we can identify the organisms present in our samples. We’ll use multiple tools to get a comprehensive view.</p>
-
-<h3 id="tool-comparison">Tool Comparison</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Tool</th>
-      <th>Database</th>
-      <th>Approach</th>
-      <th>Speed</th>
-      <th>Memory</th>
-      <th>Best For</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Kaiju</strong></td>
-      <td>NCBI nr (proteins)</td>
-      <td>Protein alignment</td>
-      <td>Fast</td>
-      <td>Medium</td>
-      <td>Comprehensive, novel organisms</td>
-    </tr>
-    <tr>
-      <td><strong>Kraken2</strong></td>
-      <td>Custom (DNA)</td>
-      <td>K-mer matching</td>
-      <td>Very Fast</td>
-      <td>High</td>
-      <td>Speed, abundance estimation</td>
-    </tr>
-    <tr>
-      <td><strong>Bracken</strong></td>
-      <td>Uses Kraken2</td>
-      <td>Statistical</td>
-      <td>Fast</td>
-      <td>Low</td>
-      <td>Abundance refinement</td>
-    </tr>
-    <tr>
-      <td><strong>mOTUs</strong></td>
-      <td>Marker genes</td>
-      <td>Gene alignment</td>
-      <td>Medium</td>
-      <td>Low</td>
-      <td>Species-level precision</td>
-    </tr>
-    <tr>
-      <td><strong>MetaPhlAn</strong></td>
-      <td>Marker genes</td>
-      <td>Marker alignment</td>
-      <td>Medium</td>
-      <td>Low</td>
-      <td>Species-level, publication-ready</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="1-kaiju-protein-based-classification">1. Kaiju (Protein-based classification)</h2>
-
-<p>Kaiju uses protein-level alignment against NCBI’s nr database, making it sensitive to novel or divergent organisms.</p>
-
-<h3 id="database-setup">Database Setup</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create database directory</span>
-<span class="nb">mkdir</span> <span class="nt">-p</span> databases/kaiju
-<span class="nb">cd </span>databases/kaiju
-
-<span class="c"># Download and build database (choose one)</span>
-<span class="c"># Option 1: nr database (comprehensive, ~70GB, takes hours)</span>
-kaiju-makedb <span class="nt">-s</span> nr
-
-<span class="c"># Option 2: RefSeq (smaller, faster, ~30GB)</span>
-kaiju-makedb <span class="nt">-s</span> refseq
-
-<span class="c"># Option 3: PROGENOMES (small, for bacteria/archaea only, ~15GB)</span>
-kaiju-makedb <span class="nt">-s</span> progenomes
-
-<span class="c"># This creates:</span>
-<span class="c"># - kaiju_db_*.fmi (index file)</span>
-<span class="c"># - nodes.dmp (taxonomy)</span>
-<span class="c"># - names.dmp (taxonomy names)</span>
-</code></pre></div></div>
-
-<h3 id="running-kaiju">Running Kaiju</h3>
-
-<p>For batch processing with summary generation, see: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/scripts"><code class="language-plaintext highlighter-rouge">07_kaiju_profiling.sh</code></a></p>
-
-<h3 id="understanding-kaiju-output">Understanding Kaiju Output</h3>
-
-<p>The <code class="language-plaintext highlighter-rouge">.out</code> file has columns:</p>
-
-<ol>
-  <li><strong>C/U</strong> - Classified (C) or Unclassified (U)</li>
-  <li><strong>Read ID</strong></li>
-  <li><strong>NCBI TaxID</strong> - Taxonomic identifier</li>
-  <li><strong>Score</strong> - Match quality</li>
-  <li><strong>TaxIDs</strong> - Comma-separated list of matching taxa</li>
-  <li><strong>Accessions</strong> - Database accessions</li>
-  <li><strong>Fragment</strong> - Matching sequence</li>
-</ol>
-
-<hr />
-
-<h2 id="2-kraken2--bracken-k-mer-based-classification">2. Kraken2 + Bracken (K-mer based classification)</h2>
-
-<p>Kraken2 is extremely fast and uses k-mer matching. Bracken refines abundance estimates to species level.</p>
-
-<h3 id="database-setup-1">Database Setup</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create database directory</span>
-<span class="nb">mkdir</span> <span class="nt">-p</span> databases/kraken2
-<span class="nb">cd </span>databases/kraken2
-
-<span class="c"># Option 1: Standard database (bacteria, archaea, viral, human, ~50GB)</span>
-kraken2-build <span class="nt">--standard</span> <span class="nt">--threads</span> 32 <span class="nt">--db</span> kraken2_standard
-
-<span class="c"># Option 2: Custom database (recommended for metagenomics)</span>
-<span class="c"># Download NCBI taxonomy</span>
-kraken2-build <span class="nt">--download-taxonomy</span> <span class="nt">--db</span> kraken2_custom
-
-<span class="c"># Download libraries (choose what you need)</span>
-kraken2-build <span class="nt">--download-library</span> bacteria <span class="nt">--db</span> kraken2_custom
-kraken2-build <span class="nt">--download-library</span> archaea <span class="nt">--db</span> kraken2_custom
-kraken2-build <span class="nt">--download-library</span> viral <span class="nt">--db</span> kraken2_custom
-kraken2-build <span class="nt">--download-library</span> fungi <span class="nt">--db</span> kraken2_custom
-kraken2-build <span class="nt">--download-library</span> protozoa <span class="nt">--db</span> kraken2_custom
-
-<span class="c"># Build database</span>
-kraken2-build <span class="nt">--build</span> <span class="nt">--threads</span> 32 <span class="nt">--db</span> kraken2_custom
-
-<span class="c"># Build Bracken database (for abundance estimation)</span>
-bracken-build <span class="nt">-d</span> databases/kraken2/kraken2_custom <span class="nt">-t</span> 32 <span class="nt">-k</span> 35 <span class="nt">-l</span> 150
-</code></pre></div></div>
-
-<h3 id="running-kraken2">Running Kraken2</h3>
-
-<p>For batch processing with Bracken abundance estimation, see: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/scripts"><code class="language-plaintext highlighter-rouge">08_kraken2_bracken.sh</code></a></p>
-
-<h3 id="understanding-kraken2-output">Understanding Kraken2 Output</h3>
-
-<p><strong>Kraken output (<code class="language-plaintext highlighter-rouge">.kraken</code>):</strong></p>
-
-<ul>
-  <li>Column 1: C/U (Classified/Unclassified)</li>
-  <li>Column 2: Read ID</li>
-  <li>Column 3: Taxonomy ID</li>
-  <li>Column 4: Read length</li>
-  <li>Column 5: LCA mapping</li>
-</ul>
-
-<p><strong>Kraken report (<code class="language-plaintext highlighter-rouge">.report</code>):</strong></p>
-
-<ul>
-  <li>Column 1: Percentage of reads</li>
-  <li>Column 2: Number of reads (cumulative)</li>
-  <li>Column 3: Number of reads (specific)</li>
-  <li>Column 4: Taxonomic rank (U, D, K, P, C, O, F, G, S)</li>
-  <li>Column 5: NCBI TaxID</li>
-  <li>Column 6: Scientific name</li>
-</ul>
-
-<hr />
-
-<h2 id="3-motus-marker-gene-profiling">3. mOTUs (Marker gene profiling)</h2>
-
-<p>mOTUs uses single-copy marker genes for species-level profiling with high precision.</p>
-
-<h3 id="database-setup-2">Database Setup</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install mOTUs</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda motus
-
-<span class="c"># Download database</span>
-motus downloadDB
-</code></pre></div></div>
-
-<h3 id="running-motus">Running mOTUs</h3>
-
-<p>For batch processing and merging profiles, see: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/scripts"><code class="language-plaintext highlighter-rouge">09_motus_profiling.sh</code></a></p>
-
-<hr />
-
-<h2 id="4-metaphlan-publication-ready-marker-gene-profiling">4. MetaPhlAn (Publication-ready marker gene profiling)</h2>
-
-<p>MetaPhlAn is widely used and produces publication-ready taxonomic profiles.</p>
-
-<h3 id="database-setup-3">Database Setup</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install MetaPhlAn</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda metaphlan
-
-<span class="c"># Database is automatically downloaded on first run</span>
-<span class="c"># Or manually download:</span>
-metaphlan <span class="nt">--install</span> <span class="nt">--bowtie2db</span> databases/metaphlan
-</code></pre></div></div>
-
-<h3 id="running-metaphlan">Running MetaPhlAn</h3>
-
-<p>For batch processing and merging abundance tables, see: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/scripts"><code class="language-plaintext highlighter-rouge">10_metaphlan_profiling.sh</code></a></p>
-
-<hr />
-
-<h2 id="comparing-results">Comparing Results</h2>
-
-<p>Different tools may give different results. Here’s how to compare them:</p>
-
-<h3 id="visualization-with-r">Visualization with R</h3>
-
-<p>For comprehensive visualization including heatmaps, barplots, and comparisons across tools, see: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/scripts"><code class="language-plaintext highlighter-rouge">compare_taxonomy.R</code></a></p>
-
-<h3 id="venn-diagram-of-detected-taxa">Venn Diagram of Detected Taxa</h3>
-
-<p>For comparing detected taxa across tools, see: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/scripts"><code class="language-plaintext highlighter-rouge">11_venn_diagram_taxa.sh</code></a></p>
-
-<hr />
-
-<h2 id="best-practices-and-tips">Best Practices and Tips</h2>
-
-<h3 id="1-quality-control">1. Quality Control</h3>
-
-<ul>
-  <li>Always check FastQC reports before and after each processing step</li>
-  <li>Remove samples with &lt;1M reads or mean quality &lt;25</li>
-  <li>Keep unpaired reads from Trimmomatic - they can still be useful</li>
-</ul>
-
-<h3 id="2-contamination-removal">2. Contamination Removal</h3>
-
-<ul>
-  <li>Use the most specific host genome available (e.g., mouse strain if known)</li>
-  <li>Check PhiX levels - high PhiX (&gt;5%) indicates sequencing QC issues</li>
-  <li>Keep removed reads for debugging (outm files)</li>
-</ul>
-
-<h3 id="3-taxonomic-profiling">3. Taxonomic Profiling</h3>
-
-<ul>
-  <li>Use multiple tools for validation</li>
-  <li>Kaiju is best for novel/divergent organisms</li>
-  <li>Kraken2 is fastest for routine analysis</li>
-  <li>MetaPhlAn is best for publication</li>
-  <li>Always check unclassified read percentages</li>
-</ul>
-
-<h3 id="4-resource-management">4. Resource Management</h3>
-
-<ul>
-  <li>Use <code class="language-plaintext highlighter-rouge">screen</code> or <code class="language-plaintext highlighter-rouge">tmux</code> for long-running jobs</li>
-  <li>Compress intermediate files to save space</li>
-  <li>Delete temporary files after verification</li>
-</ul>
-
-<h3 id="5-documentation">5. Documentation</h3>
-
-<ul>
-  <li>Keep a log of all commands</li>
-  <li>Record software versions</li>
-  <li>Save database versions and dates</li>
-</ul>
-
-<hr />
-
-<h2 id="troubleshooting">Troubleshooting</h2>
-
-<h3 id="problem-low-read-quality-after-trimming">Problem: Low read quality after trimming</h3>
-
-<p><strong>Solution:</strong> Adjust SLIDINGWINDOW parameter or increase MINLEN</p>
-
-<h3 id="problem-high-percentage-of-host-reads">Problem: High percentage of host reads</h3>
-
-<p><strong>Solution:</strong></p>
-
-<ul>
-  <li>Check extraction protocol</li>
-  <li>Ensure correct host genome is used</li>
-  <li>Consider enrichment strategies for low-biomass samples</li>
-</ul>
-
-<h3 id="problem-high-unclassified-reads-50">Problem: High unclassified reads (&gt;50%)</h3>
-
-<p><strong>Possible causes:</strong></p>
-
-<ul>
-  <li>Novel organisms not in database</li>
-  <li>Poor sequencing quality</li>
-  <li>Contamination with non-biological sequences</li>
-  <li>Wrong database (e.g., bacterial database for fungal sample)</li>
-</ul>
-
-<p><strong>Solutions:</strong></p>
-
-<ul>
-  <li>Use Kaiju with nr database (most comprehensive)</li>
-  <li>Check FastQC for adapter/quality issues</li>
-  <li>Update databases to latest versions</li>
-</ul>
-
-<h3 id="problem-inconsistent-results-between-tools">Problem: Inconsistent results between tools</h3>
-
-<p><strong>This is normal!</strong> Different tools use different approaches:</p>
-
-<ul>
-  <li>Focus on high-abundance taxa (&gt;1%)</li>
-  <li>Taxa detected by multiple tools are most reliable</li>
-  <li>Use tool-specific strengths (Kaiju for discovery, MetaPhlAn for quantification)</li>
-</ul>
-
-<h3 id="problem-out-of-memory-errors">Problem: Out of memory errors</h3>
-
-<p><strong>Solutions:</strong></p>
-
-<ul>
-  <li>Reduce Kraken2 database size</li>
-  <li>Use –memory-mapping flag with Kraken2</li>
-  <li>Process samples sequentially instead of parallel</li>
-  <li>Downsample reads for testing</li>
-</ul>
-
-<hr />
-
-<h2 id="next-steps">Next Steps</h2>
-
-<p>Congratulations! You now have:
-✅ High-quality, clean sequencing reads
-✅ Host and contaminant-free data
-✅ Taxonomic profiles of your samples</p>
-
-<p><strong>Tomorrow (Day 2)</strong>, we’ll use these clean reads for:</p>
-
-<ul>
-  <li>De novo assembly with metaSPAdes and MEGAHIT</li>
-  <li>Assembly quality assessment with MetaQUAST</li>
-  <li>Comparing assembly strategies</li>
-</ul>
-
-<h3 id="prepare-for-day-2">Prepare for Day 2:</h3>
-
-<ol>
-  <li>Review your taxonomic results</li>
-  <li>Calculate total clean reads per sample</li>
-  <li>Ensure you have sufficient storage (assemblies can be large!)</li>
-  <li>Install assemblers:
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda spades megahit quast
-</code></pre></div>    </div>
-  </li>
-</ol>
-
-<hr />
-
-<h2 id="summary">Summary</h2>
-
-<p>In this tutorial, we covered:</p>
-
-<ol>
-  <li>✅ Quality assessment with FastQC and MultiQC</li>
-  <li>✅ Adapter trimming and quality filtering with Trimmomatic</li>
-  <li>✅ Host genome removal with KneadData/BBDuk</li>
-  <li>✅ PhiX contamination removal</li>
-  <li>✅ Read-based taxonomic profiling with Kaiju, Kraken2, mOTUs, and MetaPhlAn</li>
-  <li>✅ Comparing and visualizing results</li>
-</ol>
-
-<p>These cleaned reads are now ready for assembly and downstream analysis!</p>
-
-<hr />
-
-<h2 id="additional-resources">Additional Resources</h2>
-
-<h3 id="documentation">Documentation</h3>
-
-<ul>
-  <li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC Manual</a></li>
-  <li><a href="http://www.usadellab.org/cms/?page=trimmomatic">Trimmomatic Documentation</a></li>
-  <li><a href="https://huttenhower.sph.harvard.edu/kneaddata/">KneadData Tutorial</a></li>
-  <li><a href="https://github.com/bioinformatics-centre/kaiju">Kaiju GitHub</a></li>
-  <li><a href="https://github.com/DerrickWood/kraken2/wiki">Kraken2 Manual</a></li>
-  <li>
-    <p><a href="https://github.com/biobakery/MetaPhlAn">MetaPhlAn Documentation</a></p>
-  </li>
-  <li><strong>For more details , scripts and data visit: https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1/</strong></li>
-  <li>Follow the blog for Day 2!</li>
-</ul>
-
-<p><strong>Happy metagenomic analyzing! 🧬</strong></p>
-
-<p><img src="/assets/img/d1-mg.png" alt="day1 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="quality-control" /><category term="taxonomic-profiling" /><category term="kaiju" /><category term="kraken2" /><category term="metaphlan" /><category term="fastqc" /><category term="bioinformatics" /><category term="tutorial" /><summary type="html"><![CDATA[A comprehensive guide to preprocessing metagenomic sequencing data, from raw reads to clean, taxonomically profiled datasets ready for assembly. Includes workflows for HPC, personal desktop, Linux, and Windows environments.]]></summary></entry></feed>
+<p><img src="/assets/img/d2-mg.png" alt="day2 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="assembly" /><category term="metaSPAdes" /><category term="MEGAHIT" /><category term="MetaQUAST" /><category term="bioinformatics" /><category term="tutorial" /><category term="python" /><category term="R" /><summary type="html"><![CDATA[A comprehensive guide to assembling metagenomic data using metaSPAdes and MEGAHIT, with quality assessment, parameter optimization, and comparison strategies. Includes desktop-friendly workflows and multi-language analysis scripts.]]></summary></entry></feed>
