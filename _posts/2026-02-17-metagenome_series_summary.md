@@ -72,6 +72,7 @@ tags:
 ---
 
 📝 **[Day 1](https://jojyjohn28.github.io/blog/metagenome-analysis-day1-qc-taxonomy/)**
+
 📂 **[Metagenome Analysis Series Repo](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1-qc-read-based)**
 
 ---
@@ -106,6 +107,7 @@ tags:
 - Ready for binning
 
 📝 **[Day 2](https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly/)**
+
 📂 **[Metagenome Analysis Series Repo](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day2-assembly)**
 
 ---
@@ -152,6 +154,7 @@ tags:
 - Ready for annotation
 
 📝 **[Day 3](https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning/)**
+
 📂 **[Metagenome Analysis Series Repo](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day3-binning)**
 
 ---
@@ -202,6 +205,7 @@ tags:
 - Phylogenetic trees
 
 📝 **[Day 4](https://jojyjohn28.github.io/blog/metagenome-analysis-day4-dereplication-taxonomy/)**
+
 📂 **[Metagenome Analysis Repo](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day4-derep-tax)**
 
 ---
@@ -247,6 +251,7 @@ tags:
 - Ready for comparative genomics
 
 📝 **[Day 5](https://jojyjohn28.github.io/blog/metagenome-analysis-day5-annotation/)**
+
 📂 **[Metagenome Analysis Repo](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day5-annotation)**
 
 ---
@@ -308,6 +313,7 @@ tags:
 - Protein domain architectures
 
 📝 **[Day 6](https://jojyjohn28.github.io/blog/metagenome-analysis-day6-specialized-functions/)**
+
 📂 **[Metagenome Analysis Repo](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions)**
 
 ---
@@ -386,6 +392,7 @@ tags:
 - Trait associations
 
 📝 **[Day 7](https://jojyjohn28.github.io/blog/metagenome-analysis-day7-comparative-statistical/)**
+
 📂 **[Metagenome Analysis Repo](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day7-comparative-statistical)**
 
 ---
@@ -481,6 +488,7 @@ tags:
 - Publication-ready results
 
 📝 **[Day 8](https://jojyjohn28.github.io/blog/metagenome-analysis-day8-workflows-platforms/)**
+
 📂 **[Metagenome Analysis Repo](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day8-workflows-platforms)**
 
 ---
@@ -573,6 +581,7 @@ tags:
 - Ready for submission!
 
 📝 **[Day 9](https://jojyjohn28.github.io/blog/metagenome-analysis-day9-visualization/)**
+
 📂 **[Metagenome Analysis Repo](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization)**
 
 ---
@@ -656,6 +665,7 @@ tags:
 - Link community structure to function
 
 📝 **[Day 10](https://jojyjohn28.github.io/blog/metagenome-analysis-day10-multiomics-integration/)**
+
 📂 **[Metagenome Analysis Repo](https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day10-multiomics-integration)**
 
 ---
@@ -698,4 +708,4 @@ tags:
 
 Last updated: February 2026
 
-![day10 mg](/assets/img/d10_mg.png)
+![mg summary](/assets/img/mg_sum.png)
