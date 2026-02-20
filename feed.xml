@@ -1,5 +1,562 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-18T13:52:53-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">10-Day Metagenome Analysis Series - Complete Summary</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-10day-complete-summary/" rel="alternate" type="text/html" title="10-Day Metagenome Analysis Series - Complete Summary" /><published>2026-02-18T00:00:00-05:00</published><updated>2026-02-18T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome_series_summary</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-10day-complete-summary/"><![CDATA[<p><strong>Complete workflow from raw sequencing data to publication-ready insights</strong></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-20T16:18:00-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Metagenome Analysis - Graduate Course Materials</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-graduate-course/" rel="alternate" type="text/html" title="Metagenome Analysis - Graduate Course Materials" /><published>2026-02-20T00:00:00-05:00</published><updated>2026-02-20T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome-analysis-graduate-course</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-graduate-course/"><![CDATA[<p><strong>Beginner-Level Practical Training</strong></p>
+
+<p>Welcome to the beginner-friendly companion to the <a href="https://github.com/jojyjohn28/metagenome-analysis-series">10-Day Metagenome Analysis Series</a>!</p>
+
+<p>This repository contains materials for a graduate-level metagenome analysis course, co-taught as part of a university graduate program. It’s designed for students with <strong>little to no prior bioinformatics experience</strong> who want hands-on practice with real workflows using manageable toy datasets.</p>
+
+<p><strong>Why this course?</strong></p>
+
+<ul>
+  <li>✅ <strong>Quick results</strong> - Complete workflows in 1-2 hours (not days!)</li>
+  <li>✅ <strong>Laptop-friendly</strong> - Runs on 4-8 GB RAM</li>
+  <li>✅ <strong>Realistic expectations</strong> - Learn with toy data, understand limitations</li>
+  <li>✅ <strong>Foundation for advanced work</strong> - Bridge to the full 10-Day Series</li>
+</ul>
+
+<hr />
+
+<h2 id="-course-overview">📚 Course Overview</h2>
+
+<p>A hands-on introduction to metagenomics covering the complete workflow from raw sequencing reads to taxonomic classification, genome recovery, and phylogenetic analysis.</p>
+
+<p><strong>Level:</strong> Beginner<br />
+<strong>Prerequisites:</strong> Basic command-line knowledge<br />
+<strong>Duration:</strong> Full semester practical course<br />
+<strong>Instructors:</strong> Co-taught graduate course</p>
+
+<hr />
+
+<h2 id="-repository-contents">📁 Repository Contents</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>metagenome-analysis-class/
+├── README.md                                    # This file
+├── metagenome_practical_full_version_jojy.md   # Complete course guide
+├── data.md                                      # Data download instructions
+├── metawrap_micromamba.md                       # MetaWRAP setup guide
+│
+├── Toy Data (&lt; 100 MB - Included)
+│   ├── toy-R1.fastq.gz                         # Forward reads
+│   ├── toy-R2.fastq.gz                         # Reverse reads
+│   └── assembly.fasta                          # Pre-assembled contigs
+│
+└── Phylogenetic Analysis
+    ├── class_practice_tree/                    # Tree files
+    └── tree_annotation_data.xlsx               # Annotation metadata
+    └──Metagenome_M8130_Feb16_JJ.pdf            # full class materials
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-learning-objectives">🎯 Learning Objectives</h2>
+
+<p>After completing this course, students will be able to:</p>
+
+<p>✅ Perform quality control on raw sequencing data<br />
+✅ Conduct taxonomic profiling of microbial communities<br />
+✅ Assemble metagenome reads into contigs<br />
+✅ Recover individual genomes (MAGs) through binning<br />
+✅ Classify recovered genomes taxonomically<br />
+✅ Annotate and visualize phylogenetic relationships</p>
+
+<hr />
+
+<h2 id="-toy-dataset--100-mb">🧬 Toy Dataset (&lt; 100 MB)</h2>
+
+<h3 id="whats-included">What’s Included:</h3>
+
+<ul>
+  <li><strong>toy-R1.fastq.gz</strong> - Forward paired-end reads</li>
+  <li><strong>toy-R2.fastq.gz</strong> - Reverse paired-end reads</li>
+  <li><strong>assembly.fasta</strong> - Pre-assembled contigs for binning practice</li>
+</ul>
+
+<h3 id="what-this-dataset-is-good-for">What This Dataset is Good For:</h3>
+
+<p>✅ <strong>Quality Control</strong></p>
+
+<ul>
+  <li>FastQC analysis</li>
+  <li>Adapter trimming (fastp / Trimmomatic)</li>
+  <li>Quality score visualization</li>
+</ul>
+
+<p>✅ <strong>Taxonomic Profiling</strong></p>
+
+<ul>
+  <li>Kraken2 / Bracken classification</li>
+  <li>Kaiju protein-level profiling</li>
+  <li>K-mer profiling (Mash/sourmash)</li>
+</ul>
+
+<p>✅ <strong>Read Mapping</strong></p>
+
+<ul>
+  <li>Bowtie2 / BWA alignment</li>
+  <li>Coverage calculation</li>
+  <li>Mapping to reference genomes</li>
+</ul>
+
+<p>✅ <strong>Assembly Demonstration</strong></p>
+
+<ul>
+  <li>MEGAHIT or metaSPAdes assembly</li>
+  <li><strong>Note:</strong> Results will be fragmented (toy-scale data) but demonstrate the workflow</li>
+</ul>
+
+<p>✅ <strong>Binning Practice</strong></p>
+
+<ul>
+  <li>Use provided <code class="language-plaintext highlighter-rouge">assembly.fasta</code> for binning exercises</li>
+  <li>MetaBAT2, MaxBin2, or CONCOCT</li>
+  <li>Bin refinement and quality assessment</li>
+</ul>
+
+<h3 id="what-to-expect">What to Expect:</h3>
+
+<p>⚠️ <strong>Important Notes:</strong></p>
+
+<ul>
+  <li>Dataset is intentionally small for quick processing</li>
+  <li>Assembly will be <strong>fragmented</strong> - this is expected for toy data</li>
+  <li>Binning will produce <strong>~2 bins only</strong> - sufficient for learning</li>
+  <li>Bins are from <strong>contaminated genomes</strong> - for educational purposes only</li>
+  <li>Results are <strong>not publication-quality</strong> - this is for learning workflows</li>
+</ul>
+
+<hr />
+
+<h2 id="-pre-assembled-data">🧪 Pre-Assembled Data</h2>
+
+<h3 id="assemblyfasta">assembly.fasta</h3>
+
+<p>A toy assembly file provided for students to practice:</p>
+
+<ul>
+  <li>Genome binning</li>
+  <li>Bin quality assessment (CheckM)</li>
+  <li>Dereplication (dRep)</li>
+  <li>Taxonomic classification (GTDB-Tk)</li>
+  <li>Functional annotation</li>
+</ul>
+
+<p><strong>Expected Output:</strong> ~2 bins (intentionally limited for faster processing)</p>
+
+<p><strong>Use Case:</strong></p>
+
+<ul>
+  <li>Practice binning workflows without waiting hours for assembly</li>
+  <li>Learn downstream analysis steps quickly</li>
+  <li>Understand MAG quality metrics</li>
+</ul>
+
+<hr />
+
+<h2 id="-phylogenetic-tree-materials">🌳 Phylogenetic Tree Materials</h2>
+
+<p>For learning phylogenetic tree construction and annotation:</p>
+
+<h3 id="files">Files:</h3>
+
+<ul>
+  <li><strong>class_practice_tree/</strong> - Tree files in various formats</li>
+  <li><strong>tree_annotation_data.xlsx</strong> - Metadata for tree annotation</li>
+</ul>
+
+<h3 id="purpose">Purpose:</h3>
+
+<ul>
+  <li>Visualize evolutionary relationships</li>
+  <li>Annotate trees with metadata</li>
+  <li>Practice using iTOL or similar tools</li>
+</ul>
+
+<p><strong>Note:</strong> Use these tree files for annotation practice, as toy data binning produces limited genomes.</p>
+
+<hr />
+
+<h2 id="-real-dataset-optional">📊 Real Dataset (Optional)</h2>
+
+<p>For students wanting to work with real-world data:</p>
+
+<p><strong>NCBI BioProject:</strong> <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA432171">PRJNA432171</a></p>
+
+<h3 id="download-instructions">Download Instructions:</h3>
+
+<p>See <code class="language-plaintext highlighter-rouge">data.md</code> for detailed download instructions.</p>
+
+<p><strong>Important:</strong></p>
+
+<ul>
+  <li>Real data is significantly larger (several GB)</li>
+  <li>Processing time: hours to days depending on sample</li>
+  <li>Requires more computational resources</li>
+  <li>Provides publication-quality results</li>
+</ul>
+
+<hr />
+
+<h2 id="-getting-started">🚀 Getting Started</h2>
+
+<h3 id="1-prerequisites">1. Prerequisites</h3>
+
+<p><strong>Software Requirements:</strong></p>
+
+<ul>
+  <li>FastQC</li>
+  <li>fastp or Trimmomatic</li>
+  <li>MEGAHIT or metaSPAdes</li>
+  <li>MetaBAT2</li>
+  <li>CheckM</li>
+  <li>(Optional) MetaWRAP for integrated workflow</li>
+</ul>
+
+<p>See <code class="language-plaintext highlighter-rouge">metawrap_micromamba.md</code> for complete setup instructions.</p>
+
+<h3 id="2-quick-start-with-toy-data">2. Quick Start with Toy Data</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Clone this repository</span>
+git clone https://github.com/jojyjohn28/metagenome-analysis-class.git
+<span class="nb">cd </span>metagenome-analysis-class
+
+<span class="c"># 2. Quality control</span>
+fastqc toy-R1.fastq.gz toy-R2.fastq.gz
+
+<span class="c"># 3. Trim adapters</span>
+fastp <span class="nt">-i</span> toy-R1.fastq.gz <span class="nt">-I</span> toy-R2.fastq.gz <span class="se">\</span>
+      <span class="nt">-o</span> toy-R1.clean.fastq.gz <span class="nt">-O</span> toy-R2.clean.fastq.gz
+
+<span class="c"># 4. Taxonomic profiling</span>
+kraken2 <span class="nt">--db</span> /path/to/db <span class="nt">--paired</span> <span class="se">\</span>
+        toy-R1.clean.fastq.gz toy-R2.clean.fastq.gz <span class="se">\</span>
+        <span class="nt">--output</span> toy.kraken <span class="nt">--report</span> toy.report
+
+<span class="c"># 5. Binning (using provided assembly)</span>
+metabat2 <span class="nt">-i</span> assembly.fasta <span class="nt">-o</span> bins/bin
+</code></pre></div></div>
+
+<h3 id="3-follow-the-full-tutorial">3. Follow the Full Tutorial</h3>
+
+<p>Open <code class="language-plaintext highlighter-rouge">metagenome_practical_full_version_jojy.md</code> for complete step-by-step instructions.</p>
+
+<hr />
+
+<h2 id="-course-materials">📖 Course Materials</h2>
+
+<h3 id="main-tutorial">Main Tutorial</h3>
+
+<p><strong>metagenome_practical_full_version_jojy.md</strong></p>
+
+<ul>
+  <li>Complete workflow from QC to phylogenetic analysis</li>
+  <li>Code examples for each step</li>
+  <li>Troubleshooting tips</li>
+  <li>Expected outputs</li>
+</ul>
+
+<h3 id="setup-guides">Setup Guides</h3>
+
+<p><strong>metawrap_micromamba.md</strong></p>
+
+<ul>
+  <li>MetaWRAP installation with micromamba</li>
+  <li>Database setup</li>
+  <li>Configuration instructions</li>
+</ul>
+
+<p><strong>data.md</strong></p>
+
+<ul>
+  <li>Download instructions for real data</li>
+  <li>File organization</li>
+  <li>Storage requirements</li>
+</ul>
+
+<hr />
+
+<h2 id="-teaching-tips">💡 Teaching Tips</h2>
+
+<h3 id="for-instructors">For Instructors:</h3>
+
+<ol>
+  <li><strong>Start with Toy Data</strong>
+    <ul>
+      <li>Fast processing for demonstrations</li>
+      <li>Students see results quickly</li>
+      <li>Reduces frustration with long wait times</li>
+    </ul>
+  </li>
+  <li><strong>Use Pre-Assembled Contigs</strong>
+    <ul>
+      <li>Skip assembly for initial binning lessons</li>
+      <li>Focus on binning concepts first</li>
+      <li>Students can assemble later if interested</li>
+    </ul>
+  </li>
+  <li><strong>Provide Tree Files</strong>
+    <ul>
+      <li>Binning produces limited results</li>
+      <li>Use provided trees for annotation practice</li>
+      <li>Demonstrates publication-quality phylogenies</li>
+    </ul>
+  </li>
+  <li><strong>Optional Real Data</strong>
+    <ul>
+      <li>Advanced students can download real data</li>
+      <li>Compare toy vs. real results</li>
+      <li>Understand computational requirements</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="for-students">For Students:</h3>
+
+<ol>
+  <li><strong>Master the Workflow First</strong>
+    <ul>
+      <li>Use toy data to understand each step</li>
+      <li>Don’t worry about fragmented assembly</li>
+      <li>Focus on learning the process</li>
+    </ul>
+  </li>
+  <li><strong>Understand Limitations</strong>
+    <ul>
+      <li>Toy data = toy results</li>
+      <li>Real data requires more time/resources</li>
+      <li>Concepts are the same at any scale</li>
+    </ul>
+  </li>
+  <li><strong>Practice Makes Perfect</strong>
+    <ul>
+      <li>Run the workflow multiple times</li>
+      <li>Experiment with parameters</li>
+      <li>Try real data when confident</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="️-important-disclaimers">⚠️ Important Disclaimers</h2>
+
+<h3 id="about-toy-data">About Toy Data:</h3>
+
+<ul>
+  <li><strong>Not for publication</strong> - Educational purposes only</li>
+  <li><strong>Contaminated genomes</strong> - Intentionally included for learning</li>
+  <li><strong>Limited results</strong> - Expect ~2 bins maximum</li>
+  <li><strong>Fragmented assembly</strong> - Expected behavior for small dataset</li>
+  <li><strong>Simplified workflow</strong> - Real projects are more complex</li>
+</ul>
+
+<h3 id="about-computational-resources">About Computational Resources:</h3>
+
+<ul>
+  <li><strong>Toy data:</strong> Runs on laptops (4-8 GB RAM)</li>
+  <li><strong>Real data:</strong> Requires HPC or workstation (64+ GB RAM)</li>
+  <li><strong>Processing time:</strong> Toy=minutes, Real=hours to days</li>
+</ul>
+
+<hr />
+
+<h2 id="-additional-resources">📚 Additional Resources</h2>
+
+<h3 id="recommended-reading">Recommended Reading:</h3>
+
+<ul>
+  <li><a href="https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0541-1">MetaWRAP paper</a></li>
+  <li><a href="https://ecogenomics.github.io/GTDBTk/">GTDB-Tk documentation</a></li>
+  <li><a href="https://github.com/chklovski/CheckM2">CheckM2 guide</a></li>
+</ul>
+
+<h3 id="online-tutorials">Online Tutorials:</h3>
+
+<ul>
+  <li><a href="https://training.galaxyproject.org/training-material/topics/metagenomics/">Galaxy Metagenomics</a></li>
+  <li><a href="http://merenlab.org/tutorials/">Anvi’o Tutorials</a></li>
+</ul>
+
+<h3 id="databases">Databases:</h3>
+
+<ul>
+  <li>GTDB: https://gtdb.ecogenomic.org/</li>
+  <li>NCBI Taxonomy: https://www.ncbi.nlm.nih.gov/taxonomy</li>
+</ul>
+
+<hr />
+
+<h2 id="-contributing">🤝 Contributing</h2>
+
+<p>This is a course repository. If you’re a student or instructor using these materials:</p>
+
+<ul>
+  <li><strong>Students:</strong> Report issues or ask questions via GitHub Issues</li>
+  <li><strong>Instructors:</strong> Feel free to adapt materials for your courses</li>
+  <li><strong>Improvements:</strong> Pull requests welcome for corrections or enhancements</li>
+</ul>
+
+<hr />
+
+<h2 id="-contact">📧 Contact</h2>
+
+<p><strong>Course Instructor:</strong> Jojy John<br />
+<strong>GitHub:</strong> <a href="https://github.com/jojyjohn28">jojyjohn28</a><br />
+<strong>Website:</strong> <a href="https://jojyjohn28.github.io">jojyjohn28.github.io</a></p>
+
+<p>For course-related questions, open an issue in this repository.</p>
+
+<hr />
+
+<h2 id="-citation">📝 Citation</h2>
+
+<p>If you use these materials in your course, please cite:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jojy John. (2026). Metagenome Analysis Graduate Course Materials.
+GitHub repository: https://github.com/jojyjohn28/metagenome-analysis-class
+Part of the 10-Day Metagenome Analysis Series.
+</code></pre></div></div>
+
+<p><strong>Related work:</strong></p>
+
+<ul>
+  <li><strong>10-Day Series:</strong> https://github.com/jojyjohn28/metagenome-analysis-series</li>
+  <li><strong>Blog:</strong> https://jojyjohn28.github.io/blog/</li>
+</ul>
+
+<hr />
+
+<h2 id="-license">📜 License</h2>
+
+<p>Educational materials provided for academic use.</p>
+
+<ul>
+  <li>Course materials: Free to use with attribution</li>
+  <li>Toy data: Educational purposes only</li>
+  <li>Code examples: MIT License</li>
+</ul>
+
+<hr />
+
+<h2 id="-acknowledgments">🎉 Acknowledgments</h2>
+
+<p>This course was developed as part of a graduate-level metagenomics training program.</p>
+
+<p><strong>Special Thanks:</strong></p>
+
+<ul>
+  <li>Students who provided feedback</li>
+  <li>Co-instructors for collaboration</li>
+  <li>Metagenomics community for tool development</li>
+</ul>
+
+<hr />
+
+<p><strong>Last Updated:</strong> February 2026<br />
+<strong>Version:</strong> 1.0 - Beginner Level</p>
+
+<hr />
+
+<h2 id="quick-reference-card">Quick Reference Card</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Tool</th>
+      <th>Input</th>
+      <th>Output</th>
+      <th>Time (Toy Data)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>QC</td>
+      <td>FastQC</td>
+      <td>FASTQ</td>
+      <td>HTML reports</td>
+      <td>1-2 min</td>
+    </tr>
+    <tr>
+      <td>Trim</td>
+      <td>fastp</td>
+      <td>FASTQ</td>
+      <td>Clean FASTQ</td>
+      <td>2-3 min</td>
+    </tr>
+    <tr>
+      <td>Taxonomy</td>
+      <td>Kraken2</td>
+      <td>FASTQ</td>
+      <td>Classification</td>
+      <td>5-10 min</td>
+    </tr>
+    <tr>
+      <td>Assembly</td>
+      <td>MEGAHIT</td>
+      <td>FASTQ</td>
+      <td>Contigs</td>
+      <td>10-15 min</td>
+    </tr>
+    <tr>
+      <td>Binning</td>
+      <td>MetaBAT2</td>
+      <td>Contigs</td>
+      <td>MAGs (~2)</td>
+      <td>5-10 min</td>
+    </tr>
+    <tr>
+      <td>Quality</td>
+      <td>CheckM</td>
+      <td>MAGs</td>
+      <td>Completeness</td>
+      <td>5-10 min</td>
+    </tr>
+    <tr>
+      <td>Classify</td>
+      <td>GTDB-Tk</td>
+      <td>MAGs</td>
+      <td>Taxonomy</td>
+      <td>15-30 min</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Total workflow time with toy data: ~1-2 hours</strong></p>
+
+<hr />
+
+<h2 id="-related-resources">🔗 Related Resources</h2>
+
+<h3 id="10-day-metagenome-analysis-series">10-Day Metagenome Analysis Series</h3>
+
+<p>For comprehensive production-level workflows, check out the complete series:</p>
+
+<p>📖 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day1-qc-taxonomy/">Day 1: QC &amp; Taxonomic Profiling</a></strong><br />
+📖 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly/">Day 2: Genome Assembly</a></strong><br />
+📖 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning/">Day 3: Genome Binning</a></strong><br />
+📖 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day4-dereplication-taxonomy/">Day 4: Dereplication &amp; Taxonomy</a></strong><br />
+📖 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day5-annotation/">Day 5: Genome Annotation</a></strong><br />
+📖 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day6-specialized-functions/">Day 6: Specialized Functions</a></strong><br />
+📖 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day7-comparative-statistics/">Day 7: Comparative Genomics</a></strong><br />
+📖 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day8-workflows-platforms/">Day 8: Workflow Platforms</a></strong><br />
+📖 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day9-visualization/">Day 9: Visualization</a></strong><br />
+📖 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day10-multiomics-integration/">Day 10: Multi-Omics Integration</a></strong></p>
+
+<hr />
+
+<h4 id="repository">Repository</h4>
+
+<p>🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/Practice_MICR8130">Course Materials GitHub</a></strong><br />
+🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/mains">10-Day Series GitHub</a></strong>
+🔗 <strong><a href="https://jojyjohn28.github.io/blog/">10-Day Series blog</a></strong></p>
+
+<p>Last updated: February 2026</p>
+
+<p><img src="/assets/img/pr-mg.png" alt="metagenome course" /></p>
+
+<hr />
+
+<p><strong>Happy Learning! 🧬</strong></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="teaching" /><category term="education" /><category term="tutorial" /><category term="beginner" /><category term="graduate-course" /><category term="bioinformatics" /><category term="quality-control" /><category term="assembly" /><category term="binning" /><category term="taxonomy" /><category term="phylogenetics" /><category term="hands-on" /><category term="toy-data" /><category term="GTDB-Tk" /><category term="MetaWRAP" /><category term="FastQC" /><category term="Kraken2" /><category term="workflow" /><category term="course-materials" /><summary type="html"><![CDATA[Beginner-friendly graduate course materials for metagenome analysis. Includes toy datasets (<100MB), complete workflows, and hands-on tutorials covering QC, assembly, binning, taxonomy, and phylogenetics. Perfect for students new to bioinformatics with step-by-step guidance and realistic expectations.]]></summary></entry><entry><title type="html">10-Day Metagenome Analysis Series - Complete Summary</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-10day-complete-summary/" rel="alternate" type="text/html" title="10-Day Metagenome Analysis Series - Complete Summary" /><published>2026-02-18T00:00:00-05:00</published><updated>2026-02-18T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome_series_summary</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-10day-complete-summary/"><![CDATA[<p><strong>Complete workflow from raw sequencing data to publication-ready insights</strong></p>
 
 <hr />
 
@@ -8322,1316 +8879,4 @@ checkm2 predict <span class="nt">--threads</span> 8  <span class="c"># instead o
 
 <p>Last updated: February 2025_</p>
 
-<p><img src="/assets/img/d3_mg.png" alt="day2 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="binning" /><category term="MetaWRAP" /><category term="MetaBAT2" /><category term="MaxBin2" /><category term="CONCOCT" /><category term="CheckM2" /><category term="MAGs" /><category term="SemiBin2" /><category term="bioinformatics" /><category term="tutorial" /><category term="python" /><summary type="html"><![CDATA[Master genome binning with modern MetaWRAP workflows, MetaBAT2, MaxBin2, and CONCOCT. Learn bin refinement, CheckM2 quality assessment, and MAG classification. Includes Python 3 setup, laptop-friendly workflows, and deep learning with SemiBin2.]]></summary></entry><entry><title type="html">Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly/" rel="alternate" type="text/html" title="Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads" /><published>2026-02-04T00:00:00-05:00</published><updated>2026-02-04T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly/"><![CDATA[<h1 id="day-2-metagenome-assembly---reconstructing-genomes-from-short-reads">Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads</h1>
-
-<h2 id="table-of-contents">Table of Contents</h2>
-
-<ol>
-  <li><a href="#introduction">Introduction</a></li>
-  <li><a href="#assembly-fundamentals">Assembly Fundamentals</a></li>
-  <li><a href="#assembler-comparison">Assembler Comparison</a></li>
-  <li><a href="#metaspades-assembly">metaSPAdes Assembly</a></li>
-  <li><a href="#megahit-assembly">MEGAHIT Assembly</a></li>
-  <li><a href="#other-assembly-tools">Other Assembly Tools</a></li>
-  <li><a href="#long-read-assembly">Long-Read Assembly (ONT/PacBio)</a></li>
-  <li><a href="#assembly-quality-assessment">Assembly Quality Assessment</a></li>
-  <li><a href="#parameter-optimization">Parameter Optimization</a></li>
-  <li><a href="#multi-language-analysis">Multi-Language Analysis</a></li>
-  <li><a href="#desktop-tutorial">Desktop Tutorial</a></li>
-  <li><a href="#best-practices">Best Practices</a></li>
-  <li><a href="#troubleshooting">Troubleshooting</a></li>
-</ol>
-
-<hr />
-
-<h2 id="introduction">Introduction</h2>
-
-<p>Welcome to Day 2 of our metagenome analysis series! After quality control and taxonomic profiling in Day 1, we now tackle one of the most computationally intensive and critical steps: <strong>de novo metagenome assembly</strong>.</p>
-
-<h3 id="what-is-metagenome-assembly">What is Metagenome Assembly?</h3>
-
-<p>Assembly is the process of reconstructing longer DNA sequences (contigs and scaffolds) from millions of short sequencing reads. Unlike single-genome assembly, <strong>metagenomic assembly</strong> is particularly challenging because:</p>
-
-<ul>
-  <li><strong>Multiple genomes</strong> present simultaneously</li>
-  <li><strong>Varying abundance</strong> (high to extremely low)</li>
-  <li><strong>Strain variation</strong> within species</li>
-  <li><strong>Repetitive sequences</strong> shared across organisms</li>
-  <li><strong>Uneven sequencing coverage</strong></li>
-</ul>
-
-<h3 id="why-assembly-matters">Why Assembly Matters</h3>
-
-<p>Assembly is crucial for:</p>
-
-<ul>
-  <li>📊 Recovering <strong>complete or near-complete genomes</strong> (MAGs)</li>
-  <li>🧬 Identifying <strong>novel genes</strong> and biosynthetic gene clusters</li>
-  <li>🔬 Enabling <strong>functional annotation</strong> beyond marker genes</li>
-  <li>🌐 Understanding <strong>genomic context</strong></li>
-  <li>📈 Improving <strong>resolution</strong> of community structure</li>
-</ul>
-
-<h3 id="what-youll-learn-today">What You’ll Learn Today</h3>
-
-<p>By the end of this tutorial, you’ll be able to:</p>
-
-<ul>
-  <li>✅ Assemble metagenomes using multiple assemblers</li>
-  <li>✅ Understand assembly parameters and optimization</li>
-  <li>✅ Assess assembly quality with MetaQUAST</li>
-  <li>✅ Compare different assembly strategies</li>
-  <li>✅ Use Python and R for assembly analysis</li>
-  <li>✅ Run assemblies on desktop (with limited resources)</li>
-  <li>✅ Handle both short-read and long-read data</li>
-</ul>
-
-<hr />
-
-<h2 id="assembly-fundamentals">Assembly Fundamentals</h2>
-
-<h3 id="the-de-bruijn-graph-approach">The De Bruijn Graph Approach</h3>
-
-<p>Modern metagenomic assemblers use <strong>de Bruijn graphs</strong> to construct contigs:</p>
-
-<ol>
-  <li><strong>K-mer decomposition</strong>: Reads are broken into overlapping k-mers</li>
-  <li><strong>Graph construction</strong>: K-mers become nodes, overlaps become edges</li>
-  <li><strong>Path finding</strong>: Contigs are paths through the graph</li>
-  <li><strong>Graph simplification</strong>: Remove bubbles, tips, and low-coverage paths</li>
-</ol>
-
-<h3 id="key-concepts">Key Concepts</h3>
-
-<p><strong>Contig</strong>: A contiguous assembled sequence with no gaps</p>
-
-<p><strong>Scaffold</strong>: Multiple contigs connected by gap information (paired-end/mate-pair reads)</p>
-
-<p><strong>N50</strong>: The contig length at which 50% of the assembly is in contigs of this size or larger (higher is better)</p>
-
-<p><strong>Coverage</strong>: Average number of reads covering each base position</p>
-
-<p><strong>k-mer size</strong>: Length of subsequences used in assembly (critical parameter!)</p>
-
-<hr />
-
-<h2 id="assembler-comparison">Assembler Comparison</h2>
-
-<h3 id="metaspades-vs-megahit-vs-others">metaSPAdes vs MEGAHIT vs Others</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Feature</th>
-      <th>metaSPAdes</th>
-      <th>MEGAHIT</th>
-      <th>IDBA-UD</th>
-      <th>Flye (Long-read)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Algorithm</strong></td>
-      <td>Multi-k-mer SPAdes</td>
-      <td>Succinct de Bruijn</td>
-      <td>Multi-k-mer IDBA</td>
-      <td>Repeat graph</td>
-    </tr>
-    <tr>
-      <td><strong>Memory Usage</strong></td>
-      <td>High (64-256 GB)</td>
-      <td>Low (16-64 GB)</td>
-      <td>Medium (32-128 GB)</td>
-      <td>Medium (32-128 GB)</td>
-    </tr>
-    <tr>
-      <td><strong>Speed</strong></td>
-      <td>Slow (hours-days)</td>
-      <td>Fast (30min-hours)</td>
-      <td>Medium (hours)</td>
-      <td>Medium (hours)</td>
-    </tr>
-    <tr>
-      <td><strong>Contig Quality</strong></td>
-      <td>Excellent</td>
-      <td>Very Good</td>
-      <td>Good</td>
-      <td>Excellent</td>
-    </tr>
-    <tr>
-      <td><strong>N50</strong></td>
-      <td>Highest</td>
-      <td>High</td>
-      <td>Medium</td>
-      <td>Very High</td>
-    </tr>
-    <tr>
-      <td><strong>Best For</strong></td>
-      <td>High-quality assemblies</td>
-      <td>Large datasets, limited RAM</td>
-      <td>Uneven coverage</td>
-      <td>Long reads (ONT/PacBio)</td>
-    </tr>
-    <tr>
-      <td><strong>Max k-mer</strong></td>
-      <td>127 (default)</td>
-      <td>255</td>
-      <td>124</td>
-      <td>N/A (overlap-based)</td>
-    </tr>
-    <tr>
-      <td><strong>Error Correction</strong></td>
-      <td>Built-in BayesHammer</td>
-      <td>Basic</td>
-      <td>Moderate</td>
-      <td>Consensus-based</td>
-    </tr>
-    <tr>
-      <td><strong>Read Type</strong></td>
-      <td>Illumina</td>
-      <td>Illumina</td>
-      <td>Illumina</td>
-      <td>ONT/PacBio</td>
-    </tr>
-    <tr>
-      <td><strong>Hybrid Mode</strong></td>
-      <td>Yes (trusted contigs)</td>
-      <td>No</td>
-      <td>Limited</td>
-      <td>Yes (with Illumina polishing)</td>
-    </tr>
-    <tr>
-      <td><strong>Typical RAM</strong></td>
-      <td>100-200 GB</td>
-      <td>30-60 GB</td>
-      <td>60-100 GB</td>
-      <td>50-120 GB</td>
-    </tr>
-    <tr>
-      <td><strong>Typical Time</strong></td>
-      <td>12-48 hours</td>
-      <td>2-8 hours</td>
-      <td>6-24 hours</td>
-      <td>4-16 hours</td>
-    </tr>
-    <tr>
-      <td><strong>Citation</strong></td>
-      <td>Nurk et al. 2017</td>
-      <td>Li et al. 2015</td>
-      <td>Peng et al. 2012</td>
-      <td>Kolmogorov et al. 2019</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="when-to-use-which-assembler">When to Use Which Assembler?</h3>
-
-<p><strong>Use metaSPAdes when:</strong></p>
-
-<ul>
-  <li>✅ You need the highest quality assembly</li>
-  <li>✅ You have access to HPC with ample RAM (128GB+)</li>
-  <li>✅ Assembly time is not critical</li>
-  <li>✅ You’re working with complex metagenomes</li>
-  <li>✅ You want the best N50 and fewer misassemblies</li>
-</ul>
-
-<p><strong>Use MEGAHIT when:</strong></p>
-
-<ul>
-  <li>✅ You have limited computational resources</li>
-  <li>✅ You need fast results (rapid prototyping)</li>
-  <li>✅ You’re assembling very large datasets (100GB+)</li>
-  <li>✅ You’re running on a desktop or laptop</li>
-  <li>✅ Memory is the limiting factor</li>
-</ul>
-
-<p><strong>Use IDBA-UD when:</strong></p>
-
-<ul>
-  <li>✅ You have highly uneven coverage</li>
-  <li>✅ You want a middle ground between metaSPAdes and MEGAHIT</li>
-  <li>✅ You have specific experience with IDBA</li>
-</ul>
-
-<p><strong>Use Flye when:</strong></p>
-
-<ul>
-  <li>✅ You have long-read data (ONT/PacBio)</li>
-  <li>✅ You want to resolve repetitive regions</li>
-  <li>✅ You’re doing hybrid assembly (long + short reads)</li>
-</ul>
-
-<h3 id="recommendation">Recommendation</h3>
-
-<p>For this tutorial, we’ll focus on <strong>metaSPAdes</strong> (gold standard) and <strong>MEGAHIT</strong> (practical alternative). We’ll also cover Flye basics for long-read enthusiasts.</p>
-
-<hr />
-
-<h2 id="which-assembler-should-i-use-quick-decision-guide">Which Assembler Should I Use? (Quick Decision Guide)</h2>
-
-<p>Use this decision tree to quickly choose the right assembler for your situation:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>START
-  │
-  ├─ What type of reads do you have?
-  │   ├─ Illumina short reads → Continue below
-  │   ├─ ONT/PacBio long reads → Use Flye (--meta)
-  │   └─ Both (hybrid) → Use Flye + Pilon polishing
-  │
-  ├─ How much RAM do you have?
-  │   ├─ ≤16 GB (laptop/desktop) → Use MEGAHIT
-  │   ├─ 32-64 GB (workstation) → Use MEGAHIT or IDBA-UD
-  │   └─ ≥128 GB (HPC) → Use metaSPAdes
-  │
-  ├─ What's your priority?
-  │   ├─ Highest quality assembly → Use metaSPAdes
-  │   ├─ Fastest results → Use MEGAHIT
-  │   └─ Uneven coverage → Use IDBA-UD
-  │
-  └─ Special cases:
-      ├─ Very large dataset (&gt;100 GB) → Use MEGAHIT
-      ├─ Extremely uneven coverage → Use IDBA-UD
-      └─ Novel/complex metagenome → Use metaSPAdes
-</code></pre></div></div>
-
-<h3 id="quick-reference-table">Quick Reference Table</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Your Situation</th>
-      <th>Recommended Assembler</th>
-      <th>Alternative</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>💻 <strong>Laptop (8-16GB RAM)</strong></td>
-      <td>MEGAHIT</td>
-      <td>Subsample + metaSPAdes</td>
-    </tr>
-    <tr>
-      <td>🖥️ <strong>Desktop (32-64GB RAM)</strong></td>
-      <td>MEGAHIT or IDBA-UD</td>
-      <td>metaSPAdes (small samples)</td>
-    </tr>
-    <tr>
-      <td>🏢 <strong>HPC (128GB+ RAM)</strong></td>
-      <td>metaSPAdes</td>
-      <td>MEGAHIT (for speed)</td>
-    </tr>
-    <tr>
-      <td>📊 <strong>Uneven coverage</strong></td>
-      <td>IDBA-UD</td>
-      <td>metaSPAdes</td>
-    </tr>
-    <tr>
-      <td>🧬 <strong>Long reads (ONT)</strong></td>
-      <td>Flye –meta</td>
-      <td>metaFlye</td>
-    </tr>
-    <tr>
-      <td>🧬 <strong>Long reads (PacBio)</strong></td>
-      <td>Flye –pacbio-hifi</td>
-      <td>Hifiasm-meta</td>
-    </tr>
-    <tr>
-      <td>🔬 <strong>Hybrid (long + short)</strong></td>
-      <td>Flye + Pilon</td>
-      <td>metaSPAdes + long-read scaffolding</td>
-    </tr>
-    <tr>
-      <td>⚡ <strong>Need speed</strong></td>
-      <td>MEGAHIT</td>
-      <td>Skip assembly, use reads directly</td>
-    </tr>
-    <tr>
-      <td>🎯 <strong>Need quality</strong></td>
-      <td>metaSPAdes</td>
-      <td>Multiple assemblers + comparison</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="real-world-examples">Real-World Examples</h3>
-
-<p><strong>Scenario 1: PhD Student with Laptop</strong></p>
-
-<ul>
-  <li>RAM: 16 GB</li>
-  <li>Sample: Human gut metagenome</li>
-  <li><strong>Solution</strong>: Subsample to 2M reads → MEGAHIT → 2-3 hours</li>
-</ul>
-
-<p><strong>Scenario 2: Research Lab with HPC</strong></p>
-
-<ul>
-  <li>RAM: 256 GB</li>
-  <li>Sample: Soil metagenome (complex)</li>
-  <li><strong>Solution</strong>: metaSPAdes with default parameters → 24-36 hours</li>
-</ul>
-
-<p><strong>Scenario 3: Clinical Lab, Time-Critical</strong></p>
-
-<ul>
-  <li>RAM: 64 GB</li>
-  <li>Sample: Patient sample</li>
-  <li><strong>Solution</strong>: MEGAHIT (meta-sensitive preset) → 3-4 hours</li>
-</ul>
-
-<p><strong>Scenario 4: Long-Read Sequencing Project</strong></p>
-
-<ul>
-  <li>Data: ONT reads (N50=15kb)</li>
-  <li><strong>Solution</strong>: Flye –nano-hq –meta → Polish with Medaka → 6-8 hours</li>
-</ul>
-
-<hr />
-
-<h2 id="metaspades-assembly">metaSPAdes Assembly</h2>
-
-<p>metaSPAdes is part of the SPAdes assembler family, specifically designed for metagenomic data.</p>
-
-<h3 id="installation">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Using conda (recommended)</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda spades
-
-<span class="c"># Or download binary</span>
-wget http://cab.spbu.ru/files/release3.15.5/SPAdes-3.15.5-Linux.tar.gz
-<span class="nb">tar</span> <span class="nt">-xzf</span> SPAdes-3.15.5-Linux.tar.gz
-<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/path/to/SPAdes-3.15.5-Linux/bin
-</code></pre></div></div>
-
-<h3 id="basic-usage">Basic Usage</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single sample, paired-end</span>
-metaspades.py <span class="se">\</span>
-    <span class="nt">-1</span> clean_R1.fastq.gz <span class="se">\</span>
-    <span class="nt">-2</span> clean_R2.fastq.gz <span class="se">\</span>
-    <span class="nt">-o</span> metaspades_output <span class="se">\</span>
-    <span class="nt">-t</span> 32 <span class="se">\</span>
-    <span class="nt">-m</span> 200
-
-<span class="c"># Options explained:</span>
-<span class="c"># -1/-2    : Paired-end input files</span>
-<span class="c"># -o       : Output directory</span>
-<span class="c"># -t       : Number of threads</span>
-<span class="c"># -m       : Memory limit in GB</span>
-</code></pre></div></div>
-
-<h3 id="important-parameters">Important Parameters</h3>
-
-<p><strong>K-mer sizes</strong> (<code class="language-plaintext highlighter-rouge">-k</code>):</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Default: automatic selection (21,33,55,77,99,127)</span>
-metaspades.py <span class="nt">-k</span> 21,33,55,77,99,127 ...
-
-<span class="c"># For low-complexity samples:</span>
-metaspades.py <span class="nt">-k</span> 21,33,55,77 ...
-
-<span class="c"># For high-quality, deep sequencing:</span>
-metaspades.py <span class="nt">-k</span> 33,55,77,99,127 ...
-</code></pre></div></div>
-
-<p><strong>Coverage cutoff</strong> (<code class="language-plaintext highlighter-rouge">--cov-cutoff</code>):</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Auto (recommended):</span>
-<span class="nt">--cov-cutoff</span> auto
-
-<span class="c"># Manual (if you know your coverage):</span>
-<span class="nt">--cov-cutoff</span> 5  <span class="c"># Remove contigs with &lt;5x coverage</span>
-</code></pre></div></div>
-
-<p><strong>Additional options</strong>:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Continue from checkpoint (if interrupted)</span>
-metaspades.py <span class="nt">--continue</span> <span class="nt">-o</span> metaspades_output
-
-<span class="c"># Use only contigs &gt;500bp</span>
-<span class="c"># (controlled post-assembly, not during)</span>
-</code></pre></div></div>
-
-<h3 id="understanding-metaspades-output">Understanding metaSPAdes Output</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>metaspades_output/
-├── assembly_graph.fastg          # Assembly graph
-├── assembly_graph_with_scaffolds.gfa  # Scaffold graph
-├── before_rr.fasta              # Before repeat resolution
-├── contigs.fasta                # Final contigs
-├── scaffolds.fasta              # Final scaffolds
-├── contigs.paths                # Contig paths
-├── scaffolds.paths              # Scaffold paths
-├── K21/                         # K-mer 21 assembly
-├── K33/                         # K-mer 33 assembly
-├── ...
-├── params.txt                   # Parameters used
-├── spades.log                   # Assembly log
-└── warnings.log                 # Warnings
-</code></pre></div></div>
-
-<p><strong>Key files:</strong></p>
-
-<ul>
-  <li><strong>contigs.fasta</strong>: Use for binning and annotation</li>
-  <li><strong>scaffolds.fasta</strong>: Use if you need scaffold information</li>
-  <li><strong>spades.log</strong>: Check for errors and statistics</li>
-</ul>
-
-<h3 id="contigs-vs-scaffolds-which-should-i-use">Contigs vs Scaffolds: Which Should I Use?</h3>
-
-<p><strong>IMPORTANT:</strong> This is a common source of confusion for beginners!</p>
-
-<p>✅ <strong>Use contigs.fasta for:</strong></p>
-
-<ul>
-  <li><strong>Genome binning</strong> (MetaBAT2, MaxBin2, CONCOCT, SemiBin)</li>
-  <li><strong>Coverage calculation</strong> (essential for Day 3)</li>
-  <li><strong>Functional annotation</strong> (Prokka, DRAM)</li>
-  <li><strong>Gene prediction</strong> (Prodigal)</li>
-  <li><strong>Most downstream analyses</strong></li>
-</ul>
-
-<p>⚠️ <strong>Use scaffolds.fasta ONLY if:</strong></p>
-
-<ul>
-  <li>You need scaffold-level information for specific analyses</li>
-  <li>You understand how to handle gaps (N’s in sequences)</li>
-  <li>You’re doing structural genomic analysis</li>
-  <li>You’re specifically asked to use scaffolds by a tool</li>
-</ul>
-
-<p><strong>Why contigs for binning?</strong></p>
-
-<p>Scaffolds contain gaps (represented by N’s) where paired-end information suggests two contigs are connected, but the exact sequence is unknown. These gaps can:</p>
-
-<ul>
-  <li>Interfere with coverage calculation</li>
-  <li>Cause issues with gene prediction</li>
-  <li>Create artificial breaks in binning algorithms</li>
-</ul>
-
-<p><strong>Example:</strong></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Contig:   ATCGATCGATCG (actual sequence, 100% certain)
-Scaffold: ATCGATCG[NNNNNNNN]ATCGATCG (contig + gap + contig)
-</code></pre></div></div>
-
-<p><strong>Rule of thumb:</strong> If you’re not sure, use <strong>contigs.fasta</strong>. You can always generate scaffolds later if needed.</p>
-
-<h3 id="example-output-statistics">Example Output Statistics</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Contigs:
-  Total: 125,842
-  &gt;= 500 bp: 45,231
-  &gt;= 1000 bp: 28,567
-  &gt;= 5000 bp: 8,234
-
-Total length: 345,678,901 bp
-N50: 2,847 bp
-N75: 1,234 bp
-Longest contig: 234,567 bp
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="megahit-assembly">MEGAHIT Assembly</h2>
-
-<p>MEGAHIT is designed for efficiency, using a succinct de Bruijn graph.</p>
-
-<h3 id="installation-1">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Using conda</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda megahit
-
-<span class="c"># Or from source</span>
-git clone https://github.com/voutcn/megahit.git
-<span class="nb">cd </span>megahit
-make
-</code></pre></div></div>
-
-<h3 id="basic-usage-1">Basic Usage</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single sample</span>
-megahit <span class="se">\</span>
-    <span class="nt">-1</span> clean_R1.fastq.gz <span class="se">\</span>
-    <span class="nt">-2</span> clean_R2.fastq.gz <span class="se">\</span>
-    <span class="nt">-o</span> megahit_output <span class="se">\</span>
-    <span class="nt">-t</span> 32 <span class="se">\</span>
-    <span class="nt">-m</span> 0.9
-
-<span class="c"># Options explained:</span>
-<span class="c"># -m 0.9   : Use 90% of available memory</span>
-<span class="c"># -t       : Number of threads</span>
-</code></pre></div></div>
-
-<h3 id="important-parameters-1">Important Parameters</h3>
-
-<p><strong>K-mer range</strong>:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Default: 21,29,39,59,79,99,119,141</span>
-megahit <span class="nt">--k-min</span> 21 <span class="nt">--k-max</span> 141 <span class="nt">--k-step</span> 20 ...
-
-<span class="c"># For low-complexity:</span>
-megahit <span class="nt">--k-min</span> 21 <span class="nt">--k-max</span> 99 <span class="nt">--k-step</span> 20 ...
-
-<span class="c"># For high-quality data:</span>
-megahit <span class="nt">--k-min</span> 27 <span class="nt">--k-max</span> 127 <span class="nt">--k-step</span> 20 ...
-</code></pre></div></div>
-
-<p><strong>Presets</strong>:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For metagenomic data (default)</span>
-megahit <span class="nt">--presets</span> meta-sensitive ...
-
-<span class="c"># For large and complex metagenomes</span>
-megahit <span class="nt">--presets</span> meta-large ...
-</code></pre></div></div>
-
-<p><strong>Minimum contig length</strong>:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Filter short contigs (default: 200)</span>
-megahit <span class="nt">--min-contig-len</span> 500 ...
-</code></pre></div></div>
-
-<h3 id="megahit-output">MEGAHIT Output</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>megahit_output/
-├── final.contigs.fa             # Final assembly
-├── intermediate_contigs/        # Intermediate k-mer assemblies
-├── log                          # Assembly log
-└── options.json                 # Parameters used
-</code></pre></div></div>
-
-<h3 id="memory-efficiency-tips">Memory Efficiency Tips</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use memory efficiently</span>
-megahit <span class="nt">-m</span> 0.8 ...  <span class="c"># Use 80% of RAM</span>
-
-<span class="c"># For very large datasets, use:</span>
-megahit <span class="nt">--mem-flag</span> 2 ...  <span class="c"># Reduce memory at cost of speed</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="other-assembly-tools">Other Assembly Tools</h2>
-
-<h3 id="idba-ud-iterative-de-bruijn-graph-assembler-for-uneven-depth">IDBA-UD (Iterative de Bruijn graph Assembler for Uneven Depth)</h3>
-
-<p><strong>Strengths:</strong></p>
-
-<ul>
-  <li>Handles uneven coverage well</li>
-  <li>Good for samples with extreme abundance variation</li>
-</ul>
-
-<p><strong>Installation:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda idba
-</code></pre></div></div>
-
-<p><strong>Usage:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># IDBA requires fasta input</span>
-fq2fa <span class="nt">--merge</span> clean_R1.fastq.gz clean_R2.fastq.gz reads.fasta
-
-<span class="c"># Run assembly</span>
-idba_ud <span class="nt">-r</span> reads.fasta <span class="nt">-o</span> idba_output <span class="nt">--num_threads</span> 32 <span class="nt">--mink</span> 20 <span class="nt">--maxk</span> 120 <span class="nt">--step</span> 20
-</code></pre></div></div>
-
-<h3 id="other-notable-assemblers">Other Notable Assemblers</h3>
-
-<p><strong>Ray Meta</strong>: Distributed assembler (for clusters)
-<strong>metaVelvet</strong>: Early metagenomic assembler (deprecated)
-<strong>OPERA-MS</strong>: Hybrid assembler using reference genomes
-<strong>SOAPdenovo2</strong>: Large-scale assembler (memory-intensive)</p>
-
-<hr />
-
-<h2 id="long-read-assembly-ontpacbio">Long-Read Assembly (ONT/PacBio)</h2>
-
-<h3 id="why-long-reads">Why Long Reads?</h3>
-
-<p>Oxford Nanopore (ONT) and PacBio provide reads of 10kb-100kb+, enabling:</p>
-
-<ul>
-  <li>✅ Better resolution of repetitive regions</li>
-  <li>✅ Complete genomes with fewer contigs</li>
-  <li>✅ Improved scaffold quality</li>
-  <li>✅ Structural variant detection</li>
-</ul>
-
-<h3 id="flye-for-metagenomic-long-reads">Flye for Metagenomic Long Reads</h3>
-
-<p><strong>Installation:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda flye
-</code></pre></div></div>
-
-<p><strong>Basic Usage:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ONT raw reads</span>
-flye <span class="nt">--nano-raw</span> ont_reads.fastq.gz <span class="se">\</span>
-     <span class="nt">--out-dir</span> flye_output <span class="se">\</span>
-     <span class="nt">--threads</span> 32 <span class="se">\</span>
-     <span class="nt">--meta</span>
-
-<span class="c"># ONT high-quality reads (Guppy5+)</span>
-flye <span class="nt">--nano-hq</span> ont_reads.fastq.gz <span class="se">\</span>
-     <span class="nt">--out-dir</span> flye_output <span class="se">\</span>
-     <span class="nt">--threads</span> 32 <span class="se">\</span>
-     <span class="nt">--meta</span>
-
-<span class="c"># PacBio HiFi reads</span>
-flye <span class="nt">--pacbio-hifi</span> hifi_reads.fastq.gz <span class="se">\</span>
-     <span class="nt">--out-dir</span> flye_output <span class="se">\</span>
-     <span class="nt">--threads</span> 32 <span class="se">\</span>
-     <span class="nt">--meta</span>
-</code></pre></div></div>
-
-<p><strong>Important:</strong> Always use the <code class="language-plaintext highlighter-rouge">--meta</code> flag for metagenomic data!</p>
-
-<h3 id="metaflye">metaFlye</h3>
-
-<p>metaFlye is specifically designed for metagenomic long reads:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Same as flye with --meta flag</span>
-flye <span class="nt">--nano-raw</span> reads.fastq.gz <span class="nt">--meta</span> <span class="nt">--out-dir</span> metaflye_output <span class="nt">--threads</span> 32
-</code></pre></div></div>
-
-<h3 id="hybrid-assembly-long--short-reads">Hybrid Assembly (Long + Short Reads)</h3>
-
-<p><strong>Strategy 1: Long-read assembly + short-read polishing</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Assemble with Flye</span>
-flye <span class="nt">--nano-raw</span> ont_reads.fastq.gz <span class="nt">--meta</span> <span class="nt">-o</span> flye_output <span class="nt">-t</span> 32
-
-<span class="c"># 2. Polish with Illumina reads using Pilon</span>
-bwa index flye_output/assembly.fasta
-bwa mem <span class="nt">-t</span> 32 flye_output/assembly.fasta illumina_R1.fastq.gz illumina_R2.fastq.gz | <span class="se">\</span>
-    samtools <span class="nb">sort</span> <span class="nt">-o</span> aligned.bam
-samtools index aligned.bam
-
-pilon <span class="nt">--genome</span> flye_output/assembly.fasta <span class="se">\</span>
-      <span class="nt">--frags</span> aligned.bam <span class="se">\</span>
-      <span class="nt">--output</span> polished <span class="se">\</span>
-      <span class="nt">--threads</span> 32
-</code></pre></div></div>
-
-<p><strong>Strategy 2: Short-read assembly + long-read scaffolding</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Assemble with metaSPAdes</span>
-metaspades.py <span class="nt">-1</span> R1.fastq.gz <span class="nt">-2</span> R2.fastq.gz <span class="nt">-o</span> spades_output <span class="nt">-t</span> 32
-
-<span class="c"># 2. Scaffold with long reads using npScarf</span>
-npScarf <span class="nt">-s</span> spades_output/scaffolds.fasta <span class="se">\</span>
-        <span class="nt">-l</span> ont_reads.fastq.gz <span class="se">\</span>
-        <span class="nt">-o</span> scaffolded.fasta <span class="se">\</span>
-        <span class="nt">-t</span> 32
-</code></pre></div></div>
-
-<h3 id="recommendations-for-long-read-assembly">Recommendations for Long-Read Assembly</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Data Type</th>
-      <th>Recommended Assembler</th>
-      <th>Polishing</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>ONT (raw, &lt;90% accuracy)</td>
-      <td>Flye</td>
-      <td>Racon + Medaka</td>
-    </tr>
-    <tr>
-      <td>ONT (HQ, &gt;95% accuracy)</td>
-      <td>Flye (–nano-hq)</td>
-      <td>Medaka or Pilon</td>
-    </tr>
-    <tr>
-      <td>PacBio HiFi</td>
-      <td>Flye or Hifiasm-meta</td>
-      <td>Usually not needed</td>
-    </tr>
-    <tr>
-      <td>Hybrid (ONT + Illumina)</td>
-      <td>Flye + Pilon</td>
-      <td>Pilon (Illumina)</td>
-    </tr>
-    <tr>
-      <td>Hybrid (PacBio + Illumina)</td>
-      <td>Flye + Pilon</td>
-      <td>Pilon (Illumina)</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="assembly-quality-assessment">Assembly Quality Assessment</h2>
-
-<h3 id="metaquast-the-standard-for-assembly-evaluation">MetaQUAST: The Standard for Assembly Evaluation</h3>
-
-<p>MetaQUAST (Quality Assessment Tool for Metagenome Assemblies) provides comprehensive quality metrics.</p>
-
-<p><strong>Installation:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda quast
-</code></pre></div></div>
-
-<p><strong>Basic Usage:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single assembly</span>
-metaquast.py contigs.fasta <span class="nt">-o</span> metaquast_output <span class="nt">-t</span> 32
-
-<span class="c"># Multiple assemblies (comparison)</span>
-metaquast.py <span class="se">\</span>
-    metaspades_contigs.fasta <span class="se">\</span>
-    megahit_contigs.fasta <span class="se">\</span>
-    idba_contigs.fasta <span class="se">\</span>
-    <span class="nt">-o</span> metaquast_comparison <span class="se">\</span>
-    <span class="nt">-t</span> 32 <span class="se">\</span>
-    <span class="nt">--labels</span> metaSPAdes,MEGAHIT,IDBA-UD
-
-<span class="c"># With reference genomes (if available)</span>
-metaquast.py contigs.fasta <span class="se">\</span>
-    <span class="nt">-r</span> reference_genomes/<span class="k">*</span>.fasta <span class="se">\</span>
-    <span class="nt">-o</span> metaquast_with_ref <span class="se">\</span>
-    <span class="nt">-t</span> 32
-</code></pre></div></div>
-
-<h3 id="understanding-metaquast-output">Understanding MetaQUAST Output</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>metaquast_output/
-├── report.html              # Interactive HTML report
-├── report.pdf               # PDF report
-├── report.txt               # Text summary
-├── report.tsv               # Tab-separated values
-├── contigs_reports/         # Per-contig statistics
-├── basic_stats/             # Basic statistics
-└── icarus.html             # Contig browser
-</code></pre></div></div>
-
-<h3 id="key-metrics-explained">Key Metrics Explained</h3>
-
-<p><strong>Basic Statistics:</strong></p>
-
-<ul>
-  <li><strong># contigs</strong>: Total number of contigs</li>
-  <li><strong>Largest contig</strong>: Length of longest contig</li>
-  <li><strong>Total length</strong>: Sum of all contig lengths</li>
-  <li><strong>N50</strong>: Contig length at 50% of assembly</li>
-  <li><strong>L50</strong>: Number of contigs comprising 50% of assembly</li>
-</ul>
-
-<p><strong>Example:</strong></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># contigs (&gt;= 0 bp):       125,842
-# contigs (&gt;= 1000 bp):     28,567
-# contigs (&gt;= 5000 bp):      8,234
-# contigs (&gt;= 10000 bp):     3,456
-# contigs (&gt;= 25000 bp):       892
-# contigs (&gt;= 50000 bp):       234
-
-Total length (&gt;= 0 bp):      345,678,901
-Total length (&gt;= 1000 bp):   298,456,123
-Total length (&gt;= 5000 bp):   245,123,456
-Total length (&gt;= 10000 bp):  198,765,432
-Total length (&gt;= 25000 bp):  145,234,567
-Total length (&gt;= 50000 bp):   89,012,345
-
-Largest contig:              234,567
-N50:                          2,847
-N75:                          1,234
-L50:                         32,456
-L75:                         78,901
-
-GC (%):                       52.34
-</code></pre></div></div>
-
-<p><strong>What Makes a Good Assembly?</strong></p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Metric</th>
-      <th>Poor</th>
-      <th>Acceptable</th>
-      <th>Good</th>
-      <th>Excellent</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>N50</strong></td>
-      <td>&lt;1 kb</td>
-      <td>1-5 kb</td>
-      <td>5-20 kb</td>
-      <td>&gt;20 kb</td>
-    </tr>
-    <tr>
-      <td><strong># contigs (&gt;1kb)</strong></td>
-      <td>&gt;100k</td>
-      <td>50-100k</td>
-      <td>10-50k</td>
-      <td>&lt;10k</td>
-    </tr>
-    <tr>
-      <td><strong>Largest contig</strong></td>
-      <td>&lt;10 kb</td>
-      <td>10-50 kb</td>
-      <td>50-200 kb</td>
-      <td>&gt;200 kb</td>
-    </tr>
-    <tr>
-      <td><strong>Total length</strong></td>
-      <td>Variable</td>
-      <td>Variable</td>
-      <td>Variable</td>
-      <td>Variable</td>
-    </tr>
-    <tr>
-      <td><strong>L50</strong></td>
-      <td>&gt;50k</td>
-      <td>20-50k</td>
-      <td>5-20k</td>
-      <td>&lt;5k</td>
-    </tr>
-    <tr>
-      <td><strong>Misassemblies*</strong></td>
-      <td>&gt;1000</td>
-      <td>100-1000</td>
-      <td>10-100</td>
-      <td>&lt;10</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>*When reference genomes available</p>
-
-<hr />
-
-<h2 id="parameter-optimization">Parameter Optimization</h2>
-
-<h3 id="k-mer-size-selection">K-mer Size Selection</h3>
-
-<p><strong>General guidelines:</strong></p>
-
-<ul>
-  <li><strong>Shorter k-mers (21-55)</strong>: Better for low coverage, high error rate</li>
-  <li><strong>Longer k-mers (77-127)</strong>: Better for high coverage, low error rate</li>
-  <li><strong>Multiple k-mers</strong>: Best approach (used by metaSPAdes, MEGAHIT)</li>
-</ul>
-
-<p><strong>Empirical testing:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Test different k-mer ranges</span>
-<span class="k">for </span>KMAX <span class="k">in </span>99 127 141<span class="p">;</span> <span class="k">do
-    </span>megahit <span class="nt">-1</span> R1.fq.gz <span class="nt">-2</span> R2.fq.gz <span class="se">\</span>
-            <span class="nt">--k-max</span> <span class="k">${</span><span class="nv">KMAX</span><span class="k">}</span> <span class="se">\</span>
-            <span class="nt">-o</span> megahit_k<span class="k">${</span><span class="nv">KMAX</span><span class="k">}</span> <span class="se">\</span>
-            <span class="nt">-t</span> 32
-<span class="k">done</span>
-
-<span class="c"># Compare with MetaQUAST</span>
-metaquast.py megahit_k<span class="k">*</span>/final.contigs.fa <span class="se">\</span>
-    <span class="nt">-o</span> kmer_comparison <span class="se">\</span>
-    <span class="nt">--labels</span> k99,k127,k141
-</code></pre></div></div>
-
-<h3 id="coverage-cutoff-optimization">Coverage Cutoff Optimization</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># metaSPAdes with different cutoffs</span>
-<span class="k">for </span>COV <span class="k">in </span>auto 3 5 10<span class="p">;</span> <span class="k">do
-    </span>metaspades.py <span class="nt">-1</span> R1.fq.gz <span class="nt">-2</span> R2.fq.gz <span class="se">\</span>
-        <span class="nt">--cov-cutoff</span> <span class="k">${</span><span class="nv">COV</span><span class="k">}</span> <span class="se">\</span>
-        <span class="nt">-o</span> spades_cov<span class="k">${</span><span class="nv">COV</span><span class="k">}</span> <span class="se">\</span>
-        <span class="nt">-t</span> 32 <span class="nt">-m</span> 200
-<span class="k">done</span>
-</code></pre></div></div>
-
-<h3 id="assembly-strategy-comparison">Assembly Strategy Comparison</h3>
-
-<p>Test multiple assemblers and parameters:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c"># assembly_comparison.sh</span>
-
-<span class="c"># metaSPAdes default</span>
-metaspades.py <span class="nt">-1</span> R1.fq.gz <span class="nt">-2</span> R2.fq.gz <span class="nt">-o</span> spades_default <span class="nt">-t</span> 32 <span class="nt">-m</span> 200
-
-<span class="c"># metaSPAdes optimized</span>
-metaspades.py <span class="nt">-1</span> R1.fq.gz <span class="nt">-2</span> R2.fq.gz <span class="nt">-o</span> spades_opt <span class="se">\</span>
-    <span class="nt">-k</span> 33,55,77,99,127 <span class="nt">--cov-cutoff</span> 5 <span class="nt">-t</span> 32 <span class="nt">-m</span> 200
-
-<span class="c"># MEGAHIT default</span>
-megahit <span class="nt">-1</span> R1.fq.gz <span class="nt">-2</span> R2.fq.gz <span class="nt">-o</span> megahit_default <span class="nt">-t</span> 32
-
-<span class="c"># MEGAHIT meta-large</span>
-megahit <span class="nt">-1</span> R1.fq.gz <span class="nt">-2</span> R2.fq.gz <span class="nt">-o</span> megahit_large <span class="se">\</span>
-    <span class="nt">--presets</span> meta-large <span class="nt">-t</span> 32
-
-<span class="c"># Compare all</span>
-metaquast.py <span class="se">\</span>
-    spades_default/contigs.fasta <span class="se">\</span>
-    spades_opt/contigs.fasta <span class="se">\</span>
-    megahit_default/final.contigs.fa <span class="se">\</span>
-    megahit_large/final.contigs.fa <span class="se">\</span>
-    <span class="nt">-o</span> assembly_comparison <span class="se">\</span>
-    <span class="nt">--labels</span> SPAdes_def,SPAdes_opt,MEGAHIT_def,MEGAHIT_large <span class="se">\</span>
-    <span class="nt">-t</span> 32
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="multi-language-analysis">Multi-Language Analysis</h2>
-
-<h3 id="python-scripts-for-assembly-analysis">Python Scripts for Assembly Analysis</h3>
-
-<p>See: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day2-assembly/scripts"><code class="language-plaintext highlighter-rouge">scripts/01_parse_metaquast.py</code></a></p>
-
-<h3 id="r-scripts-for-visualization">R Scripts for Visualization</h3>
-
-<p>See: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day2-assembly/scripts"><code class="language-plaintext highlighter-rouge">scripts/02_assembly_visualization.R</code></a></p>
-
-<h3 id="bash-scripts-for-automation">Bash Scripts for Automation</h3>
-
-<p>All batch processing scripts available in: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day2-assembly/scripts"><code class="language-plaintext highlighter-rouge">scripts/</code></a></p>
-
-<hr />
-
-<h2 id="desktop-tutorial">Desktop Tutorial</h2>
-
-<h3 id="running-assembly-on-your-laptop">Running Assembly on Your Laptop</h3>
-
-<blockquote>
-  <p><strong>💻 Desktop Resources:</strong> You can absolutely learn metagenome assembly on your personal computer! We provide optimized workflows for systems with 8-16GB RAM.</p>
-</blockquote>
-
-<p>For complete desktop tutorial with step-by-step instructions, see: <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day2-assembly/running-on-your-laptop"><code class="language-plaintext highlighter-rouge">RUNNING_ON_LAPTOP.md</code></a></p>
-
-<p><strong>Quick Desktop Guide:</strong></p>
-
-<ol>
-  <li>Subsample your data to 500K-1M read pairs</li>
-  <li>Use MEGAHIT (memory-efficient)</li>
-  <li>Limit threads to n-2 cores</li>
-  <li>Monitor RAM usage with <code class="language-plaintext highlighter-rouge">htop</code></li>
-  <li>Expect 2-4 hours for small datasets</li>
-</ol>
-
-<hr />
-
-<h2 id="preparing-for-day-3-coverage-calculation">Preparing for Day 3: Coverage Calculation</h2>
-
-<p>Before moving to genome binning (Day 3), you’ll need to calculate <strong>contig coverage</strong>. This is essential for all binning algorithms!</p>
-
-<h3 id="why-coverage-matters-for-binning">Why Coverage Matters for Binning</h3>
-
-<p>Binning algorithms use coverage information to:</p>
-
-<ul>
-  <li>Group contigs from the same organism (similar coverage patterns)</li>
-  <li>Distinguish high-abundance from low-abundance organisms</li>
-  <li>Improve bin quality and completeness</li>
-</ul>
-
-<h3 id="quick-coverage-calculation">Quick Coverage Calculation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Build Bowtie2 index from your assembly</span>
-bowtie2-build contigs.fasta contigs_index
-
-<span class="c"># 2. Map cleaned reads back to contigs</span>
-bowtie2 <span class="nt">-x</span> contigs_index <span class="se">\</span>
-        <span class="nt">-1</span> clean_R1.fastq.gz <span class="se">\</span>
-        <span class="nt">-2</span> clean_R2.fastq.gz <span class="se">\</span>
-        <span class="nt">-p</span> 32 <span class="se">\</span>
-        <span class="nt">--no-unal</span> | <span class="se">\</span>
-    samtools view <span class="nt">-bS</span> - | <span class="se">\</span>
-    samtools <span class="nb">sort</span> <span class="nt">-o</span> contigs.bam -
-
-<span class="c"># 3. Index the BAM file</span>
-samtools index contigs.bam
-
-<span class="c"># 4. Calculate coverage statistics</span>
-samtools depth contigs.bam <span class="o">&gt;</span> contigs_depth.txt
-
-<span class="c"># Or calculate per-contig coverage</span>
-samtools coverage contigs.bam <span class="o">&gt;</span> contigs_coverage.txt
-</code></pre></div></div>
-
-<h3 id="understanding-the-output">Understanding the Output</h3>
-
-<p><strong>contigs_depth.txt</strong> (per-base depth):</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>contig1    1    45
-contig1    2    47
-contig1    3    48
-...
-</code></pre></div></div>
-
-<p><strong>contigs_coverage.txt</strong> (per-contig summary):</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#rname          startpos  endpos  numreads  covbases  coverage  meandepth  meanbaseq  meanmapq
-contig1         1         5432    15234     5432      100       45.3       37.2       60
-contig2         1         12456   8765      12456     100       38.7       36.8       60
-</code></pre></div></div>
-
-<h3 id="alternative-using-metabats-jgi_summarize_bam_contig_depths">Alternative: Using MetaBAT’s jgi_summarize_bam_contig_depths</h3>
-
-<p>This is the preferred method for binning:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Map reads (as above)</span>
-bowtie2-build contigs.fasta contigs_index
-bowtie2 <span class="nt">-x</span> contigs_index <span class="nt">-1</span> R1.fastq.gz <span class="nt">-2</span> R2.fastq.gz <span class="nt">-p</span> 32 | <span class="se">\</span>
-    samtools <span class="nb">sort</span> <span class="nt">-o</span> contigs.bam -
-samtools index contigs.bam
-
-<span class="c"># Calculate coverage for MetaBAT</span>
-jgi_summarize_bam_contig_depths <span class="nt">--outputDepth</span> depth.txt contigs.bam
-</code></pre></div></div>
-
-<p><strong>Output (depth.txt):</strong></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>contigName      contigLen   totalAvgDepth   sample1.bam   sample1.bam-var
-contig1         5432        45.3            45.3          2.1
-contig2         12456       38.7            38.7          1.8
-</code></pre></div></div>
-
-<h3 id="for-multiple-samples">For Multiple Samples</h3>
-
-<p>If you have multiple samples (essential for co-assembly binning):</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Map each sample</span>
-<span class="k">for </span>sample <span class="k">in </span>sample1 sample2 sample3<span class="p">;</span> <span class="k">do
-    </span>bowtie2 <span class="nt">-x</span> contigs_index <span class="se">\</span>
-            <span class="nt">-1</span> <span class="k">${</span><span class="nv">sample</span><span class="k">}</span>_R1.fastq.gz <span class="se">\</span>
-            <span class="nt">-2</span> <span class="k">${</span><span class="nv">sample</span><span class="k">}</span>_R2.fastq.gz <span class="se">\</span>
-            <span class="nt">-p</span> 32 | <span class="se">\</span>
-        samtools <span class="nb">sort</span> <span class="nt">-o</span> <span class="k">${</span><span class="nv">sample</span><span class="k">}</span>.bam -
-    samtools index <span class="k">${</span><span class="nv">sample</span><span class="k">}</span>.bam
-<span class="k">done</span>
-
-<span class="c"># Calculate coverage across all samples</span>
-jgi_summarize_bam_contig_depths <span class="nt">--outputDepth</span> depth_all_samples.txt <span class="k">*</span>.bam
-</code></pre></div></div>
-
-<h3 id="time-estimates">Time Estimates</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Step</th>
-      <th>Small Sample (5M pairs)</th>
-      <th>Medium Sample (20M pairs)</th>
-      <th>Large Sample (50M pairs)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Index building</td>
-      <td>2-5 min</td>
-      <td>5-10 min</td>
-      <td>10-20 min</td>
-    </tr>
-    <tr>
-      <td>Read mapping</td>
-      <td>30-60 min</td>
-      <td>2-4 hours</td>
-      <td>6-12 hours</td>
-    </tr>
-    <tr>
-      <td>BAM sorting</td>
-      <td>5-10 min</td>
-      <td>20-40 min</td>
-      <td>1-2 hours</td>
-    </tr>
-    <tr>
-      <td>Coverage calc</td>
-      <td>2-5 min</td>
-      <td>10-20 min</td>
-      <td>30-60 min</td>
-    </tr>
-    <tr>
-      <td><strong>Total</strong></td>
-      <td><strong>~1 hour</strong></td>
-      <td><strong>~3-5 hours</strong></td>
-      <td><strong>~8-15 hours</strong></td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="checkpoint-files-needed-for-day-3">Checkpoint: Files Needed for Day 3</h3>
-
-<p>Before starting Day 3, ensure you have:</p>
-
-<ul>
-  <li>✅ <code class="language-plaintext highlighter-rouge">contigs.fasta</code> - Your assembled contigs</li>
-  <li>✅ <code class="language-plaintext highlighter-rouge">contigs.bam</code> - Mapped reads (sorted and indexed)</li>
-  <li>✅ <code class="language-plaintext highlighter-rouge">contigs.bam.bai</code> - BAM index file</li>
-  <li>✅ <code class="language-plaintext highlighter-rouge">depth.txt</code> - Coverage information (from jgi_summarize)</li>
-</ul>
-
-<p><strong>We’ll use these files extensively in Day 3 for genome binning!</strong></p>
-
-<h3 id="quick-quality-check">Quick Quality Check</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check BAM file statistics</span>
-samtools flagstat contigs.bam
-
-<span class="c"># Expected output:</span>
-<span class="c"># 10000000 + 0 in total (QC-passed reads + QC-failed reads)</span>
-<span class="c"># 9500000 + 0 mapped (95.00% : N/A)</span>
-<span class="c"># 10000000 + 0 paired in sequencing</span>
-<span class="c"># 5000000 + 0 read1</span>
-<span class="c"># 5000000 + 0 read2</span>
-<span class="c"># 9000000 + 0 properly paired (90.00% : N/A)</span>
-<span class="c"># 9500000 + 0 with itself and mate mapped</span>
-<span class="c"># 500000 + 0 singletons (5.00% : N/A)</span>
-</code></pre></div></div>
-
-<p><strong>Good mapping:</strong> &gt;70% mapped reads
-<strong>Excellent mapping:</strong> &gt;85% mapped reads</p>
-
-<p>If mapping rate is low (&lt;50%), check:</p>
-
-<ul>
-  <li>Did you use the correct cleaned reads from Day 1?</li>
-  <li>Is the assembly quality acceptable?</li>
-  <li>Are you mapping to the right assembly?</li>
-</ul>
-
-<hr />
-
-<h2 id="best-practices">Best Practices</h2>
-
-<h3 id="before-assembly">Before Assembly</h3>
-
-<p>✅ <strong>Quality control completed</strong> (Day 1)
-✅ <strong>Host contamination removed</strong>
-✅ <strong>Sufficient sequencing depth</strong> (&gt;5-10 million pairs)
-✅ <strong>Adequate computational resources</strong> planned</p>
-
-<h3 id="during-assembly">During Assembly</h3>
-
-<p>✅ <strong>Use screen/tmux</strong> for long-running jobs
-✅ <strong>Monitor log files</strong> for errors
-✅ <strong>Check disk space</strong> regularly (assemblies are large!)
-✅ <strong>Save parameters</strong> used for reproducibility</p>
-
-<h3 id="after-assembly">After Assembly</h3>
-
-<p>✅ <strong>Run MetaQUAST</strong> for quality assessment
-✅ <strong>Filter contigs</strong> by length (≥500bp or ≥1000bp)
-✅ <strong>Calculate coverage</strong> for each contig
-✅ <strong>Compare</strong> multiple assembly strategies if time permits
-✅ <strong>Document</strong> which assembly to use for downstream analysis</p>
-
-<hr />
-
-<h2 id="troubleshooting">Troubleshooting</h2>
-
-<h3 id="problem-out-of-memory">Problem: Out of Memory</h3>
-
-<p><strong>Solutions:</strong></p>
-
-<ul>
-  <li>Use MEGAHIT instead of metaSPAdes</li>
-  <li>Reduce k-mer maximum</li>
-  <li>Decrease thread count</li>
-  <li>Subsample reads</li>
-  <li>Use HPC resources</li>
-</ul>
-
-<h3 id="problem-assembly-takes-forever">Problem: Assembly Takes Forever</h3>
-
-<p><strong>Solutions:</strong></p>
-
-<ul>
-  <li>Use MEGAHIT (faster)</li>
-  <li>Reduce maximum k-mer</li>
-  <li>Subsample data for testing</li>
-  <li>Check if job is actually running (use <code class="language-plaintext highlighter-rouge">top</code> or <code class="language-plaintext highlighter-rouge">htop</code>)</li>
-</ul>
-
-<h3 id="problem-poor-assembly-quality-low-n50">Problem: Poor Assembly Quality (Low N50)</h3>
-
-<p><strong>Possible causes:</strong></p>
-
-<ul>
-  <li>Low sequencing depth</li>
-  <li>High diversity/complexity</li>
-  <li>Poor read quality</li>
-</ul>
-
-<p><strong>Solutions:</strong></p>
-
-<ul>
-  <li>Ensure proper QC (Day 1)</li>
-  <li>Try different assemblers</li>
-  <li>Optimize k-mer range</li>
-  <li>Consider more sequencing</li>
-</ul>
-
-<h3 id="problem-too-many-short-contigs">Problem: Too Many Short Contigs</h3>
-
-<p><strong>Solutions:</strong></p>
-
-<ul>
-  <li>Increase minimum contig length filter</li>
-  <li>Use higher coverage cutoff</li>
-  <li>Ensure adequate sequencing depth</li>
-  <li>Try different assemblers</li>
-</ul>
-
-<hr />
-
-<h2 id="summary">Summary</h2>
-
-<p>Congratulations! You now know how to:</p>
-
-<p>✅ Assemble metagenomes with metaSPAdes and MEGAHIT
-✅ Understand the trade-offs between assemblers
-✅ Assess assembly quality with MetaQUAST
-✅ Optimize assembly parameters
-✅ Handle long-read data
-✅ Use Python and R for assembly analysis
-✅ Run assemblies on desktop computers</p>
-
-<h3 id="outputs-from-day-2">Outputs from Day 2</h3>
-
-<p>You should now have:</p>
-
-<ul>
-  <li>📁 Assembled contigs (contigs.fasta)</li>
-  <li>📊 Assembly quality reports (MetaQUAST)</li>
-  <li>📈 Comparison statistics</li>
-  <li>🎨 Visualization plots</li>
-</ul>
-
-<h3 id="next-steps-day-3">Next Steps: Day 3</h3>
-
-<p><strong>Ready for genome binning?</strong></p>
-
-<p><a href="../day3-binning/">Proceed to Day 3: Genome Binning (MAG Recovery) →</a></p>
-
-<p>Learn to separate individual genomes from your metagenomic assembly!</p>
-
-<hr />
-
-<h2 id="additional-resources">Additional Resources</h2>
-
-<h3 id="documentation">Documentation</h3>
-
-<ul>
-  <li><a href="http://cab.spbu.ru/software/spades/">metaSPAdes Manual</a></li>
-  <li><a href="https://github.com/voutcn/megahit">MEGAHIT GitHub</a></li>
-  <li><a href="http://quast.sourceforge.net/metaquast">MetaQUAST Documentation</a></li>
-  <li><a href="https://github.com/fenderglass/Flye">Flye Documentation</a></li>
-</ul>
-
-<p><img src="/assets/img/d2-mg.png" alt="day2 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="assembly" /><category term="metaSPAdes" /><category term="MEGAHIT" /><category term="MetaQUAST" /><category term="bioinformatics" /><category term="tutorial" /><category term="python" /><category term="R" /><summary type="html"><![CDATA[A comprehensive guide to assembling metagenomic data using metaSPAdes and MEGAHIT, with quality assessment, parameter optimization, and comparison strategies. Includes desktop-friendly workflows and multi-language analysis scripts.]]></summary></entry></feed>
+<p><img src="/assets/img/d3_mg.png" alt="day2 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="binning" /><category term="MetaWRAP" /><category term="MetaBAT2" /><category term="MaxBin2" /><category term="CONCOCT" /><category term="CheckM2" /><category term="MAGs" /><category term="SemiBin2" /><category term="bioinformatics" /><category term="tutorial" /><category term="python" /><summary type="html"><![CDATA[Master genome binning with modern MetaWRAP workflows, MetaBAT2, MaxBin2, and CONCOCT. Learn bin refinement, CheckM2 quality assessment, and MAG classification. Includes Python 3 setup, laptop-friendly workflows, and deep learning with SemiBin2.]]></summary></entry></feed>
