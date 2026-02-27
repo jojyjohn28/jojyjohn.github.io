@@ -1,0 +1,792 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body>
+<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+
+<table>
+  <tbody>
+    <tr>
+      <td>
+<strong>Estimated Time:</strong> 8-12 hours</td>
+      <td>
+<strong>Difficulty:</strong> Advanced</td>
+      <td>
+<strong>Prerequisites:</strong> Day 5 (Annotation)</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="-table-of-contents">📚 Table of Contents</h2>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#secondary-metabolites">Secondary Metabolites</a></li>
+  <li><a href="#antimicrobial-resistance">Antimicrobial Resistance</a></li>
+  <li><a href="#carbohydrate-active-enzymes">Carbohydrate-Active Enzymes</a></li>
+  <li><a href="#prophages--viruses">Prophages &amp; Viruses</a></li>
+  <li><a href="#crispr-systems">CRISPR Systems</a></li>
+  <li><a href="#mobile-genetic-elements">Mobile Genetic Elements</a></li>
+  <li><a href="#protein-domains">Protein Domains</a></li>
+  <li><a href="#comparative-analysis">Comparative Analysis</a></li>
+  <li><a href="#best-practices">Best Practices</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-introduction">🎯 Introduction</h2>
+
+<p>Welcome to Day 6! After basic annotation (Day 5), it’s time to discover <strong>hidden genomic treasures</strong> - specialized functions that make organisms unique.</p>
+
+<p><strong>Today’s discoveries:</strong></p>
+
+<ol>
+  <li>🧪 <strong>Secondary metabolites</strong> - Antibiotics, toxins, signaling molecules</li>
+  <li>💊 <strong>Antimicrobial resistance</strong> - AMR genes and mechanisms</li>
+  <li>🍬 <strong>CAZymes</strong> - Carbohydrate degradation capabilities</li>
+  <li>🦠 <strong>Prophages</strong> - Integrated viral sequences</li>
+  <li>✂️ <strong>CRISPR systems</strong> - Bacterial immune systems</li>
+  <li>🔄 <strong>Mobile elements</strong> - Transposons, insertion sequences</li>
+  <li>🧬 <strong>Protein domains</strong> - Functional motifs and structures</li>
+</ol>
+
+<h3 id="why-this-matters">Why This Matters</h3>
+
+<p><strong>Basic annotation tells you:</strong></p>
+
+<ul>
+  <li>This is a kinase</li>
+  <li>This is a transporter</li>
+</ul>
+
+<p><strong>Specialized analysis reveals:</strong></p>
+
+<ul>
+  <li>This organism produces penicillin</li>
+  <li>This strain is resistant to carbapenems</li>
+  <li>This microbe can degrade cellulose</li>
+  <li>This genome contains CRISPR-Cas9</li>
+</ul>
+
+<hr>
+
+<h2 id="-secondary-metabolites">🧪 Secondary Metabolites</h2>
+
+<h3 id="antismash-biosynthetic-gene-cluster-detection">antiSMASH: Biosynthetic Gene Cluster Detection</h3>
+
+<p><strong>antiSMASH</strong> (antibiotics &amp; Secondary Metabolite Analysis SHell) is the gold standard for BGC detection.</p>
+
+<h4 id="installation">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create environment</span>
+conda create <span class="nt">-n</span> antismash <span class="nt">-c</span> bioconda antismash
+conda activate antismash
+
+<span class="c"># Download databases (~15 GB)</span>
+download-antismash-databases
+</code></pre></div></div>
+
+<h4 id="basic-usage">Basic Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate antismash
+
+<span class="c"># Single genome</span>
+antismash <span class="se">\</span>
+    <span class="nt">--output-dir</span> antismash_output/genome1 <span class="se">\</span>
+    <span class="nt">--genefinding-tool</span> prodigal <span class="se">\</span>
+    <span class="nt">--cpus</span> 8 <span class="se">\</span>
+    genome1.gbk
+
+<span class="c"># With all features enabled</span>
+antismash <span class="se">\</span>
+    <span class="nt">--output-dir</span> antismash_output/genome1 <span class="se">\</span>
+    <span class="nt">--genefinding-tool</span> prodigal <span class="se">\</span>
+    <span class="nt">--knownclusterblast</span> <span class="se">\</span>
+    <span class="nt">--subclusterblast</span> <span class="se">\</span>
+    <span class="nt">--clusterblast</span> <span class="se">\</span>
+    <span class="nt">--smcog-trees</span> <span class="se">\</span>
+    <span class="nt">--cpus</span> 8 <span class="se">\</span>
+    genome1.gbk
+</code></pre></div></div>
+
+<p><strong>Input formats:</strong></p>
+
+<ul>
+  <li>GenBank (.gbk) - recommended</li>
+  <li>FASTA (.fa) - requires gene finding</li>
+</ul>
+
+<h4 id="antismash-output">antiSMASH Output</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>antismash_output/genome1/
+├── genome1.gbk                    # Annotated genome
+├── genome1.json                   # Machine-readable results
+├── index.html                     # Interactive visualization
+├── regions.js                     # BGC regions
+├── knownclusterblast/            # Hits to known BGCs
+└── svg/                          # Cluster visualizations
+</code></pre></div></div>
+
+<p><strong>BGC types detected:</strong></p>
+
+<ul>
+  <li>Polyketides (PKS)</li>
+  <li>Non-ribosomal peptides (NRPS)</li>
+  <li>Terpenes</li>
+  <li>Bacteriocins</li>
+  <li>Siderophores</li>
+  <li>RiPPs (Ribosomally synthesized and Post-translationally modified Peptides)</li>
+</ul>
+
+<h4 id="parse-antismash-results">Parse antiSMASH Results</h4>
+
+<h2 id="please-use-parse_antismashpy-from-day-6-">please use parse_antismash.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/" rel="external nofollow noopener" target="_blank">Day 6 →</a></strong>
+</h2>
+
+<h3 id="big-scape-bgc-similarity-analysis">BiG-SCAPE: BGC Similarity Analysis</h3>
+
+<p><strong>BiG-SCAPE</strong> compares BGCs across multiple genomes to identify families.</p>
+
+<h4 id="installation-1">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> bigscape <span class="nt">-c</span> bioconda bigscape
+conda activate bigscape
+</code></pre></div></div>
+
+<h4 id="usage">Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Collect all BGC GenBank files from antiSMASH</span>
+<span class="nb">mkdir </span>bigscape_input
+<span class="nb">cp </span>antismash_output/<span class="k">*</span>/regions/<span class="k">*</span>.gbk bigscape_input/
+
+<span class="c"># Run BiG-SCAPE</span>
+bigscape <span class="se">\</span>
+    <span class="nt">-i</span> bigscape_input <span class="se">\</span>
+    <span class="nt">-o</span> bigscape_output <span class="se">\</span>
+    <span class="nt">--pfam_dir</span> ~/pfam_database <span class="se">\</span>
+    <span class="nt">--cores</span> 8 <span class="se">\</span>
+    <span class="nt">--mode</span> auto
+
+<span class="c"># Visualize</span>
+firefox bigscape_output/network_files/index.html
+</code></pre></div></div>
+
+<p><strong>BiG-SCAPE output:</strong></p>
+
+<ul>
+  <li>BGC families (grouped by similarity)</li>
+  <li>Network visualization</li>
+  <li>Comparative analysis across genomes</li>
+</ul>
+
+<hr>
+
+<h2 id="-antimicrobial-resistance">💊 Antimicrobial Resistance</h2>
+
+<h3 id="card-rgi-comprehensive-amr-database">CARD-RGI: Comprehensive AMR Database</h3>
+
+<p><strong>RGI</strong> (Resistance Gene Identifier) uses CARD database for AMR detection.</p>
+
+<h4 id="installation-2">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> rgi <span class="nt">-c</span> bioconda rgi
+conda activate rgi
+
+<span class="c"># Download CARD database</span>
+rgi load <span class="nt">--card_json</span> ~/card_database/card.json
+
+<span class="c"># Verify</span>
+rgi database <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h4 id="usage-1">Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate rgi
+
+<span class="c"># Predict AMR from proteins</span>
+rgi main <span class="se">\</span>
+    <span class="nt">--input_sequence</span> proteins.faa <span class="se">\</span>
+    <span class="nt">--input_type</span> protein <span class="se">\</span>
+    <span class="nt">--output_file</span> rgi_output <span class="se">\</span>
+    <span class="nt">--clean</span> <span class="se">\</span>
+    <span class="nt">--num_threads</span> 8
+
+<span class="c"># From nucleotides (slower but more sensitive)</span>
+rgi main <span class="se">\</span>
+    <span class="nt">--input_sequence</span> genome.fa <span class="se">\</span>
+    <span class="nt">--input_type</span> contig <span class="se">\</span>
+    <span class="nt">--output_file</span> rgi_output <span class="se">\</span>
+    <span class="nt">--clean</span> <span class="se">\</span>
+    <span class="nt">--num_threads</span> 8 <span class="se">\</span>
+    <span class="nt">--include_loose</span>
+</code></pre></div></div>
+
+<p><strong>RGI output columns:</strong></p>
+
+<ul>
+  <li>ORF_ID</li>
+  <li>ARO (Antibiotic Resistance Ontology)</li>
+  <li>Drug Class</li>
+  <li>Resistance Mechanism</li>
+  <li>AMR Gene Family</li>
+</ul>
+
+<h4 id="parse-rgi-results">Parse RGI Results</h4>
+
+<h2 id="use-parse_rgipy-from-day-6-">Use parse_rgi.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/" rel="external nofollow noopener" target="_blank">Day 6 →</a></strong>
+</h2>
+
+<h3 id="abricate-fast-amr-screening">ABRicate: Fast AMR Screening</h3>
+
+<p><strong>ABRicate</strong> screens multiple AMR databases quickly.</p>
+
+<h4 id="installation-3">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> abricate <span class="nt">-c</span> bioconda abricate
+conda activate abricate
+
+<span class="c"># Update databases</span>
+abricate-get_db <span class="nt">--db</span> all
+</code></pre></div></div>
+
+<h4 id="usage-2">Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate abricate
+
+<span class="c"># Screen against all databases</span>
+abricate genome.fa <span class="o">&gt;</span> abricate_results.tab
+
+<span class="c"># Specific database</span>
+abricate <span class="nt">--db</span> card genome.fa <span class="o">&gt;</span> card_results.tab
+abricate <span class="nt">--db</span> resfinder genome.fa <span class="o">&gt;</span> resfinder_results.tab
+abricate <span class="nt">--db</span> vfdb genome.fa <span class="o">&gt;</span> virulence_results.tab
+
+<span class="c"># Batch processing</span>
+abricate genomes/<span class="k">*</span>.fa <span class="o">&gt;</span> all_genomes_amr.tab
+
+<span class="c"># Summary</span>
+abricate <span class="nt">--summary</span> all_genomes_amr.tab <span class="o">&gt;</span> amr_summary.tab
+</code></pre></div></div>
+
+<p><strong>Available databases:</strong></p>
+
+<ul>
+  <li>card (CARD)</li>
+  <li>resfinder (ResFinder)</li>
+  <li>ncbi (NCBI AMRFinderPlus)</li>
+  <li>argannot</li>
+  <li>megares</li>
+  <li>vfdb (Virulence factors)</li>
+  <li>plasmidfinder</li>
+</ul>
+
+<hr>
+
+<h2 id="-carbohydrate-active-enzymes-cazymes">🍬 Carbohydrate-Active Enzymes (CAZymes)</h2>
+
+<h3 id="dbcan2-cazyme-annotation">dbCAN2: CAZyme Annotation</h3>
+
+<p><strong>dbCAN</strong> identifies enzymes that degrade, modify, or create carbohydrates.</p>
+
+<h4 id="installation-4">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> dbcan <span class="nt">-c</span> bioconda dbcan
+conda activate dbcan
+
+<span class="c"># Download databases</span>
+dbcan_build <span class="nt">--help</span>
+</code></pre></div></div>
+
+<h4 id="usage-3">Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate dbcan
+
+<span class="c"># Run dbCAN</span>
+run_dbcan <span class="se">\</span>
+    proteins.faa <span class="se">\</span>
+    protein <span class="se">\</span>
+    <span class="nt">--out_dir</span> dbcan_output <span class="se">\</span>
+    <span class="nt">--db_dir</span> ~/dbcan_db <span class="se">\</span>
+    <span class="nt">--tools</span> all <span class="se">\</span>
+    <span class="nt">--threads</span> 8
+
+<span class="c"># Output: dbcan_output/overview.txt</span>
+</code></pre></div></div>
+
+<p><strong>CAZyme families:</strong></p>
+
+<ul>
+  <li>
+<strong>GH</strong> - Glycoside Hydrolases (breakdown)</li>
+  <li>
+<strong>GT</strong> - Glycosyl Transferases (synthesis)</li>
+  <li>
+<strong>PL</strong> - Polysaccharide Lyases</li>
+  <li>
+<strong>CE</strong> - Carbohydrate Esterases</li>
+  <li>
+<strong>AA</strong> - Auxiliary Activities</li>
+  <li>
+<strong>CBM</strong> - Carbohydrate-Binding Modules</li>
+</ul>
+
+<h4 id="parse-dbcan-results">Parse dbCAN Results</h4>
+
+<h2 id="use-parse_dbcanpy-from-day-6-">Use parse_dbcan.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/" rel="external nofollow noopener" target="_blank">Day 6 →</a></strong>
+</h2>
+
+<h2 id="-prophages--viruses">🦠 Prophages &amp; Viruses</h2>
+
+<h3 id="virsorter2-viral-sequence-detection">VirSorter2: Viral Sequence Detection</h3>
+
+<p><strong>VirSorter2</strong> identifies viral sequences in genomes and metagenomes.</p>
+
+<h4 id="installation-5">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> virsorter2 <span class="nt">-c</span> bioconda <span class="nv">virsorter</span><span class="o">=</span>2
+conda activate virsorter2
+
+<span class="c"># Setup database</span>
+virsorter setup <span class="nt">-d</span> ~/virsorter2-db <span class="nt">-j</span> 4
+</code></pre></div></div>
+
+<h4 id="usage-4">Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate virsorter2
+
+<span class="c"># Run VirSorter2</span>
+virsorter run <span class="se">\</span>
+    <span class="nt">-i</span> genome.fa <span class="se">\</span>
+    <span class="nt">-w</span> virsorter2_output <span class="se">\</span>
+    <span class="nt">--min-length</span> 5000 <span class="se">\</span>
+    <span class="nt">--min-score</span> 0.5 <span class="se">\</span>
+    <span class="nt">-j</span> 8 <span class="se">\</span>
+    all
+
+<span class="c"># High-confidence viral sequences</span>
+<span class="nb">cat </span>virsorter2_output/final-viral-boundary.tsv
+</code></pre></div></div>
+
+<p><strong>VirSorter2 output:</strong></p>
+
+<ul>
+  <li>Prophage regions</li>
+  <li>Viral score (0-1)</li>
+  <li>Boundary coordinates</li>
+  <li>Gene content</li>
+</ul>
+
+<hr>
+
+<h3 id="phaster-phage-search-tool-enhanced-release">PHASTER: PHAge Search Tool Enhanced Release</h3>
+
+<p><strong>PHASTER</strong> identifies prophages with detailed annotation.</p>
+
+<p><strong>Note:</strong> PHASTER is primarily a web service.</p>
+
+<p><strong>Web interface:</strong> https://phaster.ca/</p>
+
+<p><strong>Alternative: Use VirSorter2 + CheckV</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># CheckV for viral genome quality</span>
+conda create <span class="nt">-n</span> checkv <span class="nt">-c</span> bioconda checkv
+conda activate checkv
+
+<span class="c"># Download database</span>
+checkv download_database ~/checkv-db
+
+<span class="c"># Run CheckV on VirSorter2 results</span>
+checkv end_to_end <span class="se">\</span>
+    virsorter2_output/final-viral-combined.fa <span class="se">\</span>
+    checkv_output <span class="se">\</span>
+    <span class="nt">-d</span> ~/checkv-db <span class="se">\</span>
+    <span class="nt">-t</span> 8
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="️-crispr-systems">✂️ CRISPR Systems</h2>
+
+<h3 id="crisprcasfinder-detect-crispr-cas-systems">CRISPRCasFinder: Detect CRISPR-Cas Systems</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Installation</span>
+conda create <span class="nt">-n</span> crisprcasfinder <span class="nt">-c</span> bioconda crisprcasfinder
+conda activate crisprcasfinder
+
+<span class="c"># Run</span>
+CRISPRCasFinder.pl <span class="se">\</span>
+    <span class="nt">-in</span> genome.fa <span class="se">\</span>
+    <span class="nt">-out</span> crispr_output <span class="se">\</span>
+    <span class="nt">-cas</span> <span class="se">\</span>
+    <span class="nt">-keep</span>
+</code></pre></div></div>
+
+<h3 id="minced-simple-crispr-detection">MinCED: Simple CRISPR Detection</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> minced <span class="nt">-c</span> bioconda minced
+conda activate minced
+
+<span class="c"># Quick CRISPR detection</span>
+minced genome.fa crispr_output.txt
+
+<span class="c"># Parse results</span>
+<span class="nb">grep</span> <span class="s2">"CRISPR"</span> crispr_output.txt
+</code></pre></div></div>
+
+<p><strong>CRISPR system types:</strong></p>
+
+<ul>
+  <li>Type I (most common in bacteria)</li>
+  <li>Type II (Cas9 - CRISPR editing)</li>
+  <li>Type III</li>
+  <li>Type IV-VI (rare)</li>
+</ul>
+
+<hr>
+
+<h2 id="-mobile-genetic-elements">🔄 Mobile Genetic Elements</h2>
+
+<h3 id="isfinder-insertion-sequences">ISfinder: Insertion Sequences</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use ABRicate with custom IS database</span>
+abricate <span class="nt">--db</span> isfinder genome.fa <span class="o">&gt;</span> is_results.tab
+
+<span class="c"># Or BLAST against ISfinder database</span>
+blastn <span class="se">\</span>
+    <span class="nt">-query</span> genome.fa <span class="se">\</span>
+    <span class="nt">-db</span> ~/isfinder_db/ISfinder <span class="se">\</span>
+    <span class="nt">-outfmt</span> 6 <span class="se">\</span>
+    <span class="nt">-num_threads</span> 8 <span class="se">\</span>
+    <span class="o">&gt;</span> is_blast.out
+</code></pre></div></div>
+
+<h3 id="integron-finder">Integron Finder</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> integron_finder <span class="nt">-c</span> bioconda integron_finder
+conda activate integron_finder
+
+<span class="c"># Find integrons</span>
+integron_finder <span class="se">\</span>
+    <span class="nt">--local-max</span> <span class="se">\</span>
+    <span class="nt">--cpu</span> 8 <span class="se">\</span>
+    genome.fa
+</code></pre></div></div>
+
+<p><strong>Integrons contain:</strong></p>
+
+<ul>
+  <li>Integration sites</li>
+  <li>Gene cassettes</li>
+  <li>Often AMR genes</li>
+</ul>
+
+<hr>
+
+<h2 id="-protein-domains--functions">🧬 Protein Domains &amp; Functions</h2>
+
+<h3 id="interproscan-comprehensive-domain-analysis">InterProScan: Comprehensive Domain Analysis</h3>
+
+<p><strong>InterProScan</strong> searches multiple protein signature databases.</p>
+
+<h4 id="installation-6">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Large download - recommend using web service</span>
+<span class="c"># Or install locally:</span>
+wget ftp://ftp.ebi.ac.uk/pub/software/unix/iprscan/5/5.XX-XX.X/interproscan-5.XX-XX.X-64-bit.tar.gz
+<span class="nb">tar</span> <span class="nt">-xzf</span> interproscan-5.XX-XX.X-64-bit.tar.gz
+</code></pre></div></div>
+
+<h4 id="usage-5">Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run InterProScan</span>
+interproscan.sh <span class="se">\</span>
+    <span class="nt">-i</span> proteins.faa <span class="se">\</span>
+    <span class="nt">-f</span> TSV,GFF3 <span class="se">\</span>
+    <span class="nt">-o</span> interproscan_output <span class="se">\</span>
+    <span class="nt">--cpu</span> 8 <span class="se">\</span>
+    <span class="nt">--goterms</span> <span class="se">\</span>
+    <span class="nt">--pathways</span>
+</code></pre></div></div>
+
+<p><strong>Databases searched:</strong></p>
+
+<ul>
+  <li>Pfam (protein families)</li>
+  <li>PROSITE (patterns)</li>
+  <li>PRINTS</li>
+  <li>SMART</li>
+  <li>TIGRFAMs</li>
+  <li>PANTHER</li>
+  <li>Gene3D</li>
+  <li>Superfamily</li>
+</ul>
+
+<h4 id="parse-interproscan">Parse InterProScan</h4>
+
+<h2 id="use-parse_iprpy-from-day-6-">Use parse_ipr.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/" rel="external nofollow noopener" target="_blank">Day 6 →</a></strong>
+</h2>
+
+<h2 id="-comprehensive-analysis-workflow">📊 Comprehensive Analysis Workflow</h2>
+
+<h3 id="complete-specialized-function-pipeline">Complete Specialized Function Pipeline</h3>
+
+<p>Use comprehensive_analysis.sh from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/" rel="external nofollow noopener" target="_blank">Day 6 →</a></strong></p>
+
+<hr>
+
+<h2 id="-comparative-analysis">📈 Comparative Analysis</h2>
+
+<h3 id="compare-specialized-functions-across-genomes">Compare Specialized Functions Across Genomes</h3>
+
+<p>Use compare_specialized_functions.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/" rel="external nofollow noopener" target="_blank">Day 6 →</a></strong></p>
+
+<h2 id="-best-practices">💡 Best Practices</h2>
+
+<h3 id="before-analysis">Before Analysis</h3>
+
+<ul>
+  <li>✅ Have complete gene predictions (Prodigal/Prokka)</li>
+  <li>✅ Use GenBank format for antiSMASH</li>
+  <li>✅ Check genome quality (comp &gt;80%, cont &lt;5%)</li>
+  <li>✅ Ensure databases are updated</li>
+</ul>
+
+<h3 id="during-analysis">During Analysis</h3>
+
+<ul>
+  <li>✅ Run tools in priority order (fast → slow)</li>
+  <li>✅ Use multiple tools for AMR (RGI + ABRicate)</li>
+  <li>✅ Save intermediate files</li>
+  <li>✅ Document tool versions</li>
+</ul>
+
+<h3 id="after-analysis">After Analysis</h3>
+
+<ul>
+  <li>✅ Validate hits manually (especially AMR)</li>
+  <li>✅ Check for false positives</li>
+  <li>✅ Cross-reference with literature</li>
+  <li>✅ Visualize results</li>
+</ul>
+
+<hr>
+
+<h2 id="-troubleshooting">🔧 Troubleshooting</h2>
+
+<h3 id="antismash-no-bgcs-detected">antiSMASH: No BGCs detected</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check input format</span>
+<span class="nb">head </span>genome.gbk
+
+<span class="c"># Try with relaxed detection</span>
+antismash <span class="nt">--minimal</span> ...
+
+<span class="c"># Ensure genome is annotated</span>
+</code></pre></div></div>
+
+<h3 id="rgi-no-results">RGI: No results</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update CARD database</span>
+rgi load <span class="nt">--card_json</span> ~/card_database/card.json
+
+<span class="c"># Try --include_loose for more hits</span>
+rgi main <span class="nt">--include_loose</span> ...
+</code></pre></div></div>
+
+<h3 id="dbcan-low-cazyme-count">dbCAN: Low CAZyme count</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use all three tools</span>
+run_dbcan <span class="nt">--tools</span> all ...
+
+<span class="c"># Check protein quality</span>
+<span class="nb">grep</span> <span class="s2">"&gt;"</span> proteins.faa | <span class="nb">wc</span> <span class="nt">-l</span>
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="-expected-results">📈 Expected Results</h2>
+
+<h3 id="typical-findings-per-genome">Typical Findings per Genome</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Typical Range</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>BGCs</strong></td>
+      <td>5-30</td>
+    </tr>
+    <tr>
+      <td><strong>AMR genes</strong></td>
+      <td>0-50</td>
+    </tr>
+    <tr>
+      <td><strong>CAZymes</strong></td>
+      <td>50-500</td>
+    </tr>
+    <tr>
+      <td><strong>Prophages</strong></td>
+      <td>0-10</td>
+    </tr>
+    <tr>
+      <td><strong>CRISPR arrays</strong></td>
+      <td>0-5</td>
+    </tr>
+    <tr>
+      <td><strong>Integrons</strong></td>
+      <td>0-5</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="visulaizations">Visulaizations</h3>
+
+<h4 id="-1-bgc_heatmapr---bgc-distribution">📊 1. bgc_heatmap.R - BGC Distribution</h4>
+
+<p><strong>What it does:</strong></p>
+
+<p>● Visualizes antiSMASH BGC distributions across genomes
+● Creates 3 heatmap variants (basic, custom colors, annotated)
+● Includes toy data built-in
+● Automatic clustering by BGC similarity</p>
+
+<p>Outputs:</p>
+
+<p>● bgc_heatmap_basic.pdf - Simple clustered heatmap
+● bgc_heatmap_custom.pdf - Custom gradient (white → gold → red → purple)
+● bgc_heatmap_annotated.pdf - With annotations for BGC richness
+● bgc_summary.csv - Summary statistics</p>
+
+<p>Toy data included: 15 genomes × 9 BGC types</p>
+
+<h4 id="-2-cazyme_bubble_plotr---cazyme-analysis">🍬 2. cazyme_bubble_plot.R - CAZyme Analysis</h4>
+
+<p><strong>What it does:</strong></p>
+
+<p>● Creates bubble plots showing CAZyme family distributions
+● Bubble size = CAZyme count
+● Color = Genome completion percentage
+● Includes heatmap and bar plot variants
+● Analyzes degradation capabilities</p>
+
+<p>Outputs:</p>
+
+<p>● cazyme_bubble_plot.pdf - Main bubble visualization
+● cazyme_bubble_plot_alt.pdf - Alternative color scheme
+● cazyme_total_barplot.pdf - Total counts by taxonomic order
+● cazyme_heatmap.pdf - Clustered heatmap
+● cazyme_summary.csv - Summary with degradation analysis</p>
+
+<p>Toy data included: 12 taxonomic orders × 6 CAZyme families</p>
+
+<p>All R-codes available in *<em><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/" rel="external nofollow noopener" target="_blank">Day 6 →</a></em></p>
+
+<h3 id="processing-time-8-core-laptop">Processing Time (8-core laptop)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Single Genome</th>
+      <th>10 Genomes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>antiSMASH</td>
+      <td>30-60 min</td>
+      <td>8-10 hrs</td>
+    </tr>
+    <tr>
+      <td>RGI</td>
+      <td>5-10 min</td>
+      <td>1-2 hrs</td>
+    </tr>
+    <tr>
+      <td>ABRicate</td>
+      <td>1-2 min</td>
+      <td>15-20 min</td>
+    </tr>
+    <tr>
+      <td>dbCAN</td>
+      <td>10-20 min</td>
+      <td>2-3 hrs</td>
+    </tr>
+    <tr>
+      <td>VirSorter2</td>
+      <td>20-40 min</td>
+      <td>5-7 hrs</td>
+    </tr>
+    <tr>
+      <td>InterProScan</td>
+      <td>1-2 hrs</td>
+      <td>15-20 hrs</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="-success-checklist">✅ Success Checklist</h2>
+
+<ul class="task-list">
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>BGCs identified and annotated</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>AMR profile generated</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>CAZyme repertoire characterized</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Prophages detected</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>CRISPR systems identified</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Mobile elements cataloged</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Protein domains annotated</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Comparative analysis completed</li>
+</ul>
+
+<hr>
+
+<h2 id="-key-resources">📚 Key Resources</h2>
+
+<h3 id="tools--databases">Tools &amp; Databases</h3>
+
+<ul>
+  <li><a href="https://antismash.secondarymetabolites.org/" rel="external nofollow noopener" target="_blank">antiSMASH</a></li>
+  <li><a href="https://card.mcmaster.ca/" rel="external nofollow noopener" target="_blank">CARD</a></li>
+  <li><a href="https://github.com/tseemann/abricate" rel="external nofollow noopener" target="_blank">ABRicate</a></li>
+  <li><a href="http://bcb.unl.edu/dbCAN2/" rel="external nofollow noopener" target="_blank">dbCAN</a></li>
+  <li><a href="https://github.com/jiarong/VirSorter2" rel="external nofollow noopener" target="_blank">VirSorter2</a></li>
+  <li><a href="https://www.ebi.ac.uk/interpro/" rel="external nofollow noopener" target="_blank">InterProScan</a></li>
+</ul>
+
+<hr>
+
+<h2 id="️-whats-next">➡️ What’s Next?</h2>
+
+<p><strong>Congratulations!</strong> You’ve discovered the specialized capabilities of your genomes!</p>
+
+<p>Next steps:</p>
+
+<ul>
+  <li>Comparative genomics</li>
+  <li>Pangenome analysis</li>
+  <li>Phylogenomics</li>
+  <li>Publication!</li>
+</ul>
+
+<h4 id="repo-for-todays-code-and-other-details">Repo for today’s code and other details</h4>
+
+<p>🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/" rel="external nofollow noopener" target="_blank">Day 6 →</a></strong></p>
+
+<p>Last updated: February 2026</p>
+
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg"></p>
+</body></html>
