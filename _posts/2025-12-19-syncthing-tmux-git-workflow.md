@@ -7,6 +7,8 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/syncthing-tmux-git-workflow/
+categories: [linux]
+tags: [linux, data-transfer, screen-share, remote-connection]
 ---
 
 #### 🖥️ Using Syncthing, tmux, and Git to Sync My Workflow Across Devices

@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/wgs-day1-raw-reads-qc/
+series: wgs
+series_title: "Whole Genome Analysis Series"
+order: 1
 ---
 
 ## 🧬 Whole Genome Analysis — Day 1

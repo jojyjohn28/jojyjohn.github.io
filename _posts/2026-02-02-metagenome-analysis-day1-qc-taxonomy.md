@@ -8,6 +8,9 @@ giscus_comments: true
 featured: true
 permalink: /blog/metagenome-analysis-day1-qc-taxonomy/
 tags: [metagenomics, quality-control, taxonomic-profiling, kaiju, kraken2, metaphlan, fastqc, bioinformatics, tutorial]
+series: metagenome
+series_title: "Metagenome Analysis Series"
+order: 1
 ---
 
 # Day 1: Quality Control, Contamination Removal, and Read-Based Taxonomic Analysis

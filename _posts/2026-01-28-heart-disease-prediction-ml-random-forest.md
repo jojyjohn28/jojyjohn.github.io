@@ -8,6 +8,8 @@ giscus_comments: true
 featured: true
 permalink: /blog/heart-disease-prediction-ml-random-forest/
 tags: [machine-learning, random-forest, healthcare, data-science, classification, model-comparison]
+categories: [machine-learning]
+tags: [machine-learning, random-forest, healthcare, data-science, classification, model-comparison]
 ---
 
 ### Predicting Heart Disease with Machine Learning: When Clinical ML Meets Ecological Research

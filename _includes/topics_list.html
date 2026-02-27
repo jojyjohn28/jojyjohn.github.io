@@ -1,0 +1,13 @@
+{% assign cats = site.categories %} {% if cats and cats.size > 0 %}
+<div class="card p-3 mb-4">
+  <h2>🗂 Topics</h2>
+  <ul style="margin-bottom: 0">
+    {% assign sorted = cats | sort %} {% for c in sorted %} {% assign name = c[0] %} {% assign posts = c[1] %}
+    <li>
+      <a href="{{ '/topics/#' | append: name | relative_url }}"> {{ name | replace: "-", " " | capitalize }} </a>
+      <span style="opacity: 0.8">({{ posts | size }} posts)</span>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}

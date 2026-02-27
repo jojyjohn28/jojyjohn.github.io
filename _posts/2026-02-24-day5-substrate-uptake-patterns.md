@@ -29,6 +29,9 @@ tags:
     workflow,
     microbial-ecology,
   ]
+series: size_fractionated
+series_title: "Size-Fractionated Microbiome Series"
+order: 5
 ---
 
 #### 🧬 Day 5: Substrate Uptake & Utilization in Size-Fractionated Estuarine Microbiomes

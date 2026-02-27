@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/visualize-your-data-day5-bubble-plots/
+series: visualization
+series_title: "Visualization Series"
+order: 5
 ---
 
 # 📊 Visualize Your Data – Day 5: Bubble Plots

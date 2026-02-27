@@ -8,6 +8,9 @@ giscus_comments: true
 featured: true
 permalink: /blog/metagenome-analysis-day8-workflows-platforms/
 tags: [metagenomics, MetaWRAP, Galaxy, KBase, nf-core, workflows, automation, web-platforms, IMG, BV-BRC, PATRIC, pipelines, bioinformatics]
+series: metagenome
+series_title: "Metagenome Analysis Series"
+order: 8
 ---
 
 # Day 8: Workflow Wrappers & Web Platforms

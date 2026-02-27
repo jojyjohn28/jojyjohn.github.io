@@ -8,6 +8,9 @@ giscus_comments: true
 featured: true
 permalink: /blog/metagenome-analysis-day2-assembly/
 tags: [metagenomics, assembly, metaSPAdes, MEGAHIT, MetaQUAST, bioinformatics, tutorial, python, R]
+series: metagenome
+series_title: "Metagenome Analysis Series"
+order: 2
 ---
 
 # Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads

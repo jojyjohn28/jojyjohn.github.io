@@ -25,6 +25,9 @@ tags:
     R,
     bioinformatics,
   ]
+series: metagenome
+series_title: "Metagenome Analysis Series"
+order: 10
 ---
 
 # Day 10: Multi-Omics Integration - Metagenomics & Metatranscriptomics

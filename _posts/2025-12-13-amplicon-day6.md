@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/amplicon-day6/
+series: amplicon
+series_title: "Amplicon Week Series"
+order: 6
 ---
 
 #### 🌱 Amplicon Week – Day 6 Wrap-Up: From Reads to Insights

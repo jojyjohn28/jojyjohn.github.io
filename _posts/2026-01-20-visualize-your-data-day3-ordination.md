@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/visualize-your-data-day3-ordination/
+series: visualization
+series_title: "Visualization Series"
+order: 3
 ---
 
 # 📊 Visualize Your Data – Day 3: Ordination Plots

@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/visualize-your-data-day4-volcano-plots/
+series: visualization
+series_title: "Visualization Series"
+order: 4
 ---
 
 # 📊 Visualize Your Data – Day 4: Volcano Plots

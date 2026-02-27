@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/amplicon-day4/
+series: amplicon
+series_title: "Amplicon Week Series"
+order: 4
 ---
 
 ### 🌱 Amplicon Week — Day 4

@@ -47,8 +47,11 @@ nav_order: 3
   <p>I post short updates daily. Scroll down for the latest posts ↓</p>
 </div>
 
+{% include series_list.html %}
+{% include topics_list.html %}
+
 <ul class="post-list">
-  {% assign postlist = site.posts %}
+  {% assign postlist = site.posts | where_exp: "p", "p.series == nil" %}
   {% for post in postlist %}
     <li>
       <h3><a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>

@@ -24,6 +24,9 @@ tags:
     BiG-SCAPE,
     bioinformatics,
   ]
+  series: metagenome
+series_title: "Metagenome Analysis Series"
+order: 6
 ---
 
 # Day 6: Specialized Genomic Functions

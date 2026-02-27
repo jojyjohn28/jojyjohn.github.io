@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/wgs-day3-taxonomy-phylogeny/
+series: wgs
+series_title: "Whole Genome Analysis Series"
+order: 3
 ---
 
 # 🧬 Whole Genome Sequencing — Day 3

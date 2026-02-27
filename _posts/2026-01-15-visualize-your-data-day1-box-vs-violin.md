@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/visualize-your-data-day1-box-vs-violin/
+series: visualization
+series_title: "Visualization Series"
+order: 1
 ---
 
 # 📊 Visualize Your Data – Day 1

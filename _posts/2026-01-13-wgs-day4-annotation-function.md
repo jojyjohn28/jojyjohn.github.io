@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/wgs-day4-annotation-function/
+series: wgs
+series_title: "Whole Genome Analysis Series"
+order: 4
 ---
 
 # 🧬 Whole Genome Sequencing — Day 4

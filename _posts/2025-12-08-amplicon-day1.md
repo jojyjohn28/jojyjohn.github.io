@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/amplicon-day1/
+series: amplicon
+series_title: "Amplicon Week Series"
+order: 1
 ---
 
 **Welcome to Day 1 of my Amplicon Sequencing & Metabarcoding Week (Dec 8–13)!**

@@ -30,6 +30,9 @@ tags:
     pipeline,
     NGS,
   ]
+series: metagenome
+series_title: "Metagenome Analysis Series"
+order: 11
 ---
 
 **Complete workflow from raw sequencing data to publication-ready insights**

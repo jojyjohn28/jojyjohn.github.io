@@ -8,6 +8,9 @@ giscus_comments: true
 featured: true
 permalink: /blog/metagenome-analysis-day3-binning/
 tags: [metagenomics, binning, MetaWRAP, MetaBAT2, MaxBin2, CONCOCT, CheckM2, MAGs, SemiBin2, bioinformatics, tutorial, python]
+series: metagenome
+series_title: "Metagenome Analysis Series"
+order: 3
 ---
 
 # Day 3: Genome Binning - Recovering Individual Genomes from Metagenomes

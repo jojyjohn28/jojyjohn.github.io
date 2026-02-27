@@ -7,6 +7,8 @@ comments: true
 featured: true
 giscus_comments: true
 permalink: /blog/semibin-snakemake-soil-mag-workflow/
+categories: [machine-learning]
+tags: [machine-learning, semibin2, random-forest, binning, microbiome]
 ---
 
 Today’s post is about one of my favorite combinations right now:  

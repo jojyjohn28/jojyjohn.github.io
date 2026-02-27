@@ -8,6 +8,9 @@ giscus_comments: true
 featured: true
 permalink: /blog/metagenome-analysis-day4-dereplication-taxonomy/
 tags: [metagenomics, dereplication, dRep, GTDB-Tk, taxonomy, phylogenetics, iTOL, ggtree, MAGs, bioinformatics, tutorial]
+series: metagenome
+series_title: "Metagenome Analysis Series"
+order: 4
 ---
 
 # Day 4: Genome Dereplication & Taxonomic Classification

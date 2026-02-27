@@ -8,6 +8,9 @@ giscus_comments: true
 featured: true
 permalink: /blog/metagenome-analysis-day5-annotation/
 tags: [metagenomics, annotation, Prodigal, Prokka, DRAM, METABOLIC, eggNOG, functional-annotation, metabolic-pathways, bioinformatics, tutorial]
+series: metagenome
+series_title: "Metagenome Analysis Series"
+order: 5
 ---
 
 # Day 5: Genome Annotation - Understanding Metabolic Potential

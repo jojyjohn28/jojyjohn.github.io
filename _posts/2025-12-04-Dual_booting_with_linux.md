@@ -7,6 +7,8 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/dual-booting-with-linux/
+categories: [linux]
+tags: [linux, dual-boot, ubuntu, nvme, partitions]
 ---
 
 Today’s entry is a special one — not about metagenomics, CAZymes, MAGs, or FRed models —  

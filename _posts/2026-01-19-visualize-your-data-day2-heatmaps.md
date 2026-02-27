@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/visualize-your-data-day2-heatmaps/
+series: visualization
+series_title: "Visualization Series"
+order: 2
 ---
 
 # 📊 Visualize Your Data – Day 2: Heatmaps

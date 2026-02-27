@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/wgs-day5-comparative-genomics/
+series: wgs
+series_title: "Whole Genome Analysis Series"
+order: 5
 ---
 
 # 🧬 Whole Genome Sequencing — Day 5

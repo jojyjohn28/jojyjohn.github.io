@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/amplicon-day2/
+series: amplicon
+series_title: "Amplicon Week Series"
+order: 2
 ---
 
 **Amplicon Week — Day 2: QIIME2 Setup, Importing Data & Classifier Training!**

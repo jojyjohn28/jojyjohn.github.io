@@ -25,6 +25,9 @@ tags:
     comparative-genomics,
     network-analysis,
   ]
+series: metagenome
+series_title: "Metagenome Analysis Series"
+order: 7
 ---
 
 # Day 7: Comparative Genomics & Statistical Analysis

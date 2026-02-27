@@ -1,0 +1,16 @@
+{% assign series_posts = site.posts | where_exp: "p", "p.series" %} {% if series_posts and series_posts.size > 0 %} {% assign series_names =
+series_posts | map: "series" | uniq | sort %}
+
+<div class="card p-3 mb-4">
+  <h2>📚 Series</h2>
+  <ul style="margin-bottom: 0">
+    {% for s in series_names %} {% assign posts_in_series = series_posts | where: "series", s | sort: "order" %} {% assign display_title =
+    posts_in_series[0].series_title | default: s %}
+    <li>
+      <a href="{{ '/series/' | append: s | append: '/' | relative_url }}"> {{ display_title }} </a>
+      <span style="opacity: 0.8">({{ posts_in_series | size }} posts)</span>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}

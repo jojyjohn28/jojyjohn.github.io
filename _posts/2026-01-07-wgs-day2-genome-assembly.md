@@ -7,6 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/wgs-day2-genome-assembly/
+series: wgs
+series_title: "Whole Genome Analysis Series"
+order: 2
 ---
 
 ## 🧬 Whole Genome Sequencing — Day 2

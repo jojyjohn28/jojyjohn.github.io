@@ -30,6 +30,9 @@ tags:
     workflow,
     course-materials,
   ]
+series: metagenome
+series_title: "Metagenome Analysis Series"
+order: 12
 ---
 
 **Beginner-Level Practical Training**

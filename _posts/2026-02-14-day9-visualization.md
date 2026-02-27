@@ -9,6 +9,9 @@ featured: true
 permalink: /blog/metagenome-analysis-day9-visualization/
 tags:
   [metagenomics, visualization, ggplot2, matplotlib, seaborn, Krona, Circos, networks, heatmaps, publication-figures, data-visualization, python, R]
+series: metagenome
+series_title: "Metagenome Analysis Series"
+order: 9
 ---
 
 Estimated Time: 4-6 hours | Difficulty: Intermediate | Prerequisites: Days 1-8 (Analyzed data ready)
