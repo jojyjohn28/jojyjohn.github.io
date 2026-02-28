@@ -218,4 +218,8 @@ Sometimes, simple wins the day. Feel better soon to anyone else also working thr
 
 ---
 
+**🧬 Day 50 — Daily Bioinformatics from Jojy’s Desk**
+
+---
+
 ![find](/assets/img/find.png)
