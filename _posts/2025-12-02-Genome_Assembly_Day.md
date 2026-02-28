@@ -7,6 +7,7 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/genome-assembly-day/
+categories: [genomics]
 ---
 
 As I said in earlier post about NCBI submission (https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/), I missed few genome assembly previously.

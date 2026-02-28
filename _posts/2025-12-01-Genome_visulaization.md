@@ -7,6 +7,8 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/genome-visualization/
+categories: [genomics]
+tags: [Genome-visulization, Bandage]
 ---
 
 **🧬 Visualizing Genome Assemblies with Bandage (Built from Source)**  

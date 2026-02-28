@@ -7,6 +7,7 @@ comments: true
 giscus_comments: true
 featured: false
 permalink: /blog/barrnap-16s-extraction/
+categories: [genomics]
 ---
 
 #### 🧬 Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap

@@ -7,6 +7,7 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/novel-species-a-step-by-step-guide/
+categories: [genomics]
 ---
 
 #### 🧬 From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow
