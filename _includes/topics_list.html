@@ -4,7 +4,7 @@
   <ul style="margin-bottom: 0">
     {% assign sorted = cats | sort %} {% for c in sorted %} {% assign name = c[0] %} {% assign posts = c[1] %}
     <li>
-      <a href="{{ '/topics/#' | append: name | relative_url }}"> {{ name | replace: "-", " " | capitalize }} </a>
+      <a href="{{ '/topics/' | append: name | append: '/' | relative_url }}"> {{ name | replace: "-", " " | capitalize }} </a>
       <span style="opacity: 0.8">({{ posts | size }} posts)</span>
     </li>
     {% endfor %}

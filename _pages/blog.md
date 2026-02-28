@@ -51,7 +51,7 @@ nav_order: 3
 {% include topics_list.html %}
 
 <ul class="post-list">
-  {% assign postlist = site.posts | where_exp: "p", "p.series == nil" %}
+  {% assign postlist = site.posts | where_exp: "p", "p.series == nil and (p.categories == nil or p.categories == empty)" %}
   {% for post in postlist %}
     <li>
       <h3><a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
