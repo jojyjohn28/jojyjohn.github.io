@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-27T21:12:39-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-02-27T21:12:39-05:00</published><updated>2026-02-27T21:12:39-05:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-27T22:18:48-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-02-27T22:18:48-05:00</published><updated>2026-02-27T22:18:48-05:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,236 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 5: Substrate Uptake &amp;amp; Utilization in Size-Fractionated Estuarine Microbiomes</title><link href="https://jojyjohn28.github.io/blog/day5-substrate-uptake-patterns/" rel="alternate" type="text/html" title="Day 5: Substrate Uptake &amp;amp; Utilization in Size-Fractionated Estuarine Microbiomes" /><published>2026-02-24T00:00:00-05:00</published><updated>2026-02-24T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day5-substrate-uptake-patterns</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day5-substrate-uptake-patterns/"><![CDATA[<h4 id="-day-5-substrate-uptake--utilization-in-size-fractionated-estuarine-microbiomes">🧬 Day 5: Substrate Uptake &amp; Utilization in Size-Fractionated Estuarine Microbiomes</h4>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with Linux find</title><link href="https://jojyjohn28.github.io/blog/python-rename-and-linux-find-collect-fasta/" rel="alternate" type="text/html" title="From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with Linux find" /><published>2026-02-27T00:00:00-05:00</published><updated>2026-02-27T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/python-rename-and-linux-find-collect-fasta</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/python-rename-and-linux-find-collect-fasta/"><![CDATA[<h2 id="from-messy-subfolders-to-analysis-ready-fasta-rename-with-python--collect-with-find">From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with <code class="language-plaintext highlighter-rouge">find</code></h2>
+
+<p>Some days I’m running heavy pipelines. Today I’m home on leave taking care of my family — we’re all down sick — so I’m keeping it simple. But simple doesn’t mean not useful.</p>
+
+<p>This is a workflow I reach for <strong>constantly</strong> in bioinformatics, and I want to write it down properly while it’s fresh.</p>
+
+<hr />
+
+<h2 id="the-problem">The Problem</h2>
+
+<p>You have a <strong>master folder</strong>. Inside it, each <strong>subfolder is a sample name</strong> — a genome, a MAG, a sequencing run. Inside each subfolder sit the output files from some tool. The trouble is: those files almost always have <strong>the same names across every subfolder</strong>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>master_folder/
+├── MAG_001/
+│   ├── contigs.fa
+│   ├── proteins.faa
+│   └── diamond.tsv
+├── MAG_002/
+│   ├── contigs.fa
+│   ├── proteins.faa
+│   └── diamond.tsv
+└── MAG_003/
+    ├── contigs.fa
+    ├── proteins.faa
+    └── diamond.tsv
+</code></pre></div></div>
+
+<p>This pattern shows up everywhere:</p>
+
+<ul>
+  <li><strong>Prokka outputs</strong> per genome or MAG, then you want to batch-run <strong>InterProScan</strong></li>
+  <li><strong>DIAMOND outputs</strong> per sample, then you want to merge into a <strong>final gene table</strong></li>
+  <li>Any tool that writes the same filenames for every sample it processes</li>
+</ul>
+
+<p>The moment you try to collect files into one place for a downstream batch job, you’re in trouble — files overwrite each other, or you lose track of which file came from which sample.</p>
+
+<p>The fix is a two-step workflow:</p>
+
+<ol>
+  <li><strong>Rename</strong> each file to include its parent folder (sample) name</li>
+  <li><strong>Collect</strong> all files of interest using Linux <code class="language-plaintext highlighter-rouge">find</code></li>
+</ol>
+
+<hr />
+
+<h2 id="step-1--rename-files-using-the-folder-name-python">Step 1 — Rename Files Using the Folder Name (Python)</h2>
+
+<p>The goal is to transform:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MAG_001/contigs.fa     →   MAG_001__contigs.fa
+MAG_002/proteins.faa   →   MAG_002__proteins.faa
+</code></pre></div></div>
+
+<p>Every file now “carries” its sample name, so you can safely move files around without losing provenance.</p>
+
+<p>Here is the script I use:</p>
+
+<h3 id="rename_by_folderpy"><code class="language-plaintext highlighter-rouge">rename_by_folder.py</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+</span><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="n">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">MASTER</span> <span class="o">=</span> <span class="nc">Path</span><span class="p">(</span><span class="sh">"</span><span class="s">master_folder</span><span class="sh">"</span><span class="p">)</span>  <span class="c1"># change this to your master folder path
+</span><span class="n">SEP</span> <span class="o">=</span> <span class="sh">"</span><span class="s">__</span><span class="sh">"</span>                       <span class="c1"># separator between sample name and filename
+</span>
+<span class="c1"># File extensions you want to rename (edit as needed)
+</span><span class="n">EXTS</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">.fa</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.fna</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.fasta</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.faa</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.txt</span><span class="sh">"</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">MASTER</span><span class="p">.</span><span class="nf">iterdir</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">sub</span><span class="p">.</span><span class="nf">is_dir</span><span class="p">():</span>
+        <span class="k">continue</span>
+
+    <span class="n">sample</span> <span class="o">=</span> <span class="n">sub</span><span class="p">.</span><span class="n">name</span>  <span class="c1"># e.g. "MAG_001"
+</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">sub</span><span class="p">.</span><span class="nf">iterdir</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">f</span><span class="p">.</span><span class="nf">is_file</span><span class="p">():</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="n">suffix</span><span class="p">.</span><span class="nf">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">EXTS</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">new_name</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">sample</span><span class="si">}{</span><span class="n">SEP</span><span class="si">}{</span><span class="n">f</span><span class="p">.</span><span class="n">name</span><span class="si">}</span><span class="sh">"</span>
+        <span class="n">new_path</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="nf">with_name</span><span class="p">(</span><span class="n">new_name</span><span class="p">)</span>
+
+        <span class="c1"># Skip if already renamed
+</span>        <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="n">name</span><span class="p">.</span><span class="nf">startswith</span><span class="p">(</span><span class="n">sample</span> <span class="o">+</span> <span class="n">SEP</span><span class="p">):</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">[SKIP already renamed] </span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Avoid accidental overwrite
+</span>        <span class="k">if</span> <span class="n">new_path</span><span class="p">.</span><span class="nf">exists</span><span class="p">():</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">[SKIP exists] </span><span class="si">{</span><span class="n">new_path</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="n">f</span><span class="p">.</span><span class="nf">rename</span><span class="p">(</span><span class="n">new_path</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">[RENAMED] </span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s">  →  </span><span class="si">{</span><span class="n">new_path</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Save the script as <code class="language-plaintext highlighter-rouge">rename_by_folder.py</code> in the same directory as your master folder, then run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 rename_by_folder.py
+</code></pre></div></div>
+
+<p>After this step, your structure looks like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>master_folder/
+├── MAG_001/
+│   ├── MAG_001__contigs.fa
+│   ├── MAG_001__proteins.faa
+│   └── MAG_001__diamond.tsv
+├── MAG_002/
+│   ├── MAG_002__contigs.fa
+│   ├── MAG_002__proteins.faa
+│   └── MAG_002__diamond.tsv
+└── MAG_003/
+    ├── MAG_003__contigs.fa
+    ├── MAG_003__proteins.faa
+    └── MAG_003__diamond.tsv
+</code></pre></div></div>
+
+<p>Every file now carries its sample identity — safe to move anywhere.</p>
+
+<hr />
+
+<h2 id="step-2--collect-all-fasta-files-using-find">Step 2 — Collect All FASTA Files Using <code class="language-plaintext highlighter-rouge">find</code></h2>
+
+<h3 id="the-problem-1">The Problem</h3>
+
+<p>You’ve just renamed hundreds of files across dozens of subfolders. Now you need to run a downstream tool — say, InterProScan or a custom annotation script — that expects <strong>all input files to be in a single directory</strong>.</p>
+
+<p>You could navigate into each subfolder manually and copy the files one by one. But with 50, 100, or 500 sample folders, that’s not a workflow — that’s a punishment. You could also write a <code class="language-plaintext highlighter-rouge">for</code> loop in bash, but that requires knowing your folder structure perfectly and breaks the moment anything changes.</p>
+
+<p>There’s a cleaner way.</p>
+
+<h3 id="the-solution-find">The Solution: <code class="language-plaintext highlighter-rouge">find</code></h3>
+
+<p>Linux’s <code class="language-plaintext highlighter-rouge">find</code> command was built exactly for this situation. It recursively walks your entire directory tree — no matter how deep or messy — and returns every file matching your criteria. One command. No loops. No manual navigation.</p>
+
+<p>Instead of you going into each folder to find the files, <code class="language-plaintext highlighter-rouge">find</code> does it for you.</p>
+
+<h3 id="basic-syntax">Basic syntax</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find master_folder <span class="nt">-type</span> f <span class="nt">-name</span> <span class="s2">"*.fa"</span>
+</code></pre></div></div>
+
+<p>Breaking this down:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">find</code></td>
+      <td>the command</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">master_folder</code></td>
+      <td>starting directory (searches recursively by default)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-type f</code></td>
+      <td>match files only (not directories)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-name "*.fa"</code></td>
+      <td>match filenames ending in <code class="language-plaintext highlighter-rouge">.fa</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This prints every <code class="language-plaintext highlighter-rouge">.fa</code> file found anywhere under <code class="language-plaintext highlighter-rouge">master_folder</code>, no matter how deep.</p>
+
+<h3 id="count-how-many-files-you-have-before-running-a-batch-job">Count how many files you have before running a batch job</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find master_folder <span class="nt">-type</span> f <span class="nt">-name</span> <span class="s2">"*.fa"</span> | <span class="nb">wc</span> <span class="nt">-l</span>
+</code></pre></div></div>
+
+<p>Always a good sanity check before sending thousands of files to a cluster.</p>
+
+<h3 id="copy-all-matching-files-into-a-single-output-directory">Copy all matching files into a single output directory</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> all_fasta
+
+find master_folder <span class="nt">-type</span> f <span class="nt">-name</span> <span class="s2">"*.fa"</span> <span class="nt">-exec</span> <span class="nb">cp</span> <span class="o">{}</span> all_fasta/ <span class="se">\;</span>
+</code></pre></div></div>
+
+<p>Because you renamed the files in Step 1, there are no collisions. Every file lands safely in <code class="language-plaintext highlighter-rouge">all_fasta/</code> with its sample name intact.</p>
+
+<h3 id="real-world-example">Real-world example</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find /project/genomes/ <span class="nt">-type</span> f <span class="nt">-name</span> <span class="s2">"*.faa"</span> <span class="nt">-exec</span> <span class="nb">cp</span> <span class="o">{}</span> /project/interproscan_input/ <span class="se">\;</span>
+</code></pre></div></div>
+
+<p>This collects all protein FASTA files (<code class="language-plaintext highlighter-rouge">.faa</code>) from a genome project directory and drops them into the InterProScan input folder, ready for batch annotation.</p>
+
+<hr />
+
+<h2 id="why-this-matters">Why This Matters</h2>
+
+<p>When working with MAG assemblies, reference genomes, pangenome datasets, or annotation outputs, directories grow deep and messy fast. Tools like Prokka, DIAMOND, and CheckM all write outputs into per-sample subfolders — which is sensible for organization, but painful when you need to batch-process everything downstream.</p>
+
+<p><code class="language-plaintext highlighter-rouge">find</code> is one of the most powerful glue commands in bioinformatics precisely because it doesn’t care how your directories are structured. It will search as deep as needed and give you exactly the files you asked for.</p>
+
+<hr />
+
+<h2 id="takeaway">Takeaway</h2>
+
+<p>This is one of those small “glue” workflows that quietly saves hours:</p>
+
+<ul>
+  <li><strong>Folder name → sample name → safe filenames → clean collection directory</strong></li>
+  <li>Python handles the renaming logic</li>
+  <li>Linux <code class="language-plaintext highlighter-rouge">find</code> handles the searching and collecting</li>
+  <li>Simple, reproducible, and reviewer-proof</li>
+</ul>
+
+<p>Sometimes, simple wins the day. Feel better soon to anyone else also working through a sick-day fog. 🤒</p>
+
+<hr />
+
+<p><strong>🧬 Day 50 — Daily Bioinformatics from Jojy’s Desk</strong></p>
+
+<hr />
+
+<p><img src="/assets/img/find.png" alt="find" /></p>]]></content><author><name></name></author><category term="linux" /><summary type="html"><![CDATA[A practical mini-workflow: add sample names to files inside many subfolders using a custom Python script, then use Linux find to gather all .fa files into one directory for downstream analysis (Prokka → InterProScan, DIAMOND → final tables).]]></summary></entry><entry><title type="html">Day 5: Substrate Uptake &amp;amp; Utilization in Size-Fractionated Estuarine Microbiomes</title><link href="https://jojyjohn28.github.io/blog/day5-substrate-uptake-patterns/" rel="alternate" type="text/html" title="Day 5: Substrate Uptake &amp;amp; Utilization in Size-Fractionated Estuarine Microbiomes" /><published>2026-02-24T00:00:00-05:00</published><updated>2026-02-24T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day5-substrate-uptake-patterns</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day5-substrate-uptake-patterns/"><![CDATA[<h4 id="-day-5-substrate-uptake--utilization-in-size-fractionated-estuarine-microbiomes">🧬 Day 5: Substrate Uptake &amp; Utilization in Size-Fractionated Estuarine Microbiomes</h4>
 
 <p><em>From gene catalogs to carbon currency</em></p>
 
@@ -6696,895 +6925,4 @@ Mobile genetic elements
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg-day5.png" alt="day5 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="annotation" /><category term="Prodigal" /><category term="Prokka" /><category term="DRAM" /><category term="METABOLIC" /><category term="eggNOG" /><category term="functional-annotation" /><category term="metabolic-pathways" /><category term="bioinformatics" /><category term="tutorial" /><summary type="html"><![CDATA[Complete guide to genome annotation from basic (Prodigal, Prokka) to advanced (DRAM, METABOLIC). Learn to predict genes, assign functions, and reconstruct metabolic pathways from MAGs. Includes practical workflows for laptops and HPC.]]></summary></entry><entry><title type="html">Day 4: Genome Dereplication &amp;amp; Taxonomic Classification - From MAGs to Species</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day4-dereplication-taxonomy/" rel="alternate" type="text/html" title="Day 4: Genome Dereplication &amp;amp; Taxonomic Classification - From MAGs to Species" /><published>2026-02-09T00:00:00-05:00</published><updated>2026-02-09T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome-analysis-day4-dereplication-taxonomy</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day4-dereplication-taxonomy/"><![CDATA[<h1 id="day-4-genome-dereplication--taxonomic-classification">Day 4: Genome Dereplication &amp; Taxonomic Classification</h1>
-
-<table>
-  <tbody>
-    <tr>
-      <td><strong>Estimated Time:</strong> 4-6 hours</td>
-      <td><strong>Difficulty:</strong> Intermediate</td>
-      <td><strong>Prerequisites:</strong> Day 3 (Binning)</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="-table-of-contents">📚 Table of Contents</h2>
-
-<ul>
-  <li><a href="#introduction">Introduction</a></li>
-  <li><a href="#what-is-genome-dereplication">What is Genome Dereplication?</a></li>
-  <li><a href="#what-is-gtdb-taxonomy">What is GTDB Taxonomy?</a></li>
-  <li><a href="#software-installation">Software Installation</a></li>
-  <li><a href="#workflow-overview">Workflow Overview</a></li>
-  <li><a href="#step-1-genome-dereplication-with-drep">Step 1: Genome Dereplication with dRep</a></li>
-  <li><a href="#step-2-taxonomic-classification-with-gtdb-tk">Step 2: Taxonomic Classification with GTDB-Tk</a></li>
-  <li><a href="#step-3-phylogenetic-tree-visualization">Step 3: Phylogenetic Tree Visualization</a></li>
-  <li><a href="#step-4-species-representative-selection">Step 4: Species Representative Selection</a></li>
-  <li><a href="#best-practices">Best Practices</a></li>
-  <li><a href="#troubleshooting">Troubleshooting</a></li>
-</ul>
-
-<hr />
-
-<h2 id="-introduction">🎯 Introduction</h2>
-
-<p>Welcome to Day 4! After recovering high-quality MAGs in Day 3, you likely have <strong>many similar genomes</strong>. Some might be:</p>
-
-<ul>
-  <li>The same species from different samples</li>
-  <li>Closely related strains</li>
-  <li>Nearly identical genomes with minor variations</li>
-</ul>
-
-<p><strong>Today’s goals:</strong></p>
-
-<ol>
-  <li>✅ <strong>Dereplicate</strong> - Remove redundant genomes, keep best representatives</li>
-  <li>✅ <strong>Classify</strong> - Assign accurate taxonomic names using GTDB</li>
-  <li>✅ <strong>Visualize</strong> - Create beautiful phylogenetic trees</li>
-  <li>✅ <strong>Curate</strong> - Select species representatives for downstream analysis</li>
-</ol>
-
-<hr />
-
-<h2 id="-what-is-genome-dereplication">🔬 What is Genome Dereplication?</h2>
-
-<p><strong>Dereplication</strong> identifies and removes redundant genomes based on sequence similarity.</p>
-
-<h3 id="why-dereplicate">Why Dereplicate?</h3>
-
-<p><strong>Problem:</strong> You recovered 200 MAGs across 10 samples, but:</p>
-
-<ul>
-  <li>50 might be the same <em>E. coli</em> strain</li>
-  <li>30 could be nearly identical <em>Bacteroides</em> species</li>
-  <li>This redundancy inflates your dataset and wastes computational resources</li>
-</ul>
-
-<p><strong>Solution:</strong> Dereplication gives you:</p>
-
-<ul>
-  <li>✅ One representative genome per species</li>
-  <li>✅ Reduced dataset size (often 50-70% reduction)</li>
-  <li>✅ Faster downstream analysis</li>
-  <li>✅ Clearer biological interpretation</li>
-</ul>
-
-<h3 id="how-does-drep-work">How Does dRep Work?</h3>
-
-<p><strong>dRep uses a two-step clustering approach:</strong></p>
-
-<ol>
-  <li><strong>Primary clustering (MASH)</strong>
-    <ul>
-      <li>Fast, approximate sequence similarity</li>
-      <li>Groups genomes at ~90% ANI threshold</li>
-      <li>Creates initial clusters</li>
-    </ul>
-  </li>
-  <li><strong>Secondary clustering (ANI)</strong>
-    <ul>
-      <li>Precise average nucleotide identity (ANI)</li>
-      <li>Default: 95% ANI = same species</li>
-      <li>Adjustable for strain-level (99%) or genus-level (85%)</li>
-    </ul>
-  </li>
-  <li><strong>Scoring &amp; Selection</strong>
-    <ul>
-      <li>Ranks genomes by quality (completeness, contamination, N50)</li>
-      <li>Selects best representative per cluster</li>
-      <li>Outputs dereplicated genome set</li>
-    </ul>
-  </li>
-</ol>
-
-<h3 id="ani-thresholds-guide">ANI Thresholds Guide</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>ANI Threshold</th>
-      <th>Taxonomic Level</th>
-      <th>Use Case</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>99%</strong></td>
-      <td>Same strain</td>
-      <td>Strain-level analysis</td>
-    </tr>
-    <tr>
-      <td><strong>95%</strong></td>
-      <td>Same species</td>
-      <td>Standard dereplication</td>
-    </tr>
-    <tr>
-      <td><strong>90%</strong></td>
-      <td>Same genus (approx)</td>
-      <td>Broad clustering</td>
-    </tr>
-    <tr>
-      <td><strong>85%</strong></td>
-      <td>Family level</td>
-      <td>Very loose clustering</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="-what-is-gtdb-taxonomy">🌳 What is GTDB Taxonomy?</h2>
-
-<p><strong>GTDB (Genome Taxonomy Database)</strong> is the modern, standardized bacterial taxonomy system.</p>
-
-<h3 id="why-gtdb-instead-of-ncbi">Why GTDB Instead of NCBI?</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Feature</th>
-      <th>GTDB</th>
-      <th>NCBI Taxonomy</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Standardization</strong></td>
-      <td>Consistent, phylogeny-based</td>
-      <td>Inconsistent, literature-based</td>
-    </tr>
-    <tr>
-      <td><strong>Genome count</strong></td>
-      <td>402,709 genomes</td>
-      <td>Variable</td>
-    </tr>
-    <tr>
-      <td><strong>Updates</strong></td>
-      <td>Regular (every 6 months)</td>
-      <td>Irregular</td>
-    </tr>
-    <tr>
-      <td><strong>ANI-based species</strong></td>
-      <td>Yes (95% ANI)</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <td><strong>Polyphyly</strong></td>
-      <td>Resolved</td>
-      <td>Common issues</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="gtdb-taxonomy-format">GTDB Taxonomy Format</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Bacteroidaceae;g__Bacteroides;s__Bacteroides uniformis
-</code></pre></div></div>
-
-<p><strong>Prefixes:</strong></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">d__</code> = Domain</li>
-  <li><code class="language-plaintext highlighter-rouge">p__</code> = Phylum</li>
-  <li><code class="language-plaintext highlighter-rouge">c__</code> = Class</li>
-  <li><code class="language-plaintext highlighter-rouge">o__</code> = Order</li>
-  <li><code class="language-plaintext highlighter-rouge">f__</code> = Family</li>
-  <li><code class="language-plaintext highlighter-rouge">g__</code> = Genus</li>
-  <li><code class="language-plaintext highlighter-rouge">s__</code> = Species</li>
-</ul>
-
-<hr />
-
-<h2 id="-software-installation">📦 Software Installation</h2>
-
-<h3 id="create-environment">Create Environment</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create dRep environment</span>
-conda create <span class="nt">-n</span> drep <span class="nv">python</span><span class="o">=</span>3.9
-conda activate drep
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda drep
-
-<span class="c"># Create GTDB-Tk environment (separate due to dependencies)</span>
-conda create <span class="nt">-n</span> gtdbtk <span class="nv">python</span><span class="o">=</span>3.9
-conda activate gtdbtk
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda gtdbtk
-
-<span class="c"># Visualization tools</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge <span class="se">\</span>
-    ete3 <span class="se">\</span>
-    biopython <span class="se">\</span>
-    dendropy <span class="se">\</span>
-    ggtree <span class="se">\</span>
-    phylogram
-</code></pre></div></div>
-
-<h3 id="download-gtdb-tk-database">Download GTDB-Tk Database</h3>
-
-<p><strong>⚠️ Large download: ~105 GB</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate gtdbtk
-
-<span class="c"># Option 1: Automatic download</span>
-download-db.sh
-
-<span class="c"># Option 2: Manual download</span>
-wget https://data.gtdb.ecogenomic.org/releases/latest/auxillary_files/gtdbtk_data.tar.gz
-<span class="nb">tar</span> <span class="nt">-xzf</span> gtdbtk_data.tar.gz <span class="nt">-C</span> ~/gtdbtk_db/
-
-<span class="c"># Set database location</span>
-<span class="nb">export </span><span class="nv">GTDBTK_DATA_PATH</span><span class="o">=</span>~/gtdbtk_db/release207
-<span class="nb">echo</span> <span class="s1">'export GTDBTK_DATA_PATH=~/gtdbtk_db/release207'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
-</code></pre></div></div>
-
-<h3 id="verify-installation">Verify Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Test dRep</span>
-conda activate drep
-dRep <span class="nt">-h</span>
-
-<span class="c"># Test GTDB-Tk</span>
-conda activate gtdbtk
-gtdbtk <span class="nt">-h</span>
-gtdbtk check_install
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-workflow-overview">🔄 Workflow Overview</h2>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>High-Quality MAGs (from Day 3)
-            ↓
-┌─────────────────────────────────────┐
-│ Step 1: dRep Dereplication          │
-│ • Primary clustering (MASH)         │
-│ • Secondary clustering (ANI 95%)    │
-│ • Quality scoring &amp; selection       │
-│ • Output: Best representative       │
-└─────────────────────────────────────┘
-            ↓
-Dereplicated MAG Set (50-70% reduction)
-            ↓
-┌─────────────────────────────────────┐
-│ Step 2: GTDB-Tk Classification      │
-│ • Phylogenetic placement            │
-│ • ANI to reference genomes          │
-│ • Taxonomic assignment              │
-│ • Output: Full taxonomy             │
-└─────────────────────────────────────┘
-            ↓
-Classified Genomes + Phylogenetic Trees
-            ↓
-┌─────────────────────────────────────┐
-│ Step 3: Tree Visualization          │
-│ • iTOL for interactive trees        │
-│ • ggtree for publication figures    │
-│ • Annotation with metadata          │
-└─────────────────────────────────────┘
-          ↓
-Publication-Ready Trees &amp; Species Catalog
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-step-1-genome-dereplication-with-drep">📊 Step 1: Genome Dereplication with dRep</h2>
-
-<h3 id="basic-dereplication">Basic Dereplication</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate drep
-
-<span class="c"># Dereplicate genomes at 95% ANI (species level)</span>
-dRep dereplicate <span class="se">\</span>
-    dereplicated_genomes <span class="se">\</span>
-    <span class="nt">-g</span> quality_mags/<span class="k">*</span>.fa <span class="se">\</span>
-    <span class="nt">--ignoreGenomeQuality</span> <span class="se">\</span>
-    <span class="nt">-comp</span> 50 <span class="se">\</span>
-    <span class="nt">-con</span> 10 <span class="se">\</span>
-    <span class="nt">-p</span> 32 <span class="se">\</span>
-    <span class="nt">-sa</span> 0.95
-
-<span class="c"># Alternative: Use CheckM2 quality scores</span>
-dRep dereplicate <span class="se">\</span>
-    dereplicated_genomes <span class="se">\</span>
-    <span class="nt">-g</span> quality_mags/<span class="k">*</span>.fa <span class="se">\</span>
-    <span class="nt">--genomeInfo</span> checkm2_output/quality_report.tsv <span class="se">\</span>
-    <span class="nt">-comp</span> 50 <span class="se">\</span>
-    <span class="nt">-con</span> 10 <span class="se">\</span>
-    <span class="nt">-p</span> 32 <span class="se">\</span>
-    <span class="nt">-sa</span> 0.95
-</code></pre></div></div>
-
-<p><strong>Parameters explained:</strong></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">-g</code>: Input genomes (glob pattern or list)</li>
-  <li><code class="language-plaintext highlighter-rouge">-comp 50</code>: Minimum completeness 50%</li>
-  <li><code class="language-plaintext highlighter-rouge">-con 10</code>: Maximum contamination 10%</li>
-  <li><code class="language-plaintext highlighter-rouge">-p 32</code>: Number of threads</li>
-  <li><code class="language-plaintext highlighter-rouge">-sa 0.95</code>: Secondary ANI threshold (95% = species)</li>
-  <li><code class="language-plaintext highlighter-rouge">--ignoreGenomeQuality</code>: Skip quality checks (if already filtered)</li>
-</ul>
-
-<h3 id="advanced-dereplication-options">Advanced Dereplication Options</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Strain-level dereplication (99% ANI)</span>
-dRep dereplicate <span class="se">\</span>
-    dereplicated_strains <span class="se">\</span>
-    <span class="nt">-g</span> quality_mags/<span class="k">*</span>.fa <span class="se">\</span>
-    <span class="nt">-comp</span> 70 <span class="se">\</span>
-    <span class="nt">-con</span> 5 <span class="se">\</span>
-    <span class="nt">-p</span> 32 <span class="se">\</span>
-    <span class="nt">-pa</span> 0.99 <span class="se">\</span>
-    <span class="nt">-sa</span> 0.99 <span class="se">\</span>
-    <span class="nt">-nc</span> 0.50 <span class="se">\</span>
-    <span class="nt">--clusterAlg</span> average
-
-<span class="c"># Parameters:</span>
-<span class="c"># -pa 0.99: Primary ANI threshold</span>
-<span class="c"># -sa 0.99: Secondary ANI threshold</span>
-<span class="c"># -nc 0.50: Coverage threshold</span>
-<span class="c"># --clusterAlg: Clustering algorithm (average/single/complete)</span>
-</code></pre></div></div>
-
-<h3 id="understanding-drep-output">Understanding dRep Output</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dereplicated_genomes/
-├── data/
-│   ├── Clustering_files/
-│   │   ├── Mdb.csv              # MASH distances
-│   │   └── Ndb.csv              # ANI distances
-│   ├── checkM/
-│   │   └── checkM_outfile.tsv   # Quality scores
-│   └── MASH_files/
-├── data_tables/
-│   ├── Cdb.csv                  # Cluster information
-│   ├── Sdb.csv                  # Score information
-│   ├── Wdb.csv                  # Winner information (selected reps)
-│   └── Widb.csv                 # Winner information with details
-├── dereplicated_genomes/        # Final dereplicated MAGs
-│   ├── genome1.fa
-│   ├── genome2.fa
-│   └── ...
-└── figures/
-    ├── Clustering_dendrogram.pdf
-    ├── Primary_clustering_dendrogram.pdf
-    ├── Secondary_clustering_dendrograms.pdf
-    └── Winning_genomes.pdf
-</code></pre></div></div>
-
-<h3 id="analyze-dereplication-results">Analyze Dereplication Results</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Count original vs dereplicated</span>
-<span class="nv">original</span><span class="o">=</span><span class="si">$(</span><span class="nb">ls </span>quality_mags/<span class="k">*</span>.fa | <span class="nb">wc</span> <span class="nt">-l</span><span class="si">)</span>
-<span class="nv">dereplicated</span><span class="o">=</span><span class="si">$(</span><span class="nb">ls </span>dereplicated_genomes/dereplicated_genomes/<span class="k">*</span>.fa | <span class="nb">wc</span> <span class="nt">-l</span><span class="si">)</span>
-
-<span class="nb">echo</span> <span class="s2">"Original genomes: </span><span class="k">${</span><span class="nv">original</span><span class="k">}</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="s2">"Dereplicated genomes: </span><span class="k">${</span><span class="nv">dereplicated</span><span class="k">}</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="s2">"Reduction: </span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"scale=1; (</span><span class="k">${</span><span class="nv">original</span><span class="k">}</span><span class="s2">-</span><span class="k">${</span><span class="nv">dereplicated</span><span class="k">}</span><span class="s2">)/</span><span class="k">${</span><span class="nv">original</span><span class="k">}</span><span class="s2">*100"</span> | bc<span class="si">)</span><span class="s2">%"</span>
-
-<span class="c"># View winning genomes</span>
-<span class="nb">cat </span>dereplicated_genomes/data_tables/Widb.csv | column <span class="nt">-t</span> <span class="nt">-s</span>,
-
-<span class="c"># View cluster assignments</span>
-<span class="nb">cat </span>dereplicated_genomes/data_tables/Cdb.csv | column <span class="nt">-t</span> <span class="nt">-s</span>,
-</code></pre></div></div>
-
-<h3 id="visualize-dereplication-results">Visualize Dereplication Results</h3>
-
-<p><strong>Python script to create dereplication summary:</strong>
-use <strong>drep_summary.py</strong> from the the github repo 🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day4-derep-tax/">Day 4 →</a></strong></p>
-
-<hr />
-
-<h2 id="️-step-2-taxonomic-classification-with-gtdb-tk">🏷️ Step 2: Taxonomic Classification with GTDB-Tk</h2>
-
-<h3 id="classify-dereplicated-genomes">Classify Dereplicated Genomes</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate gtdbtk
-
-<span class="c"># Run GTDB-Tk classify workflow</span>
-gtdbtk classify_wf <span class="se">\</span>
-    <span class="nt">--genome_dir</span> dereplicated_genomes/dereplicated_genomes <span class="se">\</span>
-    <span class="nt">--out_dir</span> gtdbtk_output <span class="se">\</span>
-    <span class="nt">--extension</span> fa <span class="se">\</span>
-    <span class="nt">--cpus</span> 32 <span class="se">\</span>
-    <span class="nt">--pplacer_cpus</span> 8
-
-<span class="c"># Alternative: Classify only bacteria or archaea</span>
-gtdbtk classify_wf <span class="se">\</span>
-    <span class="nt">--genome_dir</span> dereplicated_genomes/dereplicated_genomes <span class="se">\</span>
-    <span class="nt">--out_dir</span> gtdbtk_output <span class="se">\</span>
-    <span class="nt">--extension</span> fa <span class="se">\</span>
-    <span class="nt">--cpus</span> 32 <span class="se">\</span>
-    <span class="nt">--domain</span> bacteria  <span class="c"># or archaea</span>
-</code></pre></div></div>
-
-<p><strong>What GTDB-Tk does:</strong></p>
-
-<ol>
-  <li><strong>Identify marker genes</strong> (120 for bacteria, 53 for archaea)</li>
-  <li><strong>Align markers</strong> to reference database</li>
-  <li><strong>Place in tree</strong> using pplacer</li>
-  <li><strong>Calculate ANI</strong> to reference genomes</li>
-  <li><strong>Assign taxonomy</strong> based on phylogenetic placement</li>
-</ol>
-
-<p><strong>Expected time:</strong></p>
-
-<ul>
-  <li>~10-15 minutes per genome</li>
-  <li>50 genomes ≈ 8-12 hours total</li>
-</ul>
-
-<h3 id="understanding-gtdb-tk-output">Understanding GTDB-Tk Output</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdbtk_output/
-├── align/                       # Marker gene alignments
-├── classify/
-│   ├── gtdbtk.bac120.summary.tsv     # Main results (bacteria)
-│   ├── gtdbtk.ar53.summary.tsv       # Main results (archaea)
-│   ├── gtdbtk.bac120.classify.tree   # Phylogenetic tree
-│   └── gtdbtk.bac120.markers_summary.tsv
-├── identify/                    # Marker gene identification
-└── pplacer/                     # Phylogenetic placement
-</code></pre></div></div>
-
-<p><strong>Key output file:</strong> <code class="language-plaintext highlighter-rouge">gtdbtk.bac120.summary.tsv</code></p>
-
-<p>Columns:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">user_genome</code>: Your genome ID</li>
-  <li><code class="language-plaintext highlighter-rouge">classification</code>: Full GTDB taxonomy</li>
-  <li><code class="language-plaintext highlighter-rouge">fastani_reference</code>: Closest reference genome</li>
-  <li><code class="language-plaintext highlighter-rouge">fastani_ani</code>: ANI to reference (%)</li>
-  <li><code class="language-plaintext highlighter-rouge">classification_method</code>: How taxonomy was assigned</li>
-</ul>
-
-<h3 id="parse-gtdb-tk-results">Parse GTDB-Tk Results</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># View summary</span>
-column <span class="nt">-t</span> <span class="nt">-s</span><span class="s1">$'</span><span class="se">\t</span><span class="s1">'</span> gtdbtk_output/classify/gtdbtk.bac120.summary.tsv | less <span class="nt">-S</span>
-
-<span class="c"># Extract classifications</span>
-<span class="nb">cut</span> <span class="nt">-f1</span>,2 gtdbtk_output/classify/gtdbtk.bac120.summary.tsv <span class="o">&gt;</span> genome_classifications.txt
-
-<span class="c"># Count genomes per phylum</span>
-<span class="nb">awk</span> <span class="nt">-F</span><span class="s1">'\t'</span> <span class="s1">'NR&gt;1 {print $2}'</span> gtdbtk_output/classify/gtdbtk.bac120.summary.tsv | <span class="se">\</span>
-    <span class="nb">sed</span> <span class="s1">'s/.*p__\([^;]*\).*/\1/'</span> | <span class="se">\</span>
-    <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-rn</span>
-</code></pre></div></div>
-
-<h3 id="create-taxonomic-summary">Create Taxonomic Summary</h3>
-
-<p>Use <strong>gtdbtk_tax_summary.py</strong> from the the github repo 🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day4-derep-tax/">Day 4 →</a></strong></p>
-
-<h2 id="for-detailed-tutorial">For Detailed Tutorial</h2>
-
-<p><strong><a href="https://jojyjohn28.github.io/blog/gtdbtk-tree-custom/">See my complete GTDBTK guide →</a></strong></p>
-
-<hr />
-
-<h2 id="-step-3-phylogenetic-tree-visualization">🌳 Step 3: Phylogenetic Tree Visualization</h2>
-
-<h3 id="option-1-itol-interactive-tree-of-life">Option 1: iTOL (Interactive Tree of Life)</h3>
-
-<p><strong>iTOL</strong> is a web-based tool for beautiful, interactive phylogenetic trees.</p>
-
-<p><strong>Website:</strong> https://itol.embl.de/</p>
-
-<p><strong>Steps:</strong></p>
-
-<ol>
-  <li>
-    <p><strong>Upload tree file:</strong></p>
-
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use GTDB-Tk output tree</span>
-<span class="nb">cp </span>gtdbtk_output/classify/gtdbtk.bac120.classify.tree my_tree.nwk
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p><strong>Go to iTOL:</strong> Upload <code class="language-plaintext highlighter-rouge">my_tree.nwk</code></p>
-  </li>
-  <li>
-    <p><strong>Create annotation files:</strong></p>
-  </li>
-</ol>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
-# create_itol_annotations.py
-</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># Read GTDB-Tk results
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">gtdbtk_output/classify/gtdbtk.bac120.summary.tsv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="c1"># Extract phylum for coloring
-</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">phylum</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">classification</span><span class="sh">'</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="sa">r</span><span class="sh">'</span><span class="s">p__([^;]+)</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="c1"># Create color strip annotation
-</span><span class="n">phyla</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">phylum</span><span class="sh">'</span><span class="p">].</span><span class="nf">unique</span><span class="p">()</span>
-<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="sh">'</span><span class="s">#e74c3c</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#3498db</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#2ecc71</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#f39c12</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#9b59b6</span><span class="sh">'</span><span class="p">,</span>
-          <span class="sh">'</span><span class="s">#1abc9c</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#e67e22</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#95a5a6</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#34495e</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#16a085</span><span class="sh">'</span><span class="p">]</span>
-
-<span class="n">phylum_colors</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nf">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">phyla</span><span class="p">)}</span>
-
-<span class="c1"># iTOL color strip format
-</span><span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">'</span><span class="s">itol_phylum_colors.txt</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">w</span><span class="sh">'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sh">"</span><span class="s">DATASET_COLORSTRIP</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">f</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sh">"</span><span class="s">SEPARATOR TAB</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">f</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sh">"</span><span class="s">DATASET_LABEL</span><span class="se">\t</span><span class="s">Phylum</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">f</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sh">"</span><span class="s">COLOR</span><span class="se">\t</span><span class="s">#ff0000</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">f</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sh">"</span><span class="s">LEGEND_TITLE</span><span class="se">\t</span><span class="s">Phylum</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">f</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sh">"</span><span class="s">LEGEND_SHAPES</span><span class="se">\t</span><span class="sh">"</span> <span class="o">+</span> <span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">.</span><span class="nf">join</span><span class="p">([</span><span class="sh">"</span><span class="s">1</span><span class="sh">"</span><span class="p">]</span><span class="o">*</span><span class="nf">len</span><span class="p">(</span><span class="n">phylum_colors</span><span class="p">))</span> <span class="o">+</span> <span class="sh">"</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">f</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sh">"</span><span class="s">LEGEND_COLORS</span><span class="se">\t</span><span class="sh">"</span> <span class="o">+</span> <span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">phylum_colors</span><span class="p">.</span><span class="nf">values</span><span class="p">())</span> <span class="o">+</span> <span class="sh">"</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">f</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sh">"</span><span class="s">LEGEND_LABELS</span><span class="se">\t</span><span class="sh">"</span> <span class="o">+</span> <span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">phylum_colors</span><span class="p">.</span><span class="nf">keys</span><span class="p">())</span> <span class="o">+</span> <span class="sh">"</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">f</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sh">"</span><span class="s">DATA</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="nf">iterrows</span><span class="p">():</span>
-        <span class="n">genome</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">user_genome</span><span class="sh">'</span><span class="p">]</span>
-        <span class="n">phylum</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">phylum</span><span class="sh">'</span><span class="p">]</span>
-        <span class="n">color</span> <span class="o">=</span> <span class="n">phylum_colors</span><span class="p">[</span><span class="n">phylum</span><span class="p">]</span>
-        <span class="n">f</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">genome</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">phylum</span><span class="si">}</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">✓ Created: itol_phylum_colors.txt</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Upload this to iTOL as a dataset annotation</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<ol>
-  <li>
-    <p><strong>Upload annotation to iTOL</strong> - Drag and drop onto your tree</p>
-  </li>
-  <li>
-    <p><strong>Customize and export</strong> - Download as PDF, SVG, or PNG</p>
-  </li>
-</ol>
-
-<hr />
-
-<h3 id="option-2-ggtree-in-r">Option 2: ggtree in R</h3>
-
-<p><strong>ggtree</strong> creates publication-quality phylogenetic trees in R.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env Rscript</span><span class="w">
-</span><span class="c1"># visualize_tree.R</span><span class="w">
-
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggtree</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">treeio</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Read tree</span><span class="w">
-</span><span class="n">tree</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.tree</span><span class="p">(</span><span class="s2">"gtdbtk_output/classify/gtdbtk.bac120.classify.tree"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Read GTDB-Tk metadata</span><span class="w">
-</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.delim</span><span class="p">(</span><span class="s2">"gtdbtk_output/classify/gtdbtk.bac120.summary.tsv"</span><span class="p">,</span><span class="w">
-                       </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Extract phylum</span><span class="w">
-</span><span class="n">metadata</span><span class="o">$</span><span class="n">phylum</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">".*;p__([^;]+);.*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"\\1"</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">classification</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Create basic tree</span><span class="w">
-</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggtree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_tree2</span><span class="p">()</span><span class="w">
-
-</span><span class="c1"># Add phylum colors</span><span class="w">
-</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">%&lt;+%</span><span class="w"> </span><span class="n">metadata</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_tippoint</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">phylum</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_color_brewer</span><span class="p">(</span><span class="n">palette</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Set3"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Save</span><span class="w">
-</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"phylogenetic_tree.pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span><span class="w">
-</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"phylogenetic_tree.png"</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span><span class="w">
-
-</span><span class="n">print</span><span class="p">(</span><span class="s2">"✓ Tree saved: phylogenetic_tree.pdf/png"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Advanced: Circular tree with genome labels</span><span class="w">
-</span><span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggtree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"circular"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_tiplab</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">phylum</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.01</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_color_brewer</span><span class="p">(</span><span class="n">palette</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Set3"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"phylogenetic_tree_circular.pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># With heatmap of ANI values</span><span class="w">
-</span><span class="n">p3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggtree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span><span class="w"> </span><span class="o">%&lt;+%</span><span class="w"> </span><span class="n">metadata</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_tippoint</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fastani_ani</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_color_gradient</span><span class="p">(</span><span class="n">low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">,</span><span class="w"> </span><span class="n">high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w">
-                       </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"ANI to\nReference (%)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_tree2</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"phylogenetic_tree_ani.pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="-best-practices">💡 Best Practices</h2>
-
-<h3 id="before-dereplication">Before Dereplication</h3>
-
-<ul>
-  <li>✅ Filter MAGs by quality (recommend: comp &gt;50%, cont &lt;10%)</li>
-  <li>✅ Use consistent quality metrics (CheckM2 recommended)</li>
-  <li>✅ Check genome file formats (FASTA only)</li>
-  <li>✅ Verify file naming is consistent</li>
-</ul>
-
-<h3 id="during-dereplication">During Dereplication</h3>
-
-<ul>
-  <li>✅ Choose appropriate ANI threshold (95% for species, 99% for strains)</li>
-  <li>✅ Use quality scoring if available (<code class="language-plaintext highlighter-rouge">--genomeInfo</code> flag)</li>
-  <li>✅ Set reasonable quality thresholds</li>
-  <li>✅ Save all dRep output tables for later analysis</li>
-</ul>
-
-<h3 id="gtdb-tk-classification">GTDB-Tk Classification</h3>
-
-<ul>
-  <li>✅ Use latest GTDB database (update regularly)</li>
-  <li>✅ Classify dereplicated genomes only (saves time)</li>
-  <li>✅ Keep output trees and metadata</li>
-  <li>✅ Validate novel species with ANI &lt;95%</li>
-</ul>
-
-<h3 id="tree-visualization">Tree Visualization</h3>
-
-<ul>
-  <li>✅ Use iTOL for interactive exploration</li>
-  <li>✅ Use ggtree for publication figures</li>
-  <li>✅ Include metadata (phylum, quality, abundance)</li>
-  <li>✅ Save in multiple formats (PDF, SVG, PNG)</li>
-</ul>
-
-<hr />
-
-<h2 id="-troubleshooting">🔧 Troubleshooting</h2>
-
-<h3 id="drep-issues">dRep Issues</h3>
-
-<p><strong>Problem: “No clusters formed”</strong></p>
-
-<p><strong>Solutions:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Lower ANI threshold</span>
-dRep dereplicate out <span class="nt">-g</span> <span class="k">*</span>.fa <span class="nt">-pa</span> 0.90 <span class="nt">-sa</span> 0.90
-
-<span class="c"># Check genome quality</span>
-dRep check_dependencies
-
-<span class="c"># Verify MASH installation</span>
-which mash
-</code></pre></div></div>
-
-<p><strong>Problem: “Out of memory”</strong></p>
-
-<p><strong>Solutions:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Reduce threads</span>
-dRep dereplicate out <span class="nt">-g</span> <span class="k">*</span>.fa <span class="nt">-p</span> 8
-
-<span class="c"># Use multiround_primary_clustering</span>
-dRep dereplicate out <span class="nt">-g</span> <span class="k">*</span>.fa <span class="nt">--multiround_primary_clustering</span>
-
-<span class="c"># Process in batches</span>
-</code></pre></div></div>
-
-<h3 id="gtdb-tk-issues">GTDB-Tk Issues</h3>
-
-<p><strong>Problem: “Database not found”</strong></p>
-
-<p><strong>Solutions:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Set environment variable</span>
-<span class="nb">export </span><span class="nv">GTDBTK_DATA_PATH</span><span class="o">=</span>/path/to/gtdbtk_db/release207
-
-<span class="c"># Verify database</span>
-gtdbtk check_install
-
-<span class="c"># Re-download if corrupted</span>
-download-db.sh
-</code></pre></div></div>
-
-<p><strong>Problem: “Not enough marker genes”</strong></p>
-
-<p><strong>Solutions:</strong></p>
-
-<ul>
-  <li>Genome may be too fragmented (check N50)</li>
-  <li>Low completeness (&lt;50% not recommended)</li>
-  <li>Wrong domain (trying to classify archaea as bacteria)</li>
-</ul>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check domain first</span>
-gtdbtk identify <span class="nt">--genome_dir</span> genomes/ <span class="nt">--out_dir</span> identify_out <span class="nt">--extension</span> fa
-
-<span class="c"># Then classify only bacteria or archaea</span>
-gtdbtk classify_wf <span class="nt">--genome_dir</span> genomes/ <span class="nt">--out_dir</span> out <span class="nt">--domain</span> bacteria
-</code></pre></div></div>
-
-<p><strong>Problem: “pplacer memory error”</strong></p>
-
-<p><strong>Solutions:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Reduce pplacer threads</span>
-gtdbtk classify_wf ... <span class="nt">--pplacer_cpus</span> 1
-
-<span class="c"># Use scratch directory</span>
-gtdbtk classify_wf ... <span class="nt">--scratch_dir</span> /tmp/gtdbtk
-
-<span class="c"># Process in smaller batches</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-expected-results">📈 Expected Results</h2>
-
-<h3 id="typical-dereplication-rates">Typical Dereplication Rates</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Initial MAGs</th>
-      <th>Dereplicated</th>
-      <th>Reduction</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>100</td>
-      <td>40-60</td>
-      <td>40-60%</td>
-    </tr>
-    <tr>
-      <td>200</td>
-      <td>70-120</td>
-      <td>40-65%</td>
-    </tr>
-    <tr>
-      <td>500</td>
-      <td>150-300</td>
-      <td>40-70%</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>Factors affecting reduction:</strong></p>
-
-<ul>
-  <li>Number of samples (more = more redundancy)</li>
-  <li>Sample similarity (related samples = more redundancy)</li>
-  <li>Community diversity</li>
-</ul>
-
-<h3 id="gtdb-tk-classification-success">GTDB-Tk Classification Success</h3>
-
-<p><strong>Expected outcomes:</strong></p>
-
-<ul>
-  <li>95-99% of quality MAGs successfully classified</li>
-  <li>10-30% may be novel species (ANI &lt;95%)</li>
-  <li>1-5% may be novel genera (ANI &lt;85%)</li>
-</ul>
-
-<hr />
-
-<h2 id="-success-checklist">✅ Success Checklist</h2>
-
-<p>Before moving to Day 5:</p>
-
-<ul class="task-list">
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Genomes dereplicated at appropriate ANI threshold</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Reduction rate documented (typically 40-70%)</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />All dereplicated genomes classified with GTDB-Tk</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Taxonomic catalog created</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Phylogenetic trees generated and visualized</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Species representatives organized</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Novel species identified and documented</li>
-</ul>
-
-<hr />
-
-<h2 id="-key-papers--resources">📚 Key Papers &amp; Resources</h2>
-
-<h3 id="essential-reading">Essential Reading</h3>
-
-<ol>
-  <li><strong>dRep:</strong>
-    <ul>
-      <li>Olm et al. (2017) - <em>Nature Biotechnology</em></li>
-      <li>dRep: a tool for fast and accurate genomic comparisons</li>
-    </ul>
-  </li>
-  <li><strong>GTDB-Tk:</strong>
-    <ul>
-      <li>Chaumeil et al. (2019) - <em>Bioinformatics</em></li>
-      <li>GTDB-Tk: a toolkit to classify genomes with GTDB</li>
-    </ul>
-  </li>
-  <li><strong>GTDB Taxonomy:</strong>
-    <ul>
-      <li>Parks et al. (2020) - <em>Nature Biotechnology</em></li>
-      <li>A complete domain-to-species taxonomy for Bacteria and Archaea</li>
-    </ul>
-  </li>
-  <li><strong>Tree Visualization:</strong>
-    <ul>
-      <li>Yu et al. (2017) - <em>Molecular Biology and Evolution</em></li>
-      <li>ggtree: visualization and annotation of phylogenetic trees</li>
-    </ul>
-  </li>
-</ol>
-
-<h3 id="helpful-links">Helpful Links</h3>
-
-<ul>
-  <li><a href="https://drep.readthedocs.io/">dRep Documentation</a></li>
-  <li><a href="https://github.com/Ecogenomics/GTDBTk">GTDB-Tk GitHub</a></li>
-  <li><a href="https://gtdb.ecogenomic.org/">GTDB Database</a></li>
-  <li><a href="https://itol.embl.de/">iTOL Website</a></li>
-  <li><a href="https://yulab-smu.top/treedata-book/">ggtree Documentation</a></li>
-</ul>
-
-<hr />
-
-<h2 id="️-whats-next">➡️ What’s Next?</h2>
-
-<p><strong>Day 5: Functional Annotation</strong> (Coming Soon)</p>
-
-<p>Learn to annotate genes and predict metabolic functions!</p>
-
-<p>Topics:</p>
-
-<ul>
-  <li>Gene prediction with Prodigal</li>
-  <li>Functional annotation with eggNOG-mapper</li>
-  <li>Pathway reconstruction with KEGG</li>
-  <li>Biosynthetic gene cluster identification with antiSMASH</li>
-</ul>
-
-<hr />
-
-<h2 id="-feedback">💬 Feedback</h2>
-
-<p>Found this helpful? Have suggestions?</p>
-
-<ul>
-  <li>🐛 <a href="https://github.com/jojyjohn28/metagenome-analysis-series/issues">Report issues</a></li>
-  <li>💡 <a href="https://github.com/jojyjohn28/metagenome-analysis-series/discussions">Suggest improvements</a></li>
-  <li>⭐ <a href="https://github.com/jojyjohn28/metagenome-analysis-series">Star the repo</a></li>
-</ul>
-
-<hr />
-
-<h4 id="repo-for-todays-code-and-other-details">Repo for today’s code and other details</h4>
-
-<p>🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day4-derep-tax/">Day 4 →</a></strong></p>
-
-<p>Last updated: February 2026</p>
-
-<p><img src="/assets/img/d4-mg.png" alt="day2 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="dereplication" /><category term="dRep" /><category term="GTDB-Tk" /><category term="taxonomy" /><category term="phylogenetics" /><category term="iTOL" /><category term="ggtree" /><category term="MAGs" /><category term="bioinformatics" /><category term="tutorial" /><summary type="html"><![CDATA[Master genome dereplication with dRep and taxonomic classification with GTDB-Tk. Learn to identify unique species, remove redundancy, construct phylogenetic trees with iTOL and ggtree, and select species representatives from metagenomic datasets.]]></summary></entry></feed>
+<p><img src="/assets/img/mg-day5.png" alt="day5 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="annotation" /><category term="Prodigal" /><category term="Prokka" /><category term="DRAM" /><category term="METABOLIC" /><category term="eggNOG" /><category term="functional-annotation" /><category term="metabolic-pathways" /><category term="bioinformatics" /><category term="tutorial" /><summary type="html"><![CDATA[Complete guide to genome annotation from basic (Prodigal, Prokka) to advanced (DRAM, METABOLIC). Learn to predict genes, assign functions, and reconstruct metabolic pathways from MAGs. Includes practical workflows for laptops and HPC.]]></summary></entry></feed>
