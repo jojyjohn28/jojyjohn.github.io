@@ -7,7 +7,7 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/size-fractionated-microbiome-analysis-day1/
-series: size_fractionated
+series: size-fractionated
 series_title: "Size-Fractionated Microbiome Series"
 order: 1
 ---

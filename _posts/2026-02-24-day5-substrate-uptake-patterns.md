@@ -29,7 +29,7 @@ tags:
     workflow,
     microbial-ecology,
   ]
-series: size_fractionated
+series: size-fractionated
 series_title: "Size-Fractionated Microbiome Series"
 order: 5
 ---

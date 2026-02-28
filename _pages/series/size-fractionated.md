@@ -4,7 +4,7 @@ title: "Size-Fractionated Microbiome Series"
 permalink: /series/size-fractionated/
 ---
 
-{% assign posts = site.posts | where: "series", "size_fractionated" | sort: "order" %}
+{% assign posts = site.posts | where: "series", "size-fractionated" | sort: "order" %}
 
 <p>This page lists all posts in the Size-Fractionated Microbiome Series in order.</p>
 
