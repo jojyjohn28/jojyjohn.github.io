@@ -2,7 +2,7 @@
 layout: page
 title: "Topics"
 permalink: /topics/
-nav: true
+nav: false
 nav_order: 4
 ---
 
