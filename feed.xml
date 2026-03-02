@@ -1,5 +1,252 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-27T22:18:48-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-02-27T22:18:48-05:00</published><updated>2026-02-27T22:18:48-05:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-01T23:46:11-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)</title><link href="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/" rel="alternate" type="text/html" title="Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)" /><published>2026-03-02T00:00:00-05:00</published><updated>2026-03-02T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/why-normal-stats-fail-microbiome</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/"><![CDATA[<h2 id="day-1--why-normal-statistics-fail-for-microbiome-data">Day 1 — Why Normal Statistics Fail for Microbiome Data</h2>
+
+<p>*This is Day 1 of a 7-day series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and <strong>🧬 Day 51 of Daily Bioinformatics from Jojy’s Desk</strong>
+<em>All data and R code for this series → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
+
+<hr />
+
+<p>Let me start with an honest confession.</p>
+
+<p>When I first started working with microbiome data, I did what most people do — I tried to use the statistics I already knew. t-tests. ANOVA. Pearson correlations. They worked fine in other contexts. Why wouldn’t they work here?</p>
+
+<p>They failed. Badly.</p>
+
+<p>Not because I was using them wrong. But <strong>because microbiome data breaks almost every assumption those tests are built on.</strong> The data is fundamentally different, and it took me a while to really understand <em>why</em> — not just accept it as a rule someone told me.</p>
+
+<p>That’s what this post is about. Before we write a single line of R code, before we run an ordination or a PERMANOVA, I want you to genuinely understand the problem. Because once you do, every method we cover this week will make intuitive sense rather than feeling like a black box you’re supposed to trust.</p>
+
+<hr />
+
+<h2 id="what-makes-microbiome-data-weird">What Makes Microbiome Data Weird?</h2>
+
+<h3 id="1-its-compositional--counts-are-relative-not-absolute">1. It’s Compositional — Counts Are Relative, Not Absolute</h3>
+
+<p>Imagine you sequence two samples. In Sample A, you find 1,000 reads from <em>Bacteria X</em>. In Sample B, you find 500 reads from <em>Bacteria X</em>. Is <em>Bacteria X</em> twice as abundant in Sample A?</p>
+
+<p><strong>Not necessarily.</strong> It depends on how many total reads you got from each sample. If Sample A had 10,000 total reads and Sample B had 5,000, then <em>Bacteria X</em> makes up exactly 10% of both samples — they’re identical in relative terms.</p>
+
+<p>This is the <strong>compositionality problem</strong>. Sequencing doesn’t give us absolute counts of microorganisms. It gives us <strong>proportions</strong> — each MAG or taxon’s abundance is expressed relative to the total sequencing effort. The data always sums to a constant (100%, or total reads), which creates spurious correlations and violates the independence assumptions of standard statistical tests.</p>
+
+<p>A t-test doesn’t know that your numbers are parts of a whole. It treats them as independent measurements. That’s a problem.</p>
+
+<hr />
+
+<h3 id="2-its-sparse--most-values-are-zero">2. It’s Sparse — Most Values Are Zero</h3>
+
+<p>In a typical MAG abundance table, the majority of cells are zero. A MAG recovered from one environment simply doesn’t appear in another. With 60 MAGs across 27 metagenomes, you might expect 30–60% of your table to be zeros — sometimes more.</p>
+
+<p>Standard statistical methods hate zeros. Log-transformations break at zero. Distance calculations behave strangely when half your data points are identical zeros. Normal distributions have no concept of “absent.”</p>
+
+<p>The sparsity also means your data is highly skewed — a few dominant MAGs have very high abundance, while most have very low or zero abundance. That distribution looks nothing like a bell curve.</p>
+
+<hr />
+
+<h3 id="3-its-multivariate--you-have-many-variables-at-once">3. It’s Multivariate — You Have Many Variables at Once</h3>
+
+<p>When you measure blood pressure, you get one number. When you sequence a metagenome, you get <strong>60 MAG abundances simultaneously</strong> — 60 variables, all potentially interacting, all measured from the same sample.</p>
+
+<p>Standard tests like t-tests and ANOVA are univariate — they test one variable at a time. You <em>could</em> run 60 separate t-tests (one per MAG). But then you’ve run 60 tests, and by chance alone you’d expect 3 false positives at p &lt; 0.05. Your results would be meaningless.</p>
+
+<p>Microbiome community analysis requires methods that handle all variables <strong>together</strong> — treating the community as a whole rather than as 60 independent measurements.</p>
+
+<hr />
+
+<h3 id="4-its-non-normal--the-distributions-are-exotic">4. It’s Non-Normal — The Distributions Are Exotic</h3>
+
+<p>The normal (Gaussian) distribution — the famous bell curve — underlies most classical statistics. t-tests, ANOVA, Pearson correlation, linear regression all assume your data is approximately normally distributed.</p>
+
+<p>Microbiome abundance data is not. It tends to follow distributions that are:</p>
+
+<ul>
+  <li><strong>Zero-inflated</strong> (excess zeros from absent taxa)</li>
+  <li><strong>Right-skewed</strong> (a few very abundant taxa, many rare ones)</li>
+  <li><strong>Overdispersed</strong> (more variance than a Poisson or binomial model would predict)</li>
+</ul>
+
+<p>You can sometimes transform the data to approximate normality (Hellinger transformation, log-ratio transformation), but the underlying biology of the data means you always need to think carefully about whether your assumptions hold.</p>
+
+<hr />
+
+<h2 id="what-does-community-level-analysis-actually-mean">What Does “Community-Level Analysis” Actually Mean?</h2>
+
+<p>Here’s the conceptual shift that changes everything.</p>
+
+<p>In most biology, you ask: <strong>“Is gene X differentially expressed?”</strong> or <strong>“Is species Y more abundant in treatment A?”</strong> — one variable, one question.</p>
+
+<p>In microbiome ecology, the primary question is different: <strong>“Are these communities different?”</strong></p>
+
+<p>Not one MAG. Not one taxon. The whole community at once — the combination of which organisms are present, in what proportions, and how that combination shifts across samples or conditions.</p>
+
+<p>Think of it like comparing two orchestras. You wouldn’t just compare the number of violins and call that a comparison. You’d compare the full composition — how many of each instrument, how they’re arranged, how the overall sound differs. Community-level analysis is comparing the full orchestra, not individual instruments.</p>
+
+<p>This is why we need:</p>
+
+<ul>
+  <li><strong>Ordination methods</strong> (RDA, dbRDA) — to visualize community composition in reduced-dimensional space</li>
+  <li><strong>Permutation tests</strong> (PERMANOVA) — to test whether community differences are statistically real</li>
+  <li><strong>Distance matrices</strong> (Bray-Curtis, UniFrac) — to quantify how different two communities are as a whole</li>
+</ul>
+
+<hr />
+
+<h2 id="so-what-do-we-use-instead">So What Do We Use Instead?</h2>
+
+<p>Here’s the roadmap for this week — and the logic behind the order:</p>
+
+<p><strong>Day 2 — RDA &amp; dbRDA (Constrained Ordination)</strong>
+We visualize how communities vary across environmental gradients. Euclidean distances for transformed data, Bray-Curtis for raw abundance — and why that choice matters.</p>
+
+<p><strong>Day 3 — PERMANOVA</strong>
+We’ve seen the groups separate visually. Now we test whether the separation is statistically real — using permutation rather than distributional assumptions.</p>
+
+<p><strong>Day 4 — Non-Parametric Tests</strong>
+For taxon-level comparisons (not community-level), we use Wilcoxon and Kruskal-Wallis tests — the non-parametric alternatives to t-tests and ANOVA that don’t assume normality.</p>
+
+<p><strong>Day 5 — Multiple Regression</strong>
+We ask which environmental variables best predict gene or MAG abundance, and how to interpret those relationships biologically.</p>
+
+<p><strong>Day 6 — WGCNA</strong>
+We stop asking about individual MAGs and start asking about <em>modules</em> of co-occurring MAGs — groups that rise and fall together across samples.</p>
+
+<p><strong>Day 7 — Full Workflow Synthesis</strong>
+How all of these methods connect in a real paper, and how to structure a results section that tells a coherent biological story.</p>
+
+<hr />
+
+<h2 id="the-data-well-use-all-week">The Data We’ll Use All Week</h2>
+
+<p>Every post in this series uses the same two files. I want you to recognize them by Day 7 like old friends.</p>
+
+<p>The data comes from a real metagenomic study: <strong>60 Metagenome-Assembled Genomes (MAGs)</strong> recovered across <strong>27 metagenomes</strong> from different environments. These MAGs represent microbial populations — organisms assembled from sequencing reads without culturing.</p>
+
+<p>All data and code are available at: 🔗 <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></p>
+
+<h3 id="file-1-mag_abundancecsv">File 1: <code class="language-plaintext highlighter-rouge">mag_abundance.csv</code></h3>
+
+<p>This is your <strong>community matrix</strong> — the core data object in every analysis.</p>
+
+<ul>
+  <li><strong>Rows</strong> = metagenome samples (27 samples)</li>
+  <li><strong>Columns</strong> = MAGs (60 MAGs)</li>
+  <li><strong>Values</strong> = relative abundance of each MAG in each sample</li>
+</ul>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Load and take a first look</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/mag_abundance.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w">      </span><span class="c1"># should be 27 rows × 60 columns</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">])</span><span class="w">   </span><span class="c1"># first look at 5 MAGs</span><span class="w">
+</span></code></pre></div></div>
+
+<p>What you’ll notice immediately:</p>
+
+<ul>
+  <li>Many zeros — MAGs absent from most samples</li>
+  <li>Values between 0 and 1 (relative abundances)</li>
+  <li>High variability across samples — some MAGs are everywhere, most are rare</li>
+</ul>
+
+<h3 id="file-2-metadatacsv">File 2: <code class="language-plaintext highlighter-rouge">metadata.csv</code></h3>
+
+<p>This is your <strong>environmental context</strong> — what makes samples different from each other.</p>
+
+<ul>
+  <li><strong>Rows</strong> = metagenome samples (same 27 samples, same order)</li>
+  <li><strong>Columns</strong> = environmental and sample variables (salinity, season, location, etc.)</li>
+</ul>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/metadata.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="nf">dim</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">           </span><span class="c1"># 27 rows × however many metadata columns</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">          </span><span class="c1"># see what variables you're working with</span><span class="w">
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">      </span><span class="c1"># list all metadata variables</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The metadata is what gives the community data biological meaning. Without it, you just have a table of numbers. With it, you can ask: <em>Do communities differ by salinity? By season? By sampling location?</em> That’s the bridge between pattern and biology.</p>
+
+<h3 id="checking-the-data--always-do-this-first">Checking the Data — Always Do This First</h3>
+
+<p>Before any analysis, verify that your samples are in the same order in both files:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Critical check — rows must match between files</span><span class="w">
+</span><span class="nf">all</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span><span class="w">
+</span><span class="c1"># Should return TRUE</span><span class="w">
+
+</span><span class="c1"># Quick summary of the abundance table</span><span class="w">
+</span><span class="n">summary</span><span class="p">(</span><span class="n">rowSums</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w">   </span><span class="c1"># row sums (should be ~1 if relative abundance)</span><span class="w">
+</span><span class="nf">sum</span><span class="p">(</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">prod</span><span class="p">(</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="w">  </span><span class="c1"># % zeros</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This sparsity check alone is revealing. When you run it on this data and see that a significant percentage of the table is zeros, you’ll understand viscerally why we don’t just run a t-test.</p>
+
+<hr />
+
+<h2 id="a-note-on-transformation">A Note on Transformation</h2>
+
+<p>We’ll cover this in depth on Day 2, but plant this idea now: <strong>the same abundance data can be transformed in different ways depending on the analysis</strong>.</p>
+
+<ul>
+  <li><strong>Hellinger transformation</strong> — square root of relative abundance. Reduces the influence of very abundant MAGs. Used before RDA.</li>
+  <li><strong>Bray-Curtis dissimilarity</strong> — a distance metric calculated directly from raw relative abundances. Used in dbRDA and PERMANOVA.</li>
+  <li><strong>Log-ratio transformation</strong> (CLR) — the compositionally correct approach, increasingly used in modern microbiome work.</li>
+</ul>
+
+<p>No single transformation is universally correct. The choice depends on your question and your method. We’ll make that choice explicitly and justify it each time.</p>
+
+<hr />
+
+<h2 id="️-common-mistakes-to-avoid">⚠️ Common Mistakes to Avoid</h2>
+
+<p><strong>Mistake 1: Running t-tests on individual MAGs without multiple testing correction.</strong>
+With 60 MAGs, you’ll get ~3 false positives by chance at p &lt; 0.05. Always correct for multiple comparisons (Day 4 covers this).</p>
+
+<p><strong>Mistake 2: Treating relative abundance as absolute abundance.</strong>
+A MAG that increases in relative abundance might be doing so because something else decreased — not because it truly grew. Keep compositionality in mind throughout.</p>
+
+<p><strong>Mistake 3: Skipping the data check.</strong>
+If your metadata rows don’t match your abundance matrix rows, every analysis silently produces wrong results. Always verify alignment before starting.</p>
+
+<p><strong>Mistake 4: Log-transforming zeros.</strong>
+<code class="language-plaintext highlighter-rouge">log(0)</code> is undefined (<code class="language-plaintext highlighter-rouge">-Inf</code> in R). If you log-transform without adding a pseudocount, your analysis will fail or produce garbage. Use appropriate transformations — covered on Day 2.</p>
+
+<p><strong>Mistake 5: Jumping straight to ordination without understanding your data.</strong>
+Look at your data first. Check distributions, zeros, outliers. A 10-minute exploration prevents hours of debugging later.</p>
+
+<hr />
+
+<h2 id="-key-takeaways">🧭 Key Takeaways</h2>
+
+<ul>
+  <li>Microbiome data is <strong>compositional</strong> (relative, not absolute), <strong>sparse</strong> (many zeros), <strong>multivariate</strong> (many variables at once), and <strong>non-normal</strong> — each property breaks standard statistical assumptions in a different way.</li>
+  <li><strong>Community-level analysis</strong> treats the full assemblage of organisms as the unit of study, not individual taxa in isolation.</li>
+  <li>We need specialized methods — ordination, permutation tests, non-parametric comparisons — because classical tests were not designed for this data structure.</li>
+  <li>Our dataset: <strong>60 MAGs × 27 metagenomes</strong>, two files (<code class="language-plaintext highlighter-rouge">mag_abundance.csv</code> + <code class="language-plaintext highlighter-rouge">metadata.csv</code>), used consistently across all 7 days.</li>
+  <li>Always <strong>check your data</strong> before any analysis: dimensions, zero percentage, and row alignment between files.</li>
+</ul>
+
+<hr />
+
+<h2 id="-whats-next">🔗 What’s Next</h2>
+
+<p>Tomorrow on <strong>Day 2</strong>, we run our first real analysis — constrained ordination with <strong>RDA and dbRDA</strong>. We’ll ask: <em>Do the environmental variables in our metadata explain the community composition patterns we see across samples?</em> And we’ll visualize the answer with ggplot2.</p>
+
+<p>By the end of Day 2, you’ll have your first publication-quality ordination plot.</p>
+
+<hr />
+
+<p><em>All R code and data for this series: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em>
+<em>Found this useful? Share it with someone learning microbiome stats — and follow along for Day 2 tomorrow.</em></p>
+
+<hr />
+
+<p><strong>🧬 Day 51 — Daily Bioinformatics from Jojy’s Desk</strong></p>
+
+<hr />
+
+<p><img src="/assets/img/stat-day1.png" alt="Stat-day1" /></p>]]></content><author><name></name></author><category term="microbiome" /><category term="statistics" /><category term="metagenomics" /><category term="MAGs" /><category term="R" /><category term="beginners" /><summary type="html"><![CDATA[Before we run a single ordination or permutation test, we need to understand why standard statistics break down for microbiome and genomics data. This is your foundation for the entire 7-day series.]]></summary></entry><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-01T23:46:11-05:00</published><updated>2026-03-01T23:46:11-05:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -5925,1004 +6172,4 @@ python MakeBootstraps.py abundance.txt <span class="nt">-n</span> 100 <span clas
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/d7-mg.png" alt="day6 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="pangenomics" /><category term="PanX" /><category term="Anvi&apos;o" /><category term="Roary" /><category term="BPGA" /><category term="PERMANOVA" /><category term="RDA" /><category term="dbRDA" /><category term="WGCNA" /><category term="co-occurrence" /><category term="statistical-analysis" /><category term="environmental-factors" /><category term="comparative-genomics" /><category term="network-analysis" /><summary type="html"><![CDATA[Master pangenome analysis (PanX, Anvi'o, Roary, BPGA), statistical ecology (PERMANOVA, RDA, dbRDA), co-occurrence networks (WGCNA, SparCC), and environmental associations. Complete guide to understanding how metadata influences microbiomes and comparative genomics.]]></summary></entry><entry><title type="html">Day 5: Genome Annotation - Understanding Metabolic Potential</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day5-annotation/" rel="alternate" type="text/html" title="Day 5: Genome Annotation - Understanding Metabolic Potential" /><published>2026-02-10T00:00:00-05:00</published><updated>2026-02-10T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day5-annotation</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day5-annotation/"><![CDATA[<h1 id="day-5-genome-annotation---understanding-metabolic-potential">Day 5: Genome Annotation - Understanding Metabolic Potential</h1>
-
-<table>
-  <tbody>
-    <tr>
-      <td><strong>Estimated Time:</strong> 6-10 hours</td>
-      <td><strong>Difficulty:</strong> Intermediate</td>
-      <td><strong>Prerequisites:</strong> Day 4 (Taxonomy)</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="-table-of-contents">📚 Table of Contents</h2>
-
-<ul>
-  <li><a href="#introduction">Introduction</a></li>
-  <li><a href="#annotation-overview">Annotation Overview</a></li>
-  <li><a href="#software-installation">Software Installation</a></li>
-  <li><a href="#basic-annotation">Basic Annotation</a></li>
-  <li><a href="#advanced-annotation">Advanced Annotation</a></li>
-  <li><a href="#metabolic-reconstruction">Metabolic Reconstruction</a></li>
-  <li><a href="#comparative-analysis">Comparative Analysis</a></li>
-  <li><a href="#best-practices">Best Practices</a></li>
-  <li><a href="#troubleshooting">Troubleshooting</a></li>
-</ul>
-
-<hr />
-
-<h2 id="-introduction">🎯 Introduction</h2>
-
-<p>Welcome to Day 5! You’ve recovered high-quality MAGs and classified them taxonomically. Now the exciting question: <strong>What can these organisms do?</strong></p>
-
-<p><strong>Today’s goals:</strong></p>
-
-<ol>
-  <li>✅ <strong>Predict genes</strong> - Where are the genes in your genomes?</li>
-  <li>✅ <strong>Assign functions</strong> - What do these genes do?</li>
-  <li>✅ <strong>Reconstruct pathways</strong> - What metabolic capabilities exist?</li>
-  <li>✅ <strong>Compare genomes</strong> - How do species differ functionally?</li>
-</ol>
-
-<h3 id="why-annotate">Why Annotate?</h3>
-
-<p><strong>Unannotated genome:</strong> Just DNA sequences<br />
-<strong>Annotated genome:</strong> Blueprint of an organism’s capabilities</p>
-
-<p><strong>Answers you’ll get:</strong></p>
-
-<ul>
-  <li>Can it fix nitrogen?</li>
-  <li>Does it produce secondary metabolites?</li>
-  <li>What carbon sources can it use?</li>
-  <li>Does it have antibiotic resistance genes?</li>
-  <li>Can it degrade pollutants?</li>
-</ul>
-
-<hr />
-
-<h2 id="-annotation-overview">🔬 Annotation Overview</h2>
-
-<h3 id="the-annotation-hierarchy">The Annotation Hierarchy</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Level 1: Gene Prediction
-├─ Prodigal    (Fast, accurate)
-└─ Prokka      (Gene prediction + basic annotation)
-
-Level 2: Functional Annotation
-├─ eggNOG-mapper  (Orthology-based)
-└─ Prokka         (Swiss-Prot, Pfam)
-
-Level 3: Metabolic Annotation
-├─ DRAM          (Metabolic distillation)
-└─ METABOLIC     (Comprehensive pathways)
-</code></pre></div></div>
-
-<h3 id="tools-comparison">Tools Comparison</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Tool</th>
-      <th>Speed</th>
-      <th>Depth</th>
-      <th>Best For</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Prodigal</strong></td>
-      <td>⚡⚡⚡</td>
-      <td>Basic</td>
-      <td>Gene prediction only</td>
-    </tr>
-    <tr>
-      <td><strong>Prokka</strong></td>
-      <td>⚡⚡</td>
-      <td>Good</td>
-      <td>Quick annotation, publication</td>
-    </tr>
-    <tr>
-      <td><strong>eggNOG-mapper</strong></td>
-      <td>⚡</td>
-      <td>Excellent</td>
-      <td>Detailed functional annotation</td>
-    </tr>
-    <tr>
-      <td><strong>DRAM</strong></td>
-      <td>⚡</td>
-      <td>Excellent</td>
-      <td>Metabolic reconstruction</td>
-    </tr>
-    <tr>
-      <td><strong>METABOLIC</strong></td>
-      <td>⚡</td>
-      <td>Comprehensive</td>
-      <td>Full metabolic pathways</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="-software-installation">📦 Software Installation</h2>
-
-<h3 id="basic-tools">Basic Tools</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Prodigal (gene prediction)</span>
-conda create <span class="nt">-n</span> prodigal
-conda activate prodigal
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda prodigal
-
-<span class="c"># Prokka (rapid annotation)</span>
-conda create <span class="nt">-n</span> prokka <span class="nv">python</span><span class="o">=</span>3.8
-conda activate prokka
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda prokka
-
-<span class="c"># Verify installations</span>
-prodigal <span class="nt">-v</span>
-prokka <span class="nt">--version</span>
-</code></pre></div></div>
-
-<h3 id="advanced-tools">Advanced Tools</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># eggNOG-mapper</span>
-conda create <span class="nt">-n</span> eggnog <span class="nv">python</span><span class="o">=</span>3.9
-conda activate eggnog
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda eggnog-mapper
-
-<span class="c"># Download eggNOG database (~45 GB)</span>
-download_eggnog_data.py <span class="nt">-y</span>
-
-<span class="c"># DRAM</span>
-conda create <span class="nt">-n</span> dram <span class="nv">python</span><span class="o">=</span>3.10
-conda activate dram
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda dram
-
-<span class="c"># Setup DRAM databases (~200 GB!)</span>
-DRAM-setup.py prepare_databases <span class="nt">--output_dir</span> ~/DRAM_data
-
-<span class="c"># METABOLIC</span>
-conda create <span class="nt">-n</span> metabolic <span class="nv">python</span><span class="o">=</span>3.7
-conda activate metabolic
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda metabolic
-
-<span class="c"># Download METABOLIC databases</span>
-perl METABOLIC-G.pl <span class="nt">-test</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-basic-annotation">🚀 Basic Annotation</h2>
-
-<h3 id="level-1-gene-prediction-with-prodigal">Level 1: Gene Prediction with Prodigal</h3>
-
-<p><strong>Prodigal</strong> is the gold standard for bacterial gene prediction.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate prodigal
-
-<span class="c"># Single genome</span>
-prodigal <span class="nt">-i</span> genome.fasta <span class="se">\</span>
-         <span class="nt">-o</span> genes.gbk <span class="se">\</span>
-         <span class="nt">-a</span> proteins.faa <span class="se">\</span>
-         <span class="nt">-d</span> genes.fna <span class="se">\</span>
-         <span class="nt">-f</span> gbk
-
-<span class="c"># Batch processing</span>
-<span class="k">for </span>genome <span class="k">in </span>species_representatives/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-    </span><span class="nv">name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="nv">$genome</span> .fa<span class="si">)</span>
-    prodigal <span class="nt">-i</span> <span class="nv">$genome</span> <span class="se">\</span>
-             <span class="nt">-o</span> prodigal_output/<span class="k">${</span><span class="nv">name</span><span class="k">}</span>.gbk <span class="se">\</span>
-             <span class="nt">-a</span> prodigal_output/<span class="k">${</span><span class="nv">name</span><span class="k">}</span>.faa <span class="se">\</span>
-             <span class="nt">-d</span> prodigal_output/<span class="k">${</span><span class="nv">name</span><span class="k">}</span>.fna <span class="se">\</span>
-             <span class="nt">-f</span> gbk
-    <span class="nb">echo</span> <span class="s2">"✓ </span><span class="k">${</span><span class="nv">name</span><span class="k">}</span><span class="s2"> completed"</span>
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p><strong>Output files:</strong></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">.gbk</code> - GenBank format (annotations)</li>
-  <li><code class="language-plaintext highlighter-rouge">.faa</code> - Protein sequences (amino acids)</li>
-  <li><code class="language-plaintext highlighter-rouge">.fna</code> - Gene sequences (nucleotides)</li>
-</ul>
-
-<p><strong>Understanding output:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Count genes</span>
-<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"&gt;"</span> prodigal_output/<span class="k">*</span>.faa
-
-<span class="c"># Gene statistics</span>
-python <span class="o">&lt;&lt;</span> <span class="sh">'</span><span class="no">EOF</span><span class="sh">'
-from Bio import SeqIO
-
-for record in SeqIO.parse("proteins.faa", "fasta"):
-    print(f"Gene: {record.id}, Length: {len(record.seq)} aa")
-</span><span class="no">EOF
-</span></code></pre></div></div>
-
-<hr />
-
-<h3 id="level-2-quick-annotation-with-prokka">Level 2: Quick Annotation with Prokka</h3>
-
-<p><strong>Prokka</strong> does gene prediction AND functional annotation in one step.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate prokka
-
-<span class="c"># Single genome annotation</span>
-prokka <span class="se">\</span>
-    <span class="nt">--outdir</span> prokka_output/genome1 <span class="se">\</span>
-    <span class="nt">--prefix</span> genome1 <span class="se">\</span>
-    <span class="nt">--kingdom</span> Bacteria <span class="se">\</span>
-    <span class="nt">--cpus</span> 8 <span class="se">\</span>
-    <span class="nt">--force</span> <span class="se">\</span>
-    genome1.fa
-
-<span class="c"># With metadata for better annotation</span>
-prokka <span class="se">\</span>
-    <span class="nt">--outdir</span> prokka_output/genome1 <span class="se">\</span>
-    <span class="nt">--prefix</span> genome1 <span class="se">\</span>
-    <span class="nt">--kingdom</span> Bacteria <span class="se">\</span>
-    <span class="nt">--genus</span> Bacteroides <span class="se">\</span>
-    <span class="nt">--species</span> uniformis <span class="se">\</span>
-    <span class="nt">--strain</span> isolate123 <span class="se">\</span>
-    <span class="nt">--cpus</span> 8 <span class="se">\</span>
-    <span class="nt">--force</span> <span class="se">\</span>
-    genome1.fa
-</code></pre></div></div>
-
-<p><strong>Prokka output files:</strong></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prokka_output/genome1/
-├── genome1.faa      # Protein sequences
-├── genome1.ffn      # Gene sequences
-├── genome1.fna      # Genome sequence
-├── genome1.gbk      # GenBank format
-├── genome1.gff      # GFF3 format (for visualization)
-├── genome1.tsv      # Feature table
-├── genome1.txt      # Statistics
-└── genome1.sqn      # Sequin format (NCBI submission)
-</code></pre></div></div>
-
-<p><strong>Parse Prokka results:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># View statistics</span>
-<span class="nb">cat </span>prokka_output/genome1/genome1.txt
-
-<span class="c"># Extract annotations</span>
-<span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"^#"</span> prokka_output/genome1/genome1.tsv | <span class="se">\</span>
-    <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">'\t'</span> <span class="s1">'{print $1"\t"$2"\t"$3}'</span> | <span class="nb">head</span> <span class="nt">-20</span>
-
-<span class="c"># Count annotated vs hypothetical</span>
-<span class="nv">total</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"CDS"</span> prokka_output/genome1/genome1.tsv<span class="si">)</span>
-<span class="nv">hypo</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"hypothetical protein"</span> prokka_output/genome1/genome1.tsv<span class="si">)</span>
-<span class="nv">annotated</span><span class="o">=</span><span class="k">$((</span>total <span class="o">-</span> hypo<span class="k">))</span>
-
-<span class="nb">echo</span> <span class="s2">"Total CDSs: </span><span class="k">${</span><span class="nv">total</span><span class="k">}</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="s2">"Annotated: </span><span class="k">${</span><span class="nv">annotated</span><span class="k">}</span><span class="s2"> (</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"scale=1; </span><span class="k">${</span><span class="nv">annotated</span><span class="k">}</span><span class="s2">*100/</span><span class="k">${</span><span class="nv">total</span><span class="k">}</span><span class="s2">"</span> | bc<span class="si">)</span><span class="s2">%)"</span>
-<span class="nb">echo</span> <span class="s2">"Hypothetical: </span><span class="k">${</span><span class="nv">hypo</span><span class="k">}</span><span class="s2"> (</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"scale=1; </span><span class="k">${</span><span class="nv">hypo</span><span class="k">}</span><span class="s2">*100/</span><span class="k">${</span><span class="nv">total</span><span class="k">}</span><span class="s2">"</span> | bc<span class="si">)</span><span class="s2">%)"</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-advanced-annotation">🔬 Advanced Annotation</h2>
-
-<h3 id="level-3-functional-annotation-with-eggnog-mapper">Level 3: Functional Annotation with eggNOG-mapper</h3>
-
-<p><strong>eggNOG-mapper</strong> provides deep functional annotation using orthology.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate eggnog
-
-<span class="c"># Annotate proteins from Prodigal</span>
-emapper.py <span class="se">\</span>
-    <span class="nt">-i</span> proteins.faa <span class="se">\</span>
-    <span class="nt">--itype</span> proteins <span class="se">\</span>
-    <span class="nt">-m</span> diamond <span class="se">\</span>
-    <span class="nt">--output</span> eggnog_output <span class="se">\</span>
-    <span class="nt">--output_dir</span> eggnog_results <span class="se">\</span>
-    <span class="nt">--cpu</span> 16 <span class="se">\</span>
-    <span class="nt">--data_dir</span> ~/eggnog_data
-
-<span class="c"># Batch annotation</span>
-<span class="k">for </span>faa <span class="k">in </span>prodigal_output/<span class="k">*</span>.faa<span class="p">;</span> <span class="k">do
-    </span><span class="nv">name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="nv">$faa</span> .faa<span class="si">)</span>
-    emapper.py <span class="se">\</span>
-        <span class="nt">-i</span> <span class="nv">$faa</span> <span class="se">\</span>
-        <span class="nt">--itype</span> proteins <span class="se">\</span>
-        <span class="nt">-m</span> diamond <span class="se">\</span>
-        <span class="nt">--output</span> <span class="k">${</span><span class="nv">name</span><span class="k">}</span> <span class="se">\</span>
-        <span class="nt">--output_dir</span> eggnog_results <span class="se">\</span>
-        <span class="nt">--cpu</span> 16
-    <span class="nb">echo</span> <span class="s2">"✓ </span><span class="k">${</span><span class="nv">name</span><span class="k">}</span><span class="s2"> annotated"</span>
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p><strong>eggNOG output columns:</strong></p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Column</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>query</td>
-      <td>Gene ID</td>
-    </tr>
-    <tr>
-      <td>eggNOG_OGs</td>
-      <td>Orthologous groups</td>
-    </tr>
-    <tr>
-      <td>max_annot_lvl</td>
-      <td>Taxonomic level</td>
-    </tr>
-    <tr>
-      <td>COG_category</td>
-      <td>COG functional category</td>
-    </tr>
-    <tr>
-      <td>Description</td>
-      <td>Gene function</td>
-    </tr>
-    <tr>
-      <td>Preferred_name</td>
-      <td>Gene name</td>
-    </tr>
-    <tr>
-      <td>GOs</td>
-      <td>Gene Ontology terms</td>
-    </tr>
-    <tr>
-      <td>EC</td>
-      <td>Enzyme Commission numbers</td>
-    </tr>
-    <tr>
-      <td>KEGG_ko</td>
-      <td>KEGG orthology</td>
-    </tr>
-    <tr>
-      <td>KEGG_Pathway</td>
-      <td>KEGG pathways</td>
-    </tr>
-    <tr>
-      <td>KEGG_Module</td>
-      <td>KEGG modules</td>
-    </tr>
-    <tr>
-      <td>KEGG_Reaction</td>
-      <td>KEGG reactions</td>
-    </tr>
-    <tr>
-      <td>CAZy</td>
-      <td>Carbohydrate-active enzymes</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>Parse eggNOG results:</strong></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
-# parse_eggnog.py
-</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># Read eggNOG results
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">eggnog_results/genome1.emapper.annotations</span><span class="sh">'</span><span class="p">,</span>
-                 <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="sh">'</span><span class="s">#</span><span class="sh">'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
-
-<span class="c1"># Add column names
-</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sh">'</span><span class="s">query</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">seed_ortholog</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">evalue</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">score</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">eggNOG_OGs</span><span class="sh">'</span><span class="p">,</span>
-           <span class="sh">'</span><span class="s">max_annot_lvl</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">COG_category</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Description</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Preferred_name</span><span class="sh">'</span><span class="p">,</span>
-           <span class="sh">'</span><span class="s">GOs</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">EC</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">KEGG_ko</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">KEGG_Pathway</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">KEGG_Module</span><span class="sh">'</span><span class="p">,</span>
-           <span class="sh">'</span><span class="s">KEGG_Reaction</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">KEGG_rclass</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">BRITE</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">KEGG_TC</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">CAZy</span><span class="sh">'</span><span class="p">,</span>
-           <span class="sh">'</span><span class="s">BiGG_Reaction</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">PFAMs</span><span class="sh">'</span><span class="p">]</span>
-<span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
-
-<span class="c1"># Summary statistics
-</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">  eggNOG Annotation Summary</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Total genes: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">With function: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Preferred_name</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">With EC number: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">EC</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">With KEGG pathway: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">KEGG_Pathway</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">With CAZy: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">CAZy</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># COG category distribution
-</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">COG Category Distribution:</span><span class="sh">"</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">COG_category</span><span class="sh">'</span><span class="p">].</span><span class="nf">value_counts</span><span class="p">().</span><span class="nf">head</span><span class="p">(</span><span class="mi">10</span><span class="p">).</span><span class="nf">items</span><span class="p">()):</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  </span><span class="si">{</span><span class="n">cat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">cat</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># Save functional summary
-</span><span class="n">functional</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Preferred_name</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">()][[</span><span class="sh">'</span><span class="s">query</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Preferred_name</span><span class="sh">'</span><span class="p">,</span>
-                                                <span class="sh">'</span><span class="s">Description</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">KEGG_ko</span><span class="sh">'</span><span class="p">,</span>
-                                                <span class="sh">'</span><span class="s">KEGG_Pathway</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">EC</span><span class="sh">'</span><span class="p">]]</span>
-<span class="n">functional</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">functional_summary.csv</span><span class="sh">'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">✓ Functional summary saved: functional_summary.csv</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<hr />
-
-<h3 id="level-4-metabolic-annotation-with-dram">Level 4: Metabolic Annotation with DRAM</h3>
-
-<p><strong>DRAM</strong> (Distilled and Refined Annotation of Metabolism) specializes in metabolic reconstruction.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate dram
-
-<span class="c"># Annotate MAGs</span>
-DRAM.py annotate <span class="se">\</span>
-    <span class="nt">-i</span> <span class="s1">'species_representatives/*.fa'</span> <span class="se">\</span>
-    <span class="nt">-o</span> dram_output <span class="se">\</span>
-    <span class="nt">--threads</span> 16 <span class="se">\</span>
-    <span class="nt">--min_contig_size</span> 1000
-
-<span class="c"># Distill annotations into metabolic summary</span>
-DRAM.py distill <span class="se">\</span>
-    <span class="nt">-i</span> dram_output/annotations.tsv <span class="se">\</span>
-    <span class="nt">-o</span> dram_distillate <span class="se">\</span>
-    <span class="nt">--trna_path</span> dram_output/trnas.tsv <span class="se">\</span>
-    <span class="nt">--rrna_path</span> dram_output/rrnas.tsv
-</code></pre></div></div>
-
-<p><strong>DRAM outputs:</strong></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dram_output/
-├── annotations.tsv           # All annotations
-├── genes.faa                 # Predicted proteins
-├── genes.fna                 # Predicted genes
-├── genes.gff                 # GFF format
-├── trnas.tsv                # tRNA predictions
-└── rrnas.tsv                # rRNA predictions
-
-dram_distillate/
-├── metabolism_summary.xlsx   # Metabolic capabilities
-├── product.html             # Interactive visualization
-└── genome_stats.tsv         # Quality statistics
-</code></pre></div></div>
-
-<p><strong>Key DRAM features:</strong></p>
-
-<ol>
-  <li><strong>Metabolic pathways</strong> - Carbon, nitrogen, sulfur metabolism</li>
-  <li><strong>Transporters</strong> - What can organisms import/export</li>
-  <li><strong>CAZymes</strong> - Carbohydrate degradation capabilities</li>
-  <li><strong>Secondary metabolites</strong> - Antibiotic production</li>
-  <li><strong>Stress response</strong> - Environmental adaptation</li>
-</ol>
-
-<p><strong>Interpret DRAM results:</strong></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
-# parse_dram.py
-</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># Read annotations
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">dram_output/annotations.tsv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">  DRAM Annotation Summary</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
-
-<span class="c1"># Count by category
-</span><span class="n">categories</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="sh">'</span><span class="s">CAZymes</span><span class="sh">'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">cazy_hits</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">(),</span>
-    <span class="sh">'</span><span class="s">Peptidases</span><span class="sh">'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">peptidase_family</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">(),</span>
-    <span class="sh">'</span><span class="s">Transporters</span><span class="sh">'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">transporter_classification</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">(),</span>
-    <span class="sh">'</span><span class="s">VOG</span><span class="sh">'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">vogdb_categories</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">(),</span>
-    <span class="sh">'</span><span class="s">KEGG</span><span class="sh">'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">kegg_hit</span><span class="sh">'</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">sum</span><span class="p">(),</span>
-<span class="p">}</span>
-
-<span class="k">for</span> <span class="n">cat</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">.</span><span class="nf">items</span><span class="p">():</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">cat</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># Extract carbon metabolism genes
-</span><span class="n">carbon_meta</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">module_name</span><span class="sh">'</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">contains</span><span class="p">(</span><span class="sh">'</span><span class="s">carbon</span><span class="sh">'</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="bp">False</span><span class="p">)]</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">Carbon metabolism genes: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">carbon_meta</span><span class="p">)</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># Extract nitrogen metabolism genes
-</span><span class="n">nitrogen_meta</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">module_name</span><span class="sh">'</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">contains</span><span class="p">(</span><span class="sh">'</span><span class="s">nitrogen</span><span class="sh">'</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="bp">False</span><span class="p">)]</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Nitrogen metabolism genes: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">nitrogen_meta</span><span class="p">)</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
-</code></pre></div></div>
-
-<hr />
-
-<h3 id="level-5-comprehensive-annotation-with-metabolic">Level 5: Comprehensive Annotation with METABOLIC</h3>
-
-<p><strong>METABOLIC</strong> provides the most comprehensive metabolic annotation.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate metabolic
-
-<span class="c"># Run METABOLIC on MAGs</span>
-perl METABOLIC-G.pl <span class="se">\</span>
-    <span class="nt">-in-gn</span> species_representatives <span class="se">\</span>
-    <span class="nt">-o</span> metabolic_output <span class="se">\</span>
-    <span class="nt">-t</span> 16 <span class="se">\</span>
-    <span class="nt">-m-cutoff</span> 0.75
-
-<span class="c"># Generate visualization</span>
-perl METABOLIC-G.pl <span class="se">\</span>
-    <span class="nt">-in</span> metabolic_output <span class="se">\</span>
-    <span class="nt">-o</span> metabolic_viz <span class="se">\</span>
-    <span class="nt">-p</span> viz
-</code></pre></div></div>
-
-<p><strong>METABOLIC outputs:</strong></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>metabolic_output/
-├── METABOLIC_result.xlsx              # Main results
-├── METABOLIC_result_each_spreadsheet/ # Individual tables
-│   ├── HMM_hit_table.xlsx
-│   ├── CAZy_hit_table.xlsx
-│   ├── R_protein_hit_table.xlsx
-│   └── MW-CMRT_profile.xlsx
-├── intermediate_files/
-└── log.txt
-
-metabolic_viz/
-├── METABOLIC_Diagram/                 # Pathway diagrams
-└── METABOLIC_result_each_spreadsheet/
-</code></pre></div></div>
-
-<p><strong>METABOLIC features:</strong></p>
-
-<ul>
-  <li>✅ <strong>40+ metabolic pathways</strong> - Carbon, nitrogen, sulfur, methane, etc.</li>
-  <li>✅ <strong>Energy metabolism</strong> - Respiration, fermentation</li>
-  <li>✅ <strong>Biogeochemical cycles</strong> - Full cycling capabilities</li>
-  <li>✅ <strong>Interactive diagrams</strong> - Heatmaps of pathway presence</li>
-  <li>✅ <strong>Module completeness</strong> - % of pathway present</li>
-</ul>
-
-<p><strong>Parse METABOLIC results:</strong></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
-# parse_metabolic.py
-</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># Read main result
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_excel</span><span class="p">(</span><span class="sh">'</span><span class="s">metabolic_output/METABOLIC_result.xlsx</span><span class="sh">'</span><span class="p">,</span>
-                   <span class="n">sheet_name</span><span class="o">=</span><span class="sh">'</span><span class="s">Sheet1</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">  METABOLIC Analysis Summary</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
-
-<span class="c1"># Count genomes
-</span><span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Genomes analyzed: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># Key pathways
-</span><span class="n">pathways</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="sh">'</span><span class="s">Carbon fixation</span><span class="sh">'</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">Nitrogen fixation</span><span class="sh">'</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">Denitrification</span><span class="sh">'</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">Sulfate reduction</span><span class="sh">'</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">Methanogenesis</span><span class="sh">'</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">Aerobic respiration</span><span class="sh">'</span>
-<span class="p">]</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">Pathway Presence:</span><span class="sh">"</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">pathway</span> <span class="ow">in</span> <span class="n">pathways</span><span class="p">:</span>
-    <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">pathway</span><span class="p">.</span><span class="nf">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">c</span><span class="p">.</span><span class="nf">lower</span><span class="p">()]</span>
-    <span class="k">if</span> <span class="n">cols</span><span class="p">:</span>
-        <span class="n">present</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cols</span><span class="p">].</span><span class="nf">notna</span><span class="p">().</span><span class="nf">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">).</span><span class="nf">sum</span><span class="p">()</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  </span><span class="si">{</span><span class="n">pathway</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">present</span><span class="si">}</span><span class="s"> genomes</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-complete-annotation-workflow">🔄 Complete Annotation Workflow</h2>
-
-<h3 id="recommended-pipeline">Recommended Pipeline</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Step 1: Gene prediction (Prodigal)</span>
-prodigal <span class="nt">-i</span> genome.fa <span class="nt">-a</span> proteins.faa <span class="nt">-d</span> genes.fna <span class="nt">-f</span> gbk <span class="nt">-o</span> genes.gbk
-
-<span class="c"># Step 2: Functional annotation (eggNOG-mapper)</span>
-emapper.py <span class="nt">-i</span> proteins.faa <span class="nt">-m</span> diamond <span class="nt">--output</span> genome <span class="nt">--cpu</span> 16
-
-<span class="c"># Step 3: Metabolic annotation (DRAM or METABOLIC)</span>
-<span class="c"># Option A: DRAM</span>
-DRAM.py annotate <span class="nt">-i</span> <span class="s1">'genomes/*.fa'</span> <span class="nt">-o</span> dram_output <span class="nt">--threads</span> 16
-DRAM.py distill <span class="nt">-i</span> dram_output/annotations.tsv <span class="nt">-o</span> dram_distillate
-
-<span class="c"># Option B: METABOLIC</span>
-perl METABOLIC-G.pl <span class="nt">-in-gn</span> genomes/ <span class="nt">-o</span> metabolic_output <span class="nt">-t</span> 16
-
-<span class="c"># Step 4: Quick annotation for NCBI submission (Prokka)</span>
-prokka <span class="nt">--outdir</span> prokka_out <span class="nt">--prefix</span> genome <span class="nt">--cpus</span> 8 genome.fa
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-comparative-analysis">📊 Comparative Analysis</h2>
-
-<h3 id="compare-metabolic-capabilities-across-genomes">Compare Metabolic Capabilities Across Genomes</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
-# compare_metabolic_capabilities.py
-</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
-
-<span class="c1"># Read DRAM distillate or METABOLIC results
-# Example with DRAM
-</span><span class="n">metabolism</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_excel</span><span class="p">(</span><span class="sh">'</span><span class="s">dram_distillate/metabolism_summary.xlsx</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="c1"># Create heatmap of pathway presence/absence
-</span><span class="n">pathways</span> <span class="o">=</span> <span class="n">metabolism</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>  <span class="c1"># Skip genome column
-</span><span class="n">genome_names</span> <span class="o">=</span> <span class="n">metabolism</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
-
-<span class="c1"># Binary presence/absence
-</span><span class="n">binary</span> <span class="o">=</span> <span class="p">(</span><span class="n">pathways</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-
-<span class="c1"># Create heatmap
-</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span><span class="n">binary</span><span class="p">.</span><span class="n">T</span><span class="p">,</span>
-            <span class="n">xticklabels</span><span class="o">=</span><span class="n">genome_names</span><span class="p">,</span>
-            <span class="n">yticklabels</span><span class="o">=</span><span class="n">pathways</span><span class="p">.</span><span class="n">columns</span><span class="p">,</span>
-            <span class="n">cmap</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">white</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">darkblue</span><span class="sh">'</span><span class="p">],</span>
-            <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="sh">'</span><span class="s">label</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">Presence</span><span class="sh">'</span><span class="p">})</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">Metabolic Pathway Presence Across Genomes</span><span class="sh">'</span><span class="p">,</span>
-          <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Metabolic Pathway</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">metabolic_comparison.pdf</span><span class="sh">'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">✓ Metabolic comparison heatmap saved</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="identify-unique-metabolic-capabilities">Identify Unique Metabolic Capabilities</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
-# find_unique_capabilities.py
-</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># Read annotations
-</span><span class="n">dram</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">dram_output/annotations.tsv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="c1"># Group by genome
-</span><span class="n">genomes</span> <span class="o">=</span> <span class="n">dram</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">'</span><span class="s">scaffold</span><span class="sh">'</span><span class="p">).</span><span class="nf">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nf">set</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="sh">'</span><span class="s">kegg_hit</span><span class="sh">'</span><span class="p">].</span><span class="nf">dropna</span><span class="p">()))</span>
-
-<span class="c1"># Find unique capabilities per genome
-</span><span class="k">for</span> <span class="n">genome</span><span class="p">,</span> <span class="n">kegg_hits</span> <span class="ow">in</span> <span class="n">genomes</span><span class="p">.</span><span class="nf">items</span><span class="p">():</span>
-    <span class="n">unique</span> <span class="o">=</span> <span class="n">kegg_hits</span>
-    <span class="k">for</span> <span class="n">other_genome</span><span class="p">,</span> <span class="n">other_hits</span> <span class="ow">in</span> <span class="n">genomes</span><span class="p">.</span><span class="nf">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">other_genome</span> <span class="o">!=</span> <span class="n">genome</span><span class="p">:</span>
-            <span class="n">unique</span> <span class="o">=</span> <span class="n">unique</span> <span class="o">-</span> <span class="n">other_hits</span>
-
-    <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="si">{</span><span class="n">genome</span><span class="si">}</span><span class="s"> unique capabilities:</span><span class="sh">"</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">unique</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]:</span>  <span class="c1"># Top 10
-</span>            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  </span><span class="si">{</span><span class="n">hit</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-best-practices">💡 Best Practices</h2>
-
-<h3 id="before-annotation">Before Annotation</h3>
-
-<ul>
-  <li>✅ Use dereplicated, high-quality MAGs (Day 4)</li>
-  <li>✅ Check genome quality (&gt;50% comp, &lt;10% cont)</li>
-  <li>✅ Remove short contigs (&lt;1000 bp)</li>
-  <li>✅ Ensure sufficient disk space (databases are large!)</li>
-</ul>
-
-<h3 id="during-annotation">During Annotation</h3>
-
-<ul>
-  <li>✅ Start with Prodigal (fastest)</li>
-  <li>✅ Use Prokka for quick functional overview</li>
-  <li>✅ Use DRAM/METABOLIC for metabolic focus</li>
-  <li>✅ Save all intermediate files</li>
-  <li>✅ Document parameters used</li>
-</ul>
-
-<h3 id="after-annotation">After Annotation</h3>
-
-<ul>
-  <li>✅ Validate results (check gene counts are reasonable)</li>
-  <li>✅ Compare to related organisms</li>
-  <li>✅ Create summary tables</li>
-  <li>✅ Visualize key pathways</li>
-  <li>✅ Back up annotation files</li>
-</ul>
-
-<hr />
-
-<h2 id="-troubleshooting">🔧 Troubleshooting</h2>
-
-<h3 id="prodigal-issues">Prodigal Issues</h3>
-
-<p><strong>Problem: No genes predicted</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check input FASTA format</span>
-<span class="nb">head </span>genome.fa
-
-<span class="c"># Ensure DNA sequences (not protein)</span>
-<span class="c"># Try closed mode for complete genomes</span>
-prodigal <span class="nt">-i</span> genome.fa <span class="nt">-a</span> proteins.faa <span class="nt">-c</span>
-
-<span class="c"># Or meta mode for metagenomes/fragments</span>
-prodigal <span class="nt">-i</span> genome.fa <span class="nt">-a</span> proteins.faa <span class="nt">-p</span> meta
-</code></pre></div></div>
-
-<h3 id="prokka-issues">Prokka Issues</h3>
-
-<p><strong>Problem: Prokka fails with kingdom error</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># List available databases</span>
-prokka <span class="nt">--listdb</span>
-
-<span class="c"># Force specific kingdom</span>
-prokka <span class="nt">--kingdom</span> Bacteria ...
-
-<span class="c"># Or use --rawproduct to skip complex annotations</span>
-prokka <span class="nt">--rawproduct</span> ...
-</code></pre></div></div>
-
-<p><strong>Problem: Low annotation rate</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update databases</span>
-prokka <span class="nt">--setupdb</span>
-
-<span class="c"># Use genus/species to improve annotation</span>
-prokka <span class="nt">--genus</span> Escherichia <span class="nt">--species</span> coli ...
-</code></pre></div></div>
-
-<h3 id="eggnog-mapper-issues">eggNOG-mapper Issues</h3>
-
-<p><strong>Problem: Database not found</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Download databases</span>
-download_eggnog_data.py <span class="nt">-y</span> <span class="nt">--data_dir</span> ~/eggnog_data
-
-<span class="c"># Set data directory</span>
-<span class="nb">export </span><span class="nv">EGGNOG_DATA_DIR</span><span class="o">=</span>~/eggnog_data
-emapper.py <span class="nt">--data_dir</span> ~/eggnog_data ...
-</code></pre></div></div>
-
-<p><strong>Problem: Out of memory</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use diamond (less memory) instead of mmseqs</span>
-emapper.py <span class="nt">-m</span> diamond ...
-
-<span class="c"># Reduce CPUs</span>
-emapper.py <span class="nt">--cpu</span> 4 ...
-</code></pre></div></div>
-
-<h3 id="dram-issues">DRAM Issues</h3>
-
-<p><strong>Problem: Database setup fails</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check disk space (need ~200 GB)</span>
-<span class="nb">df</span> <span class="nt">-h</span>
-
-<span class="c"># Download databases separately</span>
-DRAM-setup.py prepare_databases <span class="se">\</span>
-    <span class="nt">--output_dir</span> ~/DRAM_data <span class="se">\</span>
-    <span class="nt">--verbose</span>
-
-<span class="c"># Set database location</span>
-<span class="nb">export </span><span class="nv">DRAM_DB_LOC</span><span class="o">=</span>~/DRAM_data
-</code></pre></div></div>
-
-<p><strong>Problem: Annotation takes too long</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Skip optional databases</span>
-DRAM.py annotate <span class="nt">--skip_trnascan</span> ...
-
-<span class="c"># Increase min contig size</span>
-DRAM.py annotate <span class="nt">--min_contig_size</span> 2500 ...
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-expected-results">📈 Expected Results</h2>
-
-<h3 id="gene-prediction">Gene Prediction</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Genome Size</th>
-      <th>Expected Genes</th>
-      <th>Genes per Mb</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>2 Mb</td>
-      <td>1,800-2,200</td>
-      <td>~1,000</td>
-    </tr>
-    <tr>
-      <td>4 Mb</td>
-      <td>3,600-4,400</td>
-      <td>~1,000</td>
-    </tr>
-    <tr>
-      <td>6 Mb</td>
-      <td>5,400-6,600</td>
-      <td>~1,000</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>Typical bacteria:</strong> ~1,000 genes per Mb</p>
-
-<h3 id="functional-annotation">Functional Annotation</h3>
-
-<p><strong>Expected annotation rates:</strong></p>
-
-<ul>
-  <li>Prodigal: 100% genes (no function)</li>
-  <li>Prokka: 60-80% with function</li>
-  <li>eggNOG-mapper: 70-90% with function</li>
-  <li>DRAM: 40-60% metabolically relevant</li>
-  <li>METABOLIC: 30-50% in pathways</li>
-</ul>
-
-<h3 id="processing-time">Processing Time</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Tool</th>
-      <th>10 Genomes</th>
-      <th>50 Genomes</th>
-      <th>100 Genomes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Prodigal</td>
-      <td>5 min</td>
-      <td>20 min</td>
-      <td>40 min</td>
-    </tr>
-    <tr>
-      <td>Prokka</td>
-      <td>30 min</td>
-      <td>2-3 hrs</td>
-      <td>5-6 hrs</td>
-    </tr>
-    <tr>
-      <td>eggNOG</td>
-      <td>1-2 hrs</td>
-      <td>6-8 hrs</td>
-      <td>12-15 hrs</td>
-    </tr>
-    <tr>
-      <td>DRAM</td>
-      <td>2-4 hrs</td>
-      <td>10-15 hrs</td>
-      <td>20-30 hrs</td>
-    </tr>
-    <tr>
-      <td>METABOLIC</td>
-      <td>1-2 hrs</td>
-      <td>5-8 hrs</td>
-      <td>10-15 hrs</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="-success-checklist">✅ Success Checklist</h2>
-
-<p>Before moving forward:</p>
-
-<ul class="task-list">
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Genes predicted for all MAGs</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Functional annotations generated</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Metabolic pathways reconstructed</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Key capabilities identified</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Comparative analysis completed</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Results visualized</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Annotation files organized</li>
-</ul>
-
-<hr />
-
-<h2 id="-key-papers--resources">📚 Key Papers &amp; Resources</h2>
-
-<h3 id="essential-reading">Essential Reading</h3>
-
-<ol>
-  <li><strong>Prodigal:</strong>
-    <ul>
-      <li>Hyatt et al. (2010) - BMC Bioinformatics</li>
-    </ul>
-  </li>
-  <li><strong>Prokka:</strong>
-    <ul>
-      <li>Seemann (2014) - Bioinformatics</li>
-    </ul>
-  </li>
-  <li><strong>eggNOG-mapper:</strong>
-    <ul>
-      <li>Cantalapiedra et al. (2021) - Molecular Biology and Evolution</li>
-    </ul>
-  </li>
-  <li><strong>DRAM:</strong>
-    <ul>
-      <li>Shaffer et al. (2020) - Nucleic Acids Research</li>
-    </ul>
-  </li>
-  <li><strong>METABOLIC:</strong>
-    <ul>
-      <li>Zhou et al. (2022) - Nature Communications</li>
-    </ul>
-  </li>
-</ol>
-
-<h3 id="helpful-links">Helpful Links</h3>
-
-<ul>
-  <li><a href="https://github.com/hyattpd/Prodigal">Prodigal GitHub</a></li>
-  <li><a href="https://github.com/tseemann/prokka">Prokka GitHub</a></li>
-  <li><a href="http://eggnog-mapper.embl.de/">eggNOG Website</a></li>
-  <li><a href="https://github.com/WrightonLabCSU/DRAM">DRAM Docs</a></li>
-  <li><a href="https://github.com/AnantharamanLab/METABOLIC">METABOLIC GitHub</a></li>
-</ul>
-
-<hr />
-
-<h2 id="️-whats-next">➡️ What’s Next?</h2>
-
-<p><strong>Congratulations!</strong> You’ve annotated your MAGs and understand their metabolic potential!</p>
-
-<p><strong>Next Steps:</strong>
-<strong>Explore specialized genomic features and secondary metabolites.</strong></p>
-
-<p>🚧Topics Covered:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>antiSMASH for secondary metabolite detection
-CARD-RGI for antimicrobial resistance genes
-dbCAN for carbohydrate-active enzymes
-Prophage detection (PHASTER, VirSorter2)
-CRISPR detection
-Mobile genetic elements
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-feedback">💬 Feedback</h2>
-
-<p>Found this helpful? Have suggestions?</p>
-
-<ul>
-  <li>🐛 <a href="https://github.com/jojyjohn28/metagenome-analysis-series/issues">Report issues</a></li>
-  <li>💡 <a href="https://github.com/jojyjohn28/metagenome-analysis-series/discussions">Discussions</a></li>
-  <li>⭐ <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day5-annotation">Star the repo</a></li>
-</ul>
-
-<hr />
-
-<h4 id="repo-for-todays-code-and-other-details">Repo for today’s code and other details</h4>
-
-<p>🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day5-annotation/">Day 5 →</a></strong></p>
-
-<p>Last updated: February 2026</p>
-
-<p><img src="/assets/img/mg-day5.png" alt="day5 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="annotation" /><category term="Prodigal" /><category term="Prokka" /><category term="DRAM" /><category term="METABOLIC" /><category term="eggNOG" /><category term="functional-annotation" /><category term="metabolic-pathways" /><category term="bioinformatics" /><category term="tutorial" /><summary type="html"><![CDATA[Complete guide to genome annotation from basic (Prodigal, Prokka) to advanced (DRAM, METABOLIC). Learn to predict genes, assign functions, and reconstruct metabolic pathways from MAGs. Includes practical workflows for laptops and HPC.]]></summary></entry></feed>
+<p><img src="/assets/img/d7-mg.png" alt="day6 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="pangenomics" /><category term="PanX" /><category term="Anvi&apos;o" /><category term="Roary" /><category term="BPGA" /><category term="PERMANOVA" /><category term="RDA" /><category term="dbRDA" /><category term="WGCNA" /><category term="co-occurrence" /><category term="statistical-analysis" /><category term="environmental-factors" /><category term="comparative-genomics" /><category term="network-analysis" /><summary type="html"><![CDATA[Master pangenome analysis (PanX, Anvi'o, Roary, BPGA), statistical ecology (PERMANOVA, RDA, dbRDA), co-occurrence networks (WGCNA, SparCC), and environmental associations. Complete guide to understanding how metadata influences microbiomes and comparative genomics.]]></summary></entry></feed>
