@@ -12,4 +12,4 @@ related_posts: false
 DOI:https://doi.org/10.1093/ismeco/ycag021
 link:https://academic.oup.com/ismecommun/advance-article/doi/10.1093/ismeco/ycag021/8454622
 
-![fr ic](/assets/img/fr-ic.png)
+![fr ic](/assets/img/fr-ic-new.png)

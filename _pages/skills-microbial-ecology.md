@@ -8,7 +8,7 @@ show_in_nav: false
 
 ## What I do
 
-I connect wet-lab microbiology with genome-informed ecology—spanning field sampling, cultivation, molecular workflows, and sequencing-ready sample preparation.
+I integrate wet-lab microbiology with genome-informed ecological analysis—spanning environmental sampling, microbial cultivation, molecular workflows, and sequencing-ready preparation to bridge field ecology with multi-omics data.
 
 ---
 
@@ -17,48 +17,52 @@ I connect wet-lab microbiology with genome-informed ecology—spanning field sam
 <details class="skill-block" open>
   <summary>
     <div class="skill-summary-title">Field Experience</div>
-    <div class="skill-summary-sub">Marine • Deep Sea • Environmental Sampling</div>
+    <div class="skill-summary-sub">Marine • Deep Sea • Environmental Systems</div>
   </summary>
 
-- Cruise-based sampling for microbiology and molecular biology
-- Deep-sea sediment and polymetallic nodule sampling
-- Onboard DNA/RNA isolation (when applicable)
-- Physicochemical analysis of sediment and nodules
-- Seawater filtration (cartridge and Sterivex systems)
-- Operation of sampling gear (Benthic Sled, beam trawl, multi-core, bongo net)
-- Sediment and water sampling from salt pans
-- Sample collection for microplastic and metal analysis
+- Cruise-based sampling for microbiology and molecular ecology
+- Deep-sea sediment and polymetallic nodule collection
+- Onboard DNA/RNA isolation and sample stabilization (when applicable)
+- Physicochemical characterization of sediment and marine substrates
+- Seawater filtration using cartridge and Sterivex systems
+- Operation of oceanographic sampling gear (Benthic Sled, beam trawl, multi-core, bongo net)
+- Salt pan sediment and water sampling
+- Environmental sampling for microplastic and trace metal analyses
 
 </details>
 
+---
+
 <details class="skill-block">
   <summary>
-    <div class="skill-summary-title">Microbiology Skills</div>
-    <div class="skill-summary-sub">Cultivation • Isolation • Characterization</div>
+    <div class="skill-summary-title">Microbiology & Cultivation</div>
+    <div class="skill-summary-sub">Isolation • Characterization • Applied Screening</div>
   </summary>
 
-- Cultivation and maintenance of bacterial strains from diverse environments
-- Enumeration and characterization using plating methods
-- Bacterial identification via polyphasic and molecular taxonomy
-- Screening of microbes for bioremediation and bioprospecting potential
-- Staining and microscopy techniques
-- Lyophilization and long-term culture preservation
-- Functional screening of isolates for applied environmental applications
+- Cultivation and maintenance of bacterial strains from diverse environments (marine, extreme, terrestrial)
+- Enumeration and physiological characterization via plating-based methods
+- Identification through polyphasic taxonomy and molecular approaches
+- Screening of isolates for bioremediation and bioprospecting potential
+- Staining techniques and advanced microscopy
+- Lyophilization and long-term strain preservation
+- Functional screening of isolates for applied environmental and industrial applications
 
 </details>
 
+---
+
 <details class="skill-block">
   <summary>
-    <div class="skill-summary-title">Molecular Biology Skills</div>
-    <div class="skill-summary-sub">DNA • RNA • PCR • Sequencing Preparation</div>
+    <div class="skill-summary-title">Molecular Biology & Sequencing Preparation</div>
+    <div class="skill-summary-sub">DNA • RNA • PCR • Library Preparation</div>
   </summary>
 
-- DNA, RNA, and protein extraction
+- DNA, RNA, and protein extraction from environmental and cultured samples
 - PCR workflows: nested PCR, touchdown PCR, real-time qPCR
-- cDNA synthesis
-- Cloning techniques
+- cDNA synthesis and reverse transcription workflows
+- Cloning and vector-based techniques
 - SDS-PAGE and agarose gel electrophoresis
-- Quantification and QC: NanoDrop, Qubit
-- Sample preparation for metagenome and whole-genome sequencing
+- Quantification and quality control (NanoDrop, Qubit)
+- Library preparation support for metagenomic and whole-genome sequencing
 
 </details>
