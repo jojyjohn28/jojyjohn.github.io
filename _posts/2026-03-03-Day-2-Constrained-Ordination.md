@@ -1,252 +1,331 @@
 ---
 layout: post
-title: "Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)"
-date: 2026-03-02
-description: "Before we run a single ordination or permutation test, we need to understand why standard statistics break down for microbiome and genomics data. This is your foundation for the entire 7-day series."
+title: "Day 2 — Constrained Ordination: RDA & dbRDA for Microbiome Community Analysis"
+date: 2026-03-03
+description: "Learn how to run RDA with Hellinger-transformed MAG abundance data and interpret the resulting triplot — arrows, points, axes, and variance explained — using real Chesapeake and Delaware Bay metagenomes."
 comments: true
 giscus_comments: true
 featured: true
-permalink: /blog/day1-why-normal-stats-fail-microbiome/
-tags: [microbiome, statistics, metagenomics, MAGs, R, beginners]
+permalink: /blog/day2-rda-dbrda-microbiome-ordination/
+tags: [RDA, dbRDA, ordination, vegan, ggplot2, microbiome, MAGs, R, metagenomics]
 series: applied-stats
 series_title: "Applied Statistics for Microbiome Data"
-order: 1
+order: 2
 ---
 
-## Day 1 — Why Normal Statistics Fail for Microbiome Data
+## Day 2 — Constrained Ordination: RDA & dbRDA for Microbiome Community Analysis
 
 \*This is Day 2 of the series: **Applied Statistics for Microbiome & Genomics Data.\*** and **🧬 Day 52 of Daily Bioinformatics from Jojy’s Desk**
-_All data and R code for this series → [github.com/jojyjohn28/microbiome_stats](https://github.com/jojyjohn28/microbiome_stats)_
+_All data and R code → [github.com/jojyjohn28/microbiome_stats](https://github.com/jojyjohn28/microbiome_stats)_
 
 ---
 
-Let me start with an honest confession.
+On Day 1, we established _why_ standard statistics fail for microbiome data — compositionality, sparsity, multivariate structure, and non-normality. Today we run our first real analysis.
 
-When I first started working with microbiome data, I did what most people do — I tried to use the statistics I already knew. t-tests. ANOVA. Pearson correlations. They worked fine in other contexts. Why wouldn't they work here?
+The question we're asking: **Do environmental variables explain how MAG communities are structured across our 27 metagenomes?**
 
-They failed. Badly.
-
-Not because I was using them wrong. But **because microbiome data breaks almost every assumption those tests are built on.** The data is fundamentally different, and it took me a while to really understand _why_ — not just accept it as a rule someone told me.
-
-That's what this post is about. Before we write a single line of R code, before we run an ordination or a PERMANOVA, I want you to genuinely understand the problem. Because once you do, every method we cover this week will make intuitive sense rather than feeling like a black box you're supposed to trust.
+To answer it, we use **constrained ordination** — specifically RDA (Redundancy Analysis). This is one of the most powerful and widely used methods in microbial ecology, and by the end of this post you'll know how to run it, interpret it, and read the figure it produces.
 
 ---
 
-## What Makes Microbiome Data Weird?
+## 🧬 The Biological Question
 
-### 1. It's Compositional — Counts Are Relative, Not Absolute
+We have 61 MAGs sampled across 27 metagenomes from two estuaries — Chesapeake Bay and Delaware Bay — collected in Spring and Summer. The metadata contains environmental measurements: Salinity, Temperature, ChlA, Nitrate, Phosphate, Silicate, nCells, SF, and more.
 
-Imagine you sequence two samples. In Sample A, you find 1,000 reads from _Bacteria X_. In Sample B, you find 500 reads from _Bacteria X_. Is _Bacteria X_ twice as abundant in Sample A?
+The biological question is: **which environmental gradients best explain the variation in who is present and how abundant they are?**
 
-**Not necessarily.** It depends on how many total reads you got from each sample. If Sample A had 10,000 total reads and Sample B had 5,000, then _Bacteria X_ makes up exactly 10% of both samples — they're identical in relative terms.
-
-This is the **compositionality problem**. Sequencing doesn't give us absolute counts of microorganisms. It gives us **proportions** — each MAG or taxon's abundance is expressed relative to the total sequencing effort. The data always sums to a constant (100%, or total reads), which creates spurious correlations and violates the independence assumptions of standard statistical tests.
-
-A t-test doesn't know that your numbers are parts of a whole. It treats them as independent measurements. That's a problem.
+Are Chesapeake and Delaware communities different? Does season matter? Is salinity the dominant driver, or is it temperature? Constrained ordination lets us answer all of these simultaneously — in a single visual.
 
 ---
 
-### 2. It's Sparse — Most Values Are Zero
+## 📊 The Statistical Concept
 
-In a typical MAG abundance table, the majority of cells are zero. A MAG recovered from one environment simply doesn't appear in another. With 60 MAGs across 27 metagenomes, you might expect 30–60% of your table to be zeros — sometimes more.
+### What is ordination?
 
-Standard statistical methods hate zeros. Log-transformations break at zero. Distance calculations behave strangely when half your data points are identical zeros. Normal distributions have no concept of "absent."
+Ordination is a way to take a high-dimensional dataset — 61 MAGs measured across 27 samples — and compress it into 2 dimensions that capture the most variance. Instead of looking at 61 separate plots, you see one plot where each sample is a point and samples with similar communities cluster together.
 
-The sparsity also means your data is highly skewed — a few dominant MAGs have very high abundance, while most have very low or zero abundance. That distribution looks nothing like a bell curve.
+**Unconstrained ordination** (PCA, PCoA, NMDS) just finds the axes of maximum variance in the community data itself, ignoring any environmental information.
 
----
+**Constrained ordination** (RDA, dbRDA) goes further — it finds the axes of community variance that are _explained by_ your environmental variables. The constraint is what makes it powerful: you're not just describing the pattern, you're connecting it to measured environmental drivers.
 
-### 3. It's Multivariate — You Have Many Variables at Once
+### RDA vs dbRDA — which one to use?
 
-When you measure blood pressure, you get one number. When you sequence a metagenome, you get **60 MAG abundances simultaneously** — 60 variables, all potentially interacting, all measured from the same sample.
+This comes down to your distance measure:
 
-Standard tests like t-tests and ANOVA are univariate — they test one variable at a time. You _could_ run 60 separate t-tests (one per MAG). But then you've run 60 tests, and by chance alone you'd expect 3 false positives at p < 0.05. Your results would be meaningless.
+**RDA (Redundancy Analysis)** works in Euclidean space. Because raw abundance data doesn't behave well in Euclidean space (the double-zero problem — two samples sharing an absent MAG appear falsely similar), we first apply a **Hellinger transformation** to the abundance matrix. This square-roots the relative abundances, down-weighting dominant MAGs and making the data Euclidean-friendly.
 
-Microbiome community analysis requires methods that handle all variables **together** — treating the community as a whole rather than as 60 independent measurements.
+**dbRDA (distance-based RDA)** works with any distance matrix — including Bray-Curtis, which is the standard dissimilarity metric for ecological community data. Bray-Curtis ignores shared absences entirely, making it more appropriate when zero-inflation is high. In practice, dbRDA with Bray-Curtis is more robust for microbiome data, but both approaches are valid and commonly used.
 
----
-
-### 4. It's Non-Normal — The Distributions Are Exotic
-
-The normal (Gaussian) distribution — the famous bell curve — underlies most classical statistics. t-tests, ANOVA, Pearson correlation, linear regression all assume your data is approximately normally distributed.
-
-Microbiome abundance data is not. It tends to follow distributions that are:
-
-- **Zero-inflated** (excess zeros from absent taxa)
-- **Right-skewed** (a few very abundant taxa, many rare ones)
-- **Overdispersed** (more variance than a Poisson or binomial model would predict)
-
-You can sometimes transform the data to approximate normality (Hellinger transformation, log-ratio transformation), but the underlying biology of the data means you always need to think carefully about whether your assumptions hold.
+Today we use **RDA with Hellinger transformation**, which is what the R script implements. We'll briefly show the dbRDA equivalent so you can run both.
 
 ---
 
-## What Does "Community-Level Analysis" Actually Mean?
+## ⚙️ The R Code
 
-Here's the conceptual shift that changes everything.
-
-In most biology, you ask: **"Is gene X differentially expressed?"** or **"Is species Y more abundant in treatment A?"** — one variable, one question.
-
-In microbiome ecology, the primary question is different: **"Are these communities different?"**
-
-Not one MAG. Not one taxon. The whole community at once — the combination of which organisms are present, in what proportions, and how that combination shifts across samples or conditions.
-
-Think of it like comparing two orchestras. You wouldn't just compare the number of violins and call that a comparison. You'd compare the full composition — how many of each instrument, how they're arranged, how the overall sound differs. Community-level analysis is comparing the full orchestra, not individual instruments.
-
-This is why we need:
-
-- **Ordination methods** (RDA, dbRDA) — to visualize community composition in reduced-dimensional space
-- **Permutation tests** (PERMANOVA) — to test whether community differences are statistically real
-- **Distance matrices** (Bray-Curtis, UniFrac) — to quantify how different two communities are as a whole
-
----
-
-## So What Do We Use Instead?
-
-Here's the roadmap for this week — and the logic behind the order:
-
-**Day 2 — RDA & dbRDA (Constrained Ordination)**
-We visualize how communities vary across environmental gradients. Euclidean distances for transformed data, Bray-Curtis for raw abundance — and why that choice matters.
-
-**Day 3 — PERMANOVA**
-We've seen the groups separate visually. Now we test whether the separation is statistically real — using permutation rather than distributional assumptions.
-
-**Day 4 — Non-Parametric Tests**
-For taxon-level comparisons (not community-level), we use Wilcoxon and Kruskal-Wallis tests — the non-parametric alternatives to t-tests and ANOVA that don't assume normality.
-
-**Day 5 — Multiple Regression**
-We ask which environmental variables best predict gene or MAG abundance, and how to interpret those relationships biologically.
-
-**Day 6 — WGCNA**
-We stop asking about individual MAGs and start asking about _modules_ of co-occurring MAGs — groups that rise and fall together across samples.
-
-**Day 7 — Full Workflow Synthesis**
-How all of these methods connect in a real paper, and how to structure a results section that tells a coherent biological story.
-
----
-
-## The Data We'll Use All Week
-
-Every post in this series uses the same two files. I want you to recognize them by Day 7 like old friends.
-
-The data comes from a real metagenomic study: **60 Metagenome-Assembled Genomes (MAGs)** recovered across **27 metagenomes** from different environments. These MAGs represent microbial populations — organisms assembled from sequencing reads without culturing.
-
-All data and code are available at: 🔗 [github.com/jojyjohn28/microbiome_stats](https://github.com/jojyjohn28/microbiome_stats)
-
-### File 1: `mag_abundance.csv`
-
-This is your **community matrix** — the core data object in every analysis.
-
-- **Rows** = metagenome samples (27 samples)
-- **Columns** = MAGs (60 MAGs)
-- **Values** = relative abundance of each MAG in each sample
+### Step 1 — Load libraries and data
 
 ```r
-# Load and take a first look
-library(tidyverse)
+library(vegan)
+library(ggplot2)
+library(ggrepel)
 
-mag_abundance <- read.csv("data/mag_abundance.csv", row.names = 1)
+# Load metadata — rows = samples, columns = environmental variables
+metadata <- read.csv("data/metadata.csv", header = TRUE, row.names = 1, sep = ",")
 
-dim(mag_abundance)      # should be 27 rows × 60 columns
-head(mag_abundance[, 1:5])   # first look at 5 MAGs
+# Load MAG abundance — rows = MAGs, columns = samples
+mag_raw <- read.csv("data/mag_abundance.csv", header = TRUE, row.names = 1, sep = ",")
 ```
 
-What you'll notice immediately:
-
-- Many zeros — MAGs absent from most samples
-- Values between 0 and 1 (relative abundances)
-- High variability across samples — some MAGs are everywhere, most are rare
-
-### File 2: `metadata.csv`
-
-This is your **environmental context** — what makes samples different from each other.
-
-- **Rows** = metagenome samples (same 27 samples, same order)
-- **Columns** = environmental and sample variables (salinity, season, location, etc.)
+### Step 2 — Prepare the community matrix
 
 ```r
-metadata <- read.csv("data/metadata.csv", row.names = 1)
+# The abundance table has MAGs as rows and samples as columns
+# RDA needs samples as rows — so we transpose
+mag_t <- t(mag_raw)   # now 27 rows (samples) × 61 columns (MAGs)
 
-dim(metadata)           # 27 rows × however many metadata columns
-head(metadata)          # see what variables you're working with
-colnames(metadata)      # list all metadata variables
+# Hellinger transformation:
+# Divides each value by the row sum (converts to relative abundance)
+# then takes the square root — reduces dominance of highly abundant MAGs
+spe.hel <- decostand(mag_t, method = "hellinger")
 ```
 
-The metadata is what gives the community data biological meaning. Without it, you just have a table of numbers. With it, you can ask: _Do communities differ by salinity? By season? By sampling location?_ That's the bridge between pattern and biology.
+> **Why Hellinger?** Raw abundance values are dominated by a handful of very abundant MAGs (e.g. Pelagibacterales). The Hellinger transformation down-weights these dominant MAGs so that rare MAGs also contribute meaningfully to the ordination. Without this step, your RDA would essentially be an ordination of _Pelagibacterales_.
 
-### Checking the Data — Always Do This First
-
-Before any analysis, verify that your samples are in the same order in both files:
+### Step 3 — Prepare the environmental matrix
 
 ```r
-# Critical check — rows must match between files
-all(rownames(mag_abundance) == rownames(metadata))
-# Should return TRUE
+# Select continuous environmental variables only
+# metadata now has: Season, SF, Bay (categorical) — exclude these
+# keep only numeric predictors for the RDA
+env <- metadata[, c("Salinity", "Temperature", "Depth", "PAR",
+                    "Attenuation", "Bacterial_Production", "nCells",
+                    "ChlA", "Nitrate", "Ammonium", "Phosphate", "Silicate")]
 
-# Quick summary of the abundance table
-summary(rowSums(mag_abundance))   # row sums (should be ~1 if relative abundance)
-sum(mag_abundance == 0) / prod(dim(mag_abundance)) * 100  # % zeros
+# Standardize to mean = 0, sd = 1 so all variables are comparable
+# (Salinity in ppt and nCells in millions are on completely different scales)
+env.z <- decostand(env, method = "stand")
 ```
 
-This sparsity check alone is revealing. When you run it on this data and see that a significant percentage of the table is zeros, you'll understand viscerally why we don't just run a t-test.
+### Step 4 — Forward selection of significant variables
+
+Rather than throwing all 13 variables into the model, we use forward selection to find only those that significantly and independently explain community variance:
+
+```r
+# Full model (upper bound)
+spe.rda.full <- rda(spe.hel ~ ., data = env.z)
+
+# Forward selection — adds variables one by one, keeps only significant ones
+# stops when adding more variables would exceed the full model's R²
+fwd.sel <- ordiR2step(
+  rda(spe.hel ~ 1, data = env.z),   # null model (lower bound)
+  scope = formula(spe.rda.full),     # upper bound
+  direction = "forward",
+  R2scope = TRUE,
+  pstep = 1000,
+  trace = FALSE
+)
+
+# See which variables were selected
+fwd.sel$call
+```
+
+Forward selection selected: **Temperature, Salinity, Phosphate, ChlA, Silicate, Nitrate, SF, nCells** — all biologically meaningful drivers of estuarine microbial communities.
+
+### Step 5 — Build the final model
+
+```r
+# Final RDA model with forward-selected variables
+spe.rda.signif <- rda(spe.hel ~ Temperature + Salinity + Phosphate +
+                        ChlA + Silicate + Nitrate + SF + nCells,
+                      data = env.z)
+
+# Adjusted R² — how much community variance is explained?
+Rsquareadj(spe.rda.signif)
+
+# Test overall model significance (permutation test)
+anova.cca(spe.rda.signif, step = 1000)
+
+# Test significance of each individual term
+anova.cca(spe.rda.signif, step = 1000, by = "term")
+
+# Test significance of each axis
+anova.cca(spe.rda.signif, step = 1000, by = "axis")
+```
+
+> **Why permutation tests?** Because our data violates the normality assumptions of classical F-tests, `anova.cca()` tests significance by randomly shuffling the data 1000 times and asking: how often would we see this pattern by chance? This is the non-parametric equivalent of an F-test — no distributional assumptions required.
+
+### Step 6 — Extract scores and build the triplot
+
+```r
+# Extract % variance explained by RDA1 and RDA2
+perc <- round(100 * (summary(spe.rda.signif)$cont$importance[2, 1:2]), 2)
+
+# Season, Bay and size fraction — now clean columns in metadata
+Season   <- metadata$Season   # "Spring" or "Summer"
+Bay      <- metadata$Bay      # "Chesapeake" or "Delaware"
+Fraction <- metadata$SF       # "Particle-attached" or "Free_living"
+
+# Site scores — split by season for colour-coding
+sc_si_summer <- scores(spe.rda.signif, display = "sites")[Season == "Summer", ]
+sc_si_spring <- scores(spe.rda.signif, display = "sites")[Season == "Spring", ]
+
+# Species (MAG) scores
+sc_sp <- scores(spe.rda.signif, display = "species", choices = c(1, 2), scaling = 1)
+
+# Biplot arrows — environmental variables
+sc_bp <- scores(spe.rda.signif, display = "bp", choices = c(1, 2), scaling = 1)
+
+# Only label MAGs with strong contributions (|score| > 0.35 on either axis)
+high_score_mags <- rownames(sc_sp)[rowSums(abs(sc_sp) > 0.35) > 0]
+
+# Build the triplot
+plot(spe.rda.signif,
+     scaling = 1, type = "none", frame = FALSE,
+     xlim = c(-1.0, 1.5), ylim = c(-0.5, 0.5),
+     xlab = paste0("RDA1 (", perc[1], "%)"),
+     ylab = paste0("RDA2 (", perc[2], "%)"))
+
+# Summer samples — red
+points(sc_si_summer, pch = 21, col = "black", bg = "red2", cex = 1.2)
+
+# Spring samples — green
+points(sc_si_spring, pch = 21, col = "black", bg = "green3", cex = 1.2)
+
+# MAG positions — yellow squares
+points(sc_sp, pch = 22, col = "black", bg = "#f2bd33", cex = 1.2)
+
+# Labels for most influential MAGs only
+text(sc_sp[high_score_mags, ] + c(0.20, 0.15),
+     labels = high_score_mags, col = "grey4", font = 3, cex = 0.6)
+
+# Environmental arrows
+arrows(0, 0, sc_bp[, 1], sc_bp[, 2], col = "blue", lwd = 1.2)
+text(x = sc_bp[, 1] - 0.1, y = sc_bp[, 2] - 0.03,
+     labels = rownames(sc_bp), col = "blue", cex = 1, font = 2)
+```
+
+### dbRDA alternative (Bray-Curtis)
+
+```r
+library(vegan)
+
+# Calculate Bray-Curtis dissimilarity from raw (non-transformed) data
+bc_dist <- vegdist(mag_t, method = "bray")
+
+# dbRDA — same formula, uses distance matrix instead of raw data
+spe.dbrda <- dbrda(bc_dist ~ Temperature + Salinity + Phosphate +
+                     ChlA + Silicate + Nitrate + SF + nCells,
+                   data = env.z)
+
+# Same interpretation workflow applies
+Rsquareadj(spe.dbrda)
+anova.cca(spe.dbrda, step = 1000)
+```
+
+> Use dbRDA with Bray-Curtis when your data is very sparse (>60% zeros) or when you want a distance metric that is more robust to compositional variation. Use RDA + Hellinger when you want the simplicity of a linear model framework.
 
 ---
 
-## A Note on Transformation
+## 🔍 Reading the Output — How to Interpret the Figure
 
-We'll cover this in depth on Day 2, but plant this idea now: **the same abundance data can be transformed in different ways depending on the analysis**.
+The figure below is the actual RDA triplot from this analysis. It contains three types of information simultaneously — that's why it's called a **triplot**.
 
-- **Hellinger transformation** — square root of relative abundance. Reduces the influence of very abundant MAGs. Used before RDA.
-- **Bray-Curtis dissimilarity** — a distance metric calculated directly from raw relative abundances. Used in dbRDA and PERMANOVA.
-- **Log-ratio transformation** (CLR) — the compositionally correct approach, increasingly used in modern microbiome work.
+![RDA triplot showing MAG community structure across Chesapeake and Delaware Bay metagenomes](/assets/img/rda.png)
 
-No single transformation is universally correct. The choice depends on your question and your method. We'll make that choice explicitly and justify it each time.
+A triplot has three layers, each telling you something different:
+
+### Layer 1 — The Sample Points (circles)
+
+Each circle is one of the 27 metagenomes.
+
+- 🔴 **Red circles = Summer samples**
+- 🟢 **Green circles = Spring samples**
+
+**What to look for:** Do the colours cluster separately? If Summer and Spring samples are separated along an axis, that axis captures seasonal variation in community composition. In our plot, Summer and Spring samples form distinct groups — microbial communities in summer are compositionally different from those in spring.
+
+Samples that plot close together have similar MAG communities. Samples far apart have dissimilar communities.
+
+### Layer 2 — The MAG Scores (yellow squares)
+
+Each yellow square is one of the 61 MAGs. Only MAGs with strong scores (|score| > 0.35 on either axis) are labelled to avoid clutter.
+
+**What to look for:** A MAG positioned near a cluster of samples is more abundant in those samples. A MAG positioned far from the origin has a strong relationship with the constrained axes — it's responding strongly to the environmental gradients. MAGs near the center of the plot are not well-explained by the environmental variables in the model.
+
+For example, if _Pelagibacterales_MAG_18_ plots near the Summer samples along the salinity gradient, it means this MAG is more abundant in high-salinity summer samples.
+
+### Layer 3 — The Environmental Arrows (blue arrows)
+
+Each arrow represents one environmental variable (Salinity, Temperature, ChlA, Nitrate, etc.).
+
+**Four rules for reading arrows:**
+
+1. **Arrow direction** — points toward samples where that variable is highest. Samples in the direction an arrow points have high values of that variable.
+
+2. **Arrow length** — longer arrows explain more variance. Short arrows have weak relationships with the community structure shown.
+
+3. **Arrow angle between two arrows** — arrows pointing in the same direction indicate positively correlated variables. Opposite directions = negative correlation. Right angles = uncorrelated.
+
+4. **Arrow angle vs. axis** — an arrow pointing along RDA1 means that variable is strongly associated with the main axis of community variation.
+
+In our plot, the Salinity arrow typically aligns with RDA1, confirming that salinity is the dominant environmental gradient structuring MAG communities across these estuaries — a classic result in estuarine microbial ecology.
+
+### Reading the axis labels
+
+```
+RDA1 (XX%)   RDA2 (XX%)
+```
+
+These percentages tell you how much of the **constrained variance** is captured by each axis — not total variance in the community data, but variance that is explained by the environmental model. RDA1 captures the strongest environmental signal, RDA2 the second strongest.
+
+The adjusted R² from `Rsquareadj()` tells you the total fraction of community variance explained by all selected variables combined. Always report this alongside your plot.
 
 ---
 
-## ⚠️ Common Mistakes to Avoid
+## ⚠️ Common Mistakes
 
-**Mistake 1: Running t-tests on individual MAGs without multiple testing correction.**
-With 60 MAGs, you'll get ~3 false positives by chance at p < 0.05. Always correct for multiple comparisons (Day 4 covers this).
+**Mistake 1: Running RDA without transforming the abundance data.**
+Raw abundance values violate the Euclidean distance assumption of RDA. Always apply Hellinger (or CLR) transformation before `rda()`. Skipping this step distorts the ordination and inflates the apparent influence of dominant MAGs.
 
-**Mistake 2: Treating relative abundance as absolute abundance.**
-A MAG that increases in relative abundance might be doing so because something else decreased — not because it truly grew. Keep compositionality in mind throughout.
+**Mistake 2: Overinterpreting weak axes.**
+If RDA2 explains only 3% of constrained variance, be cautious about interpreting the vertical separation of your samples. Always check whether axes are significant with `anova.cca(..., by = "axis")` before discussing them.
 
-**Mistake 3: Skipping the data check.**
-If your metadata rows don't match your abundance matrix rows, every analysis silently produces wrong results. Always verify alignment before starting.
+**Mistake 3: Confusing correlation with causation.**
+An arrow pointing toward a cluster of samples means that variable _covaries_ with that community type — not that it _causes_ it. Temperature and Salinity are both correlated with season; the arrow angles don't tell you which is the actual driver.
 
-**Mistake 4: Log-transforming zeros.**
-`log(0)` is undefined (`-Inf` in R). If you log-transform without adding a pseudocount, your analysis will fail or produce garbage. Use appropriate transformations — covered on Day 2.
+**Mistake 4: Not checking model significance before interpretation.**
+Always run `anova.cca(spe.rda.signif, step = 1000)` first. If the overall model is not significant (p > 0.05), the triplot has no interpretive value.
 
-**Mistake 5: Jumping straight to ordination without understanding your data.**
-Look at your data first. Check distributions, zeros, outliers. A 10-minute exploration prevents hours of debugging later.
+**Mistake 5: Using all variables without selection.**
+Including 13 correlated environmental variables inflates R² and overfits the model. Always use forward selection (`ordiR2step`) or another variable reduction approach before building your final model.
+
+**Mistake 6: Ignoring that dbRDA and RDA can give different pictures.**
+If your results change substantially between RDA+Hellinger and dbRDA+Bray-Curtis, that's telling you something important about the data structure. Run both and compare.
 
 ---
 
 ## 🧭 Key Takeaways
 
-- Microbiome data is **compositional** (relative, not absolute), **sparse** (many zeros), **multivariate** (many variables at once), and **non-normal** — each property breaks standard statistical assumptions in a different way.
-- **Community-level analysis** treats the full assemblage of organisms as the unit of study, not individual taxa in isolation.
-- We need specialized methods — ordination, permutation tests, non-parametric comparisons — because classical tests were not designed for this data structure.
-- Our dataset: **60 MAGs × 27 metagenomes**, two files (`mag_abundance.csv` + `metadata.csv`), used consistently across all 7 days.
-- Always **check your data** before any analysis: dimensions, zero percentage, and row alignment between files.
+- **RDA** constrains ordination axes to variance explained by environmental variables — it connects community patterns to measured drivers.
+- **Hellinger transformation** is required before RDA to handle the double-zero problem and down-weight dominant MAGs.
+- **dbRDA with Bray-Curtis** is the distance-based alternative — more robust when data is very sparse or highly compositional.
+- The **triplot** shows three things at once: sample positions, MAG positions, and environmental arrows — each layer answers a different question.
+- Always use **permutation tests** (`anova.cca`) to assess significance — classical F-tests assume normality, which microbiome data violates.
+- **Forward selection** (`ordiR2step`) prevents overfitting by retaining only variables that significantly and independently contribute to the model.
+- Report **adjusted R²** alongside your plot — it tells readers how much of the community variance is actually explained.
 
 ---
 
 ## 🔗 What's Next
 
-Tomorrow on **Day 2**, we run our first real analysis — constrained ordination with **RDA and dbRDA**. We'll ask: _Do the environmental variables in our metadata explain the community composition patterns we see across samples?_ And we'll visualize the answer with ggplot2.
-
-By the end of Day 2, you'll have your first publication-quality ordination plot.
+Tomorrow on **Day 3**, we take the next logical step: we've _seen_ the communities separate by season and bay in the ordination — now we formally _test_ whether those differences are statistically real using **PERMANOVA (adonis2)**. We'll also cover the critical assumption test that most papers skip: homogeneity of dispersion with `betadisper`.
 
 ---
 
-_All R code and data for this series: [github.com/jojyjohn28/microbiome_stats](https://github.com/jojyjohn28/microbiome_stats)_
-_Found this useful? Share it with someone learning microbiome stats — and follow along for Day 2 tomorrow._
+_All R code and data: [github.com/jojyjohn28/microbiome_stats](https://github.com/jojyjohn28/microbiome_stats)_
+_Found this useful? Share it with someone learning microbiome statistics._
 
 ---
 
-**🧬 Day 51 — Daily Bioinformatics from Jojy’s Desk**
+**🧬 Day 52 — Daily Bioinformatics from Jojy’s Desk**
 
 ---
-
-![Stat-day1](/assets/img/stat-day1.png)
