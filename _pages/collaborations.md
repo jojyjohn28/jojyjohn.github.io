@@ -17,24 +17,24 @@ Below are selected ongoing and recent collaborations.
 
 ---
 
-# **❄️ Antarctic Microbial Diversity & Novel Strain Characterization**
+#### **❄️ Antarctic Microbial Diversity & Novel Strain Characterization**
 
 I collaborate with international partners to characterize **novel microbial lineages from Antarctic and Southern Ocean ecosystems**, focusing on genome-resolved taxonomy, metabolic potential, and adaptation to extreme environments.
 
-# Collaborators
+#### Collaborators
 
 - **Prof. Sergio Leiva P.**  
   Universidad Austral de Chile
 - **Dr. Amit Kumar**  
   Sathyabama Institute of Science and Technology, India
 
-# Research Focus
+#### Research Focus
 
 - Whole-genome sequencing and annotation
 - Comparative genomics and phylogenomics
 - Functional and metabolic potential of novel taxa
 
-# Selected Outputs
+#### Selected Outputs
 
 Kaari, M., **John, J**., Manikkam, R., Kumar, A., Baskaran, A., & Bhaskar, P. V. (2026). Comparative genomic and phenotypic analysis of Streptomyces rochei SOSIST-3 isolated from the Southern Ocean. Molecular Biology Reports, 53(1), 296. \*Kaari M and John J contributed equally
 
@@ -44,7 +44,7 @@ Kaari, M., **John, J**., Manikkam, R., Kumar, A., Baskaran, A., & Bhaskar, P. V.
 - _Genomic insights into carbohydrate-active enzymes and antimicrobial potential of a novel species of Radiobacillus isolated from Antarctic red macroalgae_  
   **World Journal of Microbiology and Biotechnology** accepted with minor revision
 
-# My Role
+#### My Role
 
 - Genome assembly, annotation, and comparative analysis
 - Phylogenomic and functional interpretation
@@ -52,25 +52,25 @@ Kaari, M., **John, J**., Manikkam, R., Kumar, A., Baskaran, A., & Bhaskar, P. V.
 
 ---
 
-# **🌾 Food Science, Nanotechnology & Gut Microbiome Interactions**
+#### **🌾 Food Science, Nanotechnology & Gut Microbiome Interactions**
 
 **McGill University, Canda**
 
 I collaborate on projects evaluating the **impact of nanomaterials on microbial systems**, spanning food safety, human gut microbiota, and agricultural biotechnology.
 
-# Collaborators
+#### Collaborators
 
 - **Unnikrishnan Kannan**, McGill University
 - **Vikash Kumar Choubey and Mohammad Jamil Kaddoura ** McGill University
 - **Dr. Saji George**, Canada Research Chair in Sustainable Nanotechnology, McGill University
 
-# Research Focus
+#### Research Focus
 
 - Effects of nanoplastics on gut microbiota using **amplicon and metagenomic sequencing**
 - Genome-based characterization of **Bacillus** strains for biostimulant and biocontrol applications
 - Plasmid analysis, functional annotation, and statistical modeling
 
-# Selected Outputs
+#### Selected Outputs
 
 - _Nanoliposome-mediated co-delivery of amoxicillin and tazobactam remediate intracellular infection by multidrug-resistant Salmonella enterica_  
   **Journal of Antibiotics**- accepted waiting proof-DOI:
@@ -81,7 +81,7 @@ I collaborate on projects evaluating the **impact of nanomaterials on microbial 
 - _Genomic characterization of a Bacillus strain and its nano-formulated lipopeptide extract for agricultural applications_  
   (in preparation)
 
-# My Role
+#### My Role
 
 - Genome sequencing and annotation
 - Amplicon and metagenomic data analysis
@@ -89,19 +89,19 @@ I collaborate on projects evaluating the **impact of nanomaterials on microbial 
 
 ---
 
-#**🧬 Monsoon Inducesd Hypoxia- Metagenomes of Lake water**
+#### **🧬 Monsoon Inducesd Hypoxia- Metagenomes of Lake water**
 
-# Collaborators
+#### Collaborators
 
 Dr.Vikrant Panwar (Assistant Professor-Botany) and his team of , School of Basic and Applied Sciences Sanskaram University, Patauda (Delhi–NCR), Haryana, India
 
-# Research Focus
+#### Research Focus
 
 - Working of monsoon derived hypoxia of different Lakes of Haryana, India using shotgun metagenome
 
 ---
 
-# **📌 What I Contribute to Collaborations**
+#### **📌 What I Contribute to Collaborations**
 
 - Genome-resolved metagenomics and comparative genomics
 - Multi-omics integration
@@ -111,7 +111,7 @@ Dr.Vikrant Panwar (Assistant Professor-Botany) and his team of , School of Basic
 
 ---
 
-# **📌 What I Contribute to Collaborations**
+#### **📌 What I Contribute to Collaborations**
 
 - Genome-resolved metagenomics and comparative genomics
 - Multi-omics integration
@@ -121,7 +121,7 @@ Dr.Vikrant Panwar (Assistant Professor-Botany) and his team of , School of Basic
 
 ---
 
-# Interested in Collaborating?
+#### Interested in Collaborating?
 
 I am always open to collaborations in the following areas:
 
