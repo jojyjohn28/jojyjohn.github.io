@@ -1,252 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-01T23:46:11-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)</title><link href="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/" rel="alternate" type="text/html" title="Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)" /><published>2026-03-02T00:00:00-05:00</published><updated>2026-03-02T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/why-normal-stats-fail-microbiome</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/"><![CDATA[<h2 id="day-1--why-normal-statistics-fail-for-microbiome-data">Day 1 — Why Normal Statistics Fail for Microbiome Data</h2>
-
-<p>*This is Day 1 of a 7-day series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and <strong>🧬 Day 51 of Daily Bioinformatics from Jojy’s Desk</strong>
-<em>All data and R code for this series → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
-
-<hr />
-
-<p>Let me start with an honest confession.</p>
-
-<p>When I first started working with microbiome data, I did what most people do — I tried to use the statistics I already knew. t-tests. ANOVA. Pearson correlations. They worked fine in other contexts. Why wouldn’t they work here?</p>
-
-<p>They failed. Badly.</p>
-
-<p>Not because I was using them wrong. But <strong>because microbiome data breaks almost every assumption those tests are built on.</strong> The data is fundamentally different, and it took me a while to really understand <em>why</em> — not just accept it as a rule someone told me.</p>
-
-<p>That’s what this post is about. Before we write a single line of R code, before we run an ordination or a PERMANOVA, I want you to genuinely understand the problem. Because once you do, every method we cover this week will make intuitive sense rather than feeling like a black box you’re supposed to trust.</p>
-
-<hr />
-
-<h2 id="what-makes-microbiome-data-weird">What Makes Microbiome Data Weird?</h2>
-
-<h3 id="1-its-compositional--counts-are-relative-not-absolute">1. It’s Compositional — Counts Are Relative, Not Absolute</h3>
-
-<p>Imagine you sequence two samples. In Sample A, you find 1,000 reads from <em>Bacteria X</em>. In Sample B, you find 500 reads from <em>Bacteria X</em>. Is <em>Bacteria X</em> twice as abundant in Sample A?</p>
-
-<p><strong>Not necessarily.</strong> It depends on how many total reads you got from each sample. If Sample A had 10,000 total reads and Sample B had 5,000, then <em>Bacteria X</em> makes up exactly 10% of both samples — they’re identical in relative terms.</p>
-
-<p>This is the <strong>compositionality problem</strong>. Sequencing doesn’t give us absolute counts of microorganisms. It gives us <strong>proportions</strong> — each MAG or taxon’s abundance is expressed relative to the total sequencing effort. The data always sums to a constant (100%, or total reads), which creates spurious correlations and violates the independence assumptions of standard statistical tests.</p>
-
-<p>A t-test doesn’t know that your numbers are parts of a whole. It treats them as independent measurements. That’s a problem.</p>
-
-<hr />
-
-<h3 id="2-its-sparse--most-values-are-zero">2. It’s Sparse — Most Values Are Zero</h3>
-
-<p>In a typical MAG abundance table, the majority of cells are zero. A MAG recovered from one environment simply doesn’t appear in another. With 60 MAGs across 27 metagenomes, you might expect 30–60% of your table to be zeros — sometimes more.</p>
-
-<p>Standard statistical methods hate zeros. Log-transformations break at zero. Distance calculations behave strangely when half your data points are identical zeros. Normal distributions have no concept of “absent.”</p>
-
-<p>The sparsity also means your data is highly skewed — a few dominant MAGs have very high abundance, while most have very low or zero abundance. That distribution looks nothing like a bell curve.</p>
-
-<hr />
-
-<h3 id="3-its-multivariate--you-have-many-variables-at-once">3. It’s Multivariate — You Have Many Variables at Once</h3>
-
-<p>When you measure blood pressure, you get one number. When you sequence a metagenome, you get <strong>60 MAG abundances simultaneously</strong> — 60 variables, all potentially interacting, all measured from the same sample.</p>
-
-<p>Standard tests like t-tests and ANOVA are univariate — they test one variable at a time. You <em>could</em> run 60 separate t-tests (one per MAG). But then you’ve run 60 tests, and by chance alone you’d expect 3 false positives at p &lt; 0.05. Your results would be meaningless.</p>
-
-<p>Microbiome community analysis requires methods that handle all variables <strong>together</strong> — treating the community as a whole rather than as 60 independent measurements.</p>
-
-<hr />
-
-<h3 id="4-its-non-normal--the-distributions-are-exotic">4. It’s Non-Normal — The Distributions Are Exotic</h3>
-
-<p>The normal (Gaussian) distribution — the famous bell curve — underlies most classical statistics. t-tests, ANOVA, Pearson correlation, linear regression all assume your data is approximately normally distributed.</p>
-
-<p>Microbiome abundance data is not. It tends to follow distributions that are:</p>
-
-<ul>
-  <li><strong>Zero-inflated</strong> (excess zeros from absent taxa)</li>
-  <li><strong>Right-skewed</strong> (a few very abundant taxa, many rare ones)</li>
-  <li><strong>Overdispersed</strong> (more variance than a Poisson or binomial model would predict)</li>
-</ul>
-
-<p>You can sometimes transform the data to approximate normality (Hellinger transformation, log-ratio transformation), but the underlying biology of the data means you always need to think carefully about whether your assumptions hold.</p>
-
-<hr />
-
-<h2 id="what-does-community-level-analysis-actually-mean">What Does “Community-Level Analysis” Actually Mean?</h2>
-
-<p>Here’s the conceptual shift that changes everything.</p>
-
-<p>In most biology, you ask: <strong>“Is gene X differentially expressed?”</strong> or <strong>“Is species Y more abundant in treatment A?”</strong> — one variable, one question.</p>
-
-<p>In microbiome ecology, the primary question is different: <strong>“Are these communities different?”</strong></p>
-
-<p>Not one MAG. Not one taxon. The whole community at once — the combination of which organisms are present, in what proportions, and how that combination shifts across samples or conditions.</p>
-
-<p>Think of it like comparing two orchestras. You wouldn’t just compare the number of violins and call that a comparison. You’d compare the full composition — how many of each instrument, how they’re arranged, how the overall sound differs. Community-level analysis is comparing the full orchestra, not individual instruments.</p>
-
-<p>This is why we need:</p>
-
-<ul>
-  <li><strong>Ordination methods</strong> (RDA, dbRDA) — to visualize community composition in reduced-dimensional space</li>
-  <li><strong>Permutation tests</strong> (PERMANOVA) — to test whether community differences are statistically real</li>
-  <li><strong>Distance matrices</strong> (Bray-Curtis, UniFrac) — to quantify how different two communities are as a whole</li>
-</ul>
-
-<hr />
-
-<h2 id="so-what-do-we-use-instead">So What Do We Use Instead?</h2>
-
-<p>Here’s the roadmap for this week — and the logic behind the order:</p>
-
-<p><strong>Day 2 — RDA &amp; dbRDA (Constrained Ordination)</strong>
-We visualize how communities vary across environmental gradients. Euclidean distances for transformed data, Bray-Curtis for raw abundance — and why that choice matters.</p>
-
-<p><strong>Day 3 — PERMANOVA</strong>
-We’ve seen the groups separate visually. Now we test whether the separation is statistically real — using permutation rather than distributional assumptions.</p>
-
-<p><strong>Day 4 — Non-Parametric Tests</strong>
-For taxon-level comparisons (not community-level), we use Wilcoxon and Kruskal-Wallis tests — the non-parametric alternatives to t-tests and ANOVA that don’t assume normality.</p>
-
-<p><strong>Day 5 — Multiple Regression</strong>
-We ask which environmental variables best predict gene or MAG abundance, and how to interpret those relationships biologically.</p>
-
-<p><strong>Day 6 — WGCNA</strong>
-We stop asking about individual MAGs and start asking about <em>modules</em> of co-occurring MAGs — groups that rise and fall together across samples.</p>
-
-<p><strong>Day 7 — Full Workflow Synthesis</strong>
-How all of these methods connect in a real paper, and how to structure a results section that tells a coherent biological story.</p>
-
-<hr />
-
-<h2 id="the-data-well-use-all-week">The Data We’ll Use All Week</h2>
-
-<p>Every post in this series uses the same two files. I want you to recognize them by Day 7 like old friends.</p>
-
-<p>The data comes from a real metagenomic study: <strong>60 Metagenome-Assembled Genomes (MAGs)</strong> recovered across <strong>27 metagenomes</strong> from different environments. These MAGs represent microbial populations — organisms assembled from sequencing reads without culturing.</p>
-
-<p>All data and code are available at: 🔗 <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></p>
-
-<h3 id="file-1-mag_abundancecsv">File 1: <code class="language-plaintext highlighter-rouge">mag_abundance.csv</code></h3>
-
-<p>This is your <strong>community matrix</strong> — the core data object in every analysis.</p>
-
-<ul>
-  <li><strong>Rows</strong> = metagenome samples (27 samples)</li>
-  <li><strong>Columns</strong> = MAGs (60 MAGs)</li>
-  <li><strong>Values</strong> = relative abundance of each MAG in each sample</li>
-</ul>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Load and take a first look</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
-
-</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/mag_abundance.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w">      </span><span class="c1"># should be 27 rows × 60 columns</span><span class="w">
-</span><span class="n">head</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">])</span><span class="w">   </span><span class="c1"># first look at 5 MAGs</span><span class="w">
-</span></code></pre></div></div>
-
-<p>What you’ll notice immediately:</p>
-
-<ul>
-  <li>Many zeros — MAGs absent from most samples</li>
-  <li>Values between 0 and 1 (relative abundances)</li>
-  <li>High variability across samples — some MAGs are everywhere, most are rare</li>
-</ul>
-
-<h3 id="file-2-metadatacsv">File 2: <code class="language-plaintext highlighter-rouge">metadata.csv</code></h3>
-
-<p>This is your <strong>environmental context</strong> — what makes samples different from each other.</p>
-
-<ul>
-  <li><strong>Rows</strong> = metagenome samples (same 27 samples, same order)</li>
-  <li><strong>Columns</strong> = environmental and sample variables (salinity, season, location, etc.)</li>
-</ul>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/metadata.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="nf">dim</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">           </span><span class="c1"># 27 rows × however many metadata columns</span><span class="w">
-</span><span class="n">head</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">          </span><span class="c1"># see what variables you're working with</span><span class="w">
-</span><span class="n">colnames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">      </span><span class="c1"># list all metadata variables</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The metadata is what gives the community data biological meaning. Without it, you just have a table of numbers. With it, you can ask: <em>Do communities differ by salinity? By season? By sampling location?</em> That’s the bridge between pattern and biology.</p>
-
-<h3 id="checking-the-data--always-do-this-first">Checking the Data — Always Do This First</h3>
-
-<p>Before any analysis, verify that your samples are in the same order in both files:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Critical check — rows must match between files</span><span class="w">
-</span><span class="nf">all</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span><span class="w">
-</span><span class="c1"># Should return TRUE</span><span class="w">
-
-</span><span class="c1"># Quick summary of the abundance table</span><span class="w">
-</span><span class="n">summary</span><span class="p">(</span><span class="n">rowSums</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w">   </span><span class="c1"># row sums (should be ~1 if relative abundance)</span><span class="w">
-</span><span class="nf">sum</span><span class="p">(</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">prod</span><span class="p">(</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="w">  </span><span class="c1"># % zeros</span><span class="w">
-</span></code></pre></div></div>
-
-<p>This sparsity check alone is revealing. When you run it on this data and see that a significant percentage of the table is zeros, you’ll understand viscerally why we don’t just run a t-test.</p>
-
-<hr />
-
-<h2 id="a-note-on-transformation">A Note on Transformation</h2>
-
-<p>We’ll cover this in depth on Day 2, but plant this idea now: <strong>the same abundance data can be transformed in different ways depending on the analysis</strong>.</p>
-
-<ul>
-  <li><strong>Hellinger transformation</strong> — square root of relative abundance. Reduces the influence of very abundant MAGs. Used before RDA.</li>
-  <li><strong>Bray-Curtis dissimilarity</strong> — a distance metric calculated directly from raw relative abundances. Used in dbRDA and PERMANOVA.</li>
-  <li><strong>Log-ratio transformation</strong> (CLR) — the compositionally correct approach, increasingly used in modern microbiome work.</li>
-</ul>
-
-<p>No single transformation is universally correct. The choice depends on your question and your method. We’ll make that choice explicitly and justify it each time.</p>
-
-<hr />
-
-<h2 id="️-common-mistakes-to-avoid">⚠️ Common Mistakes to Avoid</h2>
-
-<p><strong>Mistake 1: Running t-tests on individual MAGs without multiple testing correction.</strong>
-With 60 MAGs, you’ll get ~3 false positives by chance at p &lt; 0.05. Always correct for multiple comparisons (Day 4 covers this).</p>
-
-<p><strong>Mistake 2: Treating relative abundance as absolute abundance.</strong>
-A MAG that increases in relative abundance might be doing so because something else decreased — not because it truly grew. Keep compositionality in mind throughout.</p>
-
-<p><strong>Mistake 3: Skipping the data check.</strong>
-If your metadata rows don’t match your abundance matrix rows, every analysis silently produces wrong results. Always verify alignment before starting.</p>
-
-<p><strong>Mistake 4: Log-transforming zeros.</strong>
-<code class="language-plaintext highlighter-rouge">log(0)</code> is undefined (<code class="language-plaintext highlighter-rouge">-Inf</code> in R). If you log-transform without adding a pseudocount, your analysis will fail or produce garbage. Use appropriate transformations — covered on Day 2.</p>
-
-<p><strong>Mistake 5: Jumping straight to ordination without understanding your data.</strong>
-Look at your data first. Check distributions, zeros, outliers. A 10-minute exploration prevents hours of debugging later.</p>
-
-<hr />
-
-<h2 id="-key-takeaways">🧭 Key Takeaways</h2>
-
-<ul>
-  <li>Microbiome data is <strong>compositional</strong> (relative, not absolute), <strong>sparse</strong> (many zeros), <strong>multivariate</strong> (many variables at once), and <strong>non-normal</strong> — each property breaks standard statistical assumptions in a different way.</li>
-  <li><strong>Community-level analysis</strong> treats the full assemblage of organisms as the unit of study, not individual taxa in isolation.</li>
-  <li>We need specialized methods — ordination, permutation tests, non-parametric comparisons — because classical tests were not designed for this data structure.</li>
-  <li>Our dataset: <strong>60 MAGs × 27 metagenomes</strong>, two files (<code class="language-plaintext highlighter-rouge">mag_abundance.csv</code> + <code class="language-plaintext highlighter-rouge">metadata.csv</code>), used consistently across all 7 days.</li>
-  <li>Always <strong>check your data</strong> before any analysis: dimensions, zero percentage, and row alignment between files.</li>
-</ul>
-
-<hr />
-
-<h2 id="-whats-next">🔗 What’s Next</h2>
-
-<p>Tomorrow on <strong>Day 2</strong>, we run our first real analysis — constrained ordination with <strong>RDA and dbRDA</strong>. We’ll ask: <em>Do the environmental variables in our metadata explain the community composition patterns we see across samples?</em> And we’ll visualize the answer with ggplot2.</p>
-
-<p>By the end of Day 2, you’ll have your first publication-quality ordination plot.</p>
-
-<hr />
-
-<p><em>All R code and data for this series: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em>
-<em>Found this useful? Share it with someone learning microbiome stats — and follow along for Day 2 tomorrow.</em></p>
-
-<hr />
-
-<p><strong>🧬 Day 51 — Daily Bioinformatics from Jojy’s Desk</strong></p>
-
-<hr />
-
-<p><img src="/assets/img/stat-day1.png" alt="Stat-day1" /></p>]]></content><author><name></name></author><category term="microbiome" /><category term="statistics" /><category term="metagenomics" /><category term="MAGs" /><category term="R" /><category term="beginners" /><summary type="html"><![CDATA[Before we run a single ordination or permutation test, we need to understand why standard statistics break down for microbiome and genomics data. This is your foundation for the entire 7-day series.]]></summary></entry><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-01T23:46:11-05:00</published><updated>2026-03-01T23:46:11-05:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-03T09:56:10-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-03T09:56:10-05:00</published><updated>2026-03-03T09:56:10-05:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -1013,7 +766,501 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with Linux find</title><link href="https://jojyjohn28.github.io/blog/python-rename-and-linux-find-collect-fasta/" rel="alternate" type="text/html" title="From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with Linux find" /><published>2026-02-27T00:00:00-05:00</published><updated>2026-02-27T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/python-rename-and-linux-find-collect-fasta</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/python-rename-and-linux-find-collect-fasta/"><![CDATA[<h2 id="from-messy-subfolders-to-analysis-ready-fasta-rename-with-python--collect-with-find">From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with <code class="language-plaintext highlighter-rouge">find</code></h2>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)</title><link href="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/" rel="alternate" type="text/html" title="Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)" /><published>2026-03-02T00:00:00-05:00</published><updated>2026-03-02T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/why-normal-stats-fail-microbiome</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/"><![CDATA[<h2 id="day-1--why-normal-statistics-fail-for-microbiome-data">Day 1 — Why Normal Statistics Fail for Microbiome Data</h2>
+
+<p>*This is Day 1 of a 7-day series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and <strong>🧬 Day 51 of Daily Bioinformatics from Jojy’s Desk</strong>
+<em>All data and R code for this series → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
+
+<hr />
+
+<p>Let me start with an honest confession.</p>
+
+<p>When I first started working with microbiome data, I did what most people do — I tried to use the statistics I already knew. t-tests. ANOVA. Pearson correlations. They worked fine in other contexts. Why wouldn’t they work here?</p>
+
+<p>They failed. Badly.</p>
+
+<p>Not because I was using them wrong. But <strong>because microbiome data breaks almost every assumption those tests are built on.</strong> The data is fundamentally different, and it took me a while to really understand <em>why</em> — not just accept it as a rule someone told me.</p>
+
+<p>That’s what this post is about. Before we write a single line of R code, before we run an ordination or a PERMANOVA, I want you to genuinely understand the problem. Because once you do, every method we cover this week will make intuitive sense rather than feeling like a black box you’re supposed to trust.</p>
+
+<hr />
+
+<h2 id="what-makes-microbiome-data-weird">What Makes Microbiome Data Weird?</h2>
+
+<h3 id="1-its-compositional--counts-are-relative-not-absolute">1. It’s Compositional — Counts Are Relative, Not Absolute</h3>
+
+<p>Imagine you sequence two samples. In Sample A, you find 1,000 reads from <em>Bacteria X</em>. In Sample B, you find 500 reads from <em>Bacteria X</em>. Is <em>Bacteria X</em> twice as abundant in Sample A?</p>
+
+<p><strong>Not necessarily.</strong> It depends on how many total reads you got from each sample. If Sample A had 10,000 total reads and Sample B had 5,000, then <em>Bacteria X</em> makes up exactly 10% of both samples — they’re identical in relative terms.</p>
+
+<p>This is the <strong>compositionality problem</strong>. Sequencing doesn’t give us absolute counts of microorganisms. It gives us <strong>proportions</strong> — each MAG or taxon’s abundance is expressed relative to the total sequencing effort. The data always sums to a constant (100%, or total reads), which creates spurious correlations and violates the independence assumptions of standard statistical tests.</p>
+
+<p>A t-test doesn’t know that your numbers are parts of a whole. It treats them as independent measurements. That’s a problem.</p>
+
+<hr />
+
+<h3 id="2-its-sparse--most-values-are-zero">2. It’s Sparse — Most Values Are Zero</h3>
+
+<p>In a typical MAG abundance table, the majority of cells are zero. A MAG recovered from one environment simply doesn’t appear in another. With 60 MAGs across 27 metagenomes, you might expect 30–60% of your table to be zeros — sometimes more.</p>
+
+<p>Standard statistical methods hate zeros. Log-transformations break at zero. Distance calculations behave strangely when half your data points are identical zeros. Normal distributions have no concept of “absent.”</p>
+
+<p>The sparsity also means your data is highly skewed — a few dominant MAGs have very high abundance, while most have very low or zero abundance. That distribution looks nothing like a bell curve.</p>
+
+<hr />
+
+<h3 id="3-its-multivariate--you-have-many-variables-at-once">3. It’s Multivariate — You Have Many Variables at Once</h3>
+
+<p>When you measure blood pressure, you get one number. When you sequence a metagenome, you get <strong>60 MAG abundances simultaneously</strong> — 60 variables, all potentially interacting, all measured from the same sample.</p>
+
+<p>Standard tests like t-tests and ANOVA are univariate — they test one variable at a time. You <em>could</em> run 60 separate t-tests (one per MAG). But then you’ve run 60 tests, and by chance alone you’d expect 3 false positives at p &lt; 0.05. Your results would be meaningless.</p>
+
+<p>Microbiome community analysis requires methods that handle all variables <strong>together</strong> — treating the community as a whole rather than as 60 independent measurements.</p>
+
+<hr />
+
+<h3 id="4-its-non-normal--the-distributions-are-exotic">4. It’s Non-Normal — The Distributions Are Exotic</h3>
+
+<p>The normal (Gaussian) distribution — the famous bell curve — underlies most classical statistics. t-tests, ANOVA, Pearson correlation, linear regression all assume your data is approximately normally distributed.</p>
+
+<p>Microbiome abundance data is not. It tends to follow distributions that are:</p>
+
+<ul>
+  <li><strong>Zero-inflated</strong> (excess zeros from absent taxa)</li>
+  <li><strong>Right-skewed</strong> (a few very abundant taxa, many rare ones)</li>
+  <li><strong>Overdispersed</strong> (more variance than a Poisson or binomial model would predict)</li>
+</ul>
+
+<p>You can sometimes transform the data to approximate normality (Hellinger transformation, log-ratio transformation), but the underlying biology of the data means you always need to think carefully about whether your assumptions hold.</p>
+
+<hr />
+
+<h2 id="what-does-community-level-analysis-actually-mean">What Does “Community-Level Analysis” Actually Mean?</h2>
+
+<p>Here’s the conceptual shift that changes everything.</p>
+
+<p>In most biology, you ask: <strong>“Is gene X differentially expressed?”</strong> or <strong>“Is species Y more abundant in treatment A?”</strong> — one variable, one question.</p>
+
+<p>In microbiome ecology, the primary question is different: <strong>“Are these communities different?”</strong></p>
+
+<p>Not one MAG. Not one taxon. The whole community at once — the combination of which organisms are present, in what proportions, and how that combination shifts across samples or conditions.</p>
+
+<p>Think of it like comparing two orchestras. You wouldn’t just compare the number of violins and call that a comparison. You’d compare the full composition — how many of each instrument, how they’re arranged, how the overall sound differs. Community-level analysis is comparing the full orchestra, not individual instruments.</p>
+
+<p>This is why we need:</p>
+
+<ul>
+  <li><strong>Ordination methods</strong> (RDA, dbRDA) — to visualize community composition in reduced-dimensional space</li>
+  <li><strong>Permutation tests</strong> (PERMANOVA) — to test whether community differences are statistically real</li>
+  <li><strong>Distance matrices</strong> (Bray-Curtis, UniFrac) — to quantify how different two communities are as a whole</li>
+</ul>
+
+<hr />
+
+<h2 id="so-what-do-we-use-instead">So What Do We Use Instead?</h2>
+
+<p>Here’s the roadmap for this week — and the logic behind the order:</p>
+
+<p><strong>Day 2 — RDA &amp; dbRDA (Constrained Ordination)</strong>
+We visualize how communities vary across environmental gradients. Euclidean distances for transformed data, Bray-Curtis for raw abundance — and why that choice matters.</p>
+
+<p><strong>Day 3 — PERMANOVA</strong>
+We’ve seen the groups separate visually. Now we test whether the separation is statistically real — using permutation rather than distributional assumptions.</p>
+
+<p><strong>Day 4 — Non-Parametric Tests</strong>
+For taxon-level comparisons (not community-level), we use Wilcoxon and Kruskal-Wallis tests — the non-parametric alternatives to t-tests and ANOVA that don’t assume normality.</p>
+
+<p><strong>Day 5 — Multiple Regression</strong>
+We ask which environmental variables best predict gene or MAG abundance, and how to interpret those relationships biologically.</p>
+
+<p><strong>Day 6 — WGCNA</strong>
+We stop asking about individual MAGs and start asking about <em>modules</em> of co-occurring MAGs — groups that rise and fall together across samples.</p>
+
+<p><strong>Day 7 — Full Workflow Synthesis</strong>
+How all of these methods connect in a real paper, and how to structure a results section that tells a coherent biological story.</p>
+
+<hr />
+
+<h2 id="the-data-well-use-all-week">The Data We’ll Use All Week</h2>
+
+<p>Every post in this series uses the same two files. I want you to recognize them by Day 7 like old friends.</p>
+
+<p>The data comes from a real metagenomic study: <strong>60 Metagenome-Assembled Genomes (MAGs)</strong> recovered across <strong>27 metagenomes</strong> from different environments. These MAGs represent microbial populations — organisms assembled from sequencing reads without culturing.</p>
+
+<p>All data and code are available at: 🔗 <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></p>
+
+<h3 id="file-1-mag_abundancecsv">File 1: <code class="language-plaintext highlighter-rouge">mag_abundance.csv</code></h3>
+
+<p>This is your <strong>community matrix</strong> — the core data object in every analysis.</p>
+
+<ul>
+  <li><strong>Rows</strong> = metagenome samples (27 samples)</li>
+  <li><strong>Columns</strong> = MAGs (60 MAGs)</li>
+  <li><strong>Values</strong> = relative abundance of each MAG in each sample</li>
+</ul>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Load and take a first look</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/mag_abundance.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w">      </span><span class="c1"># should be 27 rows × 60 columns</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">])</span><span class="w">   </span><span class="c1"># first look at 5 MAGs</span><span class="w">
+</span></code></pre></div></div>
+
+<p>What you’ll notice immediately:</p>
+
+<ul>
+  <li>Many zeros — MAGs absent from most samples</li>
+  <li>Values between 0 and 1 (relative abundances)</li>
+  <li>High variability across samples — some MAGs are everywhere, most are rare</li>
+</ul>
+
+<h3 id="file-2-metadatacsv">File 2: <code class="language-plaintext highlighter-rouge">metadata.csv</code></h3>
+
+<p>This is your <strong>environmental context</strong> — what makes samples different from each other.</p>
+
+<ul>
+  <li><strong>Rows</strong> = metagenome samples (same 27 samples, same order)</li>
+  <li><strong>Columns</strong> = environmental and sample variables (salinity, season, location, etc.)</li>
+</ul>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/metadata.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="nf">dim</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">           </span><span class="c1"># 27 rows × however many metadata columns</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">          </span><span class="c1"># see what variables you're working with</span><span class="w">
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">      </span><span class="c1"># list all metadata variables</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The metadata is what gives the community data biological meaning. Without it, you just have a table of numbers. With it, you can ask: <em>Do communities differ by salinity? By season? By sampling location?</em> That’s the bridge between pattern and biology.</p>
+
+<h3 id="checking-the-data--always-do-this-first">Checking the Data — Always Do This First</h3>
+
+<p>Before any analysis, verify that your samples are in the same order in both files:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Critical check — rows must match between files</span><span class="w">
+</span><span class="nf">all</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span><span class="w">
+</span><span class="c1"># Should return TRUE</span><span class="w">
+
+</span><span class="c1"># Quick summary of the abundance table</span><span class="w">
+</span><span class="n">summary</span><span class="p">(</span><span class="n">rowSums</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w">   </span><span class="c1"># row sums (should be ~1 if relative abundance)</span><span class="w">
+</span><span class="nf">sum</span><span class="p">(</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">prod</span><span class="p">(</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="w">  </span><span class="c1"># % zeros</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This sparsity check alone is revealing. When you run it on this data and see that a significant percentage of the table is zeros, you’ll understand viscerally why we don’t just run a t-test.</p>
+
+<hr />
+
+<h2 id="a-note-on-transformation">A Note on Transformation</h2>
+
+<p>We’ll cover this in depth on Day 2, but plant this idea now: <strong>the same abundance data can be transformed in different ways depending on the analysis</strong>.</p>
+
+<ul>
+  <li><strong>Hellinger transformation</strong> — square root of relative abundance. Reduces the influence of very abundant MAGs. Used before RDA.</li>
+  <li><strong>Bray-Curtis dissimilarity</strong> — a distance metric calculated directly from raw relative abundances. Used in dbRDA and PERMANOVA.</li>
+  <li><strong>Log-ratio transformation</strong> (CLR) — the compositionally correct approach, increasingly used in modern microbiome work.</li>
+</ul>
+
+<p>No single transformation is universally correct. The choice depends on your question and your method. We’ll make that choice explicitly and justify it each time.</p>
+
+<hr />
+
+<h2 id="️-common-mistakes-to-avoid">⚠️ Common Mistakes to Avoid</h2>
+
+<p><strong>Mistake 1: Running t-tests on individual MAGs without multiple testing correction.</strong>
+With 60 MAGs, you’ll get ~3 false positives by chance at p &lt; 0.05. Always correct for multiple comparisons (Day 4 covers this).</p>
+
+<p><strong>Mistake 2: Treating relative abundance as absolute abundance.</strong>
+A MAG that increases in relative abundance might be doing so because something else decreased — not because it truly grew. Keep compositionality in mind throughout.</p>
+
+<p><strong>Mistake 3: Skipping the data check.</strong>
+If your metadata rows don’t match your abundance matrix rows, every analysis silently produces wrong results. Always verify alignment before starting.</p>
+
+<p><strong>Mistake 4: Log-transforming zeros.</strong>
+<code class="language-plaintext highlighter-rouge">log(0)</code> is undefined (<code class="language-plaintext highlighter-rouge">-Inf</code> in R). If you log-transform without adding a pseudocount, your analysis will fail or produce garbage. Use appropriate transformations — covered on Day 2.</p>
+
+<p><strong>Mistake 5: Jumping straight to ordination without understanding your data.</strong>
+Look at your data first. Check distributions, zeros, outliers. A 10-minute exploration prevents hours of debugging later.</p>
+
+<hr />
+
+<h2 id="-key-takeaways">🧭 Key Takeaways</h2>
+
+<ul>
+  <li>Microbiome data is <strong>compositional</strong> (relative, not absolute), <strong>sparse</strong> (many zeros), <strong>multivariate</strong> (many variables at once), and <strong>non-normal</strong> — each property breaks standard statistical assumptions in a different way.</li>
+  <li><strong>Community-level analysis</strong> treats the full assemblage of organisms as the unit of study, not individual taxa in isolation.</li>
+  <li>We need specialized methods — ordination, permutation tests, non-parametric comparisons — because classical tests were not designed for this data structure.</li>
+  <li>Our dataset: <strong>60 MAGs × 27 metagenomes</strong>, two files (<code class="language-plaintext highlighter-rouge">mag_abundance.csv</code> + <code class="language-plaintext highlighter-rouge">metadata.csv</code>), used consistently across all 7 days.</li>
+  <li>Always <strong>check your data</strong> before any analysis: dimensions, zero percentage, and row alignment between files.</li>
+</ul>
+
+<hr />
+
+<h2 id="-whats-next">🔗 What’s Next</h2>
+
+<p>Tomorrow on <strong>Day 2</strong>, we run our first real analysis — constrained ordination with <strong>RDA and dbRDA</strong>. We’ll ask: <em>Do the environmental variables in our metadata explain the community composition patterns we see across samples?</em> And we’ll visualize the answer with ggplot2.</p>
+
+<p>By the end of Day 2, you’ll have your first publication-quality ordination plot.</p>
+
+<hr />
+
+<p><em>All R code and data for this series: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em>
+<em>Found this useful? Share it with someone learning microbiome stats — and follow along for Day 2 tomorrow.</em></p>
+
+<hr />
+
+<p><strong>🧬 Day 51 — Daily Bioinformatics from Jojy’s Desk</strong></p>
+
+<hr />
+
+<p><img src="/assets/img/stat-day1.png" alt="Stat-day1" /></p>]]></content><author><name></name></author><category term="microbiome" /><category term="statistics" /><category term="metagenomics" /><category term="MAGs" /><category term="R" /><category term="beginners" /><summary type="html"><![CDATA[Before we run a single ordination or permutation test, we need to understand why standard statistics break down for microbiome and genomics data. This is your foundation for the entire 7-day series.]]></summary></entry><entry><title type="html">Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)</title><link href="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/" rel="alternate" type="text/html" title="Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)" /><published>2026-03-02T00:00:00-05:00</published><updated>2026-03-02T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Day-2-Constrained-Ordination</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/"><![CDATA[<h2 id="day-1--why-normal-statistics-fail-for-microbiome-data">Day 1 — Why Normal Statistics Fail for Microbiome Data</h2>
+
+<p>*This is Day 2 of the series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and <strong>🧬 Day 52 of Daily Bioinformatics from Jojy’s Desk</strong>
+<em>All data and R code for this series → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
+
+<hr />
+
+<p>Let me start with an honest confession.</p>
+
+<p>When I first started working with microbiome data, I did what most people do — I tried to use the statistics I already knew. t-tests. ANOVA. Pearson correlations. They worked fine in other contexts. Why wouldn’t they work here?</p>
+
+<p>They failed. Badly.</p>
+
+<p>Not because I was using them wrong. But <strong>because microbiome data breaks almost every assumption those tests are built on.</strong> The data is fundamentally different, and it took me a while to really understand <em>why</em> — not just accept it as a rule someone told me.</p>
+
+<p>That’s what this post is about. Before we write a single line of R code, before we run an ordination or a PERMANOVA, I want you to genuinely understand the problem. Because once you do, every method we cover this week will make intuitive sense rather than feeling like a black box you’re supposed to trust.</p>
+
+<hr />
+
+<h2 id="what-makes-microbiome-data-weird">What Makes Microbiome Data Weird?</h2>
+
+<h3 id="1-its-compositional--counts-are-relative-not-absolute">1. It’s Compositional — Counts Are Relative, Not Absolute</h3>
+
+<p>Imagine you sequence two samples. In Sample A, you find 1,000 reads from <em>Bacteria X</em>. In Sample B, you find 500 reads from <em>Bacteria X</em>. Is <em>Bacteria X</em> twice as abundant in Sample A?</p>
+
+<p><strong>Not necessarily.</strong> It depends on how many total reads you got from each sample. If Sample A had 10,000 total reads and Sample B had 5,000, then <em>Bacteria X</em> makes up exactly 10% of both samples — they’re identical in relative terms.</p>
+
+<p>This is the <strong>compositionality problem</strong>. Sequencing doesn’t give us absolute counts of microorganisms. It gives us <strong>proportions</strong> — each MAG or taxon’s abundance is expressed relative to the total sequencing effort. The data always sums to a constant (100%, or total reads), which creates spurious correlations and violates the independence assumptions of standard statistical tests.</p>
+
+<p>A t-test doesn’t know that your numbers are parts of a whole. It treats them as independent measurements. That’s a problem.</p>
+
+<hr />
+
+<h3 id="2-its-sparse--most-values-are-zero">2. It’s Sparse — Most Values Are Zero</h3>
+
+<p>In a typical MAG abundance table, the majority of cells are zero. A MAG recovered from one environment simply doesn’t appear in another. With 60 MAGs across 27 metagenomes, you might expect 30–60% of your table to be zeros — sometimes more.</p>
+
+<p>Standard statistical methods hate zeros. Log-transformations break at zero. Distance calculations behave strangely when half your data points are identical zeros. Normal distributions have no concept of “absent.”</p>
+
+<p>The sparsity also means your data is highly skewed — a few dominant MAGs have very high abundance, while most have very low or zero abundance. That distribution looks nothing like a bell curve.</p>
+
+<hr />
+
+<h3 id="3-its-multivariate--you-have-many-variables-at-once">3. It’s Multivariate — You Have Many Variables at Once</h3>
+
+<p>When you measure blood pressure, you get one number. When you sequence a metagenome, you get <strong>60 MAG abundances simultaneously</strong> — 60 variables, all potentially interacting, all measured from the same sample.</p>
+
+<p>Standard tests like t-tests and ANOVA are univariate — they test one variable at a time. You <em>could</em> run 60 separate t-tests (one per MAG). But then you’ve run 60 tests, and by chance alone you’d expect 3 false positives at p &lt; 0.05. Your results would be meaningless.</p>
+
+<p>Microbiome community analysis requires methods that handle all variables <strong>together</strong> — treating the community as a whole rather than as 60 independent measurements.</p>
+
+<hr />
+
+<h3 id="4-its-non-normal--the-distributions-are-exotic">4. It’s Non-Normal — The Distributions Are Exotic</h3>
+
+<p>The normal (Gaussian) distribution — the famous bell curve — underlies most classical statistics. t-tests, ANOVA, Pearson correlation, linear regression all assume your data is approximately normally distributed.</p>
+
+<p>Microbiome abundance data is not. It tends to follow distributions that are:</p>
+
+<ul>
+  <li><strong>Zero-inflated</strong> (excess zeros from absent taxa)</li>
+  <li><strong>Right-skewed</strong> (a few very abundant taxa, many rare ones)</li>
+  <li><strong>Overdispersed</strong> (more variance than a Poisson or binomial model would predict)</li>
+</ul>
+
+<p>You can sometimes transform the data to approximate normality (Hellinger transformation, log-ratio transformation), but the underlying biology of the data means you always need to think carefully about whether your assumptions hold.</p>
+
+<hr />
+
+<h2 id="what-does-community-level-analysis-actually-mean">What Does “Community-Level Analysis” Actually Mean?</h2>
+
+<p>Here’s the conceptual shift that changes everything.</p>
+
+<p>In most biology, you ask: <strong>“Is gene X differentially expressed?”</strong> or <strong>“Is species Y more abundant in treatment A?”</strong> — one variable, one question.</p>
+
+<p>In microbiome ecology, the primary question is different: <strong>“Are these communities different?”</strong></p>
+
+<p>Not one MAG. Not one taxon. The whole community at once — the combination of which organisms are present, in what proportions, and how that combination shifts across samples or conditions.</p>
+
+<p>Think of it like comparing two orchestras. You wouldn’t just compare the number of violins and call that a comparison. You’d compare the full composition — how many of each instrument, how they’re arranged, how the overall sound differs. Community-level analysis is comparing the full orchestra, not individual instruments.</p>
+
+<p>This is why we need:</p>
+
+<ul>
+  <li><strong>Ordination methods</strong> (RDA, dbRDA) — to visualize community composition in reduced-dimensional space</li>
+  <li><strong>Permutation tests</strong> (PERMANOVA) — to test whether community differences are statistically real</li>
+  <li><strong>Distance matrices</strong> (Bray-Curtis, UniFrac) — to quantify how different two communities are as a whole</li>
+</ul>
+
+<hr />
+
+<h2 id="so-what-do-we-use-instead">So What Do We Use Instead?</h2>
+
+<p>Here’s the roadmap for this week — and the logic behind the order:</p>
+
+<p><strong>Day 2 — RDA &amp; dbRDA (Constrained Ordination)</strong>
+We visualize how communities vary across environmental gradients. Euclidean distances for transformed data, Bray-Curtis for raw abundance — and why that choice matters.</p>
+
+<p><strong>Day 3 — PERMANOVA</strong>
+We’ve seen the groups separate visually. Now we test whether the separation is statistically real — using permutation rather than distributional assumptions.</p>
+
+<p><strong>Day 4 — Non-Parametric Tests</strong>
+For taxon-level comparisons (not community-level), we use Wilcoxon and Kruskal-Wallis tests — the non-parametric alternatives to t-tests and ANOVA that don’t assume normality.</p>
+
+<p><strong>Day 5 — Multiple Regression</strong>
+We ask which environmental variables best predict gene or MAG abundance, and how to interpret those relationships biologically.</p>
+
+<p><strong>Day 6 — WGCNA</strong>
+We stop asking about individual MAGs and start asking about <em>modules</em> of co-occurring MAGs — groups that rise and fall together across samples.</p>
+
+<p><strong>Day 7 — Full Workflow Synthesis</strong>
+How all of these methods connect in a real paper, and how to structure a results section that tells a coherent biological story.</p>
+
+<hr />
+
+<h2 id="the-data-well-use-all-week">The Data We’ll Use All Week</h2>
+
+<p>Every post in this series uses the same two files. I want you to recognize them by Day 7 like old friends.</p>
+
+<p>The data comes from a real metagenomic study: <strong>60 Metagenome-Assembled Genomes (MAGs)</strong> recovered across <strong>27 metagenomes</strong> from different environments. These MAGs represent microbial populations — organisms assembled from sequencing reads without culturing.</p>
+
+<p>All data and code are available at: 🔗 <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></p>
+
+<h3 id="file-1-mag_abundancecsv">File 1: <code class="language-plaintext highlighter-rouge">mag_abundance.csv</code></h3>
+
+<p>This is your <strong>community matrix</strong> — the core data object in every analysis.</p>
+
+<ul>
+  <li><strong>Rows</strong> = metagenome samples (27 samples)</li>
+  <li><strong>Columns</strong> = MAGs (60 MAGs)</li>
+  <li><strong>Values</strong> = relative abundance of each MAG in each sample</li>
+</ul>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Load and take a first look</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/mag_abundance.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w">      </span><span class="c1"># should be 27 rows × 60 columns</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">])</span><span class="w">   </span><span class="c1"># first look at 5 MAGs</span><span class="w">
+</span></code></pre></div></div>
+
+<p>What you’ll notice immediately:</p>
+
+<ul>
+  <li>Many zeros — MAGs absent from most samples</li>
+  <li>Values between 0 and 1 (relative abundances)</li>
+  <li>High variability across samples — some MAGs are everywhere, most are rare</li>
+</ul>
+
+<h3 id="file-2-metadatacsv">File 2: <code class="language-plaintext highlighter-rouge">metadata.csv</code></h3>
+
+<p>This is your <strong>environmental context</strong> — what makes samples different from each other.</p>
+
+<ul>
+  <li><strong>Rows</strong> = metagenome samples (same 27 samples, same order)</li>
+  <li><strong>Columns</strong> = environmental and sample variables (salinity, season, location, etc.)</li>
+</ul>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/metadata.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="nf">dim</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">           </span><span class="c1"># 27 rows × however many metadata columns</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">          </span><span class="c1"># see what variables you're working with</span><span class="w">
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">      </span><span class="c1"># list all metadata variables</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The metadata is what gives the community data biological meaning. Without it, you just have a table of numbers. With it, you can ask: <em>Do communities differ by salinity? By season? By sampling location?</em> That’s the bridge between pattern and biology.</p>
+
+<h3 id="checking-the-data--always-do-this-first">Checking the Data — Always Do This First</h3>
+
+<p>Before any analysis, verify that your samples are in the same order in both files:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Critical check — rows must match between files</span><span class="w">
+</span><span class="nf">all</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span><span class="w">
+</span><span class="c1"># Should return TRUE</span><span class="w">
+
+</span><span class="c1"># Quick summary of the abundance table</span><span class="w">
+</span><span class="n">summary</span><span class="p">(</span><span class="n">rowSums</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w">   </span><span class="c1"># row sums (should be ~1 if relative abundance)</span><span class="w">
+</span><span class="nf">sum</span><span class="p">(</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">prod</span><span class="p">(</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="w">  </span><span class="c1"># % zeros</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This sparsity check alone is revealing. When you run it on this data and see that a significant percentage of the table is zeros, you’ll understand viscerally why we don’t just run a t-test.</p>
+
+<hr />
+
+<h2 id="a-note-on-transformation">A Note on Transformation</h2>
+
+<p>We’ll cover this in depth on Day 2, but plant this idea now: <strong>the same abundance data can be transformed in different ways depending on the analysis</strong>.</p>
+
+<ul>
+  <li><strong>Hellinger transformation</strong> — square root of relative abundance. Reduces the influence of very abundant MAGs. Used before RDA.</li>
+  <li><strong>Bray-Curtis dissimilarity</strong> — a distance metric calculated directly from raw relative abundances. Used in dbRDA and PERMANOVA.</li>
+  <li><strong>Log-ratio transformation</strong> (CLR) — the compositionally correct approach, increasingly used in modern microbiome work.</li>
+</ul>
+
+<p>No single transformation is universally correct. The choice depends on your question and your method. We’ll make that choice explicitly and justify it each time.</p>
+
+<hr />
+
+<h2 id="️-common-mistakes-to-avoid">⚠️ Common Mistakes to Avoid</h2>
+
+<p><strong>Mistake 1: Running t-tests on individual MAGs without multiple testing correction.</strong>
+With 60 MAGs, you’ll get ~3 false positives by chance at p &lt; 0.05. Always correct for multiple comparisons (Day 4 covers this).</p>
+
+<p><strong>Mistake 2: Treating relative abundance as absolute abundance.</strong>
+A MAG that increases in relative abundance might be doing so because something else decreased — not because it truly grew. Keep compositionality in mind throughout.</p>
+
+<p><strong>Mistake 3: Skipping the data check.</strong>
+If your metadata rows don’t match your abundance matrix rows, every analysis silently produces wrong results. Always verify alignment before starting.</p>
+
+<p><strong>Mistake 4: Log-transforming zeros.</strong>
+<code class="language-plaintext highlighter-rouge">log(0)</code> is undefined (<code class="language-plaintext highlighter-rouge">-Inf</code> in R). If you log-transform without adding a pseudocount, your analysis will fail or produce garbage. Use appropriate transformations — covered on Day 2.</p>
+
+<p><strong>Mistake 5: Jumping straight to ordination without understanding your data.</strong>
+Look at your data first. Check distributions, zeros, outliers. A 10-minute exploration prevents hours of debugging later.</p>
+
+<hr />
+
+<h2 id="-key-takeaways">🧭 Key Takeaways</h2>
+
+<ul>
+  <li>Microbiome data is <strong>compositional</strong> (relative, not absolute), <strong>sparse</strong> (many zeros), <strong>multivariate</strong> (many variables at once), and <strong>non-normal</strong> — each property breaks standard statistical assumptions in a different way.</li>
+  <li><strong>Community-level analysis</strong> treats the full assemblage of organisms as the unit of study, not individual taxa in isolation.</li>
+  <li>We need specialized methods — ordination, permutation tests, non-parametric comparisons — because classical tests were not designed for this data structure.</li>
+  <li>Our dataset: <strong>60 MAGs × 27 metagenomes</strong>, two files (<code class="language-plaintext highlighter-rouge">mag_abundance.csv</code> + <code class="language-plaintext highlighter-rouge">metadata.csv</code>), used consistently across all 7 days.</li>
+  <li>Always <strong>check your data</strong> before any analysis: dimensions, zero percentage, and row alignment between files.</li>
+</ul>
+
+<hr />
+
+<h2 id="-whats-next">🔗 What’s Next</h2>
+
+<p>Tomorrow on <strong>Day 2</strong>, we run our first real analysis — constrained ordination with <strong>RDA and dbRDA</strong>. We’ll ask: <em>Do the environmental variables in our metadata explain the community composition patterns we see across samples?</em> And we’ll visualize the answer with ggplot2.</p>
+
+<p>By the end of Day 2, you’ll have your first publication-quality ordination plot.</p>
+
+<hr />
+
+<p><em>All R code and data for this series: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em>
+<em>Found this useful? Share it with someone learning microbiome stats — and follow along for Day 2 tomorrow.</em></p>
+
+<hr />
+
+<p><strong>🧬 Day 51 — Daily Bioinformatics from Jojy’s Desk</strong></p>
+
+<hr />
+
+<p><img src="/assets/img/stat-day1.png" alt="Stat-day1" /></p>]]></content><author><name></name></author><category term="microbiome" /><category term="statistics" /><category term="metagenomics" /><category term="MAGs" /><category term="R" /><category term="beginners" /><summary type="html"><![CDATA[Before we run a single ordination or permutation test, we need to understand why standard statistics break down for microbiome and genomics data. This is your foundation for the entire 7-day series.]]></summary></entry><entry><title type="html">From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with Linux find</title><link href="https://jojyjohn28.github.io/blog/python-rename-and-linux-find-collect-fasta/" rel="alternate" type="text/html" title="From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with Linux find" /><published>2026-02-27T00:00:00-05:00</published><updated>2026-02-27T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/python-rename-and-linux-find-collect-fasta</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/python-rename-and-linux-find-collect-fasta/"><![CDATA[<h2 id="from-messy-subfolders-to-analysis-ready-fasta-rename-with-python--collect-with-find">From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with <code class="language-plaintext highlighter-rouge">find</code></h2>
 
 <p>Some days I’m running heavy pipelines. Today I’m home on leave taking care of my family — we’re all down sick — so I’m keeping it simple. But simple doesn’t mean not useful.</p>
 
@@ -5362,814 +5609,4 @@ git commit <span class="nt">-m</span> <span class="s2">"Initial config"</span>
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/d8_mg.png" alt="day8 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="MetaWRAP" /><category term="Galaxy" /><category term="KBase" /><category term="nf-core" /><category term="workflows" /><category term="automation" /><category term="web-platforms" /><category term="IMG" /><category term="BV-BRC" /><category term="PATRIC" /><category term="pipelines" /><category term="bioinformatics" /><summary type="html"><![CDATA[Master automated workflows with MetaWRAP, Anvi'o, and nf-core/mag. Explore web-based platforms: Galaxy, KBase, IMG/M, and BV-BRC (PATRIC). Complete guide to streamlined metagenomics without the command-line complexity.]]></summary></entry><entry><title type="html">Day 7: Comparative Genomics &amp;amp; Statistical Analysis - Connecting Genomes to Environment</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day7-comparative-statistical/" rel="alternate" type="text/html" title="Day 7: Comparative Genomics &amp;amp; Statistical Analysis - Connecting Genomes to Environment" /><published>2026-02-12T00:00:00-05:00</published><updated>2026-02-12T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day7-comparative-statistical</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day7-comparative-statistical/"><![CDATA[<h1 id="day-7-comparative-genomics--statistical-analysis">Day 7: Comparative Genomics &amp; Statistical Analysis</h1>
-
-<table>
-  <tbody>
-    <tr>
-      <td><strong>Estimated Time:</strong> 6-8 hours</td>
-      <td><strong>Difficulty:</strong> Advanced</td>
-      <td><strong>Prerequisites:</strong> Days 1-6</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="-table-of-contents">📚 Table of Contents</h2>
-
-<ul>
-  <li><a href="#introduction">Introduction</a></li>
-  <li><a href="#part-i-pangenome-analysis">Part I: Pangenome Analysis</a></li>
-  <li><a href="#part-ii-environmental-associations">Part II: Environmental Associations</a></li>
-  <li><a href="#part-iii-co-occurrence-networks">Part III: Co-occurrence Networks</a></li>
-  <li><a href="#part-iv-advanced-statistical-tests">Part IV: Advanced Statistical Tests</a></li>
-  <li><a href="#integration--interpretation">Integration &amp; Interpretation</a></li>
-</ul>
-
-<hr />
-
-<h2 id="-introduction">🎯 Introduction</h2>
-
-<p>Welcome to Day 7! You’ve annotated genomes and discovered specialized functions. Now the critical questions:</p>
-
-<p><strong>Comparative Genomics:</strong></p>
-
-<ul>
-  <li>What genes are shared vs. unique?</li>
-  <li>How do strains differ functionally?</li>
-  <li>What defines core vs. accessory genome?</li>
-</ul>
-
-<p><strong>Environmental Associations:</strong></p>
-
-<ul>
-  <li>How do environmental factors influence microbiome composition?</li>
-  <li>Which taxa associate with specific conditions?</li>
-  <li>What drives community assembly?</li>
-</ul>
-
-<p><strong>Network Analysis:</strong></p>
-
-<ul>
-  <li>Which organisms co-occur?</li>
-  <li>What metabolic interactions exist?</li>
-  <li>How do communities respond to perturbations?</li>
-</ul>
-
-<hr />
-
-<h2 id="-part-i-pangenome-analysis">📊 Part I: Pangenome Analysis</h2>
-
-<h3 id="overview">Overview</h3>
-
-<p><strong>Pangenome</strong> = Core genome (all strains) + Accessory genome (some strains) + Unique genes (one strain)</p>
-
-<h3 id="quick-guide-to-tools">Quick Guide to Tools</h3>
-
-<h4 id="1-panx-recommended---detailed-post-available">1. PanX (Recommended - Detailed Post Available)</h4>
-
-<p><strong>See our comprehensive PanX tutorial:</strong> [Link to your detailed blog post]</p>
-
-<p><strong>Quick start:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install</span>
-git clone https://github.com/neherlab/pan-genome-analysis.git
-<span class="nb">cd </span>pan-genome-analysis
-
-<span class="c"># Run PanX</span>
-./panX.py <span class="nt">-fn</span> input_genomes/ <span class="nt">-sl</span> species_name <span class="nt">-t</span> 8
-
-<span class="c"># View results</span>
-firefox vis/index.html
-</code></pre></div></div>
-
-<p><strong>Key outputs:</strong></p>
-
-<ul>
-  <li>Core/accessory gene counts</li>
-  <li>Gene presence/absence matrix</li>
-  <li>Phylogenetic tree + gene gain/loss</li>
-  <li>Interactive visualization</li>
-</ul>
-
-<p><strong>When to use:</strong> Multiple strains of same species, want interactive viz</p>
-
-<p><strong>Detailed tutorial available</strong> - See our full PanX blog post for complete workflow!
-https://jojyjohn28.github.io/blog/panx-pangenome-analysis/</p>
-
-<hr />
-
-<h4 id="2-anvio-comprehensive-platform">2. Anvi’o (Comprehensive Platform)</h4>
-
-<p><strong>Installation:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> anvio-7.1 <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge <span class="nv">anvio</span><span class="o">=</span>7.1
-conda activate anvio-7.1
-</code></pre></div></div>
-
-<p><strong>Quick pangenome workflow:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Step 1: Create contigs database per genome</span>
-<span class="k">for </span>genome <span class="k">in </span>genomes/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-    </span><span class="nv">name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="nv">$genome</span> .fa<span class="si">)</span>
-    anvi-gen-contigs-database <span class="nt">-f</span> <span class="nv">$genome</span> <span class="nt">-o</span> <span class="k">${</span><span class="nv">name</span><span class="k">}</span>.db
-    anvi-run-hmms <span class="nt">-c</span> <span class="k">${</span><span class="nv">name</span><span class="k">}</span>.db
-<span class="k">done</span>
-
-<span class="c"># Step 2: Create genomes storage</span>
-anvi-gen-genomes-storage <span class="nt">-e</span> external-genomes.txt <span class="nt">-o</span> GENOMES.db
-
-<span class="c"># Step 3: Run pangenome</span>
-anvi-pan-genome <span class="nt">-g</span> GENOMES.db <span class="se">\</span>
-                <span class="nt">--project-name</span> my_pangenome <span class="se">\</span>
-                <span class="nt">--num-threads</span> 8
-
-<span class="c"># Step 4: Visualize</span>
-anvi-display-pan <span class="nt">-p</span> my_pangenome/my_pangenome-PAN.db <span class="se">\</span>
-                 <span class="nt">-g</span> GENOMES.db
-</code></pre></div></div>
-
-<p><strong>Anvi’o strengths:</strong></p>
-
-<ul>
-  <li>Beautiful interactive interface</li>
-  <li>Integrates metabolism (KEGG)</li>
-  <li>Functional enrichment analysis</li>
-  <li>Publication-quality figures</li>
-</ul>
-
-<p><strong>Note:</strong> Full Anvi’o tutorial coming soon! This is a quick-start version.</p>
-
-<hr />
-
-<h4 id="3-roary-fast---good-for-windows">3. Roary (Fast - Good for Windows)</h4>
-
-<p><strong>Installation:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> roary <span class="nt">-c</span> bioconda roary
-conda activate roary
-</code></pre></div></div>
-
-<p><strong>Usage:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Requires GFF files from Prokka</span>
-roary <span class="nt">-p</span> 8 <span class="nt">-e</span> <span class="nt">-n</span> <span class="nt">-v</span> prokka_gff/<span class="k">*</span>.gff
-
-<span class="c"># Outputs</span>
-<span class="c"># gene_presence_absence.csv  - Main results</span>
-<span class="c"># core_gene_alignment.aln    - For phylogeny</span>
-</code></pre></div></div>
-
-<p><strong>Visualize with Phandango:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Upload to https://jameshadfield.github.io/phandango/</span>
-<span class="c"># Files: gene_presence_absence.csv + tree.nwk</span>
-</code></pre></div></div>
-
-<p><strong>Roary advantages:</strong></p>
-
-<ul>
-  <li>Very fast (1000s of genomes)</li>
-  <li>Simple to use</li>
-  <li>Works on Windows (via WSL or Conda)</li>
-  <li>Great for quick comparisons</li>
-</ul>
-
-<hr />
-
-<h4 id="4-bpga-bacterial-pangenome-analysis">4. BPGA (Bacterial Pangenome Analysis)</h4>
-
-<p><strong>Good for Windows users!</strong></p>
-
-<p><strong>Download:</strong> http://www.iicb.res.in/bpga/download.html</p>
-
-<p><strong>GUI workflow:</strong></p>
-
-<ol>
-  <li>Import GFF/GBK files</li>
-  <li>Select analysis options</li>
-  <li>Run pangenome</li>
-  <li>Export results</li>
-</ol>
-
-<p><strong>Features:</strong></p>
-
-<ul>
-  <li>User-friendly GUI</li>
-  <li>No command line needed</li>
-  <li>Phylogenetic analysis</li>
-  <li>Functional classification</li>
-</ul>
-
-<p><strong>Best for:</strong> Windows users, small-medium datasets (&lt;100 genomes)</p>
-
-<hr />
-
-<h3 id="pangenome-interpretation">Pangenome Interpretation</h3>
-
-<p><strong>Key metrics:</strong></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Calculate pangenome statistics
-</span><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># Read gene presence/absence
-</span><span class="n">pa</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">gene_presence_absence.csv</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="n">n_genomes</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">pa</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">-</span> <span class="mi">14</span>  <span class="c1"># Subtract metadata columns
-</span>
-<span class="c1"># Core genes (in all genomes)
-</span><span class="n">core</span> <span class="o">=</span> <span class="n">pa</span><span class="p">[</span><span class="n">pa</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">14</span><span class="p">:].</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">n_genomes</span><span class="p">]</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Core genes: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">core</span><span class="p">)</span><span class="si">}</span><span class="s"> (</span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">core</span><span class="p">)</span><span class="o">/</span><span class="nf">len</span><span class="p">(</span><span class="n">pa</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">%)</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># Accessory genes (in some genomes)
-</span><span class="n">accessory</span> <span class="o">=</span> <span class="n">pa</span><span class="p">[(</span><span class="n">pa</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">14</span><span class="p">:].</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
-               <span class="p">(</span><span class="n">pa</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">14</span><span class="p">:].</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">n_genomes</span><span class="p">)]</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Accessory genes: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">accessory</span><span class="p">)</span><span class="si">}</span><span class="s"> (</span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">accessory</span><span class="p">)</span><span class="o">/</span><span class="nf">len</span><span class="p">(</span><span class="n">pa</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">%)</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># Unique genes (in one genome)
-</span><span class="n">unique</span> <span class="o">=</span> <span class="n">pa</span><span class="p">[</span><span class="n">pa</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">14</span><span class="p">:].</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Unique genes: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span><span class="si">}</span><span class="s"> (</span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span><span class="o">/</span><span class="nf">len</span><span class="p">(</span><span class="n">pa</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">%)</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># Pangenome size
-</span><span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Pangenome size: </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">pa</span><span class="p">)</span><span class="si">}</span><span class="s"> genes</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><strong>Typical results:</strong></p>
-
-<ul>
-  <li>Core genome: 40-60% of pangenome</li>
-  <li>Accessory: 30-50%</li>
-  <li>Unique: 10-20%</li>
-</ul>
-
-<hr />
-
-<h2 id="-part-ii-environmental-associations">🌍 Part II: Environmental Associations</h2>
-
-<h3 id="understanding-metadata-effects">Understanding Metadata Effects</h3>
-
-<p><strong>Research questions:</strong></p>
-
-<ul>
-  <li>How does pH affect community composition?</li>
-  <li>Which taxa are enriched in diseased vs. healthy samples?</li>
-  <li>Do temporal patterns exist?</li>
-</ul>
-
-<h3 id="data-preparation">Data Preparation</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Load packages</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">phyloseq</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Create abundance matrix</span><span class="w">
-</span><span class="c1"># Rows = samples, Columns = MAGs/taxa</span><span class="w">
-</span><span class="n">abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s1">'mag_abundance.csv'</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Load metadata</span><span class="w">
-</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s1">'sample_metadata.csv'</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
-</span><span class="c1"># Columns: pH, Temperature, Season, Treatment, etc.</span><span class="w">
-
-</span><span class="c1"># Ensure matching</span><span class="w">
-</span><span class="n">abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">abundance</span><span class="p">[</span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">),</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h3 id="permanova-testing-community-differences">PERMANOVA: Testing Community Differences</h3>
-
-<p><strong>PERMANOVA</strong> (Permutational Multivariate Analysis of Variance) tests if groups have different centroids.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Calculate Bray-Curtis distance</span><span class="w">
-</span><span class="n">dist_matrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vegdist</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"bray"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Test effect of treatment</span><span class="w">
-</span><span class="n">permanova_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">dist_matrix</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Treatment</span><span class="p">,</span><span class="w">
-                           </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span><span class="w">
-                           </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
-</span><span class="n">print</span><span class="p">(</span><span class="n">permanova_result</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Multiple factors</span><span class="w">
-</span><span class="n">permanova_multi</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">dist_matrix</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Treatment</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">pH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="p">,</span><span class="w">
-                          </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span><span class="w">
-                          </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
-</span><span class="n">print</span><span class="p">(</span><span class="n">permanova_multi</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Pairwise comparisons</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">pairwiseAdonis</span><span class="p">)</span><span class="w">
-</span><span class="n">pairwise</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pairwise.adonis</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">,</span><span class="w">
-                            </span><span class="n">metadata</span><span class="o">$</span><span class="n">Treatment</span><span class="p">,</span><span class="w">
-                            </span><span class="n">p.adjust.m</span><span class="o">=</span><span class="s2">"BH"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>Interpretation:</strong></p>
-
-<ul>
-  <li>P &lt; 0.05: Groups significantly different</li>
-  <li>R² value: Proportion of variance explained</li>
-  <li>Higher R² = stronger effect</li>
-</ul>
-
-<hr />
-
-<h3 id="rda--db-rda-constrained-ordination">RDA &amp; db-RDA: Constrained Ordination</h3>
-
-<p><strong>RDA</strong> (Redundancy Analysis) = PCA + regression<br />
-<strong>db-RDA</strong> = RDA on distance matrix</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># RDA (for Hellinger-transformed data)</span><span class="w">
-</span><span class="n">abundance_hell</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">decostand</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"hellinger"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">rda_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rda</span><span class="p">(</span><span class="n">abundance_hell</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">pH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nutrients</span><span class="p">,</span><span class="w">
-                  </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Summary</span><span class="w">
-</span><span class="n">summary</span><span class="p">(</span><span class="n">rda_result</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Plot</span><span class="w">
-</span><span class="n">plot</span><span class="p">(</span><span class="n">rda_result</span><span class="p">,</span><span class="w"> </span><span class="n">scaling</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
-</span><span class="n">ordisurf</span><span class="p">(</span><span class="n">rda_result</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">pH</span><span class="p">,</span><span class="w"> </span><span class="n">add</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Significance testing</span><span class="w">
-</span><span class="n">anova</span><span class="p">(</span><span class="n">rda_result</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
-</span><span class="n">anova</span><span class="p">(</span><span class="n">rda_result</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s2">"terms"</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">  </span><span class="c1"># Individual terms</span><span class="w">
-</span><span class="n">anova</span><span class="p">(</span><span class="n">rda_result</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s2">"axis"</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">   </span><span class="c1"># Individual axes</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>db-RDA (distance-based):</strong></p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># For Bray-Curtis or other distances</span><span class="w">
-</span><span class="n">dbrda_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">capscale</span><span class="p">(</span><span class="n">dist_matrix</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">pH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nutrients</span><span class="p">,</span><span class="w">
-                         </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Plot with environmental vectors</span><span class="w">
-</span><span class="n">plot</span><span class="p">(</span><span class="n">dbrda_result</span><span class="p">)</span><span class="w">
-</span><span class="n">ef</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">envfit</span><span class="p">(</span><span class="n">dbrda_result</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="p">[,</span><span class="nf">c</span><span class="p">(</span><span class="s2">"pH"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Temperature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Nutrients"</span><span class="p">)],</span><span class="w">
-             </span><span class="n">perm</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
-</span><span class="n">plot</span><span class="p">(</span><span class="n">ef</span><span class="p">,</span><span class="w"> </span><span class="n">p.max</span><span class="o">=</span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Variance partitioning</span><span class="w">
-</span><span class="n">varpart_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">varpart</span><span class="p">(</span><span class="n">abundance_hell</span><span class="p">,</span><span class="w">
-                         </span><span class="o">~</span><span class="n">pH</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">Temperature</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">Nutrients</span><span class="p">,</span><span class="w">
-                         </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span><span class="w">
-</span><span class="n">plot</span><span class="p">(</span><span class="n">varpart_result</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>When to use:</strong></p>
-
-<ul>
-  <li>RDA: Linear responses</li>
-  <li>db-RDA: Non-linear responses, any dissimilarity metric</li>
-  <li>PERMANOVA: Overall group differences</li>
-</ul>
-
-<hr />
-
-<h3 id="differential-abundance-analysis">Differential Abundance Analysis</h3>
-
-<h4 id="lefse-linear-discriminant-analysis-effect-size">LEfSe (Linear discriminant analysis Effect Size)</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Format data for LEfSe</span>
-<span class="c"># First line: sample IDs</span>
-<span class="c"># Second line: class (e.g., Healthy vs Disease)</span>
-<span class="c"># Third line: subclass (optional)</span>
-<span class="c"># Remaining: feature abundances</span>
-
-<span class="c"># Run LEfSe</span>
-lefse_format_input.py input.txt formatted.txt <span class="nt">-c</span> 2 <span class="nt">-u</span> 1 <span class="nt">-o</span> 1000000
-lefse_run.py formatted.txt lefse_results.txt
-lefse_plot_res.py lefse_results.txt lefse_plot.pdf
-</code></pre></div></div>
-
-<p><strong>LEfSe identifies:</strong> Taxa enriched in specific groups</p>
-
-<hr />
-
-<h3 id="ancom-analysis-of-compositions-of-microbiomes">ANCOM (Analysis of Compositions of Microbiomes)</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ANCOMBC</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Run ANCOM-BC2</span><span class="w">
-</span><span class="n">ancom_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ancombc2</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">phyloseq_obj</span><span class="p">,</span><span class="w">
-                        </span><span class="n">fix_formula</span><span class="o">=</span><span class="s2">"Treatment + pH"</span><span class="p">,</span><span class="w">
-                        </span><span class="n">p_adj_method</span><span class="o">=</span><span class="s2">"BH"</span><span class="p">,</span><span class="w">
-                        </span><span class="n">prv_cut</span><span class="o">=</span><span class="m">0.10</span><span class="p">,</span><span class="w">
-                        </span><span class="n">group</span><span class="o">=</span><span class="s2">"Treatment"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># View results</span><span class="w">
-</span><span class="n">ancom_result</span><span class="o">$</span><span class="n">res</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>ANCOM advantage:</strong> Handles compositional data properly (avoids false positives)</p>
-
-<hr />
-
-<h2 id="️-part-iii-co-occurrence-networks">🕸️ Part III: Co-occurrence Networks</h2>
-
-<h3 id="why-networks">Why Networks?</h3>
-
-<p><strong>Research questions:</strong></p>
-
-<ul>
-  <li>Which organisms co-occur?</li>
-  <li>Are there keystone species?</li>
-  <li>What microbial interactions exist?</li>
-  <li>How does network structure change with conditions?</li>
-</ul>
-
-<hr />
-
-<h3 id="sparcc-correlation-for-compositional-data">SparCC: Correlation for Compositional Data</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install SparCC</span>
-git clone https://github.com/bio-developer/SparCC3.git
-<span class="nb">cd </span>SparCC3
-
-<span class="c"># Run SparCC</span>
-python SparCC.py abundance.txt <span class="nt">-i</span> 20 <span class="nt">--cor_file</span><span class="o">=</span>sparcc_corr.txt
-
-<span class="c"># Calculate p-values (100 permutations)</span>
-python MakeBootstraps.py abundance.txt <span class="nt">-n</span> 100 <span class="nt">-o</span> bootstraps/
-<span class="k">for </span>i <span class="k">in</span> <span class="o">{</span>0..99<span class="o">}</span><span class="p">;</span> <span class="k">do
-    </span>python SparCC.py bootstraps/boot_<span class="nv">$i</span>.txt <span class="nt">-i</span> 20 <span class="nt">--cor_file</span><span class="o">=</span>bootstraps/cor_<span class="nv">$i</span>.txt
-<span class="k">done
-</span>python PseudoPvals.py sparcc_corr.txt bootstraps/cor_ 100 <span class="nt">-o</span> sparcc_pvals.txt
-</code></pre></div></div>
-
-<p><strong>Why SparCC?</strong> Handles compositionality better than Pearson/Spearman</p>
-
-<hr />
-
-<h3 id="network-visualization">Network Visualization</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">igraph</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggraph</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Read correlations</span><span class="w">
-</span><span class="n">corr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s1">'sparcc_corr.txt'</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="w">
-</span><span class="n">pvals</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s1">'sparcc_pvals.txt'</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Filter significant correlations</span><span class="w">
-</span><span class="n">corr</span><span class="p">[</span><span class="n">pvals</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w">
-</span><span class="n">corr</span><span class="p">[</span><span class="nf">abs</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.3</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w">  </span><span class="c1"># Only strong correlations</span><span class="w">
-
-</span><span class="c1"># Create network</span><span class="w">
-</span><span class="n">net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">graph_from_adjacency_matrix</span><span class="p">(</span><span class="n">as.matrix</span><span class="p">(</span><span class="n">corr</span><span class="p">),</span><span class="w">
-                                   </span><span class="n">mode</span><span class="o">=</span><span class="s2">"undirected"</span><span class="p">,</span><span class="w">
-                                   </span><span class="n">weighted</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
-                                   </span><span class="n">diag</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Remove isolated nodes</span><span class="w">
-</span><span class="n">net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">delete.vertices</span><span class="p">(</span><span class="n">net</span><span class="p">,</span><span class="w"> </span><span class="n">degree</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="o">==</span><span class="m">0</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Plot</span><span class="w">
-</span><span class="n">plot</span><span class="p">(</span><span class="n">net</span><span class="p">,</span><span class="w">
-     </span><span class="n">vertex.size</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w">
-     </span><span class="n">vertex.color</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="o">$</span><span class="n">corr</span><span class="o">&gt;</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">),</span><span class="w">
-     </span><span class="n">edge.color</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">E</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="o">$</span><span class="n">weight</span><span class="o">&gt;</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">),</span><span class="w">
-     </span><span class="n">edge.width</span><span class="o">=</span><span class="nf">abs</span><span class="p">(</span><span class="n">E</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="o">$</span><span class="n">weight</span><span class="p">)</span><span class="o">*</span><span class="m">2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Network statistics</span><span class="w">
-</span><span class="n">transitivity</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="w">  </span><span class="c1"># Clustering coefficient</span><span class="w">
-</span><span class="n">average.path.length</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="w">  </span><span class="c1"># Average path length</span><span class="w">
-</span><span class="n">degree.distribution</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="w">  </span><span class="c1"># Degree distribution</span><span class="w">
-
-</span><span class="c1"># Identify hubs (highly connected nodes)</span><span class="w">
-</span><span class="n">hubs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">which</span><span class="p">(</span><span class="n">degree</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">degree</span><span class="p">(</span><span class="n">net</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="o">*</span><span class="n">sd</span><span class="p">(</span><span class="n">degree</span><span class="p">(</span><span class="n">net</span><span class="p">)))</span><span class="w">
-</span><span class="n">V</span><span class="p">(</span><span class="n">net</span><span class="p">)</span><span class="o">$</span><span class="n">name</span><span class="p">[</span><span class="n">hubs</span><span class="p">]</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h3 id="wgcna-weighted-gene-co-expression-network-analysis">WGCNA: Weighted Gene Co-expression Network Analysis</h3>
-
-<p><strong>For gene-level or MAG-level modules</strong></p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">WGCNA</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Prepare data (samples as rows)</span><span class="w">
-</span><span class="n">datExpr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">abundance</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Choose soft threshold</span><span class="w">
-</span><span class="n">powers</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">20</span><span class="p">)</span><span class="w">
-</span><span class="n">sft</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pickSoftThreshold</span><span class="p">(</span><span class="n">datExpr</span><span class="p">,</span><span class="w"> </span><span class="n">powerVector</span><span class="o">=</span><span class="n">powers</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="m">5</span><span class="p">)</span><span class="w">
-</span><span class="n">plot</span><span class="p">(</span><span class="n">sft</span><span class="o">$</span><span class="n">fitIndices</span><span class="p">[,</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">sft</span><span class="o">$</span><span class="n">fitIndices</span><span class="p">[,</span><span class="m">2</span><span class="p">],</span><span class="w">
-     </span><span class="n">xlab</span><span class="o">=</span><span class="s2">"Soft Threshold"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="o">=</span><span class="s2">"Scale Free Topology Model Fit"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Construct network</span><span class="w">
-</span><span class="n">net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">blockwiseModules</span><span class="p">(</span><span class="n">datExpr</span><span class="p">,</span><span class="w">
-                       </span><span class="n">power</span><span class="o">=</span><span class="n">sft</span><span class="o">$</span><span class="n">powerEstimate</span><span class="p">,</span><span class="w">
-                       </span><span class="n">TOMType</span><span class="o">=</span><span class="s2">"unsigned"</span><span class="p">,</span><span class="w">
-                       </span><span class="n">minModuleSize</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w">
-                       </span><span class="n">reassignThreshold</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w">
-                       </span><span class="n">mergeCutHeight</span><span class="o">=</span><span class="m">0.25</span><span class="p">,</span><span class="w">
-                       </span><span class="n">numericLabels</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
-                       </span><span class="n">pamRespectsDendro</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
-                       </span><span class="n">verbose</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Module colors</span><span class="w">
-</span><span class="n">moduleColors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">labels2colors</span><span class="p">(</span><span class="n">net</span><span class="o">$</span><span class="n">colors</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Correlate modules with traits</span><span class="w">
-</span><span class="n">moduleTraitCor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cor</span><span class="p">(</span><span class="n">net</span><span class="o">$</span><span class="n">MEs</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="p">[,</span><span class="nf">c</span><span class="p">(</span><span class="s2">"pH"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Temperature"</span><span class="p">)],</span><span class="w">
-                     </span><span class="n">use</span><span class="o">=</span><span class="s2">"p"</span><span class="p">)</span><span class="w">
-</span><span class="n">moduleTraitPvalue</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">corPvalueStudent</span><span class="p">(</span><span class="n">moduleTraitCor</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">datExpr</span><span class="p">))</span><span class="w">
-
-</span><span class="c1"># Visualize</span><span class="w">
-</span><span class="n">textMatrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="nf">signif</span><span class="p">(</span><span class="n">moduleTraitCor</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n("</span><span class="p">,</span><span class="w">
-                   </span><span class="nf">signif</span><span class="p">(</span><span class="n">moduleTraitPvalue</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="s2">")"</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span><span class="w">
-</span><span class="n">labeledHeatmap</span><span class="p">(</span><span class="n">Matrix</span><span class="o">=</span><span class="n">moduleTraitCor</span><span class="p">,</span><span class="w">
-              </span><span class="n">xLabels</span><span class="o">=</span><span class="n">colnames</span><span class="p">(</span><span class="n">metadata</span><span class="p">[,</span><span class="nf">c</span><span class="p">(</span><span class="s2">"pH"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Temperature"</span><span class="p">)]),</span><span class="w">
-              </span><span class="n">yLabels</span><span class="o">=</span><span class="nf">names</span><span class="p">(</span><span class="n">net</span><span class="o">$</span><span class="n">MEs</span><span class="p">),</span><span class="w">
-              </span><span class="n">colors</span><span class="o">=</span><span class="n">blueWhiteRed</span><span class="p">(</span><span class="m">50</span><span class="p">),</span><span class="w">
-              </span><span class="n">textMatrix</span><span class="o">=</span><span class="n">textMatrix</span><span class="p">,</span><span class="w">
-              </span><span class="n">cex.text</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Export network</span><span class="w">
-</span><span class="n">exportNetworkToCytoscape</span><span class="p">(</span><span class="n">net</span><span class="o">$</span><span class="n">TOM</span><span class="p">,</span><span class="w">
-                        </span><span class="n">edgeFile</span><span class="o">=</span><span class="s2">"CytoscapeInput-edges.txt"</span><span class="p">,</span><span class="w">
-                        </span><span class="n">nodeFile</span><span class="o">=</span><span class="s2">"CytoscapeInput-nodes.txt"</span><span class="p">,</span><span class="w">
-                        </span><span class="n">weighted</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
-                        </span><span class="n">threshold</span><span class="o">=</span><span class="m">0.02</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>WGCNA identifies:</strong> Modules of co-expressed genes/MAGs and their environmental associations</p>
-
-<hr />
-
-<h2 id="-part-iv-advanced-statistical-tests">📈 Part IV: Advanced Statistical Tests</h2>
-
-<h3 id="mantel-test-matrix-correlation">Mantel Test: Matrix Correlation</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Test correlation between distance matrices</span><span class="w">
-</span><span class="n">mantel_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mantel</span><span class="p">(</span><span class="n">dist_matrix_community</span><span class="p">,</span><span class="w">
-                       </span><span class="n">dist_matrix_environmental</span><span class="p">,</span><span class="w">
-                       </span><span class="n">method</span><span class="o">=</span><span class="s2">"spearman"</span><span class="p">,</span><span class="w">
-                       </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Partial Mantel (control for third variable)</span><span class="w">
-</span><span class="n">partial_mantel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mantel.partial</span><span class="p">(</span><span class="n">dist_matrix_community</span><span class="p">,</span><span class="w">
-                                </span><span class="n">dist_matrix_environmental</span><span class="p">,</span><span class="w">
-                                </span><span class="n">dist_matrix_geographic</span><span class="p">,</span><span class="w">
-                                </span><span class="n">method</span><span class="o">=</span><span class="s2">"spearman"</span><span class="p">,</span><span class="w">
-                                </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>Use case:</strong> Do environmental distances predict community distances?</p>
-
-<hr />
-
-<h3 id="procrustes-analysis-shape-comparison">Procrustes Analysis: Shape Comparison</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Compare two ordinations</span><span class="w">
-</span><span class="n">prc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">protest</span><span class="p">(</span><span class="n">rda1</span><span class="p">,</span><span class="w"> </span><span class="n">rda2</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
-</span><span class="n">plot</span><span class="p">(</span><span class="n">prc</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Correlation</span><span class="w">
-</span><span class="n">prc</span><span class="o">$</span><span class="n">t0</span><span class="w">  </span><span class="c1"># Procrustes correlation</span><span class="w">
-</span><span class="n">prc</span><span class="o">$</span><span class="n">signif</span><span class="w">  </span><span class="c1"># P-value</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>Use case:</strong> Do two datasets show similar patterns?</p>
-
-<hr />
-
-<h3 id="distance-based-linear-models-distlm">Distance-based Linear Models (DistLM)</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">mvabund</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Fit model</span><span class="w">
-</span><span class="n">distlm_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">manyglm</span><span class="p">(</span><span class="n">abundance</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">pH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Treatment</span><span class="p">,</span><span class="w">
-                        </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span><span class="w">
-                        </span><span class="n">family</span><span class="o">=</span><span class="s2">"negative.binomial"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># ANOVA</span><span class="w">
-</span><span class="n">anova</span><span class="p">(</span><span class="n">distlm_result</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Plot</span><span class="w">
-</span><span class="n">plot</span><span class="p">(</span><span class="n">distlm_result</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="-integration--interpretation">🔗 Integration &amp; Interpretation</h2>
-
-<h3 id="complete-workflow-example">Complete Workflow Example</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 1. Test overall differences</span><span class="w">
-</span><span class="n">permanova</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">dist_matrix</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Treatment</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># 2. Identify which taxa differ</span><span class="w">
-</span><span class="n">deseq_results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeq2_analysis</span><span class="p">()</span><span class="w">
-</span><span class="n">sig_taxa</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">deseq_results</span><span class="p">[</span><span class="n">deseq_results</span><span class="o">$</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-
-</span><span class="c1"># 3. Test environmental associations</span><span class="w">
-</span><span class="n">rda_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rda</span><span class="p">(</span><span class="n">abundance</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">pH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># 4. Build co-occurrence network</span><span class="w">
-</span><span class="n">network</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sparcc_network</span><span class="p">(</span><span class="n">abundance</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># 5. Find modules correlated with environment</span><span class="w">
-</span><span class="n">wgcna_modules</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">WGCNA_analysis</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># 6. Identify keystone species</span><span class="w">
-</span><span class="n">keystone</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">identify_hubs</span><span class="p">(</span><span class="n">network</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># 7. Create integrated visualization</span><span class="w">
-</span><span class="n">integrated_plot</span><span class="p">(</span><span class="n">permanova</span><span class="p">,</span><span class="w"> </span><span class="n">deseq_results</span><span class="p">,</span><span class="w"> </span><span class="n">network</span><span class="p">,</span><span class="w"> </span><span class="n">wgcna_modules</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h3 id="interpretation-framework">Interpretation Framework</h3>
-
-<p><strong>Question 1: Are communities different?</strong></p>
-
-<ul>
-  <li>PERMANOVA: P &lt; 0.05 → Yes, significantly different</li>
-  <li>R² = 0.3 → Treatment explains 30% of variation</li>
-</ul>
-
-<p><strong>Question 2: Which taxa drive differences?</strong></p>
-
-<ul>
-  <li>DESeq2/LEfSe: 15 MAGs enriched in treatment</li>
-  <li>Indicator species analysis: 8 strong indicators</li>
-</ul>
-
-<p><strong>Question 3: What environmental factors matter?</strong></p>
-
-<ul>
-  <li>RDA: pH (R² = 0.25, P &lt; 0.001) most important</li>
-  <li>Temperature (R² = 0.10, P &lt; 0.01) secondary</li>
-</ul>
-
-<p><strong>Question 4: How do organisms interact?</strong></p>
-
-<ul>
-  <li>Network: 150 significant correlations</li>
-  <li>5 modules identified via WGCNA</li>
-  <li>3 keystone hub species</li>
-</ul>
-
-<p><strong>Question 5: Integration</strong></p>
-
-<ul>
-  <li>Hub species enriched in treatment group</li>
-  <li>Module 1 correlates with pH (r = 0.7, P &lt; 0.001)</li>
-  <li>Core pangenome includes pH response genes</li>
-</ul>
-
-<hr />
-
-<h2 id="-best-practices">💡 Best Practices</h2>
-
-<h3 id="statistical-considerations">Statistical Considerations</h3>
-
-<ol>
-  <li><strong>Multiple testing correction</strong> - Always adjust P-values (BH, Bonferroni)</li>
-  <li><strong>Sample size</strong> - Need n &gt; 20 for robust statistics</li>
-  <li><strong>Compositionality</strong> - Use appropriate methods (SparCC, ANCOM)</li>
-  <li><strong>Confounders</strong> - Control for batch effects, sequencing depth</li>
-  <li><strong>Replication</strong> - Biological replicates &gt; technical replicates</li>
-</ol>
-
-<h3 id="data-transformation">Data Transformation</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># For count data</span><span class="w">
-</span><span class="n">abundance_hell</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">decostand</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="s2">"hellinger"</span><span class="p">)</span><span class="w">  </span><span class="c1"># RDA</span><span class="w">
-</span><span class="n">abundance_clr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">compositions</span><span class="o">::</span><span class="n">clr</span><span class="p">(</span><span class="n">abundance</span><span class="p">)</span><span class="w">  </span><span class="c1"># PCA</span><span class="w">
-
-</span><span class="c1"># For distances</span><span class="w">
-</span><span class="n">dist_bray</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vegdist</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">)</span><span class="w">  </span><span class="c1"># General</span><span class="w">
-</span><span class="n">dist_jaccard</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vegdist</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="s2">"jaccard"</span><span class="p">)</span><span class="w">  </span><span class="c1"># Presence/absence</span><span class="w">
-</span><span class="n">dist_unifrac</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">UniFrac</span><span class="p">(</span><span class="n">phyloseq_obj</span><span class="p">,</span><span class="w"> </span><span class="n">weighted</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w">  </span><span class="c1"># Phylogenetic</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="-troubleshooting">🔧 Troubleshooting</h2>
-
-<h3 id="permanova-high-dispersion">PERMANOVA: High dispersion</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Test homogeneity of dispersion</span><span class="w">
-</span><span class="n">betadisper_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">betadisper</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Treatment</span><span class="p">)</span><span class="w">
-</span><span class="n">permutest</span><span class="p">(</span><span class="n">betadisper_result</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># If P &lt; 0.05, use PERMDISP2 instead of PERMANOVA</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="rda-collinearity-issues">RDA: Collinearity issues</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Check VIF (Variance Inflation Factor)</span><span class="w">
-</span><span class="n">vif.cca</span><span class="p">(</span><span class="n">rda_result</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># VIF &gt; 10: Remove collinear variables</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="networks-too-sparsedense">Networks: Too sparse/dense</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Adjust correlation threshold</span><span class="w">
-</span><span class="n">min_corr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.3</span><span class="w">  </span><span class="c1"># Increase for sparser network</span><span class="w">
-</span><span class="n">max_corr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.8</span><span class="w">  </span><span class="c1"># Decrease for denser network</span><span class="w">
-
-</span><span class="c1"># Adjust p-value</span><span class="w">
-</span><span class="n">max_pval</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.05</span><span class="w">  </span><span class="c1"># More stringent = sparser</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="-visualization-gallery">📊 Visualization Gallery</h2>
-
-<h3 id="publication-quality-plots">Publication-Quality Plots</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># NMDS with environmental vectors</span><span class="w">
-</span><span class="n">nmds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metaMDS</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="n">distance</span><span class="o">=</span><span class="s2">"bray"</span><span class="p">)</span><span class="w">
-</span><span class="n">plot</span><span class="p">(</span><span class="n">nmds</span><span class="p">)</span><span class="w">
-</span><span class="n">ef</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">envfit</span><span class="p">(</span><span class="n">nmds</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="o">=</span><span class="m">999</span><span class="p">)</span><span class="w">
-</span><span class="n">plot</span><span class="p">(</span><span class="n">ef</span><span class="p">,</span><span class="w"> </span><span class="n">p.max</span><span class="o">=</span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="o">=</span><span class="m">1.2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Network with ggraph</span><span class="w">
-</span><span class="n">ggraph</span><span class="p">(</span><span class="n">network</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="o">=</span><span class="s2">"fr"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_edge_link</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">weight</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_node_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">degree</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">module</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_graph</span><span class="p">()</span><span class="w">
-
-</span><span class="c1"># Heatmap with metadata</span><span class="w">
-</span><span class="n">pheatmap</span><span class="p">(</span><span class="n">abundance</span><span class="p">,</span><span class="w">
-        </span><span class="n">annotation_col</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span><span class="w">
-        </span><span class="n">scale</span><span class="o">=</span><span class="s2">"row"</span><span class="p">,</span><span class="w">
-        </span><span class="n">clustering_distance_rows</span><span class="o">=</span><span class="s2">"correlation"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="-success-checklist">✅ Success Checklist</h2>
-
-<ul class="task-list">
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Pangenome analyzed (core/accessory defined)</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />PERMANOVA tests completed</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Environmental associations identified (RDA/db-RDA)</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Differential abundance analysis done</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Co-occurrence network constructed</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Network modules correlated with metadata</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Key findings integrated and interpreted</li>
-</ul>
-
-<hr />
-
-<h2 id="-key-resources">📚 Key Resources</h2>
-
-<h3 id="pangenomics">Pangenomics</h3>
-
-<ul>
-  <li><a href="https://github.com/neherlab/pan-genome-analysis">PanX</a> -
-<strong>See my detailed tutorial</strong> https://jojyjohn28.github.io/blog/panx-pangenome-analysis/</li>
-  <li><a href="https://anvio.org/">Anvi’o</a></li>
-  <li><a href="https://github.com/sanger-pathogens/Roary">Roary</a></li>
-  <li><a href="http://www.iicb.res.in/bpga/">BPGA</a></li>
-</ul>
-
-<h3 id="statistical-analysis">Statistical Analysis</h3>
-
-<ul>
-  <li><a href="https://cran.r-project.org/web/packages/vegan/">vegan</a> - R package for ecology</li>
-  <li><a href="https://joey711.github.io/phyloseq/">phyloseq</a> - Microbiome analysis in R</li>
-  <li><a href="https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/">WGCNA</a></li>
-</ul>
-
-<h3 id="networks">Networks</h3>
-
-<ul>
-  <li><a href="https://github.com/bio-developer/SparCC3">SparCC</a></li>
-  <li><a href="https://cytoscape.org/">Cytoscape</a> - Network visualization</li>
-</ul>
-
-<hr />
-
-<h2 id="️-whats-next">➡️ What’s Next?</h2>
-
-<p><strong>Congratulations!</strong> You’ve completed the core metagenomics analysis pipeline!</p>
-
-<p><strong>Next steps:</strong></p>
-
-<ul>
-  <li>Workflow Wrappers &amp; Web Platforms</li>
-  <li>MetaWRAP for complete workflows</li>
-  <li>Galaxy for web-based analysis</li>
-  <li>KBase platform</li>
-</ul>
-
-<hr />
-
-<h4 id="repo-for-todays-code-and-other-details">Repo for today’s code and other details</h4>
-
-<p>🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day7-comparative-statistical/">Day 7 →</a></strong></p>
-
-<p>Last updated: February 2026</p>
-
-<p><img src="/assets/img/d7-mg.png" alt="day6 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="pangenomics" /><category term="PanX" /><category term="Anvi&apos;o" /><category term="Roary" /><category term="BPGA" /><category term="PERMANOVA" /><category term="RDA" /><category term="dbRDA" /><category term="WGCNA" /><category term="co-occurrence" /><category term="statistical-analysis" /><category term="environmental-factors" /><category term="comparative-genomics" /><category term="network-analysis" /><summary type="html"><![CDATA[Master pangenome analysis (PanX, Anvi'o, Roary, BPGA), statistical ecology (PERMANOVA, RDA, dbRDA), co-occurrence networks (WGCNA, SparCC), and environmental associations. Complete guide to understanding how metadata influences microbiomes and comparative genomics.]]></summary></entry></feed>
+<p><img src="/assets/img/d8_mg.png" alt="day8 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="MetaWRAP" /><category term="Galaxy" /><category term="KBase" /><category term="nf-core" /><category term="workflows" /><category term="automation" /><category term="web-platforms" /><category term="IMG" /><category term="BV-BRC" /><category term="PATRIC" /><category term="pipelines" /><category term="bioinformatics" /><summary type="html"><![CDATA[Master automated workflows with MetaWRAP, Anvi'o, and nf-core/mag. Explore web-based platforms: Galaxy, KBase, IMG/M, and BV-BRC (PATRIC). Complete guide to streamlined metagenomics without the command-line complexity.]]></summary></entry></feed>
