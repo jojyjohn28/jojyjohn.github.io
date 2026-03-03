@@ -14,7 +14,7 @@ I design scalable, reproducible computational frameworks for microbiome multi-om
 
 ## Core Areas
 
-<details class="skill-block" open>
+<details class="skill-block" open markdown="1">
   <summary>
     <div class="skill-summary-title">Workflow Automation and Pipelines</div>
     <div class="skill-summary-sub">Snakemake • SLURM • Shell scripting</div>
@@ -28,9 +28,7 @@ I design scalable, reproducible computational frameworks for microbiome multi-om
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">HPC, Cloud & Environment Management</div>
     <div class="skill-summary-sub">SLURM • Palmetto Cluster • Conda • Modules</div>
@@ -44,9 +42,7 @@ I design scalable, reproducible computational frameworks for microbiome multi-om
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Machine Learning & Statistical Computing</div>
     <div class="skill-summary-sub">scikit-learn • Linear models • Multivariate ecology</div>
@@ -60,9 +56,7 @@ I design scalable, reproducible computational frameworks for microbiome multi-om
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Version Control & Reproducibility</div>
     <div class="skill-summary-sub">Git • GitHub • Structured project design</div>
@@ -75,9 +69,7 @@ I design scalable, reproducible computational frameworks for microbiome multi-om
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Visualization & Scientific Figure Design</div>
     <div class="skill-summary-sub">R • Python • Illustrator • Inkscape</div>
@@ -90,9 +82,7 @@ I design scalable, reproducible computational frameworks for microbiome multi-om
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Operating Systems</div>
     <div class="skill-summary-sub">Linux • macOS • Windows</div>

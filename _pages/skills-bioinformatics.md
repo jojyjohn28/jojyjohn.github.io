@@ -14,7 +14,7 @@ I build reproducible bioinformatics workflows for microbial ecology and multi-om
 
 ## Core Areas
 
-<details class="skill-block" open>
+<details class="skill-block" open markdown="1">
   <summary>
     <div class="skill-summary-title">Amplicon Sequencing and Analysis</div>
     <div class="skill-summary-sub">16S / 18S / COI / ITS</div>
@@ -28,9 +28,7 @@ I build reproducible bioinformatics workflows for microbial ecology and multi-om
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Genomics (Isolates / WGS)</div>
     <div class="skill-summary-sub">Short-read • Long-read • Hybrid</div>
@@ -43,16 +41,12 @@ I build reproducible bioinformatics workflows for microbial ecology and multi-om
 - Comparative genomics and phylogenomics
 - Plasmid identification and analysis
 
----
-
 #### Long-read genomics
 
 - Nanopore read QC and assembly strategies
 - Polishing, validation, and circularization checks
 - High-contiguity genome reconstruction
 - Structural variation and genome architecture assessment
-
----
 
 #### Hybrid assembly (short + long reads)
 
@@ -63,9 +57,7 @@ I build reproducible bioinformatics workflows for microbial ecology and multi-om
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Metagenomics</div>
     <div class="skill-summary-sub">Shotgun community sequencing</div>
@@ -79,9 +71,7 @@ I build reproducible bioinformatics workflows for microbial ecology and multi-om
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Metatranscriptomics</div>
     <div class="skill-summary-sub">RNA-based activity profiling</div>
@@ -95,9 +85,7 @@ I build reproducible bioinformatics workflows for microbial ecology and multi-om
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Viromics</div>
     <div class="skill-summary-sub">Viral community genomics</div>
@@ -111,9 +99,7 @@ I build reproducible bioinformatics workflows for microbial ecology and multi-om
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Functional Screening and Genome Mining</div>
     <div class="skill-summary-sub">AMR • Biosynthetic potential • Synthetic communities</div>
@@ -126,9 +112,7 @@ I build reproducible bioinformatics workflows for microbial ecology and multi-om
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Applied Statistics & Modeling</div>
     <div class="skill-summary-sub">Ecological modeling • Ordination • Resilience frameworks</div>

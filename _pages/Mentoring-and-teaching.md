@@ -16,7 +16,7 @@ This page serves as a gateway to my mentoring activities and teaching resources.
 
 ## Core Areas
 
-<details class="skill-block" open>
+<details class="skill-block" open markdown="1">
   <summary>
     <div class="skill-summary-title">Mentoring</div>
     <div class="skill-summary-sub">Research Guidance • Career Development • Technical Training</div>
@@ -34,9 +34,7 @@ This page serves as a gateway to my mentoring activities and teaching resources.
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Teaching</div>
     <div class="skill-summary-sub">Graduate Courses • Hands-on Training • Applied Bioinformatics</div>

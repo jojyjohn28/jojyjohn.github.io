@@ -14,7 +14,7 @@ I integrate wet-lab microbiology with genome-informed ecological analysis—span
 
 ## Core Areas
 
-<details class="skill-block" open>
+<details class="skill-block" open markdown="1">
   <summary>
     <div class="skill-summary-title">Field Experience</div>
     <div class="skill-summary-sub">Marine • Deep Sea • Environmental Systems</div>
@@ -31,9 +31,7 @@ I integrate wet-lab microbiology with genome-informed ecological analysis—span
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Microbiology & Cultivation</div>
     <div class="skill-summary-sub">Isolation • Characterization • Applied Screening</div>
@@ -49,9 +47,7 @@ I integrate wet-lab microbiology with genome-informed ecological analysis—span
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Molecular Biology & Sequencing Preparation</div>
     <div class="skill-summary-sub">DNA • RNA • PCR • Library Preparation</div>

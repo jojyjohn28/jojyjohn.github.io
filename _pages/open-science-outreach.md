@@ -16,7 +16,7 @@ My goal is to make advanced analyses transparent, understandable, and reusable �
 
 ## Core Areas
 
-<details class="skill-block" open>
+<details class="skill-block" open markdown="1">
   <summary>
     <div class="skill-summary-title">Open Science & Reproducibility</div>
     <div class="skill-summary-sub">Structured Code • Transparent Workflows • Public Resources</div>
@@ -35,9 +35,7 @@ or
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Scientific Communication & Educational Outreach</div>
     <div class="skill-summary-sub">Blog • Tutorials • Daily Bioinformatics Series</div>
@@ -54,9 +52,7 @@ or
 
 </details>
 
----
-
-<details class="skill-block">
+<details class="skill-block" markdown="1">
   <summary>
     <div class="skill-summary-title">Community Engagement</div>
     <div class="skill-summary-sub">Training • Knowledge Sharing • Reproducible Research Advocacy</div>

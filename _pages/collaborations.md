@@ -39,10 +39,10 @@ I collaborate with international partners to characterize **novel microbial line
 Kaari, M., **John, J**., Manikkam, R., Kumar, A., Baskaran, A., & Bhaskar, P. V. (2026). Comparative genomic and phenotypic analysis of Streptomyces rochei SOSIST-3 isolated from the Southern Ocean. Molecular Biology Reports, 53(1), 296. \*Kaari M and John J contributed equally
 
 - _Draft genome sequence of a novel species of Winogradskyella (strain PC D3.3) isolated from a red Antarctic macroalgae_  
-  **Microbiology Resource Announcements** (submitted)
+  **Microbiology Resource Announcements** accepted
 
 - _Genomic insights into carbohydrate-active enzymes and antimicrobial potential of a novel species of Radiobacillus isolated from Antarctic red macroalgae_  
-  **World Journal of Microbiology and Biotechnology** (under review)
+  **World Journal of Microbiology and Biotechnology** accepted with minor revision
 
 # My Role
 
@@ -54,11 +54,14 @@ Kaari, M., **John, J**., Manikkam, R., Kumar, A., Baskaran, A., & Bhaskar, P. V.
 
 # **🌾 Food Science, Nanotechnology & Gut Microbiome Interactions**
 
+**McGill University, Canda**
+
 I collaborate on projects evaluating the **impact of nanomaterials on microbial systems**, spanning food safety, human gut microbiota, and agricultural biotechnology.
 
 # Collaborators
 
-- **Dr. Unnikrishnan Kannan**, McGill University
+- **Unnikrishnan Kannan**, McGill University
+- **Vikash Kumar Choubey and Mohammad Jamil Kaddoura ** McGill University
 - **Dr. Saji George**, Canada Research Chair in Sustainable Nanotechnology, McGill University
 
 # Research Focus
@@ -70,7 +73,7 @@ I collaborate on projects evaluating the **impact of nanomaterials on microbial 
 # Selected Outputs
 
 - _Nanoliposome-mediated co-delivery of amoxicillin and tazobactam remediate intracellular infection by multidrug-resistant Salmonella enterica_  
-  **Journal of Antibiotics**- accepted waiting proof
+  **Journal of Antibiotics**- accepted waiting proof-DOI:
 
 - _Differential effects of food-borne nanoplastics on gut microbiota using an in vitro colon fermentation model_  
   (in preparation)
@@ -86,22 +89,25 @@ I collaborate on projects evaluating the **impact of nanomaterials on microbial 
 
 ---
 
-#**🧬 Comparative Genomics & Population Structure**
-
-# Research Focus
-
-- Comparative genomics of **Staphylococcus capitis**
-- Pangenome analysis, phylogenomics, and population genomics
+#**🧬 Monsoon Inducesd Hypoxia- Metagenomes of Lake water**
 
 # Collaborators
 
-- **Dr. Sushanta Deb**  
-  Washington Animal Disease Diagnostic Laboratory (WADDL), Washington State University
+Dr.Vikrant Panwar (Assistant Professor-Botany) and his team of , School of Basic and Applied Sciences Sanskaram University, Patauda (Delhi–NCR), Haryana, India
 
-# My Role
+# Research Focus
 
-- Pangenome construction and analysis
-- Phylogenomic inference
+- Working of monsoon derived hypoxia of different Lakes of Haryana, India using shotgun metagenome
+
+---
+
+# **📌 What I Contribute to Collaborations**
+
+- Genome-resolved metagenomics and comparative genomics
+- Multi-omics integration
+- Reproducible bioinformatics workflows
+- Statistical modeling and visualization
+- Manuscript-ready analysis and interpretation
 
 ---
 

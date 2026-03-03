@@ -11,5 +11,3 @@ related_posts: false
 "Functional redundancy and metabolic flexibility of microbial communities in two Mid-Atlantic bays"!!!
 DOI:https://doi.org/10.1093/ismeco/ycag021
 link:https://academic.oup.com/ismecommun/advance-article/doi/10.1093/ismeco/ycag021/8454622
-
-![fr ic](/assets/img/fr-ic-new.png)
