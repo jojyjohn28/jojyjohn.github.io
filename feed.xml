@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-03T09:56:10-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-03T09:56:10-05:00</published><updated>2026-03-03T09:56:10-05:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-03T10:01:56-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-03T10:01:56-05:00</published><updated>2026-03-03T10:01:56-05:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,256 +766,341 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)</title><link href="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/" rel="alternate" type="text/html" title="Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)" /><published>2026-03-02T00:00:00-05:00</published><updated>2026-03-02T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/why-normal-stats-fail-microbiome</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/"><![CDATA[<h2 id="day-1--why-normal-statistics-fail-for-microbiome-data">Day 1 — Why Normal Statistics Fail for Microbiome Data</h2>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 2 — Constrained Ordination: RDA &amp;amp; dbRDA for Microbiome Community Analysis</title><link href="https://jojyjohn28.github.io/blog/day2-rda-dbrda-microbiome-ordination/" rel="alternate" type="text/html" title="Day 2 — Constrained Ordination: RDA &amp;amp; dbRDA for Microbiome Community Analysis" /><published>2026-03-03T00:00:00-05:00</published><updated>2026-03-03T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Day-2-Constrained-Ordination</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day2-rda-dbrda-microbiome-ordination/"><![CDATA[<h2 id="day-2--constrained-ordination-rda--dbrda-for-microbiome-community-analysis">Day 2 — Constrained Ordination: RDA &amp; dbRDA for Microbiome Community Analysis</h2>
 
-<p>*This is Day 1 of a 7-day series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and <strong>🧬 Day 51 of Daily Bioinformatics from Jojy’s Desk</strong>
-<em>All data and R code for this series → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
-
-<hr />
-
-<p>Let me start with an honest confession.</p>
-
-<p>When I first started working with microbiome data, I did what most people do — I tried to use the statistics I already knew. t-tests. ANOVA. Pearson correlations. They worked fine in other contexts. Why wouldn’t they work here?</p>
-
-<p>They failed. Badly.</p>
-
-<p>Not because I was using them wrong. But <strong>because microbiome data breaks almost every assumption those tests are built on.</strong> The data is fundamentally different, and it took me a while to really understand <em>why</em> — not just accept it as a rule someone told me.</p>
-
-<p>That’s what this post is about. Before we write a single line of R code, before we run an ordination or a PERMANOVA, I want you to genuinely understand the problem. Because once you do, every method we cover this week will make intuitive sense rather than feeling like a black box you’re supposed to trust.</p>
+<p>*This is Day 2 of the series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and <strong>🧬 Day 52 of Daily Bioinformatics from Jojy’s Desk</strong>
+<em>All data and R code → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
 
 <hr />
 
-<h2 id="what-makes-microbiome-data-weird">What Makes Microbiome Data Weird?</h2>
+<p>On Day 1, we established <em>why</em> standard statistics fail for microbiome data — compositionality, sparsity, multivariate structure, and non-normality. Today we run our first real analysis.</p>
 
-<h3 id="1-its-compositional--counts-are-relative-not-absolute">1. It’s Compositional — Counts Are Relative, Not Absolute</h3>
+<p>The question we’re asking: <strong>Do environmental variables explain how MAG communities are structured across our 27 metagenomes?</strong></p>
 
-<p>Imagine you sequence two samples. In Sample A, you find 1,000 reads from <em>Bacteria X</em>. In Sample B, you find 500 reads from <em>Bacteria X</em>. Is <em>Bacteria X</em> twice as abundant in Sample A?</p>
-
-<p><strong>Not necessarily.</strong> It depends on how many total reads you got from each sample. If Sample A had 10,000 total reads and Sample B had 5,000, then <em>Bacteria X</em> makes up exactly 10% of both samples — they’re identical in relative terms.</p>
-
-<p>This is the <strong>compositionality problem</strong>. Sequencing doesn’t give us absolute counts of microorganisms. It gives us <strong>proportions</strong> — each MAG or taxon’s abundance is expressed relative to the total sequencing effort. The data always sums to a constant (100%, or total reads), which creates spurious correlations and violates the independence assumptions of standard statistical tests.</p>
-
-<p>A t-test doesn’t know that your numbers are parts of a whole. It treats them as independent measurements. That’s a problem.</p>
+<p>To answer it, we use <strong>constrained ordination</strong> — specifically RDA (Redundancy Analysis). This is one of the most powerful and widely used methods in microbial ecology, and by the end of this post you’ll know how to run it, interpret it, and read the figure it produces.</p>
 
 <hr />
 
-<h3 id="2-its-sparse--most-values-are-zero">2. It’s Sparse — Most Values Are Zero</h3>
+<h2 id="-the-biological-question">🧬 The Biological Question</h2>
 
-<p>In a typical MAG abundance table, the majority of cells are zero. A MAG recovered from one environment simply doesn’t appear in another. With 60 MAGs across 27 metagenomes, you might expect 30–60% of your table to be zeros — sometimes more.</p>
+<p>We have 61 MAGs sampled across 27 metagenomes from two estuaries — Chesapeake Bay and Delaware Bay — collected in Spring and Summer. The metadata contains environmental measurements: Salinity, Temperature, ChlA, Nitrate, Phosphate, Silicate, nCells, SF, and more.</p>
 
-<p>Standard statistical methods hate zeros. Log-transformations break at zero. Distance calculations behave strangely when half your data points are identical zeros. Normal distributions have no concept of “absent.”</p>
+<p>The biological question is: <strong>which environmental gradients best explain the variation in who is present and how abundant they are?</strong></p>
 
-<p>The sparsity also means your data is highly skewed — a few dominant MAGs have very high abundance, while most have very low or zero abundance. That distribution looks nothing like a bell curve.</p>
-
-<hr />
-
-<h3 id="3-its-multivariate--you-have-many-variables-at-once">3. It’s Multivariate — You Have Many Variables at Once</h3>
-
-<p>When you measure blood pressure, you get one number. When you sequence a metagenome, you get <strong>60 MAG abundances simultaneously</strong> — 60 variables, all potentially interacting, all measured from the same sample.</p>
-
-<p>Standard tests like t-tests and ANOVA are univariate — they test one variable at a time. You <em>could</em> run 60 separate t-tests (one per MAG). But then you’ve run 60 tests, and by chance alone you’d expect 3 false positives at p &lt; 0.05. Your results would be meaningless.</p>
-
-<p>Microbiome community analysis requires methods that handle all variables <strong>together</strong> — treating the community as a whole rather than as 60 independent measurements.</p>
+<p>Are Chesapeake and Delaware communities different? Does season matter? Is salinity the dominant driver, or is it temperature? Constrained ordination lets us answer all of these simultaneously — in a single visual.</p>
 
 <hr />
 
-<h3 id="4-its-non-normal--the-distributions-are-exotic">4. It’s Non-Normal — The Distributions Are Exotic</h3>
+<h2 id="-the-statistical-concept">📊 The Statistical Concept</h2>
 
-<p>The normal (Gaussian) distribution — the famous bell curve — underlies most classical statistics. t-tests, ANOVA, Pearson correlation, linear regression all assume your data is approximately normally distributed.</p>
+<h3 id="what-is-ordination">What is ordination?</h3>
 
-<p>Microbiome abundance data is not. It tends to follow distributions that are:</p>
+<p>Ordination is a way to take a high-dimensional dataset — 61 MAGs measured across 27 samples — and compress it into 2 dimensions that capture the most variance. Instead of looking at 61 separate plots, you see one plot where each sample is a point and samples with similar communities cluster together.</p>
 
-<ul>
-  <li><strong>Zero-inflated</strong> (excess zeros from absent taxa)</li>
-  <li><strong>Right-skewed</strong> (a few very abundant taxa, many rare ones)</li>
-  <li><strong>Overdispersed</strong> (more variance than a Poisson or binomial model would predict)</li>
-</ul>
+<p><strong>Unconstrained ordination</strong> (PCA, PCoA, NMDS) just finds the axes of maximum variance in the community data itself, ignoring any environmental information.</p>
 
-<p>You can sometimes transform the data to approximate normality (Hellinger transformation, log-ratio transformation), but the underlying biology of the data means you always need to think carefully about whether your assumptions hold.</p>
+<p><strong>Constrained ordination</strong> (RDA, dbRDA) goes further — it finds the axes of community variance that are <em>explained by</em> your environmental variables. The constraint is what makes it powerful: you’re not just describing the pattern, you’re connecting it to measured environmental drivers.</p>
 
-<hr />
+<h3 id="rda-vs-dbrda--which-one-to-use">RDA vs dbRDA — which one to use?</h3>
 
-<h2 id="what-does-community-level-analysis-actually-mean">What Does “Community-Level Analysis” Actually Mean?</h2>
+<p>This comes down to your distance measure:</p>
 
-<p>Here’s the conceptual shift that changes everything.</p>
+<p><strong>RDA (Redundancy Analysis)</strong> works in Euclidean space. Because raw abundance data doesn’t behave well in Euclidean space (the double-zero problem — two samples sharing an absent MAG appear falsely similar), we first apply a <strong>Hellinger transformation</strong> to the abundance matrix. This square-roots the relative abundances, down-weighting dominant MAGs and making the data Euclidean-friendly.</p>
 
-<p>In most biology, you ask: <strong>“Is gene X differentially expressed?”</strong> or <strong>“Is species Y more abundant in treatment A?”</strong> — one variable, one question.</p>
+<p><strong>dbRDA (distance-based RDA)</strong> works with any distance matrix — including Bray-Curtis, which is the standard dissimilarity metric for ecological community data. Bray-Curtis ignores shared absences entirely, making it more appropriate when zero-inflation is high. In practice, dbRDA with Bray-Curtis is more robust for microbiome data, but both approaches are valid and commonly used.</p>
 
-<p>In microbiome ecology, the primary question is different: <strong>“Are these communities different?”</strong></p>
-
-<p>Not one MAG. Not one taxon. The whole community at once — the combination of which organisms are present, in what proportions, and how that combination shifts across samples or conditions.</p>
-
-<p>Think of it like comparing two orchestras. You wouldn’t just compare the number of violins and call that a comparison. You’d compare the full composition — how many of each instrument, how they’re arranged, how the overall sound differs. Community-level analysis is comparing the full orchestra, not individual instruments.</p>
-
-<p>This is why we need:</p>
-
-<ul>
-  <li><strong>Ordination methods</strong> (RDA, dbRDA) — to visualize community composition in reduced-dimensional space</li>
-  <li><strong>Permutation tests</strong> (PERMANOVA) — to test whether community differences are statistically real</li>
-  <li><strong>Distance matrices</strong> (Bray-Curtis, UniFrac) — to quantify how different two communities are as a whole</li>
-</ul>
+<p>Today we use <strong>RDA with Hellinger transformation</strong>, which is what the R script implements. We’ll briefly show the dbRDA equivalent so you can run both.</p>
 
 <hr />
 
-<h2 id="so-what-do-we-use-instead">So What Do We Use Instead?</h2>
+<h2 id="️-the-r-code">⚙️ The R Code</h2>
 
-<p>Here’s the roadmap for this week — and the logic behind the order:</p>
+<h3 id="step-1--load-libraries-and-data">Step 1 — Load libraries and data</h3>
 
-<p><strong>Day 2 — RDA &amp; dbRDA (Constrained Ordination)</strong>
-We visualize how communities vary across environmental gradients. Euclidean distances for transformed data, Bray-Curtis for raw abundance — and why that choice matters.</p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
 
-<p><strong>Day 3 — PERMANOVA</strong>
-We’ve seen the groups separate visually. Now we test whether the separation is statistically real — using permutation rather than distributional assumptions.</p>
+</span><span class="c1"># Load metadata — rows = samples, columns = environmental variables</span><span class="w">
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/metadata.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="p">)</span><span class="w">
 
-<p><strong>Day 4 — Non-Parametric Tests</strong>
-For taxon-level comparisons (not community-level), we use Wilcoxon and Kruskal-Wallis tests — the non-parametric alternatives to t-tests and ANOVA that don’t assume normality.</p>
-
-<p><strong>Day 5 — Multiple Regression</strong>
-We ask which environmental variables best predict gene or MAG abundance, and how to interpret those relationships biologically.</p>
-
-<p><strong>Day 6 — WGCNA</strong>
-We stop asking about individual MAGs and start asking about <em>modules</em> of co-occurring MAGs — groups that rise and fall together across samples.</p>
-
-<p><strong>Day 7 — Full Workflow Synthesis</strong>
-How all of these methods connect in a real paper, and how to structure a results section that tells a coherent biological story.</p>
-
-<hr />
-
-<h2 id="the-data-well-use-all-week">The Data We’ll Use All Week</h2>
-
-<p>Every post in this series uses the same two files. I want you to recognize them by Day 7 like old friends.</p>
-
-<p>The data comes from a real metagenomic study: <strong>60 Metagenome-Assembled Genomes (MAGs)</strong> recovered across <strong>27 metagenomes</strong> from different environments. These MAGs represent microbial populations — organisms assembled from sequencing reads without culturing.</p>
-
-<p>All data and code are available at: 🔗 <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></p>
-
-<h3 id="file-1-mag_abundancecsv">File 1: <code class="language-plaintext highlighter-rouge">mag_abundance.csv</code></h3>
-
-<p>This is your <strong>community matrix</strong> — the core data object in every analysis.</p>
-
-<ul>
-  <li><strong>Rows</strong> = metagenome samples (27 samples)</li>
-  <li><strong>Columns</strong> = MAGs (60 MAGs)</li>
-  <li><strong>Values</strong> = relative abundance of each MAG in each sample</li>
-</ul>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Load and take a first look</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
-
-</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/mag_abundance.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w">      </span><span class="c1"># should be 27 rows × 60 columns</span><span class="w">
-</span><span class="n">head</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">])</span><span class="w">   </span><span class="c1"># first look at 5 MAGs</span><span class="w">
+</span><span class="c1"># Load MAG abundance — rows = MAGs, columns = samples</span><span class="w">
+</span><span class="n">mag_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/mag_abundance.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p>What you’ll notice immediately:</p>
+<h3 id="step-2--prepare-the-community-matrix">Step 2 — Prepare the community matrix</h3>
 
-<ul>
-  <li>Many zeros — MAGs absent from most samples</li>
-  <li>Values between 0 and 1 (relative abundances)</li>
-  <li>High variability across samples — some MAGs are everywhere, most are rare</li>
-</ul>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># The abundance table has MAGs as rows and samples as columns</span><span class="w">
+</span><span class="c1"># RDA needs samples as rows — so we transpose</span><span class="w">
+</span><span class="n">mag_t</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">mag_raw</span><span class="p">)</span><span class="w">   </span><span class="c1"># now 27 rows (samples) × 61 columns (MAGs)</span><span class="w">
 
-<h3 id="file-2-metadatacsv">File 2: <code class="language-plaintext highlighter-rouge">metadata.csv</code></h3>
-
-<p>This is your <strong>environmental context</strong> — what makes samples different from each other.</p>
-
-<ul>
-  <li><strong>Rows</strong> = metagenome samples (same 27 samples, same order)</li>
-  <li><strong>Columns</strong> = environmental and sample variables (salinity, season, location, etc.)</li>
-</ul>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/metadata.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="nf">dim</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">           </span><span class="c1"># 27 rows × however many metadata columns</span><span class="w">
-</span><span class="n">head</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">          </span><span class="c1"># see what variables you're working with</span><span class="w">
-</span><span class="n">colnames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">      </span><span class="c1"># list all metadata variables</span><span class="w">
+</span><span class="c1"># Hellinger transformation:</span><span class="w">
+</span><span class="c1"># Divides each value by the row sum (converts to relative abundance)</span><span class="w">
+</span><span class="c1"># then takes the square root — reduces dominance of highly abundant MAGs</span><span class="w">
+</span><span class="n">spe.hel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">decostand</span><span class="p">(</span><span class="n">mag_t</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hellinger"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p>The metadata is what gives the community data biological meaning. Without it, you just have a table of numbers. With it, you can ask: <em>Do communities differ by salinity? By season? By sampling location?</em> That’s the bridge between pattern and biology.</p>
+<blockquote>
+  <p><strong>Why Hellinger?</strong> Raw abundance values are dominated by a handful of very abundant MAGs (e.g. Pelagibacterales). The Hellinger transformation down-weights these dominant MAGs so that rare MAGs also contribute meaningfully to the ordination. Without this step, your RDA would essentially be an ordination of <em>Pelagibacterales</em>.</p>
+</blockquote>
 
-<h3 id="checking-the-data--always-do-this-first">Checking the Data — Always Do This First</h3>
+<h3 id="step-3--prepare-the-environmental-matrix">Step 3 — Prepare the environmental matrix</h3>
 
-<p>Before any analysis, verify that your samples are in the same order in both files:</p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Select continuous environmental variables only</span><span class="w">
+</span><span class="c1"># metadata now has: Season, SF, Bay (categorical) — exclude these</span><span class="w">
+</span><span class="c1"># keep only numeric predictors for the RDA</span><span class="w">
+</span><span class="n">env</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Salinity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Temperature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Depth"</span><span class="p">,</span><span class="w"> </span><span class="s2">"PAR"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Attenuation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Bacterial_Production"</span><span class="p">,</span><span class="w"> </span><span class="s2">"nCells"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"ChlA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Nitrate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Ammonium"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Phosphate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Silicate"</span><span class="p">)]</span><span class="w">
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Critical check — rows must match between files</span><span class="w">
-</span><span class="nf">all</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span><span class="w">
-</span><span class="c1"># Should return TRUE</span><span class="w">
-
-</span><span class="c1"># Quick summary of the abundance table</span><span class="w">
-</span><span class="n">summary</span><span class="p">(</span><span class="n">rowSums</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w">   </span><span class="c1"># row sums (should be ~1 if relative abundance)</span><span class="w">
-</span><span class="nf">sum</span><span class="p">(</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">prod</span><span class="p">(</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="w">  </span><span class="c1"># % zeros</span><span class="w">
+</span><span class="c1"># Standardize to mean = 0, sd = 1 so all variables are comparable</span><span class="w">
+</span><span class="c1"># (Salinity in ppt and nCells in millions are on completely different scales)</span><span class="w">
+</span><span class="n">env.z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">decostand</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"stand"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p>This sparsity check alone is revealing. When you run it on this data and see that a significant percentage of the table is zeros, you’ll understand viscerally why we don’t just run a t-test.</p>
+<h3 id="step-4--forward-selection-of-significant-variables">Step 4 — Forward selection of significant variables</h3>
+
+<p>Rather than throwing all 13 variables into the model, we use forward selection to find only those that significantly and independently explain community variance:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Full model (upper bound)</span><span class="w">
+</span><span class="n">spe.rda.full</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rda</span><span class="p">(</span><span class="n">spe.hel</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env.z</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Forward selection — adds variables one by one, keeps only significant ones</span><span class="w">
+</span><span class="c1"># stops when adding more variables would exceed the full model's R²</span><span class="w">
+</span><span class="n">fwd.sel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ordiR2step</span><span class="p">(</span><span class="w">
+  </span><span class="n">rda</span><span class="p">(</span><span class="n">spe.hel</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env.z</span><span class="p">),</span><span class="w">   </span><span class="c1"># null model (lower bound)</span><span class="w">
+  </span><span class="n">scope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">formula</span><span class="p">(</span><span class="n">spe.rda.full</span><span class="p">),</span><span class="w">     </span><span class="c1"># upper bound</span><span class="w">
+  </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"forward"</span><span class="p">,</span><span class="w">
+  </span><span class="n">R2scope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">pstep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w">
+  </span><span class="n">trace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># See which variables were selected</span><span class="w">
+</span><span class="n">fwd.sel</span><span class="o">$</span><span class="n">call</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Forward selection selected: <strong>Temperature, Salinity, Phosphate, ChlA, Silicate, Nitrate, SF, nCells</strong> — all biologically meaningful drivers of estuarine microbial communities.</p>
+
+<h3 id="step-5--build-the-final-model">Step 5 — Build the final model</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Final RDA model with forward-selected variables</span><span class="w">
+</span><span class="n">spe.rda.signif</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rda</span><span class="p">(</span><span class="n">spe.hel</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Salinity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Phosphate</span><span class="w"> </span><span class="o">+</span><span class="w">
+                        </span><span class="n">ChlA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Silicate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nitrate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SF</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nCells</span><span class="p">,</span><span class="w">
+                      </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env.z</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Adjusted R² — how much community variance is explained?</span><span class="w">
+</span><span class="n">Rsquareadj</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Test overall model significance (permutation test)</span><span class="w">
+</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Test significance of each individual term</span><span class="w">
+</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"term"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Test significance of each axis</span><span class="w">
+</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"axis"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<blockquote>
+  <p><strong>Why permutation tests?</strong> Because our data violates the normality assumptions of classical F-tests, <code class="language-plaintext highlighter-rouge">anova.cca()</code> tests significance by randomly shuffling the data 1000 times and asking: how often would we see this pattern by chance? This is the non-parametric equivalent of an F-test — no distributional assumptions required.</p>
+</blockquote>
+
+<h3 id="step-6--extract-scores-and-build-the-triplot">Step 6 — Extract scores and build the triplot</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Extract % variance explained by RDA1 and RDA2</span><span class="w">
+</span><span class="n">perc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">summary</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">)</span><span class="o">$</span><span class="n">cont</span><span class="o">$</span><span class="n">importance</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">]),</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Season, Bay and size fraction — now clean columns in metadata</span><span class="w">
+</span><span class="n">Season</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Season</span><span class="w">   </span><span class="c1"># "Spring" or "Summer"</span><span class="w">
+</span><span class="n">Bay</span><span class="w">      </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Bay</span><span class="w">      </span><span class="c1"># "Chesapeake" or "Delaware"</span><span class="w">
+</span><span class="n">Fraction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">SF</span><span class="w">       </span><span class="c1"># "Particle-attached" or "Free_living"</span><span class="w">
+
+</span><span class="c1"># Site scores — split by season for colour-coding</span><span class="w">
+</span><span class="n">sc_si_summer</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">scores</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sites"</span><span class="p">)[</span><span class="n">Season</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Summer"</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="n">sc_si_spring</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">scores</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sites"</span><span class="p">)[</span><span class="n">Season</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Spring"</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># Species (MAG) scores</span><span class="w">
+</span><span class="n">sc_sp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">scores</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"species"</span><span class="p">,</span><span class="w"> </span><span class="n">choices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">scaling</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Biplot arrows — environmental variables</span><span class="w">
+</span><span class="n">sc_bp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">scores</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bp"</span><span class="p">,</span><span class="w"> </span><span class="n">choices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">scaling</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Only label MAGs with strong contributions (|score| &gt; 0.35 on either axis)</span><span class="w">
+</span><span class="n">high_score_mags</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">sc_sp</span><span class="p">)[</span><span class="n">rowSums</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">sc_sp</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.35</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># Build the triplot</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w">
+     </span><span class="n">scaling</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="n">frame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+     </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1.0</span><span class="p">,</span><span class="w"> </span><span class="m">1.5</span><span class="p">),</span><span class="w"> </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-0.5</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">),</span><span class="w">
+     </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"RDA1 ("</span><span class="p">,</span><span class="w"> </span><span class="n">perc</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">),</span><span class="w">
+     </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"RDA2 ("</span><span class="p">,</span><span class="w"> </span><span class="n">perc</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># Summer samples — red</span><span class="w">
+</span><span class="n">points</span><span class="p">(</span><span class="n">sc_si_summer</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">21</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red2"</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Spring samples — green</span><span class="w">
+</span><span class="n">points</span><span class="p">(</span><span class="n">sc_si_spring</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">21</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"green3"</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># MAG positions — yellow squares</span><span class="w">
+</span><span class="n">points</span><span class="p">(</span><span class="n">sc_sp</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">22</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#f2bd33"</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Labels for most influential MAGs only</span><span class="w">
+</span><span class="n">text</span><span class="p">(</span><span class="n">sc_sp</span><span class="p">[</span><span class="n">high_score_mags</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.20</span><span class="p">,</span><span class="w"> </span><span class="m">0.15</span><span class="p">),</span><span class="w">
+     </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">high_score_mags</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey4"</span><span class="p">,</span><span class="w"> </span><span class="n">font</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Environmental arrows</span><span class="w">
+</span><span class="n">arrows</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sc_bp</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">sc_bp</span><span class="p">[,</span><span class="w"> </span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">)</span><span class="w">
+</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc_bp</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc_bp</span><span class="p">[,</span><span class="w"> </span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.03</span><span class="p">,</span><span class="w">
+     </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">sc_bp</span><span class="p">),</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">font</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="dbrda-alternative-bray-curtis">dbRDA alternative (Bray-Curtis)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Calculate Bray-Curtis dissimilarity from raw (non-transformed) data</span><span class="w">
+</span><span class="n">bc_dist</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vegdist</span><span class="p">(</span><span class="n">mag_t</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># dbRDA — same formula, uses distance matrix instead of raw data</span><span class="w">
+</span><span class="n">spe.dbrda</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dbrda</span><span class="p">(</span><span class="n">bc_dist</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Salinity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Phosphate</span><span class="w"> </span><span class="o">+</span><span class="w">
+                     </span><span class="n">ChlA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Silicate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nitrate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SF</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nCells</span><span class="p">,</span><span class="w">
+                   </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env.z</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Same interpretation workflow applies</span><span class="w">
+</span><span class="n">Rsquareadj</span><span class="p">(</span><span class="n">spe.dbrda</span><span class="p">)</span><span class="w">
+</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.dbrda</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>Use dbRDA with Bray-Curtis when your data is very sparse (&gt;60% zeros) or when you want a distance metric that is more robust to compositional variation. Use RDA + Hellinger when you want the simplicity of a linear model framework.</p>
+</blockquote>
 
 <hr />
 
-<h2 id="a-note-on-transformation">A Note on Transformation</h2>
+<h2 id="-reading-the-output--how-to-interpret-the-figure">🔍 Reading the Output — How to Interpret the Figure</h2>
 
-<p>We’ll cover this in depth on Day 2, but plant this idea now: <strong>the same abundance data can be transformed in different ways depending on the analysis</strong>.</p>
+<p>The figure below is the actual RDA triplot from this analysis. It contains three types of information simultaneously — that’s why it’s called a <strong>triplot</strong>.</p>
+
+<p><img src="/assets/img/rda.png" alt="RDA triplot showing MAG community structure across Chesapeake and Delaware Bay metagenomes" /></p>
+
+<p>A triplot has three layers, each telling you something different:</p>
+
+<h3 id="layer-1--the-sample-points-circles">Layer 1 — The Sample Points (circles)</h3>
+
+<p>Each circle is one of the 27 metagenomes.</p>
 
 <ul>
-  <li><strong>Hellinger transformation</strong> — square root of relative abundance. Reduces the influence of very abundant MAGs. Used before RDA.</li>
-  <li><strong>Bray-Curtis dissimilarity</strong> — a distance metric calculated directly from raw relative abundances. Used in dbRDA and PERMANOVA.</li>
-  <li><strong>Log-ratio transformation</strong> (CLR) — the compositionally correct approach, increasingly used in modern microbiome work.</li>
+  <li>🔴 <strong>Red circles = Summer samples</strong></li>
+  <li>🟢 <strong>Green circles = Spring samples</strong></li>
 </ul>
 
-<p>No single transformation is universally correct. The choice depends on your question and your method. We’ll make that choice explicitly and justify it each time.</p>
+<p><strong>What to look for:</strong> Do the colours cluster separately? If Summer and Spring samples are separated along an axis, that axis captures seasonal variation in community composition. In our plot, Summer and Spring samples form distinct groups — microbial communities in summer are compositionally different from those in spring.</p>
+
+<p>Samples that plot close together have similar MAG communities. Samples far apart have dissimilar communities.</p>
+
+<h3 id="layer-2--the-mag-scores-yellow-squares">Layer 2 — The MAG Scores (yellow squares)</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Each yellow square is one of the 61 MAGs. Only MAGs with strong scores (</td>
+      <td>score</td>
+      <td>&gt; 0.35 on either axis) are labelled to avoid clutter.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>What to look for:</strong> A MAG positioned near a cluster of samples is more abundant in those samples. A MAG positioned far from the origin has a strong relationship with the constrained axes — it’s responding strongly to the environmental gradients. MAGs near the center of the plot are not well-explained by the environmental variables in the model.</p>
+
+<p>For example, if <em>Pelagibacterales_MAG_18</em> plots near the Summer samples along the salinity gradient, it means this MAG is more abundant in high-salinity summer samples.</p>
+
+<h3 id="layer-3--the-environmental-arrows-blue-arrows">Layer 3 — The Environmental Arrows (blue arrows)</h3>
+
+<p>Each arrow represents one environmental variable (Salinity, Temperature, ChlA, Nitrate, etc.).</p>
+
+<p><strong>Four rules for reading arrows:</strong></p>
+
+<ol>
+  <li>
+    <p><strong>Arrow direction</strong> — points toward samples where that variable is highest. Samples in the direction an arrow points have high values of that variable.</p>
+  </li>
+  <li>
+    <p><strong>Arrow length</strong> — longer arrows explain more variance. Short arrows have weak relationships with the community structure shown.</p>
+  </li>
+  <li>
+    <p><strong>Arrow angle between two arrows</strong> — arrows pointing in the same direction indicate positively correlated variables. Opposite directions = negative correlation. Right angles = uncorrelated.</p>
+  </li>
+  <li>
+    <p><strong>Arrow angle vs. axis</strong> — an arrow pointing along RDA1 means that variable is strongly associated with the main axis of community variation.</p>
+  </li>
+</ol>
+
+<p>In our plot, the Salinity arrow typically aligns with RDA1, confirming that salinity is the dominant environmental gradient structuring MAG communities across these estuaries — a classic result in estuarine microbial ecology.</p>
+
+<h3 id="reading-the-axis-labels">Reading the axis labels</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RDA1 (XX%)   RDA2 (XX%)
+</code></pre></div></div>
+
+<p>These percentages tell you how much of the <strong>constrained variance</strong> is captured by each axis — not total variance in the community data, but variance that is explained by the environmental model. RDA1 captures the strongest environmental signal, RDA2 the second strongest.</p>
+
+<p>The adjusted R² from <code class="language-plaintext highlighter-rouge">Rsquareadj()</code> tells you the total fraction of community variance explained by all selected variables combined. Always report this alongside your plot.</p>
 
 <hr />
 
-<h2 id="️-common-mistakes-to-avoid">⚠️ Common Mistakes to Avoid</h2>
+<h2 id="️-common-mistakes">⚠️ Common Mistakes</h2>
 
-<p><strong>Mistake 1: Running t-tests on individual MAGs without multiple testing correction.</strong>
-With 60 MAGs, you’ll get ~3 false positives by chance at p &lt; 0.05. Always correct for multiple comparisons (Day 4 covers this).</p>
+<p><strong>Mistake 1: Running RDA without transforming the abundance data.</strong>
+Raw abundance values violate the Euclidean distance assumption of RDA. Always apply Hellinger (or CLR) transformation before <code class="language-plaintext highlighter-rouge">rda()</code>. Skipping this step distorts the ordination and inflates the apparent influence of dominant MAGs.</p>
 
-<p><strong>Mistake 2: Treating relative abundance as absolute abundance.</strong>
-A MAG that increases in relative abundance might be doing so because something else decreased — not because it truly grew. Keep compositionality in mind throughout.</p>
+<p><strong>Mistake 2: Overinterpreting weak axes.</strong>
+If RDA2 explains only 3% of constrained variance, be cautious about interpreting the vertical separation of your samples. Always check whether axes are significant with <code class="language-plaintext highlighter-rouge">anova.cca(..., by = "axis")</code> before discussing them.</p>
 
-<p><strong>Mistake 3: Skipping the data check.</strong>
-If your metadata rows don’t match your abundance matrix rows, every analysis silently produces wrong results. Always verify alignment before starting.</p>
+<p><strong>Mistake 3: Confusing correlation with causation.</strong>
+An arrow pointing toward a cluster of samples means that variable <em>covaries</em> with that community type — not that it <em>causes</em> it. Temperature and Salinity are both correlated with season; the arrow angles don’t tell you which is the actual driver.</p>
 
-<p><strong>Mistake 4: Log-transforming zeros.</strong>
-<code class="language-plaintext highlighter-rouge">log(0)</code> is undefined (<code class="language-plaintext highlighter-rouge">-Inf</code> in R). If you log-transform without adding a pseudocount, your analysis will fail or produce garbage. Use appropriate transformations — covered on Day 2.</p>
+<p><strong>Mistake 4: Not checking model significance before interpretation.</strong>
+Always run <code class="language-plaintext highlighter-rouge">anova.cca(spe.rda.signif, step = 1000)</code> first. If the overall model is not significant (p &gt; 0.05), the triplot has no interpretive value.</p>
 
-<p><strong>Mistake 5: Jumping straight to ordination without understanding your data.</strong>
-Look at your data first. Check distributions, zeros, outliers. A 10-minute exploration prevents hours of debugging later.</p>
+<p><strong>Mistake 5: Using all variables without selection.</strong>
+Including 13 correlated environmental variables inflates R² and overfits the model. Always use forward selection (<code class="language-plaintext highlighter-rouge">ordiR2step</code>) or another variable reduction approach before building your final model.</p>
+
+<p><strong>Mistake 6: Ignoring that dbRDA and RDA can give different pictures.</strong>
+If your results change substantially between RDA+Hellinger and dbRDA+Bray-Curtis, that’s telling you something important about the data structure. Run both and compare.</p>
 
 <hr />
 
 <h2 id="-key-takeaways">🧭 Key Takeaways</h2>
 
 <ul>
-  <li>Microbiome data is <strong>compositional</strong> (relative, not absolute), <strong>sparse</strong> (many zeros), <strong>multivariate</strong> (many variables at once), and <strong>non-normal</strong> — each property breaks standard statistical assumptions in a different way.</li>
-  <li><strong>Community-level analysis</strong> treats the full assemblage of organisms as the unit of study, not individual taxa in isolation.</li>
-  <li>We need specialized methods — ordination, permutation tests, non-parametric comparisons — because classical tests were not designed for this data structure.</li>
-  <li>Our dataset: <strong>60 MAGs × 27 metagenomes</strong>, two files (<code class="language-plaintext highlighter-rouge">mag_abundance.csv</code> + <code class="language-plaintext highlighter-rouge">metadata.csv</code>), used consistently across all 7 days.</li>
-  <li>Always <strong>check your data</strong> before any analysis: dimensions, zero percentage, and row alignment between files.</li>
+  <li><strong>RDA</strong> constrains ordination axes to variance explained by environmental variables — it connects community patterns to measured drivers.</li>
+  <li><strong>Hellinger transformation</strong> is required before RDA to handle the double-zero problem and down-weight dominant MAGs.</li>
+  <li><strong>dbRDA with Bray-Curtis</strong> is the distance-based alternative — more robust when data is very sparse or highly compositional.</li>
+  <li>The <strong>triplot</strong> shows three things at once: sample positions, MAG positions, and environmental arrows — each layer answers a different question.</li>
+  <li>Always use <strong>permutation tests</strong> (<code class="language-plaintext highlighter-rouge">anova.cca</code>) to assess significance — classical F-tests assume normality, which microbiome data violates.</li>
+  <li><strong>Forward selection</strong> (<code class="language-plaintext highlighter-rouge">ordiR2step</code>) prevents overfitting by retaining only variables that significantly and independently contribute to the model.</li>
+  <li>Report <strong>adjusted R²</strong> alongside your plot — it tells readers how much of the community variance is actually explained.</li>
 </ul>
 
 <hr />
 
 <h2 id="-whats-next">🔗 What’s Next</h2>
 
-<p>Tomorrow on <strong>Day 2</strong>, we run our first real analysis — constrained ordination with <strong>RDA and dbRDA</strong>. We’ll ask: <em>Do the environmental variables in our metadata explain the community composition patterns we see across samples?</em> And we’ll visualize the answer with ggplot2.</p>
-
-<p>By the end of Day 2, you’ll have your first publication-quality ordination plot.</p>
+<p>Tomorrow on <strong>Day 3</strong>, we take the next logical step: we’ve <em>seen</em> the communities separate by season and bay in the ordination — now we formally <em>test</em> whether those differences are statistically real using <strong>PERMANOVA (adonis2)</strong>. We’ll also cover the critical assumption test that most papers skip: homogeneity of dispersion with <code class="language-plaintext highlighter-rouge">betadisper</code>.</p>
 
 <hr />
 
-<p><em>All R code and data for this series: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em>
-<em>Found this useful? Share it with someone learning microbiome stats — and follow along for Day 2 tomorrow.</em></p>
+<p><em>All R code and data: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em>
+<em>Found this useful? Share it with someone learning microbiome statistics.</em></p>
 
 <hr />
 
-<p><strong>🧬 Day 51 — Daily Bioinformatics from Jojy’s Desk</strong></p>
+<p><strong>🧬 Day 52 — Daily Bioinformatics from Jojy’s Desk</strong></p>
 
-<hr />
+<hr />]]></content><author><name></name></author><category term="RDA" /><category term="dbRDA" /><category term="ordination" /><category term="vegan" /><category term="ggplot2" /><category term="microbiome" /><category term="MAGs" /><category term="R" /><category term="metagenomics" /><summary type="html"><![CDATA[Learn how to run RDA with Hellinger-transformed MAG abundance data and interpret the resulting triplot — arrows, points, axes, and variance explained — using real Chesapeake and Delaware Bay metagenomes.]]></summary></entry><entry><title type="html">Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)</title><link href="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/" rel="alternate" type="text/html" title="Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)" /><published>2026-03-02T00:00:00-05:00</published><updated>2026-03-02T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/why-normal-stats-fail-microbiome</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/"><![CDATA[<h2 id="day-1--why-normal-statistics-fail-for-microbiome-data">Day 1 — Why Normal Statistics Fail for Microbiome Data</h2>
 
-<p><img src="/assets/img/stat-day1.png" alt="Stat-day1" /></p>]]></content><author><name></name></author><category term="microbiome" /><category term="statistics" /><category term="metagenomics" /><category term="MAGs" /><category term="R" /><category term="beginners" /><summary type="html"><![CDATA[Before we run a single ordination or permutation test, we need to understand why standard statistics break down for microbiome and genomics data. This is your foundation for the entire 7-day series.]]></summary></entry><entry><title type="html">Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)</title><link href="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/" rel="alternate" type="text/html" title="Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)" /><published>2026-03-02T00:00:00-05:00</published><updated>2026-03-02T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Day-2-Constrained-Ordination</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/"><![CDATA[<h2 id="day-1--why-normal-statistics-fail-for-microbiome-data">Day 1 — Why Normal Statistics Fail for Microbiome Data</h2>
-
-<p>*This is Day 2 of the series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and <strong>🧬 Day 52 of Daily Bioinformatics from Jojy’s Desk</strong>
+<p>*This is Day 1 of a 7-day series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and <strong>🧬 Day 51 of Daily Bioinformatics from Jojy’s Desk</strong>
 <em>All data and R code for this series → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
 
 <hr />
