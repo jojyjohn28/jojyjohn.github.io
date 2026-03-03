@@ -91,12 +91,17 @@ $max-content-width: {{ site.max_width }};
 }
 
 /* Tile gradients */
-.t1{ background: linear-gradient(135deg,#7c3aed,#2563eb); }
-.t2{ background: linear-gradient(135deg,#0ea5e9,#22c55e); }
-.t3{ background: linear-gradient(135deg,#f97316,#ef4444); }
-.t4{ background: linear-gradient(135deg,#2563eb,#9333ea); }
-.t5{ background: linear-gradient(135deg,#ec4899,#f97316); }
-.t6{ background: linear-gradient(135deg,#059669,#0ea5e9); }
+/* Tile gradients — distinct palette */
+
+.t1{ background: linear-gradient(135deg,#7c3aed,#4f46e5); }      /* Purple → Indigo */
+
+.t2{ background: linear-gradient(135deg,#06b6d4,#0ea5e9); }      /* Cyan → Sky Blue */
+
+.t3{ background: linear-gradient(135deg,#22c55e,#16a34a); }      /* Green */
+
+.t4{ background: linear-gradient(135deg,#f59e0b,#f97316); }      /* Amber → Orange */
+
+.t5{ background: linear-gradient(135deg,#ec4899,#be185d); }      /* Pink → Deep Rose */
 
 /* ==========================
    Expandable Skill Blocks
