@@ -111,16 +111,6 @@ Dr.Vikrant Panwar (Assistant Professor-Botany) and his team of , School of Basic
 
 ---
 
-#### **📌 What I Contribute to Collaborations**
-
-- Genome-resolved metagenomics and comparative genomics
-- Multi-omics integration
-- Reproducible bioinformatics workflows
-- Statistical modeling and visualization
-- Manuscript-ready analysis and interpretation
-
----
-
 #### Interested in Collaborating?
 
 I am always open to collaborations in the following areas:
