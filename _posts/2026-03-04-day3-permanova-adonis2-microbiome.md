@@ -328,9 +328,12 @@ The boxplot from `boxplot(disp_season)` shows the distribution of **distances fr
 
 In estuarine data, Summer communities often show higher dispersion than Spring — summer sampling spans more environmental variation (bloom vs post-bloom, stratified vs mixed) so within-season spread is larger.
 
+**Detailed results for each section is available in the repo, see day3_results.md**
+[github.com/jojyjohn28/microbiome_stats/day3](https://github.com/jojyjohn28/microbiome_stats/tree/main/day3-permanova-adonis2)\*
+
 ---
 
-## 💡 Figure Idea for Day 3
+## 💡 Figure for Day 3
 
 The most effective figure for a PERMANOVA post combines **two panels**:
 
@@ -397,13 +400,6 @@ ggplot(disp_df, aes(x = Season, y = Distance, fill = Season)) +
 ```
 
 Placing these two panels side-by-side tells the complete story: Panel A shows _where_ the groups sit in community space; Panel B shows whether the PERMANOVA result is trustworthy. Together they give reviewers everything they need to evaluate your analysis.
-
-**Detailed results for each section is available in the repo, see day3_results.md**
-[github.com/jojyjohn28/microbiome_stats/day3](https://github.com/jojyjohn28/microbiome_stats/tree/main/day3-permanova-adonis2)\*
-
----
-
-## The Figure
 
 ![ERMANOVA analysis of MAG community composition across seasons and estuaries](/assets/img/day3_ms.png)
 
