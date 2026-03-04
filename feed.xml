@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-03T14:41:18-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-03T14:41:18-05:00</published><updated>2026-03-03T14:41:18-05:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-04T09:37:33-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-04T09:37:33-05:00</published><updated>2026-03-04T09:37:33-05:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,477 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 2 — Constrained Ordination: RDA &amp;amp; dbRDA for Microbiome Community Analysis</title><link href="https://jojyjohn28.github.io/blog/day2-rda-dbrda-microbiome-ordination/" rel="alternate" type="text/html" title="Day 2 — Constrained Ordination: RDA &amp;amp; dbRDA for Microbiome Community Analysis" /><published>2026-03-03T00:00:00-05:00</published><updated>2026-03-03T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Day-2-Constrained-Ordination</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day2-rda-dbrda-microbiome-ordination/"><![CDATA[<h2 id="day-2--constrained-ordination-rda--dbrda-for-microbiome-community-analysis">Day 2 — Constrained Ordination: RDA &amp; dbRDA for Microbiome Community Analysis</h2>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 3 — PERMANOVA with adonis2: Testing Real Community Differences</title><link href="https://jojyjohn28.github.io/blog/day3-permanova-adonis2-microbiome/" rel="alternate" type="text/html" title="Day 3 — PERMANOVA with adonis2: Testing Real Community Differences" /><published>2026-03-04T00:00:00-05:00</published><updated>2026-03-04T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day3-permanova-adonis2-microbiome</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day3-permanova-adonis2-microbiome/"><![CDATA[<h2 id="day-3--permanova-with-adonis2-testing-real-community-differences">Day 3 — PERMANOVA with adonis2: Testing Real Community Differences</h2>
+
+<p>*This is Day 3 of a 7-day series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and *<em>🧬 Day 53 of Daily Bioinformatics from Jojy’s Desk</em>
+<em>All data and R code → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
+
+<hr />
+
+<p>On Day 2 we produced a triplot and saw something visually compelling: Spring and Summer samples separated along RDA2, and Chesapeake and Delaware communities appeared distinct. But a plot is not a test. Anyone can look at an ordination and see patterns — real or imagined.</p>
+
+<p>Today we ask the harder question: <strong>are those differences statistically real?</strong></p>
+
+<p>The tool is <strong>PERMANOVA</strong> — and understanding what it actually does will make you a better analyst and a more careful interpreter of results.</p>
+
+<hr />
+
+<h2 id="-the-biological-question">🧬 The Biological Question</h2>
+
+<p>We have 27 metagenomes from two estuaries (Chesapeake Bay and Delaware Bay), two seasons (Spring and Summer), and two size fractions (Particle-attached and Free-living). Three grouping variables, each potentially shaping community composition independently — and potentially interacting.</p>
+
+<p>The questions we want to answer:</p>
+
+<ul>
+  <li>Do Chesapeake and Delaware communities differ significantly?</li>
+  <li>Do Spring and Summer communities differ significantly?</li>
+  <li>Does the effect of season depend on which bay you’re in? (Season × Bay interaction)</li>
+  <li>Does size fraction matter — are Particle-attached MAG communities different from Free-living?</li>
+  <li>And critically: are these differences in <em>composition</em>, or just in <em>variability</em>?</li>
+</ul>
+
+<p>That last question is where most analyses quietly go wrong. PERMANOVA alone cannot answer it — you need <code class="language-plaintext highlighter-rouge">betadisper</code> too.</p>
+
+<hr />
+
+<h2 id="-the-statistical-concept">📊 The Statistical Concept</h2>
+
+<h3 id="what-permanova-actually-does">What PERMANOVA actually does</h3>
+
+<p>PERMANOVA stands for <strong>Permutational Multivariate Analysis of Variance</strong>. Let’s unpack that word by word.</p>
+
+<p><strong>Multivariate</strong> — it tests all 61 MAGs simultaneously, just like PERMANOVA was designed for. No need to test each MAG separately and correct for multiple comparisons.</p>
+
+<p><strong>Analysis of Variance</strong> — it partitions total community variance into explained (between-group) and unexplained (within-group) components, exactly like ANOVA does for a single variable.</p>
+
+<p><strong>Permutational</strong> — here’s the key difference from classical ANOVA. Instead of assuming your data follows a normal distribution to calculate a p-value, PERMANOVA shuffles your group labels randomly (say, 999 times) and asks: <em>how often would we see a between-group difference this large by chance alone?</em></p>
+
+<p>The p-value is simply the proportion of permutations that produced a test statistic as large or larger than the observed one. No distributional assumptions. No normality required. This is why it’s appropriate for microbiome data.</p>
+
+<h3 id="the-test-statistic-pseudo-f">The test statistic: pseudo-F</h3>
+
+<p>PERMANOVA calculates a <strong>pseudo-F statistic</strong>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pseudo-F = (between-group SS / df_between) / (within-group SS / df_within)
+</code></pre></div></div>
+
+<p>Where SS = sum of squared distances (from a Bray-Curtis or other distance matrix). A large pseudo-F means groups are more different from each other than samples within the same group — the signal you’re looking for.</p>
+
+<h3 id="r--the-effect-size-you-must-report">R² — the effect size you must report</h3>
+
+<p>The <strong>R²</strong> from PERMANOVA is the proportion of total community variance explained by your grouping variable. It is arguably more important than the p-value, because:</p>
+
+<ul>
+  <li>With large sample sizes, tiny biological differences can be statistically significant (p &lt; 0.05) but explain only 3% of variance (R² = 0.03) — biologically meaningless</li>
+  <li>With small sample sizes like ours (n = 27), genuine effects may be non-significant simply due to low power</li>
+</ul>
+
+<p><strong>Always report both R² and p-value.</strong> A result like “Season explained 18% of community variance (R² = 0.18, p = 0.002)” is scientifically meaningful. “Season was significant (p = 0.002)” is not.</p>
+
+<h3 id="the-critical-assumption-homogeneity-of-dispersion">The critical assumption: homogeneity of dispersion</h3>
+
+<p>PERMANOVA assumes that if groups differ, they differ in their <em>centroid positions</em> — not in their <em>spread</em>. Two groups can have identical centroids but very different spreads, and PERMANOVA will still flag them as significantly different. This is a false positive.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">betadisper</code> test checks this assumption. It measures the average distance of each sample from its group centroid. If one group has much higher spread than another, PERMANOVA’s result is confounded — you can’t tell if you’re detecting a difference in composition or a difference in variability.</p>
+
+<p><strong>Always run <code class="language-plaintext highlighter-rouge">betadisper</code> after <code class="language-plaintext highlighter-rouge">adonis2</code>. If dispersion is heterogeneous, interpret your PERMANOVA with caution.</strong></p>
+
+<hr />
+
+<h2 id="️-the-r-code">⚙️ The R Code</h2>
+
+<h3 id="step-1--load-libraries-and-data">Step 1 — Load libraries and data</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Load metadata</span><span class="w">
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"../day1/data/metadata.csv"</span><span class="p">,</span><span class="w">
+                     </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Load MAG abundance</span><span class="w">
+</span><span class="n">mag_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"../day1/data/mag_abundance.csv"</span><span class="p">,</span><span class="w">
+                    </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Transpose: samples as rows, MAGs as columns</span><span class="w">
+</span><span class="n">mag_t</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">mag_raw</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Extract grouping variables — now clean columns in updated metadata</span><span class="w">
+</span><span class="n">Season</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Season</span><span class="w">    </span><span class="c1"># Spring (n=8) or Summer (n=19)</span><span class="w">
+</span><span class="n">Bay</span><span class="w">      </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Bay</span><span class="w">       </span><span class="c1"># Chesapeake (n=11) or Delaware (n=16)</span><span class="w">
+</span><span class="n">Fraction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">SF</span><span class="w">        </span><span class="c1"># Particle-attached (n=14) or Free_living (n=13)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-2--calculate-bray-curtis-dissimilarity">Step 2 — Calculate Bray-Curtis dissimilarity</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># PERMANOVA works on a distance matrix, not raw data</span><span class="w">
+</span><span class="c1"># Bray-Curtis is the standard choice for community composition:</span><span class="w">
+</span><span class="c1"># - ignores shared absences (two samples sharing an absent MAG</span><span class="w">
+</span><span class="c1">#   are not counted as similar)</span><span class="w">
+</span><span class="c1"># - bounded 0–1: 0 = identical communities, 1 = no shared MAGs</span><span class="w">
+</span><span class="c1"># - robust to the sparsity and compositionality of microbiome data</span><span class="w">
+
+</span><span class="n">bc_dist</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vegdist</span><span class="p">(</span><span class="n">mag_t</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Quick check — look at the range of dissimilarities</span><span class="w">
+</span><span class="n">summary</span><span class="p">(</span><span class="n">as.vector</span><span class="p">(</span><span class="n">bc_dist</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-3--single-factor-permanova-models">Step 3 — Single-factor PERMANOVA models</h3>
+
+<p>Start simple — test each factor independently before building interaction models:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># --- Season ---</span><span class="w">
+</span><span class="n">perm_season</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">bc_dist</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Season</span><span class="p">,</span><span class="w">
+                       </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">
+                       </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">perm_season</span><span class="p">)</span><span class="w">
+</span><span class="c1"># Report: R² and p-value for Season</span><span class="w">
+
+</span><span class="c1"># --- Bay ---</span><span class="w">
+</span><span class="n">perm_bay</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">bc_dist</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Bay</span><span class="p">,</span><span class="w">
+                    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">
+                    </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">perm_bay</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># --- Size Fraction ---</span><span class="w">
+</span><span class="n">perm_sf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">bc_dist</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">SF</span><span class="p">,</span><span class="w">
+                   </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">
+                   </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">perm_sf</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Reading the output:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>         Df SumOfSqs      R2      F Pr(&gt;F)
+Season    1   X.XXX  0.XXX  X.XX   0.00X **
+Residual 25   X.XXX  0.XXX
+Total    26   X.XXX  1.000
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">R2</code> = proportion of total variance explained — this is your effect size</li>
+  <li><code class="language-plaintext highlighter-rouge">Pr(&gt;F)</code> = permutation p-value</li>
+  <li><code class="language-plaintext highlighter-rouge">Df</code> = degrees of freedom (1 for a two-level factor)</li>
+</ul>
+
+<h3 id="step-4--multi-factor-additive-model">Step 4 — Multi-factor additive model</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Test all three factors together</span><span class="w">
+</span><span class="c1"># adonis2 uses Type I (sequential) SS by default —</span><span class="w">
+</span><span class="c1"># order matters! Put your most important predictor first.</span><span class="w">
+</span><span class="c1"># Use by = "margin" for Type III (each term adjusted for all others)</span><span class="w">
+
+</span><span class="n">perm_multi</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">bc_dist</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Season</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Bay</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SF</span><span class="p">,</span><span class="w">
+                      </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">
+                      </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">,</span><span class="w">
+                      </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"margin"</span><span class="p">)</span><span class="w">   </span><span class="c1"># Type III — recommended</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">perm_multi</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<blockquote>
+  <p><strong>Why <code class="language-plaintext highlighter-rouge">by = "margin"</code>?</strong> With unbalanced designs (Spring n=8, Summer n=19), sequential SS gives different results depending on variable order. Marginal SS tests each term after accounting for all others — more robust and comparable to how we think about the biology.</p>
+</blockquote>
+
+<h3 id="step-5--interaction-model">Step 5 — Interaction model</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Does the effect of Season depend on which Bay you're in?</span><span class="w">
+</span><span class="c1"># The * operator includes main effects AND interaction</span><span class="w">
+</span><span class="n">perm_interact</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">bc_dist</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Season</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Bay</span><span class="p">,</span><span class="w">
+                         </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">
+                         </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">,</span><span class="w">
+                         </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"margin"</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">perm_interact</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Full three-way interaction (use carefully with small n)</span><span class="w">
+</span><span class="n">perm_full</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">bc_dist</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Season</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Bay</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">SF</span><span class="p">,</span><span class="w">
+                     </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">
+                     </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">,</span><span class="w">
+                     </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"margin"</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">perm_full</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<blockquote>
+  <p><strong>Caution with interactions and small n:</strong> We have only 2–6 samples per Season × Bay × SF cell. Three-way interactions eat degrees of freedom quickly. If the three-way interaction term is not significant, simplify to two-way models.</p>
+</blockquote>
+
+<h3 id="step-6--the-critical-assumption-check-betadisper">Step 6 — The critical assumption check: betadisper</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ── Season dispersion ──────────────────────────────────────────</span><span class="w">
+</span><span class="n">disp_season</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">betadisper</span><span class="p">(</span><span class="n">bc_dist</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Season</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Permutation test for homogeneity of dispersion</span><span class="w">
+</span><span class="n">permutest</span><span class="p">(</span><span class="n">disp_season</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Visualise dispersion — boxplot</span><span class="w">
+</span><span class="n">boxplot</span><span class="p">(</span><span class="n">disp_season</span><span class="p">,</span><span class="w">
+        </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Dispersion by Season"</span><span class="p">,</span><span class="w">
+        </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Distance to centroid"</span><span class="p">,</span><span class="w">
+        </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"green3"</span><span class="p">,</span><span class="w"> </span><span class="s2">"red2"</span><span class="p">),</span><span class="w">
+        </span><span class="n">notch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Ordination of dispersion</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">disp_season</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Beta-dispersion — Season"</span><span class="p">,</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"green3"</span><span class="p">,</span><span class="w"> </span><span class="s2">"red2"</span><span class="p">),</span><span class="w">
+     </span><span class="n">pch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">19</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># ── Bay dispersion ─────────────────────────────────────────────</span><span class="w">
+</span><span class="n">disp_bay</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">betadisper</span><span class="p">(</span><span class="n">bc_dist</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Bay</span><span class="p">)</span><span class="w">
+</span><span class="n">permutest</span><span class="p">(</span><span class="n">disp_bay</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">)</span><span class="w">
+</span><span class="n">boxplot</span><span class="p">(</span><span class="n">disp_bay</span><span class="p">,</span><span class="w">
+        </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Dispersion by Bay"</span><span class="p">,</span><span class="w">
+        </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Distance to centroid"</span><span class="p">,</span><span class="w">
+        </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#4f8ef7"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#f59e0b"</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># ── Size fraction dispersion ───────────────────────────────────</span><span class="w">
+</span><span class="n">disp_sf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">betadisper</span><span class="p">(</span><span class="n">bc_dist</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">SF</span><span class="p">)</span><span class="w">
+</span><span class="n">permutest</span><span class="p">(</span><span class="n">disp_sf</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">)</span><span class="w">
+</span><span class="n">boxplot</span><span class="p">(</span><span class="n">disp_sf</span><span class="p">,</span><span class="w">
+        </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Dispersion by Size Fraction"</span><span class="p">,</span><span class="w">
+        </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Distance to centroid"</span><span class="p">,</span><span class="w">
+        </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#a78bfa"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#00c9a7"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Interpreting <code class="language-plaintext highlighter-rouge">betadisper</code> results:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>betadisper p-value</th>
+      <th>What it means</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>p &gt; 0.05</td>
+      <td>Dispersion is homogeneous ✅</td>
+      <td>PERMANOVA result is trustworthy</td>
+    </tr>
+    <tr>
+      <td>p &lt; 0.05</td>
+      <td>Dispersion is heterogeneous ⚠️</td>
+      <td>PERMANOVA significant? Could be dispersion, not composition</td>
+    </tr>
+    <tr>
+      <td>p &lt; 0.05 + PERMANOVA p &gt; 0.05</td>
+      <td>Groups similar centroids, different spread</td>
+      <td>Report dispersion difference, not composition difference</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="step-7--pairwise-comparisons">Step 7 — Pairwise comparisons</h3>
+
+<p>When a factor with more than 2 levels is significant, you need pairwise tests to know <em>which</em> groups differ:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Install if needed:</span><span class="w">
+</span><span class="c1"># devtools::install_github("pmartinezarbizu/pairwiseAdonis/pairwiseAdonis")</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">pairwiseAdonis</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Pairwise PERMANOVA for Season × Bay combinations</span><span class="w">
+</span><span class="n">metadata</span><span class="o">$</span><span class="n">SeasonBay</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="n">metadata</span><span class="o">$</span><span class="n">Season</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Bay</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"_"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">pairwise_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pairwise.adonis2</span><span class="p">(</span><span class="n">bc_dist</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">SeasonBay</span><span class="p">,</span><span class="w">
+                                    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">
+                                    </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">pairwise_result</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-8--summary-results-table">Step 8 — Summary results table</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Build a clean summary table of all PERMANOVA results</span><span class="w">
+</span><span class="n">results_table</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">Factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Season"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Bay"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Size Fraction"</span><span class="p">,</span><span class="w">
+             </span><span class="s2">"Season × Bay"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Season × SF"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Bay × SF"</span><span class="p">),</span><span class="w">
+  </span><span class="n">R2</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">perm_season</span><span class="o">$</span><span class="n">R2</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w">
+             </span><span class="n">perm_bay</span><span class="o">$</span><span class="n">R2</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w">
+             </span><span class="n">perm_sf</span><span class="o">$</span><span class="n">R2</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w">
+             </span><span class="n">perm_interact</span><span class="o">$</span><span class="n">R2</span><span class="p">[</span><span class="m">3</span><span class="p">],</span><span class="w">   </span><span class="c1"># interaction term row</span><span class="w">
+             </span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="kc">NA</span><span class="p">),</span><span class="w">               </span><span class="c1"># fill in from your full model</span><span class="w">
+  </span><span class="n">p_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">perm_season</span><span class="o">$</span><span class="n">`Pr(&gt;F)`</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w">
+              </span><span class="n">perm_bay</span><span class="o">$</span><span class="n">`Pr(&gt;F)`</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w">
+              </span><span class="n">perm_sf</span><span class="o">$</span><span class="n">`Pr(&gt;F)`</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w">
+              </span><span class="n">perm_interact</span><span class="o">$</span><span class="n">`Pr(&gt;F)`</span><span class="p">[</span><span class="m">3</span><span class="p">],</span><span class="w">
+              </span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">print</span><span class="p">(</span><span class="n">results_table</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="-reading-the-output">🔍 Reading the Output</h2>
+
+<h3 id="understanding-the-permanova-table">Understanding the PERMANOVA table</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adonis2(formula = bc_dist ~ Season + Bay + SF, ...)
+         Df SumOfSqs      R2      F Pr(&gt;F)
+Season    1    1.234  0.183  5.61   0.001 ***
+Bay       1    0.876  0.130  3.98   0.003 **
+SF        1    0.312  0.046  1.42   0.121
+Residual 23    5.062  0.641
+Total    26    6.484  1.000
+</code></pre></div></div>
+
+<p>Reading this table for our data:</p>
+
+<p><strong>Season (R² ≈ 0.18, p &lt; 0.01):</strong> Season explains approximately 18% of total MAG community variance — a biologically meaningful effect. Spring and Summer communities in these estuaries are genuinely different in composition, not just slightly shuffled versions of each other. This makes ecological sense: summer brings stratification, higher temperatures, and bloom dynamics that select for different microbial assemblages.</p>
+
+<p><strong>Bay (R² ≈ 0.13, p &lt; 0.01):</strong> Chesapeake and Delaware communities differ significantly. The two estuaries have different nutrient loading, salinity gradients, and watershed characteristics — enough to select for distinct MAG assemblages even when sampling the same seasons.</p>
+
+<p><strong>Size Fraction (R² ≈ 0.05, p &gt; 0.05):</strong> The result here depends on your actual permutation output. If non-significant, it means Particle-attached and Free-living MAG communities are not strongly differentiated at this taxonomic level — though individual MAGs may still show fraction-specific patterns (tested in Day 4).</p>
+
+<p><strong>Residual (R² ≈ 0.64):</strong> ~64% of community variance is unexplained by Season, Bay, and SF combined. This is normal — microbiome data is noisy, and there are always unmeasured factors (viral pressure, grazing, stochastic colonization). An R² of 0.36 across three variables in a field study is actually a strong result.</p>
+
+<h3 id="understanding-the-betadisper-boxplot">Understanding the betadisper boxplot</h3>
+
+<p>The boxplot from <code class="language-plaintext highlighter-rouge">boxplot(disp_season)</code> shows the distribution of <strong>distances from each sample to its group centroid</strong>. Think of it as measuring how “spread out” each group is in multivariate space.</p>
+
+<ul>
+  <li><strong>Taller boxes / higher medians</strong> = more variable communities within that group</li>
+  <li><strong>Similar box heights</strong> = homogeneous dispersion ✅ — PERMANOVA is valid</li>
+  <li><strong>Very different box heights</strong> = heterogeneous dispersion ⚠️ — interpret carefully</li>
+</ul>
+
+<p>In estuarine data, Summer communities often show higher dispersion than Spring — summer sampling spans more environmental variation (bloom vs post-bloom, stratified vs mixed) so within-season spread is larger.</p>
+
+<hr />
+
+<h2 id="-figure-idea-for-day-3">💡 Figure Idea for Day 3</h2>
+
+<p>The most effective figure for a PERMANOVA post combines <strong>two panels</strong>:</p>
+
+<p><strong>Panel A — PCoA / NMDS plot (the visual)</strong>
+An unconstrained ordination (PCoA with Bray-Curtis, or NMDS) coloured and shaped by Season and Bay. Unlike the RDA from Day 2, this shows raw community distances without any environmental constraint — so readers can see the grouping structure before the test.</p>
+
+<ul>
+  <li>Colour by Season (Spring = green, Summer = red)</li>
+  <li>Shape by Bay (Chesapeake = circle, Delaware = triangle)</li>
+  <li>Add convex hulls or 95% ellipses around Season groups</li>
+  <li>Add PERMANOVA R² and p-value as a text annotation directly on the plot</li>
+</ul>
+
+<p><strong>Panel B — betadisper boxplot</strong>
+Side-by-side boxplots of distance-to-centroid for Season (and optionally Bay). This directly shows whether dispersion is homogeneous — the assumption panel that most papers never show.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Panel A — PCoA</span><span class="w">
+</span><span class="n">pcoa_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cmdscale</span><span class="p">(</span><span class="n">bc_dist</span><span class="p">,</span><span class="w"> </span><span class="n">eig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span><span class="n">pcoa_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">PC1</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">pcoa_result</span><span class="o">$</span><span class="n">points</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="p">],</span><span class="w">
+  </span><span class="n">PC2</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">pcoa_result</span><span class="o">$</span><span class="n">points</span><span class="p">[,</span><span class="w"> </span><span class="m">2</span><span class="p">],</span><span class="w">
+  </span><span class="n">Season</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Season</span><span class="p">,</span><span class="w">
+  </span><span class="n">Bay</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Bay</span><span class="p">,</span><span class="w">
+  </span><span class="n">SF</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">SF</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># % variance explained by each axis</span><span class="w">
+</span><span class="n">eig_pct</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pcoa_result</span><span class="o">$</span><span class="n">eig</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">pcoa_result</span><span class="o">$</span><span class="n">eig</span><span class="p">[</span><span class="n">pcoa_result</span><span class="o">$</span><span class="n">eig</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">]),</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">pcoa_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PC1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PC2</span><span class="p">,</span><span class="w">
+                    </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Season</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bay</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.85</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">stat_ellipse</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Season</span><span class="p">),</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"t"</span><span class="p">,</span><span class="w">
+               </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_colour_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#22c55e"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Summer"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#ef4444"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_shape_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Chesapeake"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w"> </span><span class="s2">"Delaware"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">17</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PCoA1 ("</span><span class="p">,</span><span class="w"> </span><span class="n">eig_pct</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">),</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PCoA2 ("</span><span class="p">,</span><span class="w"> </span><span class="n">eig_pct</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">),</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PCoA — Bray-Curtis dissimilarity"</span><span class="p">,</span><span class="w">
+    </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Season: R² = 0.XX, p = 0.00X  |  Bay: R² = 0.XX, p = 0.00X"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Panel B — betadisper boxplot (ggplot version)</span><span class="w">
+</span><span class="n">disp_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">Distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">disp_season</span><span class="o">$</span><span class="n">distances</span><span class="p">),</span><span class="w">
+  </span><span class="n">Season</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Season</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">disp_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Season</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Distance</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Season</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">outlier.shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">21</span><span class="p">,</span><span class="w">
+               </span><span class="n">outlier.size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.12</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.8</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#22c55e"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Summer"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#ef4444"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Distance to centroid"</span><span class="p">,</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Beta-dispersion by Season"</span><span class="p">,</span><span class="w">
+    </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"betadisper permutation test: p = 0.XXX"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Placing these two panels side-by-side tells the complete story: Panel A shows <em>where</em> the groups sit in community space; Panel B shows whether the PERMANOVA result is trustworthy. Together they give reviewers everything they need to evaluate your analysis.</p>
+
+<p><strong>Detailed results for each section is available in the repo, see day3_results.md</strong>
+<a href="https://github.com/jojyjohn28/microbiome_stats/tree/main/day3-permanova-adonis2">github.com/jojyjohn28/microbiome_stats/day3</a>*</p>
+
+<hr />
+
+<h2 id="the-figure">The Figure</h2>
+
+<p><img src="/assets/img/day3_ms.png" alt="ERMANOVA analysis of MAG community composition across seasons and estuaries" /></p>
+
+<p>Figure 1. PERMANOVA analysis of MAG community composition across seasons and estuaries. (A) Principal Coordinates Analysis (PCoA) of Bray-Curtis dissimilarities showing clear separation of Spring (green) and Summer (red) communities along both axes (PCoA1 = 40.8%, PCoA2 = 31.1%). Circle = Chesapeake Bay; triangle = Delaware Bay. Dashed ellipses represent 95% confidence intervals per season. Season was the only significant driver of community composition (R² = 0.325, p = 0.001); Bay was not significant (R² = 0.049, p = 0.121). (B) Beta-dispersion boxplot showing distance of each sample to its seasonal group centroid. Similar spread between Spring and Summer (betadisper p = 0.277) confirms that the PERMANOVA result reflects true compositional differences, not differences in group variability.</p>
+
+<p><strong>What does this mean biologically?</strong></p>
+
+<p>The tight Spring cluster (small green ellipse, low dispersion in panel B) versus the elongated Summer ellipse (wider spread along PCoA1) tells an interesting biological story: spring communities are compositionally more consistent across both bays, while summer communities are more variable — likely reflecting the greater environmental heterogeneity of summer (stratification, blooms, oxygen gradients). Yet despite that visual difference in spread, betadisper confirms it’s not statistically significant.</p>
+
+<h2 id="️-common-mistakes">⚠️ Common Mistakes</h2>
+
+<p><strong>Mistake 1: Reporting only p-value, ignoring R².</strong>
+A p-value without R² is scientifically incomplete. With n = 27 samples and a real biological signal, even modest R² values (0.10–0.15) can be significant. Always report both: “Season explained 18% of community variance (R² = 0.18, p = 0.001).”</p>
+
+<p><strong>Mistake 2: Skipping betadisper.</strong>
+This is the most commonly skipped step in published microbiome papers. If dispersion is heterogeneous (e.g. Summer communities are more variable than Spring), a significant PERMANOVA could mean centroids differ, <em>or</em> that one group is just more spread out. You cannot distinguish these without <code class="language-plaintext highlighter-rouge">betadisper</code>. Run it every time.</p>
+
+<p><strong>Mistake 3: Ignoring unbalanced design.</strong>
+Our dataset has 8 Spring and 19 Summer samples — nearly 2.5× more Summer. With unbalanced designs, sequential SS (the default in <code class="language-plaintext highlighter-rouge">adonis2</code>) gives results that depend on variable order. Always use <code class="language-plaintext highlighter-rouge">by = "margin"</code> for marginal SS when your design is unbalanced.</p>
+
+<p><strong>Mistake 4: Using too many permutations as a substitute for sample size.</strong>
+More permutations (999, 9999) give more precise p-values but do not compensate for a small n. With n = 27, our minimum achievable p-value is 1/(permutations + 1). With 999 permutations, the minimum is p = 0.001. This is fine — don’t chase smaller p-values by increasing permutations.</p>
+
+<p><strong>Mistake 5: Building complex interaction models with small n.</strong>
+A Season × Bay × SF three-way interaction has 8 cells, with only 2–6 samples per cell. Three-way interactions are unreliable at this sample size. Test two-way interactions; interpret three-way results with extreme caution.</p>
+
+<p><strong>Mistake 6: Not setting a random seed.</strong>
+PERMANOVA results vary slightly between runs due to random permutations. Always set <code class="language-plaintext highlighter-rouge">set.seed()</code> before running <code class="language-plaintext highlighter-rouge">adonis2</code> to ensure reproducibility.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">   </span><span class="c1"># add this before every adonis2() call</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="-key-takeaways">🧭 Key Takeaways</h2>
+
+<ul>
+  <li><strong>PERMANOVA</strong> tests community differences using permutation rather than distributional assumptions — making it appropriate for multivariate, non-normal microbiome data.</li>
+  <li><strong>R²</strong> is the effect size — always report it alongside p-value. It tells you how much of community variance is actually explained.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">betadisper</code></strong> tests the homogeneity of dispersion assumption. A significant betadisper result means PERMANOVA’s significance could reflect differences in variability rather than composition — this distinction is biologically critical.</li>
+  <li><strong>Unbalanced designs</strong> (Spring n=8 vs Summer n=19) require marginal SS (<code class="language-plaintext highlighter-rouge">by = "margin"</code>) rather than sequential SS.</li>
+  <li><strong>Interaction terms</strong> (Season × Bay) test whether the effect of one factor depends on the level of another — important biology, but requires adequate sample sizes per cell.</li>
+  <li><strong>Set a random seed</strong> (<code class="language-plaintext highlighter-rouge">set.seed()</code>) before every permutation test for reproducibility.</li>
+</ul>
+
+<hr />
+
+<h2 id="-whats-next">🔗 What’s Next</h2>
+
+<p>Tomorrow on <strong>Day 4</strong>, we step from community-level testing down to taxon-level comparisons. We’ll use <strong>Wilcoxon rank-sum and Kruskal-Wallis tests</strong> to ask which <em>individual MAGs</em> differ significantly between seasons, bays, and size fractions — and how to handle the multiple testing problem that arises when you test 61 MAGs simultaneously.</p>
+
+<hr />
+
+<p><em>All R code and data: <a href="https://github.com/jojyjohn28/microbiome_stats/tree/main/day3-permanova-adonis2">github.com/jojyjohn28/microbiome_stats/day3</a></em>
+<em>Found this useful? Share it with someone learning microbiome statistics.</em></p>
+
+<hr />]]></content><author><name></name></author><category term="PERMANOVA" /><category term="adonis2" /><category term="betadisper" /><category term="vegan" /><category term="microbiome" /><category term="MAGs" /><category term="R" /><category term="metagenomics" /><category term="community-ecology" /><summary type="html"><![CDATA[You've seen the groups separate in the RDA triplot. Now we test whether those differences are statistically real — using PERMANOVA, the permutation-based test built for multivariate community data. Includes the critical betadisper assumption test most papers skip.]]></summary></entry><entry><title type="html">Day 2 — Constrained Ordination: RDA &amp;amp; dbRDA for Microbiome Community Analysis</title><link href="https://jojyjohn28.github.io/blog/day2-rda-dbrda-microbiome-ordination/" rel="alternate" type="text/html" title="Day 2 — Constrained Ordination: RDA &amp;amp; dbRDA for Microbiome Community Analysis" /><published>2026-03-03T00:00:00-05:00</published><updated>2026-03-03T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Day-2-Constrained-Ordination</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day2-rda-dbrda-microbiome-ordination/"><![CDATA[<h2 id="day-2--constrained-ordination-rda--dbrda-for-microbiome-community-analysis">Day 2 — Constrained Ordination: RDA &amp; dbRDA for Microbiome Community Analysis</h2>
 
 <p>*This is Day 2 of the series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and <strong>🧬 Day 52 of Daily Bioinformatics from Jojy’s Desk</strong>
 <em>All data and R code → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
@@ -4743,955 +5213,4 @@ anvi-display-pan <span class="nt">-g</span> GENOMES.db <span class="nt">-p</span
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/d9-mg.png" alt="day9mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="visualization" /><category term="ggplot2" /><category term="matplotlib" /><category term="seaborn" /><category term="Krona" /><category term="Circos" /><category term="networks" /><category term="heatmaps" /><category term="publication-figures" /><category term="data-visualization" /><category term="python" /><category term="R" /><summary type="html"><![CDATA[Create publication-quality figures for metagenomics: R/ggplot2, Python/matplotlib/seaborn, Krona taxonomic wheels, Circos genome comparisons, interactive Anvi'o plots, network visualizations, and heatmaps. Complete guide to visual storytelling with your data.]]></summary></entry><entry><title type="html">Day 8: Workflow Wrappers &amp;amp; Web Platforms - Streamlining Metagenome Analysis</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day8-workflows-platforms/" rel="alternate" type="text/html" title="Day 8: Workflow Wrappers &amp;amp; Web Platforms - Streamlining Metagenome Analysis" /><published>2026-02-13T00:00:00-05:00</published><updated>2026-02-13T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day8-workflows-platforms</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day8-workflows-platforms/"><![CDATA[<h1 id="day-8-workflow-wrappers--web-platforms">Day 8: Workflow Wrappers &amp; Web Platforms</h1>
-
-<table>
-  <tbody>
-    <tr>
-      <td><strong>Estimated Time:</strong> 4-6 hours</td>
-      <td><strong>Difficulty:</strong> Beginner to Intermediate</td>
-      <td><strong>Prerequisites:</strong> Understanding of Days 1-7 concepts</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="-table-of-contents">📚 Table of Contents</h2>
-
-<ul>
-  <li><a href="#introduction">Introduction</a></li>
-  <li><a href="#part-i-workflow-wrappers">Part I: Workflow Wrappers</a></li>
-  <li><a href="#part-ii-web-based-platforms">Part II: Web-Based Platforms</a></li>
-  <li><a href="#part-iii-choosing-the-right-tool">Part III: Choosing the Right Tool</a></li>
-  <li><a href="#best-practices">Best Practices</a></li>
-</ul>
-
-<hr />
-
-<h2 id="-introduction">🎯 Introduction</h2>
-
-<p><strong>You’ve learned the individual tools. Now let’s automate everything.</strong></p>
-
-<h3 id="the-challenge">The Challenge</h3>
-
-<p>Days 1-7 taught you:</p>
-
-<ul>
-  <li>Quality control</li>
-  <li>Assembly</li>
-  <li>Binning</li>
-  <li>Annotation</li>
-  <li>Comparative analysis</li>
-</ul>
-
-<p><strong>But running each tool separately is:</strong></p>
-
-<ul>
-  <li>❌ Time-consuming</li>
-  <li>❌ Error-prone</li>
-  <li>❌ Hard to reproduce</li>
-  <li>❌ Requires deep Linux knowledge</li>
-</ul>
-
-<h3 id="the-solution">The Solution</h3>
-
-<p><strong>Workflow wrappers</strong> = Pre-built pipelines that automate everything<br />
-<strong>Web platforms</strong> = Run analyses in your browser (no installation!)</p>
-
-<hr />
-
-<h2 id="-part-i-workflow-wrappers">🔧 Part I: Workflow Wrappers</h2>
-
-<h3 id="overview">Overview</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Tool</th>
-      <th>Type</th>
-      <th>Best For</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>MetaWRAP</strong></td>
-      <td>All-in-one</td>
-      <td>Complete workflows, HPC</td>
-    </tr>
-    <tr>
-      <td><strong>nf-core/mag</strong></td>
-      <td>Nextflow</td>
-      <td>Reproducible, scalable</td>
-    </tr>
-    <tr>
-      <td><strong>Anvi’o</strong></td>
-      <td>Interactive</td>
-      <td>Visualization + analysis</td>
-    </tr>
-    <tr>
-      <td><strong>ATLAS</strong></td>
-      <td>Snakemake</td>
-      <td>Large datasets, metatranscriptomics</td>
-    </tr>
-    <tr>
-      <td><strong>SqueezeMeta</strong></td>
-      <td>Integrated</td>
-      <td>Co-assembly, functional annotation</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="-1-metawrap---complete-metagenome-pipeline">🎁 1. MetaWRAP - Complete Metagenome Pipeline</h2>
-
-<p><strong>MetaWRAP</strong> wraps Days 1-7 into simple commands.</p>
-
-<h3 id="installation">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create conda environment</span>
-conda create <span class="nt">-n</span> metawrap-env <span class="nv">python</span><span class="o">=</span>2.7
-conda activate metawrap-env
-
-<span class="c"># Install MetaWRAP</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> ursky metawrap-mg
-
-<span class="c"># Download databases (WARNING: ~300 GB!)</span>
-metaWRAP_db_setup.sh
-</code></pre></div></div>
-
-<h3 id="complete-workflow">Complete Workflow</h3>
-
-<h2 id="please-use-metawrap_complete_workflowsh-from-day-8-">please use metaWrap_complete_workflow.sh from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day8-workflows-platforms/">Day 8 →</a></strong></h2>
-
-<h3 id="metawrap-modules">MetaWRAP Modules</h3>
-
-<p><strong>Available modules:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Quality control</span>
-metawrap read_qc
-
-<span class="c"># Assembly</span>
-metawrap assembly <span class="nt">--metaspades</span>  <span class="c"># or --megahit</span>
-
-<span class="c"># Binning</span>
-metawrap binning <span class="nt">--metabat2</span> <span class="nt">--maxbin2</span> <span class="nt">--concoct</span>
-
-<span class="c"># Refinement</span>
-metawrap bin_refinement <span class="nt">-c</span> 50 <span class="nt">-x</span> 10
-
-<span class="c"># Reassembly</span>
-metawrap reassemble_bins
-
-<span class="c"># Quantification</span>
-metawrap quant_bins
-
-<span class="c"># Classification</span>
-metawrap classify_bins
-
-<span class="c"># Annotation</span>
-metawrap annotate_bins
-
-<span class="c"># Bin visualization</span>
-metawrap blobology
-</code></pre></div></div>
-
-<h3 id="advantages">Advantages</h3>
-
-<p>✅ All-in-one solution<br />
-✅ Integrates multiple tools<br />
-✅ Automatic bin refinement<br />
-✅ Good documentation</p>
-
-<h3 id="disadvantages">Disadvantages</h3>
-
-<p>❌ Large database requirements (~300 GB)<br />
-❌ Python 2.7 dependency<br />
-❌ Can be slow<br />
-❌ Less flexible than individual tools</p>
-
-<hr />
-
-<h2 id="-2-nf-coremag---nextflow-pipeline">🔁 2. nf-core/mag - Nextflow Pipeline</h2>
-
-<p><strong>Nextflow</strong> = Modern workflow manager (reproducible, scalable)</p>
-
-<h3 id="installation-1">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Nextflow</span>
-curl <span class="nt">-s</span> https://get.nextflow.io | bash
-<span class="nb">mv </span>nextflow ~/bin/
-
-<span class="c"># Or via conda</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda nextflow
-</code></pre></div></div>
-
-<h3 id="running-nf-coremag">Running nf-core/mag</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Basic run</span>
-nextflow run nf-core/mag <span class="se">\</span>
-    <span class="nt">--input</span> samplesheet.csv <span class="se">\</span>
-    <span class="nt">--outdir</span> results <span class="se">\</span>
-    <span class="nt">-profile</span> docker
-
-<span class="c"># Full options</span>
-nextflow run nf-core/mag <span class="se">\</span>
-    <span class="nt">--input</span> samplesheet.csv <span class="se">\</span>
-    <span class="nt">--outdir</span> results <span class="se">\</span>
-    <span class="nt">--skip_spades</span> <span class="se">\</span>
-    <span class="nt">--megahit_fix_cpu_1</span> <span class="se">\</span>
-    <span class="nt">--min_contig_size</span> 1500 <span class="se">\</span>
-    <span class="nt">--min_length_unbinned_contigs</span> 1000000 <span class="se">\</span>
-    <span class="nt">--max_unbinned_contigs</span> 100 <span class="se">\</span>
-    <span class="nt">--busco_db</span> bacteria_odb10 <span class="se">\</span>
-    <span class="nt">-profile</span> docker,test
-</code></pre></div></div>
-
-<h3 id="sample-sheet-format">Sample Sheet Format</h3>
-
-<pre><code class="language-csv">sample,group,short_reads_1,short_reads_2,long_reads
-sample1,group1,s1_R1.fastq.gz,s1_R2.fastq.gz,
-sample2,group1,s2_R1.fastq.gz,s2_R2.fastq.gz,s2_long.fastq.gz
-sample3,group2,s3_R1.fastq.gz,s3_R2.fastq.gz,
-</code></pre>
-
-<h3 id="nf-coremag-features">nf-core/mag Features</h3>
-
-<p>✅ <strong>Modern workflow engine</strong><br />
-✅ <strong>Automatic resume</strong> (restart from failures)<br />
-✅ <strong>Multiple assemblers</strong> (MEGAHIT, SPAdes)<br />
-✅ <strong>Multiple binners</strong> (MetaBAT2, MaxBin2, CONCOCT)<br />
-✅ <strong>BUSCO quality checks</strong><br />
-✅ <strong>GTDB-Tk classification</strong><br />
-✅ <strong>MultiQC reports</strong></p>
-
-<h3 id="output-structure">Output Structure</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>results/
-├── QC/
-│   ├── fastp/
-│   └── fastqc/
-├── Assembly/
-│   ├── MEGAHIT/
-│   └── SPAdes/
-├── Binning/
-│   ├── MetaBAT2/
-│   ├── MaxBin2/
-│   └── bins_summary.tsv
-├── GenomeBinning/
-│   ├── bins/
-│   └── checkm2_results/
-├── Taxonomy/
-│   └── GTDB-Tk/
-└── MultiQC/
-    └── multiqc_report.html
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="️-3-anvio---interactive-metagenomics">🖥️ 3. Anvi’o - Interactive Metagenomics</h2>
-
-<p><strong>Anvi’o</strong> = Analysis + Visualization platform</p>
-
-<h3 id="installation-2">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-y</span> <span class="nt">-n</span> anvio-8 <span class="nv">python</span><span class="o">=</span>3.10
-conda activate anvio-8
-conda <span class="nb">install</span> <span class="nt">-y</span> <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda <span class="nv">anvio</span><span class="o">=</span>8
-anvi-self-test
-</code></pre></div></div>
-
-<h3 id="quick-workflow">Quick Workflow</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Create contigs database</span>
-anvi-gen-contigs-database <span class="nt">-f</span> contigs.fa <span class="nt">-o</span> contigs.db
-
-<span class="c"># 2. Annotate</span>
-anvi-run-hmms <span class="nt">-c</span> contigs.db <span class="nt">-T</span> 8
-anvi-run-ncbi-cogs <span class="nt">-c</span> contigs.db <span class="nt">-T</span> 8
-anvi-run-kegg-kofams <span class="nt">-c</span> contigs.db <span class="nt">-T</span> 8
-
-<span class="c"># 3. Map reads</span>
-bowtie2-build contigs.fa contigs
-bowtie2 <span class="nt">-x</span> contigs <span class="nt">-1</span> R1.fastq <span class="nt">-2</span> R2.fastq <span class="nt">-S</span> sample.sam <span class="nt">-p</span> 8
-samtools view <span class="nt">-bS</span> sample.sam | samtools <span class="nb">sort</span> <span class="nt">-o</span> sample.bam
-anvi-init-bam sample.bam <span class="nt">-o</span> sample_sorted.bam
-
-<span class="c"># 4. Profile</span>
-anvi-profile <span class="nt">-i</span> sample_sorted.bam <span class="nt">-c</span> contigs.db <span class="nt">-o</span> PROFILE
-
-<span class="c"># 5. Binning (automatic)</span>
-anvi-cluster-contigs <span class="nt">-p</span> PROFILE/PROFILE.db <span class="nt">-c</span> contigs.db <span class="se">\</span>
-    <span class="nt">-C</span> CONCOCT <span class="nt">--driver</span> CONCOCT <span class="nt">-T</span> 8
-
-<span class="c"># 6. Interactive visualization</span>
-anvi-interactive <span class="nt">-p</span> PROFILE/PROFILE.db <span class="nt">-c</span> contigs.db
-</code></pre></div></div>
-
-<h3 id="anvio-for-pangenomics">Anvi’o for Pangenomics</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create genomes storage</span>
-anvi-gen-genomes-storage <span class="nt">-e</span> external-genomes.txt <span class="nt">-o</span> GENOMES.db
-
-<span class="c"># Run pangenome</span>
-anvi-pan-genome <span class="nt">-g</span> GENOMES.db <span class="se">\</span>
-    <span class="nt">--project-name</span> my_pangenome <span class="se">\</span>
-    <span class="nt">--num-threads</span> 8
-
-<span class="c"># Visualize</span>
-anvi-display-pan <span class="nt">-g</span> GENOMES.db <span class="nt">-p</span> my_pangenome/my_pangenome-PAN.db
-</code></pre></div></div>
-
-<h3 id="anvio-strengths">Anvi’o Strengths</h3>
-
-<p>✅ <strong>Beautiful interactive interface</strong><br />
-✅ <strong>Real-time binning</strong> (click to bin!)<br />
-✅ <strong>Metabolic reconstruction</strong><br />
-✅ <strong>Pangenomics integration</strong><br />
-✅ <strong>Publication-quality figures</strong></p>
-
-<hr />
-
-<h2 id="-4-atlas---scalable-metagenomics">🐍 4. ATLAS - Scalable Metagenomics</h2>
-
-<p><strong>ATLAS</strong> uses Snakemake for large-scale analyses.</p>
-
-<h3 id="installation-3">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> atlas <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge metagenome-atlas
-conda activate atlas
-atlas init <span class="nt">--db-dir</span> databases
-atlas download <span class="nt">--db-dir</span> databases
-</code></pre></div></div>
-
-<h3 id="running-atlas">Running ATLAS</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Initialize project</span>
-atlas init <span class="nt">--db-dir</span> ~/databases my_project
-
-<span class="c"># Edit config.yaml and samples.tsv</span>
-
-<span class="c"># Run complete workflow</span>
-atlas run all <span class="se">\</span>
-    <span class="nt">--working-dir</span> my_project <span class="se">\</span>
-    <span class="nt">--config-file</span> my_project/config.yaml <span class="se">\</span>
-    <span class="nt">--cores</span> 32 <span class="se">\</span>
-    <span class="nt">--jobs</span> 5
-
-<span class="c"># Or specific steps</span>
-atlas run qc            <span class="c"># Quality control</span>
-atlas run assembly      <span class="c"># Assembly</span>
-atlas run binning       <span class="c"># Binning</span>
-atlas run genomes       <span class="c"># Genome refinement</span>
-</code></pre></div></div>
-
-<h3 id="atlas-features">ATLAS Features</h3>
-
-<p>✅ <strong>Automatic database downloads</strong><br />
-✅ <strong>Co-assembly support</strong><br />
-✅ <strong>Metatranscriptomics</strong> (RNA-seq integration)<br />
-✅ <strong>DRAM annotation</strong><br />
-✅ <strong>Easy configuration</strong></p>
-
-<hr />
-
-<h2 id="-5-squeezemeta---integrated-pipeline">🧩 5. SqueezeMeta - Integrated Pipeline</h2>
-
-<p><strong>SqueezeMeta</strong> = Complete pipeline with co-assembly.</p>
-
-<h3 id="installation-4">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/jtamames/SqueezeMeta.git
-<span class="nb">cd </span>SqueezeMeta
-./install_linux.sh
-</code></pre></div></div>
-
-<h3 id="running-squeezemeta">Running SqueezeMeta</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single sample</span>
-SqueezeMeta.pl <span class="se">\</span>
-    <span class="nt">-m</span> sequential <span class="se">\</span>
-    <span class="nt">-p</span> project_name <span class="se">\</span>
-    <span class="nt">-s</span> samples.txt <span class="se">\</span>
-    <span class="nt">-f</span> raw_reads <span class="se">\</span>
-    <span class="nt">-t</span> 24
-
-<span class="c"># Co-assembly mode</span>
-SqueezeMeta.pl <span class="se">\</span>
-    <span class="nt">-m</span> coassembly <span class="se">\</span>
-    <span class="nt">-p</span> coassembly_project <span class="se">\</span>
-    <span class="nt">-s</span> samples.txt <span class="se">\</span>
-    <span class="nt">-f</span> raw_reads <span class="se">\</span>
-    <span class="nt">-t</span> 24 <span class="se">\</span>
-    <span class="nt">--assembly</span> megahit
-</code></pre></div></div>
-
-<h3 id="squeezemeta-outputs">SqueezeMeta Outputs</h3>
-
-<ul>
-  <li>Taxonomic classification (multiple databases)</li>
-  <li>Functional annotation (KEGG, COG, Pfam)</li>
-  <li>Metabolic pathways</li>
-  <li>Interactive HTML reports</li>
-  <li>Abundance tables</li>
-</ul>
-
-<hr />
-
-<h2 id="-part-ii-web-based-platforms">🌐 Part II: Web-Based Platforms</h2>
-
-<h3 id="why-use-web-platforms">Why Use Web Platforms?</h3>
-
-<p>✅ <strong>No installation</strong> (works in browser)<br />
-✅ <strong>Pre-configured</strong> (databases ready)<br />
-✅ <strong>User-friendly</strong> (GUI interface)<br />
-✅ <strong>Collaborative</strong> (share projects easily)<br />
-✅ <strong>HPC access</strong> (use their servers)</p>
-
-<p>❌ <strong>Limited customization</strong><br />
-❌ <strong>Data upload time</strong> (can be slow)<br />
-❌ <strong>Storage limits</strong> (usually)<br />
-❌ <strong>Privacy concerns</strong> (your data on their servers)</p>
-
-<hr />
-
-<h2 id="-1-galaxy---web-based-analysis">🌌 1. Galaxy - Web-Based Analysis</h2>
-
-<p><strong>Galaxy</strong> = Most popular web platform for bioinformatics</p>
-
-<h3 id="getting-started">Getting Started</h3>
-
-<p><strong>Public servers:</strong></p>
-
-<ul>
-  <li><strong>Main:</strong> https://usegalaxy.org</li>
-  <li><strong>Europe:</strong> https://usegalaxy.eu</li>
-  <li><strong>Australia:</strong> https://usegalaxy.org.au</li>
-</ul>
-
-<p><strong>Create account</strong> → Free!</p>
-
-<h3 id="galaxy-metagenomics-workflow">Galaxy Metagenomics Workflow</h3>
-
-<h4 id="step-1-upload-data">Step 1: Upload Data</h4>
-
-<ol>
-  <li>Click <strong>“Upload Data”</strong></li>
-  <li>Choose files or paste URLs</li>
-  <li>Select <strong>“fastqsanger.gz”</strong> format</li>
-  <li>Click <strong>“Start”</strong></li>
-</ol>
-
-<h4 id="step-2-quality-control">Step 2: Quality Control</h4>
-
-<p><strong>Tool:</strong> FastQC</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Tools → FASTQ Quality Control → FastQC
-- Input: Your FASTQ files
-- Execute
-</code></pre></div></div>
-
-<p><strong>Tool:</strong> Trim Galore!</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Tools → FASTQ Quality Control → Trim Galore!
-- Single-end or Paired-end: Paired-end
-- Reads 1: R1.fastq
-- Reads 2: R2.fastq
-- Execute
-</code></pre></div></div>
-
-<h4 id="step-3-assembly">Step 3: Assembly</h4>
-
-<p><strong>Tool:</strong> MEGAHIT</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Tools → Assembly → MEGAHIT
-- Single/Paired-end: Paired
-- Forward: trimmed_R1.fastq
-- Reverse: trimmed_R2.fastq
-- Minimum contig length: 1500
-- Execute
-</code></pre></div></div>
-
-<h4 id="step-4-binning">Step 4: Binning</h4>
-
-<p><strong>Tool:</strong> MetaBAT2</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Tools → Metagenomics → MetaBAT2
-- Assembly: contigs.fasta
-- BAM files: mapped_reads.bam
-- Minimum contig length: 2500
-- Execute
-</code></pre></div></div>
-
-<h4 id="step-5-quality-check">Step 5: Quality Check</h4>
-
-<p><strong>Tool:</strong> CheckM</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Tools → Metagenomics → CheckM lineage_wf
-- Bins: MetaBAT2 bins
-- Execute
-</code></pre></div></div>
-
-<h4 id="step-6-annotation">Step 6: Annotation</h4>
-
-<p><strong>Tool:</strong> Prokka</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Tools → Annotation → Prokka
-- For each bin
-- Kingdom: Bacteria
-- Execute
-</code></pre></div></div>
-
-<h3 id="galaxy-workflows">Galaxy Workflows</h3>
-
-<p><strong>Create reusable workflows:</strong></p>
-
-<ol>
-  <li>Go to <strong>Workflow</strong> menu</li>
-  <li>Click <strong>“Extract Workflow”</strong></li>
-  <li>Select history</li>
-  <li>Name workflow</li>
-  <li>Save</li>
-</ol>
-
-<p><strong>Run on new data:</strong></p>
-
-<ol>
-  <li>Upload new files</li>
-  <li>Go to <strong>Workflows</strong></li>
-  <li>Select your workflow</li>
-  <li>Map inputs</li>
-  <li>Run!</li>
-</ol>
-
-<h3 id="galaxy-advantages">Galaxy Advantages</h3>
-
-<p>✅ <strong>No installation</strong><br />
-✅ <strong>1000+ tools available</strong><br />
-✅ <strong>Workflows can be shared</strong><br />
-✅ <strong>Educational tutorials</strong><br />
-✅ <strong>Free compute resources</strong></p>
-
-<hr />
-
-<h2 id="-2-kbase---systems-biology-platform">🧬 2. KBase - Systems Biology Platform</h2>
-
-<p><strong>KBase</strong> = DOE Joint Genome Institute platform</p>
-
-<p><strong>Website:</strong> https://kbase.us</p>
-
-<h3 id="getting-started-1">Getting Started</h3>
-
-<ol>
-  <li><strong>Create account</strong> (free)</li>
-  <li><strong>Create narrative</strong> (like Jupyter notebook)</li>
-  <li><strong>Upload data</strong></li>
-  <li><strong>Add analysis apps</strong></li>
-</ol>
-
-<h3 id="kbase-metagenomics-apps">KBase Metagenomics Apps</h3>
-
-<h4 id="available-apps">Available Apps:</h4>
-
-<ol>
-  <li><strong>Trim Reads</strong> (Trimmomatic)</li>
-  <li><strong>Assemble Reads</strong> (MEGAHIT, SPAdes)</li>
-  <li><strong>Annotate Assembly</strong> (RAST, PROKKA)</li>
-  <li><strong>Bin Contigs</strong> (MaxBin2, MetaBAT2)</li>
-  <li><strong>Classify Taxonomy</strong> (GTDB-Tk)</li>
-  <li><strong>Compare Genomes</strong> (Pangenome)</li>
-  <li><strong>Build Metabolic Model</strong> (ModelSEED)</li>
-</ol>
-
-<h3 id="example-kbase-workflow">Example KBase Workflow</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Import FASTQ Data
-   App: "Import FASTQ File as Reads"
-
-2. Quality Control
-   App: "Assess Read Quality with FastQC"
-
-3. Trim Reads
-   App: "Trim Reads with Trimmomatic"
-
-4. Assemble
-   App: "Assemble Reads with MEGAHIT"
-
-5. Annotate
-   App: "Annotate Assembly with PROKKA"
-
-6. Bin
-   App: "Bin Contigs with MetaBAT2"
-
-7. Check Quality
-   App: "Assess Genome Quality with CheckM"
-
-8. Classify
-   App: "Classify Genomes with GTDB-Tk"
-
-9. Build Model
-   App: "Build Metabolic Model with ModelSEED"
-</code></pre></div></div>
-
-<h3 id="kbase-strengths">KBase Strengths</h3>
-
-<p>✅ <strong>Integrated platform</strong> (data + analysis + models)<br />
-✅ <strong>Metabolic modeling</strong> (unique feature!)<br />
-✅ <strong>Reproducible narratives</strong><br />
-✅ <strong>Collaborative</strong><br />
-✅ <strong>DOE compute resources</strong></p>
-
-<h3 id="kbase-limitations">KBase Limitations</h3>
-
-<p>❌ <strong>Steeper learning curve</strong><br />
-❌ <strong>Fewer tools than Galaxy</strong><br />
-❌ <strong>US-focused</strong> (slower internationally)</p>
-
-<hr />
-
-<h2 id="️-3-imgm---integrated-microbial-genomes--microbiomes">🗄️ 3. IMG/M - Integrated Microbial Genomes &amp; Microbiomes</h2>
-
-<p><strong>IMG/M</strong> = JGI’s comprehensive database + analysis platform</p>
-
-<p><strong>Website:</strong> https://img.jgi.doe.gov</p>
-
-<h3 id="what-is-imgm">What is IMG/M?</h3>
-
-<p><strong>Not just analysis</strong> - It’s a massive database!</p>
-
-<ul>
-  <li>300,000+ bacterial genomes</li>
-  <li>40,000+ metagenomes</li>
-  <li>Pre-computed annotations</li>
-  <li>Comparative tools</li>
-</ul>
-
-<h3 id="using-imgm">Using IMG/M</h3>
-
-<h4 id="upload-your-data">Upload Your Data</h4>
-
-<ol>
-  <li><strong>Create account</strong> (free)</li>
-  <li><strong>Submit metagenome</strong></li>
-  <li>Wait for processing (days-weeks)</li>
-  <li>Receive annotated results</li>
-</ol>
-
-<h4 id="or-browse-public-data">Or Browse Public Data</h4>
-
-<p><strong>Search by:</strong></p>
-
-<ul>
-  <li>Ecosystem</li>
-  <li>Taxonomy</li>
-  <li>Genes</li>
-  <li>Functions</li>
-  <li>Pathways</li>
-</ul>
-
-<h3 id="imgm-features">IMG/M Features</h3>
-
-<p><strong>Automatic annotation includes:</strong></p>
-
-<ul>
-  <li>COG/KOG categories</li>
-  <li>Pfam domains</li>
-  <li>KEGG pathways</li>
-  <li>Enzyme functions</li>
-  <li>Signal peptides</li>
-  <li>Transmembrane helices</li>
-</ul>
-
-<p><strong>Comparative tools:</strong></p>
-
-<ul>
-  <li>Gene phylogenetic profiler</li>
-  <li>Abundance profiles</li>
-  <li>Function comparisons</li>
-  <li>BLAST searches</li>
-</ul>
-
-<h3 id="imgm-best-for">IMG/M Best For</h3>
-
-<p>✅ Comparing your data to public datasets<br />
-✅ Exploring gene families<br />
-✅ Metabolic pathway analysis<br />
-✅ Publication-quality annotations</p>
-
-<p>❌ Not for quick turnaround<br />
-❌ Can’t customize pipeline</p>
-
-<hr />
-
-<h2 id="-4-bv-brc-formerly-patric---bacterial--viral-database">🦠 4. BV-BRC (formerly PATRIC) - Bacterial &amp; Viral Database</h2>
-
-<p><strong>BV-BRC</strong> = Bacterial and Viral Bioinformatics Resource Center</p>
-
-<p><strong>Website:</strong> https://www.bv-brc.org</p>
-
-<h3 id="bv-brc-services">BV-BRC Services</h3>
-
-<h4 id="genome-assembly">Genome Assembly</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Services → Assembly
-- Upload reads
-- Choose assembler
-- Submit job
-</code></pre></div></div>
-
-<h4 id="genome-annotation">Genome Annotation</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Services → Annotation
-- Upload genome
-- Select taxonomy
-- Choose annotation options
-- Submit
-</code></pre></div></div>
-
-<h4 id="comprehensive-genome-analysis">Comprehensive Genome Analysis</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Services → Comprehensive Genome Analysis
-- Upload reads OR genome
-- One-stop analysis:
-  - Assembly
-  - Annotation
-  - Quality assessment
-  - Specialized analyses
-</code></pre></div></div>
-
-<h3 id="bv-brc-analysis-tools">BV-BRC Analysis Tools</h3>
-
-<ol>
-  <li><strong>Proteome Comparison</strong> - Compare protein families</li>
-  <li><strong>Phylogenetic Tree</strong> - Build trees from genomes</li>
-  <li><strong>Protein Family Sorter</strong> - Find conserved proteins</li>
-  <li><strong>Comparative Pathway Analysis</strong> - KEGG pathway comparison</li>
-  <li><strong>Variation Analysis</strong> - SNP/indel identification</li>
-  <li><strong>RNA-Seq Analysis</strong> - Transcriptomics</li>
-  <li><strong>Tn-Seq Analysis</strong> - Transposon sequencing</li>
-</ol>
-
-<h3 id="bv-brc-strengths">BV-BRC Strengths</h3>
-
-<p>✅ <strong>Bacterial/viral focus</strong><br />
-✅ <strong>AMR gene database</strong> (critical for pathogens)<br />
-✅ <strong>Drug target identification</strong><br />
-✅ <strong>Extensive genome collection</strong><br />
-✅ <strong>NIH-funded</strong> (reliable)</p>
-
-<h3 id="best-for">Best For</h3>
-
-<ul>
-  <li>Clinical/pathogen studies</li>
-  <li>AMR research</li>
-  <li>Vaccine development</li>
-  <li>Outbreak analysis</li>
-</ul>
-
-<hr />
-
-<h2 id="-part-iii-choosing-the-right-tool">🎯 Part III: Choosing the Right Tool</h2>
-
-<h3 id="decision-matrix">Decision Matrix</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Your Situation</th>
-      <th>Best Choice</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>New to bioinformatics</strong></td>
-      <td>Galaxy</td>
-    </tr>
-    <tr>
-      <td><strong>Need complete automation</strong></td>
-      <td>MetaWRAP or nf-core/mag</td>
-    </tr>
-    <tr>
-      <td><strong>Want interactive binning</strong></td>
-      <td>Anvi’o</td>
-    </tr>
-    <tr>
-      <td><strong>Large dataset (100+ samples)</strong></td>
-      <td>ATLAS or nf-core/mag</td>
-    </tr>
-    <tr>
-      <td><strong>Need metabolic modeling</strong></td>
-      <td>KBase</td>
-    </tr>
-    <tr>
-      <td><strong>Comparing to public data</strong></td>
-      <td>IMG/M</td>
-    </tr>
-    <tr>
-      <td><strong>Clinical/pathogen focus</strong></td>
-      <td>BV-BRC</td>
-    </tr>
-    <tr>
-      <td><strong>Publication-quality analysis</strong></td>
-      <td>Anvi’o or nf-core/mag</td>
-    </tr>
-    <tr>
-      <td><strong>Teaching/learning</strong></td>
-      <td>Galaxy</td>
-    </tr>
-    <tr>
-      <td><strong>Collaborative project</strong></td>
-      <td>KBase or Galaxy</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="-best-practices">💡 Best Practices</h2>
-
-<h3 id="for-workflow-wrappers">For Workflow Wrappers</h3>
-
-<ol>
-  <li><strong>Start with default parameters</strong>
-    <ul>
-      <li>Don’t over-customize initially</li>
-      <li>Understand baseline before tweaking</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Use version control</strong></p>
-
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git init my_project
-git add config.yaml
-git commit <span class="nt">-m</span> <span class="s2">"Initial config"</span>
-</code></pre></div>    </div>
-  </li>
-  <li><strong>Document your choices</strong>
-    <ul>
-      <li>Why this assembler?</li>
-      <li>Why these QC thresholds?</li>
-      <li>Keep a lab notebook
-6</li>
-    </ul>
-  </li>
-  <li><strong>Test on subset</strong>
-    <ul>
-      <li>Don’t run 100 samples immediately</li>
-      <li>Test 1-3 samples first</li>
-    </ul>
-  </li>
-  <li><strong>Monitor resource usage</strong>
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>htop  <span class="c"># Watch CPU/memory</span>
-<span class="nb">df</span> <span class="nt">-h</span> <span class="c"># Check disk space</span>
-</code></pre></div>    </div>
-  </li>
-</ol>
-
-<h3 id="for-web-platforms">For Web Platforms</h3>
-
-<ol>
-  <li><strong>Start with tutorials</strong>
-    <ul>
-      <li>Galaxy has excellent training materials</li>
-      <li>KBase has guided narratives</li>
-    </ul>
-  </li>
-  <li><strong>Save workflows</strong>
-    <ul>
-      <li>Create reusable workflows</li>
-      <li>Share with collaborators</li>
-    </ul>
-  </li>
-  <li><strong>Check data limits</strong>
-    <ul>
-      <li>Know upload size limits</li>
-      <li>Understand storage quotas</li>
-    </ul>
-  </li>
-  <li><strong>Export results</strong>
-    <ul>
-      <li>Download key files locally</li>
-      <li>Don’t rely solely on web storage</li>
-    </ul>
-  </li>
-  <li><strong>Cite properly</strong>
-    <ul>
-      <li>Each platform has citation requirements</li>
-      <li>Acknowledge compute resources</li>
-    </ul>
-  </li>
-</ol>
-
-<hr />
-
-<h2 id="-learning-resources">🎓 Learning Resources</h2>
-
-<h3 id="metawrap">MetaWRAP</h3>
-
-<ul>
-  <li><a href="https://github.com/bxlab/metaWRAP">Official docs</a></li>
-  <li><a href="https://github.com/bxlab/metaWRAP/blob/master/Usage_tutorial.md">Tutorial</a></li>
-</ul>
-
-<h3 id="nf-coremag">nf-core/mag</h3>
-
-<ul>
-  <li><a href="https://nf-co.re/mag">Pipeline docs</a></li>
-  <li><a href="https://training.nextflow.io/">Nextflow training</a></li>
-</ul>
-
-<h3 id="anvio">Anvi’o</h3>
-
-<ul>
-  <li><a href="http://merenlab.org/software/anvio/">Official site</a></li>
-  <li><a href="http://merenlab.org/tutorials/">Tutorials</a></li>
-</ul>
-
-<h3 id="galaxy">Galaxy</h3>
-
-<ul>
-  <li><a href="https://training.galaxyproject.org/">Training materials</a></li>
-  <li><a href="https://training.galaxyproject.org/training-material/topics/metagenomics/">Metagenomics course</a></li>
-</ul>
-
-<h3 id="kbase">KBase</h3>
-
-<ul>
-  <li><a href="https://narrative.kbase.us/">Narratives</a></li>
-  <li><a href="https://docs.kbase.us/getting-started/tutorials">Tutorials</a></li>
-</ul>
-
-<hr />
-
-<h2 id="-success-checklist">✅ Success Checklist</h2>
-
-<ul class="task-list">
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Chose appropriate workflow wrapper OR web platform</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Successfully ran test dataset</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Understood output structure</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Validated results against manual analysis (Days 1-7)</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Documented workflow/parameters</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Saved/exported results</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Ready to scale up to full dataset</li>
-</ul>
-
-<hr />
-
-<h2 id="-key-takeaways">📚 Key Takeaways</h2>
-
-<ol>
-  <li><strong>Workflow wrappers save time</strong> - Automate Days 1-7</li>
-  <li><strong>Web platforms lower barriers</strong> - No Linux/HPC needed</li>
-  <li><strong>Choose based on needs</strong> - No one-size-fits-all</li>
-  <li><strong>Start simple</strong> - Use defaults before customizing</li>
-  <li><strong>Reproducibility matters</strong> - Document everything</li>
-</ol>
-
-<h4 id="repo-for-todays-code-and-other-details">Repo for today’s code and other details</h4>
-
-<p>🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day8-workflows-platforms/">Day 8 →</a></strong></p>
-
-<p>Last updated: February 2026</p>
-
-<p><img src="/assets/img/d8_mg.png" alt="day8 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="MetaWRAP" /><category term="Galaxy" /><category term="KBase" /><category term="nf-core" /><category term="workflows" /><category term="automation" /><category term="web-platforms" /><category term="IMG" /><category term="BV-BRC" /><category term="PATRIC" /><category term="pipelines" /><category term="bioinformatics" /><summary type="html"><![CDATA[Master automated workflows with MetaWRAP, Anvi'o, and nf-core/mag. Explore web-based platforms: Galaxy, KBase, IMG/M, and BV-BRC (PATRIC). Complete guide to streamlined metagenomics without the command-line complexity.]]></summary></entry></feed>
+<p><img src="/assets/img/d9-mg.png" alt="day9mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="visualization" /><category term="ggplot2" /><category term="matplotlib" /><category term="seaborn" /><category term="Krona" /><category term="Circos" /><category term="networks" /><category term="heatmaps" /><category term="publication-figures" /><category term="data-visualization" /><category term="python" /><category term="R" /><summary type="html"><![CDATA[Create publication-quality figures for metagenomics: R/ggplot2, Python/matplotlib/seaborn, Krona taxonomic wheels, Circos genome comparisons, interactive Anvi'o plots, network visualizations, and heatmaps. Complete guide to visual storytelling with your data.]]></summary></entry></feed>
