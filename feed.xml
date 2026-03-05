@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-04T09:44:30-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-04T09:44:30-05:00</published><updated>2026-03-04T09:44:30-05:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-05T14:24:41-05:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-05T14:24:41-05:00</published><updated>2026-03-05T14:24:41-05:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,443 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 3 — PERMANOVA with adonis2: Testing Real Community Differences</title><link href="https://jojyjohn28.github.io/blog/day3-permanova-adonis2-microbiome/" rel="alternate" type="text/html" title="Day 3 — PERMANOVA with adonis2: Testing Real Community Differences" /><published>2026-03-04T00:00:00-05:00</published><updated>2026-03-04T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day3-permanova-adonis2-microbiome</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day3-permanova-adonis2-microbiome/"><![CDATA[<h2 id="day-3--permanova-with-adonis2-testing-real-community-differences">Day 3 — PERMANOVA with adonis2: Testing Real Community Differences</h2>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 4 — Non-Parametric Tests for Microbiome Data: Wilcoxon, Kruskal-Wallis &amp;amp; Effect Sizes</title><link href="https://jojyjohn28.github.io/blog/day4-nonparametric-tests-wilcoxon-kruskal-wallis/" rel="alternate" type="text/html" title="Day 4 — Non-Parametric Tests for Microbiome Data: Wilcoxon, Kruskal-Wallis &amp;amp; Effect Sizes" /><published>2026-03-05T00:00:00-05:00</published><updated>2026-03-05T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day4-nonparametric-tests-wilcoxon-kruskal-wallis</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day4-nonparametric-tests-wilcoxon-kruskal-wallis/"><![CDATA[<h2 id="day-4--non-parametric-tests-for-microbiome-data-wilcoxon-kruskal-wallis--effect-sizes">Day 4 — Non-Parametric Tests for Microbiome Data: Wilcoxon, Kruskal-Wallis &amp; Effect Sizes</h2>
+
+<p>*This is Day 4 of a 7-day series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and *<em>🧬 Day 54 of Daily Bioinformatics from Jojy’s Desk</em>
+<em>All data and R code → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
+
+<hr />
+
+<p>Days 2 and 3 were heavy — ordination, constrained axes, permutation matrices, interaction models. Today we deliberately step back and cover something simpler but equally important: <strong>comparing groups at the level of individual MAGs</strong>.</p>
+
+<p>PERMANOVA told us that Season explains 32% of community variance overall. But which specific MAGs are driving that signal? Which taxa are significantly more abundant in Summer than Spring? Which ones are enriched in Particle-attached fractions versus Free-living? Which MAGs thrive at high salinity and which disappear?</p>
+
+<p>These are the questions biologists actually ask. And the answers come from non-parametric tests — the workhorses of microbiome data analysis.</p>
+
+<hr />
+
+<h2 id="-the-biological-questions">🧬 The Biological Questions</h2>
+
+<p>Using our 61 MAGs across 27 metagenomes from Chesapeake and Delaware Bay, we want to know:</p>
+
+<ol>
+  <li>Which MAGs differ significantly between <strong>Spring and Summer</strong>? (Wilcoxon, 2 groups)</li>
+  <li>Which MAGs differ across <strong>Salinity regimes</strong> — low (&lt;15 psu) vs high (≥15 psu)? (Wilcoxon with split continuous variable)</li>
+  <li>Do <strong>Particle-attached vs Free-living</strong> fractions harbour different MAG assemblages at the taxon level?</li>
+  <li>When testing 61 MAGs simultaneously, how do we avoid false positives? (FDR correction)</li>
+  <li>For significant MAGs — is the difference biologically meaningful? (Cliff’s delta effect size)</li>
+</ol>
+
+<hr />
+
+<h2 id="-the-statistical-concepts">📊 The Statistical Concepts</h2>
+
+<h3 id="why-not-a-t-test">Why not a t-test?</h3>
+
+<p>The t-test assumes your data is normally distributed. MAG abundance data is:</p>
+
+<ul>
+  <li><strong>Zero-inflated</strong> — most MAGs are absent from most samples</li>
+  <li><strong>Right-skewed</strong> — a few samples with very high abundance pull the mean far from the median</li>
+  <li><strong>Compositional</strong> — values are relative, so the same MAG can appear to change because a different MAG changed</li>
+</ul>
+
+<p>Running a t-test on these distributions will give you wrong p-values. The standard error estimate is biased, the test statistic doesn’t follow a t-distribution, and your conclusions will be unreliable.</p>
+
+<p>Non-parametric tests make no distributional assumptions. They work by <strong>ranking the values</strong> rather than using the raw numbers — so outliers, skew, and zeros don’t distort the result.</p>
+
+<h3 id="wilcoxon-rank-sum-test-mann-whitney-u">Wilcoxon rank-sum test (Mann-Whitney U)</h3>
+
+<p>Use when comparing <strong>two groups</strong> (Season: Spring vs Summer; SF: Particle-attached vs Free-living).</p>
+
+<p><strong>What it does:</strong> Ranks all observations from both groups together (1 to n), then asks whether one group’s ranks tend to be higher than the other’s. If Group A consistently has higher ranks, its values tend to be higher — without assuming anything about the shape of the distribution.</p>
+
+<p><strong>The null hypothesis:</strong> The two groups are drawn from the same distribution (no difference in abundance).</p>
+
+<h3 id="kruskal-wallis-test">Kruskal-Wallis test</h3>
+
+<p>Use when comparing <strong>three or more groups</strong>. Conceptually identical to Wilcoxon but extended to k groups — the non-parametric equivalent of one-way ANOVA.</p>
+
+<p>In our dataset, all grouping variables have two levels, so we use Wilcoxon throughout. But if you had three seasons or three salinity zones, Kruskal-Wallis followed by post-hoc pairwise Wilcoxon tests is the right approach.</p>
+
+<h3 id="the-multiple-testing-problem">The multiple testing problem</h3>
+
+<p>When you test 61 MAGs, each at p &lt; 0.05, you expect <strong>~3 false positives by chance alone</strong> even if nothing is real (61 × 0.05 ≈ 3). Test across three comparisons (Season, SF, Salinity) and that’s 183 tests — expect ~9 false positives.</p>
+
+<p>This is p-hacking, even unintentional. The solution is <strong>FDR correction (Benjamini-Hochberg)</strong>: adjusts all p-values simultaneously so that the expected proportion of false positives among your significant results stays at 5%. The corrected values are called <strong>adjusted p-values</strong> or <strong>q-values</strong>.</p>
+
+<p>Always use <code class="language-plaintext highlighter-rouge">p.adjust(p_values, method = "BH")</code> after running multiple tests.</p>
+
+<h3 id="cliffs-delta--the-effect-size-you-must-report">Cliff’s delta — the effect size you must report</h3>
+
+<p>A p-value tells you whether a difference exists. It does not tell you how <strong>large</strong> that difference is.</p>
+
+<p><strong>Cliff’s delta</strong> (δ) is the non-parametric effect size for Wilcoxon tests. It measures the probability that a randomly selected value from Group A is larger than a randomly selected value from Group B, minus the reverse:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>δ = P(X &gt; Y) − P(X &lt; Y)
+</code></pre></div></div>
+
+<ul>
+  <li>δ = 0 → groups are identical</li>
+  <li>δ = +1 → every value in Group A exceeds every value in Group B</li>
+  <li>δ = −1 → every value in Group B exceeds every value in Group A</li>
+</ul>
+
+<p><strong>Conventional thresholds:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>δ</th>
+      <th> </th>
+      <th>Interpretation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>&lt; 0.147</td>
+      <td>Negligible</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>0.147 – 0.330</td>
+      <td>Small</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>0.330 – 0.474</td>
+      <td>Medium</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>≥ 0.474</td>
+      <td>Large</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A MAG can be statistically significant (small p) but have δ = 0.15 — a tiny, biologically irrelevant difference. Always report both. A result like “Pelagibacterales_MAG_18 was significantly more abundant in Summer (q = 0.003, Cliff’s δ = 0.72, large effect)” is scientifically meaningful. “Pelagibacterales_MAG_18 was significant (p = 0.003)” is not.</p>
+
+<hr />
+
+<h2 id="️-the-r-code">⚙️ The R Code</h2>
+
+<h3 id="step-1--load-libraries-and-data">Step 1 — Load libraries and data</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">effsize</span><span class="p">)</span><span class="w">    </span><span class="c1"># cliff.delta()</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">patchwork</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Load and align data</span><span class="w">
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"../day1/data/metadata.csv"</span><span class="p">,</span><span class="w">
+                     </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="p">)</span><span class="w">
+</span><span class="n">mag_raw</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"../day1/data/mag_abundance.csv"</span><span class="p">,</span><span class="w">
+                     </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="p">)</span><span class="w">
+
+</span><span class="n">mag_t</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">mag_raw</span><span class="p">)</span><span class="w">   </span><span class="c1"># 27 × 61</span><span class="w">
+
+</span><span class="c1"># Align row order (same fix as Day 3)</span><span class="w">
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="p">[</span><span class="n">match</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_t</span><span class="p">),</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)),</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="n">stopifnot</span><span class="p">(</span><span class="nf">all</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_t</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1"># Group variables</span><span class="w">
+</span><span class="n">Season</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Season</span><span class="w">    </span><span class="c1"># Spring (n=8), Summer (n=19)</span><span class="w">
+</span><span class="n">Bay</span><span class="w">      </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Bay</span><span class="w">       </span><span class="c1"># Chesapeake (n=11), Delaware (n=16)</span><span class="w">
+</span><span class="n">Fraction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">SF</span><span class="w">        </span><span class="c1"># Particle-attached (n=14), Free_living (n=13)</span><span class="w">
+
+</span><span class="c1"># Salinity split: &lt;15 psu = low, ≥15 psu = high</span><span class="w">
+</span><span class="c1"># Natural estuarine threshold; our range is 0.18–30.52 psu</span><span class="w">
+</span><span class="n">Salinity_group</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">metadata</span><span class="o">$</span><span class="n">Salinity</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="s2">"Low_salinity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"High_salinity"</span><span class="p">)</span><span class="w">
+</span><span class="n">table</span><span class="p">(</span><span class="n">Salinity_group</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-2--single-mag-walkthrough">Step 2 — Single MAG walkthrough</h3>
+
+<p>Before testing all 61 MAGs, understand the test on one example:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mag_name</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"Pelagibacterales_MAG_18"</span><span class="w">
+</span><span class="n">mag_abund</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mag_t</span><span class="p">[,</span><span class="w"> </span><span class="n">mag_name</span><span class="p">]</span><span class="w">
+
+</span><span class="n">spring_abund</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mag_abund</span><span class="p">[</span><span class="n">Season</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Spring"</span><span class="p">]</span><span class="w">
+</span><span class="n">summer_abund</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mag_abund</span><span class="p">[</span><span class="n">Season</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Summer"</span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># Always visualise before testing</span><span class="w">
+</span><span class="n">boxplot</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="n">Spring</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spring_abund</span><span class="p">,</span><span class="w"> </span><span class="n">Summer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">summer_abund</span><span class="p">),</span><span class="w">
+        </span><span class="n">main</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="n">mag_name</span><span class="p">,</span><span class="w"> </span><span class="s2">"— by Season"</span><span class="p">),</span><span class="w">
+        </span><span class="n">ylab</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"Abundance"</span><span class="p">,</span><span class="w">
+        </span><span class="n">col</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#22c55e"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#ef4444"</span><span class="p">),</span><span class="w">
+        </span><span class="n">notch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Wilcoxon rank-sum test</span><span class="w">
+</span><span class="c1"># exact = FALSE required when ties exist (shared zero abundances)</span><span class="w">
+</span><span class="n">wt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">wilcox.test</span><span class="p">(</span><span class="n">spring_abund</span><span class="p">,</span><span class="w"> </span><span class="n">summer_abund</span><span class="p">,</span><span class="w"> </span><span class="n">exact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"p-value:"</span><span class="p">,</span><span class="w"> </span><span class="n">wt</span><span class="o">$</span><span class="n">p.value</span><span class="p">,</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Cliff's delta — direction: positive = higher in summer</span><span class="w">
+</span><span class="n">cd</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cliff.delta</span><span class="p">(</span><span class="n">summer_abund</span><span class="p">,</span><span class="w"> </span><span class="n">spring_abund</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Cliff's delta:"</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">cd</span><span class="o">$</span><span class="n">estimate</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w">
+    </span><span class="s2">"("</span><span class="p">,</span><span class="w"> </span><span class="n">cd</span><span class="o">$</span><span class="n">magnitude</span><span class="p">,</span><span class="w"> </span><span class="s2">")\n"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-3--all-61-mags-season-comparison">Step 3 — All 61 MAGs: Season comparison</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mag_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">colnames</span><span class="p">(</span><span class="n">mag_t</span><span class="p">)</span><span class="w">
+
+</span><span class="n">results_season</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">mag_names</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">mag</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+
+  </span><span class="n">spring_vals</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mag_t</span><span class="p">[</span><span class="n">Season</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Spring"</span><span class="p">,</span><span class="w">  </span><span class="n">mag</span><span class="p">]</span><span class="w">
+  </span><span class="n">summer_vals</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mag_t</span><span class="p">[</span><span class="n">Season</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Summer"</span><span class="p">,</span><span class="w"> </span><span class="n">mag</span><span class="p">]</span><span class="w">
+
+  </span><span class="n">wt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">wilcox.test</span><span class="p">(</span><span class="n">spring_vals</span><span class="p">,</span><span class="w"> </span><span class="n">summer_vals</span><span class="p">,</span><span class="w"> </span><span class="n">exact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="n">cd</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cliff.delta</span><span class="p">(</span><span class="n">summer_vals</span><span class="p">,</span><span class="w"> </span><span class="n">spring_vals</span><span class="p">)</span><span class="w">
+
+  </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+    </span><span class="n">MAG</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">mag</span><span class="p">,</span><span class="w">
+    </span><span class="n">p_value</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">wt</span><span class="o">$</span><span class="n">p.value</span><span class="p">,</span><span class="w">
+    </span><span class="n">cliffs_d</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">cd</span><span class="o">$</span><span class="n">estimate</span><span class="p">,</span><span class="w">
+    </span><span class="n">magnitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.character</span><span class="p">(</span><span class="n">cd</span><span class="o">$</span><span class="n">magnitude</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">})</span><span class="w">
+
+</span><span class="n">results_season</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span><span class="w"> </span><span class="n">results_season</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># FDR correction</span><span class="w">
+</span><span class="n">results_season</span><span class="o">$</span><span class="n">p_adj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p.adjust</span><span class="p">(</span><span class="n">results_season</span><span class="o">$</span><span class="n">p_value</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"BH"</span><span class="p">)</span><span class="w">
+</span><span class="n">results_season</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results_season</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">results_season</span><span class="o">$</span><span class="n">p_adj</span><span class="p">),</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="n">sig_season</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results_season</span><span class="p">[</span><span class="n">results_season</span><span class="o">$</span><span class="n">p_adj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"MAGs significantly different by Season:"</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">sig_season</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">sig_season</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-4--size-fraction-comparison">Step 4 — Size fraction comparison</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">results_sf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">mag_names</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">mag</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+
+  </span><span class="n">pa_vals</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mag_t</span><span class="p">[</span><span class="n">Fraction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Particle-attached"</span><span class="p">,</span><span class="w"> </span><span class="n">mag</span><span class="p">]</span><span class="w">
+  </span><span class="n">fl_vals</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mag_t</span><span class="p">[</span><span class="n">Fraction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Free_living"</span><span class="p">,</span><span class="w">       </span><span class="n">mag</span><span class="p">]</span><span class="w">
+
+  </span><span class="n">wt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">wilcox.test</span><span class="p">(</span><span class="n">pa_vals</span><span class="p">,</span><span class="w"> </span><span class="n">fl_vals</span><span class="p">,</span><span class="w"> </span><span class="n">exact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="n">cd</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cliff.delta</span><span class="p">(</span><span class="n">pa_vals</span><span class="p">,</span><span class="w"> </span><span class="n">fl_vals</span><span class="p">)</span><span class="w">  </span><span class="c1"># positive = higher in Particle-attached</span><span class="w">
+
+  </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+    </span><span class="n">MAG</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">mag</span><span class="p">,</span><span class="w">
+    </span><span class="n">p_value</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">wt</span><span class="o">$</span><span class="n">p.value</span><span class="p">,</span><span class="w">
+    </span><span class="n">cliffs_d</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">cd</span><span class="o">$</span><span class="n">estimate</span><span class="p">,</span><span class="w">
+    </span><span class="n">magnitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.character</span><span class="p">(</span><span class="n">cd</span><span class="o">$</span><span class="n">magnitude</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">})</span><span class="w">
+
+</span><span class="n">results_sf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span><span class="w"> </span><span class="n">results_sf</span><span class="p">)</span><span class="w">
+</span><span class="n">results_sf</span><span class="o">$</span><span class="n">p_adj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p.adjust</span><span class="p">(</span><span class="n">results_sf</span><span class="o">$</span><span class="n">p_value</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"BH"</span><span class="p">)</span><span class="w">
+</span><span class="n">results_sf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results_sf</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">results_sf</span><span class="o">$</span><span class="n">p_adj</span><span class="p">),</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="n">sig_sf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results_sf</span><span class="p">[</span><span class="n">results_sf</span><span class="o">$</span><span class="n">p_adj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"MAGs significantly different by Size Fraction:"</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">sig_sf</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">sig_sf</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-5--salinity-regime-comparison">Step 5 — Salinity regime comparison</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">results_sal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">mag_names</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">mag</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+
+  </span><span class="n">low_vals</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mag_t</span><span class="p">[</span><span class="n">Salinity_group</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Low_salinity"</span><span class="p">,</span><span class="w">  </span><span class="n">mag</span><span class="p">]</span><span class="w">
+  </span><span class="n">high_vals</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mag_t</span><span class="p">[</span><span class="n">Salinity_group</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"High_salinity"</span><span class="p">,</span><span class="w"> </span><span class="n">mag</span><span class="p">]</span><span class="w">
+
+  </span><span class="n">wt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">wilcox.test</span><span class="p">(</span><span class="n">low_vals</span><span class="p">,</span><span class="w"> </span><span class="n">high_vals</span><span class="p">,</span><span class="w"> </span><span class="n">exact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="n">cd</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cliff.delta</span><span class="p">(</span><span class="n">high_vals</span><span class="p">,</span><span class="w"> </span><span class="n">low_vals</span><span class="p">)</span><span class="w">  </span><span class="c1"># positive = higher at high salinity</span><span class="w">
+
+  </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+    </span><span class="n">MAG</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">mag</span><span class="p">,</span><span class="w">
+    </span><span class="n">p_value</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">wt</span><span class="o">$</span><span class="n">p.value</span><span class="p">,</span><span class="w">
+    </span><span class="n">cliffs_d</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">cd</span><span class="o">$</span><span class="n">estimate</span><span class="p">,</span><span class="w">
+    </span><span class="n">magnitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.character</span><span class="p">(</span><span class="n">cd</span><span class="o">$</span><span class="n">magnitude</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">})</span><span class="w">
+
+</span><span class="n">results_sal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span><span class="w"> </span><span class="n">results_sal</span><span class="p">)</span><span class="w">
+</span><span class="n">results_sal</span><span class="o">$</span><span class="n">p_adj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p.adjust</span><span class="p">(</span><span class="n">results_sal</span><span class="o">$</span><span class="n">p_value</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"BH"</span><span class="p">)</span><span class="w">
+</span><span class="n">results_sal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results_sal</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">results_sal</span><span class="o">$</span><span class="n">p_adj</span><span class="p">),</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="n">sig_sal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results_sal</span><span class="p">[</span><span class="n">results_sal</span><span class="o">$</span><span class="n">p_adj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"MAGs significantly different by Salinity:"</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">sig_sal</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">sig_sal</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-6--kruskal-wallis-with-three-salinity-zones">Step 6 — Kruskal-Wallis with three salinity zones</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Split salinity into three ecologically meaningful zones</span><span class="w">
+</span><span class="n">Salinity_3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cut</span><span class="p">(</span><span class="n">metadata</span><span class="o">$</span><span class="n">Salinity</span><span class="p">,</span><span class="w">
+                  </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="o">-</span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">18</span><span class="p">,</span><span class="w"> </span><span class="kc">Inf</span><span class="p">),</span><span class="w">
+                  </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Oligohaline"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Mesohaline"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Polyhaline"</span><span class="p">))</span><span class="w">
+</span><span class="n">table</span><span class="p">(</span><span class="n">Salinity_3</span><span class="p">)</span><span class="w">
+
+</span><span class="n">results_kw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">mag_names</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">mag</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">kw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">kruskal.test</span><span class="p">(</span><span class="n">mag_t</span><span class="p">[,</span><span class="w"> </span><span class="n">mag</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Salinity_3</span><span class="p">)</span><span class="w">
+  </span><span class="n">data.frame</span><span class="p">(</span><span class="n">MAG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mag</span><span class="p">,</span><span class="w"> </span><span class="n">p_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kw</span><span class="o">$</span><span class="n">p.value</span><span class="p">,</span><span class="w"> </span><span class="n">chi_sq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kw</span><span class="o">$</span><span class="n">statistic</span><span class="p">)</span><span class="w">
+</span><span class="p">})</span><span class="w">
+
+</span><span class="n">results_kw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span><span class="w"> </span><span class="n">results_kw</span><span class="p">)</span><span class="w">
+</span><span class="n">results_kw</span><span class="o">$</span><span class="n">p_adj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p.adjust</span><span class="p">(</span><span class="n">results_kw</span><span class="o">$</span><span class="n">p_value</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"BH"</span><span class="p">)</span><span class="w">
+</span><span class="n">sig_kw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results_kw</span><span class="p">[</span><span class="n">results_kw</span><span class="o">$</span><span class="n">p_adj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># Post-hoc pairwise Wilcoxon for significant MAGs</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">mag</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">sig_kw</span><span class="o">$</span><span class="n">MAG</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">cat</span><span class="p">(</span><span class="s2">"\n--- Post-hoc:"</span><span class="p">,</span><span class="w"> </span><span class="n">mag</span><span class="p">,</span><span class="w"> </span><span class="s2">"---\n"</span><span class="p">)</span><span class="w">
+  </span><span class="n">pw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pairwise.wilcox.test</span><span class="p">(</span><span class="n">mag_t</span><span class="p">[,</span><span class="w"> </span><span class="n">mag</span><span class="p">],</span><span class="w"> </span><span class="n">Salinity_3</span><span class="p">,</span><span class="w">
+                              </span><span class="n">p.adjust.method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"BH"</span><span class="p">,</span><span class="w">
+                              </span><span class="n">exact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="n">print</span><span class="p">(</span><span class="n">pw</span><span class="o">$</span><span class="n">p.value</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-7--save-full-results-table">Step 7 — Save full results table</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">all_results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">MAG</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="n">mag_names</span><span class="p">,</span><span class="w">
+  </span><span class="n">season_padj</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">results_season</span><span class="o">$</span><span class="n">p_adj</span><span class="p">[</span><span class="n">match</span><span class="p">(</span><span class="n">mag_names</span><span class="p">,</span><span class="w"> </span><span class="n">results_season</span><span class="o">$</span><span class="n">MAG</span><span class="p">)],</span><span class="w">
+  </span><span class="n">season_d</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">results_season</span><span class="o">$</span><span class="n">cliffs_d</span><span class="p">[</span><span class="n">match</span><span class="p">(</span><span class="n">mag_names</span><span class="p">,</span><span class="w"> </span><span class="n">results_season</span><span class="o">$</span><span class="n">MAG</span><span class="p">)],</span><span class="w">
+  </span><span class="n">sf_padj</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">results_sf</span><span class="o">$</span><span class="n">p_adj</span><span class="p">[</span><span class="n">match</span><span class="p">(</span><span class="n">mag_names</span><span class="p">,</span><span class="w"> </span><span class="n">results_sf</span><span class="o">$</span><span class="n">MAG</span><span class="p">)],</span><span class="w">
+  </span><span class="n">sf_d</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">results_sf</span><span class="o">$</span><span class="n">cliffs_d</span><span class="p">[</span><span class="n">match</span><span class="p">(</span><span class="n">mag_names</span><span class="p">,</span><span class="w"> </span><span class="n">results_sf</span><span class="o">$</span><span class="n">MAG</span><span class="p">)],</span><span class="w">
+  </span><span class="n">sal_padj</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">results_sal</span><span class="o">$</span><span class="n">p_adj</span><span class="p">[</span><span class="n">match</span><span class="p">(</span><span class="n">mag_names</span><span class="p">,</span><span class="w"> </span><span class="n">results_sal</span><span class="o">$</span><span class="n">MAG</span><span class="p">)],</span><span class="w">
+  </span><span class="n">sal_d</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">results_sal</span><span class="o">$</span><span class="n">cliffs_d</span><span class="p">[</span><span class="n">match</span><span class="p">(</span><span class="n">mag_names</span><span class="p">,</span><span class="w"> </span><span class="n">results_sal</span><span class="o">$</span><span class="n">MAG</span><span class="p">)]</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">all_results</span><span class="o">$</span><span class="n">any_sig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">with</span><span class="p">(</span><span class="n">all_results</span><span class="p">,</span><span class="w">
+  </span><span class="n">season_padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">sf_padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">sal_padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">all_results</span><span class="p">,</span><span class="w"> </span><span class="s2">"results/day4_wilcoxon_results.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-8--volcano-plot">Step 8 — Volcano plot</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">volcano_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results_season</span><span class="w">
+</span><span class="n">volcano_df</span><span class="o">$</span><span class="n">neg_log10_padj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">volcano_df</span><span class="o">$</span><span class="n">p_adj</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1e-10</span><span class="p">)</span><span class="w">
+</span><span class="n">volcano_df</span><span class="o">$</span><span class="n">sig</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">volcano_df</span><span class="o">$</span><span class="n">p_adj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="w">
+</span><span class="n">volcano_df</span><span class="o">$</span><span class="n">large</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">volcano_df</span><span class="o">$</span><span class="n">cliffs_d</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">0.474</span><span class="w">
+</span><span class="n">volcano_df</span><span class="o">$</span><span class="n">label</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">volcano_df</span><span class="o">$</span><span class="n">sig</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">volcano_df</span><span class="o">$</span><span class="n">large</span><span class="p">,</span><span class="w">
+                            </span><span class="nf">as.character</span><span class="p">(</span><span class="n">volcano_df</span><span class="o">$</span><span class="n">MAG</span><span class="p">),</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p_volcano</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">volcano_df</span><span class="p">,</span><span class="w">
+                    </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cliffs_d</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">neg_log10_padj</span><span class="p">,</span><span class="w">
+                        </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sig</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sig</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-0.474</span><span class="p">,</span><span class="w"> </span><span class="m">0.474</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text_repel</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
+                  </span><span class="n">max.overlaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey20"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_colour_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"FALSE"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey75"</span><span class="p">,</span><span class="w"> </span><span class="s2">"TRUE"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#ef4444"</span><span class="p">),</span><span class="w">
+                      </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Not significant"</span><span class="p">,</span><span class="w"> </span><span class="s2">"q &lt; 0.05"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_size_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"FALSE"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">,</span><span class="w"> </span><span class="s2">"TRUE"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.5</span><span class="p">),</span><span class="w"> </span><span class="n">guide</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.9</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Spring-enriched"</span><span class="p">,</span><span class="w">
+           </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#22c55e"</span><span class="p">,</span><span class="w"> </span><span class="n">fontface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"italic"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="m">0.9</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Summer-enriched"</span><span class="p">,</span><span class="w">
+           </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#ef4444"</span><span class="p">,</span><span class="w"> </span><span class="n">fontface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"italic"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"Cliff's delta  (negative = Spring, positive = Summer)"</span><span class="p">,</span><span class="w">
+       </span><span class="n">y</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"-log10(adjusted p-value)"</span><span class="p">,</span><span class="w">
+       </span><span class="n">title</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"Differential abundance — Spring vs Summer"</span><span class="p">,</span><span class="w">
+       </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"top"</span><span class="p">,</span><span class="w">
+        </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">print</span><span class="p">(</span><span class="n">p_volcano</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-9--boxplots-of-top-mags">Step 9 — Boxplots of top MAGs</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">top_mags</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">head</span><span class="p">(</span><span class="n">sig_season</span><span class="o">$</span><span class="n">MAG</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">)</span><span class="w">
+
+</span><span class="n">plot_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">mag_t</span><span class="p">[,</span><span class="w"> </span><span class="n">top_mags</span><span class="p">])</span><span class="w">
+</span><span class="n">plot_df</span><span class="o">$</span><span class="n">Season</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Season</span><span class="w">
+</span><span class="n">plot_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pivot_longer</span><span class="p">(</span><span class="n">plot_df</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">Season</span><span class="p">,</span><span class="w">
+                           </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"MAG"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Abundance"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p_box</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">plot_long</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Season</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abundance</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Season</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">outlier.shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">21</span><span class="p">,</span><span class="w">
+               </span><span class="n">outlier.size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.85</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey30"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#22c55e"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Summer"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#ef4444"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">MAG</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Abundance"</span><span class="p">,</span><span class="w">
+       </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Top differentially abundant MAGs — Spring vs Summer"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w">
+        </span><span class="n">strip.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"italic"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">),</span><span class="w">
+        </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">print</span><span class="p">(</span><span class="n">p_box</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-10--save-combined-figure">Step 10 — Save combined figure</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">combined</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p_volcano</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">p_box</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">plot_annotation</span><span class="p">(</span><span class="n">tag_levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"A"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"figures/day4_nonparametric_figure.tiff"</span><span class="p">,</span><span class="w">
+       </span><span class="n">combined</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w">
+       </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="n">compression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lzw"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="️-common-mistakes">⚠️ Common Mistakes</h2>
+
+<p><strong>Mistake 1: Using a t-test on MAG abundance data.</strong>
+The most common mistake in the field. MAG abundances are zero-inflated, right-skewed, and compositional. The t-test’s normality assumption is violated. Use Wilcoxon. Every time.</p>
+
+<p><strong>Mistake 2: Reporting raw p-values across 61 MAGs.</strong>
+With 61 tests at α = 0.05, you expect ~3 false positives by chance. Always apply <code class="language-plaintext highlighter-rouge">p.adjust(..., method = "BH")</code> and report adjusted p-values. This is not optional.</p>
+
+<p><strong>Mistake 3: Reporting p-values without effect sizes.</strong>
+A MAG with q = 0.001 and Cliff’s δ = 0.12 (negligible effect) is statistically significant but biologically irrelevant. Always pair your p-value with Cliff’s delta and its magnitude category.</p>
+
+<p><strong>Mistake 4: Not visualising before testing.</strong>
+Always plot distributions before running the test. A quick boxplot reveals if the “significant” difference is driven by a single outlier, which the test statistic alone will not tell you.</p>
+
+<p><strong>Mistake 5: Treating non-significant as “no difference”.</strong>
+With only 8 Spring samples, power is limited. Non-significant means “insufficient evidence” — not “proven identical.” Report effect sizes even for non-significant results.</p>
+
+<p><strong>Mistake 6: Forgetting <code class="language-plaintext highlighter-rouge">exact = FALSE</code> with ties.</strong>
+Microbiome data has many zeros — ties in the rank matrix. Always set <code class="language-plaintext highlighter-rouge">exact = FALSE</code> in <code class="language-plaintext highlighter-rouge">wilcox.test()</code> to avoid errors or unreliable exact p-values.</p>
+
+<hr />
+
+<h2 id="-key-takeaways">🧭 Key Takeaways</h2>
+
+<ul>
+  <li><strong>Wilcoxon rank-sum</strong> is the correct test for two-group comparisons of MAG abundances — not the t-test, which requires normality that microbiome data never satisfies.</li>
+  <li><strong>Kruskal-Wallis</strong> extends to three or more groups, followed by post-hoc pairwise Wilcoxon with FDR correction.</li>
+  <li><strong>FDR correction (BH method)</strong> is mandatory when testing 61 MAGs simultaneously — without it, your results contain an unknown number of false positives.</li>
+  <li><strong>Cliff’s delta</strong> is the effect size for Wilcoxon — always report it alongside your p-value. A result without effect size is scientifically incomplete.</li>
+  <li><strong>Volcano plots</strong> combine effect size and significance into a single, standard visualisation for differential abundance analysis.</li>
+  <li>Non-parametric tests and PERMANOVA answer complementary questions: PERMANOVA asks “do communities differ overall?”, Wilcoxon asks “which specific MAGs differ, and by how much?”</li>
+</ul>
+
+<hr />
+
+<h2 id="-whats-next">🔗 What’s Next</h2>
+
+<p>Tomorrow on <strong>Day 5</strong>, we move from group comparisons to <strong>regression</strong> — asking not just “which MAGs differ between groups” but “how does a specific MAG’s abundance change continuously with Salinity, Temperature, or ChlA?” Linear models for MAG abundance, model diagnostics, and biological interpretation of regression coefficients.</p>
+
+<hr />
+
+<p><em>All R code and data: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em><br />
+<em>Found this useful? Share it with someone learning microbiome statistics.</em></p>
+
+<hr />
+
+<p><img src="/assets/img/wilcxn.png" alt="ERMANOVA analysis of MAG community composition across seasons and estuaries" /></p>]]></content><author><name></name></author><category term="Wilcoxon" /><category term="Kruskal-Wallis" /><category term="effect-size" /><category term="FDR" /><category term="multiple-testing" /><category term="microbiome" /><category term="MAGs" /><category term="R" /><category term="metagenomics" /><summary type="html"><![CDATA[After three days of community-level analysis, we step down to the taxon level — testing which individual MAGs differ between seasons, size fractions, and salinity regimes. Covers Wilcoxon, Kruskal-Wallis, FDR correction, and Cliff's delta effect size.]]></summary></entry><entry><title type="html">Day 3 — PERMANOVA with adonis2: Testing Real Community Differences</title><link href="https://jojyjohn28.github.io/blog/day3-permanova-adonis2-microbiome/" rel="alternate" type="text/html" title="Day 3 — PERMANOVA with adonis2: Testing Real Community Differences" /><published>2026-03-04T00:00:00-05:00</published><updated>2026-03-04T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day3-permanova-adonis2-microbiome</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day3-permanova-adonis2-microbiome/"><![CDATA[<h2 id="day-3--permanova-with-adonis2-testing-real-community-differences">Day 3 — PERMANOVA with adonis2: Testing Real Community Differences</h2>
 
 <p>*This is Day 3 of a 7-day series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and *<em>🧬 Day 53 of Daily Bioinformatics from Jojy’s Desk</em>
 <em>All data and R code → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
@@ -4448,765 +4884,4 @@ Interpretation: Although nitrogen-fixing bacteria are rare in the community,
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/d10_mg.png" alt="day10 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="metatranscriptomics" /><category term="multi-omics" /><category term="integration" /><category term="DESeq2" /><category term="differential-expression" /><category term="RNA-seq" /><category term="expression-ratios" /><category term="heatmaps" /><category term="pathway-analysis" /><category term="taxonomic-profiling" /><category term="data-integration" /><category term="python" /><category term="R" /><category term="bioinformatics" /><summary type="html"><![CDATA[Master multi-omics integration: combine metagenomics (DNA) and metatranscriptomics (RNA) data to reveal active functions. Learn DESeq2 differential expression, expression ratio modeling, comparative heatmaps, pathway activity analysis, and taxonomic integration. Complete guide from count tables to biological insights.]]></summary></entry><entry><title type="html">Day 9: Visualization &amp;amp; Publication - Making Data Tell Stories</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-day9-visualization/" rel="alternate" type="text/html" title="Day 9: Visualization &amp;amp; Publication - Making Data Tell Stories" /><published>2026-02-14T00:00:00-05:00</published><updated>2026-02-14T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day9-visualization</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-day9-visualization/"><![CDATA[<table>
-  <tbody>
-    <tr>
-      <td>Estimated Time: 4-6 hours</td>
-      <td>Difficulty: Intermediate</td>
-      <td>Prerequisites: Days 1-8 (Analyzed data ready)</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="-table-of-contents">📚 Table of Contents</h2>
-
-<ul>
-  <li><a href="#introduction">Introduction</a></li>
-  <li><a href="#part-i-quick-rggplot2-overview">Part I: Quick R/ggplot2 Overview</a></li>
-  <li><a href="#part-ii-python-visualizations">Part II: Python Visualizations</a></li>
-  <li><a href="#part-iii-specialized-tools">Part III: Specialized Tools</a></li>
-  <li><a href="#part-iv-interactive-visualizations">Part IV: Interactive Visualizations</a></li>
-  <li><a href="#publication-guidelines">Publication Guidelines</a></li>
-</ul>
-
-<hr />
-
-<h2 id="-introduction">🎯 Introduction</h2>
-
-<p><strong>You’ve generated amazing data. Now make it beautiful.</strong></p>
-
-<h3 id="why-visualization-matters">Why Visualization Matters</h3>
-
-<p><strong>Bad visualization:</strong></p>
-
-<ul>
-  <li>❌ Hides patterns</li>
-  <li>❌ Confuses readers</li>
-  <li>❌ Gets papers rejected</li>
-</ul>
-
-<p><strong>Good visualization:</strong></p>
-
-<ul>
-  <li>✅ Reveals patterns instantly</li>
-  <li>✅ Tells compelling stories</li>
-  <li>✅ Makes papers memorable</li>
-</ul>
-
-<hr />
-
-<h3 id="todays-goal">Today’s Goal</h3>
-
-<p>Create <strong>publication-quality figures</strong> that journals accept and readers love.</p>
-
-<hr />
-
-<h2 id="-part-i-quick-rggplot2-overview">📊 Part I: Quick R/ggplot2 Overview</h2>
-
-<h3 id="ggplot2-basics">ggplot2 Basics</h3>
-
-<p><strong>Quick example:</strong></p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Abundance plot</span><span class="w">
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">abundance_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abundance</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Phylum</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Community Composition"</span><span class="p">,</span><span class="w">
-       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sample"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Relative Abundance (%)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="key-ggplot2-plots-for-metagenomics">Key ggplot2 Plots for Metagenomics</h3>
-
-<ol>
-  <li><strong>Stacked barplots</strong> - Taxonomic composition</li>
-  <li><strong>Boxplots</strong> - Alpha diversity</li>
-  <li><strong>PCA/NMDS</strong> - Ordination</li>
-  <li><strong>Heatmaps</strong> - Gene/MAG abundance</li>
-  <li><strong>Faceted plots</strong> - Multiple samples</li>
-</ol>
-
-<p>Try <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/R">ggplots</a> and compare your image with
-<a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images">toy data plots</a>. look for R in the figure name.</p>
-
-<hr />
-
-<h2 id="-part-ii-python-visualizations">🐍 Part II: Python Visualizations</h2>
-
-<h3 id="why-python-for-visualization">Why Python for Visualization?</h3>
-
-<p>✅ <strong>Matplotlib</strong> - Publication-quality static plots<br />
-✅ <strong>Seaborn</strong> - Statistical visualizations<br />
-✅ <strong>Plotly</strong> - Interactive plots<br />
-✅ <strong>Bokeh</strong> - Dashboard-style plots<br />
-✅ <strong>Integration</strong> - Works with pandas, numpy</p>
-
-<hr />
-
-<h2 id="-1-matplotlib---foundation">📊 1. Matplotlib - Foundation</h2>
-
-<h3 id="installation">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>matplotlib seaborn pandas numpy
-</code></pre></div></div>
-
-<p><strong>Personal advice : Use visual code studio for all plots.</strong></p>
-
-<h3 id="basic-taxonomy-barplot">Basic Taxonomy Barplot</h3>
-
-<p>Try <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/basic_taxonomy_bar_plot.py">Basic taxonomy barplot</a> and compare your image with
-<a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/basic_taxonomy_py.png">basic_taxonomy_py</a></p>
-
-<h3 id="alpha-diversity-boxplot">Alpha Diversity Boxplot</h3>
-
-<p>Try <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/alpha_diversity.py">Alpha Diversity Boxplot</a> and compare your image with
-<a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/alpha_diversity_py.png">alpha_diversity_py</a></p>
-
-<h2 id="-2-seaborn---statistical-plots">🎨 2. Seaborn - Statistical Plots</h2>
-
-<h3 id="heatmap-with-clustering">Heatmap with Clustering</h3>
-
-<p>Try <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/heatmap.py">Heatmap with Clustering</a> and compare your image with <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/heatmap_py.png">heatmap</a></p>
-
-<h3 id="correlation-heatmap">Correlation Heatmap</h3>
-
-<p>Try <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/correlations.py">correlation</a> and compare your image with <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/correlation-py.png">Correlation_py</a></p>
-
-<h3 id="pairplot-for-multivariate-data">Pairplot for Multivariate Data</h3>
-
-<p>Try <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/Pairplot.py">Pairplot</a> and compare your image with <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/multivariate_py.png">Pairplot</a></p>
-
-<h2 id="-3-plotly---interactive-plots">🌐 3. Plotly - Interactive Plots</h2>
-
-<h3 id="interactive-taxonomy-sunburst">Interactive Taxonomy Sunburst</h3>
-
-<p>Try <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/interactive_taxonomy.py">Interactive taxonomy .py</a> and compare your image with <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/interactive-tax.png">interactive tax plot </a></p>
-
-<h3 id="interactive-scatter-with-annotations">Interactive Scatter with Annotations</h3>
-
-<p>Try <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/scripts/python/scatter.py">Scatter plot</a> and compare your image with <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/images/scater-py.png">scatter-toydata</a></p>
-
-<hr />
-
-<p><strong>See my full visualization series for:</strong></p>
-
-<p>👉 <strong><a href="https://jojyjohn28.github.io/blog/visualize-your-data-day1-box-vs-violin/">Box &amp; violin plots</a></strong></p>
-
-<p>👉 <strong><a href="https://jojyjohn28.github.io/blog/visualize-your-data-day2-heatmaps//">Heatmaps</a></strong></p>
-
-<p>👉 <strong><a href="https://jojyjohn28.github.io/blog/visualize-your-data-day3-ordination/">Ordination plots</a></strong></p>
-
-<p>👉 <strong><a href="https://jojyjohn28.github.io/blog/visualize-your-data-day4-volcano-plots//">Volcano plots</a></strong></p>
-
-<p>👉 <strong><a href="https://jojyjohn28.github.io/blog/visualize-your-data-day5-bubble-plots//">Bubble plots</a></strong></p>
-
-<hr />
-
-<h2 id="-part-iii-specialized-tools">🍩 Part III: Specialized Tools</h2>
-
-<h2 id="-1-krona---taxonomic-visualization">🌳 1. Krona - Taxonomic Visualization</h2>
-
-<p><strong>Krona</strong> creates beautiful interactive taxonomic wheels.</p>
-
-<h3 id="installation-1">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Download Krona</span>
-git clone https://github.com/marbl/Krona.git
-<span class="nb">cd </span>Krona/KronaTools
-./install.pl
-
-<span class="c"># Update taxonomy</span>
-./updateTaxonomy.sh
-</code></pre></div></div>
-
-<h3 id="creating-krona-plot">Creating Krona Plot</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># From Kraken2 output</span>
-ktImportTaxonomy <span class="se">\</span>
-    <span class="nt">-q</span> 2 <span class="nt">-t</span> 3 <span class="se">\</span>
-    kraken2_output.txt <span class="se">\</span>
-    <span class="nt">-o</span> krona_taxonomy.html
-
-<span class="c"># From BLAST results</span>
-ktImportBLAST <span class="se">\</span>
-    blast_results.txt <span class="se">\</span>
-    <span class="nt">-o</span> krona_blast.html
-
-<span class="c"># From taxonomy table</span>
-<span class="c"># Format: count, taxonomy (tab-separated)</span>
-ktImportText <span class="se">\</span>
-    taxonomy_counts.txt <span class="se">\</span>
-    <span class="nt">-o</span> krona_custom.html
-</code></pre></div></div>
-
-<h3 id="krona-input-format">Krona Input Format</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># taxonomy_counts.txt
-150	Bacteria;Proteobacteria;Gammaproteobacteria;Enterobacterales
-89	Bacteria;Firmicutes;Bacilli;Lactobacillales
-67	Bacteria;Bacteroidetes;Bacteroidia;Bacteroidales
-45	Bacteria;Actinobacteria;Actinobacteria;Actinomycetales
-</code></pre></div></div>
-
-<p><strong>Output:</strong> Interactive HTML with zoom, search, and hierarchy navigation</p>
-
-<hr />
-
-<h2 id="-2-circos---genome-comparisons">⭕ 2. Circos - Genome Comparisons</h2>
-
-<p><strong>Circos</strong> creates circular genome visualizations.</p>
-
-<h3 id="installation-2">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install via conda</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda circos
-
-<span class="c"># Or download</span>
-wget http://circos.ca/distribution/circos-0.69-9.tgz
-<span class="nb">tar</span> <span class="nt">-xzf</span> circos-0.69-9.tgz
-<span class="nb">cd </span>circos-0.69-9
-</code></pre></div></div>
-
-<h3 id="basic-circos-plot">Basic Circos Plot</h3>
-
-<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># circos.conf</span>
-
-<span class="nv">karyotype</span> <span class="o">=</span> <span class="nv">karyotype</span><span class="o">.</span><span class="nv">txt</span>
-
-<span class="o">&lt;</span><span class="nv">ideogram</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="nv">spacing</span><span class="o">&gt;</span>
-        <span class="nv">default</span> <span class="o">=</span> <span class="mf">0.005</span><span class="nv">r</span>
-    <span class="o">&lt;/</span><span class="nv">spacing</span><span class="o">&gt;</span>
-
-    <span class="nv">radius</span>    <span class="o">=</span> <span class="mf">0.90</span><span class="nv">r</span>
-    <span class="nv">thickness</span> <span class="o">=</span> <span class="mi">20</span><span class="nv">p</span>
-    <span class="nv">fill</span>      <span class="o">=</span> <span class="nv">yes</span>
-<span class="o">&lt;/</span><span class="nv">ideogram</span><span class="o">&gt;</span>
-
-<span class="o">&lt;</span><span class="nv">plots</span><span class="o">&gt;</span>
-    <span class="c1"># GC content</span>
-    <span class="o">&lt;</span><span class="nv">plot</span><span class="o">&gt;</span>
-        <span class="nv">type</span>  <span class="o">=</span> <span class="nv">heatmap</span>
-        <span class="nv">file</span>  <span class="o">=</span> <span class="nv">gc_content</span><span class="o">.</span><span class="nv">txt</span>
-        <span class="nv">r1</span>    <span class="o">=</span> <span class="mf">0.88</span><span class="nv">r</span>
-        <span class="nv">r0</span>    <span class="o">=</span> <span class="mf">0.83</span><span class="nv">r</span>
-        <span class="nv">color</span> <span class="o">=</span> <span class="nv">blues</span><span class="o">-</span><span class="mi">9</span><span class="o">-</span><span class="nv">seq</span>
-    <span class="o">&lt;/</span><span class="nv">plot</span><span class="o">&gt;</span>
-
-    <span class="c1"># Gene density</span>
-    <span class="o">&lt;</span><span class="nv">plot</span><span class="o">&gt;</span>
-        <span class="nv">type</span>  <span class="o">=</span> <span class="nv">histogram</span>
-        <span class="nv">file</span>  <span class="o">=</span> <span class="nv">gene_density</span><span class="o">.</span><span class="nv">txt</span>
-        <span class="nv">r1</span>    <span class="o">=</span> <span class="mf">0.82</span><span class="nv">r</span>
-        <span class="nv">r0</span>    <span class="o">=</span> <span class="mf">0.77</span><span class="nv">r</span>
-        <span class="nv">fill_color</span> <span class="o">=</span> <span class="nv">green</span>
-    <span class="o">&lt;/</span><span class="nv">plot</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="nv">plots</span><span class="o">&gt;</span>
-
-<span class="o">&lt;</span><span class="nv">links</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="nb">link</span><span class="o">&gt;</span>
-        <span class="nv">file</span> <span class="o">=</span> <span class="nv">genome_comparisons</span><span class="o">.</span><span class="nv">txt</span>
-        <span class="nv">radius</span> <span class="o">=</span> <span class="mf">0.75</span><span class="nv">r</span>
-        <span class="nv">color</span> <span class="o">=</span> <span class="nv">red_a4</span>
-        <span class="nv">thickness</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="o">&lt;/</span><span class="nb">link</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="nv">links</span><span class="o">&gt;</span>
-
-<span class="o">&lt;&lt;</span><span class="nv">include</span> <span class="nv">etc</span><span class="o">/</span><span class="nv">colors_fonts_patterns</span><span class="o">.</span><span class="nv">conf</span><span class="o">&gt;&gt;</span>
-<span class="o">&lt;&lt;</span><span class="nv">include</span> <span class="nv">etc</span><span class="o">/</span><span class="nv">housekeeping</span><span class="o">.</span><span class="nv">conf</span><span class="o">&gt;&gt;</span>
-</code></pre></div></div>
-
-<h3 id="running-circos">Running Circos</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>circos <span class="nt">-conf</span> circos.conf <span class="nt">-outputdir</span> output <span class="nt">-outputfile</span> genome_circos.png
-</code></pre></div></div>
-
-<h3 id="python-alternative-pycirclize">Python Alternative: pycirclize</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">pycirclize</span> <span class="kn">import</span> <span class="n">Circos</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># Initialize
-</span><span class="n">circos</span> <span class="o">=</span> <span class="nc">Circos</span><span class="p">(</span><span class="n">sectors</span><span class="o">=</span><span class="p">{</span><span class="sh">"</span><span class="s">chr1</span><span class="sh">"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="sh">"</span><span class="s">chr2</span><span class="sh">"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="sh">"</span><span class="s">chr3</span><span class="sh">"</span><span class="p">:</span> <span class="mi">12</span><span class="p">})</span>
-
-<span class="c1"># Add tracks
-</span><span class="k">for</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">circos</span><span class="p">.</span><span class="n">sectors</span><span class="p">:</span>
-    <span class="n">track</span> <span class="o">=</span> <span class="n">sector</span><span class="p">.</span><span class="nf">add_track</span><span class="p">((</span><span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-    <span class="n">track</span><span class="p">.</span><span class="nf">axis</span><span class="p">()</span>
-
-    <span class="c1"># GC content
-</span>    <span class="n">track</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span><span class="n">gc_data</span><span class="p">)</span>
-
-    <span class="c1"># Gene positions
-</span>    <span class="n">track</span><span class="p">.</span><span class="nf">xticks_by_interval</span><span class="p">(</span><span class="mi">1000000</span><span class="p">)</span>
-
-<span class="c1"># Add links between genomes
-</span><span class="n">circos</span><span class="p">.</span><span class="nf">link</span><span class="p">((</span><span class="sh">"</span><span class="s">chr1</span><span class="sh">"</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span> <span class="p">(</span><span class="sh">"</span><span class="s">chr2</span><span class="sh">"</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">6000</span><span class="p">))</span>
-
-<span class="c1"># Save
-</span><span class="n">circos</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">"</span><span class="s">genome_comparison.pdf</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="️-3-network-visualizations">🕸️ 3. Network Visualizations</h2>
-
-<h3 id="igraph-in-python">igraph in Python</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">igraph</span> <span class="k">as</span> <span class="n">ig</span>
-<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># Load co-occurrence network
-</span><span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">cooccurrence_network.csv</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="c1"># Create graph
-</span><span class="n">g</span> <span class="o">=</span> <span class="n">ig</span><span class="p">.</span><span class="n">Graph</span><span class="p">.</span><span class="nc">TupleList</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="nf">itertuples</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span>
-                       <span class="n">directed</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                       <span class="n">edge_attrs</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">weight</span><span class="sh">'</span><span class="p">])</span>
-
-<span class="c1"># Calculate metrics
-</span><span class="n">g</span><span class="p">.</span><span class="n">vs</span><span class="p">[</span><span class="sh">'</span><span class="s">degree</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">.</span><span class="nf">degree</span><span class="p">()</span>
-<span class="n">g</span><span class="p">.</span><span class="n">vs</span><span class="p">[</span><span class="sh">'</span><span class="s">betweenness</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">.</span><span class="nf">betweenness</span><span class="p">()</span>
-
-<span class="c1"># Community detection
-</span><span class="n">communities</span> <span class="o">=</span> <span class="n">g</span><span class="p">.</span><span class="nf">community_multilevel</span><span class="p">()</span>
-<span class="n">g</span><span class="p">.</span><span class="n">vs</span><span class="p">[</span><span class="sh">'</span><span class="s">community</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">communities</span><span class="p">.</span><span class="n">membership</span>
-
-<span class="c1"># Visual style
-</span><span class="n">visual_style</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="sh">'</span><span class="s">vertex_size</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="n">d</span><span class="o">*</span><span class="mi">3</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">g</span><span class="p">.</span><span class="n">vs</span><span class="p">[</span><span class="sh">'</span><span class="s">degree</span><span class="sh">'</span><span class="p">]],</span>
-    <span class="sh">'</span><span class="s">vertex_color</span><span class="sh">'</span><span class="p">:</span> <span class="n">g</span><span class="p">.</span><span class="n">vs</span><span class="p">[</span><span class="sh">'</span><span class="s">community</span><span class="sh">'</span><span class="p">],</span>
-    <span class="sh">'</span><span class="s">vertex_label</span><span class="sh">'</span><span class="p">:</span> <span class="n">g</span><span class="p">.</span><span class="n">vs</span><span class="p">[</span><span class="sh">'</span><span class="s">name</span><span class="sh">'</span><span class="p">],</span>
-    <span class="sh">'</span><span class="s">edge_width</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="n">w</span><span class="o">*</span><span class="mi">2</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">g</span><span class="p">.</span><span class="n">es</span><span class="p">[</span><span class="sh">'</span><span class="s">weight</span><span class="sh">'</span><span class="p">]],</span>
-    <span class="sh">'</span><span class="s">layout</span><span class="sh">'</span><span class="p">:</span> <span class="n">g</span><span class="p">.</span><span class="nf">layout_fruchterman_reingold</span><span class="p">(),</span>
-    <span class="sh">'</span><span class="s">bbox</span><span class="sh">'</span><span class="p">:</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">800</span><span class="p">),</span>
-    <span class="sh">'</span><span class="s">margin</span><span class="sh">'</span><span class="p">:</span> <span class="mi">50</span>
-<span class="p">}</span>
-
-<span class="c1"># Plot
-</span><span class="n">ig</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="sh">'</span><span class="s">network.pdf</span><span class="sh">'</span><span class="p">,</span> <span class="o">**</span><span class="n">visual_style</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="networkx--matplotlib">NetworkX + Matplotlib</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">networkx</span> <span class="k">as</span> <span class="n">nx</span>
-<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># Create network
-</span><span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="p">.</span><span class="nc">Graph</span><span class="p">()</span>
-
-<span class="c1"># Add edges from co-occurrence data
-</span><span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">cooccurrence_network.csv</span><span class="sh">'</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">.</span><span class="nf">iterrows</span><span class="p">():</span>
-    <span class="n">G</span><span class="p">.</span><span class="nf">add_edge</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">MAG1</span><span class="sh">'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">MAG2</span><span class="sh">'</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="sh">'</span><span class="s">correlation</span><span class="sh">'</span><span class="p">])</span>
-
-<span class="c1"># Remove weak connections
-</span><span class="n">G_filtered</span> <span class="o">=</span> <span class="n">G</span><span class="p">.</span><span class="nf">copy</span><span class="p">()</span>
-<span class="n">edges_to_remove</span> <span class="o">=</span> <span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G_filtered</span><span class="p">.</span><span class="nf">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-                   <span class="k">if</span> <span class="nf">abs</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="sh">'</span><span class="s">weight</span><span class="sh">'</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">0.3</span><span class="p">]</span>
-<span class="n">G_filtered</span><span class="p">.</span><span class="nf">remove_edges_from</span><span class="p">(</span><span class="n">edges_to_remove</span><span class="p">)</span>
-
-<span class="c1"># Layout
-</span><span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="p">.</span><span class="nf">spring_layout</span><span class="p">(</span><span class="n">G_filtered</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
-
-<span class="c1"># Node sizes by degree
-</span><span class="n">node_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">G_filtered</span><span class="p">.</span><span class="nf">degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G_filtered</span><span class="p">.</span><span class="nf">nodes</span><span class="p">()]</span>
-
-<span class="c1"># Node colors by community
-</span><span class="n">communities</span> <span class="o">=</span> <span class="n">nx</span><span class="p">.</span><span class="n">community</span><span class="p">.</span><span class="nf">greedy_modularity_communities</span><span class="p">(</span><span class="n">G_filtered</span><span class="p">)</span>
-<span class="n">node_colors</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G_filtered</span><span class="p">.</span><span class="nf">nodes</span><span class="p">():</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comm</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">communities</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">comm</span><span class="p">:</span>
-            <span class="n">node_colors</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">break</span>
-
-<span class="c1"># Plot
-</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">))</span>
-
-<span class="c1"># Draw edges
-</span><span class="n">edges</span> <span class="o">=</span> <span class="n">G_filtered</span><span class="p">.</span><span class="nf">edges</span><span class="p">()</span>
-<span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="n">G_filtered</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="sh">'</span><span class="s">weight</span><span class="sh">'</span><span class="p">]</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">]</span>
-<span class="n">nx</span><span class="p">.</span><span class="nf">draw_networkx_edges</span><span class="p">(</span><span class="n">G_filtered</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
-
-<span class="c1"># Draw nodes
-</span><span class="n">nx</span><span class="p">.</span><span class="nf">draw_networkx_nodes</span><span class="p">(</span><span class="n">G_filtered</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span>
-                       <span class="n">node_size</span><span class="o">=</span><span class="n">node_sizes</span><span class="p">,</span>
-                       <span class="n">node_color</span><span class="o">=</span><span class="n">node_colors</span><span class="p">,</span>
-                       <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="p">.</span><span class="n">cm</span><span class="p">.</span><span class="n">Set3</span><span class="p">,</span>
-                       <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-
-<span class="c1"># Draw labels (only for large nodes)
-</span><span class="n">large_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G_filtered</span><span class="p">.</span><span class="nf">nodes</span><span class="p">()</span>
-               <span class="k">if</span> <span class="n">G_filtered</span><span class="p">.</span><span class="nf">degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">]</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">large_nodes</span><span class="p">}</span>
-<span class="n">nx</span><span class="p">.</span><span class="nf">draw_networkx_labels</span><span class="p">(</span><span class="n">G_filtered</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">MAG Co-occurrence Network</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="sh">'</span><span class="s">off</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">cooccurrence_network.pdf</span><span class="sh">'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">'</span><span class="s">tight</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
-</code></pre></div></div>
-
-<hr />
-
-<h3 id="cytoscape-export">Cytoscape Export</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Export for Cytoscape
-</span><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># Nodes file
-</span><span class="n">nodes</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span>
-    <span class="sh">'</span><span class="s">id</span><span class="sh">'</span><span class="p">:</span> <span class="nf">list</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="nf">nodes</span><span class="p">()),</span>
-    <span class="sh">'</span><span class="s">degree</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="n">G</span><span class="p">.</span><span class="nf">degree</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G</span><span class="p">.</span><span class="nf">nodes</span><span class="p">()],</span>
-    <span class="sh">'</span><span class="s">betweenness</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="n">nx</span><span class="p">.</span><span class="nf">betweenness_centrality</span><span class="p">(</span><span class="n">G</span><span class="p">)[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G</span><span class="p">.</span><span class="nf">nodes</span><span class="p">()]</span>
-<span class="p">})</span>
-<span class="n">nodes</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">network_nodes.csv</span><span class="sh">'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="c1"># Edges file
-</span><span class="n">edges_export</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="p">.</span><span class="nf">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-    <span class="n">edges_export</span><span class="p">.</span><span class="nf">append</span><span class="p">({</span>
-        <span class="sh">'</span><span class="s">source</span><span class="sh">'</span><span class="p">:</span> <span class="n">u</span><span class="p">,</span>
-        <span class="sh">'</span><span class="s">target</span><span class="sh">'</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span>
-        <span class="sh">'</span><span class="s">weight</span><span class="sh">'</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="sh">'</span><span class="s">weight</span><span class="sh">'</span><span class="p">]</span>
-    <span class="p">})</span>
-<span class="n">edges_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">edges_export</span><span class="p">)</span>
-<span class="n">edges_df</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">network_edges.csv</span><span class="sh">'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Import these files into Cytoscape for advanced styling</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-4-advanced-heatmaps">🎨 4. Advanced Heatmaps</h2>
-
-<h3 id="complexheatmap-style-in-python">ComplexHeatmap Style in Python</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="n">scipy.cluster</span> <span class="kn">import</span> <span class="n">hierarchy</span>
-<span class="kn">from</span> <span class="n">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">pdist</span>
-
-<span class="c1"># Load data
-</span><span class="n">abundance</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">mag_abundance.csv</span><span class="sh">'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">metadata</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">metadata.csv</span><span class="sh">'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># Log transform
-</span><span class="n">abundance_log</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">log10</span><span class="p">(</span><span class="n">abundance</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># Hierarchical clustering
-</span><span class="n">row_linkage</span> <span class="o">=</span> <span class="n">hierarchy</span><span class="p">.</span><span class="nf">linkage</span><span class="p">(</span><span class="nf">pdist</span><span class="p">(</span><span class="n">abundance_log</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="sh">'</span><span class="s">ward</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">col_linkage</span> <span class="o">=</span> <span class="n">hierarchy</span><span class="p">.</span><span class="nf">linkage</span><span class="p">(</span><span class="nf">pdist</span><span class="p">(</span><span class="n">abundance_log</span><span class="p">.</span><span class="n">T</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="sh">'</span><span class="s">ward</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="c1"># Create figure with GridSpec
-</span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-<span class="n">gs</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_gridspec</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span>
-                      <span class="n">height_ratios</span><span class="o">=</span><span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span>
-                      <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>
-                      <span class="n">hspace</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-
-<span class="c1"># Top annotation (metadata)
-</span><span class="n">ax_top</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">treatment_colors</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">Control</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">#3498db</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Treatment</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">#e74c3c</span><span class="sh">'</span><span class="p">}</span>
-<span class="n">treatment_bars</span> <span class="o">=</span> <span class="p">[</span><span class="n">treatment_colors</span><span class="p">[</span><span class="n">metadata</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="sh">'</span><span class="s">Treatment</span><span class="sh">'</span><span class="p">]]</span>
-                  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">abundance</span><span class="p">.</span><span class="n">columns</span><span class="p">]</span>
-<span class="n">ax_top</span><span class="p">.</span><span class="nf">imshow</span><span class="p">([</span><span class="n">treatment_bars</span><span class="p">],</span> <span class="n">aspect</span><span class="o">=</span><span class="sh">'</span><span class="s">auto</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax_top</span><span class="p">.</span><span class="nf">set_xticks</span><span class="p">([])</span>
-<span class="n">ax_top</span><span class="p">.</span><span class="nf">set_yticks</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">ax_top</span><span class="p">.</span><span class="nf">set_yticklabels</span><span class="p">([</span><span class="sh">'</span><span class="s">Treatment</span><span class="sh">'</span><span class="p">])</span>
-<span class="n">ax_top</span><span class="p">.</span><span class="n">spines</span><span class="p">[</span><span class="sh">'</span><span class="s">top</span><span class="sh">'</span><span class="p">].</span><span class="nf">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">ax_top</span><span class="p">.</span><span class="n">spines</span><span class="p">[</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">].</span><span class="nf">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="c1"># Left dendrogram
-</span><span class="n">ax_left</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">hierarchy</span><span class="p">.</span><span class="nf">dendrogram</span><span class="p">(</span><span class="n">row_linkage</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="sh">'</span><span class="s">left</span><span class="sh">'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax_left</span><span class="p">)</span>
-<span class="n">ax_left</span><span class="p">.</span><span class="nf">set_xticks</span><span class="p">([])</span>
-<span class="n">ax_left</span><span class="p">.</span><span class="nf">set_yticks</span><span class="p">([])</span>
-<span class="n">ax_left</span><span class="p">.</span><span class="n">spines</span><span class="p">[</span><span class="sh">'</span><span class="s">top</span><span class="sh">'</span><span class="p">].</span><span class="nf">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">ax_left</span><span class="p">.</span><span class="n">spines</span><span class="p">[</span><span class="sh">'</span><span class="s">right</span><span class="sh">'</span><span class="p">].</span><span class="nf">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">ax_left</span><span class="p">.</span><span class="n">spines</span><span class="p">[</span><span class="sh">'</span><span class="s">bottom</span><span class="sh">'</span><span class="p">].</span><span class="nf">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">ax_left</span><span class="p">.</span><span class="n">spines</span><span class="p">[</span><span class="sh">'</span><span class="s">left</span><span class="sh">'</span><span class="p">].</span><span class="nf">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="c1"># Main heatmap
-</span><span class="n">ax_main</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">im</span> <span class="o">=</span> <span class="n">ax_main</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">abundance_log</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="sh">'</span><span class="s">auto</span><span class="sh">'</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">viridis</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax_main</span><span class="p">.</span><span class="nf">set_xticks</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">abundance</span><span class="p">.</span><span class="n">columns</span><span class="p">)))</span>
-<span class="n">ax_main</span><span class="p">.</span><span class="nf">set_xticklabels</span><span class="p">(</span><span class="n">abundance</span><span class="p">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
-<span class="n">ax_main</span><span class="p">.</span><span class="nf">set_yticks</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">abundance</span><span class="p">.</span><span class="n">index</span><span class="p">)))</span>
-<span class="n">ax_main</span><span class="p">.</span><span class="nf">set_yticklabels</span><span class="p">(</span><span class="n">abundance</span><span class="p">.</span><span class="n">index</span><span class="p">)</span>
-
-<span class="c1"># Colorbar
-</span><span class="n">ax_cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">ax_cbar</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">log10(Abundance + 1)</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">complex_heatmap.pdf</span><span class="sh">'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">'</span><span class="s">tight</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-part-iv-interactive-visualizations">🔬 Part IV: Interactive Visualizations</h2>
-
-<h3 id="1-anvio-interactive-interface">1. Anvi’o Interactive Interface</h3>
-
-<p><strong>Already covered in Day 8</strong>, but key features:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Interactive binning</span>
-anvi-interactive <span class="nt">-p</span> PROFILE.db <span class="nt">-c</span> CONTIGS.db
-
-<span class="c"># Interactive pangenome</span>
-anvi-display-pan <span class="nt">-g</span> GENOMES.db <span class="nt">-p</span> PAN.db
-
-<span class="c"># Features:</span>
-<span class="c"># - Real-time binning</span>
-<span class="c"># - Metadata integration</span>
-<span class="c"># - Beautiful circular displays</span>
-<span class="c"># - Export publication figures</span>
-</code></pre></div></div>
-
-<h3 id="2-bokeh-dashboard">2. Bokeh Dashboard</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">bokeh.plotting</span> <span class="kn">import</span> <span class="n">figure</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">output_file</span>
-<span class="kn">from</span> <span class="n">bokeh.models</span> <span class="kn">import</span> <span class="n">HoverTool</span><span class="p">,</span> <span class="n">ColumnDataSource</span>
-<span class="kn">from</span> <span class="n">bokeh.layouts</span> <span class="kn">import</span> <span class="n">column</span><span class="p">,</span> <span class="n">row</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># Load data
-</span><span class="n">abundance</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">mag_abundance.csv</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="c1"># Create ColumnDataSource
-</span><span class="n">source</span> <span class="o">=</span> <span class="nc">ColumnDataSource</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="nf">dict</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">abundance</span><span class="p">[</span><span class="sh">'</span><span class="s">Sample</span><span class="sh">'</span><span class="p">],</span>
-    <span class="n">y</span><span class="o">=</span><span class="n">abundance</span><span class="p">[</span><span class="sh">'</span><span class="s">MAG_1</span><span class="sh">'</span><span class="p">],</span>
-    <span class="n">desc</span><span class="o">=</span><span class="n">abundance</span><span class="p">[</span><span class="sh">'</span><span class="s">Taxonomy</span><span class="sh">'</span><span class="p">]</span>
-<span class="p">))</span>
-
-<span class="c1"># Create figure
-</span><span class="n">p</span> <span class="o">=</span> <span class="nf">figure</span><span class="p">(</span><span class="n">x_range</span><span class="o">=</span><span class="n">abundance</span><span class="p">[</span><span class="sh">'</span><span class="s">Sample</span><span class="sh">'</span><span class="p">].</span><span class="nf">unique</span><span class="p">(),</span>
-           <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
-           <span class="n">title</span><span class="o">=</span><span class="sh">"</span><span class="s">MAG Abundance Across Samples</span><span class="sh">"</span><span class="p">,</span>
-           <span class="n">toolbar_location</span><span class="o">=</span><span class="sh">"</span><span class="s">above</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># Add bars
-</span><span class="n">p</span><span class="p">.</span><span class="nf">vbar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="sh">'</span><span class="s">x</span><span class="sh">'</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
-       <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">navy</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-
-<span class="c1"># Add hover tool
-</span><span class="n">hover</span> <span class="o">=</span> <span class="nc">HoverTool</span><span class="p">(</span><span class="n">tooltips</span><span class="o">=</span><span class="p">[</span>
-    <span class="p">(</span><span class="sh">"</span><span class="s">Sample</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">@x</span><span class="sh">"</span><span class="p">),</span>
-    <span class="p">(</span><span class="sh">"</span><span class="s">Abundance</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">@y</span><span class="sh">"</span><span class="p">),</span>
-    <span class="p">(</span><span class="sh">"</span><span class="s">Taxonomy</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">@desc</span><span class="sh">"</span><span class="p">)</span>
-<span class="p">])</span>
-<span class="n">p</span><span class="p">.</span><span class="nf">add_tools</span><span class="p">(</span><span class="n">hover</span><span class="p">)</span>
-
-<span class="c1"># Styling
-</span><span class="n">p</span><span class="p">.</span><span class="n">xaxis</span><span class="p">.</span><span class="n">major_label_orientation</span> <span class="o">=</span> <span class="mi">45</span>
-<span class="n">p</span><span class="p">.</span><span class="n">xgrid</span><span class="p">.</span><span class="n">grid_line_color</span> <span class="o">=</span> <span class="bp">None</span>
-
-<span class="c1"># Save
-</span><span class="nf">output_file</span><span class="p">(</span><span class="sh">"</span><span class="s">interactive_abundance.html</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-publication-guidelines">📐 Publication Guidelines</h2>
-
-<h3 id="general-principles">General Principles</h3>
-
-<ol>
-  <li><strong>Resolution</strong>: 300 DPI minimum</li>
-  <li><strong>File formats</strong>:
-    <ul>
-      <li>PDF (vector, preferred)</li>
-      <li>PNG (high-res raster)</li>
-      <li>TIFF (some journals require)</li>
-    </ul>
-  </li>
-  <li><strong>Dimensions</strong>: Check journal requirements</li>
-  <li><strong>Colors</strong>: Colorblind-friendly palettes</li>
-  <li><strong>Fonts</strong>: Arial, Helvetica, or Times (10-12pt)</li>
-</ol>
-
-<h3 id="color-palettes-colorblind-safe">Color Palettes (Colorblind-Safe)</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Colorblind-friendly palettes
-</span><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-
-<span class="c1"># Qualitative (categorical data)
-</span><span class="n">cb_friendly_qual</span> <span class="o">=</span> <span class="p">[</span><span class="sh">'</span><span class="s">#E69F00</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#56B4E9</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#009E73</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#F0E442</span><span class="sh">'</span><span class="p">,</span>
-                    <span class="sh">'</span><span class="s">#0072B2</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#D55E00</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">#CC79A7</span><span class="sh">'</span><span class="p">]</span>
-
-<span class="c1"># Sequential (continuous data)
-</span><span class="n">cb_friendly_seq</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">cm</span><span class="p">.</span><span class="n">viridis</span>  <span class="c1"># or 'plasma', 'cividis'
-</span>
-<span class="c1"># Diverging (centered data)
-</span><span class="n">cb_friendly_div</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">cm</span><span class="p">.</span><span class="n">RdBu_r</span>
-
-<span class="c1"># Use in plots
-</span><span class="n">plt</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cb_friendly_qual</span><span class="p">)</span>
-</code></pre></div></div>
-
-<hr />
-
-<h3 id="figure-checklist">Figure Checklist</h3>
-
-<ul class="task-list">
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />High resolution (300 DPI)</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Proper file format (PDF/PNG)</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Clear axis labels with units</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Readable font sizes (≥10pt)</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Colorblind-friendly colors</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Legend clearly labeled</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />No overlapping text</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Consistent style across panels</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Error bars where appropriate</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Statistical annotations added</li>
-</ul>
-
-<h3 id="multi-panel-figures">Multi-Panel Figures</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">from</span> <span class="n">matplotlib.gridspec</span> <span class="kn">import</span> <span class="n">GridSpec</span>
-
-<span class="c1"># Create figure
-</span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">gs</span> <span class="o">=</span> <span class="nc">GridSpec</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-
-<span class="c1"># Panel A: Taxonomy barplot
-</span><span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">])</span>
-<span class="c1"># ... plot code ...
-</span><span class="n">ax1</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">,</span> <span class="sh">'</span><span class="s">A</span><span class="sh">'</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax1</span><span class="p">.</span><span class="n">transAxes</span><span class="p">,</span>
-         <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="sh">'</span><span class="s">top</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="c1"># Panel B: Alpha diversity
-</span><span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-<span class="c1"># ... plot code ...
-</span><span class="n">ax2</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="o">-</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">,</span> <span class="sh">'</span><span class="s">B</span><span class="sh">'</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax2</span><span class="p">.</span><span class="n">transAxes</span><span class="p">,</span>
-         <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="sh">'</span><span class="s">top</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="c1"># Panel C: Ordination
-</span><span class="n">ax3</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="c1"># ... plot code ...
-</span><span class="n">ax3</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="o">-</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">,</span> <span class="sh">'</span><span class="s">C</span><span class="sh">'</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax3</span><span class="p">.</span><span class="n">transAxes</span><span class="p">,</span>
-         <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="sh">'</span><span class="s">top</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="c1"># Panel D: Heatmap
-</span><span class="n">ax4</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:])</span>
-<span class="c1"># ... plot code ...
-</span><span class="n">ax4</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="o">-</span><span class="mf">0.08</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">,</span> <span class="sh">'</span><span class="s">D</span><span class="sh">'</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax4</span><span class="p">.</span><span class="n">transAxes</span><span class="p">,</span>
-         <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="sh">'</span><span class="s">bold</span><span class="sh">'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="sh">'</span><span class="s">top</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">figure1_composite.pdf</span><span class="sh">'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">'</span><span class="s">tight</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-best-practices">💡 Best Practices</h2>
-
-<h3 id="1-data-preparation">1. Data Preparation</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Always clean data first
-</span><span class="k">def</span> <span class="nf">prepare_data_for_plotting</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-    <span class="c1"># Remove zeros
-</span>    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">).</span><span class="nf">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
-
-    <span class="c1"># Log transform
-</span>    <span class="n">df_log</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">log10</span><span class="p">(</span><span class="n">df</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="c1"># Normalize if needed
-</span>    <span class="n">df_norm</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">div</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
-
-    <span class="k">return</span> <span class="n">df_log</span><span class="p">,</span> <span class="n">df_norm</span>
-</code></pre></div></div>
-
-<h3 id="2-consistent-styling">2. Consistent Styling</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Set global matplotlib style
-</span><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="nf">update</span><span class="p">({</span>
-    <span class="sh">'</span><span class="s">font.size</span><span class="sh">'</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">font.family</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">sans-serif</span><span class="sh">'</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">font.sans-serif</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">Arial</span><span class="sh">'</span><span class="p">],</span>
-    <span class="sh">'</span><span class="s">axes.linewidth</span><span class="sh">'</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">axes.labelsize</span><span class="sh">'</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">axes.titlesize</span><span class="sh">'</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">xtick.labelsize</span><span class="sh">'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">ytick.labelsize</span><span class="sh">'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">legend.fontsize</span><span class="sh">'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">figure.dpi</span><span class="sh">'</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">savefig.dpi</span><span class="sh">'</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
-    <span class="sh">'</span><span class="s">savefig.bbox</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">tight</span><span class="sh">'</span>
-<span class="p">})</span>
-</code></pre></div></div>
-
-<hr />
-
-<h3 id="3-save-multiple-formats">3. Save Multiple Formats</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">save_figure</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-    <span class="sh">"""</span><span class="s">Save figure in multiple formats</span><span class="sh">"""</span>
-    <span class="n">fig</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">.pdf</span><span class="sh">'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">'</span><span class="s">tight</span><span class="sh">'</span><span class="p">)</span>
-    <span class="n">fig</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">.png</span><span class="sh">'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">'</span><span class="s">tight</span><span class="sh">'</span><span class="p">)</span>
-    <span class="n">fig</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">.svg</span><span class="sh">'</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">'</span><span class="s">tight</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># For editing
-</span>    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">✓ Saved </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s"> in PDF, PNG, and SVG formats</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-success-checklist">✅ Success Checklist</h2>
-
-<ul class="task-list">
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Created taxonomic composition plots</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Generated alpha diversity figures</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Made ordination plots (PCA/NMDS)</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Created heatmaps (abundance, correlation)</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Built network visualizations</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Generated interactive HTML plots</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Used Krona for taxonomy</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />All figures are publication-quality (300 DPI)</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Used colorblind-friendly palettes</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Saved in multiple formats</li>
-</ul>
-
-<hr />
-
-<h2 id="-key-resources">📚 Key Resources</h2>
-
-<p><strong>Python:</strong></p>
-
-<ul>
-  <li><a href="https://matplotlib.org/">Matplotlib docs</a></li>
-  <li><a href="https://seaborn.pydata.org/examples/index.html">Seaborn gallery</a></li>
-  <li><a href="https://plotly.com/python/">Plotly examples</a></li>
-</ul>
-
-<p><strong>Specialized:</strong></p>
-
-<ul>
-  <li><a href="https://github.com/marbl/Krona">Krona</a></li>
-  <li><a href="http://circos.ca/">Circos</a></li>
-  <li><a href="https://cytoscape.org/">Cytoscape</a></li>
-</ul>
-
-<hr />
-
-<h4 id="repo-for-todays-code-and-other-details">Repo for today’s code and other details</h4>
-
-<p>🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization/">Day 9</a></strong></p>
-
-<p>Last updated: February 2026</p>
-
-<p><img src="/assets/img/d9-mg.png" alt="day9mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="visualization" /><category term="ggplot2" /><category term="matplotlib" /><category term="seaborn" /><category term="Krona" /><category term="Circos" /><category term="networks" /><category term="heatmaps" /><category term="publication-figures" /><category term="data-visualization" /><category term="python" /><category term="R" /><summary type="html"><![CDATA[Create publication-quality figures for metagenomics: R/ggplot2, Python/matplotlib/seaborn, Krona taxonomic wheels, Circos genome comparisons, interactive Anvi'o plots, network visualizations, and heatmaps. Complete guide to visual storytelling with your data.]]></summary></entry></feed>
+<p><img src="/assets/img/d10_mg.png" alt="day10 mg" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="metatranscriptomics" /><category term="multi-omics" /><category term="integration" /><category term="DESeq2" /><category term="differential-expression" /><category term="RNA-seq" /><category term="expression-ratios" /><category term="heatmaps" /><category term="pathway-analysis" /><category term="taxonomic-profiling" /><category term="data-integration" /><category term="python" /><category term="R" /><category term="bioinformatics" /><summary type="html"><![CDATA[Master multi-omics integration: combine metagenomics (DNA) and metatranscriptomics (RNA) data to reveal active functions. Learn DESeq2 differential expression, expression ratio modeling, comparative heatmaps, pathway activity analysis, and taxonomic integration. Complete guide from count tables to biological insights.]]></summary></entry></feed>
