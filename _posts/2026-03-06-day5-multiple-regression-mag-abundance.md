@@ -48,23 +48,23 @@ Regression answers all of these. The trade-off is stronger assumptions — and a
 
 We focus on four MAGs with clear a priori hypotheses:
 
-**Pelagibacterales MAG 18** — SAR11 clade, the most abundant marine bacteria on Earth. Expected to increase strongly with salinity, since these are canonical marine specialists that thrive in high-salinity offshore waters.
+▶ **Pelagibacterales MAG 18** — SAR11 clade, the most abundant marine bacteria on Earth. Expected to increase strongly with salinity, since these are canonical marine specialists that thrive in high-salinity offshore waters.
 
-**Nanopelagicales MAG 18** — acI lineage, freshwater actinobacteria. Expected to _decrease_ with salinity — found in rivers and low-salinity estuarine zones, disappearing as marine water dominates.
+▶ **Nanopelagicales MAG 18** — acI lineage, freshwater actinobacteria. Expected to _decrease_ with salinity — found in rivers and low-salinity estuarine zones, disappearing as marine water dominates.
 
-**Flavobacteriales MAG 6** — particle-degrading bacteria linked to phytoplankton blooms. Expected to track season (bloom timing, organic matter availability) more than the salinity gradient itself.
+▶ **Flavobacteriales MAG 6** — particle-degrading bacteria linked to phytoplankton blooms. Expected to track season (bloom timing, organic matter availability) more than the salinity gradient itself.
 
-**Rhodobacterales MAG 15** — Roseobacter clade, metabolically versatile. Expected to respond to salinity but potentially also to organic matter proxies like chlorophyll.
+▶ **Rhodobacterales MAG 15** — Roseobacter clade, metabolically versatile. Expected to respond to salinity but potentially also to organic matter proxies like chlorophyll.
 
 ---
 
 #### Before You Model Anything: Plot It
 
-The first thing you should always do is scatter-plot the response against each predictor, coloured by season. **Panels A and B** show these relationships for Pelagibacterales and Nanopelagicales against salinity.
+▶ The first thing you should always do is scatter-plot the response against each predictor, coloured by season. **Panels A and B** show these relationships for Pelagibacterales and Nanopelagicales against salinity.
 
-The contrast is striking. Pelagibacterales (Panel A) increases monotonically with salinity — r² = 0.654 on a single-variable regression, β = +0.327 per psu, p < 0.001. Nanopelagicales (Panel B) shows the exact mirror image — r² = 0.769, β = −0.325 per psu, p < 0.001. Same magnitude of effect, opposite sign, opposite ecological strategy.
+▶ The contrast is striking. Pelagibacterales (Panel A) increases monotonically with salinity — r² = 0.654 on a single-variable regression, β = +0.327 per psu, p < 0.001. Nanopelagicales (Panel B) shows the exact mirror image — r² = 0.769, β = −0.325 per psu, p < 0.001. Same magnitude of effect, opposite sign, opposite ecological strategy.
 
-Notice that the points are coloured by season but the regression line ignores season entirely. Low-salinity samples are all Spring; high-salinity samples are all Summer. Salinity and season are correlated in this estuary. This will matter enormously when we add both to a single model.
+▶ Notice that the points are coloured by season but the regression line ignores season entirely. Low-salinity samples are all Spring; high-salinity samples are all Summer. Salinity and season are correlated in this estuary. This will matter enormously when we add both to a single model.
 
 ---
 
@@ -432,13 +432,13 @@ ggsave(
 | Flavob. MAG 6   | Sal + Temp + Season    | 0.879 | 0.864  | Season        | = 0.306 ns     |
 | Rhodb. MAG 15   | Sal + Temp + Season    | 0.655 | 0.610  | Salinity      | < 0.001 \*\*\* |
 
-**Salinity dominates across the board.** For Pelagibacterales, Nanopelagicales, and Rhodobacterales, Salinity is the only significant predictor in the additive model — Temperature and Season add no independent explanatory power. This is not because season doesn't matter biologically (Day 4 showed it clearly does at the community level) but because Season and Salinity are structurally collinear in this estuarine system. The regression is correctly attributing the shared variance to the best single predictor: salinity.
+▶ **Salinity dominates across the board.** For Pelagibacterales, Nanopelagicales, and Rhodobacterales, Salinity is the only significant predictor in the additive model — Temperature and Season add no independent explanatory power. This is not because season doesn't matter biologically (Day 4 showed it clearly does at the community level) but because Season and Salinity are structurally collinear in this estuarine system. The regression is correctly attributing the shared variance to the best single predictor: salinity.
 
-**Flavobacteriales MAG 6 is the outlier.** It achieves the highest R² of all four MAGs (0.879) yet has zero significant individual predictors. All three variables together explain 88% of variance, but none dominates the others. This happens when predictors are collinear and individually underpowered at n=27 — the joint signal is strong but partitioning it between Season, Salinity, and Temperature is statistically ambiguous.
+▶ **Flavobacteriales MAG 6 is the outlier.** It achieves the highest R² of all four MAGs (0.879) yet has zero significant individual predictors. All three variables together explain 88% of variance, but none dominates the others. This happens when predictors are collinear and individually underpowered at n=27 — the joint signal is strong but partitioning it between Season, Salinity, and Temperature is statistically ambiguous.
 
-**The Pelagibacterales interaction reveals a season-dependent salinity response.** The additive model returns β_Salinity = +0.271, a value that describes neither Spring (β = +0.020, flat) nor Summer (β = +0.309, steep). The interaction model (R² = 0.857, adj.R² = 0.838) captures this correctly: in summer, the salinity gradient is the primary driver of Pelagibacterales distribution. In spring, its abundance is more uniformly high regardless of salinity — likely reflecting winter-to-spring carryover from cold saline water masses.
+▶ **The Pelagibacterales interaction reveals a season-dependent salinity response.** The additive model returns β_Salinity = +0.271, a value that describes neither Spring (β = +0.020, flat) nor Summer (β = +0.309, steep). The interaction model (R² = 0.857, adj.R² = 0.838) captures this correctly: in summer, the salinity gradient is the primary driver of Pelagibacterales distribution. In spring, its abundance is more uniformly high regardless of salinity — likely reflecting winter-to-spring carryover from cold saline water masses.
 
-**Diagnostics (Panels D–G)** pass all four checks for Model 1. Residuals are approximately randomly distributed around zero (Panel D). The QQ plot follows the theoretical line well with only slight tails (Panel E, expected at n=27). Scale-Location shows an approximately flat band (Panel F). The residual histogram is roughly bell-shaped and centred at zero (Panel G). One point — a low-salinity Spring sample with unexpectedly high Pelagibacterales abundance — appears as a mild outlier in panels D and F. Its Cook's distance is < 0.5, so it does not drive the regression, but it is worth investigating biologically.
+▶ **Diagnostics (Panels D–G)** pass all four checks for Model 1. Residuals are approximately randomly distributed around zero (Panel D). The QQ plot follows the theoretical line well with only slight tails (Panel E, expected at n=27). Scale-Location shows an approximately flat band (Panel F). The residual histogram is roughly bell-shaped and centred at zero (Panel G). One point — a low-salinity Spring sample with unexpectedly high Pelagibacterales abundance — appears as a mild outlier in panels D and F. Its Cook's distance is < 0.5, so it does not drive the regression, but it is worth investigating biologically.
 
 ---
 
@@ -462,29 +462,29 @@ ggsave(
 
 ## Common Pitfalls
 
-**Not log-transforming.** Raw MAG abundance counts are right-skewed and zero-inflated. OLS on untransformed counts violates both linearity and normality assumptions. The residuals look like a cliff face, not a bell curve. Always `log1p()` before regression. Check the residual histogram every time.
+▶ **Not log-transforming.** Raw MAG abundance counts are right-skewed and zero-inflated. OLS on untransformed counts violates both linearity and normality assumptions. The residuals look like a cliff face, not a bell curve. Always `log1p()` before regression. Check the residual histogram every time.
 
-**Skipping diagnostic plots.** A high R² does not validate a model. Patterns in the residuals-vs-fitted plot can reveal systematic non-linearity that makes every coefficient biased. The QQ plot can reveal heavy tails that invalidate p-values. These violations are invisible from the summary output alone.
+▶ **Skipping diagnostic plots.** A high R² does not validate a model. Patterns in the residuals-vs-fitted plot can reveal systematic non-linearity that makes every coefficient biased. The QQ plot can reveal heavy tails that invalidate p-values. These violations are invisible from the summary output alone.
 
-**Fitting an additive model when an interaction exists.** If the salinity slope differs between Spring and Summer (as it does here — β = +0.020 vs β = +0.309), the additive model returns an average slope that misleads you about the biology in _both_ seasons. The fix is to visualise scatter plots by group before modelling, then test interaction models when slopes look unequal.
+▶ **Fitting an additive model when an interaction exists.** If the salinity slope differs between Spring and Summer (as it does here — β = +0.020 vs β = +0.309), the additive model returns an average slope that misleads you about the biology in _both_ seasons. The fix is to visualise scatter plots by group before modelling, then test interaction models when slopes look unequal.
 
-**Significant ≠ biologically meaningful.** β_Salinity = +0.271 is highly significant (p < 0.001) at n=27. But you must always translate the coefficient into biological units: a 31% increase per psu, or 8.2 log-units across the full salinity range. Whether that magnitude is ecologically important depends on the biology of the organism and the natural range of salinity in your system. Report both the p-value and the interpreted effect size.
+▶ **Significant ≠ biologically meaningful.** β_Salinity = +0.271 is highly significant (p < 0.001) at n=27. But you must always translate the coefficient into biological units: a 31% increase per psu, or 8.2 log-units across the full salinity range. Whether that magnitude is ecologically important depends on the biology of the organism and the natural range of salinity in your system. Report both the p-value and the interpreted effect size.
 
-**Ignoring multicollinearity.** Salinity and Temperature correlate strongly in estuaries (here r ≈ 0.80). High VIF inflates standard errors, making individual coefficients unstable even when the overall model fits well. Check `vif()` — if any predictor exceeds 5–10, consider centring continuous variables (`scale()`), fitting predictors separately first, or removing the most correlated one.
+▶ **Ignoring multicollinearity.** Salinity and Temperature correlate strongly in estuaries (here r ≈ 0.80). High VIF inflates standard errors, making individual coefficients unstable even when the overall model fits well. Check `vif()` — if any predictor exceeds 5–10, consider centring continuous variables (`scale()`), fitting predictors separately first, or removing the most correlated one.
 
-**Interpreting coefficients causally.** β*Salinity = +0.271 does not mean salinity \_causes* Pelagibacterales to bloom. Salinity may be a proxy for marine water mass advection, which brings its own suite of nutrient and grazing conditions that collectively support SAR11. Regression identifies associations; mechanisms require experimental manipulation or at minimum longitudinal time-series data.
+▶ **Interpreting coefficients causally.** β*Salinity = +0.271 does not mean salinity \_causes* Pelagibacterales to bloom. Salinity may be a proxy for marine water mass advection, which brings its own suite of nutrient and grazing conditions that collectively support SAR11. Regression identifies associations; mechanisms require experimental manipulation or at minimum longitudinal time-series data.
 
 ---
 
 ## Key Takeaways
 
-Regression extends group comparisons to continuous environmental gradients, quantifying exactly how much abundance changes per unit of an environmental variable. The three numbers you must always report alongside a p-value are: the coefficient (β), its 95% CI, and a biologically translated effect size (e.g., "31% increase per psu" or "8.2 log-units across the full range").
+▶ Regression extends group comparisons to continuous environmental gradients, quantifying exactly how much abundance changes per unit of an environmental variable. The three numbers you must always report alongside a p-value are: the coefficient (β), its 95% CI, and a biologically translated effect size (e.g., "31% increase per psu" or "8.2 log-units across the full range").
 
-Multiple regression allows you to disentangle collinear predictors. Salinity dominates in our dataset because it captures the shared variance of the full summer-to-spring environmental gradient. Season and Temperature are not irrelevant biologically — they are simply redundant with Salinity as predictors.
+▶ Multiple regression allows you to disentangle collinear predictors. Salinity dominates in our dataset because it captures the shared variance of the full summer-to-spring environmental gradient. Season and Temperature are not irrelevant biologically — they are simply redundant with Salinity as predictors.
 
-Interaction terms reveal when the additive model is lying. The Pelagibacterales result is a clean example: the additive model returns a meaningless average slope, while the interaction model recovers the ecologically correct story — a flat Spring response and a steep Summer salinity gradient.
+▶ Interaction terms reveal when the additive model is lying. The Pelagibacterales result is a clean example: the additive model returns a meaningless average slope, while the interaction model recovers the ecologically correct story — a flat Spring response and a steep Summer salinity gradient.
 
-Diagnostic plots are not optional. Run them every time. A model that fails diagnostics produces invalid p-values regardless of R².
+▶ Diagnostic plots are not optional. Run them every time. A model that fails diagnostics produces invalid p-values regardless of R².
 
 ---
 
@@ -501,4 +501,4 @@ _Found this useful? Share it with someone learning microbiome statistics._
 
 ---
 
-![Linear Regression Anlysis](/assets/img/d5-lr.png)
+![Linear Regression Anlysis](/assets/img/dr_l5f.png)
