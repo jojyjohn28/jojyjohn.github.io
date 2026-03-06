@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body>
+<h4 id="co-metabolism-and-co-expression-networks-of-hydrocarbon-degrading-estuarine-microbiomes">Co-Metabolism and Co-Expression Networks of Hydrocarbon-Degrading Estuarine Microbiomes</h4>
+
+<p><strong>🧠 Background &amp; Motivation</strong></p>
+
+<p>Hydrocarbon degradation in natural ecosystems is rarely an isolated function. In estuarine microbiomes, it is embedded within broader metabolic frameworks that support <strong>energy conservation, redox balance, and carbon flow</strong>. Understanding these linked processes is essential for explaining how microbial communities respond to environmental gradients and sustain ecosystem function in dynamic coastal systems.</p>
+
+<p>This project investigates <strong>hydrocarbon-degrading microbial populations in two Mid-Atlantic estuaries</strong> using a <strong>genome-resolved, multi-omics framework</strong>. The goal is to move beyond simply identifying hydrocarbon degradation genes and instead ask how these organisms are metabolically structured, what energy systems co-occur with degradation, and which pathways are actively expressed together under natural environmental conditions.</p>
+
+<p>This work is part of a broader collaborative project on estuarine hydrocarbon-degrading microbiomes, and I am actively <strong>mentoring Dinuka</strong> in the main project while contributing to the genome-resolved metabolic and co-expression analyses.</p>
+
+<hr>
+
+<h4 id="-research-questions--objectives">🎯 Research Questions &amp; Objectives</h4>
+
+<p>*<em>📌 Study 1: Metabolic Potential of Hydrocarbon-Degrading MAGs</em></p>
+
+<ul>
+  <li>Which additional metabolic functions are encoded in MAGs that contain hydrocarbon degradation genes?</li>
+  <li>Do hydrocarbon degraders share a common metabolic blueprint, or do they differ across taxa?</li>
+</ul>
+
+<p>*<em>📌 Study 2: Co-Energy Metabolism</em></p>
+
+<ul>
+  <li>Which energy generation and conservation pathways co-occur with hydrocarbon degradation in the same genome?</li>
+  <li>How do these pathways vary across redox niches in estuarine environments?</li>
+</ul>
+
+<p>*<em>📌 Study 3: Co-Metabolism and Co-Expression</em></p>
+
+<ul>
+  <li>Which metabolic pathways are actively expressed together with hydrocarbon degradation genes?</li>
+  <li>Can co-expression patterns reveal distinct ecological strategies among hydrocarbon-degrading taxa?</li>
+</ul>
+
+<hr>
+
+<h4 id="-my-role">👨‍🔬 My Role</h4>
+
+<p>My contribution focuses on <strong>genome-resolved metabolism, computational workflow development, and mentoring</strong>, including:</p>
+
+<ul>
+  <li>Mentoring <strong>Dinuka</strong> as part of the broader hydrocarbon degrader project</li>
+  <li>Identifying hydrocarbon-degrading MAGs based on key marker genes</li>
+  <li>Building workflows to assess <strong>metabolic potential, co-energy metabolism, and co-metabolism</strong>
+</li>
+  <li>Integrating <strong>metagenomic and metatranscriptomic data</strong> at the MAG level</li>
+  <li>Developing <strong>R-based visualization pipelines</strong> for heatmaps and bipartite networks</li>
+  <li>Interpreting co-expression and metabolic integration patterns across taxa and samples</li>
+</ul>
+
+<hr>
+
+<h4 id="-analytical-framework">🧬 Analytical Framework</h4>
+
+<p>This project addresses three related but distinct questions:</p>
+
+<ol>
+  <li>
+    <p><strong>Metabolic Potential</strong><br>
+What additional metabolic capabilities are encoded in hydrocarbon-degrading MAGs?<br>
+→ Based on <strong>gene presence/absence</strong></p>
+  </li>
+  <li>
+    <p><strong>Co-Energy Metabolism</strong><br>
+Which energy pathways co-occur with hydrocarbon degradation?<br>
+→ Based on <strong>energy-related marker genes</strong></p>
+  </li>
+  <li>
+    <p><strong>Co-Metabolism</strong><br>
+Which metabolic pathways are actively expressed together in the same genome?<br>
+→ Based on <strong>gene expression patterns from metatranscriptomes</strong></p>
+  </li>
+</ol>
+
+<p>Together, these analyses connect <strong>what is possible</strong> to <strong>what is actively used</strong>.</p>
+
+<hr>
+
+<h4 id="-methods--tools">🛠 Methods &amp; Tools</h4>
+
+<p>*<em>Genome-Resolved Analysis</em></p>
+
+<ul>
+  <li>MAG screening for hydrocarbon degradation markers (e.g., <strong>alkB, bssA, assA</strong>)</li>
+  <li>Protein prediction using <strong>Prodigal</strong>
+</li>
+  <li>Marker gene annotation using <strong>DIAMOND</strong>
+</li>
+  <li>Genome-level metabolic potential summarization</li>
+</ul>
+
+<p>*<em>Metabolic Marker Framework</em></p>
+
+<p>Curated marker proteins were used to detect pathways related to:</p>
+
+<ul>
+  <li>Aerobic and anaerobic respiration</li>
+  <li>Sulfur cycling</li>
+  <li>Nitrogen cycling</li>
+  <li>Carbon fixation</li>
+  <li>Phototrophy</li>
+  <li>Fermentation</li>
+  <li>Central carbon metabolism</li>
+</ul>
+
+<p>*<em>Expression Analysis</em></p>
+
+<ul>
+  <li>MAG-level gene expression profiling from metatranscriptomic datasets</li>
+  <li>Category-level organization of genes into:
+    <ul>
+      <li>Hydrocarbon degradation</li>
+      <li>C1 metabolism</li>
+      <li>Complex carbon degradation</li>
+      <li>Fermentation</li>
+      <li>Central carbon metabolism</li>
+    </ul>
+  </li>
+</ul>
+
+<p>*<em>Visualization &amp; Statistics</em></p>
+
+<ul>
+  <li><strong>R</strong></li>
+  <li><strong>pheatmap</strong></li>
+  <li><strong>igraph</strong></li>
+  <li><strong>ggraph</strong></li>
+  <li>Custom scripts for category standardization, matrix generation, and network construction</li>
+</ul>
+
+<hr>
+
+<h4 id="-challenges--solutions">🧩 Challenges &amp; Solutions**</h4>
+
+<p><strong>Challenge 1:</strong> Distinguishing metabolic potential from active co-metabolism<br>
+<strong>Solution:</strong> Separated genomic presence/absence analyses from metatranscriptomic expression-based analyses, allowing clearer interpretation of encoded versus expressed functions.</p>
+
+<p><strong>Challenge 2:</strong> Inconsistent category naming and complex expression matrices<br>
+<strong>Solution:</strong> Developed standardized data-cleaning and recoding steps to harmonize pathway categories before heatmap and network construction.</p>
+
+<p><strong>Challenge 3:</strong> Hidden functional differences among hydrocarbon degraders<br>
+<strong>Solution:</strong> Used <strong>MAG-resolved analyses</strong> rather than bulk community summaries, revealing taxon-specific metabolic integration and ecological strategies.</p>
+
+<hr>
+
+<h4 id="-key-insights">🌊 Key Insights</h4>
+
+<ul>
+  <li>Hydrocarbon degradation is not a standalone process but is embedded within <strong>broader metabolic and energetic frameworks</strong>
+</li>
+  <li>Hydrocarbon-degrading MAGs differ substantially in their associated <strong>respiration, sulfur, nitrogen, and carbon pathways</strong>
+</li>
+  <li>Co-metabolism patterns suggest <strong>distinct ecological strategies</strong> among taxa, including flexible versus highly integrated metabolic lifestyles</li>
+  <li>Genome-resolved approaches reveal structure and function that would be masked in bulk metagenomic or metatranscriptomic analyses</li>
+</ul>
+
+<hr>
+
+<h4 id="-perspective">🌍 Perspective</h4>
+
+<p>This project advances our understanding of how hydrocarbon-degrading microorganisms function in <strong>estuarine ecosystems shaped by environmental gradients and anthropogenic inputs</strong>. By linking <strong>metabolic potential, co-energy pathways, and active co-metabolism</strong>, the work provides a more complete view of the ecological roles of hydrocarbon degraders in coastal biogeochemistry.</p>
+
+<p>More broadly, this framework demonstrates how <strong>genome-resolved metagenomics and metatranscriptomics</strong> can be used to uncover hidden metabolic structure in environmental microbiomes, with relevance to <strong>functional ecology, pollution response, and ecosystem resilience</strong>.</p>
+
+<h4 id="outcome">Outcome</h4>
+
+<p>Patabandige, D. L. J., John, J., Ortiz, M., &amp; Campbell, B. J. (2026). Environmental gradients shape the
+hydrocarbon-degrading microbiome in two Mid-Atlantic bays. Submitted (ISME Communications).
+Preprint available upon request</p>
+
+<h4 id="reference">Reference</h4>
+
+<p><strong>Dr. Barbara J. Campbell</strong>, 📧 bcampb7@clemson.edu</p>
+
+<p><strong>Dinuka Lakmali Jayasuriya Patabandige</strong>
+PhD Student, Clemson University
+📧 djayasu@g.clemson.edu</p>
+
+<p><strong>Read More at https://jojyjohn28.github.io/blog/genome-resolved-metabolism-co-metabolism/</strong></p>
+</body></html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body>
+<h4 id="functional-redundancy-in-soil-microbiomes-under-cover-crop-agroecosystems">Functional Redundancy in Soil Microbiomes under Cover Crop Agroecosystems</h4>
+
+<p><strong>🧠 Background &amp; Motivation</strong></p>
+
+<p>Agricultural soils host diverse microbial communities that regulate <strong>nutrient cycling, plant productivity, and ecosystem stability</strong>. Cover crops are widely used to improve soil health and sustainability, yet the mechanisms by which microbial communities maintain ecosystem functions under different plant systems remain poorly understood.</p>
+
+<p>One key concept is <strong>functional redundancy</strong>, where multiple microbial taxa share similar metabolic capabilities, enabling ecosystems to maintain function even when community composition changes.</p>
+
+<p>This project investigates <strong>microbial community structure and functional redundancy in soils under different cover crop species</strong> using genome-resolved metagenomics and metatranscriptomics.</p>
+
+<hr>
+
+<h4 id="-research-questions--objectives">🎯 Research Questions &amp; Objectives**</h4>
+
+<p>*<em>📌 Study 1: Microbial Community Structure in Agricultural Soils</em></p>
+
+<ul>
+  <li>What microbial lineages dominate soils under different cover crop systems?</li>
+  <li>How does microbial diversity vary across agricultural treatments?</li>
+</ul>
+
+<p>*<em>📌 Study 2: Genome-Resolved Soil Microbiome Reconstruction</em></p>
+
+<ul>
+  <li>Which microbial genomes can be reconstructed from soil metagenomes?</li>
+  <li>What metabolic traits are encoded in dominant soil microbial taxa?</li>
+</ul>
+
+<p>*<em>📌 Study 3: Functional Redundancy in Soil Ecosystems</em></p>
+
+<ul>
+  <li>To what extent do multiple microbial taxa share metabolic functions?</li>
+  <li>How does redundancy contribute to ecosystem stability in agroecosystems?</li>
+</ul>
+
+<hr>
+
+<h4 id="-dataset">📊 Dataset</h4>
+
+<p>This study generated a comprehensive soil microbiome dataset including:</p>
+
+<ul>
+  <li><strong>30 soil metagenomes</strong></li>
+  <li><strong>21 metatranscriptomes</strong></li>
+  <li><strong>355 metagenome-assembled genomes (MAGs)</strong></li>
+</ul>
+
+<p>These data provide a resource for studying <strong>soil microbial ecology, functional redundancy, and microbial interactions in agricultural systems</strong>.</p>
+
+<hr>
+
+<h4 id="-microbial-diversity">🧬 Microbial Diversity</h4>
+
+<p>Taxonomic classification using <strong>GTDB-Tk (v2.6.1)</strong> identified:</p>
+
+<ul>
+  <li><strong>345 bacterial MAGs</strong></li>
+  <li><strong>10 archaeal MAGs</strong></li>
+</ul>
+
+<p>Dominant bacterial lineages included:</p>
+
+<ul>
+  <li>Thermoleophilia (57 MAGs)</li>
+  <li>Alphaproteobacteria (55 MAGs)</li>
+  <li>Terriglobia (44 MAGs)</li>
+  <li>Gemmatimonadetes (31 MAGs)</li>
+  <li>Vicinamibacteria (28 MAGs)</li>
+  <li>Gammaproteobacteria (23 MAGs)</li>
+  <li>Actinomycetes (20 MAGs)</li>
+</ul>
+
+<p>Additional taxa included members of:</p>
+
+<ul>
+  <li>Acidimicrobiia</li>
+  <li>Nitrospiria</li>
+  <li>Verrucomicrobiae</li>
+  <li>Chloroflexia</li>
+  <li>Ktedonobacteria</li>
+  <li>Bacteroidia</li>
+</ul>
+
+<p>Archaeal MAGs were primarily affiliated with <strong>Nitrososphaeria</strong>, a key lineage involved in ammonia oxidation and nitrogen cycling in soils.</p>
+
+<hr>
+
+<h4 id="-my-role">👨‍🔬 My Role</h4>
+
+<p>My primary contribution focused on <strong>genome-resolved metagenomics, computational workflow development, and functional redundancy analysis</strong>, including:</p>
+
+<ul>
+  <li>Co-assembly of soil metagenomes using <strong>MEGAHIT</strong>
+</li>
+  <li><strong>Supervised genome binning using SemiBin</strong></li>
+  <li>Genome quality assessment and taxonomic classification</li>
+  <li>Development of a <strong>custom workflow to quantify functional redundancy from metagenomic datasets</strong>
+</li>
+</ul>
+
+<hr>
+
+<h4 id="️-functional-redundancy-workflow-development">⚙️ Functional Redundancy Workflow Development</h4>
+
+<p>To quantify functional redundancy across soil microbial communities, I developed a <strong>custom computational wrapper</strong> that integrates metagenomic and metatranscriptomic datasets.</p>
+
+<p>The workflow includes:</p>
+
+<ol>
+  <li>
+<strong>Custom database construction</strong>
+    <ul>
+      <li>Genome database built using <strong>Struo2</strong>
+</li>
+      <li>Reference taxonomy derived from <strong>GTDB-Tk</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+<strong>Functional trait profiling</strong>
+    <ul>
+      <li>Metabolic trait tables generated using <strong>HUMAnN3</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+<strong>Genome selection</strong>
+    <ul>
+      <li>Identification of ~<strong>2,000 dominant genomes</strong> from the trait table</li>
+      <li>Custom <strong>Python and Perl scripts</strong> used to extract representative genomes</li>
+    </ul>
+  </li>
+  <li>
+<strong>Abundance estimation</strong>
+    <ul>
+      <li>Metagenomic and metatranscriptomic reads mapped against genome database</li>
+      <li>Species abundance tables generated from mapping outputs</li>
+    </ul>
+  </li>
+  <li>
+<strong>Functional redundancy quantification</strong>
+    <ul>
+      <li>Species abundance integrated with trait tables</li>
+      <li>Redundancy metrics calculated across microbial taxa and metabolic traits</li>
+    </ul>
+  </li>
+</ol>
+
+<p>The workflow has been <strong>successfully tested using pilot datasets</strong> and provides a scalable framework for linking microbial community composition to ecosystem functions.</p>
+
+<hr>
+
+<p><strong>🛠 Methods &amp; Tools</strong></p>
+
+<p>*<em>Metagenomics</em></p>
+
+<ul>
+  <li>MEGAHIT (co-assembly)</li>
+  <li>SemiBin (supervised genome binning)</li>
+  <li>CheckM</li>
+  <li>GTDB-Tk</li>
+</ul>
+
+<p>*<em>Functional Profiling</em></p>
+
+<ul>
+  <li>HUMAnN3</li>
+  <li>Custom Python and Perl scripts</li>
+</ul>
+
+<p>*<em>Database Construction</em></p>
+
+<ul>
+  <li>Struo2 genome database generation</li>
+</ul>
+
+<p>*<em>Analysis</em></p>
+
+<ul>
+  <li>R (phyloseq, vegan)</li>
+  <li>HPC-based reproducible pipelines</li>
+</ul>
+
+<hr>
+
+<h4 id="-perspective">🌱 Perspective</h4>
+
+<p>This project advances our understanding of <strong>how microbial communities maintain functional stability in agricultural soils</strong>. By integrating <strong>genome-resolved metagenomics with functional redundancy analysis</strong>, the study provides new insights into microbial contributions to <strong>soil health, nutrient cycling, and agroecosystem sustainability</strong>.</p>
+
+<p>The computational workflow developed in this work offers a <strong>scalable framework for linking microbial genomes, metabolic traits, and ecosystem functions</strong>, enabling future studies on
+microbiome-driven agricultural resilience.</p>
+
+<h4 id="output">Output</h4>
+
+<p>Giani, N., John, J., &amp; Campbell, B. (2026). Metagenomes, metatranscriptomes, and metagenome- assembled genomes (MAGs) collected from soils under different cover crop species. Submitting
+Microbiology Resource Announcements. Metagenomes (n = 21), metatranscriptomes (n = 21), and 355 metagenome-assembled genomes (MAGs) available on NCBI.</p>
+
+<h4 id="refrence">Refrence</h4>
+
+<p><strong>Dr. Barbara J. Campbell</strong>
+Dean’s Distinguished Professor
+Department of Biological Sciences, Clemson University
+Email: bcampb7@clemson.edu</p>
+
+<p><strong>Nichole Giani</strong>
+PhD Candidate | Campbell Lab
+Microbiology
+Clemson University
+Email:ngiani@g.clemson.edu</p>
+</body></html>
