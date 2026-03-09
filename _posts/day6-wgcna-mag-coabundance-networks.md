@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Day 6 — WGCNA for Microbiome Co-Abundance Networks: From Individual MAGs to Modules"
-date: 2026-03-08
+date: 2026-03-09
 description: "WGCNA moves you from 61 individual Wilcoxon tests to a handful of ecological guilds — each with a name, a size, and a direct relationship to the environmental gradient that drives it."
 comments: true
 giscus_comments: true
