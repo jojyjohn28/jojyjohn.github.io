@@ -436,12 +436,7 @@ Running WGCNA on 61 MAGs across 27 samples — with β = 6, `minClusterSize = 5`
 
 ## What's Next
 
-Day 7 (Sunday): **Putting it all together** — how all six methods connect into a reproducible analytical workflow, what each method answers that the others cannot, and a decision framework for choosing the right test for a new dataset.
-
----
-
-_Code, data, all results: [github.com/jojyjohn28/microbiome_stats](https://github.com/jojyjohn28/microbiome_stats)_  
-_Found this useful? Share it with someone learning microbiome statistics._
+Day 7: **Putting it all together** — how all six methods connect into a reproducible analytical workflow, what each method answers that the others cannot, and a decision framework for choosing the right test for a new dataset.
 
 ---
 
