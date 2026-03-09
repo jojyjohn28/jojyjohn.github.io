@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-09T01:17:50-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-09T01:17:50-04:00</published><updated>2026-03-09T01:17:50-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-09T01:27:14-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-09T01:27:14-04:00</published><updated>2026-03-09T01:27:14-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,477 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment</title><link href="https://jojyjohn28.github.io/blog/day5-multiple-regression-mag-abundance/" rel="alternate" type="text/html" title="Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment" /><published>2026-03-06T00:00:00-05:00</published><updated>2026-03-06T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day5-multiple-regression-mag-abundance</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day5-multiple-regression-mag-abundance/"><![CDATA[<h4 id="day-5--multiple-regression-for-mag-abundance-linking-genomics-to-environment">Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment</h4>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 6 — WGCNA for Microbiome Co-Abundance Networks: From Individual MAGs to Modules</title><link href="https://jojyjohn28.github.io/blog/day6-wgcna-mag-coabundance-networks/" rel="alternate" type="text/html" title="Day 6 — WGCNA for Microbiome Co-Abundance Networks: From Individual MAGs to Modules" /><published>2026-03-09T00:00:00-04:00</published><updated>2026-03-09T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day6-wgcna-mag-coabundance-networks</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day6-wgcna-mag-coabundance-networks/"><![CDATA[<h4 id="day-6--wgcna-for-microbiome-co-abundance-networks-from-individual-mags-to-modules">Day 6 — WGCNA for Microbiome Co-Abundance Networks: From Individual MAGs to Modules</h4>
+
+<p>*Day 6 of 7 in the series <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> &amp; 🧬 Day 55 of Daily Bioinformatics from Jojy’s Desk
+<em>Dataset: 61 MAGs × 27 metagenomes, Chesapeake Bay + Delaware Bay.</em>
+<em>All R code: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
+
+<hr />
+
+<p>Day 4 gave you a list: 40 of 61 MAGs are significantly enriched in one season over the other, Wilcoxon q &lt; 0.05. That list is useful, but it raises an immediate follow-up question — are those 40 MAGs 40 independent stories, or do they form a smaller number of coherent ecological guilds that rise and fall together?</p>
+
+<p>WGCNA (Weighted Gene Co-expression Network Analysis) answers that question. It was designed for gene expression — find groups of genes that are co-regulated across samples and link them to external traits. The translation to MAG co-abundance is direct and underrepresented in the metagenomics literature: instead of genes co-expressed across RNA-seq samples, you have MAGs that co-occur in abundance across metagenomes.</p>
+
+<blockquote>
+  <p><em>How many distinct ecological modules exist in this MAG community? Which environmental gradient drives each one?</em></p>
+</blockquote>
+
+<p>This is the shift from asking “which MAG?” to asking “which guild?” — and the answer is almost always more interpretable.</p>
+
+<hr />
+
+<h4 id="why-not-just-cluster-on-abundance">Why Not Just Cluster on Abundance?</h4>
+
+<p>You could compute a Pearson correlation matrix between MAGs and do hierarchical clustering on it. WGCNA does something smarter in two ways.</p>
+
+<p><strong>Soft thresholding</strong> raises the correlation matrix to a power β before building the network. Low correlations (noise) are suppressed toward zero; high correlations (real co-occurrence) are preserved. The network becomes sparse and scale-free, which is the empirically observed architecture of biological interaction networks.</p>
+
+<p><strong>Topological Overlap (TOM)</strong> then refines the adjacency. Two MAGs get a high TOM score not just if they directly co-occur, but if they share many co-occurrence partners in common — a network-aware similarity that is far more robust to noise than pairwise correlation alone. In a metagenome with 27 samples, TOM substantially reduces the chance that two MAGs appear co-abundant simply because both happened to be rare in the same subset of samples.</p>
+
+<hr />
+
+<h4 id="the-conceptual-pipeline">The Conceptual Pipeline</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Raw abundances
+      ↓  Hellinger transformation
+MAG × MAG Pearson correlation matrix
+      ↓  Signed soft thresholding  (adjacency = |0.5 + 0.5·r|^β)
+Weighted adjacency matrix
+      ↓  Topological Overlap Matrix (TOM)
+1 − TOM  →  hierarchical clustering  →  modules
+      ↓  PCA of each module's abundance matrix
+Module eigengenes  →  correlate with environmental traits
+</code></pre></div></div>
+
+<p>Each step has a specific reason. The Hellinger transformation handles compositionality and zero-inflation. The signed network preserves whether two MAGs co-occur positively or negatively. TOM handles noise. The eigengene reduces each module to a single representative profile.</p>
+
+<hr />
+
+<h4 id="before-you-start-filter-and-transform">Before You Start: Filter and Transform</h4>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">WGCNA</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">patchwork</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">reshape2</span><span class="p">)</span><span class="w">
+
+</span><span class="n">options</span><span class="p">(</span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">enableWGCNAThreads</span><span class="p">()</span><span class="w">
+
+</span><span class="c1">## ── 1. Load data ──────────────────────────────────────────────</span><span class="w">
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"../day1/data/metadata.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">","</span><span class="p">)</span><span class="w">
+</span><span class="n">mag_raw</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"../day1/data/mag_abundance.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">","</span><span class="p">)</span><span class="w">
+</span><span class="n">mag_t</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">mag_raw</span><span class="p">)</span><span class="w">
+
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="p">[</span><span class="n">match</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_t</span><span class="p">),</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)),</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="n">stopifnot</span><span class="p">(</span><span class="nf">all</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_t</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1">## ── 2. Hellinger transformation ───────────────────────────────</span><span class="w">
+</span><span class="c1"># Hellinger: square root of relative abundance</span><span class="w">
+</span><span class="c1"># Reduces influence of dominant taxa, handles compositionality</span><span class="w">
+</span><span class="n">hell</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">decostand</span><span class="p">(</span><span class="n">mag_t</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hellinger"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## ── 3. Check data quality ─────────────────────────────────────</span><span class="w">
+</span><span class="n">gsg</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">goodSamplesGenes</span><span class="p">(</span><span class="n">hell</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">gsg</span><span class="o">$</span><span class="n">allOK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">hell</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">hell</span><span class="p">[</span><span class="n">gsg</span><span class="o">$</span><span class="n">goodSamples</span><span class="p">,</span><span class="w"> </span><span class="n">gsg</span><span class="o">$</span><span class="n">goodGenes</span><span class="p">]</span><span class="w">
+  </span><span class="n">cat</span><span class="p">(</span><span class="s2">"Removed"</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="n">gsg</span><span class="o">$</span><span class="n">goodSamples</span><span class="p">),</span><span class="w"> </span><span class="s2">"samples,"</span><span class="p">,</span><span class="w">
+      </span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="n">gsg</span><span class="o">$</span><span class="n">goodGenes</span><span class="p">),</span><span class="w"> </span><span class="s2">"MAGs\n"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="c1"># With 61 MAGs and 27 samples, gsg$allOK should return TRUE</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h4 id="step-1-choose-the-soft-threshold-β">Step 1: Choose the Soft Threshold (β)</h4>
+
+<p>The soft threshold is the most consequential decision in a WGCNA analysis. Pick it too low and you get a dense, noisy network where almost everything connects to everything. Pick it too high and you kill real signal.</p>
+
+<p>The criterion is empirical: find the lowest β where the network approximates a scale-free topology — specifically, where the R² of a log–log regression of connectivity against frequency reaches 0.80. Simultaneously, mean connectivity should still be above zero (otherwise the network has collapsed entirely).</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## ── 4. Soft threshold selection ───────────────────────────────</span><span class="w">
+</span><span class="n">powers</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">20</span><span class="p">)</span><span class="w">
+</span><span class="n">sft</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pickSoftThreshold</span><span class="p">(</span><span class="w">
+            </span><span class="n">hell</span><span class="p">,</span><span class="w">
+            </span><span class="n">powerVector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">powers</span><span class="p">,</span><span class="w">
+            </span><span class="n">networkType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"signed"</span><span class="p">,</span><span class="w">
+            </span><span class="n">verbose</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="w">
+          </span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Inspect the table — look for lowest power where SFT.R.sq &gt; 0.80</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">sft</span><span class="o">$</span><span class="n">fitIndices</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># For this dataset: β = 6 (local R² peak, mean connectivity still &gt; 0)</span><span class="w">
+</span><span class="n">softPower</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">6</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Power SFT.R.sq   slope  mean.k. median.k. max.k.
+      1    0.370   4.210    26.2     ...
+      6    0.105  -0.090     5.5     ...   ← chosen: local peak, connectivity &gt; 0
+     12    0.467  -1.100     2.7
+</code></pre></div></div>
+
+<p>For small datasets (n &lt; 30 samples), the R² curve is noisy and may never cleanly reach 0.80. Do not force β = 30 just to hit the threshold — you will collapse the network. Accept the best local peak in the 6–12 range and note it explicitly in your methods.</p>
+
+<hr />
+
+<p><img src="/assets/img/wgcna-1.png" alt="WGCNA MAG Co-Abundance Networks" /></p>
+
+<h4 id="step-2-adjacency-matrix--tom">Step 2: Adjacency Matrix → TOM</h4>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## ── 5. Build weighted adjacency ───────────────────────────────</span><span class="w">
+</span><span class="c1"># Signed network: adjacency = (0.5 + 0.5 × Pearson r)^β</span><span class="w">
+</span><span class="c1"># This preserves the sign of co-occurrence (positive vs negative)</span><span class="w">
+</span><span class="n">adjacency</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adjacency</span><span class="p">(</span><span class="n">hell</span><span class="p">,</span><span class="w"> </span><span class="n">power</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">softPower</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"signed"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## ── 6. Topological Overlap Matrix ─────────────────────────────</span><span class="w">
+</span><span class="c1"># TOM accounts for shared neighbourhood structure, not just pairwise r</span><span class="w">
+</span><span class="c1"># TOM_ij = (Σ_u a_iu · a_uj) / (min(k_i, k_j) + 1 − a_ij)</span><span class="w">
+</span><span class="n">TOM</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">TOMsimilarity</span><span class="p">(</span><span class="n">adjacency</span><span class="p">,</span><span class="w"> </span><span class="n">TOMType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"signed"</span><span class="p">)</span><span class="w">
+</span><span class="n">dissTOM</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">TOM</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The TOM computation is the slow step. For 61 MAGs it runs in seconds. For datasets with thousands of OTUs it can take hours — save the object and never recompute it unnecessarily.</p>
+
+<hr />
+
+<h4 id="step-3-module-detection">Step 3: Module Detection</h4>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## ── 7. Hierarchical clustering on TOM dissimilarity ──────────</span><span class="w">
+</span><span class="n">TaxaTree</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">hclust</span><span class="p">(</span><span class="n">as.dist</span><span class="p">(</span><span class="n">dissTOM</span><span class="p">),</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"average"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## ── 8. Dynamic tree cut ───────────────────────────────────────</span><span class="w">
+</span><span class="c1"># minClusterSize: minimum MAGs per module</span><span class="w">
+</span><span class="c1"># deepSplit = 2: moderately sensitive splitting</span><span class="w">
+</span><span class="n">minModuleSize</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">5</span><span class="w">
+
+</span><span class="n">dynamicMods</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cutreeDynamic</span><span class="p">(</span><span class="w">
+                   </span><span class="n">dendro</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">TaxaTree</span><span class="p">,</span><span class="w">
+                   </span><span class="n">distM</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="n">dissTOM</span><span class="p">,</span><span class="w">
+                   </span><span class="n">deepSplit</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
+                   </span><span class="n">pamRespectsDendro</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+                   </span><span class="n">minClusterSize</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">minModuleSize</span><span class="w">
+                 </span><span class="p">)</span><span class="w">
+</span><span class="n">dynamicColors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">labels2colors</span><span class="p">(</span><span class="n">dynamicMods</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Initial modules:\n"</span><span class="p">);</span><span class="w"> </span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">dynamicColors</span><span class="p">))</span><span class="w">
+
+</span><span class="c1">## ── 9. Merge similar modules ──────────────────────────────────</span><span class="w">
+</span><span class="c1"># cutHeight = 0.25 → merge modules whose eigengenes correlate &gt; 0.75</span><span class="w">
+</span><span class="n">merge</span><span class="w">        </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mergeCloseModules</span><span class="p">(</span><span class="n">hell</span><span class="p">,</span><span class="w"> </span><span class="n">dynamicColors</span><span class="p">,</span><span class="w">
+                                   </span><span class="n">cutHeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">
+</span><span class="n">moduleColors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge</span><span class="o">$</span><span class="n">colors</span><span class="w">
+</span><span class="n">mergedMEs</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge</span><span class="o">$</span><span class="n">newMEs</span><span class="w">
+
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"After merging:\n"</span><span class="p">);</span><span class="w"> </span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">moduleColors</span><span class="p">))</span><span class="w">
+</span><span class="c1"># grey = unassigned MAGs that fit no module cleanly (expected with small n)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The merge step is not optional. WGCNA’s dynamic tree cut is intentionally aggressive — it will produce many small modules that are nearly identical in their eigengene profiles. <code class="language-plaintext highlighter-rouge">mergeCloseModules</code> collapses any two modules whose eigengenes correlate above <code class="language-plaintext highlighter-rouge">1 − cutHeight = 0.75</code>. Skip this and you inflate your module count with redundant, non-replicable groups.</p>
+
+<hr />
+
+<h4 id="step-4-module-eigengenes-and-environmental-correlations">Step 4: Module Eigengenes and Environmental Correlations</h4>
+
+<p>An eigengene is the first principal component of all MAGs within a module — a single representative abundance profile across your 27 samples. It lets you ask: does this guild as a whole track temperature? Salinity? Bacterial production?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## ── 10. Recalculate module eigengenes ─────────────────────────</span><span class="w">
+</span><span class="n">MEs0</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">moduleEigengenes</span><span class="p">(</span><span class="n">hell</span><span class="p">,</span><span class="w"> </span><span class="n">moduleColors</span><span class="p">)</span><span class="o">$</span><span class="n">eigengenes</span><span class="w">
+</span><span class="n">MEs</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">orderMEs</span><span class="p">(</span><span class="n">MEs0</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## ── 11. Select numerical traits ───────────────────────────────</span><span class="w">
+</span><span class="n">trait_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Salinity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Temperature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ChlA"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Bacterial_Production"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Nitrate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Phosphate"</span><span class="p">)</span><span class="w">
+</span><span class="n">datTraits</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="p">[,</span><span class="w"> </span><span class="n">intersect</span><span class="p">(</span><span class="n">trait_cols</span><span class="p">,</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">metadata</span><span class="p">))]</span><span class="w">
+</span><span class="n">datTraits</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">lapply</span><span class="p">(</span><span class="n">datTraits</span><span class="p">,</span><span class="w"> </span><span class="n">as.numeric</span><span class="p">))</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">datTraits</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## ── 12. Pearson correlation + p-values ────────────────────────</span><span class="w">
+</span><span class="n">nSamples</span><span class="w">       </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">hell</span><span class="p">)</span><span class="w">
+</span><span class="n">modTraitCor</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cor</span><span class="p">(</span><span class="n">MEs</span><span class="p">,</span><span class="w"> </span><span class="n">datTraits</span><span class="p">,</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"p"</span><span class="p">)</span><span class="w">
+</span><span class="n">modTraitPvalue</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">corPvalueStudent</span><span class="p">(</span><span class="n">modTraitCor</span><span class="p">,</span><span class="w"> </span><span class="n">nSamples</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## ── 13. Module membership (MM) and trait significance (GS) ───</span><span class="w">
+</span><span class="c1"># MM: how central each MAG is to its own module (correlation with eigengene)</span><span class="w">
+</span><span class="c1"># GS: how significantly each MAG correlates with a trait of interest</span><span class="w">
+</span><span class="n">sal</span><span class="w">      </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">datTraits</span><span class="o">$</span><span class="n">Salinity</span><span class="p">);</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">sal</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"Salinity"</span><span class="w">
+</span><span class="n">modNames</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">substring</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">MEs</span><span class="p">),</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ModuleMembership</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">cor</span><span class="p">(</span><span class="n">hell</span><span class="p">,</span><span class="w"> </span><span class="n">MEs</span><span class="p">,</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"p"</span><span class="p">))</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">ModuleMembership</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="s2">"MM"</span><span class="p">,</span><span class="w"> </span><span class="n">modNames</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">)</span><span class="w">
+
+</span><span class="n">TraitSignificance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">cor</span><span class="p">(</span><span class="n">hell</span><span class="p">,</span><span class="w"> </span><span class="n">sal</span><span class="p">,</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"p"</span><span class="p">))</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">TraitSignificance</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"GS.Salinity"</span><span class="w">
+
+</span><span class="c1"># MAGs with high MM (&gt; 0.8) AND high GS (&gt; 0.5) are hub MAGs —</span><span class="w">
+</span><span class="c1"># central to their module AND most predictive of your environmental variable</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h4 id="the-figure-panels-ac">The Figure (Panels A–C)</h4>
+
+<p>Three panels, horizontal layout, assembled with patchwork.</p>
+
+<p><strong>Panel A</strong> — MAG dendrogram based on TOM dissimilarity, with module color bar below. This is the core clustering result: how the 61 MAGs group into ecological guilds based on co-abundance patterns, not taxonomy.</p>
+
+<p><strong>Panel B</strong> — Topological Overlap Matrix, reordered by module. Bright block structure along the diagonal confirms that the modules are real — MAGs within a module genuinely co-occur at a higher rate than MAGs from different modules.</p>
+
+<p><strong>Panel C</strong> — Module-trait correlation heatmap. Each cell shows the Pearson r and p-value between a module eigengene and an environmental variable. This is the biological punchline: which environmental gradient drives each guild.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## ── 14. Panel A: Dendrogram with color bar ────────────────────</span><span class="w">
+</span><span class="c1"># Extract leaf order from the clustering tree</span><span class="w">
+</span><span class="n">leaf_order</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">TaxaTree</span><span class="o">$</span><span class="n">order</span><span class="w">
+</span><span class="n">n_mags</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">moduleColors</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Color bar dataframe (one row per MAG, ordered by dendrogram)</span><span class="w">
+</span><span class="n">cbar_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+  </span><span class="n">x</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nf">seq_along</span><span class="p">(</span><span class="n">leaf_order</span><span class="p">),</span><span class="w">
+  </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleColors</span><span class="p">[</span><span class="n">leaf_order</span><span class="p">]</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Dendrogram — convert hclust to ggplot-compatible format</span><span class="w">
+</span><span class="c1"># Using ggdendro for clean rendering</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggdendro</span><span class="p">)</span><span class="w">
+</span><span class="n">dend_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dendro_data</span><span class="p">(</span><span class="n">TaxaTree</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"rectangle"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p_dend</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggdendrogram</span><span class="p">(</span><span class="n">TaxaTree</span><span class="p">,</span><span class="w"> </span><span class="n">rotate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"MAG Dendrogram (TOM dissimilarity)"</span><span class="p">,</span><span class="w">
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"MAGs"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Dissimilarity (1 − TOM)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.text.x</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">axis.ticks.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">plot.title</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Color bar below</span><span class="w">
+</span><span class="n">p_cbar</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">cbar_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">color</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_tile</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_identity</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_void</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># Stack dendrogram on top of color bar</span><span class="w">
+</span><span class="n">p_A</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p_dend</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">p_cbar</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">plot_layout</span><span class="p">(</span><span class="n">heights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/img/wgcna-2.png" alt="WGCNA MAG Co-Abundance Networks" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## ── 15. Panel B: TOM heatmap ──────────────────────────────────</span><span class="w">
+</span><span class="c1"># Reorder TOM by dendrogram leaf order</span><span class="w">
+</span><span class="n">tom_vals</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dissTOM</span><span class="w">                       </span><span class="c1"># TOM (similarity)</span><span class="w">
+</span><span class="n">tom_plot</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tom_vals</span><span class="p">[</span><span class="n">leaf_order</span><span class="p">,</span><span class="w"> </span><span class="n">leaf_order</span><span class="p">]</span><span class="w">   </span><span class="c1"># reorder rows and cols</span><span class="w">
+</span><span class="n">tom_plot7</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tom_plot</span><span class="o">^</span><span class="m">7</span><span class="w">                         </span><span class="c1"># power for visual contrast</span><span class="w">
+</span><span class="n">diag</span><span class="p">(</span><span class="n">tom_plot7</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">NA</span><span class="w">
+
+</span><span class="c1"># Melt to long format for ggplot2</span><span class="w">
+</span><span class="n">tom_df</span><span class="w">          </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">melt</span><span class="p">(</span><span class="n">tom_plot7</span><span class="p">,</span><span class="w"> </span><span class="n">varnames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"MAG_x"</span><span class="p">,</span><span class="w"> </span><span class="s2">"MAG_y"</span><span class="p">),</span><span class="w"> </span><span class="n">value.name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"TOM7"</span><span class="p">)</span><span class="w">
+</span><span class="n">tom_df</span><span class="o">$</span><span class="n">MAG_x</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">tom_df</span><span class="o">$</span><span class="n">MAG_x</span><span class="p">)</span><span class="w">
+</span><span class="n">tom_df</span><span class="o">$</span><span class="n">MAG_y</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">tom_df</span><span class="o">$</span><span class="n">MAG_y</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p_B</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">tom_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAG_x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAG_y</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TOM7</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_raster</span><span class="p">(</span><span class="n">interpolate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_gradientn</span><span class="p">(</span><span class="w">
+    </span><span class="n">colours</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#f8fafc"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#fde68a"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#f59e0b"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#dc2626"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#7f1d1d"</span><span class="p">),</span><span class="w">
+    </span><span class="n">na.value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w">
+    </span><span class="n">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"TOM⁷"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Topological Overlap Matrix (TOM)"</span><span class="p">,</span><span class="w">
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"MAGs"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"MAGs"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.text</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">axis.ticks</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">plot.title</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_fixed</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/img/wgcna-3.png" alt="WGCNA MAG Co-Abundance Networks" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## ── 16. Panel C: Module-trait heatmap ────────────────────────</span><span class="w">
+</span><span class="c1"># Reshape correlation matrix to long format</span><span class="w">
+</span><span class="n">cor_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">melt</span><span class="p">(</span><span class="n">modTraitCor</span><span class="p">,</span><span class="w"> </span><span class="n">varnames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Module"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Trait"</span><span class="p">),</span><span class="w">
+               </span><span class="n">value.name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"r"</span><span class="p">)</span><span class="w">
+</span><span class="n">pval_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">melt</span><span class="p">(</span><span class="n">modTraitPvalue</span><span class="p">,</span><span class="w"> </span><span class="n">varnames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Module"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Trait"</span><span class="p">),</span><span class="w">
+                </span><span class="n">value.name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"p"</span><span class="p">)</span><span class="w">
+</span><span class="n">heatmap_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge</span><span class="p">(</span><span class="n">cor_df</span><span class="p">,</span><span class="w"> </span><span class="n">pval_df</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Significance labels</span><span class="w">
+</span><span class="n">heatmap_df</span><span class="o">$</span><span class="n">label</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">with</span><span class="p">(</span><span class="n">heatmap_df</span><span class="p">,</span><span class="w">
+  </span><span class="n">ifelse</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.001</span><span class="p">,</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n***"</span><span class="p">),</span><span class="w">
+  </span><span class="n">ifelse</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.01</span><span class="p">,</span><span class="w">  </span><span class="n">paste0</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n**"</span><span class="p">),</span><span class="w">
+  </span><span class="n">ifelse</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w">  </span><span class="n">paste0</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n*"</span><span class="p">),</span><span class="w">
+                    </span><span class="n">paste0</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s2">"\np="</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))))))</span><span class="w">
+
+</span><span class="c1"># Clean up module names for display (remove "ME" prefix)</span><span class="w">
+</span><span class="n">heatmap_df</span><span class="o">$</span><span class="n">Module</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^ME"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">heatmap_df</span><span class="o">$</span><span class="n">Module</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Trait display labels</span><span class="w">
+</span><span class="n">trait_display</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+  </span><span class="n">Salinity</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s2">"Salinity\n(psu)"</span><span class="p">,</span><span class="w">
+  </span><span class="n">Temperature</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s2">"Temperature\n(°C)"</span><span class="p">,</span><span class="w">
+  </span><span class="n">ChlA</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="s2">"Chl-a\n(μg/L)"</span><span class="p">,</span><span class="w">
+  </span><span class="n">Bacterial_Production</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Bacterial\nProduction"</span><span class="p">,</span><span class="w">
+  </span><span class="n">Nitrate</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="s2">"Nitrate\n(μM)"</span><span class="p">,</span><span class="w">
+  </span><span class="n">Phosphate</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="s2">"Phosphate\n(μM)"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span><span class="n">heatmap_df</span><span class="o">$</span><span class="n">Trait</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">recode</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span><span class="n">heatmap_df</span><span class="o">$</span><span class="n">Trait</span><span class="p">),</span><span class="w">
+                            </span><span class="o">!!!</span><span class="n">trait_display</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p_C</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">heatmap_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Trait</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Module</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_tile</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">lineheight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_gradientn</span><span class="p">(</span><span class="w">
+    </span><span class="n">colours</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#2166ac"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#92c5de"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#f7f7f7"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#f4a582"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#b2182b"</span><span class="p">),</span><span class="w">
+    </span><span class="n">limits</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w">
+    </span><span class="n">name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"Pearson r"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"Module–Trait Relationships"</span><span class="p">,</span><span class="w">
+       </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"r value · * p&lt;0.05  ** p&lt;0.01  *** p&lt;0.001"</span><span class="p">,</span><span class="w">
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.text.x</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.text.y</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">plot.title</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">),</span><span class="w">
+    </span><span class="n">plot.subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8.5</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/img/wgcna-4.png" alt="WGCNA MAG Co-Abundance Networks" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## ── 17. Assemble figure ───────────────────────────────────────</span><span class="w">
+</span><span class="n">combined_fig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">p_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">p_B</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">p_C</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">plot_annotation</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"Day 6 — WGCNA: MAG Co-Abundance Modules &amp; Environmental Drivers"</span><span class="p">,</span><span class="w">
+    </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"61 MAGs  ·  27 metagenomes  ·  Signed Pearson  ·  β=6  ·  TOM clustering  ·  Hellinger transformation"</span><span class="p">,</span><span class="w">
+    </span><span class="n">tag_levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"A"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.tag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">))</span><span class="w">
+
+</span><span class="c1">## ── 18. Save ──────────────────────────────────────────────────</span><span class="w">
+</span><span class="n">dir.create</span><span class="p">(</span><span class="s2">"figures"</span><span class="p">,</span><span class="w"> </span><span class="n">showWarnings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">ggsave</span><span class="p">(</span><span class="w">
+  </span><span class="s2">"~/Jojy_Research_Sync/website_assets/projects/microbiome_stats/day6-wgcna/figures/day6_wgcna_figure.tiff"</span><span class="p">,</span><span class="w">
+  </span><span class="n">combined_fig</span><span class="p">,</span><span class="w">
+  </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">18</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="n">compression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lzw"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="results-from-our-data">Results from Our Data</h2>
+
+<p>Running WGCNA on 61 MAGs across 27 samples — with β = 6, <code class="language-plaintext highlighter-rouge">minClusterSize = 5</code>, and merge cutHeight = 0.25 — produces <strong>4 modules</strong> (plus 3 grey unassigned MAGs):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Module</th>
+      <th>n MAGs</th>
+      <th>Key trait</th>
+      <th>r</th>
+      <th>p</th>
+      <th>Interpretation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>brown</td>
+      <td>4</td>
+      <td>Salinity (−)</td>
+      <td>−0.89</td>
+      <td>&lt; 0.001</td>
+      <td>Low-salinity specialists</td>
+    </tr>
+    <tr>
+      <td>blue</td>
+      <td>41</td>
+      <td>Temperature (−)</td>
+      <td>−0.97</td>
+      <td>&lt; 0.001</td>
+      <td>Cool-water / Spring guild</td>
+    </tr>
+    <tr>
+      <td>green</td>
+      <td>6</td>
+      <td>Bacterial Production (+)</td>
+      <td>+0.71</td>
+      <td>&lt; 0.001</td>
+      <td>Productivity-linked guild</td>
+    </tr>
+    <tr>
+      <td>orange</td>
+      <td>7</td>
+      <td>Salinity (+)</td>
+      <td>+0.57</td>
+      <td>0.002</td>
+      <td>High-salinity guild</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>▶ <strong>Panel A (dendrogram)</strong> shows the blue module dominating the left branch — 41 MAGs clustering together under a single broad clade in the TOM tree. The four smaller modules (brown, green, orange) appear as distinct tight sub-branches on the right. Three grey MAGs sit as isolated leaves with no clear affiliation.</p>
+
+<p>▶ <strong>Panel B (TOM heatmap)</strong> confirms that the block structure is real. The large dark block corresponding to the blue module shows genuinely elevated topological overlap among those 41 MAGs — they share co-occurrence partners, not just pairwise correlations. Smaller blocks for brown, green, and orange are visible but compact.</p>
+
+<p>▶ <strong>Panel C (module-trait heatmap)</strong> is the biological punchline. The blue module eigengene correlates with Temperature at r = <strong>−0.97</strong> (p &lt; 0.001) and with Bacterial Production at r = <strong>−0.81</strong> (p &lt; 0.001). These are your spring/cool-water taxa. The brown module inverts this: r = <strong>−0.89</strong> with Salinity, meaning peak abundance at low salinity — freshwater-influenced, oligohaline specialists. The orange module is the mirror: r = <strong>+0.57</strong> with Salinity, enriched in high-salinity conditions.</p>
+
+<p>▶ <strong>What WGCNA adds over Day 4 Wilcoxon results.</strong> Day 4 found 40 individual MAGs significant for season — a list. WGCNA shows that 41 of those MAGs form one coherent module, share a single eigengene, and are all driven by the same environmental signal (temperature). That 41-MAG blue module is not 41 independent stories. It is one story told by 41 organisms: the cool-water spring community that collapses as summer warms the estuary.</p>
+
+<hr />
+
+<h2 id="common-pitfalls">Common Pitfalls</h2>
+
+<p>▶ <strong>Wrong soft threshold.</strong> Using β = 30 to force R² ≥ 0.80 on a small dataset destroys network structure. Use the pickSoftThreshold plot; accept the best local peak above 0.80, or the inflection in the R² curve if 0.80 is never reached cleanly.</p>
+
+<p>▶ <strong>Skipping mergeCloseModules.</strong> WGCNA’s initial cut is aggressive. Without merging, you will report 8 modules when 4 are the correct answer, and several will fail to replicate in an independent dataset because they represent noise splits of the same underlying guild.</p>
+
+<p>▶ <strong>Using an unsigned network.</strong> <code class="language-plaintext highlighter-rouge">type = "unsigned"</code> treats positive and negative co-abundance as equivalent — ecologically wrong. A MAG that always disappears when another appears is not in the same guild as one that tracks it positively. Always use <code class="language-plaintext highlighter-rouge">type = "signed"</code>.</p>
+
+<p>▶ <strong>Ignoring grey.</strong> Grey MAGs are not failures. They are MAGs whose co-abundance pattern does not fit any identified module cleanly. Investigate them separately — they may represent cosmopolitan taxa with context-dependent associations, or genuinely rare MAGs with insufficient signal.</p>
+
+<p>▶ <strong>Over-interpreting small modules.</strong> A module of 4 MAGs in 27 samples is not robust. Use <code class="language-plaintext highlighter-rouge">minClusterSize = 5</code> as a floor and treat modules with n &lt; 8 with skepticism. They may be real, but they will not replicate without a larger n.</p>
+
+<hr />
+
+<h2 id="key-takeaways">Key Takeaways</h2>
+
+<p>▶ WGCNA moves you from 61 individual tests to 4 interpretable ecological modules. The blue module (41 MAGs, r = −0.97 with Temperature) is a result invisible when testing MAGs one at a time — but immediately apparent when you look at the community as a co-abundance network.</p>
+
+<p>▶ The soft threshold β is the most consequential parameter you will set. It controls network sparsity. Use the scale-free topology criterion and the pickSoftThreshold plot to choose it — never copy a number from a tutorial without checking it on your own data.</p>
+
+<p>▶ TOM is not just a correlation matrix with extra steps. By incorporating shared network neighbourhood structure, it is substantially more robust to noise than pairwise Pearson r — critical when n is small and every sample counts.</p>
+
+<p>▶ The module eigengene is the bridge between network structure and biology. It compresses an entire guild into one abundance profile per sample, letting you correlate the guild as a unit with any continuous environmental variable.</p>
+
+<p>▶ The module-trait heatmap is the take-home figure. It answers the question you started with: not which MAG is significant, but which ecological guild responds to which environmental driver.</p>
+
+<hr />
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>Day 7 (Sunday): <strong>Putting it all together</strong> — how all six methods connect into a reproducible analytical workflow, what each method answers that the others cannot, and a decision framework for choosing the right test for a new dataset.</p>
+
+<hr />
+
+<p><em>Code, data, all results: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em><br />
+<em>Found this useful? Share it with someone learning microbiome statistics.</em></p>
+
+<hr />
+
+<p><em>Code, data, all results: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
+
+<p><em>All R code and data: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em><br />
+<em>Found this useful? Share it with someone learning microbiome statistics.</em></p>
+
+<hr />
+
+<p><img src="/assets/img/wgcna-all.png" alt="WGCNA MAG Co-Abundance Networks" /></p>]]></content><author><name></name></author><category term="WGCNA" /><category term="co-expression" /><category term="network" /><category term="modules" /><category term="eigengenes" /><category term="metagenomics" /><category term="R" /><summary type="html"><![CDATA[WGCNA moves you from 61 individual Wilcoxon tests to a handful of ecological guilds — each with a name, a size, and a direct relationship to the environmental gradient that drives it.]]></summary></entry><entry><title type="html">Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment</title><link href="https://jojyjohn28.github.io/blog/day5-multiple-regression-mag-abundance/" rel="alternate" type="text/html" title="Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment" /><published>2026-03-06T00:00:00-05:00</published><updated>2026-03-06T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day5-multiple-regression-mag-abundance</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day5-multiple-regression-mag-abundance/"><![CDATA[<h4 id="day-5--multiple-regression-for-mag-abundance-linking-genomics-to-environment">Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment</h4>
 
 <p>*Day 5 of 7 in the series <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> &amp; 🧬 Day 55 of Daily Bioinformatics from Jojy’s Desk
 <em>Dataset: 61 MAGs × 27 metagenomes, Chesapeake Bay + Delaware Bay.</em>
@@ -3900,922 +4370,4 @@ Part of the 10-Day Metagenome Analysis Series.
 
 <hr />
 
-<p><strong>Happy Learning! 🧬</strong></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="teaching" /><category term="education" /><category term="tutorial" /><category term="beginner" /><category term="graduate-course" /><category term="bioinformatics" /><category term="quality-control" /><category term="assembly" /><category term="binning" /><category term="taxonomy" /><category term="phylogenetics" /><category term="hands-on" /><category term="toy-data" /><category term="GTDB-Tk" /><category term="MetaWRAP" /><category term="FastQC" /><category term="Kraken2" /><category term="workflow" /><category term="course-materials" /><summary type="html"><![CDATA[Beginner-friendly graduate course materials for metagenome analysis. Includes toy datasets (<100MB), complete workflows, and hands-on tutorials covering QC, assembly, binning, taxonomy, and phylogenetics. Perfect for students new to bioinformatics with step-by-step guidance and realistic expectations.]]></summary></entry><entry><title type="html">10-Day Metagenome Analysis Series - Complete Summary</title><link href="https://jojyjohn28.github.io/blog/metagenome-analysis-10day-complete-summary/" rel="alternate" type="text/html" title="10-Day Metagenome Analysis Series - Complete Summary" /><published>2026-02-18T00:00:00-05:00</published><updated>2026-02-18T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/metagenome_series_summary</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metagenome-analysis-10day-complete-summary/"><![CDATA[<p><strong>Complete workflow from raw sequencing data to publication-ready insights</strong></p>
-
-<hr />
-
-<h2 id="-overview">📊 Overview</h2>
-
-<hr />
-
-<h2 id="day-1-metagenome-qc--taxonomic-profiling">Day 1: Metagenome QC &amp; Taxonomic Profiling</h2>
-
-<p><strong>From Raw Reads to Clean, Profiled Data</strong></p>
-
-<h3 id="what-youll-do">What You’ll Do:</h3>
-
-<ul>
-  <li>Quality control of raw sequencing reads</li>
-  <li>Adapter trimming and host contamination removal</li>
-  <li>Read-based taxonomic profiling</li>
-  <li>PhiX removal</li>
-</ul>
-
-<h3 id="key-tools">Key Tools:</h3>
-
-<ul>
-  <li><strong>FastQC / MultiQC</strong> - Quality assessment</li>
-  <li><strong>Trimmomatic</strong> - Adapter trimming</li>
-  <li><strong>Kraken2</strong> - K-mer matching taxonomy</li>
-  <li><strong>Kaiju</strong> - Protein-level classification</li>
-  <li><strong>MetaPhlAn</strong> - Marker gene profiling</li>
-  <li><strong>mOTUs</strong> - Universal marker genes</li>
-</ul>
-
-<h3 id="time-estimate-10-20-minutes-qc--30-min-1-hr-taxonomy">Time Estimate: 10-20 minutes (QC) + 30 min-1 hr (Taxonomy)</h3>
-
-<h3 id="deliverables">Deliverables:</h3>
-
-<ul>
-  <li>Clean FASTQ files</li>
-  <li>Taxonomic profiles</li>
-  <li>Quality reports</li>
-  <li>Ready for assembly</li>
-</ul>
-
-<hr />
-
-<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day1-qc-taxonomy/">Day 1</a></strong></p>
-
-<p>📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day1-qc-read-based">Metagenome Analysis Series Repo</a></strong></p>
-
-<hr />
-
-<h2 id="day-2-metagenome-assembly">Day 2: Metagenome Assembly</h2>
-
-<p><strong>Reconstructing Genomes from Short Reads</strong></p>
-
-<h3 id="what-youll-do-1">What You’ll Do:</h3>
-
-<ul>
-  <li>Assemble clean reads into contigs</li>
-  <li>Quality assessment of assemblies</li>
-  <li>Calculate coverage</li>
-  <li>Choose best assembler</li>
-</ul>
-
-<h3 id="key-tools-1">Key Tools:</h3>
-
-<ul>
-  <li><strong>metaSPAdes</strong> - Multi-k-mer assembly (high quality)</li>
-  <li><strong>MEGAHIT</strong> - Memory-efficient (fast)</li>
-  <li><strong>Flye</strong> - Long-read assembly</li>
-  <li><strong>MetaQUAST</strong> - Assembly quality assessment</li>
-  <li><strong>Bowtie2</strong> - Read mapping</li>
-  <li><strong>SAMtools</strong> - Coverage calculation</li>
-</ul>
-
-<h3 id="time-estimate-6-12-hours-megahit-2-8-hrs">Time Estimate: 6-12 hours (MEGAHIT: 2-8 hrs)</h3>
-
-<h3 id="deliverables-1">Deliverables:</h3>
-
-<ul>
-  <li>Assembled contigs (contigs.fasta)</li>
-  <li>Quality reports (N50, L50, total length)</li>
-  <li>Coverage files</li>
-  <li>Ready for binning</li>
-</ul>
-
-<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day2-assembly/">Day 2</a></strong></p>
-
-<p>📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day2-assembly">Metagenome Analysis Series Repo</a></strong></p>
-
-<hr />
-
-<h2 id="day-3-genome-binning">Day 3: Genome Binning</h2>
-
-<p><strong>Recovering Individual Genomes (MAGs) from Metagenomes</strong></p>
-
-<h3 id="what-youll-do-2">What You’ll Do:</h3>
-
-<ul>
-  <li>Bin contigs into individual genomes</li>
-  <li>Refine bins using multiple binners</li>
-  <li>Assess bin quality</li>
-  <li>Profile abundance across samples</li>
-</ul>
-
-<h3 id="key-tools-2">Key Tools:</h3>
-
-<ul>
-  <li><strong>MetaBAT2</strong> - Coverage-based binning</li>
-  <li><strong>MaxBin2</strong> - Marker gene binning</li>
-  <li><strong>CONCOCT</strong> - Composition-based binning</li>
-  <li><strong>MetaWRAP</strong> - Bin refinement (combines all 3)</li>
-  <li><strong>CheckM2</strong> - Quality assessment</li>
-  <li><strong>CoverM</strong> - Abundance profiling</li>
-  <li><strong>SingleM</strong> - Validation</li>
-</ul>
-
-<h3 id="time-estimate-12-24-hours-total">Time Estimate: 12-24 hours total</h3>
-
-<ul>
-  <li>Initial binning: 4-8 hrs</li>
-  <li>Refinement: 2-6 hrs</li>
-  <li>Quality check: 1-2 hrs</li>
-  <li>Abundance: 2-4 hrs</li>
-</ul>
-
-<h3 id="quality-metrics">Quality Metrics:</h3>
-
-<ul>
-  <li><strong>Completeness</strong> (target &gt;50%, ideally &gt;90%)</li>
-  <li><strong>Contamination</strong> (target &lt;10%, ideally &lt;5%)</li>
-  <li><strong>N50</strong> (contig length)</li>
-</ul>
-
-<h3 id="deliverables-2">Deliverables:</h3>
-
-<ul>
-  <li>High-quality MAGs (&gt;50% complete, &lt;10% contamination)</li>
-  <li>Abundance tables</li>
-  <li>Coverage metrics</li>
-  <li>Ready for annotation</li>
-</ul>
-
-<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day3-binning/">Day 3</a></strong></p>
-
-<p>📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day3-binning">Metagenome Analysis Series Repo</a></strong></p>
-
-<hr />
-
-<h2 id="day-4-dereplication--taxonomy">Day 4: Dereplication &amp; Taxonomy</h2>
-
-<p><strong>Identifying Unique Species and Classifying Genomes</strong></p>
-
-<h3 id="what-youll-do-3">What You’ll Do:</h3>
-
-<ul>
-  <li>Remove redundant/duplicate genomes</li>
-  <li>Classify MAGs taxonomically</li>
-  <li>Build phylogenetic trees</li>
-  <li>Identify novel species</li>
-</ul>
-
-<h3 id="key-tools-3">Key Tools:</h3>
-
-<ul>
-  <li><strong>dRep</strong> - Dereplication (primary, 95% ANI for species)</li>
-  <li><strong>GTDB-Tk</strong> - GTDB taxonomy classification</li>
-  <li><strong>pyani</strong> - Average Nucleotide Identity</li>
-  <li><strong>iTOL</strong> - Interactive phylogenetic tree visualization</li>
-</ul>
-
-<h3 id="time-estimate-6-17-hours">Time Estimate: 6-17 hours</h3>
-
-<ul>
-  <li>dRep (MASH + ANI): 1-4 hrs</li>
-  <li>GTDB-Tk: 4-12 hrs (identify + classify)</li>
-  <li>Visualization: 1 hr</li>
-</ul>
-
-<h3 id="outputs">Outputs:</h3>
-
-<ul>
-  <li>Species representatives (40-70% fewer genomes)</li>
-  <li>Full GTDB taxonomy</li>
-  <li>ANI matrices</li>
-  <li>Phylogenetic trees</li>
-  <li>Novel species identified (ANI &lt;95%)</li>
-</ul>
-
-<h3 id="success-rates">Success Rates:</h3>
-
-<ul>
-  <li>Classification: 95-99% success</li>
-  <li>Novel species: 10-30% (ANI &lt;95%)</li>
-  <li>Novel genera: 1-5% (ANI &lt;85%)</li>
-</ul>
-
-<h3 id="deliverables-3">Deliverables:</h3>
-
-<ul>
-  <li>Dereplicated MAG set</li>
-  <li>Complete taxonomy assignments</li>
-  <li>Species catalog</li>
-  <li>Phylogenetic trees</li>
-</ul>
-
-<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day4-dereplication-taxonomy/">Day 4</a></strong></p>
-
-<p>📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day4-derep-tax">Metagenome Analysis Repo</a></strong></p>
-
-<hr />
-
-<h2 id="day-5-genome-annotation">Day 5: Genome Annotation</h2>
-
-<p><strong>Understanding Metabolic Potential</strong></p>
-
-<h3 id="what-youll-do-4">What You’ll Do:</h3>
-
-<ul>
-  <li>Predict genes in MAGs</li>
-  <li>Annotate gene functions</li>
-  <li>Map to metabolic pathways</li>
-  <li>Identify biosynthetic potential</li>
-</ul>
-
-<h3 id="key-tools-4">Key Tools:</h3>
-
-<ul>
-  <li><strong>Prodigal</strong> - Gene prediction (100% genes)</li>
-  <li><strong>Prokka</strong> - Rapid annotation (60-80%)</li>
-  <li><strong>eggNOG-mapper</strong> - Functional annotation (70-90%)</li>
-  <li><strong>DRAM</strong> - Metabolic distillation (40-60% pathways)</li>
-  <li><strong>METABOLIC</strong> - Comprehensive pathways (40+ pathways)</li>
-</ul>
-
-<h3 id="time-estimate-3-4-hours-10-genomes">Time Estimate: 3-4 hours (10 genomes)</h3>
-
-<ul>
-  <li>Prodigal: 5 min</li>
-  <li>Prokka: 50 min</li>
-  <li>eggNOG: 5 hrs</li>
-  <li>DRAM: 3-4 hrs</li>
-</ul>
-
-<h3 id="annotation-coverage">Annotation Coverage:</h3>
-
-<ul>
-  <li><strong>Genes predicted</strong>: 100% (Prodigal)</li>
-  <li><strong>Functions assigned</strong>: 60-80% (Prokka), 70-90% (eggNOG)</li>
-  <li><strong>Pathways identified</strong>: 40+ (METABOLIC)</li>
-</ul>
-
-<h3 id="deliverables-4">Deliverables:</h3>
-
-<ul>
-  <li>Annotated gene files (.gbk, .gff, .faa)</li>
-  <li>Functional summaries (KEGG, COG, GO, EC)</li>
-  <li>Metabolic pathway maps</li>
-  <li>Interactive diagrams</li>
-  <li>Ready for comparative genomics</li>
-</ul>
-
-<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day5-annotation/">Day 5</a></strong></p>
-
-<p>📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day5-annotation">Metagenome Analysis Repo</a></strong></p>
-
-<hr />
-
-<h2 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h2>
-
-<p><strong>Discovering Hidden Capabilities</strong></p>
-
-<h3 id="what-youll-do-5">What You’ll Do:</h3>
-
-<ul>
-  <li>Identify biosynthetic gene clusters (BGCs)</li>
-  <li>Find antimicrobial resistance genes</li>
-  <li>Detect CRISPR-Cas systems</li>
-  <li>Identify prophages</li>
-  <li>Discover mobile genetic elements</li>
-  <li>Find protein domains</li>
-</ul>
-
-<h3 id="key-tools-5">Key Tools:</h3>
-
-<ul>
-  <li><strong>antiSMASH</strong> - Secondary metabolites (BGCs: 5-30 per genome)</li>
-  <li><strong>CARD-RGI</strong> - Antimicrobial resistance (AMR genes)</li>
-  <li><strong>ABRicate</strong> - Resistance gene screening</li>
-  <li><strong>dbCAN2</strong> - Carbohydrate-active enzymes (CAZymes: 50-500)</li>
-  <li><strong>VirSorter2</strong> - Prophage detection (0-10 per genome)</li>
-  <li><strong>MinCED</strong> - CRISPR arrays</li>
-  <li><strong>IntegronFinder</strong> - Mobile genetic elements</li>
-  <li><strong>InterProScan</strong> - Protein domains (Pfam, PROSITE)</li>
-</ul>
-
-<h3 id="time-estimate-15-20-hours-10-genomes">Time Estimate: 15-20 hours (10 genomes)</h3>
-
-<ul>
-  <li>antiSMASH: 5 min (fast screen) to 2 hrs (complete, with antiSMASH)</li>
-  <li>CARD: Standard 1 hr, Complete 10 genomes: 15-20 hrs</li>
-</ul>
-
-<h3 id="expected-discoveries-per-genome">Expected Discoveries (per genome):</h3>
-
-<ul>
-  <li><strong>BGCs</strong>: 5-30 (antibiotics, siderophores, etc.)</li>
-  <li><strong>AMR genes</strong>: 0-50 (KPC, NDM, mcr-1, etc.)</li>
-  <li><strong>CAZymes</strong>: 50-500 (cellulose, starch, chitin degradation)</li>
-  <li><strong>Prophages</strong>: 0-10 (horizontal gene transfer)</li>
-  <li><strong>CRISPR arrays</strong>: 0-5 (adaptive immunity)</li>
-</ul>
-
-<h3 id="key-applications">Key Applications:</h3>
-
-<ul>
-  <li>Antibiotic biosynthesis potential</li>
-  <li>Drug resistance surveillance</li>
-  <li>Carbohydrate degradation capabilities</li>
-  <li>Phage-mediated horizontal gene transfer</li>
-  <li>Novel biosynthetic clusters</li>
-</ul>
-
-<h3 id="deliverables-5">Deliverables:</h3>
-
-<ul>
-  <li>Complete specialized function catalog</li>
-  <li>BGCs with chemical structures</li>
-  <li>AMR gene inventory</li>
-  <li>CAZyme families</li>
-  <li>Prophage sequences</li>
-  <li>CRISPR arrays</li>
-  <li>Mobile genetic elements</li>
-  <li>Protein domain architectures</li>
-</ul>
-
-<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day6-specialized-functions/">Day 6</a></strong></p>
-
-<p>📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions">Metagenome Analysis Repo</a></strong></p>
-
-<hr />
-
-<h2 id="day-7-comparative-genomics--statistics">Day 7: Comparative Genomics &amp; Statistics</h2>
-
-<p><strong>Connecting Genomes to Environment</strong></p>
-
-<h3 id="what-youll-do-6">What You’ll Do:</h3>
-
-<ul>
-  <li>Pangenome analysis (core vs accessory genes)</li>
-  <li>Statistical testing of community differences</li>
-  <li>Environmental driver identification</li>
-  <li>Network analysis</li>
-  <li>Module detection</li>
-</ul>
-
-<h3 id="key-tools--methods">Key Tools &amp; Methods:</h3>
-
-<h4 id="part-i-pangenome-analysis">Part I: Pangenome Analysis</h4>
-
-<ul>
-  <li><strong>PanX</strong> - Interactive pangenome browser</li>
-  <li><strong>Anvi’o</strong> - Visual pangenome analysis</li>
-  <li><strong>Roary</strong> - Rapid pangenome pipeline</li>
-  <li><strong>BPGA</strong> - Windows GUI tool</li>
-</ul>
-
-<p><strong>Outputs</strong>: Core genes (present in all), Accessory genes (variable), Unique genes (strain-specific)</p>
-
-<h4 id="part-ii-statistical-tests">Part II: Statistical Tests</h4>
-
-<ul>
-  <li><strong>PERMANOVA</strong> (vegan R package)
-    <ul>
-      <li>Test: Do communities differ between groups?</li>
-      <li>Output: P-value, R² (variance explained)</li>
-      <li>Interpretation: Variance explained by treatment</li>
-    </ul>
-  </li>
-  <li><strong>RDA / db-RDA</strong> (vegan R package)
-    <ul>
-      <li>Test: Which environmental factors drive differences?</li>
-      <li>Output: Ordination plot, environmental vectors</li>
-      <li>Interpretation: pH, temperature, nutrients effects</li>
-    </ul>
-  </li>
-  <li><strong>LEfSe / ANCOM</strong> (Python/R)
-    <ul>
-      <li>Test: Which taxa are enriched in treatments?</li>
-      <li>Output: Biomarkers, effect sizes</li>
-      <li>Interpretation: Treatment-specific taxa</li>
-    </ul>
-  </li>
-</ul>
-
-<h4 id="part-iii-networks">Part III: Networks</h4>
-
-<ul>
-  <li><strong>SparCC</strong> (Python) - Co-occurrence networks</li>
-  <li><strong>WGCNA</strong> (R) - Module detection</li>
-  <li><strong>igraph / Cytoscape</strong> - Network visualization</li>
-</ul>
-
-<p><strong>Outputs</strong>: Co-occurrence networks, Keystone species, Functional modules</p>
-
-<h3 id="time-estimate-6-8-hours">Time Estimate: 6-8 hours</h3>
-
-<ul>
-  <li>Pangenome (10 genomes): 1-2 hrs</li>
-  <li>PERMANOVA + RDA: 30 min</li>
-  <li>Network construction: 1-2 hrs</li>
-  <li>WGCNA: 1 hr</li>
-</ul>
-
-<h3 id="statistical-requirements">Statistical Requirements:</h3>
-
-<ul>
-  <li><strong>Sample size</strong>: n &gt; 20 for robust statistics</li>
-  <li><strong>Replicates</strong>: Biological &gt; Technical</li>
-  <li><strong>Multiple testing</strong>: BH correction</li>
-  <li><strong>Compositional data</strong>: Use SparCC, ANCOM</li>
-  <li><strong>Confounders</strong>: Control for batch effects</li>
-</ul>
-
-<h3 id="deliverables-6">Deliverables:</h3>
-
-<ul>
-  <li>Pangenome summary (Core/Accessory/Unique)</li>
-  <li>Statistical test results (P-values, R², biomarkers)</li>
-  <li>Environmental drivers identified</li>
-  <li>Co-occurrence networks</li>
-  <li>Keystone species</li>
-  <li>Functional modules</li>
-  <li>Trait associations</li>
-</ul>
-
-<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day7-comparative-statistical/">Day 7</a></strong></p>
-
-<p>📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day7-comparative-statistical">Metagenome Analysis Repo</a></strong></p>
-
-<hr />
-
-<h2 id="day-8-workflow-wrappers--platforms">Day 8: Workflow Wrappers &amp; Platforms</h2>
-
-<p><strong>Streamlining Analysis - Automate Everything!</strong></p>
-
-<h3 id="what-youll-learn">What You’ll Learn:</h3>
-
-<ul>
-  <li>Automate Days 1-7 with single commands</li>
-  <li>Use web-based platforms (no installation!)</li>
-  <li>Scale to 100+ samples efficiently</li>
-  <li>Ensure reproducibility</li>
-</ul>
-
-<h3 id="workflow-wrappers-command-line">Workflow Wrappers (Command-line):</h3>
-
-<ol>
-  <li><strong>MetaWRAP</strong>
-    <ul>
-      <li>Complete pipeline (QC → Assembly → Binning → Annotation)</li>
-      <li>All-in-one solution</li>
-      <li>Bin refinement built-in</li>
-      <li><strong>Time</strong>: 2-3 days for 50 samples</li>
-    </ul>
-  </li>
-  <li><strong>nf-core/mag</strong>
-    <ul>
-      <li>Modern Nextflow pipeline</li>
-      <li>Automatic resume (restart from failures)</li>
-      <li>Reproducible &amp; scalable</li>
-      <li>MultiQC reports</li>
-      <li><strong>Time</strong>: 2-3 days for 50 samples</li>
-    </ul>
-  </li>
-  <li><strong>Anvi’o</strong>
-    <ul>
-      <li>Interactive platform</li>
-      <li>Real-time binning</li>
-      <li>Beautiful visualizations</li>
-      <li>Pangenomics integration</li>
-    </ul>
-  </li>
-  <li><strong>ATLAS</strong>
-    <ul>
-      <li>Snakemake pipeline</li>
-      <li>Large datasets (100+ samples)</li>
-      <li>Metatranscriptomics support</li>
-    </ul>
-  </li>
-</ol>
-
-<h3 id="web-platforms-browser-based-no-installation">Web Platforms (Browser-based, No Installation):</h3>
-
-<ol>
-  <li><strong>Galaxy</strong>
-    <ul>
-      <li>1000+ tools available</li>
-      <li>User-friendly GUI</li>
-      <li>Free compute resources</li>
-      <li>Educational tutorials</li>
-      <li><strong>Best for</strong>: Learning, quick analysis</li>
-    </ul>
-  </li>
-  <li><strong>KBase</strong>
-    <ul>
-      <li>DOE platform</li>
-      <li>Metabolic modeling (unique!)</li>
-      <li>Narrative interface</li>
-      <li><strong>Best for</strong>: Systems biology</li>
-    </ul>
-  </li>
-  <li><strong>IMG/M</strong>
-    <ul>
-      <li>JGI database (40,000+ metagenomes)</li>
-      <li>Pre-computed annotations</li>
-      <li>Compare to public data</li>
-      <li><strong>Best for</strong>: Database queries</li>
-    </ul>
-  </li>
-  <li><strong>BV-BRC (PATRIC)</strong>
-    <ul>
-      <li>Bacterial/viral focus</li>
-      <li>AMR database</li>
-      <li>Clinical/pathogen analysis</li>
-      <li><strong>Best for</strong>: Pathogens, AMR studies</li>
-    </ul>
-  </li>
-</ol>
-
-<h3 id="time-savings">Time Savings:</h3>
-
-<ul>
-  <li><strong>Manual</strong> (Days 1-7): 2-4 weeks per sample</li>
-  <li><strong>Automated</strong>: 2-3 days for 50 samples!</li>
-  <li><strong>10x-100x faster!</strong></li>
-</ul>
-
-<h3 id="when-to-use-each">When to Use Each:</h3>
-
-<ul>
-  <li><strong>Workflow Wrappers</strong>: HPC access, large datasets, customization</li>
-  <li><strong>Web Platforms</strong>: No Linux skills, learning, collaboration</li>
-</ul>
-
-<h3 id="key-benefits">Key Benefits:</h3>
-
-<ul>
-  <li>✅ Automation: 1 command runs entire pipeline</li>
-  <li>✅ Reproducibility: Same input = same output</li>
-  <li>✅ Best practices: Tools integrated properly</li>
-  <li>✅ Scalability: 1 to 1000 samples</li>
-  <li>✅ Documentation: Clear workflows for papers</li>
-</ul>
-
-<h3 id="deliverables-7">Deliverables:</h3>
-
-<ul>
-  <li>Complete analysis in days (not weeks!)</li>
-  <li>Automated quality control</li>
-  <li>Reproducible workflows</li>
-  <li>Publication-ready results</li>
-</ul>
-
-<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day8-workflows-platforms/">Day 8</a></strong></p>
-
-<p>📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day8-workflows-platforms">Metagenome Analysis Repo</a></strong></p>
-
-<hr />
-
-<h2 id="day-9-visualization--publication">Day 9: Visualization &amp; Publication</h2>
-
-<p><strong>Making Data Tell Stories</strong></p>
-
-<h3 id="what-youll-learn-1">What You’ll Learn:</h3>
-
-<ul>
-  <li>Create publication-quality figures (300 DPI)</li>
-  <li>Master both Python and R visualization</li>
-  <li>Use specialized genomics tools</li>
-  <li>Make interactive plots</li>
-</ul>
-
-<h3 id="python-visualization">Python Visualization:</h3>
-
-<ol>
-  <li><strong>Matplotlib</strong> - Publication static plots
-    <ul>
-      <li>Taxonomy barplots</li>
-      <li>Alpha diversity boxplots</li>
-      <li>Multi-panel figures</li>
-    </ul>
-  </li>
-  <li><strong>Seaborn</strong> - Statistical visualizations
-    <ul>
-      <li>Clustered heatmaps</li>
-      <li>Correlation matrices</li>
-      <li>Pairplots</li>
-    </ul>
-  </li>
-  <li><strong>Plotly</strong> - Interactive HTML
-    <ul>
-      <li>Sunburst charts (taxonomy hierarchy)</li>
-      <li>Interactive scatter plots</li>
-      <li>Hover tooltips</li>
-    </ul>
-  </li>
-  <li><strong>NetworkX / igraph</strong> - Network graphs
-    <ul>
-      <li>Co-occurrence networks</li>
-      <li>Community detection</li>
-      <li>Hub identification</li>
-    </ul>
-  </li>
-</ol>
-
-<h3 id="r-visualization">R Visualization:</h3>
-
-<ul>
-  <li><strong>ggplot2</strong> - Grammar of graphics</li>
-  <li><strong>pheatmap</strong> - Publication heatmaps</li>
-  <li><strong>vegan</strong> - Ordination plots</li>
-  <li><strong>See complete R visualization series</strong> at jojyjohn28.github.io</li>
-</ul>
-
-<h3 id="specialized-tools">Specialized Tools:</h3>
-
-<ol>
-  <li><strong>Krona</strong>
-    <ul>
-      <li>Interactive taxonomic wheels</li>
-      <li>Zoomable HTML output</li>
-      <li>Hierarchy navigation</li>
-    </ul>
-  </li>
-  <li><strong>Circos / pycirclize</strong>
-    <ul>
-      <li>Circular genome plots</li>
-      <li>GC content tracks</li>
-      <li>Synteny links</li>
-    </ul>
-  </li>
-  <li><strong>Cytoscape</strong>
-    <ul>
-      <li>Professional network viz</li>
-      <li>Publication-quality layouts</li>
-      <li>Advanced styling</li>
-    </ul>
-  </li>
-</ol>
-
-<h3 id="plot-types-covered">Plot Types Covered:</h3>
-
-<ul>
-  <li>Stacked barplots (taxonomy)</li>
-  <li>Boxplots with statistics</li>
-  <li>Heatmaps (clustered)</li>
-  <li>Ordination (PCA, NMDS)</li>
-  <li>Networks (co-occurrence)</li>
-  <li>Circular genomes</li>
-  <li>Interactive HTML plots</li>
-</ul>
-
-<h3 id="publication-standards">Publication Standards:</h3>
-
-<ul>
-  <li>✅ 300 DPI minimum</li>
-  <li>✅ PDF (vector) preferred</li>
-  <li>✅ Colorblind-safe palettes</li>
-  <li>✅ Clear axis labels</li>
-  <li>✅ Multi-panel figures (A, B, C, D)</li>
-  <li>✅ Error bars where appropriate</li>
-</ul>
-
-<h3 id="time-estimate-4-6-hours">Time Estimate: 4-6 hours</h3>
-
-<h3 id="deliverables-8">Deliverables:</h3>
-
-<ul>
-  <li>Publication-ready figures (PDF + PNG + SVG)</li>
-  <li>Interactive HTML plots</li>
-  <li>Multi-panel composite figures</li>
-  <li>Journal-compliant formatting</li>
-  <li>Colorblind-friendly</li>
-  <li>Ready for submission!</li>
-</ul>
-
-<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day9-visualization/">Day 9</a></strong></p>
-
-<p>📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day9-visualization">Metagenome Analysis Repo</a></strong></p>
-
-<hr />
-
-<h2 id="day-10-multi-omics-integration">Day 10: Multi-Omics Integration</h2>
-
-<p><strong>Connecting Metagenomes to Function</strong></p>
-
-<h3 id="what-youll-learn-2">What You’ll Learn:</h3>
-
-<ul>
-  <li>Integrate metagenomics + metatranscriptomics</li>
-  <li>Link genes to expression</li>
-  <li>Map to metabolic pathways</li>
-  <li>Identify active vs inactive functions</li>
-</ul>
-
-<h3 id="multi-omics-workflow">Multi-Omics Workflow:</h3>
-
-<ol>
-  <li><strong>Load &amp; Align</strong>
-    <ul>
-      <li>Metagenome data (DNA)</li>
-      <li>Metatranscriptome data (RNA)</li>
-      <li>Align RNA reads to MAG genes</li>
-    </ul>
-  </li>
-  <li><strong>Normalize</strong>
-    <ul>
-      <li>CPM (Counts Per Million)</li>
-      <li>Account for sequencing depth</li>
-    </ul>
-  </li>
-  <li><strong>Expression Ratios</strong>
-    <ul>
-      <li>log2(RNA/DNA) for each gene</li>
-      <li>Identifies active genes</li>
-    </ul>
-  </li>
-  <li><strong>Differential Expression</strong>
-    <ul>
-      <li>DESeq2 analysis</li>
-      <li>Find treatment-responsive genes</li>
-    </ul>
-  </li>
-  <li><strong>Visualize</strong>
-    <ul>
-      <li>Heatmaps (gene expression)</li>
-      <li>Pathway maps (active functions)</li>
-    </ul>
-  </li>
-  <li><strong>Pathway Analysis</strong>
-    <ul>
-      <li>Map to KEGG pathways</li>
-      <li>Identify active functions</li>
-    </ul>
-  </li>
-  <li><strong>Taxonomy Integration</strong>
-    <ul>
-      <li>Link expression to species</li>
-      <li>Find active taxa</li>
-    </ul>
-  </li>
-</ol>
-
-<h3 id="key-questions-answered">Key Questions Answered:</h3>
-
-<ul>
-  <li>Which genes are transcribed?</li>
-  <li>Which pathways are active?</li>
-  <li>Which species are metabolically active?</li>
-  <li>How does expression change with treatment?</li>
-</ul>
-
-<h3 id="tools">Tools:</h3>
-
-<ul>
-  <li><strong>Salmon / Kallisto</strong> - RNA quantification</li>
-  <li><strong>DESeq2</strong> - Differential expression</li>
-  <li><strong>KEGG Mapper</strong> - Pathway visualization</li>
-  <li><strong>R / Python</strong> - Integration &amp; plotting</li>
-</ul>
-
-<h3 id="time-estimate-4-6-hours-1">Time Estimate: 4-6 hours</h3>
-
-<h3 id="deliverables-9">Deliverables:</h3>
-
-<ul>
-  <li>Expression ratios (RNA/DNA)</li>
-  <li>Differentially expressed genes</li>
-  <li>Active metabolic pathways</li>
-  <li>Species-specific activity</li>
-  <li>Publication figures showing:
-    <ul>
-      <li>Gene expression heatmaps</li>
-      <li>Active pathway diagrams</li>
-      <li>Taxa-function links</li>
-      <li>Statistical results</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="biological-insights">Biological Insights:</h3>
-
-<ul>
-  <li>Distinguish potential (DNA) from activity (RNA)</li>
-  <li>Identify metabolically active species</li>
-  <li>Find treatment-responsive pathways</li>
-  <li>Discover unexpected functions</li>
-  <li>Link community structure to function</li>
-</ul>
-
-<p>📝 <strong><a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day10-multiomics-integration/">Day 10</a></strong></p>
-
-<p>📂 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day10-multiomics-integration">Metagenome Analysis Repo</a></strong></p>
-
-<hr />
-
-<h2 id="-series-statistics">📊 Series Statistics</h2>
-
-<h3 id="total-tools-covered-50">Total Tools Covered: 50+</h3>
-
-<h3 id="total-time-investment-100-150-hours-learning--doing">Total Time Investment: 100-150 hours (learning + doing)</h3>
-
-<h3 id="deliverables-complete-publication-ready-dataset">Deliverables: Complete publication-ready dataset</h3>
-
-<h3 id="skill-progression">Skill Progression:</h3>
-
-<ul>
-  <li><strong>Day 1-3</strong>: Core skills (QC → Assembly → Binning)</li>
-  <li><strong>Day 4-6</strong>: Advanced annotation &amp; specialization</li>
-  <li><strong>Day 7-9</strong>: Analysis, statistics, visualization</li>
-  <li><strong>Day 10</strong>: Integration &amp; insights</li>
-</ul>
-
-<hr />
-
-<h2 id="quick-reference-card">Quick Reference Card</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Day</th>
-      <th>Topic</th>
-      <th>Key Tool</th>
-      <th>Time</th>
-      <th>Output</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>QC &amp; Taxonomy</td>
-      <td>FastQC, Kraken2</td>
-      <td>1 hr</td>
-      <td>Clean reads + profiles</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Assembly</td>
-      <td>MEGAHIT</td>
-      <td>6-12 hrs</td>
-      <td>Contigs</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Binning</td>
-      <td>MetaBAT2</td>
-      <td>12-24 hrs</td>
-      <td>MAGs</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>Dereplication</td>
-      <td>dRep, GTDB-Tk</td>
-      <td>6-17 hrs</td>
-      <td>Species catalog</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>Annotation</td>
-      <td>Prokka, DRAM</td>
-      <td>3-4 hrs</td>
-      <td>Functional genes</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>Specialized</td>
-      <td>antiSMASH, CARD</td>
-      <td>15-20 hrs</td>
-      <td>BGCs, AMR</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td>Comparative</td>
-      <td>PERMANOVA, RDA</td>
-      <td>6-8 hrs</td>
-      <td>Statistics</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>Workflows</td>
-      <td>MetaWRAP, Galaxy</td>
-      <td>Days → Hours</td>
-      <td>Automation</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>Visualization</td>
-      <td>Python, R</td>
-      <td>4-6 hrs</td>
-      <td>Figures</td>
-    </tr>
-    <tr>
-      <td>10</td>
-      <td>Multi-omics</td>
-      <td>DESeq2</td>
-      <td>4-6 hrs</td>
-      <td>Integration</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<p><strong>🎉 Congratulations on completing the 10-day series! 🎉</strong></p>
-
-<p>Last updated: February 2026</p>
-
-<p><img src="/assets/img/mg_sum.png" alt="mg summary" /></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="bioinformatics" /><category term="workflow" /><category term="tutorial" /><category term="quality-control" /><category term="assembly" /><category term="binning" /><category term="annotation" /><category term="comparative-genomics" /><category term="visualization" /><category term="multi-omics" /><category term="MAGs" /><category term="taxonomy" /><category term="GTDB-Tk" /><category term="MetaWRAP" /><category term="statistics" /><category term="Python" /><category term="R" /><category term="pipeline" /><category term="NGS" /><summary type="html"><![CDATA[Complete metagenome analysis workflow from raw sequencing to publication: QC, assembly, binning, annotation, specialized functions, comparative genomics, automation, visualization, and multi-omics integration. Master 50+ tools in 10 comprehensive days with step-by-step tutorials.]]></summary></entry></feed>
+<p><strong>Happy Learning! 🧬</strong></p>]]></content><author><name></name></author><category term="metagenomics" /><category term="teaching" /><category term="education" /><category term="tutorial" /><category term="beginner" /><category term="graduate-course" /><category term="bioinformatics" /><category term="quality-control" /><category term="assembly" /><category term="binning" /><category term="taxonomy" /><category term="phylogenetics" /><category term="hands-on" /><category term="toy-data" /><category term="GTDB-Tk" /><category term="MetaWRAP" /><category term="FastQC" /><category term="Kraken2" /><category term="workflow" /><category term="course-materials" /><summary type="html"><![CDATA[Beginner-friendly graduate course materials for metagenome analysis. Includes toy datasets (<100MB), complete workflows, and hands-on tutorials covering QC, assembly, binning, taxonomy, and phylogenetics. Perfect for students new to bioinformatics with step-by-step guidance and realistic expectations.]]></summary></entry></feed>
