@@ -495,6 +495,14 @@
             
           
             
+          
+            
+          
+            
+          
+            
+          
+            
               
                 
                 <li class="nav-item ">
@@ -1096,15 +1104,23 @@ print<span class="o">(</span><span class="s2">"Done."</span><span class="o">)</s
 
 
 
-    <!-- JavaScripts -->
+    <!-- ========================= -->
+    <!-- JavaScripts (IMPORTANT ORDER) -->
+    <!-- ========================= -->
+
+    <!-- jQuery MUST load first -->
     <!-- jQuery -->
 <script src="" integrity="" crossorigin="anonymous"></script>
 
+
+    <!-- Bootstrap depends on jQuery -->
     <!-- Bootsrap & MDB scripts -->
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
 <!-- <script src="/assets/js/mdb.min.js"></script> -->
 <script src="" integrity="" crossorigin="anonymous"></script>
 
+
+    <!-- Other scripts -->
     
   <!-- Masonry & imagesLoaded -->
   <script defer src="" integrity="" crossorigin="anonymous"></script>
@@ -1352,18 +1368,7 @@ print<span class="o">(</span><span class="s2">"Done."</span><span class="o">)</s
               handler: () => {
                 window.location.href = "/repositories/";
               },
-            },{id: "post-day-8-from-raw-data-to-paper-figures-a-complete-microbiome-stats-workflow",
-          
-            title: "Day 8 — From Raw Data to Paper Figures: A Complete Microbiome Stats...",
-          
-          description: "Every method from Days 1–7, assembled into the actual order you run them, with the biological question that justifies each step — and the checklist you copy into every new project.",
-          section: "Posts",
-          handler: () => {
-            
-              window.location.href = "/blog/day8-complete-microbiome-stats-workflow/";
-            
-          },
-        },{id: "post-",
+            },{id: "post-",
           
             title: "",
           
@@ -1372,6 +1377,28 @@ print<span class="o">(</span><span class="s2">"Done."</span><span class="o">)</s
           handler: () => {
             
               window.location.href = "/blog/2026-02-11-day6-specialized-functions/";
+            
+          },
+        },{id: "post-day-1-laptop-vs-hpc-why-bioinformatics-needs-both",
+          
+            title: "Day 1 — Laptop vs HPC: Why Bioinformatics Needs Both",
+          
+          description: "Your laptop crashed on a 50-sample microbiome run. Here&#39;s what that means, why it happens, and how HPC clusters solve it — explained from scratch for beginners.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day1-laptop-vs-hpc/";
+            
+          },
+        },{id: "post-day-8-from-raw-data-to-paper-figures-a-complete-microbiome-stats-workflow",
+          
+            title: "Day 8 — From Raw Data to Paper Figures: A Complete Microbiome Stats...",
+          
+          description: "Every method from Days 1–7, assembled into the actual order you run them, with the biological question that justifies each step — and the checklist you copy into every new project.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day8-complete-microbiome-stats-workflow/";
             
           },
         },{id: "post-day-7-correlation-analysis-amp-mantel-test-linking-mags-to-environment",
