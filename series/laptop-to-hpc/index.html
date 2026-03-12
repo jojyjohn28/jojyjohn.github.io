@@ -17,12 +17,13 @@
   
   
     
-      Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads | Jojy John
+      From Laptop to HPC: Scaling Computational Biology Workflows | Jojy John
     
   
 </title>
 <meta name="author" content="Jojy John">
-<meta name="description" content="A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -60,7 +61,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://jojyjohn28.github.io/blog/genome-assembly-day/">
+<link rel="canonical" href="https://jojyjohn28.github.io/series/laptop-to-hpc/">
 
 <!-- Dark Mode -->
 <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
@@ -519,11 +520,9 @@
             
               
                 
-                <li class="nav-item active">
+                <li class="nav-item ">
                   
                   <a class="nav-link" href="/blog/">Blog
-                    
-                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -636,203 +635,52 @@
       
         
 
-
-
-
-
-
-
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads</h1>
-    <p class="post-meta">
-      Created in December 02, 2025
-      
-      
-      
-    </p>
-
-    <p class="post-tags">
-      
-        <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>
-      
-
-      
-
-      
-          ·  
-        
-          
-            <a href="/blog/category/genomics">
-              <i class="fa-solid fa-tag fa-sm"></i> genomics
-            </a>
-          
-          
-        
-      
-    </p>
+    <h1 class="post-title">From Laptop to HPC: Scaling Computational Biology Workflows</h1>
+    <p class="post-description"></p>
   </header>
 
-  <article class="post-content">
-    <div id="markdown-content">
-      <p>As I said in earlier post about NCBI submission (https://jojyjohn28.github.io/blog/NCBI-submission-cleaning/), I missed few genome assembly previously.
-So Today, I am focusing on these missed assemblies.</p>
+  <article>
+    
+<p>
+Modern bioinformatics quickly outgrows a personal laptop. This series walks step-by-step through the transition from local analyses to high-performance computing (HPC) clusters used in genomics and microbiome research.
+</p>
 
-<p><strong>🧬 Whole-Genome Assembly Using Shovill &amp; Flye</strong></p>
+<p>
+Across six short posts, we cover the practical foundations of computational biology infrastructure — from running your first command on a cluster to building scalable, reproducible workflows.
+</p>
 
-<p>Today’s work focused on reconstructing complete bacterial genomes using two complementary assembly strategies:</p>
+<h3>Series Overview</h3>
 
 <ul>
+
   <li>
-<strong>Shovill</strong> for Illumina short reads</li>
-  <li>
-<strong>Flye</strong> for Nanopore long reads</li>
+    <strong>Day 1:</strong>
+    <a href="/blog/day1-laptop-vs-hpc/">Day 1 — Laptop vs HPC: Why Bioinformatics Needs Both</a>
+    <span style="opacity:0.75;">(Mar 12, 2026)</span>
+  </li>
+
 </ul>
 
-<p>These assemblies are part of 200+ genomes of DARPA, which primarly focus on synthetic biofilm producing commuities.</p>
+<h3>What You'll Learn</h3>
 
-<hr>
+<ul>
+<li>Why laptops struggle with large genomics datasets</li>
+<li>How HPC clusters distribute compute resources</li>
+<li>Software installation on shared systems</li>
+<li>Running jobs using SLURM</li>
+<li>Parallelizing analyses across many samples</li>
+<li>Building reproducible pipelines with workflow managers</li>
+</ul>
 
-<h2 id="-why-shovill-instead-of-running-spades-directly">🔍 Why Shovill (Instead of Running SPAdes Directly)</h2>
+<p>
+The goal is to make HPC less intimidating and help researchers move from small local analyses to scalable bioinformatics workflows.
+</p>
 
-<p>Shovill is a high-performance wrapper around SPAdes specifically optimized for bacterial WGS data.<br>
-I chose it over raw SPAdes because Shovill provides:</p>
-
-<p>✔ <strong>Automatic adapter trimming</strong><br>
-✔ <strong>Read correction &amp; subsampling</strong> (reduces runtime)<br>
-✔ <strong>Optimized SPAdes parameters for bacteria</strong><br>
-✔ <strong>Cleaner, smaller output folders</strong><br>
-✔ <strong>Much faster and significantly lower memory usage</strong></p>
-
-<p>For five bacterial genomes, Shovill saved hours of compute time and produced polished assemblies with minimal tweaking.</p>
-
-<hr>
-
-<h2 id="️-step-1--installing-shovill-conda">⚙️ Step 1 — Installing Shovill (Conda)</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> shovill_env <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge shovill
-conda activate shovill_env
-</code></pre></div></div>
-
-<h2 id="-step-2--running-shovill-on-hpc-batch-script">🚀 Step 2 — Running Shovill on HPC (Batch Script)</h2>
-
-<p>Below is the script I used for assembling 5 isolates:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-
-<span class="nv">READS_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies"</span>
-<span class="nv">OUTPUT_DIR</span><span class="o">=</span><span class="s2">"/project/dkarig/ecocoat/NCBI_oct22/need_biosamples/missing_assemblies/Shovil_assembly"</span>
-<span class="nv">THREADS</span><span class="o">=</span>32
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">"</span>
-
-<span class="k">for </span>FORWARD_READ <span class="k">in</span> <span class="s2">"</span><span class="nv">$READS_DIR</span><span class="s2">"</span>/<span class="k">*</span>_R1.fastq.gz<span class="p">;</span> <span class="k">do
-    </span><span class="nv">SAMPLE</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$FORWARD_READ</span><span class="s2">"</span> _R1.fastq.gz<span class="si">)</span>
-    <span class="nv">REVERSE_READ</span><span class="o">=</span><span class="s2">"</span><span class="nv">$READS_DIR</span><span class="s2">/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_R2.fastq.gz"</span>
-
-    <span class="k">if</span> <span class="o">[[</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$REVERSE_READ</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
-        </span><span class="nb">echo</span> <span class="s2">"Processing </span><span class="nv">$SAMPLE</span><span class="s2">..."</span>
-
-        shovill <span class="se">\</span>
-            <span class="nt">--outdir</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/</span><span class="nv">$SAMPLE</span><span class="s2">"</span> <span class="se">\</span>
-            <span class="nt">--R1</span> <span class="s2">"</span><span class="nv">$FORWARD_READ</span><span class="s2">"</span> <span class="se">\</span>
-            <span class="nt">--R2</span> <span class="s2">"</span><span class="nv">$REVERSE_READ</span><span class="s2">"</span> <span class="se">\</span>
-            <span class="nt">--cpus</span> <span class="s2">"</span><span class="nv">$THREADS</span><span class="s2">"</span>
-
-        <span class="nb">echo</span> <span class="s2">"Assembly for </span><span class="nv">$SAMPLE</span><span class="s2"> completed."</span>
-    <span class="k">else
-        </span><span class="nb">echo</span> <span class="s2">"Reverse read file missing for </span><span class="nv">$SAMPLE</span><span class="s2">. Skipping..."</span>
-    <span class="k">fi
-done</span>
-</code></pre></div></div>
-
-<p>save it as shovil.sh in the working directory (where raw sequences are saved)
-direct the terminal to working directory</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x shovil_new.sh
-./shovil_new.sh
-</code></pre></div></div>
-
-<p>Shovill outputs:</p>
-
-<p>● contigs.fa</p>
-
-<p>● SPAdes log files</p>
-
-<p>● assembly statistics</p>
-
-<h2 id="-long-read-assembly-using-flye">🧬 Long-Read Assembly Using Flye</h2>
-
-<p>For three Nanopore samples, I used Flye, a robust long-read assembler that works beautifully on HPC.</p>
-
-<p>🔍 Why Flye (Instead of Epi2me Labs)</p>
-
-<p>I prefer Flye because:</p>
-
-<p>✔ Works entirely on HPC (no GUI required)</p>
-
-<p>✔ No need for ONT’s desktop software</p>
-
-<p>✔ Excellent for bacterial genomes</p>
-
-<p>✔ Transparent logs &amp; customizable parameters</p>
-
-<p>✔ Supports polishing and repeat resolution</p>
-
-<p>Epi2me is great for small standalone analyses, but Flye is far better for reproducible, scriptable, HPC-scale assembly.</p>
-
-<h2 id="️-step-1--installing-flye">⚙️ Step 1 — Installing Flye</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/fenderglass/Flye.git
-<span class="nb">cd </span>Flye
-python setup.py <span class="nb">install</span> <span class="nt">--user</span>
-</code></pre></div></div>
-
-<h2 id="-step-2--running-flye-on-an-interactive-node">🚀 Step 2 — Running Flye on an Interactive Node</h2>
-
-<p>I assembled each genome individually on my interactive node, as the number of genomes are less:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /home/jojyj/Flye
-python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw sequence <span class="nt">--threads</span> 32 <span class="nt">--out-dir</span> path to output folde
-</code></pre></div></div>
-
-<p>Flye outputs include:
-● assembly.fasta</p>
-
-<p>● assembly_graph.gfa</p>
-
-<p>● assembly_info.txt</p>
-
-<h2 id="-summary">🧭 Summary</h2>
-
-<p>Today’s assembly workflow produced:</p>
-
-<p>✔ Five high-quality Illumina assemblies (Shovill)</p>
-
-<p>✔ Three Nanopore long-read assemblies (Flye)</p>
-
-<p>✔ Clean contigs ready for downstream steps (QC, annotation, pangenome, etc.)</p>
-
-<p><img src="/assets/img/flye.png" alt="Flye_ruuning"></p>
-
-    </div>
   </article>
 
   
-
-  
-
-  
-
-  
-    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
-  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
-
-  <noscript>
-    Please enable JavaScript to view the
-    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
-  </noscript>
-</div>
 
   
 </div>
@@ -1773,31 +1621,31 @@ python /home/jojyj/Flye/bin/flye <span class="nt">--nano-raw</span> path to raw 
               title: 'AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of...',
               description: "",
               section: "News",},{id: "news-abstract-accepted-for-asm-2025-los-angeles-usa",
-              title: 'Abstract accepted for **ASM 2025**, Los Angeles, USA.',
+              title: 'Abstract accepted for ASM 2025, Los Angeles, USA.',
               description: "",
               section: "News",},{id: "news-abstract-accepted-for-aslo-2025-charlotte-usa",
-              title: 'Abstract accepted for **ASLO 2025**, Charlotte, USA',
+              title: 'Abstract accepted for ASLO 2025, Charlotte, USA',
               description: "",
               section: "News",},{id: "news-188-whole-genome-sequences-submitted-to-ncbi",
               title: '188 whole-genome sequences submitted to NCBI.',
               description: "",
               section: "News",},{id: "news-a-new-publication-is-out-baseline-evaluation-of-the-toxicity-potential-of-steel-slag-using-the-green-mussel-perna-viridis-for-sustainable-marine-reuse-applications-this-work-was-originally-completed-during-2019-2020-and-it-s-great-to-finally-see-it-published",
-              title: '**A new publication is out!** “Baseline evaluation of the toxicity potential of steel...',
+              title: 'A new publication is out! “Baseline evaluation of the toxicity potential of steel...',
               description: "",
               section: "News",},{id: "news-a-new-publication-is-out-comparative-genomic-and-phenotypic-analysis-of-streptomyces-rochei-sosist-3-isolated-from-the-southern-ocean-this-work-is-a-part-of-colloboration-and-it-s-great-to-finally-see-it-published",
-              title: '**A new publication is out!** “Comparative genomic and phenotypic analysis of Streptomyces rochei...',
+              title: 'A new publication is out! “Comparative genomic and phenotypic analysis of Streptomyces rochei...',
               description: "",
               section: "News",},{id: "news-a-new-paper-accepted-𝐀-𝐯𝐞𝐫𝐲-𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥-𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞-today-i-m-sharing-some-happy-news-𝐦𝐲-𝐟𝐢𝐫𝐬𝐭-𝐩𝐨𝐬𝐭𝐝𝐨𝐜𝐭𝐨𝐫𝐚𝐥-𝐩𝐚𝐩𝐞𝐫-𝐡𝐚𝐬-𝐛𝐞𝐞𝐧-𝐚𝐜𝐜𝐞𝐩𝐭𝐞𝐝-𝐢𝐧-𝐈𝐒𝐌𝐄-𝐂𝐨𝐦𝐦𝐮𝐧𝐢𝐜𝐚𝐭𝐢𝐨𝐧𝐬",
-              title: '**A new paper accepted!** “✨ 𝐀 𝐯𝐞𝐫𝐲 𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥 𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞 ✨ Today, I’m sharing...',
+              title: 'A new paper accepted! “✨ 𝐀 𝐯𝐞𝐫𝐲 𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥 𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞 ✨ Today, I’m sharing...',
               description: "",
-              section: "News",},{id: "news-the-accepted-version-available-online-quot-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays-quot-doi-https-doi-org-10-1093-ismeco-ycag021-link-https-academic-oup-com-ismecommun-advance-article-doi-10-1093-ismeco-ycag021-8454622",
-              title: '**The accepted version available online!** &quot;Functional redundancy and metabolic flexibility of microbial communities...',
+              section: "News",},{id: "news-the-accepted-version-available-online-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays-doi-https-doi-org-10-1093-ismeco-ycag021-link-https-academic-oup-com-ismecommun-advance-article-doi-10-1093-ismeco-ycag021-8454622",
+              title: 'The accepted version available online! “Functional redundancy and metabolic flexibility of microbial communities...',
               description: "",
-              section: "News",},{id: "news-another-manuscript-accepted-quot-draft-genome-sequence-of-a-novel-species-of-winogradskyella-strain-pc-d3-3-isolated-from-a-red-antarctic-macroalgae-quot-in-microbiology-resource-announcements",
-              title: 'Another manuscript **accepted** &quot;Draft Genome Sequence of a novel species of Winogradskyella (strain...',
+              section: "News",},{id: "news-another-manuscript-accepted-draft-genome-sequence-of-a-novel-species-of-winogradskyella-strain-pc-d3-3-isolated-from-a-red-antarctic-macroalgae-in-microbiology-resource-announcements",
+              title: 'Another manuscript accepted “Draft Genome Sequence of a novel species of Winogradskyella (strain...',
               description: "",
-              section: "News",},{id: "news-another-manuscript-accepted-with-minor-revision-quot-genomic-insights-into-carbohydrate-active-enzymes-in-a-novel-radiobacillus-strain-from-the-antarctic-red-macroalga-pyropia-endiviifolia-quot-in-world-journal-of-microbiology-and-biotechnology-revision-submitted-back",
-              title: 'Another manuscript **accepted** with minor revision &quot;Genomic insights into carbohydrate-active enzymes in a...',
+              section: "News",},{id: "news-another-manuscript-accepted-with-minor-revision-genomic-insights-into-carbohydrate-active-enzymes-in-a-novel-radiobacillus-strain-from-the-antarctic-red-macroalga-pyropia-endiviifolia-in-world-journal-of-microbiology-and-biotechnology-revision-submitted-back",
+              title: 'Another manuscript accepted with minor revision “Genomic insights into carbohydrate-active enzymes in a...',
               description: "",
               section: "News",},{id: "news-a-new-paper-is-online-𝐍𝐚𝐧𝐨𝐥𝐢𝐩𝐨𝐬𝐨𝐦𝐞-𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐝-𝐜𝐨-𝐝𝐞𝐥𝐢𝐯𝐞𝐫𝐲-𝐨𝐟-𝐚𝐦𝐨𝐱𝐢𝐜𝐢𝐥𝐥𝐢𝐧-𝐚𝐧𝐝-𝐭𝐚𝐳𝐨𝐛𝐚𝐜𝐭𝐚𝐦-𝐫𝐞𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐬-𝐢𝐧𝐭𝐫𝐚𝐜𝐞𝐥𝐥𝐮𝐥𝐚𝐫-𝐢𝐧𝐟𝐞𝐜𝐭𝐢𝐨𝐧-𝐛𝐲-𝐦𝐮𝐥𝐭𝐢𝐝𝐫𝐮𝐠-𝐫𝐞𝐬𝐢𝐬𝐭𝐚𝐧𝐭-𝐒𝐚𝐥𝐦𝐨𝐧𝐞𝐥𝐥𝐚-𝐞𝐧𝐭𝐞𝐫𝐢𝐜𝐚-𝐬𝐞𝐫𝐨𝐯𝐚𝐫-𝐓𝐲𝐩𝐡𝐢𝐦𝐮𝐫𝐢𝐮𝐦-read-full-here-https-www-nature-com-articles-s41429-026-00903-5-citeas",
               title: 'A new paper is online “𝐍𝐚𝐧𝐨𝐥𝐢𝐩𝐨𝐬𝐨𝐦𝐞-𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐝 𝐜𝐨-𝐝𝐞𝐥𝐢𝐯𝐞𝐫𝐲 𝐨𝐟 𝐚𝐦𝐨𝐱𝐢𝐜𝐢𝐥𝐥𝐢𝐧 𝐚𝐧𝐝 𝐭𝐚𝐳𝐨𝐛𝐚𝐜𝐭𝐚𝐦 𝐫𝐞𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐬 𝐢𝐧𝐭𝐫𝐚𝐜𝐞𝐥𝐥𝐮𝐥𝐚𝐫...',
