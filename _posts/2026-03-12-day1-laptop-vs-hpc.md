@@ -15,7 +15,7 @@ order: 1
 
 # Day 1: Laptop vs HPC — Why Bioinformatics Needs Both
 
-> _This is Day 1 of a 5-part series: **From Laptop to HPC: Scaling Computational Biology Workflows**. Each post covers a real challenge you'll face when moving from local development to high-performance computing. No prior HPC experience needed_ and 🧬 **Day 58** of Daily Bioinformatics from Jojy’s Desk Dataset:
+> _This is Day 1 of a 6-part series: **From Laptop to HPC: Scaling Computational Biology Workflows**. Each post covers a real challenge you'll face when moving from local development to high-performance computing. No prior HPC experience needed_ and 🧬 **Day 58** of Daily Bioinformatics from Jojy’s Desk Dataset:
 
 ---
 
@@ -327,8 +327,6 @@ Don't worry if `sinfo` shows a lot of unfamiliar output. By Day 3, it'll make co
 We'll tackle the first real surprise of HPC life: you can't install software the way you're used to. No `sudo`. No `apt-get`. But there are elegant solutions — and one of them works identically on both your laptop and HPC.
 
 ---
-
-_Found this useful? Follow along for the rest of the series. All code examples are available in the [companion GitHub repository](#)._
 
 _Questions or corrections? Drop a comment below — I read every one._
 
