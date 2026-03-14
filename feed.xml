@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-12T10:41:27-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-12T10:41:27-04:00</published><updated>2026-03-12T10:41:27-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-13T20:04:24-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-13T20:04:24-04:00</published><updated>2026-03-13T20:04:24-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,10 +766,473 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 1 — Laptop vs HPC: Why Bioinformatics Needs Both</title><link href="https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc/" rel="alternate" type="text/html" title="Day 1 — Laptop vs HPC: Why Bioinformatics Needs Both" /><published>2026-03-12T00:00:00-04:00</published><updated>2026-03-12T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc/"><![CDATA[<h1 id="day-1-laptop-vs-hpc--why-bioinformatics-needs-both">Day 1: Laptop vs HPC — Why Bioinformatics Needs Both</h1>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 2 — Software Installation: sudo vs module load vs conda</title><link href="https://jojyjohn28.github.io/blog/day2-software-installation/" rel="alternate" type="text/html" title="Day 2 — Software Installation: sudo vs module load vs conda" /><published>2026-03-13T00:00:00-04:00</published><updated>2026-03-13T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day2-software-installation</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day2-software-installation/"><![CDATA[<h1 id="day-2-software-installation--sudo-vs-module-load-vs-conda">Day 2: Software Installation — sudo vs module load vs conda</h1>
 
 <blockquote>
-  <p><em>This is Day 1 of a 5-part series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong>. Each post covers a real challenge you’ll face when moving from local development to high-performance computing. No prior HPC experience needed</em> and 🧬 <strong>Day 58</strong> of Daily Bioinformatics from Jojy’s Desk Dataset:</p>
+  <p><em>This is Day 2 of a 6-part series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong> and 🧬 Day 58 of Daily Bioinformatics from Jojy’s Desk. In <a href="https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc/">Day 1</a> we covered what HPC is and why bioinformatics needs it. Today: the first thing that breaks when you log in.</em></p>
+</blockquote>
+
+<hr />
+
+<h2 id="the-sudo-story">The sudo Story</h2>
+
+<p>Picture this. You’ve just logged into an HPC cluster for the first time. You need <code class="language-plaintext highlighter-rouge">samtools</code>. On your terminal, you’d type:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>samtools
+</code></pre></div></div>
+
+<p>So you type exactly that on the HPC. And get this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo: Permission denied
+</code></pre></div></div>
+
+<p>Your first instinct: <em>“Something’s wrong with my account. Let me email IT.”</em></p>
+
+<p>Nothing is wrong with your account.</p>
+
+<p><strong>You don’t have root access on HPC — and that is completely intentional.</strong></p>
+
+<p>Here’s why, and here’s what to do instead.</p>
+
+<hr />
+
+<h2 id="what-youll-learn-today">What You’ll Learn Today</h2>
+
+<p>By the end of this post you’ll understand:</p>
+
+<ul>
+  <li>What <code class="language-plaintext highlighter-rouge">sudo</code> actually does, and why it’s dangerous on a shared system</li>
+  <li>How to use <strong>environment modules</strong> — the HPC-native way to load software</li>
+  <li>How to use <strong>conda</strong> to install anything you want, without root access</li>
+  <li>How to write an <code class="language-plaintext highlighter-rouge">environment.yml</code> file so your analysis is reproducible on any machine</li>
+</ul>
+
+<hr />
+
+<h2 id="part-1-what-does-sudo-actually-mean">Part 1: What Does sudo Actually Mean?</h2>
+
+<p><code class="language-plaintext highlighter-rouge">sudo</code> stands for <strong>“superuser do”</strong>. When you run a command with <code class="language-plaintext highlighter-rouge">sudo</code>, you’re telling the operating system: <em>run this as the root user — the most powerful account on the system.</em></p>
+
+<p><strong>On your laptop, that’s fine. You own the machine. If you accidentally break something, it affects only you.</strong></p>
+
+<p>But on an HPC cluster, you are sharing infrastructure with potentially <strong>hundreds or thousands of other users</strong>. The cluster might be running active jobs for colleagues in your lab, researchers at other institutions, and automated pipelines that have been running for weeks.</p>
+
+<p>If any user had root access and ran:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get upgrade
+</code></pre></div></div>
+
+<p>…they could upgrade every system package on every node. That could:</p>
+
+<ul>
+  <li>Break every other user’s software environment instantly</li>
+  <li>Crash jobs that have been running for 3 days</li>
+  <li>Render the entire cluster unusable until an admin spends hours fixing it</li>
+</ul>
+
+<p>This isn’t hypothetical. It’s exactly why HPC sysadmins remove sudo access entirely. It’s not a punishment. It’s responsible infrastructure.</p>
+
+<blockquote>
+  <p>💡 <strong>The rule:</strong> On HPC, the root account belongs to system administrators only. Your account is a <strong>regular user account</strong> — powerful enough to do everything you need, but sandboxed to protect everyone else.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="part-2-the-hpc-native-solution--environment-modules">Part 2: The HPC-Native Solution — Environment Modules</h2>
+
+<p>Most HPC clusters come with a system called <strong>environment modules</strong> (sometimes called <code class="language-plaintext highlighter-rouge">lmod</code> or just <code class="language-plaintext highlighter-rouge">module</code>). System administrators pre-install common research software — samtools, bowtie2, STAR, Python, R, FastQC — and make them available through the module system.</p>
+
+<p>You don’t install these tools. You <strong>load</strong> them when you need them.</p>
+
+<h3 id="exploring-whats-available">Exploring What’s Available</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># See everything that's installed on the HPC</span>
+module avail
+
+<span class="c"># Filter by name (much more useful on real clusters)</span>
+module avail samtools
+module avail python
+module avail kraken
+</code></pre></div></div>
+
+<p>On most academic clusters this will show a long list like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>----------------- /software/modulefiles ----------------
+samtools/1.15    samtools/1.17    samtools/1.18
+python/3.9       python/3.11      python/3.12
+bowtie2/2.4.5    bowtie2/2.5.1
+fastqc/0.11.9    fastqc/0.12.1
+kraken2/2.1.2    kraken2/2.1.3
+star/2.7.10      star/2.7.11
+</code></pre></div></div>
+
+<h3 id="loading-and-using-a-module">Loading and Using a Module</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Load a specific version</span>
+module load samtools/1.17
+
+<span class="c"># Check it works</span>
+samtools <span class="nt">--version</span>
+<span class="c"># samtools 1.17</span>
+
+<span class="c"># Load multiple tools</span>
+module load samtools/1.17
+module load bowtie2/2.5.1
+module load fastqc/0.12.1
+
+<span class="c"># See what you currently have loaded</span>
+module list
+
+<span class="c"># Unload a single module</span>
+module unload samtools/1.17
+
+<span class="c"># Unload everything and start fresh</span>
+module purge
+</code></pre></div></div>
+
+<h3 id="why-version-numbers-matter">Why Version Numbers Matter</h3>
+
+<p>Notice that you load <code class="language-plaintext highlighter-rouge">samtools/1.17</code> not just <code class="language-plaintext highlighter-rouge">samtools</code>. This is intentional and important. Different versions of the same tool can produce <strong>different results</strong> — a known issue in bioinformatics reproducibility. Always specify the version, and always record it in your methods section.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Vague — which version did you use? Nobody knows.</span>
+module load samtools
+
+<span class="c"># Explicit — anyone can reproduce this</span>
+module load samtools/1.17
+</code></pre></div></div>
+
+<h3 id="loading-modules-in-job-scripts">Loading Modules in Job Scripts</h3>
+
+<p>When you submit jobs to SLURM (covered in Day 3), your job script needs to load its own modules. Modules loaded in your terminal session are <strong>not automatically inherited</strong> by submitted jobs.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=align</span>
+<span class="c">#SBATCH --cpus-per-task=8</span>
+<span class="c">#SBATCH --mem=16G</span>
+
+<span class="c"># Always load modules explicitly in job scripts</span>
+module purge                    <span class="c"># start clean</span>
+module load samtools/1.17
+module load bowtie2/2.5.1
+
+<span class="c"># Now run your analysis</span>
+bowtie2 <span class="nt">-x</span> ref/genome <span class="nt">-U</span> sample.fastq.gz | samtools <span class="nb">sort</span> <span class="nt">-o</span> output.bam
+</code></pre></div></div>
+
+<h3 id="when-modules-fall-short">When Modules Fall Short</h3>
+
+<p>The module system is great, but it has a gap: it only contains software that <strong>your HPC administrators have chosen to install</strong>. If you need:</p>
+
+<ul>
+  <li>A niche Python package (<code class="language-plaintext highlighter-rouge">scikit-bio</code>, <code class="language-plaintext highlighter-rouge">empress</code>, a custom analysis tool)</li>
+  <li>A specific version not available in modules</li>
+  <li>Something you developed yourself</li>
+  <li>A tool that was just released last week</li>
+</ul>
+
+<p>…you need a different solution. That’s where <code class="language-plaintext highlighter-rouge">conda</code> comes in.</p>
+
+<hr />
+
+<h2 id="part-3-conda--your-personal-package-manager">Part 3: conda — Your Personal Package Manager</h2>
+
+<p><code class="language-plaintext highlighter-rouge">conda</code> is a package manager that works entirely in <strong>user space</strong> — meaning it installs software into your home directory, not system directories. No root access required. It works identically on your laptop and on HPC.</p>
+
+<p>If you haven’t used conda before, think of it like this:</p>
+
+<blockquote>
+  <p><strong>conda creates isolated “boxes” of software</strong> called environments. Each box has its own Python version and its own set of packages. You switch between boxes depending on which project you’re working on. Boxes can’t interfere with each other.</p>
+</blockquote>
+
+<p>This isolation is important. Without it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Without environments, all packages pile up together</span>
+pip <span class="nb">install </span><span class="nv">numpy</span><span class="o">==</span>1.24      <span class="c"># project A needs this</span>
+pip <span class="nb">install </span><span class="nv">numpy</span><span class="o">==</span>1.26      <span class="c"># project B needs this — now project A breaks</span>
+</code></pre></div></div>
+
+<p>With conda environments, each project gets its own independent copy of everything.</p>
+
+<h3 id="step-1-install-conda-if-you-havent-already">Step 1: Install conda (If You Haven’t Already)</h3>
+
+<p>On your <strong>laptop</strong>, download and install <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a> — the lightweight version of conda.</p>
+
+<p>On <strong>HPC</strong>, conda is often pre-installed or available as a module:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check if conda is available on HPC</span>
+which conda           <span class="c"># if this returns a path, you're good</span>
+conda <span class="nt">--version</span>
+
+<span class="c"># If not, load it as a module</span>
+module load anaconda3
+<span class="c"># or</span>
+module load miniconda3
+</code></pre></div></div>
+
+<h3 id="step-2-create-your-first-environment">Step 2: Create Your First Environment</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create a new environment named 'bioenv' with Python 3.11</span>
+conda create <span class="nt">-n</span> bioenv <span class="nv">python</span><span class="o">=</span>3.11
+
+<span class="c"># You'll be asked to confirm: type 'y' and press Enter</span>
+<span class="c"># Proceed ([y]/n)? y</span>
+</code></pre></div></div>
+
+<p>What just happened? conda created a brand new, isolated Python 3.11 installation in your home directory. Nothing on the system was changed.</p>
+
+<h3 id="step-3-activate-the-environment">Step 3: Activate the Environment</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Activate (switch into) your environment</span>
+conda activate bioenv
+
+<span class="c"># Your prompt changes to show which environment is active:</span>
+<span class="c"># (bioenv) user@hpc:~$</span>
+</code></pre></div></div>
+
+<p>That <code class="language-plaintext highlighter-rouge">(bioenv)</code> prefix tells you: everything you install now goes into this environment.</p>
+
+<h3 id="step-4-install-your-bioinformatics-tools">Step 4: Install Your Bioinformatics Tools</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install tools from the bioconda channel (bioinformatics-specific packages)</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge samtools bowtie2 fastqc
+
+<span class="c"># Install Python packages the same way</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> conda-forge biopython pandas matplotlib
+
+<span class="c"># Or use pip inside your conda environment (fine for packages not on conda)</span>
+pip <span class="nb">install </span>multiqc
+</code></pre></div></div>
+
+<blockquote>
+  <p>💡 <strong>What is bioconda?</strong> It’s a community-maintained collection of bioinformatics tools packaged for conda. It has over 8,000 packages including virtually every bioinformatics tool you’ll ever need. Always add <code class="language-plaintext highlighter-rouge">-c bioconda -c conda-forge</code> when installing bioinformatics software.</p>
+</blockquote>
+
+<h3 id="step-5-verify-everything-works">Step 5: Verify Everything Works</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Still inside (bioenv)</span>
+samtools <span class="nt">--version</span>
+<span class="c"># samtools 1.17</span>
+
+fastqc <span class="nt">--version</span>
+<span class="c"># FastQC v0.12.1</span>
+
+python <span class="nt">-c</span> <span class="s2">"import biopython; print('biopython OK')"</span>
+<span class="c"># biopython OK</span>
+</code></pre></div></div>
+
+<h3 id="switching-between-environments">Switching Between Environments</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Deactivate current environment</span>
+conda deactivate
+
+<span class="c"># Create a second environment for a different project</span>
+conda create <span class="nt">-n</span> rnaseq <span class="nv">python</span><span class="o">=</span>3.11
+conda activate rnaseq
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda star hisat2 salmon
+
+<span class="c"># Switch back to the first</span>
+conda deactivate
+conda activate bioenv
+</code></pre></div></div>
+
+<p>Your two environments are completely independent. Installing something in <code class="language-plaintext highlighter-rouge">rnaseq</code> has zero effect on <code class="language-plaintext highlighter-rouge">bioenv</code>.</p>
+
+<hr />
+
+<h2 id="part-4-the-environmentyml-file--reproducibility-unlocked">Part 4: The environment.yml File — Reproducibility Unlocked</h2>
+
+<p>Here’s a scenario that happens all the time:</p>
+
+<blockquote>
+  <p>You run your metagenomics pipeline, get results, write the paper. Three months later a reviewer asks you to re-run with a slight modification. You open your laptop. Python updated itself. A package auto-upgraded. The results are slightly different. The reviewer is unhappy.</p>
+</blockquote>
+
+<p>The fix is an <code class="language-plaintext highlighter-rouge">environment.yml</code> file. It’s a plain text file that records every package and its exact version in your environment.</p>
+
+<h3 id="creating-an-environmentyml">Creating an environment.yml</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Activate your environment first</span>
+conda activate bioenv
+
+<span class="c"># Export the full environment spec to a file</span>
+conda <span class="nb">env export</span> <span class="o">&gt;</span> environment.yml
+
+<span class="c"># What it looks like:</span>
+<span class="nb">cat </span>environment.yml
+</code></pre></div></div>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">bioenv</span>
+<span class="na">channels</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">bioconda</span>
+  <span class="pi">-</span> <span class="s">conda-forge</span>
+  <span class="pi">-</span> <span class="s">defaults</span>
+<span class="na">dependencies</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">python=3.11.0</span>
+  <span class="pi">-</span> <span class="s">samtools=1.17</span>
+  <span class="pi">-</span> <span class="s">bowtie2=2.5.1</span>
+  <span class="pi">-</span> <span class="s">fastqc=0.12.1</span>
+  <span class="pi">-</span> <span class="s">biopython=1.83</span>
+  <span class="pi">-</span> <span class="s">pandas=2.1.0</span>
+  <span class="pi">-</span> <span class="s">matplotlib=3.8.0</span>
+  <span class="pi">-</span> <span class="na">pip</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">multiqc==1.18</span>
+</code></pre></div></div>
+
+<h3 id="recreating-the-environment-anywhere">Recreating the Environment Anywhere</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># On a new machine, new HPC account, or a colleague's laptop:</span>
+conda <span class="nb">env </span>create <span class="nt">-f</span> environment.yml
+
+<span class="c"># Activate it</span>
+conda activate bioenv
+
+<span class="c"># Everything is identical — same versions, same behaviour</span>
+</code></pre></div></div>
+
+<p>This single file is what turns your analysis from <em>“it worked on my machine”</em> into <strong>reproducible science</strong>.</p>
+
+<h3 id="a-minimal-environmentyml-better-practice">A Minimal environment.yml (Better Practice)</h3>
+
+<p>The full export above includes every dependency of every dependency. That can cause issues when recreating across different operating systems. A cleaner approach is to write a minimal file with just your direct dependencies:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># environment.yml — keep this in your project git repo</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">metagenomics-pipeline</span>
+<span class="na">channels</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">bioconda</span>
+  <span class="pi">-</span> <span class="s">conda-forge</span>
+<span class="na">dependencies</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">python=3.11</span>
+  <span class="pi">-</span> <span class="s">samtools=1.17</span>
+  <span class="pi">-</span> <span class="s">bowtie2=2.5.1</span>
+  <span class="pi">-</span> <span class="s">fastqc=0.12.1</span>
+  <span class="pi">-</span> <span class="s">kraken2=2.1.3</span>
+  <span class="pi">-</span> <span class="s">biopython=1.83</span>
+  <span class="pi">-</span> <span class="s">pandas&gt;=2.0</span>
+  <span class="pi">-</span> <span class="na">pip</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">multiqc==1.18</span>
+</code></pre></div></div>
+
+<p>Commit this file to your project’s Git repository. Anyone who clones your repo can recreate your exact environment in one command.</p>
+
+<hr />
+
+<h2 id="the-full-decision-tree">The Full Decision Tree</h2>
+
+<p>When you need software on HPC, ask yourself:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Is it available as a module?
+    ├── YES → module load toolname/version  ✓
+    └── NO  → Is it on bioconda/conda-forge?
+                  ├── YES → conda install -c bioconda toolname  ✓
+                  └── NO  → pip install inside conda environment  ✓
+                             (or contact your HPC admin to add a module)
+</code></pre></div></div>
+
+<p>In practice, for bioinformatics:</p>
+
+<ul>
+  <li><strong>Core alignment/assembly tools</strong> (samtools, bowtie2, STAR, GATK) → usually available as modules AND conda</li>
+  <li><strong>Python packages</strong> (pandas, scikit-bio, biopython) → conda or pip</li>
+  <li><strong>R packages</strong> → <code class="language-plaintext highlighter-rouge">install.packages()</code> or <code class="language-plaintext highlighter-rouge">BiocManager::install()</code> inside a loaded R module</li>
+  <li><strong>Very new or niche tools</strong> → conda or build from source in your home directory</li>
+</ul>
+
+<hr />
+
+<h2 id="common-mistakes-to-avoid">Common Mistakes to Avoid</h2>
+
+<p><strong>Installing packages outside an environment</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Bad — installs into your base conda, pollutes everything</span>
+conda <span class="nb">install </span>samtools
+
+<span class="c"># ✅ Good — always activate your environment first</span>
+conda activate bioenv
+conda <span class="nb">install </span>samtools
+</code></pre></div></div>
+
+<p><strong>Forgetting to load modules in your job script</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ This will fail — modules from your terminal don't carry over</span>
+sbatch myjob.sh
+
+<span class="c"># ✅ Always put module load commands inside the script itself</span>
+</code></pre></div></div>
+
+<p><strong>Mixing conda channels inconsistently</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Can cause version conflicts</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda samtools
+conda <span class="nb">install</span> <span class="nt">-c</span> defaults python
+
+<span class="c"># ✅ Be explicit and consistent with channels</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge samtools python
+</code></pre></div></div>
+
+<p><strong>Using <code class="language-plaintext highlighter-rouge">conda update --all</code> carelessly</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ⚠️ This upgrades everything in the environment — can break your pipeline</span>
+conda update <span class="nt">--all</span>
+
+<span class="c"># ✅ Update specific packages when you need to</span>
+conda update samtools
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="try-it-yourself">Try It Yourself</h2>
+
+<p>If you have HPC access, run these commands now:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Explore what modules are available</span>
+module avail 2&gt;&amp;1 | <span class="nb">grep</span> <span class="nt">-i</span> samtools
+
+<span class="c"># 2. Load a module and check it</span>
+module load samtools/1.17
+samtools <span class="nt">--version</span>
+module purge
+
+<span class="c"># 3. Create a test conda environment</span>
+conda create <span class="nt">-n</span> testenv <span class="nv">python</span><span class="o">=</span>3.11 <span class="nt">-y</span>
+conda activate testenv
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda fastqc <span class="nt">-y</span>
+fastqc <span class="nt">--version</span>
+
+<span class="c"># 4. Export it</span>
+conda <span class="nb">env export</span> <span class="o">&gt;</span> testenv.yml
+<span class="nb">cat </span>testenv.yml
+
+<span class="c"># 5. Clean up</span>
+conda deactivate
+conda <span class="nb">env </span>remove <span class="nt">-n</span> testenv
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sudo</code> is deliberately disabled on HPC — one user with root could break the system for everyone</li>
+  <li><strong>Environment modules</strong> (<code class="language-plaintext highlighter-rouge">module load</code>) give you access to software pre-installed by HPC admins — always specify the version</li>
+  <li><strong>conda</strong> lets you install anything you want without root access, works identically on laptop and HPC</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">environment.yml</code></strong> records your exact environment so any analysis can be reproduced by anyone, anywhere</li>
+  <li>The golden workflow: test your conda environment on your laptop, then recreate it on HPC with <code class="language-plaintext highlighter-rouge">conda env create -f environment.yml</code></li>
+</ul>
+
+<hr />
+
+<h2 id="up-next">Up Next</h2>
+
+<p><strong>Day 3: Running One Job — Terminal vs SLURM</strong></p>
+
+<p>Your software is installed and your environment is ready. Now: how do you actually run something on HPC? Spoiler — you can’t just type <code class="language-plaintext highlighter-rouge">fastqc sample.fastq.gz</code> and hit Enter. We’ll cover why, and walk through writing your first SLURM job script from scratch.</p>
+
+<hr />
+
+<p><img src="/assets/img/d2-hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="conda" /><category term="modules" /><category term="sudo" /><category term="bioinformatics" /><category term="beginners" /><category term="reproducibility" /><category term="computational-biology" /><summary type="html"><![CDATA[The first real shock of HPC life: you can't install software the way you're used to. Here's why, and three progressively better solutions — explained step by step for beginners.]]></summary></entry><entry><title type="html">Day 1 — Laptop vs HPC: Why Bioinformatics Needs Both</title><link href="https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc/" rel="alternate" type="text/html" title="Day 1 — Laptop vs HPC: Why Bioinformatics Needs Both" /><published>2026-03-12T00:00:00-04:00</published><updated>2026-03-12T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc/"><![CDATA[<h1 id="day-1-laptop-vs-hpc--why-bioinformatics-needs-both">Day 1: Laptop vs HPC — Why Bioinformatics Needs Both</h1>
+
+<blockquote>
+  <p><em>This is Day 1 of a 6-part series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong>. Each post covers a real challenge you’ll face when moving from local development to high-performance computing. No prior HPC experience needed</em> and 🧬 <strong>Day 58</strong> of Daily Bioinformatics from Jojy’s Desk Dataset:</p>
 </blockquote>
 
 <hr />
@@ -1258,8 +1721,6 @@ sinfo                       <span class="c"># Show available partitions (SLURM)<
 <p>We’ll tackle the first real surprise of HPC life: you can’t install software the way you’re used to. No <code class="language-plaintext highlighter-rouge">sudo</code>. No <code class="language-plaintext highlighter-rouge">apt-get</code>. But there are elegant solutions — and one of them works identically on both your laptop and HPC.</p>
 
 <hr />
-
-<p><em>Found this useful? Follow along for the rest of the series. All code examples are available in the <a href="#">companion GitHub repository</a>.</em></p>
 
 <p><em>Questions or corrections? Drop a comment below — I read every one.</em></p>
 
@@ -4257,251 +4718,4 @@ If your results change substantially between RDA+Hellinger and dbRDA+Bray-Curtis
 
 <p><strong>🧬 Day 52 — Daily Bioinformatics from Jojy’s Desk</strong></p>
 
-<hr />]]></content><author><name></name></author><category term="RDA" /><category term="dbRDA" /><category term="ordination" /><category term="vegan" /><category term="ggplot2" /><category term="microbiome" /><category term="MAGs" /><category term="R" /><category term="metagenomics" /><summary type="html"><![CDATA[Learn how to run RDA with Hellinger-transformed MAG abundance data and interpret the resulting triplot — arrows, points, axes, and variance explained — using real Chesapeake and Delaware Bay metagenomes.]]></summary></entry><entry><title type="html">Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)</title><link href="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/" rel="alternate" type="text/html" title="Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We Use Instead)" /><published>2026-03-02T00:00:00-05:00</published><updated>2026-03-02T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/why-normal-stats-fail-microbiome</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day1-why-normal-stats-fail-microbiome/"><![CDATA[<h2 id="day-1--why-normal-statistics-fail-for-microbiome-data">Day 1 — Why Normal Statistics Fail for Microbiome Data</h2>
-
-<p>*This is Day 1 of a 7-day series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and <strong>🧬 Day 51 of Daily Bioinformatics from Jojy’s Desk</strong>
-<em>All data and R code for this series → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
-
-<hr />
-
-<p>Let me start with an honest confession.</p>
-
-<p>When I first started working with microbiome data, I did what most people do — I tried to use the statistics I already knew. t-tests. ANOVA. Pearson correlations. They worked fine in other contexts. Why wouldn’t they work here?</p>
-
-<p>They failed. Badly.</p>
-
-<p>Not because I was using them wrong. But <strong>because microbiome data breaks almost every assumption those tests are built on.</strong> The data is fundamentally different, and it took me a while to really understand <em>why</em> — not just accept it as a rule someone told me.</p>
-
-<p>That’s what this post is about. Before we write a single line of R code, before we run an ordination or a PERMANOVA, I want you to genuinely understand the problem. Because once you do, every method we cover this week will make intuitive sense rather than feeling like a black box you’re supposed to trust.</p>
-
-<hr />
-
-<h2 id="what-makes-microbiome-data-weird">What Makes Microbiome Data Weird?</h2>
-
-<h3 id="1-its-compositional--counts-are-relative-not-absolute">1. It’s Compositional — Counts Are Relative, Not Absolute</h3>
-
-<p>Imagine you sequence two samples. In Sample A, you find 1,000 reads from <em>Bacteria X</em>. In Sample B, you find 500 reads from <em>Bacteria X</em>. Is <em>Bacteria X</em> twice as abundant in Sample A?</p>
-
-<p><strong>Not necessarily.</strong> It depends on how many total reads you got from each sample. If Sample A had 10,000 total reads and Sample B had 5,000, then <em>Bacteria X</em> makes up exactly 10% of both samples — they’re identical in relative terms.</p>
-
-<p>This is the <strong>compositionality problem</strong>. Sequencing doesn’t give us absolute counts of microorganisms. It gives us <strong>proportions</strong> — each MAG or taxon’s abundance is expressed relative to the total sequencing effort. The data always sums to a constant (100%, or total reads), which creates spurious correlations and violates the independence assumptions of standard statistical tests.</p>
-
-<p>A t-test doesn’t know that your numbers are parts of a whole. It treats them as independent measurements. That’s a problem.</p>
-
-<hr />
-
-<h3 id="2-its-sparse--most-values-are-zero">2. It’s Sparse — Most Values Are Zero</h3>
-
-<p>In a typical MAG abundance table, the majority of cells are zero. A MAG recovered from one environment simply doesn’t appear in another. With 60 MAGs across 27 metagenomes, you might expect 30–60% of your table to be zeros — sometimes more.</p>
-
-<p>Standard statistical methods hate zeros. Log-transformations break at zero. Distance calculations behave strangely when half your data points are identical zeros. Normal distributions have no concept of “absent.”</p>
-
-<p>The sparsity also means your data is highly skewed — a few dominant MAGs have very high abundance, while most have very low or zero abundance. That distribution looks nothing like a bell curve.</p>
-
-<hr />
-
-<h3 id="3-its-multivariate--you-have-many-variables-at-once">3. It’s Multivariate — You Have Many Variables at Once</h3>
-
-<p>When you measure blood pressure, you get one number. When you sequence a metagenome, you get <strong>60 MAG abundances simultaneously</strong> — 60 variables, all potentially interacting, all measured from the same sample.</p>
-
-<p>Standard tests like t-tests and ANOVA are univariate — they test one variable at a time. You <em>could</em> run 60 separate t-tests (one per MAG). But then you’ve run 60 tests, and by chance alone you’d expect 3 false positives at p &lt; 0.05. Your results would be meaningless.</p>
-
-<p>Microbiome community analysis requires methods that handle all variables <strong>together</strong> — treating the community as a whole rather than as 60 independent measurements.</p>
-
-<hr />
-
-<h3 id="4-its-non-normal--the-distributions-are-exotic">4. It’s Non-Normal — The Distributions Are Exotic</h3>
-
-<p>The normal (Gaussian) distribution — the famous bell curve — underlies most classical statistics. t-tests, ANOVA, Pearson correlation, linear regression all assume your data is approximately normally distributed.</p>
-
-<p>Microbiome abundance data is not. It tends to follow distributions that are:</p>
-
-<ul>
-  <li><strong>Zero-inflated</strong> (excess zeros from absent taxa)</li>
-  <li><strong>Right-skewed</strong> (a few very abundant taxa, many rare ones)</li>
-  <li><strong>Overdispersed</strong> (more variance than a Poisson or binomial model would predict)</li>
-</ul>
-
-<p>You can sometimes transform the data to approximate normality (Hellinger transformation, log-ratio transformation), but the underlying biology of the data means you always need to think carefully about whether your assumptions hold.</p>
-
-<hr />
-
-<h2 id="what-does-community-level-analysis-actually-mean">What Does “Community-Level Analysis” Actually Mean?</h2>
-
-<p>Here’s the conceptual shift that changes everything.</p>
-
-<p>In most biology, you ask: <strong>“Is gene X differentially expressed?”</strong> or <strong>“Is species Y more abundant in treatment A?”</strong> — one variable, one question.</p>
-
-<p>In microbiome ecology, the primary question is different: <strong>“Are these communities different?”</strong></p>
-
-<p>Not one MAG. Not one taxon. The whole community at once — the combination of which organisms are present, in what proportions, and how that combination shifts across samples or conditions.</p>
-
-<p>Think of it like comparing two orchestras. You wouldn’t just compare the number of violins and call that a comparison. You’d compare the full composition — how many of each instrument, how they’re arranged, how the overall sound differs. Community-level analysis is comparing the full orchestra, not individual instruments.</p>
-
-<p>This is why we need:</p>
-
-<ul>
-  <li><strong>Ordination methods</strong> (RDA, dbRDA) — to visualize community composition in reduced-dimensional space</li>
-  <li><strong>Permutation tests</strong> (PERMANOVA) — to test whether community differences are statistically real</li>
-  <li><strong>Distance matrices</strong> (Bray-Curtis, UniFrac) — to quantify how different two communities are as a whole</li>
-</ul>
-
-<hr />
-
-<h2 id="so-what-do-we-use-instead">So What Do We Use Instead?</h2>
-
-<p>Here’s the roadmap for this week — and the logic behind the order:</p>
-
-<p><strong>Day 2 — RDA &amp; dbRDA (Constrained Ordination)</strong>
-We visualize how communities vary across environmental gradients. Euclidean distances for transformed data, Bray-Curtis for raw abundance — and why that choice matters.</p>
-
-<p><strong>Day 3 — PERMANOVA</strong>
-We’ve seen the groups separate visually. Now we test whether the separation is statistically real — using permutation rather than distributional assumptions.</p>
-
-<p><strong>Day 4 — Non-Parametric Tests</strong>
-For taxon-level comparisons (not community-level), we use Wilcoxon and Kruskal-Wallis tests — the non-parametric alternatives to t-tests and ANOVA that don’t assume normality.</p>
-
-<p><strong>Day 5 — Multiple Regression</strong>
-We ask which environmental variables best predict gene or MAG abundance, and how to interpret those relationships biologically.</p>
-
-<p><strong>Day 6 — WGCNA</strong>
-We stop asking about individual MAGs and start asking about <em>modules</em> of co-occurring MAGs — groups that rise and fall together across samples.</p>
-
-<p><strong>Day 7 — Full Workflow Synthesis</strong>
-How all of these methods connect in a real paper, and how to structure a results section that tells a coherent biological story.</p>
-
-<hr />
-
-<h2 id="the-data-well-use-all-week">The Data We’ll Use All Week</h2>
-
-<p>Every post in this series uses the same two files. I want you to recognize them by Day 7 like old friends.</p>
-
-<p>The data comes from a real metagenomic study: <strong>60 Metagenome-Assembled Genomes (MAGs)</strong> recovered across <strong>27 metagenomes</strong> from different environments. These MAGs represent microbial populations — organisms assembled from sequencing reads without culturing.</p>
-
-<p>All data and code are available at: 🔗 <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></p>
-
-<h3 id="file-1-mag_abundancecsv">File 1: <code class="language-plaintext highlighter-rouge">mag_abundance.csv</code></h3>
-
-<p>This is your <strong>community matrix</strong> — the core data object in every analysis.</p>
-
-<ul>
-  <li><strong>Rows</strong> = metagenome samples (27 samples)</li>
-  <li><strong>Columns</strong> = MAGs (60 MAGs)</li>
-  <li><strong>Values</strong> = relative abundance of each MAG in each sample</li>
-</ul>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Load and take a first look</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
-
-</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/mag_abundance.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w">      </span><span class="c1"># should be 27 rows × 60 columns</span><span class="w">
-</span><span class="n">head</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">])</span><span class="w">   </span><span class="c1"># first look at 5 MAGs</span><span class="w">
-</span></code></pre></div></div>
-
-<p>What you’ll notice immediately:</p>
-
-<ul>
-  <li>Many zeros — MAGs absent from most samples</li>
-  <li>Values between 0 and 1 (relative abundances)</li>
-  <li>High variability across samples — some MAGs are everywhere, most are rare</li>
-</ul>
-
-<h3 id="file-2-metadatacsv">File 2: <code class="language-plaintext highlighter-rouge">metadata.csv</code></h3>
-
-<p>This is your <strong>environmental context</strong> — what makes samples different from each other.</p>
-
-<ul>
-  <li><strong>Rows</strong> = metagenome samples (same 27 samples, same order)</li>
-  <li><strong>Columns</strong> = environmental and sample variables (salinity, season, location, etc.)</li>
-</ul>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/metadata.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="nf">dim</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">           </span><span class="c1"># 27 rows × however many metadata columns</span><span class="w">
-</span><span class="n">head</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">          </span><span class="c1"># see what variables you're working with</span><span class="w">
-</span><span class="n">colnames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">      </span><span class="c1"># list all metadata variables</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The metadata is what gives the community data biological meaning. Without it, you just have a table of numbers. With it, you can ask: <em>Do communities differ by salinity? By season? By sampling location?</em> That’s the bridge between pattern and biology.</p>
-
-<h3 id="checking-the-data--always-do-this-first">Checking the Data — Always Do This First</h3>
-
-<p>Before any analysis, verify that your samples are in the same order in both files:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Critical check — rows must match between files</span><span class="w">
-</span><span class="nf">all</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span><span class="w">
-</span><span class="c1"># Should return TRUE</span><span class="w">
-
-</span><span class="c1"># Quick summary of the abundance table</span><span class="w">
-</span><span class="n">summary</span><span class="p">(</span><span class="n">rowSums</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w">   </span><span class="c1"># row sums (should be ~1 if relative abundance)</span><span class="w">
-</span><span class="nf">sum</span><span class="p">(</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">prod</span><span class="p">(</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="w">  </span><span class="c1"># % zeros</span><span class="w">
-</span></code></pre></div></div>
-
-<p>This sparsity check alone is revealing. When you run it on this data and see that a significant percentage of the table is zeros, you’ll understand viscerally why we don’t just run a t-test.</p>
-
-<hr />
-
-<h2 id="a-note-on-transformation">A Note on Transformation</h2>
-
-<p>We’ll cover this in depth on Day 2, but plant this idea now: <strong>the same abundance data can be transformed in different ways depending on the analysis</strong>.</p>
-
-<ul>
-  <li><strong>Hellinger transformation</strong> — square root of relative abundance. Reduces the influence of very abundant MAGs. Used before RDA.</li>
-  <li><strong>Bray-Curtis dissimilarity</strong> — a distance metric calculated directly from raw relative abundances. Used in dbRDA and PERMANOVA.</li>
-  <li><strong>Log-ratio transformation</strong> (CLR) — the compositionally correct approach, increasingly used in modern microbiome work.</li>
-</ul>
-
-<p>No single transformation is universally correct. The choice depends on your question and your method. We’ll make that choice explicitly and justify it each time.</p>
-
-<hr />
-
-<h2 id="️-common-mistakes-to-avoid">⚠️ Common Mistakes to Avoid</h2>
-
-<p><strong>Mistake 1: Running t-tests on individual MAGs without multiple testing correction.</strong>
-With 60 MAGs, you’ll get ~3 false positives by chance at p &lt; 0.05. Always correct for multiple comparisons (Day 4 covers this).</p>
-
-<p><strong>Mistake 2: Treating relative abundance as absolute abundance.</strong>
-A MAG that increases in relative abundance might be doing so because something else decreased — not because it truly grew. Keep compositionality in mind throughout.</p>
-
-<p><strong>Mistake 3: Skipping the data check.</strong>
-If your metadata rows don’t match your abundance matrix rows, every analysis silently produces wrong results. Always verify alignment before starting.</p>
-
-<p><strong>Mistake 4: Log-transforming zeros.</strong>
-<code class="language-plaintext highlighter-rouge">log(0)</code> is undefined (<code class="language-plaintext highlighter-rouge">-Inf</code> in R). If you log-transform without adding a pseudocount, your analysis will fail or produce garbage. Use appropriate transformations — covered on Day 2.</p>
-
-<p><strong>Mistake 5: Jumping straight to ordination without understanding your data.</strong>
-Look at your data first. Check distributions, zeros, outliers. A 10-minute exploration prevents hours of debugging later.</p>
-
-<hr />
-
-<h2 id="-key-takeaways">🧭 Key Takeaways</h2>
-
-<ul>
-  <li>Microbiome data is <strong>compositional</strong> (relative, not absolute), <strong>sparse</strong> (many zeros), <strong>multivariate</strong> (many variables at once), and <strong>non-normal</strong> — each property breaks standard statistical assumptions in a different way.</li>
-  <li><strong>Community-level analysis</strong> treats the full assemblage of organisms as the unit of study, not individual taxa in isolation.</li>
-  <li>We need specialized methods — ordination, permutation tests, non-parametric comparisons — because classical tests were not designed for this data structure.</li>
-  <li>Our dataset: <strong>60 MAGs × 27 metagenomes</strong>, two files (<code class="language-plaintext highlighter-rouge">mag_abundance.csv</code> + <code class="language-plaintext highlighter-rouge">metadata.csv</code>), used consistently across all 7 days.</li>
-  <li>Always <strong>check your data</strong> before any analysis: dimensions, zero percentage, and row alignment between files.</li>
-</ul>
-
-<hr />
-
-<h2 id="-whats-next">🔗 What’s Next</h2>
-
-<p>Tomorrow on <strong>Day 2</strong>, we run our first real analysis — constrained ordination with <strong>RDA and dbRDA</strong>. We’ll ask: <em>Do the environmental variables in our metadata explain the community composition patterns we see across samples?</em> And we’ll visualize the answer with ggplot2.</p>
-
-<p>By the end of Day 2, you’ll have your first publication-quality ordination plot.</p>
-
-<hr />
-
-<p><em>All R code and data for this series: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em>
-<em>Found this useful? Share it with someone learning microbiome stats — and follow along for Day 2 tomorrow.</em></p>
-
-<hr />
-
-<p><strong>🧬 Day 51 — Daily Bioinformatics from Jojy’s Desk</strong></p>
-
-<hr />
-
-<p><img src="/assets/img/stat-day1.png" alt="Stat-day1" /></p>]]></content><author><name></name></author><category term="microbiome" /><category term="statistics" /><category term="metagenomics" /><category term="MAGs" /><category term="R" /><category term="beginners" /><summary type="html"><![CDATA[Before we run a single ordination or permutation test, we need to understand why standard statistics break down for microbiome and genomics data. This is your foundation for the entire 7-day series.]]></summary></entry></feed>
+<hr />]]></content><author><name></name></author><category term="RDA" /><category term="dbRDA" /><category term="ordination" /><category term="vegan" /><category term="ggplot2" /><category term="microbiome" /><category term="MAGs" /><category term="R" /><category term="metagenomics" /><summary type="html"><![CDATA[Learn how to run RDA with Hellinger-transformed MAG abundance data and interpret the resulting triplot — arrows, points, axes, and variance explained — using real Chesapeake and Delaware Bay metagenomes.]]></summary></entry></feed>
