@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-13T20:04:24-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-13T20:04:24-04:00</published><updated>2026-03-13T20:04:24-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-16T13:44:51-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-16T13:44:51-04:00</published><updated>2026-03-16T13:44:51-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,673 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 2 — Software Installation: sudo vs module load vs conda</title><link href="https://jojyjohn28.github.io/blog/day2-software-installation/" rel="alternate" type="text/html" title="Day 2 — Software Installation: sudo vs module load vs conda" /><published>2026-03-13T00:00:00-04:00</published><updated>2026-03-13T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day2-software-installation</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day2-software-installation/"><![CDATA[<h1 id="day-2-software-installation--sudo-vs-module-load-vs-conda">Day 2: Software Installation — sudo vs module load vs conda</h1>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 3 — Running Jobs: Terminal, Bash Loops, and SLURM</title><link href="https://jojyjohn28.github.io/blog/day3-running-jobs/" rel="alternate" type="text/html" title="Day 3 — Running Jobs: Terminal, Bash Loops, and SLURM" /><published>2026-03-16T00:00:00-04:00</published><updated>2026-03-16T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day3-running-jobs</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day3-running-jobs/"><![CDATA[<h1 id="day-3-running-jobs--terminal-bash-loops-and-slurm">Day 3: Running Jobs — Terminal, Bash Loops, and SLURM</h1>
+
+<p><img src="./day3-hero.svg" alt="Running Jobs: Terminal vs SLURM" /></p>
+
+<blockquote>
+  <p><em>This is Day 3 of a 6-part series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong> and 🧬 Day 59 of Daily Bioinformatics from Jojy’s Desk.. In <a href="../day1-laptop-vs-hpc/">Day 1</a> we covered what HPC is. In <a href="../day2-software-installation/">Day 2</a> we covered software installation. Today: the biggest mindset shift — how to actually run things.</em></p>
+</blockquote>
+
+<hr />
+
+<h2 id="the-moment-that-confuses-everyone">The Moment That Confuses Everyone</h2>
+
+<p>You’ve logged into the HPC. Your conda environment is ready. You type:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fastqc sample_R1.fastq.gz <span class="nt">-o</span> qc_results/
+</code></pre></div></div>
+
+<p>And it… runs. The output scrolls past. You think: <em>“That wasn’t so bad.”</em></p>
+
+<p>Then you get an email from your sysadmin:</p>
+
+<blockquote>
+  <p><em>“Please do not run compute jobs on the login node. Use the job scheduler.”</em></p>
+</blockquote>
+
+<p>What did you do wrong? What even is a login node? What’s a job scheduler? And what does “submit a job” actually mean?</p>
+
+<p>This post answers all of it — from scratch.</p>
+
+<hr />
+
+<h2 id="what-youll-learn-today">What You’ll Learn Today</h2>
+
+<ul>
+  <li>The difference between a laptop, a login node, and a compute node</li>
+  <li>Why you must <strong>never</strong> run jobs on the login node</li>
+  <li>How to run things on your <strong>laptop</strong> — direct commands and bash loops</li>
+  <li>How to use an <strong>interactive node</strong> on HPC for testing</li>
+  <li>How to write and submit your first <strong>SLURM batch script</strong></li>
+  <li>What <code class="language-plaintext highlighter-rouge">%j</code> means in output filenames — demystified</li>
+  <li>The full picture: queued vs running jobs</li>
+</ul>
+
+<hr />
+
+<h2 id="part-1-the-three-environments--laptop-login-node-compute-node">Part 1: The Three Environments — Laptop, Login Node, Compute Node</h2>
+
+<p>Before anything else, you need to understand the geography of an HPC cluster. There are three distinct places where code can run, and they are <strong>not interchangeable</strong>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌────────────────────────────────────────────────────────────────────┐
+│                         HPC CLUSTER                                 │
+│                                                                     │
+│   You (SSH in)                                                      │
+│       │                                                             │
+│       ▼                                                             │
+│  ┌──────────────┐    sbatch job.sh    ┌──────────────────────────┐ │
+│  │  LOGIN NODE  │ ─────────────────▶  │    SLURM SCHEDULER       │ │
+│  │              │                     │  (manages the queue)     │ │
+│  │ - Edit files │                     └────────────┬─────────────┘ │
+│  │ - Submit jobs│                                  │ allocates     │
+│  │ - Check queue│                                  ▼               │
+│  │              │                     ┌──────────────────────────┐ │
+│  │ ❌ NO compute│                     │     COMPUTE NODES        │ │
+│  └──────────────┘                     │  node001, node002, ...   │ │
+│                                       │  - Run your actual jobs  │ │
+│                                       │  - 64–128 CPUs each      │ │
+│                                       │  - 256 GB–4 TB RAM each  │ │
+│                                       └──────────────────────────┘ │
+└────────────────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<h3 id="the-login-node-gateway-not-workbench">The Login Node: Gateway, Not Workbench</h3>
+
+<p>The login node is the machine you land on when you SSH into the cluster. It’s <strong>shared by every user simultaneously</strong> — dozens or hundreds of people editing files, checking jobs, and transferring data all at the same time.</p>
+
+<p>Its job is to be a gateway, not a workhorse.</p>
+
+<p>When you run a heavy computation on the login node, here’s what happens:</p>
+
+<ul>
+  <li>You consume CPU and RAM that everyone shares</li>
+  <li>Other users’ terminals slow down or freeze</li>
+  <li>The admins get an alert and find your process</li>
+  <li>Your process gets killed — possibly mid-analysis, losing all progress</li>
+  <li>You get a politely stern email</li>
+</ul>
+
+<blockquote>
+  <p>💡 <strong>The rule is simple:</strong> On the login node you may: edit files, write scripts, transfer files, submit jobs, and check job status. That’s it. Anything that does computation goes through the scheduler.</p>
+</blockquote>
+
+<h3 id="compute-nodes-where-the-work-happens">Compute Nodes: Where the Work Happens</h3>
+
+<p>Compute nodes are the powerful machines that actually run your jobs. You never SSH directly into them during normal use — the scheduler allocates them to your jobs automatically.</p>
+
+<p>When your job is allocated a compute node, it gets exclusive use of the requested CPUs and RAM for the duration of the job. Nobody else touches those resources while your job runs.</p>
+
+<hr />
+
+<h2 id="part-2-running-things-on-your-laptop">Part 2: Running Things on Your Laptop</h2>
+
+<p>On your laptop, there’s no scheduler. Commands run immediately, use your local resources, and block your terminal until they finish. This is fine for small work and essential for development and testing.</p>
+
+<h3 id="direct-command-one-sample">Direct Command: One Sample</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run directly — blocks terminal until done</span>
+fastqc sample_R1.fastq.gz <span class="nt">-o</span> qc_results/
+
+<span class="c"># Run in the background so you can keep using the terminal</span>
+fastqc sample_R1.fastq.gz <span class="nt">-o</span> qc_results/ &amp;
+
+<span class="c"># Check what's running in background</span>
+<span class="nb">jobs</span>
+
+<span class="c"># Bring it back to foreground</span>
+<span class="nb">fg</span>
+</code></pre></div></div>
+
+<h3 id="bash-for-loop-many-samples-on-laptop">Bash For Loop: Many Samples on Laptop</h3>
+
+<p>When you have multiple samples, the simplest approach on a laptop is a for loop:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># run_fastqc_loop.sh — processes samples one by one</span>
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> qc_results/
+
+<span class="k">for </span>sample <span class="k">in </span>data/<span class="k">*</span>.fastq.gz<span class="p">;</span> <span class="k">do
+    </span><span class="nv">name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> .fastq.gz<span class="si">)</span>
+    <span class="nb">echo</span> <span class="s2">"Processing: </span><span class="nv">$name</span><span class="s2">"</span>
+    fastqc <span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="nt">-o</span> qc_results/
+<span class="k">done
+
+</span><span class="nb">echo</span> <span class="s2">"All done!"</span>
+</code></pre></div></div>
+
+<p>Run it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash run_fastqc_loop.sh
+
+<span class="c"># Or make it executable and run directly</span>
+<span class="nb">chmod</span> +x run_fastqc_loop.sh
+./run_fastqc_loop.sh
+</code></pre></div></div>
+
+<p><strong>What’s actually happening:</strong> Each sample is processed fully before the next one starts. If you have 200 samples and each takes 5 minutes, you’re looking at <strong>16 hours of sequential processing</strong> — your laptop fan running at full speed the whole time.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Rough timing estimate</span>
+<span class="nb">echo</span> <span class="s2">"Estimated time: </span><span class="k">$((</span> <span class="m">200</span> <span class="o">*</span> <span class="m">5</span> <span class="k">))</span><span class="s2"> minutes = </span><span class="k">$((</span> <span class="m">200</span> <span class="o">*</span> <span class="m">5</span> <span class="o">/</span> <span class="m">60</span> <span class="k">))</span><span class="s2"> hours"</span>
+<span class="c"># Estimated time: 1000 minutes = 16 hours</span>
+</code></pre></div></div>
+
+<p>A loop is fine for 10 samples. For 50+, you need parallelism — which is exactly what job arrays give you (covered in Day 4). But first, let’s get a single job running on HPC properly.</p>
+
+<hr />
+
+<h2 id="part-3-why-cant-i-just-run-it-on-hpc">Part 3: Why Can’t I Just Run It on HPC?</h2>
+
+<p>The short answer: you can — but only in the right place.</p>
+
+<p>The confusion comes from the fact that <strong>the login node feels like a normal Linux machine</strong>. You can type commands, they run, output appears. It feels identical to your laptop.</p>
+
+<p>But you’re sharing that machine’s CPUs and RAM with every logged-in user. Imagine 80 researchers simultaneously deciding to align their FASTQ files on that one machine. It would grind to a halt within seconds.</p>
+
+<p>The solution is to route all computation through <strong>SLURM</strong> — the job scheduler.</p>
+
+<h3 id="what-does-slurm-actually-do">What Does SLURM Actually Do?</h3>
+
+<p>SLURM (<strong>S</strong>imple <strong>L</strong>inux <strong>U</strong>tility for <strong>R</strong>esource <strong>M</strong>anagement) is software that:</p>
+
+<ol>
+  <li>Maintains a <strong>queue</strong> of pending jobs from all users</li>
+  <li>Monitors which <strong>compute nodes</strong> are free</li>
+  <li>Allocates free nodes to queued jobs based on requested resources and priority</li>
+  <li>Starts your job on the allocated node</li>
+  <li>Returns the node to the pool when your job finishes</li>
+</ol>
+
+<p>When you “submit a job”, you’re adding it to SLURM’s queue. SLURM decides when and where it runs.</p>
+
+<hr />
+
+<h2 id="part-4-interactive-nodes--hpc-for-testing">Part 4: Interactive Nodes — HPC for Testing</h2>
+
+<p>Before writing a full batch script, you often want to test your commands interactively — just like on your laptop, but on a compute node with proper resources.</p>
+
+<p>That’s what interactive sessions are for.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Request an interactive session on a compute node</span>
+srun <span class="nt">--cpus-per-task</span><span class="o">=</span>4 <span class="nt">--mem</span><span class="o">=</span>8G <span class="nt">--time</span><span class="o">=</span>01:00:00 <span class="nt">--pty</span> bash
+
+<span class="c"># Shorter version (flags vary by cluster — check your HPC docs)</span>
+srun <span class="nt">-c</span> 4 <span class="nt">--mem</span><span class="o">=</span>8G <span class="nt">-t</span> 1:00:00 <span class="nt">--pty</span> bash
+
+<span class="c"># On some clusters, use salloc instead</span>
+salloc <span class="nt">--cpus-per-task</span><span class="o">=</span>4 <span class="nt">--mem</span><span class="o">=</span>8G <span class="nt">--time</span><span class="o">=</span>01:00:00
+</code></pre></div></div>
+
+<p>Once SLURM allocates you a node, your prompt changes:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user@login01:~$ srun --cpus-per-task=4 --mem=8G --pty bash
+srun: job 84530 queued and waiting for resources
+srun: job 84530 has been allocated resources
+
+user@node099:~$   # ← you're now on a compute node!
+</code></pre></div></div>
+
+<p>Now you can run commands exactly like on your laptop — they execute on the compute node, using its resources:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Test your pipeline on one sample</span>
+fastqc test_sample.fastq.gz <span class="nt">-t</span> 4 <span class="nt">-o</span> qc_test/
+
+<span class="c"># Test a memory-intensive tool</span>
+kraken2 <span class="nt">--db</span> /scratch/databases/kraken2_standard <span class="se">\</span>
+        <span class="nt">--report</span> test.report <span class="se">\</span>
+        test_sample.fastq.gz
+
+<span class="c"># When done, exit back to the login node</span>
+<span class="nb">exit</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>💡 <strong>Interactive sessions are for testing, not production.</strong> If you close your terminal or lose your connection, the session ends and anything running stops. For real analyses, use batch jobs (below).</p>
+</blockquote>
+
+<hr />
+
+<h2 id="part-5-your-first-slurm-batch-script">Part 5: Your First SLURM Batch Script</h2>
+
+<p>A batch job is a shell script with special <code class="language-plaintext highlighter-rouge">#SBATCH</code> comments at the top. These comments tell SLURM what resources your job needs. Everything that isn’t a <code class="language-plaintext highlighter-rouge">#SBATCH</code> line is just normal bash.</p>
+
+<h3 id="anatomy-of-a-slurm-script">Anatomy of a SLURM Script</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># ↑ Always the first line — tells the system this is a bash script</span>
+
+<span class="c"># ──── SLURM directives ────────────────────────────────────────────</span>
+<span class="c">#SBATCH --job-name=fastqc_run      # Name shown in squeue</span>
+<span class="c">#SBATCH --output=logs/fastqc_%j.out  # Stdout log (%j = job ID)</span>
+<span class="c">#SBATCH --error=logs/fastqc_%j.err   # Stderr log (errors go here)</span>
+<span class="c">#SBATCH --time=01:00:00            # Max wall time: 1 hour</span>
+<span class="c">#SBATCH --mem=8G                   # RAM requested</span>
+<span class="c">#SBATCH --cpus-per-task=4          # CPU cores requested</span>
+<span class="c">#SBATCH --partition=normal         # Which queue/partition to use</span>
+
+<span class="c"># ──── Your actual script starts here ──────────────────────────────</span>
+<span class="c"># Create output directory</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> qc_results/
+<span class="nb">mkdir</span> <span class="nt">-p</span> logs/
+
+<span class="c"># Load software (always do this — terminal modules don't carry over)</span>
+module purge
+module load fastqc/0.12.1
+
+<span class="c"># Run the analysis</span>
+<span class="nb">echo</span> <span class="s2">"Job started: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">"Running on node: </span><span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span><span class="s2">"</span>
+
+fastqc data/sample_R1.fastq.gz <span class="se">\</span>
+       <span class="nt">-t</span> <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="se">\ </span>  <span class="c"># use exactly what was allocated</span>
+       <span class="nt">-o</span> qc_results/
+
+<span class="nb">echo</span> <span class="s2">"Job finished: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<h3 id="what-is-j-and-why-does-it-matter">What Is %j and Why Does It Matter?</h3>
+
+<p>Look at this line:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --output=logs/fastqc_%j.out</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">%j</code> is a <strong>SLURM placeholder</strong> that gets replaced with the actual job ID when the job runs. So if SLURM assigns your job ID 84521, the output file becomes:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logs/fastqc_84521.out
+</code></pre></div></div>
+
+<p><strong>Why this matters:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Without %j — every run overwrites the same file</span>
+<span class="c">#SBATCH --output=logs/fastqc.out   # ← run 1 and run 2 both write here</span>
+
+<span class="c"># With %j — every run gets its own file</span>
+<span class="c">#SBATCH --output=logs/fastqc_%j.out</span>
+<span class="c"># run 1 → logs/fastqc_84521.out</span>
+<span class="c"># run 2 → logs/fastqc_84522.out</span>
+<span class="c"># run 3 → logs/fastqc_84523.out</span>
+</code></pre></div></div>
+
+<p>Without <code class="language-plaintext highlighter-rouge">%j</code>, if you resubmit a job because something went wrong, the new output overwrites the old one. You lose the evidence of what failed. With <code class="language-plaintext highlighter-rouge">%j</code>, you have a permanent, unique log for every job you’ve ever run.</p>
+
+<p>Other useful SLURM placeholders:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder</th>
+      <th>Expands to</th>
+      <th>Use case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">%j</code></td>
+      <td>Job ID</td>
+      <td>Single jobs</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">%A</code></td>
+      <td>Array job ID</td>
+      <td>Job arrays (Day 4)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">%a</code></td>
+      <td>Array task ID</td>
+      <td>Job arrays (Day 4)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">%N</code></td>
+      <td>Node name</td>
+      <td>Debugging node issues</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">%x</code></td>
+      <td>Job name</td>
+      <td>Alternative to job ID</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>So for job arrays you’ll often write:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --output=logs/%x_%A_%a.out</span>
+<span class="c"># becomes: logs/fastqc_84600_42.out</span>
+</code></pre></div></div>
+
+<h3 id="key-sbatch-directives-reference">Key #SBATCH Directives Reference</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --job-name=myanalysis      # Name in squeue (keep it short)</span>
+<span class="c">#SBATCH --output=logs/job_%j.out   # Stdout (create logs/ dir first!)</span>
+<span class="c">#SBATCH --error=logs/job_%j.err    # Stderr — check this when jobs fail</span>
+<span class="c">#SBATCH --time=02:00:00            # Format: HH:MM:SS or D-HH:MM:SS</span>
+<span class="c">#SBATCH --mem=16G                  # Total RAM (or --mem-per-cpu=4G)</span>
+<span class="c">#SBATCH --cpus-per-task=8          # CPU threads per task</span>
+<span class="c">#SBATCH --ntasks=1                 # Number of parallel tasks (usually 1)</span>
+<span class="c">#SBATCH --partition=normal         # Partition/queue (check your HPC docs)</span>
+<span class="c">#SBATCH --mail-type=END,FAIL       # Email you when job ends or fails</span>
+<span class="c">#SBATCH --mail-user=you@uni.edu    # Your email address</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>⚠️ <strong>Important:</strong> Create your log directory before submitting. If <code class="language-plaintext highlighter-rouge">logs/</code> doesn’t exist, SLURM can’t write the output file and your job fails immediately with a confusing error.</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> logs/   <span class="c"># Do this once before your first sbatch</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="part-6-submitting-and-monitoring-your-job">Part 6: Submitting and Monitoring Your Job</h2>
+
+<h3 id="submitting">Submitting</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbatch run_fastqc.sh
+
+<span class="c"># SLURM responds with:</span>
+<span class="c"># Submitted batch job 84521</span>
+</code></pre></div></div>
+
+<p>That number (84521) is your <strong>job ID</strong>. Write it down. You’ll need it to check status, read logs, or cancel the job.</p>
+
+<h3 id="checking-job-status">Checking Job Status</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># See all your jobs</span>
+squeue <span class="nt">-u</span> <span class="nv">$USER</span>
+
+<span class="c"># See all jobs on the cluster</span>
+squeue
+
+<span class="c"># See more detail on a specific job</span>
+scontrol show job 84521
+</code></pre></div></div>
+
+<p>The output of <code class="language-plaintext highlighter-rouge">squeue</code> looks like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>JOBID   PARTITION  NAME        USER    ST  TIME    NODES  NODELIST
+84521   normal     fastqc_run  you     R   0:42    1      node042
+84522   normal     align_r1    you     R   0:18    1      node043
+84523   normal     align_r2    you     PD  0:00    1      (Resources)
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">ST</code> column is the most important. The main states you’ll see:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>State</th>
+      <th>Code</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Running</td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td>Your job is executing on a compute node</td>
+    </tr>
+    <tr>
+      <td>Pending</td>
+      <td><code class="language-plaintext highlighter-rouge">PD</code></td>
+      <td>Waiting in the queue for resources</td>
+    </tr>
+    <tr>
+      <td>Completing</td>
+      <td><code class="language-plaintext highlighter-rouge">CG</code></td>
+      <td>Finishing up, cleaning up</td>
+    </tr>
+    <tr>
+      <td>Failed</td>
+      <td><code class="language-plaintext highlighter-rouge">F</code></td>
+      <td>Job exited with an error</td>
+    </tr>
+    <tr>
+      <td>Completed</td>
+      <td><code class="language-plaintext highlighter-rouge">CD</code></td>
+      <td>Finished successfully</td>
+    </tr>
+    <tr>
+      <td>Cancelled</td>
+      <td><code class="language-plaintext highlighter-rouge">CA</code></td>
+      <td>You or an admin cancelled it</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="what-happens-between-pending-and-running">What Happens Between Pending and Running?</h3>
+
+<p>When you submit a job, it enters the <strong>pending</strong> state. SLURM looks at your requested resources (CPUs, RAM, time) and finds a compute node that:</p>
+
+<ol>
+  <li>Has enough free CPUs and RAM</li>
+  <li>Can fit your requested time within scheduling constraints</li>
+  <li>Matches your requested partition</li>
+</ol>
+
+<p>Once a suitable node is found, your job transitions to <strong>running</strong>. This can take anywhere from seconds (cluster is quiet) to hours or days (cluster is busy, you requested a lot of resources).</p>
+
+<p>You can estimate your wait time:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Show estimated start time for pending jobs</span>
+squeue <span class="nt">-u</span> <span class="nv">$USER</span> <span class="nt">--start</span>
+</code></pre></div></div>
+
+<h3 id="reading-your-output-files">Reading Your Output Files</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Watch the output file live as the job runs</span>
+<span class="nb">tail</span> <span class="nt">-f</span> logs/fastqc_84521.out
+
+<span class="c"># Read the full output after completion</span>
+<span class="nb">cat </span>logs/fastqc_84521.out
+
+<span class="c"># Check for errors</span>
+<span class="nb">cat </span>logs/fastqc_84521.err
+
+<span class="c"># Get a summary of resources used after job completes</span>
+seff 84521
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">seff</code> command is especially useful. It tells you:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Job ID: 84521
+State: COMPLETED (exit code 0)
+Cores: 4
+CPU Utilized: 00:03:12
+CPU Efficiency: 80.00%
+Memory Utilized: 2.34 GB
+Memory Efficiency: 29.25% of 8.00 GB
+</code></pre></div></div>
+
+<p>If your CPU efficiency is very low, you requested too many cores. If memory efficiency is very low, you requested too much RAM. Use this to tune your future jobs — both for your own queue priority and to be a good citizen of a shared resource.</p>
+
+<h3 id="cancelling-a-job">Cancelling a Job</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Cancel a specific job</span>
+scancel 84521
+
+<span class="c"># Cancel all your jobs</span>
+scancel <span class="nt">-u</span> <span class="nv">$USER</span>
+
+<span class="c"># Cancel all your pending jobs only</span>
+scancel <span class="nt">-u</span> <span class="nv">$USER</span> <span class="nt">-t</span> PENDING
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="part-7-from-laptop-loop-to-hpc-batch--side-by-side">Part 7: From Laptop Loop to HPC Batch — Side by Side</h2>
+
+<p>Here’s the same task — running FastQC on many samples — in all three approaches:</p>
+
+<h3 id="approach-1-laptop-bash-loop-sequential">Approach 1: Laptop bash loop (sequential)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># run_local.sh — works on laptop, slow for many samples</span>
+
+<span class="k">for </span>sample <span class="k">in </span>data/<span class="k">*</span>.fastq.gz<span class="p">;</span> <span class="k">do
+    </span>fastqc <span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="nt">-o</span> qc_results/
+<span class="k">done</span>
+<span class="c"># 200 samples × 5 min = 16 hours, one core at a time</span>
+</code></pre></div></div>
+
+<h3 id="approach-2-hpc-batch-script-single-job-all-samples">Approach 2: HPC batch script (single job, all samples)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=fastqc_all</span>
+<span class="c">#SBATCH --output=logs/fastqc_all_%j.out</span>
+<span class="c">#SBATCH --error=logs/fastqc_all_%j.err</span>
+<span class="c">#SBATCH --time=08:00:00       # allow enough time for all samples</span>
+<span class="c">#SBATCH --mem=16G</span>
+<span class="c">#SBATCH --cpus-per-task=8</span>
+
+module purge
+module load fastqc/0.12.1
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> qc_results/ logs/
+
+<span class="c"># Still sequential, but on a powerful compute node</span>
+<span class="k">for </span>sample <span class="k">in </span>data/<span class="k">*</span>.fastq.gz<span class="p">;</span> <span class="k">do
+    </span>fastqc <span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="nt">-t</span> <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="nt">-o</span> qc_results/
+<span class="k">done</span>
+
+<span class="c"># 200 samples on 8 CPUs — still sequential per sample,</span>
+<span class="c"># but each sample now uses 8 threads</span>
+</code></pre></div></div>
+
+<h3 id="approach-3-hpc-job-array-truly-parallel--day-4-preview">Approach 3: HPC job array (truly parallel — Day 4 preview)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=fastqc_array</span>
+<span class="c">#SBATCH --output=logs/fastqc_%A_%a.out</span>
+<span class="c">#SBATCH --array=1-200           # 200 jobs, all running at once</span>
+<span class="c">#SBATCH --cpus-per-task=4</span>
+<span class="c">#SBATCH --mem=4G</span>
+<span class="c">#SBATCH --time=00:30:00</span>
+
+module purge
+module load fastqc/0.12.1
+
+<span class="c"># Each job processes exactly one sample</span>
+<span class="nv">SAMPLES</span><span class="o">=(</span>data/<span class="k">*</span>.fastq.gz<span class="o">)</span>
+<span class="nv">SAMPLE</span><span class="o">=</span><span class="k">${</span><span class="nv">SAMPLES</span><span class="p">[</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="p"> - 1]</span><span class="k">}</span>
+
+fastqc <span class="s2">"</span><span class="nv">$SAMPLE</span><span class="s2">"</span> <span class="nt">-t</span> <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="nt">-o</span> qc_results/
+
+<span class="c"># 200 jobs run simultaneously — wall time ~5 minutes total</span>
+</code></pre></div></div>
+
+<p>We’ll go deep on job arrays in Day 4. For now, the key insight: a single SLURM batch script is already a huge upgrade over a laptop loop because you can request dedicated resources, your laptop is freed up, and the job runs even if you close your laptop.</p>
+
+<hr />
+
+<h2 id="common-mistakes-to-avoid">Common Mistakes to Avoid</h2>
+
+<p><strong>Not creating the logs directory</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Job fails instantly — can't write to logs/</span>
+<span class="c">#SBATCH --output=logs/job_%j.out</span>
+<span class="c"># → logs/ doesn't exist → sbatch error</span>
+
+<span class="c"># ✅ Create it before submitting</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> logs/
+sbatch myjob.sh
+</code></pre></div></div>
+
+<p><strong>Requesting too much time “just in case”</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Lower priority, longer to start</span>
+<span class="c">#SBATCH --time=7-00:00:00   # 7 days for a 2-hour job</span>
+
+<span class="c"># ✅ Estimate reasonably + add 20% buffer</span>
+<span class="c">#SBATCH --time=02:30:00</span>
+</code></pre></div></div>
+
+<p><strong>Forgetting to load modules in the script</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Works in terminal, fails in sbatch — modules don't transfer</span>
+module load samtools/1.17      <span class="c"># in your terminal</span>
+sbatch myjob.sh                <span class="c"># job doesn't have samtools</span>
+
+<span class="c"># ✅ Load inside the script</span>
+module purge
+module load samtools/1.17
+</code></pre></div></div>
+
+<p><strong>Using $HOME for large data</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ $HOME is usually small quota (50–100 GB)</span>
+<span class="c">#SBATCH --chdir=$HOME/data/</span>
+
+<span class="c"># ✅ Use scratch storage for large files</span>
+<span class="c">#SBATCH --chdir=/scratch/$USER/project/</span>
+</code></pre></div></div>
+
+<p><strong>Not checking seff after jobs</strong></p>
+
+<p>Always run <code class="language-plaintext highlighter-rouge">seff &lt;jobid&gt;</code> after a job completes. It’s 10 seconds of work that tells you exactly how to tune your resource requests — which means shorter queue wait times for your next job.</p>
+
+<hr />
+
+<h2 id="try-it-yourself">Try It Yourself</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Create a minimal test script</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> ~/test_job/logs/
+<span class="nb">cd</span> ~/test_job/
+
+<span class="nb">cat</span> <span class="o">&gt;</span> test.sh <span class="o">&lt;&lt;</span> <span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+#!/bin/bash
+#SBATCH --job-name=hello_hpc
+#SBATCH --output=logs/hello_%j.out
+#SBATCH --time=00:05:00
+#SBATCH --mem=1G
+#SBATCH --cpus-per-task=1
+
+echo "Hello from node: </span><span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span><span class="sh">"
+echo "My job ID is: </span><span class="nv">$SLURM_JOB_ID</span><span class="sh">"
+echo "Date: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="sh">"
+sleep 30
+echo "Done!"
+</span><span class="no">EOF
+
+</span><span class="c"># 2. Submit it</span>
+sbatch test.sh
+<span class="c"># Submitted batch job 84560</span>
+
+<span class="c"># 3. Watch it run</span>
+squeue <span class="nt">-u</span> <span class="nv">$USER</span>
+
+<span class="c"># 4. Read the output (once state = R or CG)</span>
+<span class="nb">cat </span>logs/hello_84560.out
+
+<span class="c"># 5. Check resource usage</span>
+seff 84560
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<ul>
+  <li>The <strong>login node</strong> is a shared gateway — never run compute there. Use it only for editing files, submitting jobs, and checking status</li>
+  <li>On your <strong>laptop</strong>, commands run directly. Bash for loops work but are sequential — fine for small datasets, slow for 50+ samples</li>
+  <li><strong>Interactive nodes</strong> (<code class="language-plaintext highlighter-rouge">srun --pty bash</code>) give you a compute node for testing, exactly like your laptop but with HPC resources</li>
+  <li><strong>SLURM batch scripts</strong> (<code class="language-plaintext highlighter-rouge">sbatch</code>) are shell scripts with <code class="language-plaintext highlighter-rouge">#SBATCH</code> headers that tell the scheduler what resources your job needs</li>
+  <li><code class="language-plaintext highlighter-rouge">%j</code> in output filenames is replaced by the job ID — always use it so every run has its own unique log file</li>
+  <li>After every job, run <code class="language-plaintext highlighter-rouge">seff &lt;jobid&gt;</code> to see how efficiently you used your requested resources</li>
+</ul>
+
+<hr />
+
+<h2 id="up-next">Up Next</h2>
+
+<p><strong>Day 4: Scaling Analysis — For Loops vs Job Arrays</strong></p>
+
+<p>You now know how to run one job properly. In Day 4, we scale it. We’ll take that bash for loop processing 200 samples in 16 hours and turn it into a SLURM job array that finishes in 15 minutes — with the same amount of total compute, just running in parallel.</p>
+
+<hr />
+
+<p><img src="/assets/img/d3_hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="SLURM" /><category term="sbatch" /><category term="bioinformatics" /><category term="beginners" /><category term="job-scheduler" /><category term="bash" /><category term="computational-biology" /><summary type="html"><![CDATA[The biggest mindset shift in HPC: you don't run commands, you submit jobs. Why the login node is off-limits, what actually happens when you type sbatch, and how to go from a laptop bash loop to a proper SLURM script.]]></summary></entry><entry><title type="html">Day 2 — Software Installation: sudo vs module load vs conda</title><link href="https://jojyjohn28.github.io/blog/day2-software-installation/" rel="alternate" type="text/html" title="Day 2 — Software Installation: sudo vs module load vs conda" /><published>2026-03-13T00:00:00-04:00</published><updated>2026-03-13T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day2-software-installation</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day2-software-installation/"><![CDATA[<h1 id="day-2-software-installation--sudo-vs-module-load-vs-conda">Day 2: Software Installation — sudo vs module load vs conda</h1>
 
 <blockquote>
   <p><em>This is Day 2 of a 6-part series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong> and 🧬 Day 58 of Daily Bioinformatics from Jojy’s Desk. In <a href="https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc/">Day 1</a> we covered what HPC is and why bioinformatics needs it. Today: the first thing that breaks when you log in.</em></p>
@@ -4386,336 +5052,4 @@ PERMANOVA results vary slightly between runs due to random permutations. Always 
 <p><em>All R code and data: <a href="https://github.com/jojyjohn28/microbiome_stats/tree/main/day3-permanova-adonis2">github.com/jojyjohn28/microbiome_stats/day3</a></em>
 <em>Found this useful? Share it with someone learning microbiome statistics.</em></p>
 
-<hr />]]></content><author><name></name></author><category term="PERMANOVA" /><category term="adonis2" /><category term="betadisper" /><category term="vegan" /><category term="microbiome" /><category term="MAGs" /><category term="R" /><category term="metagenomics" /><category term="community-ecology" /><summary type="html"><![CDATA[You've seen the groups separate in the RDA triplot. Now we test whether those differences are statistically real — using PERMANOVA, the permutation-based test built for multivariate community data. Includes the critical betadisper assumption test most papers skip.]]></summary></entry><entry><title type="html">Day 2 — Constrained Ordination: RDA &amp;amp; dbRDA for Microbiome Community Analysis</title><link href="https://jojyjohn28.github.io/blog/day2-rda-dbrda-microbiome-ordination/" rel="alternate" type="text/html" title="Day 2 — Constrained Ordination: RDA &amp;amp; dbRDA for Microbiome Community Analysis" /><published>2026-03-03T00:00:00-05:00</published><updated>2026-03-03T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/Day-2-Constrained-Ordination</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day2-rda-dbrda-microbiome-ordination/"><![CDATA[<h2 id="day-2--constrained-ordination-rda--dbrda-for-microbiome-community-analysis">Day 2 — Constrained Ordination: RDA &amp; dbRDA for Microbiome Community Analysis</h2>
-
-<p>*This is Day 2 of the series: <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> and <strong>🧬 Day 52 of Daily Bioinformatics from Jojy’s Desk</strong>
-<em>All data and R code → <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
-
-<hr />
-
-<p>On Day 1, we established <em>why</em> standard statistics fail for microbiome data — compositionality, sparsity, multivariate structure, and non-normality. Today we run our first real analysis.</p>
-
-<p>The question we’re asking: <strong>Do environmental variables explain how MAG communities are structured across our 27 metagenomes?</strong></p>
-
-<p>To answer it, we use <strong>constrained ordination</strong> — specifically RDA (Redundancy Analysis). This is one of the most powerful and widely used methods in microbial ecology, and by the end of this post you’ll know how to run it, interpret it, and read the figure it produces.</p>
-
-<hr />
-
-<h2 id="-the-biological-question">🧬 The Biological Question</h2>
-
-<p>We have 61 MAGs sampled across 27 metagenomes from two estuaries — Chesapeake Bay and Delaware Bay — collected in Spring and Summer. The metadata contains environmental measurements: Salinity, Temperature, ChlA, Nitrate, Phosphate, Silicate, nCells, SF, and more.</p>
-
-<p>The biological question is: <strong>which environmental gradients best explain the variation in who is present and how abundant they are?</strong></p>
-
-<p>Are Chesapeake and Delaware communities different? Does season matter? Is salinity the dominant driver, or is it temperature? Constrained ordination lets us answer all of these simultaneously — in a single visual.</p>
-
-<hr />
-
-<h2 id="-the-statistical-concept">📊 The Statistical Concept</h2>
-
-<h3 id="what-is-ordination">What is ordination?</h3>
-
-<p>Ordination is a way to take a high-dimensional dataset — 61 MAGs measured across 27 samples — and compress it into 2 dimensions that capture the most variance. Instead of looking at 61 separate plots, you see one plot where each sample is a point and samples with similar communities cluster together.</p>
-
-<p><strong>Unconstrained ordination</strong> (PCA, PCoA, NMDS) just finds the axes of maximum variance in the community data itself, ignoring any environmental information.</p>
-
-<p><strong>Constrained ordination</strong> (RDA, dbRDA) goes further — it finds the axes of community variance that are <em>explained by</em> your environmental variables. The constraint is what makes it powerful: you’re not just describing the pattern, you’re connecting it to measured environmental drivers.</p>
-
-<h3 id="rda-vs-dbrda--which-one-to-use">RDA vs dbRDA — which one to use?</h3>
-
-<p>This comes down to your distance measure:</p>
-
-<p><strong>RDA (Redundancy Analysis)</strong> works in Euclidean space. Because raw abundance data doesn’t behave well in Euclidean space (the double-zero problem — two samples sharing an absent MAG appear falsely similar), we first apply a <strong>Hellinger transformation</strong> to the abundance matrix. This square-roots the relative abundances, down-weighting dominant MAGs and making the data Euclidean-friendly.</p>
-
-<p><strong>dbRDA (distance-based RDA)</strong> works with any distance matrix — including Bray-Curtis, which is the standard dissimilarity metric for ecological community data. Bray-Curtis ignores shared absences entirely, making it more appropriate when zero-inflation is high. In practice, dbRDA with Bray-Curtis is more robust for microbiome data, but both approaches are valid and commonly used.</p>
-
-<p>Today we use <strong>RDA with Hellinger transformation</strong>, which is what the R script implements. We’ll briefly show the dbRDA equivalent so you can run both.</p>
-
-<hr />
-
-<h2 id="️-the-r-code">⚙️ The R Code</h2>
-
-<h3 id="step-1--load-libraries-and-data">Step 1 — Load libraries and data</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Load metadata — rows = samples, columns = environmental variables</span><span class="w">
-</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/metadata.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Load MAG abundance — rows = MAGs, columns = samples</span><span class="w">
-</span><span class="n">mag_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/mag_abundance.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="step-2--prepare-the-community-matrix">Step 2 — Prepare the community matrix</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># The abundance table has MAGs as rows and samples as columns</span><span class="w">
-</span><span class="c1"># RDA needs samples as rows — so we transpose</span><span class="w">
-</span><span class="n">mag_t</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">mag_raw</span><span class="p">)</span><span class="w">   </span><span class="c1"># now 27 rows (samples) × 61 columns (MAGs)</span><span class="w">
-
-</span><span class="c1"># Hellinger transformation:</span><span class="w">
-</span><span class="c1"># Divides each value by the row sum (converts to relative abundance)</span><span class="w">
-</span><span class="c1"># then takes the square root — reduces dominance of highly abundant MAGs</span><span class="w">
-</span><span class="n">spe.hel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">decostand</span><span class="p">(</span><span class="n">mag_t</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hellinger"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<blockquote>
-  <p><strong>Why Hellinger?</strong> Raw abundance values are dominated by a handful of very abundant MAGs (e.g. Pelagibacterales). The Hellinger transformation down-weights these dominant MAGs so that rare MAGs also contribute meaningfully to the ordination. Without this step, your RDA would essentially be an ordination of <em>Pelagibacterales</em>.</p>
-</blockquote>
-
-<h3 id="step-3--prepare-the-environmental-matrix">Step 3 — Prepare the environmental matrix</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Select continuous environmental variables only</span><span class="w">
-</span><span class="c1"># metadata now has: Season, SF, Bay (categorical) — exclude these</span><span class="w">
-</span><span class="c1"># keep only numeric predictors for the RDA</span><span class="w">
-</span><span class="n">env</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Salinity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Temperature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Depth"</span><span class="p">,</span><span class="w"> </span><span class="s2">"PAR"</span><span class="p">,</span><span class="w">
-                    </span><span class="s2">"Attenuation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Bacterial_Production"</span><span class="p">,</span><span class="w"> </span><span class="s2">"nCells"</span><span class="p">,</span><span class="w">
-                    </span><span class="s2">"ChlA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Nitrate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Ammonium"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Phosphate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Silicate"</span><span class="p">)]</span><span class="w">
-
-</span><span class="c1"># Standardize to mean = 0, sd = 1 so all variables are comparable</span><span class="w">
-</span><span class="c1"># (Salinity in ppt and nCells in millions are on completely different scales)</span><span class="w">
-</span><span class="n">env.z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">decostand</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"stand"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="step-4--forward-selection-of-significant-variables">Step 4 — Forward selection of significant variables</h3>
-
-<p>Rather than throwing all 13 variables into the model, we use forward selection to find only those that significantly and independently explain community variance:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Full model (upper bound)</span><span class="w">
-</span><span class="n">spe.rda.full</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rda</span><span class="p">(</span><span class="n">spe.hel</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env.z</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Forward selection — adds variables one by one, keeps only significant ones</span><span class="w">
-</span><span class="c1"># stops when adding more variables would exceed the full model's R²</span><span class="w">
-</span><span class="n">fwd.sel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ordiR2step</span><span class="p">(</span><span class="w">
-  </span><span class="n">rda</span><span class="p">(</span><span class="n">spe.hel</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env.z</span><span class="p">),</span><span class="w">   </span><span class="c1"># null model (lower bound)</span><span class="w">
-  </span><span class="n">scope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">formula</span><span class="p">(</span><span class="n">spe.rda.full</span><span class="p">),</span><span class="w">     </span><span class="c1"># upper bound</span><span class="w">
-  </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"forward"</span><span class="p">,</span><span class="w">
-  </span><span class="n">R2scope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
-  </span><span class="n">pstep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w">
-  </span><span class="n">trace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># See which variables were selected</span><span class="w">
-</span><span class="n">fwd.sel</span><span class="o">$</span><span class="n">call</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Forward selection selected: <strong>Temperature, Salinity, Phosphate, ChlA, Silicate, Nitrate, SF, nCells</strong> — all biologically meaningful drivers of estuarine microbial communities.</p>
-
-<h3 id="step-5--build-the-final-model">Step 5 — Build the final model</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Final RDA model with forward-selected variables</span><span class="w">
-</span><span class="n">spe.rda.signif</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rda</span><span class="p">(</span><span class="n">spe.hel</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Salinity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Phosphate</span><span class="w"> </span><span class="o">+</span><span class="w">
-                        </span><span class="n">ChlA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Silicate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nitrate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SF</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nCells</span><span class="p">,</span><span class="w">
-                      </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env.z</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Adjusted R² — how much community variance is explained?</span><span class="w">
-</span><span class="n">Rsquareadj</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Test overall model significance (permutation test)</span><span class="w">
-</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Test significance of each individual term</span><span class="w">
-</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"term"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Test significance of each axis</span><span class="w">
-</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"axis"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<blockquote>
-  <p><strong>Why permutation tests?</strong> Because our data violates the normality assumptions of classical F-tests, <code class="language-plaintext highlighter-rouge">anova.cca()</code> tests significance by randomly shuffling the data 1000 times and asking: how often would we see this pattern by chance? This is the non-parametric equivalent of an F-test — no distributional assumptions required.</p>
-</blockquote>
-
-<h3 id="step-6--extract-scores-and-build-the-triplot">Step 6 — Extract scores and build the triplot</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Extract % variance explained by RDA1 and RDA2</span><span class="w">
-</span><span class="n">perc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">summary</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">)</span><span class="o">$</span><span class="n">cont</span><span class="o">$</span><span class="n">importance</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">]),</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Season, Bay and size fraction — now clean columns in metadata</span><span class="w">
-</span><span class="n">Season</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Season</span><span class="w">   </span><span class="c1"># "Spring" or "Summer"</span><span class="w">
-</span><span class="n">Bay</span><span class="w">      </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Bay</span><span class="w">      </span><span class="c1"># "Chesapeake" or "Delaware"</span><span class="w">
-</span><span class="n">Fraction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">SF</span><span class="w">       </span><span class="c1"># "Particle-attached" or "Free_living"</span><span class="w">
-
-</span><span class="c1"># Site scores — split by season for colour-coding</span><span class="w">
-</span><span class="n">sc_si_summer</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">scores</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sites"</span><span class="p">)[</span><span class="n">Season</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Summer"</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span><span class="n">sc_si_spring</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">scores</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sites"</span><span class="p">)[</span><span class="n">Season</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Spring"</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-
-</span><span class="c1"># Species (MAG) scores</span><span class="w">
-</span><span class="n">sc_sp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">scores</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"species"</span><span class="p">,</span><span class="w"> </span><span class="n">choices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">scaling</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Biplot arrows — environmental variables</span><span class="w">
-</span><span class="n">sc_bp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">scores</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bp"</span><span class="p">,</span><span class="w"> </span><span class="n">choices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">scaling</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Only label MAGs with strong contributions (|score| &gt; 0.35 on either axis)</span><span class="w">
-</span><span class="n">high_score_mags</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">sc_sp</span><span class="p">)[</span><span class="n">rowSums</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">sc_sp</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.35</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">]</span><span class="w">
-
-</span><span class="c1"># Build the triplot</span><span class="w">
-</span><span class="n">plot</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w">
-     </span><span class="n">scaling</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="n">frame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
-     </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1.0</span><span class="p">,</span><span class="w"> </span><span class="m">1.5</span><span class="p">),</span><span class="w"> </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-0.5</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">),</span><span class="w">
-     </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"RDA1 ("</span><span class="p">,</span><span class="w"> </span><span class="n">perc</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">),</span><span class="w">
-     </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"RDA2 ("</span><span class="p">,</span><span class="w"> </span><span class="n">perc</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="s2">"%)"</span><span class="p">))</span><span class="w">
-
-</span><span class="c1"># Summer samples — red</span><span class="w">
-</span><span class="n">points</span><span class="p">(</span><span class="n">sc_si_summer</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">21</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red2"</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Spring samples — green</span><span class="w">
-</span><span class="n">points</span><span class="p">(</span><span class="n">sc_si_spring</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">21</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"green3"</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># MAG positions — yellow squares</span><span class="w">
-</span><span class="n">points</span><span class="p">(</span><span class="n">sc_sp</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">22</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#f2bd33"</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Labels for most influential MAGs only</span><span class="w">
-</span><span class="n">text</span><span class="p">(</span><span class="n">sc_sp</span><span class="p">[</span><span class="n">high_score_mags</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.20</span><span class="p">,</span><span class="w"> </span><span class="m">0.15</span><span class="p">),</span><span class="w">
-     </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">high_score_mags</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey4"</span><span class="p">,</span><span class="w"> </span><span class="n">font</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Environmental arrows</span><span class="w">
-</span><span class="n">arrows</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sc_bp</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">sc_bp</span><span class="p">[,</span><span class="w"> </span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">)</span><span class="w">
-</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc_bp</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc_bp</span><span class="p">[,</span><span class="w"> </span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.03</span><span class="p">,</span><span class="w">
-     </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">sc_bp</span><span class="p">),</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">font</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="dbrda-alternative-bray-curtis">dbRDA alternative (Bray-Curtis)</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Calculate Bray-Curtis dissimilarity from raw (non-transformed) data</span><span class="w">
-</span><span class="n">bc_dist</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vegdist</span><span class="p">(</span><span class="n">mag_t</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># dbRDA — same formula, uses distance matrix instead of raw data</span><span class="w">
-</span><span class="n">spe.dbrda</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dbrda</span><span class="p">(</span><span class="n">bc_dist</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Salinity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Phosphate</span><span class="w"> </span><span class="o">+</span><span class="w">
-                     </span><span class="n">ChlA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Silicate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nitrate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SF</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nCells</span><span class="p">,</span><span class="w">
-                   </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env.z</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Same interpretation workflow applies</span><span class="w">
-</span><span class="n">Rsquareadj</span><span class="p">(</span><span class="n">spe.dbrda</span><span class="p">)</span><span class="w">
-</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.dbrda</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<blockquote>
-  <p>Use dbRDA with Bray-Curtis when your data is very sparse (&gt;60% zeros) or when you want a distance metric that is more robust to compositional variation. Use RDA + Hellinger when you want the simplicity of a linear model framework.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="-reading-the-output--how-to-interpret-the-figure">🔍 Reading the Output — How to Interpret the Figure</h2>
-
-<p>The figure below is the actual RDA triplot from this analysis. It contains three types of information simultaneously — that’s why it’s called a <strong>triplot</strong>.</p>
-
-<p><img src="/assets/img/rda.png" alt="RDA triplot showing MAG community structure across Chesapeake and Delaware Bay metagenomes" /></p>
-
-<p>A triplot has three layers, each telling you something different:</p>
-
-<h3 id="layer-1--the-sample-points-circles">Layer 1 — The Sample Points (circles)</h3>
-
-<p>Each circle is one of the 27 metagenomes.</p>
-
-<ul>
-  <li>🔴 <strong>Red circles = Summer samples</strong></li>
-  <li>🟢 <strong>Green circles = Spring samples</strong></li>
-</ul>
-
-<p><strong>What to look for:</strong> Do the colours cluster separately? If Summer and Spring samples are separated along an axis, that axis captures seasonal variation in community composition. In our plot, Summer and Spring samples form distinct groups — microbial communities in summer are compositionally different from those in spring.</p>
-
-<p>Samples that plot close together have similar MAG communities. Samples far apart have dissimilar communities.</p>
-
-<h3 id="layer-2--the-mag-scores-yellow-squares">Layer 2 — The MAG Scores (yellow squares)</h3>
-
-<table>
-  <tbody>
-    <tr>
-      <td>Each yellow square is one of the 61 MAGs. Only MAGs with strong scores (</td>
-      <td>score</td>
-      <td>&gt; 0.35 on either axis) are labelled to avoid clutter.</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>What to look for:</strong> A MAG positioned near a cluster of samples is more abundant in those samples. A MAG positioned far from the origin has a strong relationship with the constrained axes — it’s responding strongly to the environmental gradients. MAGs near the center of the plot are not well-explained by the environmental variables in the model.</p>
-
-<p>For example, if <em>Pelagibacterales_MAG_18</em> plots near the Summer samples along the salinity gradient, it means this MAG is more abundant in high-salinity summer samples.</p>
-
-<h3 id="layer-3--the-environmental-arrows-blue-arrows">Layer 3 — The Environmental Arrows (blue arrows)</h3>
-
-<p>Each arrow represents one environmental variable (Salinity, Temperature, ChlA, Nitrate, etc.).</p>
-
-<p><strong>Four rules for reading arrows:</strong></p>
-
-<ol>
-  <li>
-    <p><strong>Arrow direction</strong> — points toward samples where that variable is highest. Samples in the direction an arrow points have high values of that variable.</p>
-  </li>
-  <li>
-    <p><strong>Arrow length</strong> — longer arrows explain more variance. Short arrows have weak relationships with the community structure shown.</p>
-  </li>
-  <li>
-    <p><strong>Arrow angle between two arrows</strong> — arrows pointing in the same direction indicate positively correlated variables. Opposite directions = negative correlation. Right angles = uncorrelated.</p>
-  </li>
-  <li>
-    <p><strong>Arrow angle vs. axis</strong> — an arrow pointing along RDA1 means that variable is strongly associated with the main axis of community variation.</p>
-  </li>
-</ol>
-
-<p>In our plot, the Salinity arrow typically aligns with RDA1, confirming that salinity is the dominant environmental gradient structuring MAG communities across these estuaries — a classic result in estuarine microbial ecology.</p>
-
-<h3 id="reading-the-axis-labels">Reading the axis labels</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RDA1 (XX%)   RDA2 (XX%)
-</code></pre></div></div>
-
-<p>These percentages tell you how much of the <strong>constrained variance</strong> is captured by each axis — not total variance in the community data, but variance that is explained by the environmental model. RDA1 captures the strongest environmental signal, RDA2 the second strongest.</p>
-
-<p>The adjusted R² from <code class="language-plaintext highlighter-rouge">Rsquareadj()</code> tells you the total fraction of community variance explained by all selected variables combined. Always report this alongside your plot.</p>
-
-<hr />
-
-<h2 id="️-common-mistakes">⚠️ Common Mistakes</h2>
-
-<p><strong>Mistake 1: Running RDA without transforming the abundance data.</strong>
-Raw abundance values violate the Euclidean distance assumption of RDA. Always apply Hellinger (or CLR) transformation before <code class="language-plaintext highlighter-rouge">rda()</code>. Skipping this step distorts the ordination and inflates the apparent influence of dominant MAGs.</p>
-
-<p><strong>Mistake 2: Overinterpreting weak axes.</strong>
-If RDA2 explains only 3% of constrained variance, be cautious about interpreting the vertical separation of your samples. Always check whether axes are significant with <code class="language-plaintext highlighter-rouge">anova.cca(..., by = "axis")</code> before discussing them.</p>
-
-<p><strong>Mistake 3: Confusing correlation with causation.</strong>
-An arrow pointing toward a cluster of samples means that variable <em>covaries</em> with that community type — not that it <em>causes</em> it. Temperature and Salinity are both correlated with season; the arrow angles don’t tell you which is the actual driver.</p>
-
-<p><strong>Mistake 4: Not checking model significance before interpretation.</strong>
-Always run <code class="language-plaintext highlighter-rouge">anova.cca(spe.rda.signif, step = 1000)</code> first. If the overall model is not significant (p &gt; 0.05), the triplot has no interpretive value.</p>
-
-<p><strong>Mistake 5: Using all variables without selection.</strong>
-Including 13 correlated environmental variables inflates R² and overfits the model. Always use forward selection (<code class="language-plaintext highlighter-rouge">ordiR2step</code>) or another variable reduction approach before building your final model.</p>
-
-<p><strong>Mistake 6: Ignoring that dbRDA and RDA can give different pictures.</strong>
-If your results change substantially between RDA+Hellinger and dbRDA+Bray-Curtis, that’s telling you something important about the data structure. Run both and compare.</p>
-
-<hr />
-
-<h2 id="-key-takeaways">🧭 Key Takeaways</h2>
-
-<ul>
-  <li><strong>RDA</strong> constrains ordination axes to variance explained by environmental variables — it connects community patterns to measured drivers.</li>
-  <li><strong>Hellinger transformation</strong> is required before RDA to handle the double-zero problem and down-weight dominant MAGs.</li>
-  <li><strong>dbRDA with Bray-Curtis</strong> is the distance-based alternative — more robust when data is very sparse or highly compositional.</li>
-  <li>The <strong>triplot</strong> shows three things at once: sample positions, MAG positions, and environmental arrows — each layer answers a different question.</li>
-  <li>Always use <strong>permutation tests</strong> (<code class="language-plaintext highlighter-rouge">anova.cca</code>) to assess significance — classical F-tests assume normality, which microbiome data violates.</li>
-  <li><strong>Forward selection</strong> (<code class="language-plaintext highlighter-rouge">ordiR2step</code>) prevents overfitting by retaining only variables that significantly and independently contribute to the model.</li>
-  <li>Report <strong>adjusted R²</strong> alongside your plot — it tells readers how much of the community variance is actually explained.</li>
-</ul>
-
-<hr />
-
-<h2 id="-whats-next">🔗 What’s Next</h2>
-
-<p>Tomorrow on <strong>Day 3</strong>, we take the next logical step: we’ve <em>seen</em> the communities separate by season and bay in the ordination — now we formally <em>test</em> whether those differences are statistically real using <strong>PERMANOVA (adonis2)</strong>. We’ll also cover the critical assumption test that most papers skip: homogeneity of dispersion with <code class="language-plaintext highlighter-rouge">betadisper</code>.</p>
-
-<hr />
-
-<p><em>All R code and data: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em>
-<em>Found this useful? Share it with someone learning microbiome statistics.</em></p>
-
-<hr />
-
-<p><strong>🧬 Day 52 — Daily Bioinformatics from Jojy’s Desk</strong></p>
-
-<hr />]]></content><author><name></name></author><category term="RDA" /><category term="dbRDA" /><category term="ordination" /><category term="vegan" /><category term="ggplot2" /><category term="microbiome" /><category term="MAGs" /><category term="R" /><category term="metagenomics" /><summary type="html"><![CDATA[Learn how to run RDA with Hellinger-transformed MAG abundance data and interpret the resulting triplot — arrows, points, axes, and variance explained — using real Chesapeake and Delaware Bay metagenomes.]]></summary></entry></feed>
+<hr />]]></content><author><name></name></author><category term="PERMANOVA" /><category term="adonis2" /><category term="betadisper" /><category term="vegan" /><category term="microbiome" /><category term="MAGs" /><category term="R" /><category term="metagenomics" /><category term="community-ecology" /><summary type="html"><![CDATA[You've seen the groups separate in the RDA triplot. Now we test whether those differences are statistically real — using PERMANOVA, the permutation-based test built for multivariate community data. Includes the critical betadisper assumption test most papers skip.]]></summary></entry></feed>
