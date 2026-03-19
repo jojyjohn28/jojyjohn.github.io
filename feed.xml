@@ -1,5 +1,1470 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-17T11:22:28-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Day 5 — Reproducible Pipelines: Snakemake and Nextflow</title><link href="https://jojyjohn28.github.io/blog/day5-pipelines/" rel="alternate" type="text/html" title="Day 5 — Reproducible Pipelines: Snakemake and Nextflow" /><published>2026-03-18T00:00:00-04:00</published><updated>2026-03-18T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day5-pipelines</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day5-pipelines/"><![CDATA[<h1 id="day-5-reproducible-pipelines--snakemake-and-nextflow">Day 5: Reproducible Pipelines — Snakemake and Nextflow</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-19T16:31:38-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-19T16:31:38-04:00</published><updated>2026-03-19T16:31:38-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Estimated Time:</strong> 8-12 hours</td>
+      <td><strong>Difficulty:</strong> Advanced</td>
+      <td><strong>Prerequisites:</strong> Day 5 (Annotation)</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-table-of-contents">📚 Table of Contents</h2>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#secondary-metabolites">Secondary Metabolites</a></li>
+  <li><a href="#antimicrobial-resistance">Antimicrobial Resistance</a></li>
+  <li><a href="#carbohydrate-active-enzymes">Carbohydrate-Active Enzymes</a></li>
+  <li><a href="#prophages--viruses">Prophages &amp; Viruses</a></li>
+  <li><a href="#crispr-systems">CRISPR Systems</a></li>
+  <li><a href="#mobile-genetic-elements">Mobile Genetic Elements</a></li>
+  <li><a href="#protein-domains">Protein Domains</a></li>
+  <li><a href="#comparative-analysis">Comparative Analysis</a></li>
+  <li><a href="#best-practices">Best Practices</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-introduction">🎯 Introduction</h2>
+
+<p>Welcome to Day 6! After basic annotation (Day 5), it’s time to discover <strong>hidden genomic treasures</strong> - specialized functions that make organisms unique.</p>
+
+<p><strong>Today’s discoveries:</strong></p>
+
+<ol>
+  <li>🧪 <strong>Secondary metabolites</strong> - Antibiotics, toxins, signaling molecules</li>
+  <li>💊 <strong>Antimicrobial resistance</strong> - AMR genes and mechanisms</li>
+  <li>🍬 <strong>CAZymes</strong> - Carbohydrate degradation capabilities</li>
+  <li>🦠 <strong>Prophages</strong> - Integrated viral sequences</li>
+  <li>✂️ <strong>CRISPR systems</strong> - Bacterial immune systems</li>
+  <li>🔄 <strong>Mobile elements</strong> - Transposons, insertion sequences</li>
+  <li>🧬 <strong>Protein domains</strong> - Functional motifs and structures</li>
+</ol>
+
+<h3 id="why-this-matters">Why This Matters</h3>
+
+<p><strong>Basic annotation tells you:</strong></p>
+
+<ul>
+  <li>This is a kinase</li>
+  <li>This is a transporter</li>
+</ul>
+
+<p><strong>Specialized analysis reveals:</strong></p>
+
+<ul>
+  <li>This organism produces penicillin</li>
+  <li>This strain is resistant to carbapenems</li>
+  <li>This microbe can degrade cellulose</li>
+  <li>This genome contains CRISPR-Cas9</li>
+</ul>
+
+<hr />
+
+<h2 id="-secondary-metabolites">🧪 Secondary Metabolites</h2>
+
+<h3 id="antismash-biosynthetic-gene-cluster-detection">antiSMASH: Biosynthetic Gene Cluster Detection</h3>
+
+<p><strong>antiSMASH</strong> (antibiotics &amp; Secondary Metabolite Analysis SHell) is the gold standard for BGC detection.</p>
+
+<h4 id="installation">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create environment</span>
+conda create <span class="nt">-n</span> antismash <span class="nt">-c</span> bioconda antismash
+conda activate antismash
+
+<span class="c"># Download databases (~15 GB)</span>
+download-antismash-databases
+</code></pre></div></div>
+
+<h4 id="basic-usage">Basic Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate antismash
+
+<span class="c"># Single genome</span>
+antismash <span class="se">\</span>
+    <span class="nt">--output-dir</span> antismash_output/genome1 <span class="se">\</span>
+    <span class="nt">--genefinding-tool</span> prodigal <span class="se">\</span>
+    <span class="nt">--cpus</span> 8 <span class="se">\</span>
+    genome1.gbk
+
+<span class="c"># With all features enabled</span>
+antismash <span class="se">\</span>
+    <span class="nt">--output-dir</span> antismash_output/genome1 <span class="se">\</span>
+    <span class="nt">--genefinding-tool</span> prodigal <span class="se">\</span>
+    <span class="nt">--knownclusterblast</span> <span class="se">\</span>
+    <span class="nt">--subclusterblast</span> <span class="se">\</span>
+    <span class="nt">--clusterblast</span> <span class="se">\</span>
+    <span class="nt">--smcog-trees</span> <span class="se">\</span>
+    <span class="nt">--cpus</span> 8 <span class="se">\</span>
+    genome1.gbk
+</code></pre></div></div>
+
+<p><strong>Input formats:</strong></p>
+
+<ul>
+  <li>GenBank (.gbk) - recommended</li>
+  <li>FASTA (.fa) - requires gene finding</li>
+</ul>
+
+<h4 id="antismash-output">antiSMASH Output</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>antismash_output/genome1/
+├── genome1.gbk                    # Annotated genome
+├── genome1.json                   # Machine-readable results
+├── index.html                     # Interactive visualization
+├── regions.js                     # BGC regions
+├── knownclusterblast/            # Hits to known BGCs
+└── svg/                          # Cluster visualizations
+</code></pre></div></div>
+
+<p><strong>BGC types detected:</strong></p>
+
+<ul>
+  <li>Polyketides (PKS)</li>
+  <li>Non-ribosomal peptides (NRPS)</li>
+  <li>Terpenes</li>
+  <li>Bacteriocins</li>
+  <li>Siderophores</li>
+  <li>RiPPs (Ribosomally synthesized and Post-translationally modified Peptides)</li>
+</ul>
+
+<h4 id="parse-antismash-results">Parse antiSMASH Results</h4>
+
+<h2 id="please-use-parse_antismashpy-from-day-6-">please use parse_antismash.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></h2>
+
+<h3 id="big-scape-bgc-similarity-analysis">BiG-SCAPE: BGC Similarity Analysis</h3>
+
+<p><strong>BiG-SCAPE</strong> compares BGCs across multiple genomes to identify families.</p>
+
+<h4 id="installation-1">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> bigscape <span class="nt">-c</span> bioconda bigscape
+conda activate bigscape
+</code></pre></div></div>
+
+<h4 id="usage">Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Collect all BGC GenBank files from antiSMASH</span>
+<span class="nb">mkdir </span>bigscape_input
+<span class="nb">cp </span>antismash_output/<span class="k">*</span>/regions/<span class="k">*</span>.gbk bigscape_input/
+
+<span class="c"># Run BiG-SCAPE</span>
+bigscape <span class="se">\</span>
+    <span class="nt">-i</span> bigscape_input <span class="se">\</span>
+    <span class="nt">-o</span> bigscape_output <span class="se">\</span>
+    <span class="nt">--pfam_dir</span> ~/pfam_database <span class="se">\</span>
+    <span class="nt">--cores</span> 8 <span class="se">\</span>
+    <span class="nt">--mode</span> auto
+
+<span class="c"># Visualize</span>
+firefox bigscape_output/network_files/index.html
+</code></pre></div></div>
+
+<p><strong>BiG-SCAPE output:</strong></p>
+
+<ul>
+  <li>BGC families (grouped by similarity)</li>
+  <li>Network visualization</li>
+  <li>Comparative analysis across genomes</li>
+</ul>
+
+<hr />
+
+<h2 id="-antimicrobial-resistance">💊 Antimicrobial Resistance</h2>
+
+<h3 id="card-rgi-comprehensive-amr-database">CARD-RGI: Comprehensive AMR Database</h3>
+
+<p><strong>RGI</strong> (Resistance Gene Identifier) uses CARD database for AMR detection.</p>
+
+<h4 id="installation-2">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> rgi <span class="nt">-c</span> bioconda rgi
+conda activate rgi
+
+<span class="c"># Download CARD database</span>
+rgi load <span class="nt">--card_json</span> ~/card_database/card.json
+
+<span class="c"># Verify</span>
+rgi database <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h4 id="usage-1">Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate rgi
+
+<span class="c"># Predict AMR from proteins</span>
+rgi main <span class="se">\</span>
+    <span class="nt">--input_sequence</span> proteins.faa <span class="se">\</span>
+    <span class="nt">--input_type</span> protein <span class="se">\</span>
+    <span class="nt">--output_file</span> rgi_output <span class="se">\</span>
+    <span class="nt">--clean</span> <span class="se">\</span>
+    <span class="nt">--num_threads</span> 8
+
+<span class="c"># From nucleotides (slower but more sensitive)</span>
+rgi main <span class="se">\</span>
+    <span class="nt">--input_sequence</span> genome.fa <span class="se">\</span>
+    <span class="nt">--input_type</span> contig <span class="se">\</span>
+    <span class="nt">--output_file</span> rgi_output <span class="se">\</span>
+    <span class="nt">--clean</span> <span class="se">\</span>
+    <span class="nt">--num_threads</span> 8 <span class="se">\</span>
+    <span class="nt">--include_loose</span>
+</code></pre></div></div>
+
+<p><strong>RGI output columns:</strong></p>
+
+<ul>
+  <li>ORF_ID</li>
+  <li>ARO (Antibiotic Resistance Ontology)</li>
+  <li>Drug Class</li>
+  <li>Resistance Mechanism</li>
+  <li>AMR Gene Family</li>
+</ul>
+
+<h4 id="parse-rgi-results">Parse RGI Results</h4>
+
+<h2 id="use-parse_rgipy-from-day-6-">Use parse_rgi.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></h2>
+
+<h3 id="abricate-fast-amr-screening">ABRicate: Fast AMR Screening</h3>
+
+<p><strong>ABRicate</strong> screens multiple AMR databases quickly.</p>
+
+<h4 id="installation-3">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> abricate <span class="nt">-c</span> bioconda abricate
+conda activate abricate
+
+<span class="c"># Update databases</span>
+abricate-get_db <span class="nt">--db</span> all
+</code></pre></div></div>
+
+<h4 id="usage-2">Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate abricate
+
+<span class="c"># Screen against all databases</span>
+abricate genome.fa <span class="o">&gt;</span> abricate_results.tab
+
+<span class="c"># Specific database</span>
+abricate <span class="nt">--db</span> card genome.fa <span class="o">&gt;</span> card_results.tab
+abricate <span class="nt">--db</span> resfinder genome.fa <span class="o">&gt;</span> resfinder_results.tab
+abricate <span class="nt">--db</span> vfdb genome.fa <span class="o">&gt;</span> virulence_results.tab
+
+<span class="c"># Batch processing</span>
+abricate genomes/<span class="k">*</span>.fa <span class="o">&gt;</span> all_genomes_amr.tab
+
+<span class="c"># Summary</span>
+abricate <span class="nt">--summary</span> all_genomes_amr.tab <span class="o">&gt;</span> amr_summary.tab
+</code></pre></div></div>
+
+<p><strong>Available databases:</strong></p>
+
+<ul>
+  <li>card (CARD)</li>
+  <li>resfinder (ResFinder)</li>
+  <li>ncbi (NCBI AMRFinderPlus)</li>
+  <li>argannot</li>
+  <li>megares</li>
+  <li>vfdb (Virulence factors)</li>
+  <li>plasmidfinder</li>
+</ul>
+
+<hr />
+
+<h2 id="-carbohydrate-active-enzymes-cazymes">🍬 Carbohydrate-Active Enzymes (CAZymes)</h2>
+
+<h3 id="dbcan2-cazyme-annotation">dbCAN2: CAZyme Annotation</h3>
+
+<p><strong>dbCAN</strong> identifies enzymes that degrade, modify, or create carbohydrates.</p>
+
+<h4 id="installation-4">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> dbcan <span class="nt">-c</span> bioconda dbcan
+conda activate dbcan
+
+<span class="c"># Download databases</span>
+dbcan_build <span class="nt">--help</span>
+</code></pre></div></div>
+
+<h4 id="usage-3">Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate dbcan
+
+<span class="c"># Run dbCAN</span>
+run_dbcan <span class="se">\</span>
+    proteins.faa <span class="se">\</span>
+    protein <span class="se">\</span>
+    <span class="nt">--out_dir</span> dbcan_output <span class="se">\</span>
+    <span class="nt">--db_dir</span> ~/dbcan_db <span class="se">\</span>
+    <span class="nt">--tools</span> all <span class="se">\</span>
+    <span class="nt">--threads</span> 8
+
+<span class="c"># Output: dbcan_output/overview.txt</span>
+</code></pre></div></div>
+
+<p><strong>CAZyme families:</strong></p>
+
+<ul>
+  <li><strong>GH</strong> - Glycoside Hydrolases (breakdown)</li>
+  <li><strong>GT</strong> - Glycosyl Transferases (synthesis)</li>
+  <li><strong>PL</strong> - Polysaccharide Lyases</li>
+  <li><strong>CE</strong> - Carbohydrate Esterases</li>
+  <li><strong>AA</strong> - Auxiliary Activities</li>
+  <li><strong>CBM</strong> - Carbohydrate-Binding Modules</li>
+</ul>
+
+<h4 id="parse-dbcan-results">Parse dbCAN Results</h4>
+
+<h2 id="use-parse_dbcanpy-from-day-6-">Use parse_dbcan.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></h2>
+
+<h2 id="-prophages--viruses">🦠 Prophages &amp; Viruses</h2>
+
+<h3 id="virsorter2-viral-sequence-detection">VirSorter2: Viral Sequence Detection</h3>
+
+<p><strong>VirSorter2</strong> identifies viral sequences in genomes and metagenomes.</p>
+
+<h4 id="installation-5">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> virsorter2 <span class="nt">-c</span> bioconda <span class="nv">virsorter</span><span class="o">=</span>2
+conda activate virsorter2
+
+<span class="c"># Setup database</span>
+virsorter setup <span class="nt">-d</span> ~/virsorter2-db <span class="nt">-j</span> 4
+</code></pre></div></div>
+
+<h4 id="usage-4">Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate virsorter2
+
+<span class="c"># Run VirSorter2</span>
+virsorter run <span class="se">\</span>
+    <span class="nt">-i</span> genome.fa <span class="se">\</span>
+    <span class="nt">-w</span> virsorter2_output <span class="se">\</span>
+    <span class="nt">--min-length</span> 5000 <span class="se">\</span>
+    <span class="nt">--min-score</span> 0.5 <span class="se">\</span>
+    <span class="nt">-j</span> 8 <span class="se">\</span>
+    all
+
+<span class="c"># High-confidence viral sequences</span>
+<span class="nb">cat </span>virsorter2_output/final-viral-boundary.tsv
+</code></pre></div></div>
+
+<p><strong>VirSorter2 output:</strong></p>
+
+<ul>
+  <li>Prophage regions</li>
+  <li>Viral score (0-1)</li>
+  <li>Boundary coordinates</li>
+  <li>Gene content</li>
+</ul>
+
+<hr />
+
+<h3 id="phaster-phage-search-tool-enhanced-release">PHASTER: PHAge Search Tool Enhanced Release</h3>
+
+<p><strong>PHASTER</strong> identifies prophages with detailed annotation.</p>
+
+<p><strong>Note:</strong> PHASTER is primarily a web service.</p>
+
+<p><strong>Web interface:</strong> https://phaster.ca/</p>
+
+<p><strong>Alternative: Use VirSorter2 + CheckV</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># CheckV for viral genome quality</span>
+conda create <span class="nt">-n</span> checkv <span class="nt">-c</span> bioconda checkv
+conda activate checkv
+
+<span class="c"># Download database</span>
+checkv download_database ~/checkv-db
+
+<span class="c"># Run CheckV on VirSorter2 results</span>
+checkv end_to_end <span class="se">\</span>
+    virsorter2_output/final-viral-combined.fa <span class="se">\</span>
+    checkv_output <span class="se">\</span>
+    <span class="nt">-d</span> ~/checkv-db <span class="se">\</span>
+    <span class="nt">-t</span> 8
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="️-crispr-systems">✂️ CRISPR Systems</h2>
+
+<h3 id="crisprcasfinder-detect-crispr-cas-systems">CRISPRCasFinder: Detect CRISPR-Cas Systems</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Installation</span>
+conda create <span class="nt">-n</span> crisprcasfinder <span class="nt">-c</span> bioconda crisprcasfinder
+conda activate crisprcasfinder
+
+<span class="c"># Run</span>
+CRISPRCasFinder.pl <span class="se">\</span>
+    <span class="nt">-in</span> genome.fa <span class="se">\</span>
+    <span class="nt">-out</span> crispr_output <span class="se">\</span>
+    <span class="nt">-cas</span> <span class="se">\</span>
+    <span class="nt">-keep</span>
+</code></pre></div></div>
+
+<h3 id="minced-simple-crispr-detection">MinCED: Simple CRISPR Detection</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> minced <span class="nt">-c</span> bioconda minced
+conda activate minced
+
+<span class="c"># Quick CRISPR detection</span>
+minced genome.fa crispr_output.txt
+
+<span class="c"># Parse results</span>
+<span class="nb">grep</span> <span class="s2">"CRISPR"</span> crispr_output.txt
+</code></pre></div></div>
+
+<p><strong>CRISPR system types:</strong></p>
+
+<ul>
+  <li>Type I (most common in bacteria)</li>
+  <li>Type II (Cas9 - CRISPR editing)</li>
+  <li>Type III</li>
+  <li>Type IV-VI (rare)</li>
+</ul>
+
+<hr />
+
+<h2 id="-mobile-genetic-elements">🔄 Mobile Genetic Elements</h2>
+
+<h3 id="isfinder-insertion-sequences">ISfinder: Insertion Sequences</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use ABRicate with custom IS database</span>
+abricate <span class="nt">--db</span> isfinder genome.fa <span class="o">&gt;</span> is_results.tab
+
+<span class="c"># Or BLAST against ISfinder database</span>
+blastn <span class="se">\</span>
+    <span class="nt">-query</span> genome.fa <span class="se">\</span>
+    <span class="nt">-db</span> ~/isfinder_db/ISfinder <span class="se">\</span>
+    <span class="nt">-outfmt</span> 6 <span class="se">\</span>
+    <span class="nt">-num_threads</span> 8 <span class="se">\</span>
+    <span class="o">&gt;</span> is_blast.out
+</code></pre></div></div>
+
+<h3 id="integron-finder">Integron Finder</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> integron_finder <span class="nt">-c</span> bioconda integron_finder
+conda activate integron_finder
+
+<span class="c"># Find integrons</span>
+integron_finder <span class="se">\</span>
+    <span class="nt">--local-max</span> <span class="se">\</span>
+    <span class="nt">--cpu</span> 8 <span class="se">\</span>
+    genome.fa
+</code></pre></div></div>
+
+<p><strong>Integrons contain:</strong></p>
+
+<ul>
+  <li>Integration sites</li>
+  <li>Gene cassettes</li>
+  <li>Often AMR genes</li>
+</ul>
+
+<hr />
+
+<h2 id="-protein-domains--functions">🧬 Protein Domains &amp; Functions</h2>
+
+<h3 id="interproscan-comprehensive-domain-analysis">InterProScan: Comprehensive Domain Analysis</h3>
+
+<p><strong>InterProScan</strong> searches multiple protein signature databases.</p>
+
+<h4 id="installation-6">Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Large download - recommend using web service</span>
+<span class="c"># Or install locally:</span>
+wget ftp://ftp.ebi.ac.uk/pub/software/unix/iprscan/5/5.XX-XX.X/interproscan-5.XX-XX.X-64-bit.tar.gz
+<span class="nb">tar</span> <span class="nt">-xzf</span> interproscan-5.XX-XX.X-64-bit.tar.gz
+</code></pre></div></div>
+
+<h4 id="usage-5">Usage</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run InterProScan</span>
+interproscan.sh <span class="se">\</span>
+    <span class="nt">-i</span> proteins.faa <span class="se">\</span>
+    <span class="nt">-f</span> TSV,GFF3 <span class="se">\</span>
+    <span class="nt">-o</span> interproscan_output <span class="se">\</span>
+    <span class="nt">--cpu</span> 8 <span class="se">\</span>
+    <span class="nt">--goterms</span> <span class="se">\</span>
+    <span class="nt">--pathways</span>
+</code></pre></div></div>
+
+<p><strong>Databases searched:</strong></p>
+
+<ul>
+  <li>Pfam (protein families)</li>
+  <li>PROSITE (patterns)</li>
+  <li>PRINTS</li>
+  <li>SMART</li>
+  <li>TIGRFAMs</li>
+  <li>PANTHER</li>
+  <li>Gene3D</li>
+  <li>Superfamily</li>
+</ul>
+
+<h4 id="parse-interproscan">Parse InterProScan</h4>
+
+<h2 id="use-parse_iprpy-from-day-6-">Use parse_ipr.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></h2>
+
+<h2 id="-comprehensive-analysis-workflow">📊 Comprehensive Analysis Workflow</h2>
+
+<h3 id="complete-specialized-function-pipeline">Complete Specialized Function Pipeline</h3>
+
+<p>Use comprehensive_analysis.sh from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></p>
+
+<hr />
+
+<h2 id="-comparative-analysis">📈 Comparative Analysis</h2>
+
+<h3 id="compare-specialized-functions-across-genomes">Compare Specialized Functions Across Genomes</h3>
+
+<p>Use compare_specialized_functions.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></p>
+
+<h2 id="-best-practices">💡 Best Practices</h2>
+
+<h3 id="before-analysis">Before Analysis</h3>
+
+<ul>
+  <li>✅ Have complete gene predictions (Prodigal/Prokka)</li>
+  <li>✅ Use GenBank format for antiSMASH</li>
+  <li>✅ Check genome quality (comp &gt;80%, cont &lt;5%)</li>
+  <li>✅ Ensure databases are updated</li>
+</ul>
+
+<h3 id="during-analysis">During Analysis</h3>
+
+<ul>
+  <li>✅ Run tools in priority order (fast → slow)</li>
+  <li>✅ Use multiple tools for AMR (RGI + ABRicate)</li>
+  <li>✅ Save intermediate files</li>
+  <li>✅ Document tool versions</li>
+</ul>
+
+<h3 id="after-analysis">After Analysis</h3>
+
+<ul>
+  <li>✅ Validate hits manually (especially AMR)</li>
+  <li>✅ Check for false positives</li>
+  <li>✅ Cross-reference with literature</li>
+  <li>✅ Visualize results</li>
+</ul>
+
+<hr />
+
+<h2 id="-troubleshooting">🔧 Troubleshooting</h2>
+
+<h3 id="antismash-no-bgcs-detected">antiSMASH: No BGCs detected</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check input format</span>
+<span class="nb">head </span>genome.gbk
+
+<span class="c"># Try with relaxed detection</span>
+antismash <span class="nt">--minimal</span> ...
+
+<span class="c"># Ensure genome is annotated</span>
+</code></pre></div></div>
+
+<h3 id="rgi-no-results">RGI: No results</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update CARD database</span>
+rgi load <span class="nt">--card_json</span> ~/card_database/card.json
+
+<span class="c"># Try --include_loose for more hits</span>
+rgi main <span class="nt">--include_loose</span> ...
+</code></pre></div></div>
+
+<h3 id="dbcan-low-cazyme-count">dbCAN: Low CAZyme count</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use all three tools</span>
+run_dbcan <span class="nt">--tools</span> all ...
+
+<span class="c"># Check protein quality</span>
+<span class="nb">grep</span> <span class="s2">"&gt;"</span> proteins.faa | <span class="nb">wc</span> <span class="nt">-l</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-expected-results">📈 Expected Results</h2>
+
+<h3 id="typical-findings-per-genome">Typical Findings per Genome</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Typical Range</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>BGCs</strong></td>
+      <td>5-30</td>
+    </tr>
+    <tr>
+      <td><strong>AMR genes</strong></td>
+      <td>0-50</td>
+    </tr>
+    <tr>
+      <td><strong>CAZymes</strong></td>
+      <td>50-500</td>
+    </tr>
+    <tr>
+      <td><strong>Prophages</strong></td>
+      <td>0-10</td>
+    </tr>
+    <tr>
+      <td><strong>CRISPR arrays</strong></td>
+      <td>0-5</td>
+    </tr>
+    <tr>
+      <td><strong>Integrons</strong></td>
+      <td>0-5</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="visulaizations">Visulaizations</h3>
+
+<h4 id="-1-bgc_heatmapr---bgc-distribution">📊 1. bgc_heatmap.R - BGC Distribution</h4>
+
+<p><strong>What it does:</strong></p>
+
+<p>● Visualizes antiSMASH BGC distributions across genomes
+● Creates 3 heatmap variants (basic, custom colors, annotated)
+● Includes toy data built-in
+● Automatic clustering by BGC similarity</p>
+
+<p>Outputs:</p>
+
+<p>● bgc_heatmap_basic.pdf - Simple clustered heatmap
+● bgc_heatmap_custom.pdf - Custom gradient (white → gold → red → purple)
+● bgc_heatmap_annotated.pdf - With annotations for BGC richness
+● bgc_summary.csv - Summary statistics</p>
+
+<p>Toy data included: 15 genomes × 9 BGC types</p>
+
+<h4 id="-2-cazyme_bubble_plotr---cazyme-analysis">🍬 2. cazyme_bubble_plot.R - CAZyme Analysis</h4>
+
+<p><strong>What it does:</strong></p>
+
+<p>● Creates bubble plots showing CAZyme family distributions
+● Bubble size = CAZyme count
+● Color = Genome completion percentage
+● Includes heatmap and bar plot variants
+● Analyzes degradation capabilities</p>
+
+<p>Outputs:</p>
+
+<p>● cazyme_bubble_plot.pdf - Main bubble visualization
+● cazyme_bubble_plot_alt.pdf - Alternative color scheme
+● cazyme_total_barplot.pdf - Total counts by taxonomic order
+● cazyme_heatmap.pdf - Clustered heatmap
+● cazyme_summary.csv - Summary with degradation analysis</p>
+
+<p>Toy data included: 12 taxonomic orders × 6 CAZyme families</p>
+
+<p>All R-codes available in *<em><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></em></p>
+
+<h3 id="processing-time-8-core-laptop">Processing Time (8-core laptop)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Single Genome</th>
+      <th>10 Genomes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>antiSMASH</td>
+      <td>30-60 min</td>
+      <td>8-10 hrs</td>
+    </tr>
+    <tr>
+      <td>RGI</td>
+      <td>5-10 min</td>
+      <td>1-2 hrs</td>
+    </tr>
+    <tr>
+      <td>ABRicate</td>
+      <td>1-2 min</td>
+      <td>15-20 min</td>
+    </tr>
+    <tr>
+      <td>dbCAN</td>
+      <td>10-20 min</td>
+      <td>2-3 hrs</td>
+    </tr>
+    <tr>
+      <td>VirSorter2</td>
+      <td>20-40 min</td>
+      <td>5-7 hrs</td>
+    </tr>
+    <tr>
+      <td>InterProScan</td>
+      <td>1-2 hrs</td>
+      <td>15-20 hrs</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-success-checklist">✅ Success Checklist</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />BGCs identified and annotated</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />AMR profile generated</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />CAZyme repertoire characterized</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Prophages detected</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />CRISPR systems identified</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Mobile elements cataloged</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Protein domains annotated</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Comparative analysis completed</li>
+</ul>
+
+<hr />
+
+<h2 id="-key-resources">📚 Key Resources</h2>
+
+<h3 id="tools--databases">Tools &amp; Databases</h3>
+
+<ul>
+  <li><a href="https://antismash.secondarymetabolites.org/">antiSMASH</a></li>
+  <li><a href="https://card.mcmaster.ca/">CARD</a></li>
+  <li><a href="https://github.com/tseemann/abricate">ABRicate</a></li>
+  <li><a href="http://bcb.unl.edu/dbCAN2/">dbCAN</a></li>
+  <li><a href="https://github.com/jiarong/VirSorter2">VirSorter2</a></li>
+  <li><a href="https://www.ebi.ac.uk/interpro/">InterProScan</a></li>
+</ul>
+
+<hr />
+
+<h2 id="️-whats-next">➡️ What’s Next?</h2>
+
+<p><strong>Congratulations!</strong> You’ve discovered the specialized capabilities of your genomes!</p>
+
+<p>Next steps:</p>
+
+<ul>
+  <li>Comparative genomics</li>
+  <li>Pangenome analysis</li>
+  <li>Phylogenomics</li>
+  <li>Publication!</li>
+</ul>
+
+<h4 id="repo-for-todays-code-and-other-details">Repo for today’s code and other details</h4>
+
+<p>🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></p>
+
+<p>Last updated: February 2026</p>
+
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 6 — Moving Your Data: scp, rsync, SFTP, and Globus Connect</title><link href="https://jojyjohn28.github.io/blog/day6-data-transfer/" rel="alternate" type="text/html" title="Day 6 — Moving Your Data: scp, rsync, SFTP, and Globus Connect" /><published>2026-03-19T00:00:00-04:00</published><updated>2026-03-19T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day6-data-transfer</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day6-data-transfer/"><![CDATA[<h1 id="day-6-moving-your-data--scp-rsync-sftp-and-globus-connect">Day 6: Moving Your Data — scp, rsync, SFTP, and Globus Connect</h1>
+
+<p><img src="./day6-hero.svg" alt="Data Transfer: scp, rsync, SFTP, Globus Connect" /></p>
+
+<blockquote>
+  <p><em>This is Day 6 — the final post in the series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong> and 🧬 Day 62 of Daily Bioinformatics from Jojy’s Desk. In <a href=".https://jojyjohn28.github.io/blog/day5-pipelines/">Day 5</a> we built reproducible pipelines with Snakemake and Nextflow. Today: the question everyone hits at the start — how do you actually get your data there?</em></p>
+</blockquote>
+
+<hr />
+
+<h2 id="the-problem-nobody-warns-you-about">The Problem Nobody Warns You About</h2>
+
+<p>You’ve set up your conda environment. You’ve written your SLURM script. You know how to submit jobs and run job arrays. Everything is in order.</p>
+
+<p>Then you look at your external hard drive with 300 GB of raw sequencing reads and think:</p>
+
+<p><em>“How do I get this onto the cluster?”</em></p>
+
+<p>Data transfer is one of those things that seems trivial right up until you’re staring at a progress bar saying <strong>14 hours remaining</strong> — and then it fails at hour 13 because your Wi-Fi dropped. You restart. It starts from scratch.</p>
+
+<p>There is a better way. Several better ways, in fact. This post covers every tool you’ll actually use, when to reach for each one, and how to avoid the mistakes that cost researchers hours of wasted time.</p>
+
+<hr />
+
+<h2 id="what-youll-need">What You’ll Need</h2>
+
+<ul>
+  <li>SSH access to your HPC (covered in Day 1)</li>
+  <li>A terminal on your laptop (Linux/Mac: built-in Terminal; Windows: PowerShell or MobaXterm)</li>
+  <li>For Globus: a free account at <a href="https://www.globus.org">globus.org</a></li>
+</ul>
+
+<hr />
+
+<h2 id="the-full-toolkit-at-a-glance">The Full Toolkit at a Glance</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Best For</th>
+      <th>Resumes on Failure</th>
+      <th>GUI Available</th>
+      <th>Speed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">scp</code></td>
+      <td>Single files, quick uploads</td>
+      <td>❌ No</td>
+      <td>MobaXterm, Cyberduck</td>
+      <td>Good</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">rsync</code></td>
+      <td>Folders, large batches, repeat syncs</td>
+      <td>✅ Yes</td>
+      <td>❌ CLI only</td>
+      <td>Good–Great</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">sftp</code></td>
+      <td>Interactive browsing + transfer</td>
+      <td>❌ No</td>
+      <td>MobaXterm, FileZilla</td>
+      <td>Good</td>
+    </tr>
+    <tr>
+      <td>Globus Connect</td>
+      <td>Multi-TB, HPC↔HPC, unattended</td>
+      <td>✅ Yes</td>
+      <td>✅ Web UI + CLI</td>
+      <td>Excellent</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>💡 <strong>Quick decision rule:</strong> Small file, one-off → <code class="language-plaintext highlighter-rouge">scp</code>. Large folder or repeat syncs → <code class="language-plaintext highlighter-rouge">rsync</code>. Prefer clicking to typing → <code class="language-plaintext highlighter-rouge">sftp</code> with a GUI. Terabytes, long-distance, or must-not-fail → <strong>Globus</strong>.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="method-1-scp--the-default-workhorse">Method 1: scp — The Default Workhorse</h2>
+
+<p><code class="language-plaintext highlighter-rouge">scp</code> (Secure Copy Protocol) works exactly like the Unix <code class="language-plaintext highlighter-rouge">cp</code> command, but over SSH. It’s the fastest way to transfer a file when you don’t need any extra features.</p>
+
+<h3 id="basic-syntax">Basic Syntax</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ── Upload: laptop → HPC ─────────────────────────────────────────</span>
+
+<span class="c"># Single file</span>
+scp sample_R1.fastq.gz username@hpc.university.edu:~/data/
+
+<span class="c"># Entire directory (-r flag for recursive)</span>
+scp <span class="nt">-r</span> ./raw_reads/ username@hpc.university.edu:~/data/
+
+<span class="c"># Multiple files using wildcard</span>
+scp data/<span class="k">*</span>.fastq.gz username@hpc.university.edu:~/data/
+
+<span class="c"># Specify destination filename</span>
+scp local_file.txt username@hpc.university.edu:~/data/renamed_file.txt
+
+<span class="c"># ── Download: HPC → laptop ───────────────────────────────────────</span>
+
+<span class="c"># Single file from HPC to current directory</span>
+scp username@hpc.university.edu:~/results/summary.csv ./
+
+<span class="c"># Entire results folder</span>
+scp <span class="nt">-r</span> username@hpc.university.edu:~/project/results/ ./local_results/
+</code></pre></div></div>
+
+<h3 id="useful-scp-flags">Useful scp Flags</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -r  recursive (directories)</span>
+<span class="c"># -p  preserve timestamps and permissions</span>
+<span class="c"># -C  compress during transfer (useful over slow connections)</span>
+<span class="c"># -v  verbose (shows progress details)</span>
+<span class="c"># -P  specify port if not 22</span>
+
+scp <span class="nt">-rCp</span> ./data/ username@hpc.university.edu:~/data/
+</code></pre></div></div>
+
+<h3 id="windows-scp-in-powershell">Windows: scp in PowerShell</h3>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># PowerShell — identical syntax to Linux/Mac</span><span class="w">
+</span><span class="n">scp</span><span class="w"> </span><span class="nx">C:\Users\YourName\data\sample.fastq.gz</span><span class="w"> </span><span class="nx">username</span><span class="err">@</span><span class="nx">hpc.uni.edu:~/data/</span><span class="w">
+
+</span><span class="c"># Upload a folder</span><span class="w">
+</span><span class="n">scp</span><span class="w"> </span><span class="nt">-r</span><span class="w"> </span><span class="nx">C:\Users\YourName\raw_reads\</span><span class="w"> </span><span class="nx">username</span><span class="err">@</span><span class="nx">hpc.uni.edu:~/data/</span><span class="w">
+
+</span><span class="c"># Download results back to Desktop</span><span class="w">
+</span><span class="n">scp</span><span class="w"> </span><span class="nx">username</span><span class="err">@</span><span class="nx">hpc.uni.edu:~/results/report.html</span><span class="w"> </span><span class="nx">C:\Users\YourName\Desktop\</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="when-scp-falls-short">When scp Falls Short</h3>
+
+<p><code class="language-plaintext highlighter-rouge">scp</code> has one critical weakness: <strong>if the transfer fails halfway, it starts from scratch</strong>. For a 5 GB file that’s annoying. For 200 GB — that’s a 6-hour restart. Use <code class="language-plaintext highlighter-rouge">rsync</code> or Globus for anything over ~10 GB.</p>
+
+<hr />
+
+<h2 id="method-2-rsync--the-smart-synchroniser">Method 2: rsync — The Smart Synchroniser</h2>
+
+<p><code class="language-plaintext highlighter-rouge">rsync</code> is the tool you reach for when <code class="language-plaintext highlighter-rouge">scp</code> isn’t enough. Its superpower: it <strong>only transfers what has changed</strong>, and it <strong>resumes interrupted transfers</strong> automatically.</p>
+
+<p>For bioinformatics workflows — where you regularly sync updated scripts back to HPC, or pull incremental results back to your laptop — <code class="language-plaintext highlighter-rouge">rsync</code> becomes indispensable.</p>
+
+<h3 id="core-command">Core Command</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rsync <span class="nt">-avz</span> <span class="nt">--progress</span> <span class="nb">source</span>/ destination/
+</code></pre></div></div>
+
+<p>Breaking down the flags:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-a</code></td>
+      <td>Archive mode: preserves permissions, timestamps, symlinks. Use this almost always.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-v</code></td>
+      <td>Verbose: shows each file being transferred</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-z</code></td>
+      <td>Compress data during transfer (saves bandwidth, helpful over slow links)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--progress</code></td>
+      <td>Shows per-file progress bar and speed</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--dry-run</code></td>
+      <td>Preview what <em>would</em> be transferred without actually doing it</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--delete</code></td>
+      <td>Delete files on destination that no longer exist on source</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--exclude</code></td>
+      <td>Skip files matching a pattern</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="uploading-to-hpc">Uploading to HPC</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Sync your raw data directory to HPC</span>
+rsync <span class="nt">-avz</span> <span class="nt">--progress</span> ./raw_reads/ <span class="se">\</span>
+    username@hpc.university.edu:~/project/raw_reads/
+
+<span class="c"># Sync your scripts (quick, small files)</span>
+rsync <span class="nt">-avz</span> ./scripts/ <span class="se">\</span>
+    username@hpc.university.edu:~/project/scripts/
+
+<span class="c"># Exclude large intermediate files you don't need on HPC</span>
+rsync <span class="nt">-avz</span> <span class="nt">--progress</span> <span class="se">\</span>
+    <span class="nt">--exclude</span> <span class="s2">"*.bam"</span> <span class="se">\</span>
+    <span class="nt">--exclude</span> <span class="s2">"*.sam"</span> <span class="se">\</span>
+    <span class="nt">--exclude</span> <span class="s2">"__pycache__/"</span> <span class="se">\</span>
+    ./project/ <span class="se">\</span>
+    username@hpc.university.edu:~/project/
+</code></pre></div></div>
+
+<h3 id="downloading-results">Downloading Results</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Pull your results folder back after jobs complete</span>
+rsync <span class="nt">-avz</span> <span class="nt">--progress</span> <span class="se">\</span>
+    username@hpc.university.edu:~/project/results/ <span class="se">\</span>
+    ./local_results/
+
+<span class="c"># Only download specific file types</span>
+rsync <span class="nt">-avz</span> <span class="nt">--include</span> <span class="s2">"*.csv"</span> <span class="nt">--include</span> <span class="s2">"*.html"</span> <span class="se">\</span>
+    <span class="nt">--exclude</span> <span class="s2">"*"</span> <span class="se">\</span>
+    username@hpc.university.edu:~/project/results/ <span class="se">\</span>
+    ./local_results/
+</code></pre></div></div>
+
+<h3 id="resuming-a-failed-transfer--the-key-feature">Resuming a Failed Transfer — The Key Feature</h3>
+
+<p>This is the most important thing to know about rsync. If a transfer dies, <strong>just run the exact same command again</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># First attempt — fails at 60%</span>
+rsync <span class="nt">-avz</span> <span class="nt">--progress</span> ./big_dataset/ username@hpc.university.edu:~/data/
+<span class="c"># Connection reset. Transferred 120/200 files.</span>
+
+<span class="c"># Rerun — picks up exactly where it stopped</span>
+rsync <span class="nt">-avz</span> <span class="nt">--progress</span> ./big_dataset/ username@hpc.university.edu:~/data/
+<span class="c"># Only the remaining 80 files are transferred</span>
+<span class="c"># Already-transferred files are checked and skipped</span>
+</code></pre></div></div>
+
+<p>rsync compares file sizes and timestamps (or checksums with <code class="language-plaintext highlighter-rouge">--checksum</code>). Files that already exist at the destination and haven’t changed are skipped entirely.</p>
+
+<h3 id="dry-run-preview-before-transferring">Dry Run: Preview Before Transferring</h3>
+
+<p>Always a good habit before a large sync:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rsync <span class="nt">-avz</span> <span class="nt">--dry-run</span> ./data/ username@hpc.university.edu:~/data/
+<span class="c"># Shows exactly what would be transferred without sending anything</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>⚠️ <strong>The trailing slash matters.</strong> <code class="language-plaintext highlighter-rouge">rsync ./data/</code> syncs the <em>contents</em> of <code class="language-plaintext highlighter-rouge">data/</code>. <code class="language-plaintext highlighter-rouge">rsync ./data</code> (no trailing slash) syncs the <em>folder itself</em>, creating <code class="language-plaintext highlighter-rouge">destination/data/</code> instead. This trips up almost everyone at least once.</p>
+</blockquote>
+
+<h3 id="keeping-scripts-in-sync-during-development">Keeping Scripts in Sync During Development</h3>
+
+<p>A common workflow: develop your scripts on your laptop, rsync them to HPC, test, iterate.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create an alias for quick sync</span>
+<span class="nb">alias </span>sync-hpc<span class="o">=</span><span class="s1">'rsync -avz ./scripts/ username@hpc.university.edu:~/project/scripts/'</span>
+
+<span class="c"># One command to push your latest script changes</span>
+sync-hpc
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="method-3-sftp--interactive-file-transfer">Method 3: SFTP — Interactive File Transfer</h2>
+
+<p><code class="language-plaintext highlighter-rouge">sftp</code> (SSH File Transfer Protocol) opens an interactive session where you can browse both your local and remote filesystems before deciding what to transfer. Think of it as a terminal-based file manager.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Connect</span>
+sftp username@hpc.university.edu
+
+<span class="c"># Once inside the sftp prompt:</span>
+sftp&gt; <span class="nb">ls</span>                          <span class="c"># list remote files</span>
+sftp&gt; lls                         <span class="c"># list LOCAL files</span>
+sftp&gt; <span class="nb">cd </span>data/                    <span class="c"># change remote directory</span>
+sftp&gt; lcd ~/Downloads/            <span class="c"># change LOCAL directory</span>
+sftp&gt; <span class="nb">pwd</span>                         <span class="c"># show current remote path</span>
+sftp&gt; lpwd                        <span class="c"># show current local path</span>
+
+<span class="c"># Transfers</span>
+sftp&gt; put sample_R1.fastq.gz      <span class="c"># upload one file</span>
+sftp&gt; get results/output.tsv      <span class="c"># download one file</span>
+sftp&gt; mput <span class="k">*</span>.fastq.gz             <span class="c"># upload multiple files</span>
+sftp&gt; mget results/<span class="k">*</span>.bam          <span class="c"># download multiple files</span>
+
+sftp&gt; bye                         <span class="c"># exit</span>
+</code></pre></div></div>
+
+<h3 id="sftp-with-a-gui">sftp with a GUI</h3>
+
+<p>Most beginners prefer a drag-and-drop interface. Three good options:</p>
+
+<p><strong>MobaXterm (Windows — free):</strong>
+Already covered in Day 1. When you SSH in, the left panel automatically shows an SFTP file browser. Drag files from Windows Explorer directly into it.</p>
+
+<p><strong>FileZilla (Windows, Mac, Linux — free):</strong></p>
+
+<ol>
+  <li>Open FileZilla → File → Site Manager → New Site</li>
+  <li>Protocol: <code class="language-plaintext highlighter-rouge">SFTP - SSH File Transfer Protocol</code></li>
+  <li>Host: <code class="language-plaintext highlighter-rouge">hpc.university.edu</code>, Port: <code class="language-plaintext highlighter-rouge">22</code></li>
+  <li>Logon Type: <code class="language-plaintext highlighter-rouge">Normal</code> → enter username and password</li>
+  <li>Connect → drag and drop between left (local) and right (remote) panels</li>
+</ol>
+
+<p><strong>Cyberduck (Mac and Windows — free):</strong></p>
+
+<ol>
+  <li>Click Open Connection</li>
+  <li>Select SFTP from the dropdown</li>
+  <li>Enter your HPC hostname and credentials</li>
+  <li>Browse and transfer with a familiar file manager interface</li>
+</ol>
+
+<blockquote>
+  <p>💡 <strong>Data Transfer Nodes (DTNs):</strong> Many HPC clusters have dedicated <strong>data transfer nodes</strong> — separate machines optimised for file transfer with faster network connections to the outside world. Check your HPC documentation. Using <code class="language-plaintext highlighter-rouge">transfer.hpc.university.edu</code> instead of the login node for large transfers can dramatically improve speed.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="method-4-globus-connect--the-professional-standard">Method 4: Globus Connect — The Professional Standard</h2>
+
+<p>For anything involving terabytes of data, transfers between two HPC systems, or data that absolutely must arrive intact and intact, <strong>Globus is the tool researchers rely on</strong>.</p>
+
+<p>Globus is a cloud-based data transfer service used by virtually every major research computing facility in the world — NIH Biowulf, TACC Frontera, UK Research Data Facility, Pawsey, NCI, and hundreds of university clusters. If your institution has an HPC, it almost certainly has a Globus endpoint already configured.</p>
+
+<h3 id="why-globus-is-different-from-everything-else">Why Globus Is Different From Everything Else</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>scp/rsync</th>
+      <th>Globus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Runs on your laptop</td>
+      <td>Yes</td>
+      <td>No — runs on Globus servers</td>
+    </tr>
+    <tr>
+      <td>Close laptop mid-transfer</td>
+      <td>Cancels transfer</td>
+      <td>✅ Transfer keeps running</td>
+    </tr>
+    <tr>
+      <td>Multi-TB transfers</td>
+      <td>Possible but risky</td>
+      <td>✅ Designed for this</td>
+    </tr>
+    <tr>
+      <td>Automatic retry on network failure</td>
+      <td>rsync: yes</td>
+      <td>✅ Automatic</td>
+    </tr>
+    <tr>
+      <td>MD5 checksum verification</td>
+      <td>Manual</td>
+      <td>✅ Automatic on every file</td>
+    </tr>
+    <tr>
+      <td>HPC endpoint to HPC endpoint</td>
+      <td>Not directly</td>
+      <td>✅ First-class feature</td>
+    </tr>
+    <tr>
+      <td>GUI</td>
+      <td>No (rsync)</td>
+      <td>✅ Web browser</td>
+    </tr>
+    <tr>
+      <td>Free for research</td>
+      <td>Yes</td>
+      <td>✅ Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The single biggest advantage: <strong>you don’t need to keep your laptop open</strong>. Globus runs the transfer between the two endpoints (e.g., your university storage and the HPC cluster) through its own servers. You start it, close your laptop, and come back to a completed transfer.</p>
+
+<h3 id="step-1-create-a-globus-account">Step 1: Create a Globus Account</h3>
+
+<p>Go to <a href="https://www.globus.org">globus.org</a> and sign in with your institutional credentials (most universities are already federated). If not, create a free account.</p>
+
+<h3 id="step-2-install-globus-connect-personal-for-your-laptop">Step 2: Install Globus Connect Personal (For Your Laptop)</h3>
+
+<p>If you want to transfer <em>from your laptop</em>, install Globus Connect Personal:</p>
+
+<ol>
+  <li>Download from <a href="https://www.globus.org/globus-connect-personal">globus.org/globus-connect-personal</a></li>
+  <li>Install and open it — it runs silently in the background</li>
+  <li>Log in with your Globus account</li>
+  <li>Your laptop is now a Globus endpoint</li>
+</ol>
+
+<blockquote>
+  <p>If you’re transferring between two HPC systems, both of which already have Globus endpoints configured, you skip this step entirely.</p>
+</blockquote>
+
+<h3 id="step-3-find-your-hpc-endpoint">Step 3: Find Your HPC Endpoint</h3>
+
+<p>Your institution’s HPC almost certainly already has a Globus endpoint. Find it:</p>
+
+<ol>
+  <li>Go to <a href="https://app.globus.org">app.globus.org</a></li>
+  <li>Click <strong>File Manager</strong></li>
+  <li>In the Collection search box, type your institution name (e.g., “University of Edinburgh”, “TACC”, “NIH”)</li>
+  <li>Select the correct endpoint from the dropdown</li>
+</ol>
+
+<h3 id="step-4-transfer-files-via-the-web-interface">Step 4: Transfer Files via the Web Interface</h3>
+
+<ol>
+  <li>In the left panel: select your source endpoint (e.g., your laptop or home institution storage)</li>
+  <li>Navigate to the folder you want to transfer</li>
+  <li>In the right panel: select your HPC endpoint</li>
+  <li>Navigate to the destination folder</li>
+  <li>Select files/folders and click <strong>Start</strong></li>
+</ol>
+
+<p>That’s it. Globus handles everything:</p>
+
+<ul>
+  <li>Parallel data streams for maximum throughput</li>
+  <li>Automatic retry on network interruption</li>
+  <li>MD5 checksum verification on every file after transfer</li>
+  <li>Email notification when complete</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Transfer initiated: 2026-03-16 09:14:22
+Source:      my-laptop/Users/you/raw_data/
+Destination: uni-hpc/scratch/project/raw_data/
+Files:       847 files, 312 GB
+
+[==========&gt;          ] 47% · 146 GB of 312 GB
+Estimated completion: 2026-03-16 13:22:00
+
+You can close this browser window.
+Your transfer will continue running.
+</code></pre></div></div>
+
+<h3 id="step-5-globus-cli--scripting-transfers">Step 5: Globus CLI — Scripting Transfers</h3>
+
+<p>For automated or scripted transfers, use the Globus CLI:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install</span>
+pip <span class="nb">install </span>globus-cli
+
+<span class="c"># Authenticate</span>
+globus login
+
+<span class="c"># List your endpoints</span>
+globus endpoint search <span class="s2">"your institution"</span>
+
+<span class="c"># Transfer a folder</span>
+globus transfer <span class="se">\</span>
+    &lt;SOURCE_ENDPOINT_UUID&gt;:/path/to/source/ <span class="se">\</span>
+    &lt;DEST_ENDPOINT_UUID&gt;:/path/to/destination/ <span class="se">\</span>
+    <span class="nt">--recursive</span> <span class="se">\</span>
+    <span class="nt">--sync-level</span> checksum <span class="se">\</span>
+    <span class="nt">--label</span> <span class="s2">"Raw reads upload 2026-03-16"</span>
+
+<span class="c"># Check transfer status</span>
+globus task list
+globus task show &lt;TASK_ID&gt;
+
+<span class="c"># Wait for completion (useful in scripts)</span>
+globus task <span class="nb">wait</span> &lt;TASK_ID&gt;
+<span class="nb">echo</span> <span class="s2">"Transfer complete!"</span>
+</code></pre></div></div>
+
+<p>You can embed this in a pipeline script — trigger the Globus transfer, wait for it to complete, then kick off your SLURM jobs automatically.</p>
+
+<h3 id="globus-for-hpc-to-hpc-transfers">Globus for HPC-to-HPC Transfers</h3>
+
+<p>This is where Globus truly has no competition. Moving data from one cluster to another (e.g., from your home institution to a national computing facility) is trivial:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Transfer between two HPC endpoints directly</span>
+<span class="c"># Neither needs to be your laptop</span>
+globus transfer <span class="se">\</span>
+    &lt;HOME_HPC_ENDPOINT&gt;:/scratch/project/results/ <span class="se">\</span>
+    &lt;NATIONAL_HPC_ENDPOINT&gt;:/project/incoming/ <span class="se">\</span>
+    <span class="nt">--recursive</span> <span class="se">\</span>
+    <span class="nt">--label</span> <span class="s2">"Results to national facility"</span>
+</code></pre></div></div>
+
+<p>The transfer happens directly between the two clusters at wire speed. Your laptop is completely uninvolved.</p>
+
+<hr />
+
+<h2 id="choosing-the-right-tool-decision-guide">Choosing the Right Tool: Decision Guide</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>How much data?
+    ├── &lt; 1 GB → scp  (simplest, no setup)
+    └── &gt; 1 GB →
+            Do you prefer a GUI?
+                ├── YES → SFTP + MobaXterm or FileZilla
+                └── NO  →
+                        Will you repeat this transfer or sync regularly?
+                            ├── YES → rsync  (skips unchanged files)
+                            └── NO  →
+                                    Is it &gt; 100 GB or HPC-to-HPC?
+                                        ├── YES → Globus Connect  ✓
+                                        └── NO  → rsync or scp
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="practical-patterns-for-bioinformatics">Practical Patterns for Bioinformatics</h2>
+
+<h3 id="pattern-1-upload-raw-reads-download-results">Pattern 1: Upload raw reads, download results</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Upload raw data (do this once)</span>
+rsync <span class="nt">-avz</span> <span class="nt">--progress</span> ./raw_reads/ <span class="se">\</span>
+    username@hpc.university.edu:~/project/raw_reads/
+
+<span class="c"># Submit jobs on HPC...</span>
+
+<span class="c"># Download results when done</span>
+rsync <span class="nt">-avz</span> <span class="nt">--progress</span> <span class="se">\</span>
+    username@hpc.university.edu:~/project/results/ <span class="se">\</span>
+    ./results/
+</code></pre></div></div>
+
+<h3 id="pattern-2-keep-scripts-in-sync-during-development">Pattern 2: Keep scripts in sync during development</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Push latest script version to HPC</span>
+rsync <span class="nt">-avz</span> ./scripts/ username@hpc.university.edu:~/project/scripts/
+
+<span class="c"># Pull back updated config or notes</span>
+rsync <span class="nt">-avz</span> username@hpc.university.edu:~/project/config.yaml ./
+</code></pre></div></div>
+
+<h3 id="pattern-3-large-dataset-upload-with-globus">Pattern 3: Large dataset upload with Globus</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Start Globus transfer from terminal</span>
+globus transfer <span class="se">\</span>
+    &lt;LAPTOP_ENDPOINT&gt;:/Users/you/sequencing_run_2026/ <span class="se">\</span>
+    &lt;HPC_ENDPOINT&gt;:/scratch/project/raw/ <span class="se">\</span>
+    <span class="nt">--recursive</span> <span class="nt">--label</span> <span class="s2">"Sequencing run Mar 2026"</span>
+
+<span class="c"># Close laptop. Come back in 3 hours.</span>
+globus task list  <span class="c"># check status anytime</span>
+</code></pre></div></div>
+
+<h3 id="pattern-4-verify-transfer-integrity">Pattern 4: Verify transfer integrity</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># After rsync, verify checksums</span>
+<span class="c"># On HPC:</span>
+<span class="nb">md5sum </span>raw_reads/<span class="k">*</span>.fastq.gz <span class="o">&gt;</span> checksums_hpc.md5
+
+<span class="c"># On laptop:</span>
+<span class="nb">md5sum </span>raw_reads/<span class="k">*</span>.fastq.gz <span class="o">&gt;</span> checksums_local.md5
+
+<span class="c"># Compare (should produce no output if identical)</span>
+diff checksums_local.md5 checksums_hpc.md5
+</code></pre></div></div>
+
+<p>Globus does this automatically. For rsync, add <code class="language-plaintext highlighter-rouge">--checksum</code> to force checksum comparison instead of size+timestamp:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rsync <span class="nt">-avz</span> <span class="nt">--checksum</span> ./data/ username@hpc.university.edu:~/data/
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="common-mistakes-to-avoid">Common Mistakes to Avoid</h2>
+
+<p><strong>Transferring to the login node’s home directory, which has a small quota</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ /home has limited space (often 50–100 GB)</span>
+scp big_dataset/ username@hpc.university.edu:~/data/
+
+<span class="c"># ✅ Use scratch or project storage</span>
+scp big_dataset/ username@hpc.university.edu:/scratch/username/data/
+</code></pre></div></div>
+
+<p><strong>Forgetting the trailing slash with rsync</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Creates destination/data/contents (extra nesting)</span>
+rsync <span class="nt">-avz</span> ./data username@hpc.university.edu:~/project/
+
+<span class="c"># ✅ Transfers contents directly into ~/project/</span>
+rsync <span class="nt">-avz</span> ./data/ username@hpc.university.edu:~/project/data/
+</code></pre></div></div>
+
+<p><strong>Using scp for multi-GB transfers over unstable connections</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ One Wi-Fi drop = restart from scratch</span>
+scp big_genome.tar.gz username@hpc.university.edu:~/data/
+
+<span class="c"># ✅ rsync resumes where it left off</span>
+rsync <span class="nt">-avz</span> <span class="nt">--progress</span> big_genome.tar.gz username@hpc.university.edu:~/data/
+</code></pre></div></div>
+
+<p><strong>Transferring through the login node instead of a DTN</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Slow — login node is not optimised for transfers</span>
+scp data.tar.gz username@hpc-login.university.edu:~/
+
+<span class="c"># ✅ If available, use the transfer node</span>
+scp data.tar.gz username@hpc-transfer.university.edu:~/scratch/
+</code></pre></div></div>
+
+<p><strong>Not compressing before transfer</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For many small files, tar + gzip before transfer</span>
+<span class="nb">tar </span>czf raw_reads.tar.gz raw_reads/
+rsync <span class="nt">-avz</span> raw_reads.tar.gz username@hpc.university.edu:~/
+<span class="c"># Then extract on HPC: tar xzf raw_reads.tar.gz</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="try-it-yourself">Try It Yourself</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Test scp with a small file</span>
+<span class="nb">echo</span> <span class="s2">"Hello HPC"</span> <span class="o">&gt;</span> test_transfer.txt
+scp test_transfer.txt username@hpc.university.edu:~/
+<span class="c"># Verify it arrived</span>
+ssh username@hpc.university.edu <span class="s2">"cat ~/test_transfer.txt"</span>
+
+<span class="c"># 2. Test rsync with a folder</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> test_folder/
+<span class="nb">echo</span> <span class="s2">"file 1"</span> <span class="o">&gt;</span> test_folder/a.txt
+<span class="nb">echo</span> <span class="s2">"file 2"</span> <span class="o">&gt;</span> test_folder/b.txt
+rsync <span class="nt">-avz</span> <span class="nt">--dry-run</span> ./test_folder/ username@hpc.university.edu:~/test_folder/
+<span class="c"># If dry run looks right, remove --dry-run and run for real</span>
+
+<span class="c"># 3. Download something back</span>
+scp username@hpc.university.edu:~/test_transfer.txt ./downloaded_test.txt
+<span class="nb">cat </span>downloaded_test.txt   <span class="c"># should say "Hello HPC"</span>
+
+<span class="c"># 4. Check your storage quota on HPC</span>
+ssh username@hpc.university.edu <span class="s2">"df -h </span><span class="nv">$HOME</span><span class="s2"> &amp;&amp; df -h /scratch/</span><span class="nv">$USER</span><span class="s2"> 2&gt;/dev/null"</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="series-complete--you-now-have-the-full-stack">Series Complete — You Now Have the Full Stack</h2>
+
+<p>You’ve covered the complete arc from laptop to reproducible, scalable HPC bioinformatics:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Day</th>
+      <th>Topic</th>
+      <th>What You Can Now Do</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Laptop vs HPC</td>
+      <td>Understand the infrastructure, connect from any OS</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Software installation</td>
+      <td>Install tools without root, manage reproducible environments</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Running jobs</td>
+      <td>Write SLURM scripts, use interactive nodes, read logs</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Scaling</td>
+      <td>Turn 50-hour sequential runs into 15-minute parallel arrays</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Pipelines</td>
+      <td>Build reproducible Snakemake/Nextflow workflows</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Data transfer</td>
+      <td>Move any amount of data, reliably, to and from HPC</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The tools you use — <code class="language-plaintext highlighter-rouge">fastqc</code>, <code class="language-plaintext highlighter-rouge">bowtie2</code>, <code class="language-plaintext highlighter-rouge">kraken2</code>, <code class="language-plaintext highlighter-rouge">samtools</code> — haven’t changed. What’s changed is the infrastructure around them. And that infrastructure is what separates a researcher who can do 10 samples on their laptop from one who can do 10,000 samples on a national computing facility.</p>
+
+<hr />
+
+<p>Thank you for reading the series — if it was useful, please share it with a colleague who’s making the same journey. Questions? Drop a comment below.*</p>
+
+<hr />
+
+<p><img src="/assets/img/d6_hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="data-transfer" /><category term="globus" /><category term="rsync" /><category term="scp" /><category term="sftp" /><category term="bioinformatics" /><category term="beginners" /><category term="genomics" /><summary type="html"><![CDATA[Your pipeline is ready, your HPC account is set up — but how do you actually move 300 GB of raw sequencing reads onto the cluster? A practical guide to every data transfer method you'll use in bioinformatics, from quick one-liners to terabyte-scale transfers.]]></summary></entry><entry><title type="html">Day 5 — Reproducible Pipelines: Snakemake and Nextflow</title><link href="https://jojyjohn28.github.io/blog/day5-pipelines/" rel="alternate" type="text/html" title="Day 5 — Reproducible Pipelines: Snakemake and Nextflow" /><published>2026-03-18T00:00:00-04:00</published><updated>2026-03-18T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day5-pipelines</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day5-pipelines/"><![CDATA[<h1 id="day-5-reproducible-pipelines--snakemake-and-nextflow">Day 5: Reproducible Pipelines — Snakemake and Nextflow</h1>
 
 <p><img src="./day5-hero.svg" alt="Reproducible Pipelines: Snakemake and Nextflow" /></p>
 
@@ -795,774 +2260,7 @@ snakemake <span class="nt">--cores</span> 2
 
 <hr />
 
-<p><img src="/assets/img/d5_hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="Snakemake" /><category term="Nextflow" /><category term="bioinformatics" /><category term="reproducibility" /><category term="workflow" /><category term="pipeline" /><category term="beginners" /><summary type="html"><![CDATA[Shell scripts work — until they don't. Here's how to graduate from manual job submissions to proper workflow managers that track dependencies, restart from failures, scale to HPC, and make your analysis reproducible by anyone, anywhere.]]></summary></entry><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-03-17T11:22:28-04:00</published><updated>2026-03-17T11:22:28-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
-
-<table>
-  <tbody>
-    <tr>
-      <td><strong>Estimated Time:</strong> 8-12 hours</td>
-      <td><strong>Difficulty:</strong> Advanced</td>
-      <td><strong>Prerequisites:</strong> Day 5 (Annotation)</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="-table-of-contents">📚 Table of Contents</h2>
-
-<ul>
-  <li><a href="#introduction">Introduction</a></li>
-  <li><a href="#secondary-metabolites">Secondary Metabolites</a></li>
-  <li><a href="#antimicrobial-resistance">Antimicrobial Resistance</a></li>
-  <li><a href="#carbohydrate-active-enzymes">Carbohydrate-Active Enzymes</a></li>
-  <li><a href="#prophages--viruses">Prophages &amp; Viruses</a></li>
-  <li><a href="#crispr-systems">CRISPR Systems</a></li>
-  <li><a href="#mobile-genetic-elements">Mobile Genetic Elements</a></li>
-  <li><a href="#protein-domains">Protein Domains</a></li>
-  <li><a href="#comparative-analysis">Comparative Analysis</a></li>
-  <li><a href="#best-practices">Best Practices</a></li>
-</ul>
-
-<hr />
-
-<h2 id="-introduction">🎯 Introduction</h2>
-
-<p>Welcome to Day 6! After basic annotation (Day 5), it’s time to discover <strong>hidden genomic treasures</strong> - specialized functions that make organisms unique.</p>
-
-<p><strong>Today’s discoveries:</strong></p>
-
-<ol>
-  <li>🧪 <strong>Secondary metabolites</strong> - Antibiotics, toxins, signaling molecules</li>
-  <li>💊 <strong>Antimicrobial resistance</strong> - AMR genes and mechanisms</li>
-  <li>🍬 <strong>CAZymes</strong> - Carbohydrate degradation capabilities</li>
-  <li>🦠 <strong>Prophages</strong> - Integrated viral sequences</li>
-  <li>✂️ <strong>CRISPR systems</strong> - Bacterial immune systems</li>
-  <li>🔄 <strong>Mobile elements</strong> - Transposons, insertion sequences</li>
-  <li>🧬 <strong>Protein domains</strong> - Functional motifs and structures</li>
-</ol>
-
-<h3 id="why-this-matters">Why This Matters</h3>
-
-<p><strong>Basic annotation tells you:</strong></p>
-
-<ul>
-  <li>This is a kinase</li>
-  <li>This is a transporter</li>
-</ul>
-
-<p><strong>Specialized analysis reveals:</strong></p>
-
-<ul>
-  <li>This organism produces penicillin</li>
-  <li>This strain is resistant to carbapenems</li>
-  <li>This microbe can degrade cellulose</li>
-  <li>This genome contains CRISPR-Cas9</li>
-</ul>
-
-<hr />
-
-<h2 id="-secondary-metabolites">🧪 Secondary Metabolites</h2>
-
-<h3 id="antismash-biosynthetic-gene-cluster-detection">antiSMASH: Biosynthetic Gene Cluster Detection</h3>
-
-<p><strong>antiSMASH</strong> (antibiotics &amp; Secondary Metabolite Analysis SHell) is the gold standard for BGC detection.</p>
-
-<h4 id="installation">Installation</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create environment</span>
-conda create <span class="nt">-n</span> antismash <span class="nt">-c</span> bioconda antismash
-conda activate antismash
-
-<span class="c"># Download databases (~15 GB)</span>
-download-antismash-databases
-</code></pre></div></div>
-
-<h4 id="basic-usage">Basic Usage</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate antismash
-
-<span class="c"># Single genome</span>
-antismash <span class="se">\</span>
-    <span class="nt">--output-dir</span> antismash_output/genome1 <span class="se">\</span>
-    <span class="nt">--genefinding-tool</span> prodigal <span class="se">\</span>
-    <span class="nt">--cpus</span> 8 <span class="se">\</span>
-    genome1.gbk
-
-<span class="c"># With all features enabled</span>
-antismash <span class="se">\</span>
-    <span class="nt">--output-dir</span> antismash_output/genome1 <span class="se">\</span>
-    <span class="nt">--genefinding-tool</span> prodigal <span class="se">\</span>
-    <span class="nt">--knownclusterblast</span> <span class="se">\</span>
-    <span class="nt">--subclusterblast</span> <span class="se">\</span>
-    <span class="nt">--clusterblast</span> <span class="se">\</span>
-    <span class="nt">--smcog-trees</span> <span class="se">\</span>
-    <span class="nt">--cpus</span> 8 <span class="se">\</span>
-    genome1.gbk
-</code></pre></div></div>
-
-<p><strong>Input formats:</strong></p>
-
-<ul>
-  <li>GenBank (.gbk) - recommended</li>
-  <li>FASTA (.fa) - requires gene finding</li>
-</ul>
-
-<h4 id="antismash-output">antiSMASH Output</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>antismash_output/genome1/
-├── genome1.gbk                    # Annotated genome
-├── genome1.json                   # Machine-readable results
-├── index.html                     # Interactive visualization
-├── regions.js                     # BGC regions
-├── knownclusterblast/            # Hits to known BGCs
-└── svg/                          # Cluster visualizations
-</code></pre></div></div>
-
-<p><strong>BGC types detected:</strong></p>
-
-<ul>
-  <li>Polyketides (PKS)</li>
-  <li>Non-ribosomal peptides (NRPS)</li>
-  <li>Terpenes</li>
-  <li>Bacteriocins</li>
-  <li>Siderophores</li>
-  <li>RiPPs (Ribosomally synthesized and Post-translationally modified Peptides)</li>
-</ul>
-
-<h4 id="parse-antismash-results">Parse antiSMASH Results</h4>
-
-<h2 id="please-use-parse_antismashpy-from-day-6-">please use parse_antismash.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></h2>
-
-<h3 id="big-scape-bgc-similarity-analysis">BiG-SCAPE: BGC Similarity Analysis</h3>
-
-<p><strong>BiG-SCAPE</strong> compares BGCs across multiple genomes to identify families.</p>
-
-<h4 id="installation-1">Installation</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> bigscape <span class="nt">-c</span> bioconda bigscape
-conda activate bigscape
-</code></pre></div></div>
-
-<h4 id="usage">Usage</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Collect all BGC GenBank files from antiSMASH</span>
-<span class="nb">mkdir </span>bigscape_input
-<span class="nb">cp </span>antismash_output/<span class="k">*</span>/regions/<span class="k">*</span>.gbk bigscape_input/
-
-<span class="c"># Run BiG-SCAPE</span>
-bigscape <span class="se">\</span>
-    <span class="nt">-i</span> bigscape_input <span class="se">\</span>
-    <span class="nt">-o</span> bigscape_output <span class="se">\</span>
-    <span class="nt">--pfam_dir</span> ~/pfam_database <span class="se">\</span>
-    <span class="nt">--cores</span> 8 <span class="se">\</span>
-    <span class="nt">--mode</span> auto
-
-<span class="c"># Visualize</span>
-firefox bigscape_output/network_files/index.html
-</code></pre></div></div>
-
-<p><strong>BiG-SCAPE output:</strong></p>
-
-<ul>
-  <li>BGC families (grouped by similarity)</li>
-  <li>Network visualization</li>
-  <li>Comparative analysis across genomes</li>
-</ul>
-
-<hr />
-
-<h2 id="-antimicrobial-resistance">💊 Antimicrobial Resistance</h2>
-
-<h3 id="card-rgi-comprehensive-amr-database">CARD-RGI: Comprehensive AMR Database</h3>
-
-<p><strong>RGI</strong> (Resistance Gene Identifier) uses CARD database for AMR detection.</p>
-
-<h4 id="installation-2">Installation</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> rgi <span class="nt">-c</span> bioconda rgi
-conda activate rgi
-
-<span class="c"># Download CARD database</span>
-rgi load <span class="nt">--card_json</span> ~/card_database/card.json
-
-<span class="c"># Verify</span>
-rgi database <span class="nt">--version</span>
-</code></pre></div></div>
-
-<h4 id="usage-1">Usage</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate rgi
-
-<span class="c"># Predict AMR from proteins</span>
-rgi main <span class="se">\</span>
-    <span class="nt">--input_sequence</span> proteins.faa <span class="se">\</span>
-    <span class="nt">--input_type</span> protein <span class="se">\</span>
-    <span class="nt">--output_file</span> rgi_output <span class="se">\</span>
-    <span class="nt">--clean</span> <span class="se">\</span>
-    <span class="nt">--num_threads</span> 8
-
-<span class="c"># From nucleotides (slower but more sensitive)</span>
-rgi main <span class="se">\</span>
-    <span class="nt">--input_sequence</span> genome.fa <span class="se">\</span>
-    <span class="nt">--input_type</span> contig <span class="se">\</span>
-    <span class="nt">--output_file</span> rgi_output <span class="se">\</span>
-    <span class="nt">--clean</span> <span class="se">\</span>
-    <span class="nt">--num_threads</span> 8 <span class="se">\</span>
-    <span class="nt">--include_loose</span>
-</code></pre></div></div>
-
-<p><strong>RGI output columns:</strong></p>
-
-<ul>
-  <li>ORF_ID</li>
-  <li>ARO (Antibiotic Resistance Ontology)</li>
-  <li>Drug Class</li>
-  <li>Resistance Mechanism</li>
-  <li>AMR Gene Family</li>
-</ul>
-
-<h4 id="parse-rgi-results">Parse RGI Results</h4>
-
-<h2 id="use-parse_rgipy-from-day-6-">Use parse_rgi.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></h2>
-
-<h3 id="abricate-fast-amr-screening">ABRicate: Fast AMR Screening</h3>
-
-<p><strong>ABRicate</strong> screens multiple AMR databases quickly.</p>
-
-<h4 id="installation-3">Installation</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> abricate <span class="nt">-c</span> bioconda abricate
-conda activate abricate
-
-<span class="c"># Update databases</span>
-abricate-get_db <span class="nt">--db</span> all
-</code></pre></div></div>
-
-<h4 id="usage-2">Usage</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate abricate
-
-<span class="c"># Screen against all databases</span>
-abricate genome.fa <span class="o">&gt;</span> abricate_results.tab
-
-<span class="c"># Specific database</span>
-abricate <span class="nt">--db</span> card genome.fa <span class="o">&gt;</span> card_results.tab
-abricate <span class="nt">--db</span> resfinder genome.fa <span class="o">&gt;</span> resfinder_results.tab
-abricate <span class="nt">--db</span> vfdb genome.fa <span class="o">&gt;</span> virulence_results.tab
-
-<span class="c"># Batch processing</span>
-abricate genomes/<span class="k">*</span>.fa <span class="o">&gt;</span> all_genomes_amr.tab
-
-<span class="c"># Summary</span>
-abricate <span class="nt">--summary</span> all_genomes_amr.tab <span class="o">&gt;</span> amr_summary.tab
-</code></pre></div></div>
-
-<p><strong>Available databases:</strong></p>
-
-<ul>
-  <li>card (CARD)</li>
-  <li>resfinder (ResFinder)</li>
-  <li>ncbi (NCBI AMRFinderPlus)</li>
-  <li>argannot</li>
-  <li>megares</li>
-  <li>vfdb (Virulence factors)</li>
-  <li>plasmidfinder</li>
-</ul>
-
-<hr />
-
-<h2 id="-carbohydrate-active-enzymes-cazymes">🍬 Carbohydrate-Active Enzymes (CAZymes)</h2>
-
-<h3 id="dbcan2-cazyme-annotation">dbCAN2: CAZyme Annotation</h3>
-
-<p><strong>dbCAN</strong> identifies enzymes that degrade, modify, or create carbohydrates.</p>
-
-<h4 id="installation-4">Installation</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> dbcan <span class="nt">-c</span> bioconda dbcan
-conda activate dbcan
-
-<span class="c"># Download databases</span>
-dbcan_build <span class="nt">--help</span>
-</code></pre></div></div>
-
-<h4 id="usage-3">Usage</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate dbcan
-
-<span class="c"># Run dbCAN</span>
-run_dbcan <span class="se">\</span>
-    proteins.faa <span class="se">\</span>
-    protein <span class="se">\</span>
-    <span class="nt">--out_dir</span> dbcan_output <span class="se">\</span>
-    <span class="nt">--db_dir</span> ~/dbcan_db <span class="se">\</span>
-    <span class="nt">--tools</span> all <span class="se">\</span>
-    <span class="nt">--threads</span> 8
-
-<span class="c"># Output: dbcan_output/overview.txt</span>
-</code></pre></div></div>
-
-<p><strong>CAZyme families:</strong></p>
-
-<ul>
-  <li><strong>GH</strong> - Glycoside Hydrolases (breakdown)</li>
-  <li><strong>GT</strong> - Glycosyl Transferases (synthesis)</li>
-  <li><strong>PL</strong> - Polysaccharide Lyases</li>
-  <li><strong>CE</strong> - Carbohydrate Esterases</li>
-  <li><strong>AA</strong> - Auxiliary Activities</li>
-  <li><strong>CBM</strong> - Carbohydrate-Binding Modules</li>
-</ul>
-
-<h4 id="parse-dbcan-results">Parse dbCAN Results</h4>
-
-<h2 id="use-parse_dbcanpy-from-day-6-">Use parse_dbcan.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></h2>
-
-<h2 id="-prophages--viruses">🦠 Prophages &amp; Viruses</h2>
-
-<h3 id="virsorter2-viral-sequence-detection">VirSorter2: Viral Sequence Detection</h3>
-
-<p><strong>VirSorter2</strong> identifies viral sequences in genomes and metagenomes.</p>
-
-<h4 id="installation-5">Installation</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> virsorter2 <span class="nt">-c</span> bioconda <span class="nv">virsorter</span><span class="o">=</span>2
-conda activate virsorter2
-
-<span class="c"># Setup database</span>
-virsorter setup <span class="nt">-d</span> ~/virsorter2-db <span class="nt">-j</span> 4
-</code></pre></div></div>
-
-<h4 id="usage-4">Usage</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate virsorter2
-
-<span class="c"># Run VirSorter2</span>
-virsorter run <span class="se">\</span>
-    <span class="nt">-i</span> genome.fa <span class="se">\</span>
-    <span class="nt">-w</span> virsorter2_output <span class="se">\</span>
-    <span class="nt">--min-length</span> 5000 <span class="se">\</span>
-    <span class="nt">--min-score</span> 0.5 <span class="se">\</span>
-    <span class="nt">-j</span> 8 <span class="se">\</span>
-    all
-
-<span class="c"># High-confidence viral sequences</span>
-<span class="nb">cat </span>virsorter2_output/final-viral-boundary.tsv
-</code></pre></div></div>
-
-<p><strong>VirSorter2 output:</strong></p>
-
-<ul>
-  <li>Prophage regions</li>
-  <li>Viral score (0-1)</li>
-  <li>Boundary coordinates</li>
-  <li>Gene content</li>
-</ul>
-
-<hr />
-
-<h3 id="phaster-phage-search-tool-enhanced-release">PHASTER: PHAge Search Tool Enhanced Release</h3>
-
-<p><strong>PHASTER</strong> identifies prophages with detailed annotation.</p>
-
-<p><strong>Note:</strong> PHASTER is primarily a web service.</p>
-
-<p><strong>Web interface:</strong> https://phaster.ca/</p>
-
-<p><strong>Alternative: Use VirSorter2 + CheckV</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># CheckV for viral genome quality</span>
-conda create <span class="nt">-n</span> checkv <span class="nt">-c</span> bioconda checkv
-conda activate checkv
-
-<span class="c"># Download database</span>
-checkv download_database ~/checkv-db
-
-<span class="c"># Run CheckV on VirSorter2 results</span>
-checkv end_to_end <span class="se">\</span>
-    virsorter2_output/final-viral-combined.fa <span class="se">\</span>
-    checkv_output <span class="se">\</span>
-    <span class="nt">-d</span> ~/checkv-db <span class="se">\</span>
-    <span class="nt">-t</span> 8
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="️-crispr-systems">✂️ CRISPR Systems</h2>
-
-<h3 id="crisprcasfinder-detect-crispr-cas-systems">CRISPRCasFinder: Detect CRISPR-Cas Systems</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Installation</span>
-conda create <span class="nt">-n</span> crisprcasfinder <span class="nt">-c</span> bioconda crisprcasfinder
-conda activate crisprcasfinder
-
-<span class="c"># Run</span>
-CRISPRCasFinder.pl <span class="se">\</span>
-    <span class="nt">-in</span> genome.fa <span class="se">\</span>
-    <span class="nt">-out</span> crispr_output <span class="se">\</span>
-    <span class="nt">-cas</span> <span class="se">\</span>
-    <span class="nt">-keep</span>
-</code></pre></div></div>
-
-<h3 id="minced-simple-crispr-detection">MinCED: Simple CRISPR Detection</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> minced <span class="nt">-c</span> bioconda minced
-conda activate minced
-
-<span class="c"># Quick CRISPR detection</span>
-minced genome.fa crispr_output.txt
-
-<span class="c"># Parse results</span>
-<span class="nb">grep</span> <span class="s2">"CRISPR"</span> crispr_output.txt
-</code></pre></div></div>
-
-<p><strong>CRISPR system types:</strong></p>
-
-<ul>
-  <li>Type I (most common in bacteria)</li>
-  <li>Type II (Cas9 - CRISPR editing)</li>
-  <li>Type III</li>
-  <li>Type IV-VI (rare)</li>
-</ul>
-
-<hr />
-
-<h2 id="-mobile-genetic-elements">🔄 Mobile Genetic Elements</h2>
-
-<h3 id="isfinder-insertion-sequences">ISfinder: Insertion Sequences</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use ABRicate with custom IS database</span>
-abricate <span class="nt">--db</span> isfinder genome.fa <span class="o">&gt;</span> is_results.tab
-
-<span class="c"># Or BLAST against ISfinder database</span>
-blastn <span class="se">\</span>
-    <span class="nt">-query</span> genome.fa <span class="se">\</span>
-    <span class="nt">-db</span> ~/isfinder_db/ISfinder <span class="se">\</span>
-    <span class="nt">-outfmt</span> 6 <span class="se">\</span>
-    <span class="nt">-num_threads</span> 8 <span class="se">\</span>
-    <span class="o">&gt;</span> is_blast.out
-</code></pre></div></div>
-
-<h3 id="integron-finder">Integron Finder</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> integron_finder <span class="nt">-c</span> bioconda integron_finder
-conda activate integron_finder
-
-<span class="c"># Find integrons</span>
-integron_finder <span class="se">\</span>
-    <span class="nt">--local-max</span> <span class="se">\</span>
-    <span class="nt">--cpu</span> 8 <span class="se">\</span>
-    genome.fa
-</code></pre></div></div>
-
-<p><strong>Integrons contain:</strong></p>
-
-<ul>
-  <li>Integration sites</li>
-  <li>Gene cassettes</li>
-  <li>Often AMR genes</li>
-</ul>
-
-<hr />
-
-<h2 id="-protein-domains--functions">🧬 Protein Domains &amp; Functions</h2>
-
-<h3 id="interproscan-comprehensive-domain-analysis">InterProScan: Comprehensive Domain Analysis</h3>
-
-<p><strong>InterProScan</strong> searches multiple protein signature databases.</p>
-
-<h4 id="installation-6">Installation</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Large download - recommend using web service</span>
-<span class="c"># Or install locally:</span>
-wget ftp://ftp.ebi.ac.uk/pub/software/unix/iprscan/5/5.XX-XX.X/interproscan-5.XX-XX.X-64-bit.tar.gz
-<span class="nb">tar</span> <span class="nt">-xzf</span> interproscan-5.XX-XX.X-64-bit.tar.gz
-</code></pre></div></div>
-
-<h4 id="usage-5">Usage</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run InterProScan</span>
-interproscan.sh <span class="se">\</span>
-    <span class="nt">-i</span> proteins.faa <span class="se">\</span>
-    <span class="nt">-f</span> TSV,GFF3 <span class="se">\</span>
-    <span class="nt">-o</span> interproscan_output <span class="se">\</span>
-    <span class="nt">--cpu</span> 8 <span class="se">\</span>
-    <span class="nt">--goterms</span> <span class="se">\</span>
-    <span class="nt">--pathways</span>
-</code></pre></div></div>
-
-<p><strong>Databases searched:</strong></p>
-
-<ul>
-  <li>Pfam (protein families)</li>
-  <li>PROSITE (patterns)</li>
-  <li>PRINTS</li>
-  <li>SMART</li>
-  <li>TIGRFAMs</li>
-  <li>PANTHER</li>
-  <li>Gene3D</li>
-  <li>Superfamily</li>
-</ul>
-
-<h4 id="parse-interproscan">Parse InterProScan</h4>
-
-<h2 id="use-parse_iprpy-from-day-6-">Use parse_ipr.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></h2>
-
-<h2 id="-comprehensive-analysis-workflow">📊 Comprehensive Analysis Workflow</h2>
-
-<h3 id="complete-specialized-function-pipeline">Complete Specialized Function Pipeline</h3>
-
-<p>Use comprehensive_analysis.sh from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></p>
-
-<hr />
-
-<h2 id="-comparative-analysis">📈 Comparative Analysis</h2>
-
-<h3 id="compare-specialized-functions-across-genomes">Compare Specialized Functions Across Genomes</h3>
-
-<p>Use compare_specialized_functions.py from <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></p>
-
-<h2 id="-best-practices">💡 Best Practices</h2>
-
-<h3 id="before-analysis">Before Analysis</h3>
-
-<ul>
-  <li>✅ Have complete gene predictions (Prodigal/Prokka)</li>
-  <li>✅ Use GenBank format for antiSMASH</li>
-  <li>✅ Check genome quality (comp &gt;80%, cont &lt;5%)</li>
-  <li>✅ Ensure databases are updated</li>
-</ul>
-
-<h3 id="during-analysis">During Analysis</h3>
-
-<ul>
-  <li>✅ Run tools in priority order (fast → slow)</li>
-  <li>✅ Use multiple tools for AMR (RGI + ABRicate)</li>
-  <li>✅ Save intermediate files</li>
-  <li>✅ Document tool versions</li>
-</ul>
-
-<h3 id="after-analysis">After Analysis</h3>
-
-<ul>
-  <li>✅ Validate hits manually (especially AMR)</li>
-  <li>✅ Check for false positives</li>
-  <li>✅ Cross-reference with literature</li>
-  <li>✅ Visualize results</li>
-</ul>
-
-<hr />
-
-<h2 id="-troubleshooting">🔧 Troubleshooting</h2>
-
-<h3 id="antismash-no-bgcs-detected">antiSMASH: No BGCs detected</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check input format</span>
-<span class="nb">head </span>genome.gbk
-
-<span class="c"># Try with relaxed detection</span>
-antismash <span class="nt">--minimal</span> ...
-
-<span class="c"># Ensure genome is annotated</span>
-</code></pre></div></div>
-
-<h3 id="rgi-no-results">RGI: No results</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update CARD database</span>
-rgi load <span class="nt">--card_json</span> ~/card_database/card.json
-
-<span class="c"># Try --include_loose for more hits</span>
-rgi main <span class="nt">--include_loose</span> ...
-</code></pre></div></div>
-
-<h3 id="dbcan-low-cazyme-count">dbCAN: Low CAZyme count</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use all three tools</span>
-run_dbcan <span class="nt">--tools</span> all ...
-
-<span class="c"># Check protein quality</span>
-<span class="nb">grep</span> <span class="s2">"&gt;"</span> proteins.faa | <span class="nb">wc</span> <span class="nt">-l</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="-expected-results">📈 Expected Results</h2>
-
-<h3 id="typical-findings-per-genome">Typical Findings per Genome</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Feature</th>
-      <th>Typical Range</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>BGCs</strong></td>
-      <td>5-30</td>
-    </tr>
-    <tr>
-      <td><strong>AMR genes</strong></td>
-      <td>0-50</td>
-    </tr>
-    <tr>
-      <td><strong>CAZymes</strong></td>
-      <td>50-500</td>
-    </tr>
-    <tr>
-      <td><strong>Prophages</strong></td>
-      <td>0-10</td>
-    </tr>
-    <tr>
-      <td><strong>CRISPR arrays</strong></td>
-      <td>0-5</td>
-    </tr>
-    <tr>
-      <td><strong>Integrons</strong></td>
-      <td>0-5</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="visulaizations">Visulaizations</h3>
-
-<h4 id="-1-bgc_heatmapr---bgc-distribution">📊 1. bgc_heatmap.R - BGC Distribution</h4>
-
-<p><strong>What it does:</strong></p>
-
-<p>● Visualizes antiSMASH BGC distributions across genomes
-● Creates 3 heatmap variants (basic, custom colors, annotated)
-● Includes toy data built-in
-● Automatic clustering by BGC similarity</p>
-
-<p>Outputs:</p>
-
-<p>● bgc_heatmap_basic.pdf - Simple clustered heatmap
-● bgc_heatmap_custom.pdf - Custom gradient (white → gold → red → purple)
-● bgc_heatmap_annotated.pdf - With annotations for BGC richness
-● bgc_summary.csv - Summary statistics</p>
-
-<p>Toy data included: 15 genomes × 9 BGC types</p>
-
-<h4 id="-2-cazyme_bubble_plotr---cazyme-analysis">🍬 2. cazyme_bubble_plot.R - CAZyme Analysis</h4>
-
-<p><strong>What it does:</strong></p>
-
-<p>● Creates bubble plots showing CAZyme family distributions
-● Bubble size = CAZyme count
-● Color = Genome completion percentage
-● Includes heatmap and bar plot variants
-● Analyzes degradation capabilities</p>
-
-<p>Outputs:</p>
-
-<p>● cazyme_bubble_plot.pdf - Main bubble visualization
-● cazyme_bubble_plot_alt.pdf - Alternative color scheme
-● cazyme_total_barplot.pdf - Total counts by taxonomic order
-● cazyme_heatmap.pdf - Clustered heatmap
-● cazyme_summary.csv - Summary with degradation analysis</p>
-
-<p>Toy data included: 12 taxonomic orders × 6 CAZyme families</p>
-
-<p>All R-codes available in *<em><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></em></p>
-
-<h3 id="processing-time-8-core-laptop">Processing Time (8-core laptop)</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Tool</th>
-      <th>Single Genome</th>
-      <th>10 Genomes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>antiSMASH</td>
-      <td>30-60 min</td>
-      <td>8-10 hrs</td>
-    </tr>
-    <tr>
-      <td>RGI</td>
-      <td>5-10 min</td>
-      <td>1-2 hrs</td>
-    </tr>
-    <tr>
-      <td>ABRicate</td>
-      <td>1-2 min</td>
-      <td>15-20 min</td>
-    </tr>
-    <tr>
-      <td>dbCAN</td>
-      <td>10-20 min</td>
-      <td>2-3 hrs</td>
-    </tr>
-    <tr>
-      <td>VirSorter2</td>
-      <td>20-40 min</td>
-      <td>5-7 hrs</td>
-    </tr>
-    <tr>
-      <td>InterProScan</td>
-      <td>1-2 hrs</td>
-      <td>15-20 hrs</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="-success-checklist">✅ Success Checklist</h2>
-
-<ul class="task-list">
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />BGCs identified and annotated</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />AMR profile generated</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />CAZyme repertoire characterized</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Prophages detected</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />CRISPR systems identified</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Mobile elements cataloged</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Protein domains annotated</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Comparative analysis completed</li>
-</ul>
-
-<hr />
-
-<h2 id="-key-resources">📚 Key Resources</h2>
-
-<h3 id="tools--databases">Tools &amp; Databases</h3>
-
-<ul>
-  <li><a href="https://antismash.secondarymetabolites.org/">antiSMASH</a></li>
-  <li><a href="https://card.mcmaster.ca/">CARD</a></li>
-  <li><a href="https://github.com/tseemann/abricate">ABRicate</a></li>
-  <li><a href="http://bcb.unl.edu/dbCAN2/">dbCAN</a></li>
-  <li><a href="https://github.com/jiarong/VirSorter2">VirSorter2</a></li>
-  <li><a href="https://www.ebi.ac.uk/interpro/">InterProScan</a></li>
-</ul>
-
-<hr />
-
-<h2 id="️-whats-next">➡️ What’s Next?</h2>
-
-<p><strong>Congratulations!</strong> You’ve discovered the specialized capabilities of your genomes!</p>
-
-<p>Next steps:</p>
-
-<ul>
-  <li>Comparative genomics</li>
-  <li>Pangenome analysis</li>
-  <li>Phylogenomics</li>
-  <li>Publication!</li>
-</ul>
-
-<h4 id="repo-for-todays-code-and-other-details">Repo for today’s code and other details</h4>
-
-<p>🔗 <strong><a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day6-specialized-functions/">Day 6 →</a></strong></p>
-
-<p>Last updated: February 2026</p>
-
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 4 — Scaling Analysis: For Loops vs SLURM Job Arrays</title><link href="https://jojyjohn28.github.io/blog/day4-job-arrays/" rel="alternate" type="text/html" title="Day 4 — Scaling Analysis: For Loops vs SLURM Job Arrays" /><published>2026-03-17T00:00:00-04:00</published><updated>2026-03-17T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day4-job-arrays</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day4-job-arrays/"><![CDATA[<h1 id="day-4-scaling-analysis--for-loops-vs-slurm-job-arrays">Day 4: Scaling Analysis — For Loops vs SLURM Job Arrays</h1>
+<p><img src="/assets/img/d5_hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="Snakemake" /><category term="Nextflow" /><category term="bioinformatics" /><category term="reproducibility" /><category term="workflow" /><category term="pipeline" /><category term="beginners" /><summary type="html"><![CDATA[Shell scripts work — until they don't. Here's how to graduate from manual job submissions to proper workflow managers that track dependencies, restart from failures, scale to HPC, and make your analysis reproducible by anyone, anywhere.]]></summary></entry><entry><title type="html">Day 4 — Scaling Analysis: For Loops vs SLURM Job Arrays</title><link href="https://jojyjohn28.github.io/blog/day4-job-arrays/" rel="alternate" type="text/html" title="Day 4 — Scaling Analysis: For Loops vs SLURM Job Arrays" /><published>2026-03-17T00:00:00-04:00</published><updated>2026-03-17T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day4-job-arrays</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day4-job-arrays/"><![CDATA[<h1 id="day-4-scaling-analysis--for-loops-vs-slurm-job-arrays">Day 4: Scaling Analysis — For Loops vs SLURM Job Arrays</h1>
 
 <blockquote>
   <p><em>This is Day 4 of a 6-part series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong> and 🧬 Day 60 of Daily Bioinformatics from Jojy’s Desk. In <a href="https://jojyjohn28.github.io/blog/day3-running-jobs/">Day 3</a> we learned how to submit a single job. Today we scale it: the same work, 200× faster.</em></p>
@@ -4952,571 +5650,4 @@ Module eigengenes  →  correlate with environmental traits
 
 <hr />
 
-<p><img src="/assets/img/wgcna-all.png" alt="WGCNA MAG Co-Abundance Networks" /></p>]]></content><author><name></name></author><category term="WGCNA" /><category term="co-expression" /><category term="network" /><category term="modules" /><category term="eigengenes" /><category term="metagenomics" /><category term="R" /><summary type="html"><![CDATA[WGCNA moves you from 61 individual Wilcoxon tests to a handful of ecological guilds — each with a name, a size, and a direct relationship to the environmental gradient that drives it.]]></summary></entry><entry><title type="html">Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment</title><link href="https://jojyjohn28.github.io/blog/day5-multiple-regression-mag-abundance/" rel="alternate" type="text/html" title="Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment" /><published>2026-03-06T00:00:00-05:00</published><updated>2026-03-06T00:00:00-05:00</updated><id>https://jojyjohn28.github.io/blog/day5-multiple-regression-mag-abundance</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day5-multiple-regression-mag-abundance/"><![CDATA[<h4 id="day-5--multiple-regression-for-mag-abundance-linking-genomics-to-environment">Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment</h4>
-
-<p>*Day 5 of 7 in the series <strong>Applied Statistics for Microbiome &amp; Genomics Data.*</strong> &amp; 🧬 Day 55 of Daily Bioinformatics from Jojy’s Desk
-<em>Dataset: 61 MAGs × 27 metagenomes, Chesapeake Bay + Delaware Bay.</em>
-<em>All R code: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
-
-<hr />
-
-<p>Days 2–4 were about <strong>categories</strong>. PERMANOVA told us communities differ by season. Wilcoxon told us 40 of 61 MAGs are significantly enriched in one season over another. Both approaches treat season as a discrete label — Spring or Summer, group A or group B.</p>
-
-<p>Today we ask a fundamentally different question:</p>
-
-<blockquote>
-  <p><em>How does a MAG’s abundance change as salinity increases by 1 psu? Does that relationship hold at all seasons, or only in summer? How much of the variance can we actually explain?</em></p>
-</blockquote>
-
-<p>This is <strong>multiple regression</strong> — the bridge from discrete group comparisons to the continuous environmental gradients that actually structure microbial communities in estuaries. It also forces us to be honest about model assumptions in a way that Wilcoxon tests do not.</p>
-
-<hr />
-
-<h4 id="why-not-just-use-wilcoxon-for-everything">Why Not Just Use Wilcoxon for Everything?</h4>
-
-<p>The Wilcoxon test compares ranks between two groups. It cannot tell you:</p>
-
-<ul>
-  <li><strong>How much</strong> abundance changes per unit of salinity or temperature</li>
-  <li>Whether salinity is a better predictor than temperature, after accounting for both simultaneously</li>
-  <li>Whether the salinity–abundance relationship is steeper in summer than spring (an interaction)</li>
-  <li>Which fraction of total variance each environmental variable explains independently</li>
-</ul>
-
-<p>Regression answers all of these. The trade-off is stronger assumptions — and an obligation to check them every time.</p>
-
-<hr />
-
-<h4 id="four-mags-four-ecological-stories">Four MAGs, Four Ecological Stories</h4>
-
-<p>We focus on four MAGs with clear a priori hypotheses:</p>
-
-<p>▶ <strong>Pelagibacterales MAG 18</strong> — SAR11 clade, the most abundant marine bacteria on Earth. Expected to increase strongly with salinity, since these are canonical marine specialists that thrive in high-salinity offshore waters.</p>
-
-<p>▶ <strong>Nanopelagicales MAG 18</strong> — acI lineage, freshwater actinobacteria. Expected to <em>decrease</em> with salinity — found in rivers and low-salinity estuarine zones, disappearing as marine water dominates.</p>
-
-<p>▶ <strong>Flavobacteriales MAG 6</strong> — particle-degrading bacteria linked to phytoplankton blooms. Expected to track season (bloom timing, organic matter availability) more than the salinity gradient itself.</p>
-
-<p>▶ <strong>Rhodobacterales MAG 15</strong> — Roseobacter clade, metabolically versatile. Expected to respond to salinity but potentially also to organic matter proxies like chlorophyll.</p>
-
-<hr />
-
-<h4 id="before-you-model-anything-plot-it">Before You Model Anything: Plot It</h4>
-
-<p>▶ The first thing you should always do is scatter-plot the response against each predictor, coloured by season. <strong>Panels A and B</strong> show these relationships for Pelagibacterales and Nanopelagicales against salinity.</p>
-
-<p>▶ The contrast is striking. Pelagibacterales (Panel A) increases monotonically with salinity — r² = 0.654 on a single-variable regression, β = +0.327 per psu, p &lt; 0.001. Nanopelagicales (Panel B) shows the exact mirror image — r² = 0.769, β = −0.325 per psu, p &lt; 0.001. Same magnitude of effect, opposite sign, opposite ecological strategy.</p>
-
-<p>▶ Notice that the points are coloured by season but the regression line ignores season entirely. Low-salinity samples are all Spring; high-salinity samples are all Summer. Salinity and season are correlated in this estuary. This will matter enormously when we add both to a single model.</p>
-
-<hr />
-
-<h4 id="the-statistical-framework">The Statistical Framework</h4>
-
-<h5 id="the-additive-linear-model">The additive linear model</h5>
-
-<p>The core equation for multiple regression with three predictors:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>log(abundance + 1) = β₀ + β₁·Salinity + β₂·Temperature + β₃·Season + ε
-</code></pre></div></div>
-
-<ul>
-  <li><strong>β₀</strong> — intercept: predicted log-abundance when all predictors equal zero</li>
-  <li><strong>β₁</strong> — salinity coefficient: expected change in log-abundance for a 1 psu increase in salinity, <em>holding Temperature and Season constant</em></li>
-  <li><strong>β₂</strong> — temperature coefficient: same logic for temperature</li>
-  <li><strong>β₃</strong> — season coefficient: expected difference between Summer (coded 1) and Spring (coded 0) after controlling for Salinity and Temperature</li>
-  <li><strong>ε</strong> — residual error: everything not captured by the model</li>
-</ul>
-
-<p>The word <strong>additive</strong> is critical. This model assumes the effect of salinity is identical at all temperatures and in both seasons. If that assumption is wrong — and in ecology it often is — you need an interaction term.</p>
-
-<h5 id="why-log-transform-first">Why log-transform first?</h5>
-
-<p>Raw MAG abundance values are right-skewed, zero-inflated, and span four or more orders of magnitude. Fitting OLS on untransformed counts often violates linearity and residual assumptions, which can substantially distort coefficient estimates, standard errors, and p-values.. After <code class="language-plaintext highlighter-rouge">log1p(x)</code> transformation:</p>
-
-<ul>
-  <li>The response variable is approximately normally distributed</li>
-  <li>Relationships with continuous predictors become approximately linear</li>
-  <li>Coefficients have a clean multiplicative biological interpretation</li>
-</ul>
-
-<h5 id="interpreting-β-coefficients-biologically">Interpreting β coefficients biologically</h5>
-
-<p>For <strong>Pelagibacterales MAG 18</strong>, the additive multiple regression (Salinity + Temperature + Season) gives β_Salinity = <strong>+0.271</strong> (SE = 0.039, t = 6.98, p &lt; 0.001).</p>
-
-<p>This means: <em>for every 1 psu increase in salinity, log(Pelagibacterales MAG 18 + 1) increases by 0.271 units, after accounting for Temperature and Season.</em></p>
-
-<p>In original abundance units, exponentiate: e^0.271 ≈ <strong>1.31 — a 31% increase in abundance per 1 psu of salinity.</strong> Across the full salinity range in our dataset (0.18 to 30.52 psu = 30.3 units): 0.271 × 30.3 ≈ <strong>8.2 log units of predicted change.</strong> That is the difference between near-zero and the highest abundances in our dataset — entirely consistent with a marine specialist traversing an estuarine gradient from freshwater to marine conditions.</p>
-
-<p>For <strong>Nanopelagicales MAG 18</strong>, β<em>Salinity = <strong>−0.349</strong> (t = −9.65, p &lt; 0.001). Every 1 psu increase in salinity corresponds to a 29% _decrease</em> in abundance. Two perfectly contrasting ecological strategies, captured by slope sign alone.</p>
-
-<h5 id="partial-vs-simple-coefficients">Partial vs simple coefficients</h5>
-
-<p>Notice that β<em>Salinity in the additive model (0.271) is slightly smaller than in the simple regression (0.327). This is because the additive model _partials out</em> the shared variance between Salinity, Temperature, and Season. The simple regression overestimates the salinity effect because it absorbs variance that is actually due to Temperature and Season (which happen to be collinear with Salinity in this estuary).</p>
-
-<p>Neither estimate is “wrong” — they answer different questions. Simple regression answers: “how does abundance change with salinity in this dataset?” Multiple regression answers: “how does abundance change with salinity <em>independent of</em> Temperature and Season?” The latter is usually what you want biologically.</p>
-
-<h5 id="r-and-adjusted-r">R² and adjusted R²</h5>
-
-<p>R² is the proportion of variance explained. The additive model explains <strong>R² = 0.817</strong> of Pelagibacterales variance — strong for field ecological data. Adding Temperature and Season on top of Salinity alone increased R² from 0.654 to 0.817.</p>
-
-<p>Always report <strong>adjusted R²</strong>, which penalises for additional predictors. Here adj.R² = 0.793, not far below R² = 0.817, confirming Temperature and Season are genuinely contributing rather than just inflating the statistic.</p>
-
-<hr />
-
-<h2 id="the-r-code">The R Code</h2>
-
-<h3 id="setup-load-align-log-transform">Setup: load, align, log-transform</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">patchwork</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">broom</span><span class="p">)</span><span class="w">   </span><span class="c1"># tidy model outputs</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">car</span><span class="p">)</span><span class="w">     </span><span class="c1"># vif() multicollinearity check</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">lmtest</span><span class="p">)</span><span class="w">  </span><span class="c1"># bptest() heteroscedasticity</span><span class="w">
-
-</span><span class="c1"># Load data</span><span class="w">
-</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"../day1/data/metadata.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">","</span><span class="p">)</span><span class="w">
-</span><span class="n">mag_raw</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"../day1/data/mag_abundance.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">","</span><span class="p">)</span><span class="w">
-</span><span class="n">mag_t</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">mag_raw</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Align — always verify before proceeding</span><span class="w">
-</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="p">[</span><span class="n">match</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_t</span><span class="p">),</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)),</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span><span class="n">stopifnot</span><span class="p">(</span><span class="nf">all</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_t</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)))</span><span class="w">
-
-</span><span class="c1"># CRITICAL: log-transform before any regression</span><span class="w">
-</span><span class="n">mag_log</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">log1p</span><span class="p">(</span><span class="n">mag_t</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Encode and derive predictors</span><span class="w">
-</span><span class="n">metadata</span><span class="o">$</span><span class="n">Season_num</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">metadata</span><span class="o">$</span><span class="n">Season</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Summer"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
-</span><span class="n">metadata</span><span class="o">$</span><span class="n">Sal_x_Temp</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Salinity</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Temperature</span><span class="w">
-
-</span><span class="c1"># Build modelling dataframe (n=27, no NAs for these variables)</span><span class="w">
-</span><span class="n">reg_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cbind</span><span class="p">(</span><span class="w">
-  </span><span class="n">metadata</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Season"</span><span class="p">,</span><span class="s2">"Season_num"</span><span class="p">,</span><span class="s2">"Salinity"</span><span class="p">,</span><span class="s2">"Temperature"</span><span class="p">,</span><span class="s2">"ChlA"</span><span class="p">,</span><span class="s2">"Sal_x_Temp"</span><span class="p">)],</span><span class="w">
-  </span><span class="n">mag_log</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Pelagibacterales_MAG_18"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Nanopelagicales_MAG_18"</span><span class="p">,</span><span class="w">
-              </span><span class="s2">"Flavobacteriales_MAG_6"</span><span class="p">,</span><span class="w">  </span><span class="s2">"Rhodobacterales_MAG_15"</span><span class="p">)]</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span><span class="n">cat</span><span class="p">(</span><span class="s2">"n ="</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">reg_df</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">  </span><span class="c1"># 27</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="always-scatter-plot-before-modelling">Always scatter-plot before modelling</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">scatter_pela</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">reg_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">Salinity</span><span class="p">,</span><span class="w"> </span><span class="n">Pelagibacterales_MAG_18</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="n">Season</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">3.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">"lm"</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="s2">"#1d4ed8"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="m">1.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_colour_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="o">=</span><span class="s2">"#16a34a"</span><span class="p">,</span><span class="s2">"Summer"</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">annotate</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="m">11.5</span><span class="p">,</span><span class="w">
-           </span><span class="n">label</span><span class="o">=</span><span class="s2">"r² = 0.654\nβ = +0.327 per psu\np &lt; 0.001"</span><span class="p">,</span><span class="w">
-           </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">3.5</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="s2">"mono"</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="s2">"#1d4ed8"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Salinity (psu)"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">"log(abundance + 1)"</span><span class="p">,</span><span class="w">
-       </span><span class="n">title</span><span class="o">=</span><span class="s2">"Pelagibacterales MAG 18 ~ Salinity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"bottom"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">scatter_nano</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">reg_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">Salinity</span><span class="p">,</span><span class="w"> </span><span class="n">Nanopelagicales_MAG_18</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="n">Season</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">3.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">"lm"</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="s2">"#7c3aed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="m">1.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_colour_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="o">=</span><span class="s2">"#16a34a"</span><span class="p">,</span><span class="s2">"Summer"</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">annotate</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="m">17</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="m">9.5</span><span class="p">,</span><span class="w">
-           </span><span class="n">label</span><span class="o">=</span><span class="s2">"r² = 0.769\nβ = −0.325 per psu\np &lt; 0.001"</span><span class="p">,</span><span class="w">
-           </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">3.5</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="s2">"mono"</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="s2">"#7c3aed"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Salinity (psu)"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">"log(abundance + 1)"</span><span class="p">,</span><span class="w">
-       </span><span class="n">title</span><span class="o">=</span><span class="s2">"Nanopelagicales MAG 18 ~ Salinity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"bottom"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">scatter_pela</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">scatter_nano</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="fit-and-inspect-the-additive-models">Fit and inspect the additive models</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Model 1: Pelagibacterales ~ Salinity + Temperature + Season (additive)</span><span class="w">
-</span><span class="n">m1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">Pelagibacterales_MAG_18</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Salinity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Season_num</span><span class="p">,</span><span class="w">
-          </span><span class="n">data</span><span class="o">=</span><span class="n">reg_df</span><span class="p">)</span><span class="w">
-</span><span class="n">summary</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Coefficients:
-              Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)    5.9801     2.0368    2.94   0.0074 **
-Salinity       0.2706     0.0387    6.98  &lt; 0.001 ***
-Temperature   -0.0753     0.2142   -0.35   0.728
-Season_num    -2.7203     4.0252   -0.68   0.506
-
-Residual standard error: 1.671 on 23 df
-R² = 0.8171   Adjusted R² = 0.7933
-</code></pre></div></div>
-
-<p>Salinity is the only significant predictor (p &lt; 0.001). Temperature and Season are not significant <em>after</em> accounting for Salinity — because all three variables travel together up the estuarine gradient. As summer arrives, freshwater input drops, salinity rises, and temperature rises. The same gradient, measured three ways. Once Salinity is in the model, Temperature and Season add no independent explanatory power.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tidy</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span><span class="w">    </span><span class="c1"># broom: clean coefficient table with CIs</span><span class="w">
-</span><span class="n">glance</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span><span class="w">  </span><span class="c1"># broom: R², AIC, BIC, etc.</span><span class="w">
-
-</span><span class="c1"># Biological interpretation</span><span class="w">
-</span><span class="n">cat</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="w">
-  </span><span class="s2">"β_Salinity = %.4f\nPer 1 psu: ×%.2f (%.0f%% change)\nFull range (30.3 psu): %.1f log-units\n"</span><span class="p">,</span><span class="w">
-  </span><span class="n">coef</span><span class="p">(</span><span class="n">m1</span><span class="p">)[</span><span class="s2">"Salinity"</span><span class="p">],</span><span class="w">
-  </span><span class="nf">exp</span><span class="p">(</span><span class="n">coef</span><span class="p">(</span><span class="n">m1</span><span class="p">)[</span><span class="s2">"Salinity"</span><span class="p">]),</span><span class="w">
-  </span><span class="p">(</span><span class="nf">exp</span><span class="p">(</span><span class="n">coef</span><span class="p">(</span><span class="n">m1</span><span class="p">)[</span><span class="s2">"Salinity"</span><span class="p">])</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w">
-  </span><span class="n">coef</span><span class="p">(</span><span class="n">m1</span><span class="p">)[</span><span class="s2">"Salinity"</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">30.3</span><span class="w">
-</span><span class="p">))</span><span class="w">
-</span><span class="c1"># β_Salinity = 0.2706</span><span class="w">
-</span><span class="c1"># Per 1 psu: ×1.31 (31% change)</span><span class="w">
-</span><span class="c1"># Full range (30.3 psu): 8.2 log-units</span><span class="w">
-</span></code></pre></div></div>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Model 2: Nanopelagicales — opposite salinity direction</span><span class="w">
-</span><span class="n">m2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">Nanopelagicales_MAG_18</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Salinity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Season_num</span><span class="p">,</span><span class="w">
-          </span><span class="n">data</span><span class="o">=</span><span class="n">reg_df</span><span class="p">)</span><span class="w">
-</span><span class="n">summary</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span><span class="w">
-</span><span class="c1"># Salinity: β = -0.3488  t = -9.65  p &lt; 0.001 ***</span><span class="w">
-</span><span class="c1"># R² = 0.815   adj.R² = 0.790</span><span class="w">
-
-</span><span class="c1"># Model 3: Flavobacteriales — season-dominant, not salinity</span><span class="w">
-</span><span class="n">m3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">Flavobacteriales_MAG_6</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Salinity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Season_num</span><span class="p">,</span><span class="w">
-          </span><span class="n">data</span><span class="o">=</span><span class="n">reg_df</span><span class="p">)</span><span class="w">
-</span><span class="n">summary</span><span class="p">(</span><span class="n">m3</span><span class="p">)</span><span class="w">
-</span><span class="c1"># R² = 0.879  adj.R² = 0.864</span><span class="w">
-</span><span class="c1"># NO individual predictor is significant (Season: β=-3.27, p=0.306)</span><span class="w">
-</span><span class="c1"># High R² with no significant individual predictors — joint collinear effect</span><span class="w">
-
-</span><span class="c1"># Model 4: Rhodobacterales — moderate salinity response</span><span class="w">
-</span><span class="n">m4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">Rhodobacterales_MAG_15</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Salinity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Season_num</span><span class="p">,</span><span class="w">
-          </span><span class="n">data</span><span class="o">=</span><span class="n">reg_df</span><span class="p">)</span><span class="w">
-</span><span class="n">summary</span><span class="p">(</span><span class="n">m4</span><span class="p">)</span><span class="w">
-</span><span class="c1"># Salinity: β = +0.1979  t = 4.07  p &lt; 0.001 ***</span><span class="w">
-</span><span class="c1"># R² = 0.655   adj.R² = 0.610</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="check-multicollinearity">Check multicollinearity</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vif</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span><span class="w">
-</span><span class="c1">#   Salinity  Temperature  Season_num</span><span class="w">
-</span><span class="c1">#      3.12         3.98        4.07</span><span class="w">
-</span><span class="c1"># All &lt; 5 — acceptable. High VIF (&gt;5–10) would destabilise coefficients.</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="the-four-diagnostic-plots">The four diagnostic plots</h3>
-
-<p>These are not optional. Run them for every model you report.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># All four at once in base R</span><span class="w">
-</span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">));</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">m1</span><span class="p">);</span><span class="w"> </span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span><span class="w">
-
-</span><span class="c1"># Or rebuild in ggplot2 for publication quality:</span><span class="w">
-
-</span><span class="c1"># D: Residuals vs Fitted</span><span class="w">
-</span><span class="n">p_D</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data.frame</span><span class="p">(</span><span class="n">fitted</span><span class="o">=</span><span class="n">fitted</span><span class="p">(</span><span class="n">m1</span><span class="p">),</span><span class="w"> </span><span class="n">resid</span><span class="o">=</span><span class="n">resid</span><span class="p">(</span><span class="n">m1</span><span class="p">)),</span><span class="w">
-              </span><span class="n">aes</span><span class="p">(</span><span class="n">fitted</span><span class="p">,</span><span class="w"> </span><span class="n">resid</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="s2">"#1d4ed8"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="m">1.2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">"loess"</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="s2">"#d97706"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Fitted values"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">"Residuals"</span><span class="p">,</span><span class="w">
-       </span><span class="n">title</span><span class="o">=</span><span class="s2">"Residuals vs Fitted"</span><span class="p">,</span><span class="w">
-       </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Want: random scatter around 0"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
-
-</span><span class="c1"># E: Normal Q-Q</span><span class="w">
-</span><span class="n">resids_std</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rstandard</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span><span class="w">
-</span><span class="n">p_E</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data.frame</span><span class="p">(</span><span class="n">resids_std</span><span class="p">),</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="n">resids_std</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">stat_qq</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="s2">"#1d4ed8"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">stat_qq_line</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="m">1.2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Theoretical quantiles"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">"Sample quantiles"</span><span class="p">,</span><span class="w">
-       </span><span class="n">title</span><span class="o">=</span><span class="s2">"Normal Q-Q Plot"</span><span class="p">,</span><span class="w">
-       </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Want: points near the line"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
-
-</span><span class="c1"># F: Scale-Location</span><span class="w">
-</span><span class="n">p_F</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">data.frame</span><span class="p">(</span><span class="n">fitted</span><span class="o">=</span><span class="n">fitted</span><span class="p">(</span><span class="n">m1</span><span class="p">),</span><span class="w">
-                          </span><span class="n">sqrt_abs</span><span class="o">=</span><span class="nf">sqrt</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">resid</span><span class="p">(</span><span class="n">m1</span><span class="p">)))),</span><span class="w">
-              </span><span class="n">aes</span><span class="p">(</span><span class="n">fitted</span><span class="p">,</span><span class="w"> </span><span class="n">sqrt_abs</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="s2">"#1d4ed8"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">"loess"</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="s2">"#d97706"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Fitted values"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">"√|Residuals|"</span><span class="p">,</span><span class="w">
-       </span><span class="n">title</span><span class="o">=</span><span class="s2">"Scale-Location"</span><span class="p">,</span><span class="w">
-       </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Want: flat horizontal band"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
-
-</span><span class="c1"># G: Residual histogram with normal overlay</span><span class="w">
-</span><span class="n">r_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="n">resid</span><span class="p">(</span><span class="n">m1</span><span class="p">))</span><span class="w">
-</span><span class="n">p_G</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">r_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">r</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="m">11</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="s2">"#1d4ed8"</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.65</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">stat_function</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
-    </span><span class="n">dnorm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">r_df</span><span class="o">$</span><span class="n">r</span><span class="p">),</span><span class="w"> </span><span class="n">sd</span><span class="p">(</span><span class="n">r_df</span><span class="o">$</span><span class="n">r</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">r_df</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">diff</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="n">r_df</span><span class="o">$</span><span class="n">r</span><span class="p">))</span><span class="o">/</span><span class="m">11</span><span class="p">,</span><span class="w">
-    </span><span class="n">colour</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="m">1.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s2">"dotted"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Residuals"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">"Count"</span><span class="p">,</span><span class="w">
-       </span><span class="n">title</span><span class="o">=</span><span class="s2">"Residual Distribution"</span><span class="p">,</span><span class="w">
-       </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Want: bell-shaped, centred at 0"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
-
-</span><span class="p">(</span><span class="n">p_D</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">p_E</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">p_F</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">p_G</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Formal tests to accompany the visuals</span><span class="w">
-</span><span class="n">shapiro.test</span><span class="p">(</span><span class="n">resid</span><span class="p">(</span><span class="n">m1</span><span class="p">))</span><span class="w">
-</span><span class="c1"># W = 0.931  p = 0.081  — cannot reject normality (borderline; fine for n=27)</span><span class="w">
-
-</span><span class="n">bptest</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span><span class="w">   </span><span class="c1"># Breusch-Pagan</span><span class="w">
-</span><span class="c1"># BP = 3.18  p = 0.364  — no evidence of heteroscedasticity</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="the-interaction-model">The interaction model</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Model 5: Pelagibacterales ~ Salinity × Temperature</span><span class="w">
-</span><span class="c1"># Tests whether the salinity slope differs at different temperatures</span><span class="w">
-</span><span class="n">m5</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">Pelagibacterales_MAG_18</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Salinity</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Temperature</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">reg_df</span><span class="p">)</span><span class="w">
-</span><span class="n">summary</span><span class="p">(</span><span class="n">m5</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Coefficients:
-                    Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)         15.1328     3.3615    4.50  0.0002 ***
-Salinity            -0.0811     0.1368   -0.59  0.559
-Temperature         -0.5524     0.1347   -4.10  0.0004 ***
-Salinity:Temperature 0.0148     0.0056    2.63  0.015 *
-
-R² = 0.857   Adjusted R² = 0.838
-</code></pre></div></div>
-
-<p>The interaction term β_(Sal×Temp) = +0.0148 (p = 0.015) is significant. The salinity slope is not constant — it is steeper at higher temperatures. In summer (high temperature), each additional psu of salinity corresponds to even greater Pelagibacterales abundance than the additive model would predict.</p>
-
-<p>Visualising this as separate seasonal lines (<strong>Panel H</strong>) makes the interaction concrete:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># H: Separate regression lines by season</span><span class="w">
-</span><span class="n">p_int</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">reg_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">Salinity</span><span class="p">,</span><span class="w"> </span><span class="n">Pelagibacterales_MAG_18</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="n">Season</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">3.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">"lm"</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="m">2.2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_colour_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="o">=</span><span class="s2">"#16a34a"</span><span class="p">,</span><span class="s2">"Summer"</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">annotate</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="m">0.8</span><span class="p">,</span><span class="w">
-           </span><span class="n">label</span><span class="o">=</span><span class="s2">"Spring  β = +0.020  (r² = 0.036, p = 0.655 ns)\nSummer β = +0.309  (r² = 0.784, p &lt; 0.001)\nΔβ = −0.289  →  interaction term needed"</span><span class="p">,</span><span class="w">
-           </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">3.3</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="s2">"mono"</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="o">=</span><span class="s2">"#111827"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Salinity (psu)"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">"log(Pelagibacterales MAG 18 + 1)"</span><span class="p">,</span><span class="w">
-       </span><span class="n">title</span><span class="o">=</span><span class="s2">"Salinity × Season Interaction"</span><span class="p">,</span><span class="w">
-       </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Different slopes per season → additive model is insufficient"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"bottom"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The Spring slope is β = +0.020 (essentially flat, r² = 0.036, p = 0.655). The Summer slope is β = +0.309 (strong, r² = 0.784, p &lt; 0.001). The additive model averages these to β = +0.271 — a value that accurately describes neither season. This is exactly the scenario where an additive model is misleading.</p>
-
-<h3 id="loop-regression-across-all-61-mags">Loop regression across all 61 MAGs</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mag_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">colnames</span><span class="p">(</span><span class="n">mag_log</span><span class="p">)</span><span class="w">
-
-</span><span class="n">results_reg</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">mag_names</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">mag</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="n">df_m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cbind</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span><span class="w"> </span><span class="n">abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mag_log</span><span class="p">[,</span><span class="w"> </span><span class="n">mag</span><span class="p">])</span><span class="w">
-  </span><span class="n">m</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">abundance</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Salinity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Season_num</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">df_m</span><span class="p">)</span><span class="w">
-  </span><span class="n">sm</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">summary</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w">
-  </span><span class="n">cf</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">coef</span><span class="p">(</span><span class="n">sm</span><span class="p">)</span><span class="w">
-  </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
-    </span><span class="n">MAG</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">mag</span><span class="p">,</span><span class="w">
-    </span><span class="n">R2</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">sm</span><span class="o">$</span><span class="n">r.squared</span><span class="p">,</span><span class="w">
-    </span><span class="n">adj_R2</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">sm</span><span class="o">$</span><span class="n">adj.r.squared</span><span class="p">,</span><span class="w">
-    </span><span class="n">beta_sal</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">cf</span><span class="p">[</span><span class="s2">"Salinity"</span><span class="p">,</span><span class="w">    </span><span class="s2">"Estimate"</span><span class="p">],</span><span class="w">
-    </span><span class="n">p_sal</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">cf</span><span class="p">[</span><span class="s2">"Salinity"</span><span class="p">,</span><span class="w">    </span><span class="s2">"Pr(&gt;|t|)"</span><span class="p">],</span><span class="w">
-    </span><span class="n">beta_temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cf</span><span class="p">[</span><span class="s2">"Temperature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Estimate"</span><span class="p">],</span><span class="w">
-    </span><span class="n">p_temp</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">cf</span><span class="p">[</span><span class="s2">"Temperature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Pr(&gt;|t|)"</span><span class="p">],</span><span class="w">
-    </span><span class="n">beta_seas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cf</span><span class="p">[</span><span class="s2">"Season_num"</span><span class="p">,</span><span class="w">  </span><span class="s2">"Estimate"</span><span class="p">],</span><span class="w">
-    </span><span class="n">p_seas</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">cf</span><span class="p">[</span><span class="s2">"Season_num"</span><span class="p">,</span><span class="w">  </span><span class="s2">"Pr(&gt;|t|)"</span><span class="p">]</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span><span class="p">}))</span><span class="w">
-
-</span><span class="c1"># FDR correction across all 61 tests per predictor</span><span class="w">
-</span><span class="n">results_reg</span><span class="o">$</span><span class="n">q_sal</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p.adjust</span><span class="p">(</span><span class="n">results_reg</span><span class="o">$</span><span class="n">p_sal</span><span class="p">,</span><span class="w">  </span><span class="n">method</span><span class="o">=</span><span class="s2">"BH"</span><span class="p">)</span><span class="w">
-</span><span class="n">results_reg</span><span class="o">$</span><span class="n">q_temp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p.adjust</span><span class="p">(</span><span class="n">results_reg</span><span class="o">$</span><span class="n">p_temp</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"BH"</span><span class="p">)</span><span class="w">
-</span><span class="n">results_reg</span><span class="o">$</span><span class="n">q_seas</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p.adjust</span><span class="p">(</span><span class="n">results_reg</span><span class="o">$</span><span class="n">p_seas</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"BH"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Significant salinity effect (q&lt;0.05):"</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">results_reg</span><span class="o">$</span><span class="n">q_sal</span><span class="w">  </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
-</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Significant temperature effect:       "</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">results_reg</span><span class="o">$</span><span class="n">q_temp</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
-</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Significant season effect:            "</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">results_reg</span><span class="o">$</span><span class="n">q_seas</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">write.csv</span><span class="p">(</span><span class="n">results_reg</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"~/Jojy_Research_Sync/website_assets/projects/microbiome_stats/day5-regression/results/day5_all_MAGs.csv"</span><span class="p">,</span><span class="w">
-  </span><span class="n">row.names</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="save-figure">Save figure</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">combined_fig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">scatter_pela</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">scatter_nano</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w">
-                </span><span class="p">(</span><span class="n">p_D</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">p_E</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">p_F</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">p_G</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w">
-                </span><span class="p">(</span><span class="n">p_int</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">p_table</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">plot_annotation</span><span class="p">(</span><span class="w">
-    </span><span class="n">title</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"Day 5 — Multiple Regression: Linking MAG Abundance to Environment"</span><span class="p">,</span><span class="w">
-    </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"61 MAGs  ·  27 metagenomes  ·  OLS  ·  log(abundance+1)  ·  Chesapeake + Delaware Bay"</span><span class="p">,</span><span class="w">
-    </span><span class="n">tag_levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"A"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggsave</span><span class="p">(</span><span class="w">
-  </span><span class="s2">"~/Jojy_Research_Sync/website_assets/projects/microbiome_stats/day5-regression/figures/day5_regression_figure.tiff"</span><span class="p">,</span><span class="w">
-  </span><span class="n">combined_fig</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="o">=</span><span class="m">18</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="m">18</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="o">=</span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="n">compression</span><span class="o">=</span><span class="s2">"lzw"</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="results-from-our-data">Results from Our Data</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>MAG</th>
-      <th>Predictors</th>
-      <th>R²</th>
-      <th>adj.R²</th>
-      <th>Key predictor</th>
-      <th>p-value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Pelagib. MAG 18</td>
-      <td>Salinity (simple)</td>
-      <td>0.654</td>
-      <td>0.640</td>
-      <td>Salinity</td>
-      <td>&lt; 0.001 ***</td>
-    </tr>
-    <tr>
-      <td>Pelagib. MAG 18</td>
-      <td>Sal + Temp + Season</td>
-      <td>0.817</td>
-      <td>0.793</td>
-      <td>Salinity</td>
-      <td>&lt; 0.001 ***</td>
-    </tr>
-    <tr>
-      <td>Nanopel. MAG 18</td>
-      <td>Sal + Temp + Season</td>
-      <td>0.815</td>
-      <td>0.790</td>
-      <td>Salinity</td>
-      <td>&lt; 0.001 ***</td>
-    </tr>
-    <tr>
-      <td>Pelagib. MAG 18</td>
-      <td>Sal × Temp (interact.)</td>
-      <td>0.857</td>
-      <td>0.838</td>
-      <td>Sal × Temp</td>
-      <td>= 0.015 *</td>
-    </tr>
-    <tr>
-      <td>Flavob. MAG 6</td>
-      <td>Sal + Temp + Season</td>
-      <td>0.879</td>
-      <td>0.864</td>
-      <td>Season</td>
-      <td>= 0.306 ns</td>
-    </tr>
-    <tr>
-      <td>Rhodb. MAG 15</td>
-      <td>Sal + Temp + Season</td>
-      <td>0.655</td>
-      <td>0.610</td>
-      <td>Salinity</td>
-      <td>&lt; 0.001 ***</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>▶ <strong>Salinity dominates across the board.</strong> For Pelagibacterales, Nanopelagicales, and Rhodobacterales, Salinity is the only significant predictor in the additive model — Temperature and Season add no independent explanatory power. This is not because season doesn’t matter biologically (Day 4 showed it clearly does at the community level) but because Season and Salinity are structurally collinear in this estuarine system. The regression is correctly attributing the shared variance to the best single predictor: salinity.</p>
-
-<p>▶ <strong>Flavobacteriales MAG 6 is the outlier.</strong> It achieves the highest R² of all four MAGs (0.879) yet has zero significant individual predictors. All three variables together explain 88% of variance, but none dominates the others. This happens when predictors are collinear and individually underpowered at n=27 — the joint signal is strong but partitioning it between Season, Salinity, and Temperature is statistically ambiguous.</p>
-
-<p>▶ <strong>The Pelagibacterales interaction reveals a season-dependent salinity response.</strong> The additive model returns β_Salinity = +0.271, a value that describes neither Spring (β = +0.020, flat) nor Summer (β = +0.309, steep). The interaction model (R² = 0.857, adj.R² = 0.838) captures this correctly: in summer, the salinity gradient is the primary driver of Pelagibacterales distribution. In spring, its abundance is more uniformly high regardless of salinity — likely reflecting winter-to-spring carryover from cold saline water masses.</p>
-
-<p>▶ <strong>Diagnostics (Panels D–G)</strong> pass all four checks for Model 1. Residuals are approximately randomly distributed around zero (Panel D). The QQ plot follows the theoretical line well with only slight tails (Panel E, expected at n=27). Scale-Location shows an approximately flat band (Panel F). The residual histogram is roughly bell-shaped and centred at zero (Panel G). One point — a low-salinity Spring sample with unexpectedly high Pelagibacterales abundance — appears as a mild outlier in panels D and F. Its Cook’s distance is &lt; 0.5, so it does not drive the regression, but it is worth investigating biologically.</p>
-
-<hr />
-
-<h2 id="what-the-diagnostic-plots-tell-you">What the Diagnostic Plots Tell You</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Panel</th>
-      <th>What it checks</th>
-      <th>Bad sign</th>
-      <th>Consequence if ignored</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Residuals vs Fitted</td>
-      <td>Linearity, zero mean</td>
-      <td>Curve (U-shape or arch)</td>
-      <td>Biased coefficient estimates</td>
-    </tr>
-    <tr>
-      <td>Normal Q-Q</td>
-      <td>Normality of residuals</td>
-      <td>Tails curving off the line</td>
-      <td>Invalid p-values and CIs</td>
-    </tr>
-    <tr>
-      <td>Scale-Location</td>
-      <td>Homoscedasticity</td>
-      <td>Funnel (variance widens)</td>
-      <td>CIs too narrow at high fitted values</td>
-    </tr>
-    <tr>
-      <td>Residual histogram</td>
-      <td>Normality, symmetry</td>
-      <td>Skewed or bimodal</td>
-      <td>Signals a transform or outlier problem</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>What to do when diagnostics fail:</strong></p>
-
-<ul>
-  <li><em>Non-linearity (arch in residuals vs fitted)</em>: add a polynomial term (<code class="language-plaintext highlighter-rouge">poly(Salinity, 2)</code>) or log-transform the predictor.</li>
-  <li><em>Heteroscedasticity (funnel shape)</em>: use <code class="language-plaintext highlighter-rouge">lm()</code> with <code class="language-plaintext highlighter-rouge">weights</code> argument, or switch to <code class="language-plaintext highlighter-rouge">glm()</code> with Gamma family.</li>
-  <li><em>Heavy tails in QQ plot</em>: investigate outliers with <code class="language-plaintext highlighter-rouge">cooks.distance(m1)</code>. If legitimate, report them; consider robust regression with <code class="language-plaintext highlighter-rouge">MASS::rlm()</code>.</li>
-  <li><em>Bimodal residual histogram</em>: a hidden grouping variable is not accounted for. Add it as a predictor or fit separate models per group.</li>
-</ul>
-
-<hr />
-
-<h2 id="common-pitfalls">Common Pitfalls</h2>
-
-<p>▶ <strong>Not log-transforming.</strong> Raw MAG abundance counts are right-skewed and zero-inflated. OLS on untransformed counts violates both linearity and normality assumptions. The residuals look like a cliff face, not a bell curve. Always <code class="language-plaintext highlighter-rouge">log1p()</code> before regression. Check the residual histogram every time.</p>
-
-<p>▶ <strong>Skipping diagnostic plots.</strong> A high R² does not validate a model. Patterns in the residuals-vs-fitted plot can reveal systematic non-linearity that makes every coefficient biased. The QQ plot can reveal heavy tails that invalidate p-values. These violations are invisible from the summary output alone.</p>
-
-<p>▶ <strong>Fitting an additive model when an interaction exists.</strong> If the salinity slope differs between Spring and Summer (as it does here — β = +0.020 vs β = +0.309), the additive model returns an average slope that misleads you about the biology in <em>both</em> seasons. The fix is to visualise scatter plots by group before modelling, then test interaction models when slopes look unequal.</p>
-
-<p>▶ <strong>Significant ≠ biologically meaningful.</strong> β_Salinity = +0.271 is highly significant (p &lt; 0.001) at n=27. But you must always translate the coefficient into biological units: a 31% increase per psu, or 8.2 log-units across the full salinity range. Whether that magnitude is ecologically important depends on the biology of the organism and the natural range of salinity in your system. Report both the p-value and the interpreted effect size.</p>
-
-<p>▶ <strong>Ignoring multicollinearity.</strong> Salinity and Temperature correlate strongly in estuaries (here r ≈ 0.80). High VIF inflates standard errors, making individual coefficients unstable even when the overall model fits well. Check <code class="language-plaintext highlighter-rouge">vif()</code> — if any predictor exceeds 5–10, consider centring continuous variables (<code class="language-plaintext highlighter-rouge">scale()</code>), fitting predictors separately first, or removing the most correlated one.</p>
-
-<p>▶ <strong>Interpreting coefficients causally.</strong> β<em>Salinity = +0.271 does not mean salinity _causes</em> Pelagibacterales to bloom. Salinity may be a proxy for marine water mass advection, which brings its own suite of nutrient and grazing conditions that collectively support SAR11. Regression identifies associations; mechanisms require experimental manipulation or at minimum longitudinal time-series data.</p>
-
-<hr />
-
-<h2 id="key-takeaways">Key Takeaways</h2>
-
-<p>▶ Regression extends group comparisons to continuous environmental gradients, quantifying exactly how much abundance changes per unit of an environmental variable. The three numbers you must always report alongside a p-value are: the coefficient (β), its 95% CI, and a biologically translated effect size (e.g., “31% increase per psu” or “8.2 log-units across the full range”).</p>
-
-<p>▶ Multiple regression allows you to disentangle collinear predictors. Salinity dominates in our dataset because it captures the shared variance of the full summer-to-spring environmental gradient. Season and Temperature are not irrelevant biologically — they are simply redundant with Salinity as predictors.</p>
-
-<p>▶ Interaction terms reveal when the additive model is lying. The Pelagibacterales result is a clean example: the additive model returns a meaningless average slope, while the interaction model recovers the ecologically correct story — a flat Spring response and a steep Summer salinity gradient.</p>
-
-<p>▶ Diagnostic plots are not optional. Run them every time. A model that fails diagnostics produces invalid p-values regardless of R².</p>
-
-<hr />
-
-<h2 id="whats-next">What’s Next</h2>
-
-<p>Day 6 (Saturday): <strong>WGCNA applied to MAG abundance data</strong> — finding modules of co-varying MAGs, correlating modules to environmental variables as a block rather than one MAG at a time, and identifying hub MAGs that connect ecological modules. The most computationally intensive analysis of the series.</p>
-
-<hr />
-
-<p><em>Code, data, all results: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em></p>
-
-<p><em>All R code and data: <a href="https://github.com/jojyjohn28/microbiome_stats">github.com/jojyjohn28/microbiome_stats</a></em><br />
-<em>Found this useful? Share it with someone learning microbiome statistics.</em></p>
-
-<hr />
-
-<p><img src="/assets/img/dr_l5f.png" alt="Linear Regression Anlysis" /></p>]]></content><author><name></name></author><category term="regression" /><category term="OLS" /><category term="interactions" /><category term="diagnostics" /><category term="metagenomics" /><category term="R" /><summary type="html"><![CDATA[This is multiple regression — the bridge from discrete group comparisons to the continuous environmental gradients that actually structure microbial communities in estuaries.]]></summary></entry></feed>
+<p><img src="/assets/img/wgcna-all.png" alt="WGCNA MAG Co-Abundance Networks" /></p>]]></content><author><name></name></author><category term="WGCNA" /><category term="co-expression" /><category term="network" /><category term="modules" /><category term="eigengenes" /><category term="metagenomics" /><category term="R" /><summary type="html"><![CDATA[WGCNA moves you from 61 individual Wilcoxon tests to a handful of ecological guilds — each with a name, a size, and a direct relationship to the environmental gradient that drives it.]]></summary></entry></feed>
