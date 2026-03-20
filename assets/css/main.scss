@@ -37,16 +37,16 @@ $max-content-width: {{ site.max_width }};
 
 /* Actual banner styling */
 .blog-banner {
-  width: 100%;            /* Full width on all screens */
-  max-height: 280px;       /* Adjust height here (220–320px works best) */
-  object-fit: cover;       /* Ensures the banner fills width and crops height */
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
   display: block;
   margin: 0 auto;
-  border-radius: 6px;      /* Soft rounded corners */
-  box-shadow: 0 3px 10px rgba(0,0,0,0.18); /* Nice soft shadow */
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
 }
 
-/* Optional: improve mobile banner look */
+/* Mobile banner */
 @media (max-width: 600px) {
   .blog-banner {
     max-height: 220px;
@@ -91,17 +91,11 @@ $max-content-width: {{ site.max_width }};
 }
 
 /* Tile gradients */
-/* Tile gradients — distinct palette */
-
-.t1{ background: linear-gradient(135deg,#7c3aed,#4f46e5); }      /* Purple → Indigo */
-
-.t2{ background: linear-gradient(135deg,#06b6d4,#0ea5e9); }      /* Cyan → Sky Blue */
-
-.t3{ background: linear-gradient(135deg,#22c55e,#16a34a); }      /* Green */
-
-.t4{ background: linear-gradient(135deg,#f59e0b,#f97316); }      /* Amber → Orange */
-
-.t5{ background: linear-gradient(135deg,#ec4899,#be185d); }      /* Pink → Deep Rose */
+.t1{ background: linear-gradient(135deg,#7c3aed,#4f46e5); }
+.t2{ background: linear-gradient(135deg,#06b6d4,#0ea5e9); }
+.t3{ background: linear-gradient(135deg,#22c55e,#16a34a); }
+.t4{ background: linear-gradient(135deg,#f59e0b,#f97316); }
+.t5{ background: linear-gradient(135deg,#ec4899,#be185d); }
 
 /* ==========================
    Expandable Skill Blocks
@@ -153,4 +147,69 @@ $max-content-width: {{ site.max_width }};
 
 .skill-block > :not(summary){
   padding: 10px 18px 16px 34px;
+}
+
+/* =========================
+   MOBILE NAVBAR FIX (CRITICAL)
+   ========================= */
+@media (max-width: 768px) {
+
+  #navbar {
+    position: relative;
+    z-index: 5000 !important;
+  }
+
+  #navbar .container {
+    position: relative;
+  }
+
+  #navbar .navbar-toggler {
+    z-index: 7001 !important;
+  }
+
+  #navbar .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 7000 !important;
+    background: #111 !important;
+    padding: 1rem;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+
+  #navbar .navbar-nav {
+    width: 100%;
+    flex-wrap: wrap !important;
+  }
+
+  #navbar .nav-item {
+    margin: 0.2rem 0;
+    width: 100%;
+  }
+
+  #navbar .nav-link {
+    display: block;
+    padding: 0.7rem 0.4rem;
+    font-size: 1rem;
+  }
+
+  #navbar .dropdown-menu {
+    position: static !important;
+    float: none;
+    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding-left: 0.8rem;
+    margin-top: 0.25rem;
+  }
+
+  #navbar .dropdown-item {
+    white-space: normal;
+    padding: 0.5rem 0.4rem;
+  }
 }
