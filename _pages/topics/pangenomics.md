@@ -4,7 +4,7 @@ title: "Topic: Pangenomics"
 permalink: /topics/pangenomics/
 ---
 
-{% assign posts = site.categories.linux %}
+{% assign posts = site.categories.pangenomics %}
 
 <ul>
 {% for post in posts %}
