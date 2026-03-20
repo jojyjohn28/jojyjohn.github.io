@@ -1,0 +1,2906 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Pangenome Analysis with Anvi'o: From HPC to Publication-Ready Figures | Jojy John
+    
+  
+</title>
+<meta name="author" content="Jojy John">
+<meta name="description" content="A complete beginner's guide to building and visualising a bacterial pangenome using Anvi'o — running heavy computation on HPC and generating publication-quality figures with R on your laptop.">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="" integrity="" crossorigin="anonymous">
+
+<!-- Bootstrap Table -->
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" type="text/css" href="">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+<!-- pseudocode -->
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/pangenome-anvio-hpc/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+<!-- GeoJSON support via Leaflet -->
+
+
+<!-- diff2html -->
+
+
+
+
+
+
+<!-- GoatCounter analytics -->
+<script data-goatcounter="https://jojyjohn28.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <nav id="navbar" class="fixed-top" role="navigation">
+    <div class="simple-nav-wrapper">
+      <a class="simple-brand" href="/">
+        
+          
+            <span class="font-weight-bold">Jojy</span>
+          
+          
+          John
+        
+      </a>
+
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <div class="simple-nav-menu">
+        <a href="/">About</a>
+
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+              
+              <a href="/publications/">Publications</a>
+            
+          
+        
+          
+            
+              
+              <a href="/blog/">Blog</a>
+            
+          
+        
+          
+            
+              
+              <a href="/projects/">Projects</a>
+            
+          
+        
+          
+        
+          
+        
+          
+            
+              
+              <a href="/mentoring/">Mentoring</a>
+            
+          
+        
+          
+            
+              
+              <a href="/collaborations/">Collaboration</a>
+            
+          
+        
+          
+        
+          
+            
+              
+              <a href="/teaching/">Teaching</a>
+            
+          
+        
+          
+        
+          
+            
+              
+              <a href="/repositories/">Repositories</a>
+            
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Pangenome Analysis with Anvi'o: From HPC to Publication-Ready Figures</h1>
+    <p class="post-meta">
+      Created in March 20, 2026
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/tag/pangenomics"> <i class="fa-solid fa-hashtag fa-sm"></i> pangenomics </a>
+          
+           
+        
+          
+            <a href="/blog/tag/anvio"> <i class="fa-solid fa-hashtag fa-sm"></i> anvio </a>
+          
+           
+        
+          
+            <a href="/blog/tag/bioinformatics"> <i class="fa-solid fa-hashtag fa-sm"></i> bioinformatics </a>
+          
+           
+        
+          
+            <a href="/blog/tag/hpc"> <i class="fa-solid fa-hashtag fa-sm"></i> HPC </a>
+          
+           
+        
+          
+            <a href="/blog/tag/r"> <i class="fa-solid fa-hashtag fa-sm"></i> R </a>
+          
+           
+        
+          
+            <a href="/blog/tag/ggplot2"> <i class="fa-solid fa-hashtag fa-sm"></i> ggplot2 </a>
+          
+           
+        
+          
+            <a href="/blog/tag/microbiology"> <i class="fa-solid fa-hashtag fa-sm"></i> microbiology </a>
+          
+           
+        
+          
+            <a href="/blog/tag/genomics"> <i class="fa-solid fa-hashtag fa-sm"></i> genomics </a>
+          
+           
+        
+          
+            <a href="/blog/tag/beginners"> <i class="fa-solid fa-hashtag fa-sm"></i> beginners </a>
+          
+          
+        
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/category/pangenomics">
+              <i class="fa-solid fa-tag fa-sm"></i> pangenomics
+            </a>
+          
+          
+        
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    <div id="markdown-content">
+      <h1 id="pangenome-analysis-with-anvio-from-hpc-to-publication-ready-figures">Pangenome Analysis with Anvi’o: From HPC to Publication-Ready Figures</h1>
+
+<p>*<em>🧬 Day 64 of Daily Bioinformatics from Jojy’s Desk</em></p>
+
+<p><strong>This post walks through a complete pangenome analysis of 15 bacterial genomes using Anvi’o — from raw FASTA files to publication-ready figures. Heavy computation runs on HPC; visualisation and figure generation happen on your laptop. No prior pangenomics experience needed.</strong></p>
+
+<hr>
+
+<h2 id="what-is-a-pangenome--and-why-should-you-care">What Is a Pangenome — And Why Should You Care?</h2>
+
+<p>Imagine you have 15 strains of the same bacterial species isolated from different environments. They’re all the same species, but are they really the same? Do they carry the same genes? Are some strains missing key metabolic pathways? Does your environmental isolate have unique genes not found anywhere else?</p>
+
+<p>A <strong>pangenome</strong> answers all of these questions at once.</p>
+
+<p>The word “pan” comes from the Greek for “all.” A pangenome represents the <strong>complete set of genes across all the genomes in your dataset</strong>, organised into three categories:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Definition</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Core genome</strong></td>
+      <td>Genes present in <strong>all</strong> genomes</td>
+      <td>Housekeeping genes, ribosomal proteins</td>
+    </tr>
+    <tr>
+      <td><strong>Accessory genome</strong></td>
+      <td>Genes present in <strong>some but not all</strong> genomes</td>
+      <td>Metabolic flexibility, niche adaptation</td>
+    </tr>
+    <tr>
+      <td><strong>Singleton / unique</strong></td>
+      <td>Genes present in <strong>only one genome</strong>
+</td>
+      <td>Novel functions, horizontal gene transfer</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>💡 <strong>In plain terms:</strong> The core genome is what makes all your strains the same species. The accessory genome is what makes each strain different. And singletons are what makes one strain truly unique.</p>
+</blockquote>
+
+<p>In this workflow, we analyse <strong>15 <em>Winogradskyella</em> genomes</strong> — a genus of marine bacteria. Our goal: understand what genes are shared, what’s variable, and what’s unique to our environmental isolate <strong>PC_D3_3</strong>.</p>
+
+<hr>
+
+<h2 id="the-big-picture-hybrid-workflow">The Big Picture: Hybrid Workflow</h2>
+
+<p>One of the challenges of pangenome analysis is that the computational steps are heavy (hours of CPU time, gigabytes of RAM) while the visualisation steps require an interactive graphical interface — something most HPCs don’t support well.</p>
+
+<p>The solution is a <strong>hybrid strategy</strong>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HPC Cluster                          Your Laptop
+─────────────────────────────────    ──────────────────────────────
+1. Reformat FASTA headers            7. Interactive visualisation
+2. Create contigs databases    ──▶   8. Export SVG from Anvi'o
+3. Build genome storage              9. R figures (ANI heatmap,
+4. Run pan-genome analysis               gene cluster bar chart,
+5. Compute ANI similarity                presence/absence heatmap)
+6. Export summary tables      ──▶   10. Assemble final figure
+</code></pre></div></div>
+
+<p>This is not a limitation — it’s actually a cleaner workflow. Heavy computation belongs on HPC; interactive design work belongs on your laptop.</p>
+
+<hr>
+
+<h2 id="what-youll-need">What You’ll Need</h2>
+
+<p><strong>On HPC:</strong></p>
+
+<ul>
+  <li>An active HPC account with at least 16 CPU cores and ~32 GB RAM available</li>
+  <li>Conda or Miniconda installed (see <a href="../day2-software-installation/">Day 2 of our HPC series</a>)</li>
+  <li>Internet access to download Anvi’o</li>
+</ul>
+
+<p><strong>On your laptop:</strong></p>
+
+<ul>
+  <li>Conda or Miniconda installed</li>
+  <li>R (version ≥ 4.0)</li>
+  <li>R packages: <code class="language-plaintext highlighter-rouge">ggplot2</code>, <code class="language-plaintext highlighter-rouge">dplyr</code>, <code class="language-plaintext highlighter-rouge">tidyr</code>, <code class="language-plaintext highlighter-rouge">pheatmap</code>
+</li>
+  <li>Enough disk space for the output files (~1–5 GB depending on dataset size)</li>
+</ul>
+
+<p><strong>Your data:</strong></p>
+
+<ul>
+  <li>FASTA files for each genome (one file per genome, <code class="language-plaintext highlighter-rouge">.fa</code> or <code class="language-plaintext highlighter-rouge">.fasta</code> extension)</li>
+  <li>All genome files in one directory</li>
+</ul>
+
+<hr>
+
+<h2 id="step-1-install-anvio">Step 1: Install Anvi’o</h2>
+
+<p>Anvi’o needs to be installed on <strong>both your HPC and your laptop</strong>. The HPC installation handles computation; the laptop installation handles visualisation.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create a dedicated conda environment — don't install into your base environment</span>
+conda create <span class="nt">-n</span> anvio-9 <span class="nv">python</span><span class="o">=</span>3.10 <span class="nt">-y</span>
+conda activate anvio-9
+
+<span class="c"># Install Anvi'o from conda channels</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda anvio <span class="nt">-y</span>
+</code></pre></div></div>
+
+<p>This takes 5–15 minutes. Grab a coffee.</p>
+
+<p>Once it finishes, verify the installation works:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>anvi-self-test
+</code></pre></div></div>
+
+<p>You should see a series of tests run and pass. If you see errors, check the <a href="https://merenlab.org/2016/06/26/installation-v2/" rel="external nofollow noopener" target="_blank">official Anvi’o installation guide</a> — it has excellent troubleshooting steps.</p>
+
+<blockquote>
+  <p>💡 <strong>What version are we using?</strong> Anvi’o 9 (Sonata). If a newer version is available, it will generally work the same way — command names and core concepts are stable between versions.</p>
+</blockquote>
+
+<hr>
+
+<h2 id="step-2-organise-your-genome-files">Step 2: Organise Your Genome Files</h2>
+
+<p>Create a clean project directory and put all your genome FASTA files in one place:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> anvio_project/genomes
+<span class="nb">cd </span>anvio_project/
+
+<span class="c"># Copy your FASTA files in</span>
+<span class="c"># Your structure should look like this:</span>
+<span class="nb">ls </span>genomes/
+<span class="c"># PC_D3_3.fa</span>
+<span class="c"># GCF_003386165.fa</span>
+<span class="c"># GCF_013404085.fa</span>
+<span class="c"># GCF_002025905.fa</span>
+<span class="c"># ... (15 genomes total)</span>
+</code></pre></div></div>
+
+<p><strong>Naming tip:</strong> Use simple, descriptive names. Avoid spaces, special characters, and very long names. <code class="language-plaintext highlighter-rouge">PC_D3_3.fa</code> is good. <code class="language-plaintext highlighter-rouge">My Genome (environmental isolate, 2024) — FINAL v3.fasta</code> is not.</p>
+
+<hr>
+
+<h2 id="step-3-reformat-fasta-headers">Step 3: Reformat FASTA Headers</h2>
+
+<p>This is a step beginners often skip — and then spend an hour debugging mysterious errors.</p>
+
+<p>Anvi’o requires that FASTA headers are <strong>simple and contain no special characters</strong> (no spaces, pipes, colons, or parentheses). Reference genomes downloaded from NCBI often have complex headers like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;NZ_CP023570.1 Winogradskyella sp. PC-D3-3 chromosome, complete genome
+</code></pre></div></div>
+
+<p>Anvi’o will reject this. The <code class="language-plaintext highlighter-rouge">anvi-script-reformat-fasta</code> command fixes it automatically:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>genomes_reformatted/
+
+<span class="k">for </span>genome <span class="k">in </span>genomes/<span class="k">*</span>.fa
+<span class="k">do</span>
+    <span class="c"># Extract the filename without extension for naming</span>
+    <span class="nv">name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$genome</span><span class="s2">"</span> .fa<span class="si">)</span>
+    <span class="nb">echo</span> <span class="s2">"Reformatting: </span><span class="nv">$name</span><span class="s2">"</span>
+
+    anvi-script-reformat-fasta <span class="se">\</span>
+        <span class="s2">"</span><span class="nv">$genome</span><span class="s2">"</span> <span class="se">\</span>
+        <span class="nt">-o</span> genomes_reformatted/<span class="k">${</span><span class="nv">name</span><span class="k">}</span>.fa <span class="se">\</span>
+        <span class="nt">--simplify-names</span> <span class="se">\</span>
+        <span class="nt">--report-file</span> genomes_reformatted/<span class="k">${</span><span class="nv">name</span><span class="k">}</span>_reformat_report.txt
+<span class="k">done
+
+</span><span class="nb">echo</span> <span class="s2">"All genomes reformatted."</span>
+</code></pre></div></div>
+
+<p>What <code class="language-plaintext highlighter-rouge">--simplify-names</code> does: it renames each contig/sequence to a short, clean identifier like <code class="language-plaintext highlighter-rouge">c_000000001</code>, <code class="language-plaintext highlighter-rouge">c_000000002</code>, etc. The <code class="language-plaintext highlighter-rouge">--report-file</code> creates a mapping between the original and new names, so you can always trace back.</p>
+
+<p>After this step:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls </span>genomes_reformatted/
+<span class="c"># PC_D3_3.fa</span>
+<span class="c"># GCF_003386165.fa</span>
+<span class="c"># ...</span>
+<span class="c"># PC_D3_3_reformat_report.txt</span>
+<span class="c"># GCF_003386165_reformat_report.txt</span>
+<span class="c"># ...</span>
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="step-4-create-contigs-databases">Step 4: Create Contigs Databases</h2>
+
+<p>This is Anvi’o’s foundation. Every genome needs its own <strong>contigs database</strong> — a file that stores the genome sequence, predicted genes, and functional annotations.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>contigs_db/
+
+<span class="k">for </span>genome <span class="k">in </span>genomes_reformatted/<span class="k">*</span>.fa
+<span class="k">do
+    </span><span class="nv">name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$genome</span><span class="s2">"</span> .fa<span class="si">)</span>
+    <span class="nb">echo</span> <span class="s2">"Creating contigs database for: </span><span class="nv">$name</span><span class="s2">"</span>
+
+    anvi-gen-contigs-database <span class="se">\</span>
+        <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$genome</span><span class="s2">"</span> <span class="se">\</span>
+        <span class="nt">-o</span> contigs_db/<span class="k">${</span><span class="nv">name</span><span class="k">}</span>.db <span class="se">\</span>
+        <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$name</span><span class="s2">"</span> <span class="se">\</span>
+        <span class="nt">--num-threads</span> 4
+<span class="k">done
+
+</span><span class="nb">echo</span> <span class="s2">"All contigs databases created."</span>
+</code></pre></div></div>
+
+<p>What happens under the hood:</p>
+
+<ol>
+  <li>
+<strong>Prodigal</strong> identifies and predicts open reading frames (ORFs) — the genes</li>
+  <li>Gene sequences are stored in the database</li>
+  <li>k-mer frequencies are calculated for each contig</li>
+</ol>
+
+<p>This step takes a few minutes per genome. For 15 genomes, expect 20–45 minutes depending on genome size.</p>
+
+<p>Verify your databases were created:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls </span>contigs_db/
+<span class="c"># PC_D3_3.db</span>
+<span class="c"># GCF_003386165.db</span>
+<span class="c"># ...</span>
+
+<span class="c"># Check one database</span>
+anvi-db-info contigs_db/PC_D3_3.db
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="step-5-run-hmm-profiles-optional-but-recommended">Step 5: Run HMM Profiles (Optional but Recommended)</h2>
+
+<p>Before building the pangenome, it’s good practice to annotate your genomes with hidden Markov model (HMM) profiles. These identify universal single-copy genes — useful for checking genome completeness and for phylogenetics.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>db <span class="k">in </span>contigs_db/<span class="k">*</span>.db
+<span class="k">do
+    </span><span class="nb">echo</span> <span class="s2">"Running HMMs for: </span><span class="nv">$db</span><span class="s2">"</span>
+    anvi-run-hmms <span class="nt">-c</span> <span class="s2">"</span><span class="nv">$db</span><span class="s2">"</span> <span class="nt">--num-threads</span> 4
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>This step uses HMMER to search for bacterial single-copy genes. It takes a few minutes per genome but is worth running — the completeness estimates it produces help you identify low-quality genomes before they distort your pangenome.</p>
+
+<hr>
+
+<h2 id="step-6-create-the-genome-storage-database">Step 6: Create the Genome Storage Database</h2>
+
+<p>Now we bring all 15 contigs databases together into a single <strong>genome storage database</strong>. This is the master file that tells Anvi’o about all your genomes.</p>
+
+<p>First, create a tab-separated file listing your genomes. This is called the <strong>external genomes file</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create the external genomes file</span>
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"name</span><span class="se">\t</span><span class="s2">contigs_db_path"</span> <span class="o">&gt;</span> external-genomes.txt
+
+<span class="k">for </span>db <span class="k">in </span>contigs_db/<span class="k">*</span>.db
+<span class="k">do
+    </span><span class="nv">name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$db</span><span class="s2">"</span> .db<span class="si">)</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">name</span><span class="k">}</span><span class="se">\t</span><span class="s2">contigs_db/</span><span class="k">${</span><span class="nv">name</span><span class="k">}</span><span class="s2">.db"</span> <span class="o">&gt;&gt;</span> external-genomes.txt
+<span class="k">done</span>
+
+<span class="c"># Check it looks right</span>
+<span class="nb">cat </span>external-genomes.txt
+</code></pre></div></div>
+
+<p>It should look like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name              contigs_db_path
+PC_D3_3           contigs_db/PC_D3_3.db
+GCF_003386165     contigs_db/GCF_003386165.db
+GCF_013404085     contigs_db/GCF_013404085.db
+...
+</code></pre></div></div>
+
+<p>Now create the genome storage:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>anvi-gen-genomes-storage <span class="se">\</span>
+    <span class="nt">-e</span> external-genomes.txt <span class="se">\</span>
+    <span class="nt">-o</span> GENOMES.db
+</code></pre></div></div>
+
+<p>This creates <code class="language-plaintext highlighter-rouge">GENOMES.db</code> — a single database containing references to all 15 genomes. You’ll pass this file to almost every downstream Anvi’o command.</p>
+
+<hr>
+
+<h2 id="step-7-run-the-pangenome-analysis">Step 7: Run the Pangenome Analysis</h2>
+
+<p>This is the computationally heavy step — <strong>run this on HPC, not your laptop</strong>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>anvi-pan-genome <span class="se">\</span>
+    <span class="nt">-g</span> GENOMES.db <span class="se">\</span>
+    <span class="nt">-n</span> Winogradskyella_pan <span class="se">\</span>
+    <span class="nt">-o</span> PAN <span class="se">\</span>
+    <span class="nt">--num-threads</span> 16 <span class="se">\</span>
+    <span class="nt">--minbit</span> 0.5 <span class="se">\</span>
+    <span class="nt">--mcl-inflation</span> 10 <span class="se">\</span>
+    <span class="nt">--use-ncbi-blast</span>
+</code></pre></div></div>
+
+<p>Let’s break down what each flag does:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-g GENOMES.db</code></td>
+      <td>The genome storage we just created</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-n Winogradskyella_pan</code></td>
+      <td>Name prefix for all output files</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-o PAN</code></td>
+      <td>Output directory</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--num-threads 16</code></td>
+      <td>Use 16 CPU threads (adjust to what your HPC allocation gives you)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--minbit 0.5</code></td>
+      <td>Sensitivity filter for gene clustering (0.5 is a reasonable default)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--mcl-inflation 10</code></td>
+      <td>Controls how tightly genes are grouped into clusters (higher = tighter)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--use-ncbi-blast</code></td>
+      <td>Use BLAST for protein similarity (more sensitive than the default DIAMOND)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For a SLURM job script:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=pangenome</span>
+<span class="c">#SBATCH --output=logs/pangenome_%j.out</span>
+<span class="c">#SBATCH --error=logs/pangenome_%j.err</span>
+<span class="c">#SBATCH --time=08:00:00</span>
+<span class="c">#SBATCH --mem=32G</span>
+<span class="c">#SBATCH --cpus-per-task=16</span>
+
+conda activate anvio-9
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> logs/
+
+anvi-pan-genome <span class="se">\</span>
+    <span class="nt">-g</span> GENOMES.db <span class="se">\</span>
+    <span class="nt">-n</span> Winogradskyella_pan <span class="se">\</span>
+    <span class="nt">-o</span> PAN <span class="se">\</span>
+    <span class="nt">--num-threads</span> <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="se">\</span>
+    <span class="nt">--minbit</span> 0.5 <span class="se">\</span>
+    <span class="nt">--mcl-inflation</span> 10 <span class="se">\</span>
+    <span class="nt">--use-ncbi-blast</span>
+</code></pre></div></div>
+
+<p>The output is a pan-genome database:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PAN/
+├── Winogradskyella_pan-PAN.db      ← the main pan-genome database
+└── Winogradskyella_pan-GENOMES.db  ← a copy of genome info
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="step-8-compute-genome-similarity-ani">Step 8: Compute Genome Similarity (ANI)</h2>
+
+<p><strong>ANI</strong> (Average Nucleotide Identity) measures how similar two genomes are at the DNA sequence level. It’s the standard metric for defining bacterial species (≥ 95% ANI = same species).</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>anvi-compute-genome-similarity <span class="se">\</span>
+    <span class="nt">-e</span> external-genomes.txt <span class="se">\</span>
+    <span class="nt">-o</span> ANI <span class="se">\</span>
+    <span class="nt">--program</span> pyANI <span class="se">\</span>
+    <span class="nt">--num-threads</span> 16 <span class="se">\</span>
+    <span class="nt">--pan-db</span> PAN/Winogradskyella_pan-PAN.db
+</code></pre></div></div>
+
+<p>In a SLURM script:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=ani</span>
+<span class="c">#SBATCH --output=logs/ani_%j.out</span>
+<span class="c">#SBATCH --time=04:00:00</span>
+<span class="c">#SBATCH --mem=16G</span>
+<span class="c">#SBATCH --cpus-per-task=16</span>
+
+conda activate anvio-9
+
+anvi-compute-genome-similarity <span class="se">\</span>
+    <span class="nt">-e</span> external-genomes.txt <span class="se">\</span>
+    <span class="nt">-o</span> ANI <span class="se">\</span>
+    <span class="nt">--program</span> pyANI <span class="se">\</span>
+    <span class="nt">--num-threads</span> <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="se">\</span>
+    <span class="nt">--pan-db</span> PAN/Winogradskyella_pan-PAN.db
+</code></pre></div></div>
+
+<p>The key output file you’ll use for figures:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ANI/ANIb_percentage_identity.txt
+</code></pre></div></div>
+
+<p>This is a matrix where each cell contains the percentage identity between a pair of genomes.</p>
+
+<hr>
+
+<h2 id="step-9-export-summary-tables">Step 9: Export Summary Tables</h2>
+
+<p>Before downloading to your laptop, export the gene cluster summary — the table that describes every gene cluster, which category it belongs to, and which genomes contain it.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Export gene cluster summary</span>
+anvi-summarize <span class="se">\</span>
+    <span class="nt">-p</span> PAN/Winogradskyella_pan-PAN.db <span class="se">\</span>
+    <span class="nt">-g</span> GENOMES.db <span class="se">\</span>
+    <span class="nt">-o</span> PAN_SUMMARY <span class="se">\</span>
+    <span class="nt">-C</span> default
+
+<span class="c"># The key file:</span>
+<span class="c"># PAN_SUMMARY/Winogradskyella_pan_gene_clusters_summary.txt</span>
+</code></pre></div></div>
+
+<p>Also export specific category lists for downstream R analysis:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create output directory for tables</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> supplementary_tables/
+
+<span class="c"># Quick extraction of cluster categories using anvi-export-table</span>
+anvi-export-table <span class="se">\</span>
+    PAN/Winogradskyella_pan-PAN.db <span class="se">\</span>
+    <span class="nt">--table</span> gene_cluster_presence_absence <span class="se">\</span>
+    <span class="nt">-o</span> supplementary_tables/gene_cluster_presence_absence.tsv
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="step-10-the-hpc-shortcut--why-not-visualise-there">Step 10: The HPC Shortcut — Why Not Visualise There?</h2>
+
+<p>Anvi’o has a beautiful interactive viewer accessed with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>anvi-display-pan <span class="se">\</span>
+    <span class="nt">-p</span> PAN/Winogradskyella_pan-PAN.db <span class="se">\</span>
+    <span class="nt">-g</span> GENOMES.db
+</code></pre></div></div>
+
+<p>This opens a local web server that you view in a browser. On your laptop, this works perfectly. On HPC, you hit several walls:</p>
+
+<ul>
+  <li>
+<strong>Login nodes</strong> don’t allow long-running interactive processes (see <a href="../day3-running-jobs/">Day 3</a>)</li>
+  <li>
+<strong>Compute nodes</strong> are usually behind firewalls that block browser connections</li>
+  <li>
+<strong>Port forwarding</strong> is possible but complex to set up and often blocked by institutional IT policies</li>
+</ul>
+
+<p>Rather than fighting the infrastructure, <strong>copy the results to your laptop and continue there</strong>. This is faster, easier, and means your figure-generation code (R scripts) lives alongside your analysis in a reproducible project.</p>
+
+<hr>
+
+<h2 id="step-11-download-results-to-your-laptop">Step 11: Download Results to Your Laptop</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># On your laptop — download the key results</span>
+rsync <span class="nt">-avz</span> <span class="nt">--progress</span> <span class="se">\</span>
+    username@hpc.university.edu:~/anvio_project/PAN/ <span class="se">\</span>
+    ./anvio_project/PAN/
+
+rsync <span class="nt">-avz</span> <span class="nt">--progress</span> <span class="se">\</span>
+    username@hpc.university.edu:~/anvio_project/ANI/ <span class="se">\</span>
+    ./anvio_project/ANI/
+
+rsync <span class="nt">-avz</span> <span class="nt">--progress</span> <span class="se">\</span>
+    username@hpc.university.edu:~/anvio_project/PAN_SUMMARY/ <span class="se">\</span>
+    ./anvio_project/PAN_SUMMARY/
+
+rsync <span class="nt">-avz</span> <span class="nt">--progress</span> <span class="se">\</span>
+    username@hpc.university.edu:~/anvio_project/GENOMES.db <span class="se">\</span>
+    ./anvio_project/
+</code></pre></div></div>
+
+<p>Your local directory should now look like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>anvio_project/
+├── PAN/
+│   ├── Winogradskyella_pan-PAN.db
+│   └── Winogradskyella_pan-GENOMES.db
+├── ANI/
+│   └── ANIb_percentage_identity.txt
+├── GENOMES.db
+└── PAN_SUMMARY/
+    └── Winogradskyella_pan_gene_clusters_summary.txt
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="step-12-interactive-visualisation-on-your-laptop">Step 12: Interactive Visualisation on Your Laptop</h2>
+
+<p>With Anvi’o installed locally (same conda install from Step 1), launch the interactive viewer:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate anvio-9
+
+anvi-display-pan <span class="se">\</span>
+    <span class="nt">-p</span> PAN/Winogradskyella_pan-PAN.db <span class="se">\</span>
+    <span class="nt">-g</span> GENOMES.db
+</code></pre></div></div>
+
+<p>Anvi’o will open a browser window showing a circular pangenome diagram. Each ring represents one genome; each radial segment represents a gene cluster. Core gene clusters run all the way around; singletons appear in only one ring.</p>
+
+<p>From the viewer you can:</p>
+
+<ul>
+  <li>Colour gene clusters by category (core / accessory / singleton)</li>
+  <li>View ANI similarity between genomes</li>
+  <li>Inspect specific gene clusters</li>
+  <li>
+<strong>Export the figure as SVG</strong>: Settings → Export SVG</li>
+</ul>
+
+<p>Save as <code class="language-plaintext highlighter-rouge">pangenome_circle.svg</code> — this becomes <strong>Panel C</strong> of your final figure.</p>
+
+<hr>
+
+<h2 id="step-13-generate-supplementary-tables-in-r">Step 13: Generate Supplementary Tables in R</h2>
+
+<p>Switch to R for the quantitative analysis. First, load the gene cluster summary:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Load the gene cluster summary table</span><span class="w">
+</span><span class="n">pan</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.delim</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"PAN_SUMMARY/Winogradskyella_pan_gene_clusters_summary.txt"</span><span class="p">,</span><span class="w">
+    </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Preview the structure</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">pan</span><span class="p">)</span><span class="w">
+</span><span class="nf">dim</span><span class="p">(</span><span class="n">pan</span><span class="p">)</span><span class="w">    </span><span class="c1"># rows = gene clusters, columns = metadata + genome columns</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The table has columns for metadata (cluster name, genome count, category) and one column per genome (containing 0 or 1 for absent/present).</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Identify which columns are genome columns vs metadata</span><span class="w">
+</span><span class="n">meta_cols</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"gene_cluster_name"</span><span class="p">,</span><span class="w"> </span><span class="s2">"genome_count"</span><span class="p">,</span><span class="w"> </span><span class="s2">"category"</span><span class="p">)</span><span class="w">
+</span><span class="n">genome_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">setdiff</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">pan</span><span class="p">),</span><span class="w"> </span><span class="n">meta_cols</span><span class="p">)</span><span class="w">
+
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Number of gene clusters:"</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">pan</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Number of genomes:"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">genome_cols</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Categories:"</span><span class="p">,</span><span class="w"> </span><span class="n">unique</span><span class="p">(</span><span class="n">pan</span><span class="o">$</span><span class="n">category</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Reshape to long format for counting:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Convert to long format (one row per genome-cluster pair)</span><span class="w">
+</span><span class="n">long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pan</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">pivot_longer</span><span class="p">(</span><span class="w">
+        </span><span class="n">cols</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">all_of</span><span class="p">(</span><span class="n">genome_cols</span><span class="p">),</span><span class="w">
+        </span><span class="n">names_to</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"genome"</span><span class="p">,</span><span class="w">
+        </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"present"</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">filter</span><span class="p">(</span><span class="n">present</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">   </span><span class="c1"># keep only gene clusters present in each genome</span><span class="w">
+
+</span><span class="c1"># Count gene clusters per genome per category</span><span class="w">
+</span><span class="n">per_genome</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">group_by</span><span class="p">(</span><span class="n">genome</span><span class="p">,</span><span class="w"> </span><span class="n">category</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">summarise</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">(),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">pivot_wider</span><span class="p">(</span><span class="w">
+        </span><span class="n">names_from</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">category</span><span class="p">,</span><span class="w">
+        </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w">
+        </span><span class="n">values_fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Save as supplementary table</span><span class="w">
+</span><span class="n">write.table</span><span class="p">(</span><span class="w">
+    </span><span class="n">per_genome</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"supplementary_tables/per_genome_gene_cluster_counts.tsv"</span><span class="p">,</span><span class="w">
+    </span><span class="n">sep</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">,</span><span class="w">
+    </span><span class="n">quote</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+    </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">print</span><span class="p">(</span><span class="n">per_genome</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Also export per-category tables that become part of your supplementary data:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Core gene clusters</span><span class="w">
+</span><span class="n">core</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pan</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">filter</span><span class="p">(</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"CORE"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">select</span><span class="p">(</span><span class="n">gene_cluster_name</span><span class="p">,</span><span class="w"> </span><span class="n">genome_count</span><span class="p">,</span><span class="w"> </span><span class="n">all_of</span><span class="p">(</span><span class="n">genome_cols</span><span class="p">))</span><span class="w">
+
+</span><span class="n">write.table</span><span class="p">(</span><span class="n">core</span><span class="p">,</span><span class="w"> </span><span class="s2">"supplementary_tables/core_gene_clusters.tsv"</span><span class="p">,</span><span class="w">
+            </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">,</span><span class="w"> </span><span class="n">quote</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Accessory gene clusters</span><span class="w">
+</span><span class="n">accessory</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pan</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">filter</span><span class="p">(</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"ACCESSORY"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">select</span><span class="p">(</span><span class="n">gene_cluster_name</span><span class="p">,</span><span class="w"> </span><span class="n">genome_count</span><span class="p">,</span><span class="w"> </span><span class="n">all_of</span><span class="p">(</span><span class="n">genome_cols</span><span class="p">))</span><span class="w">
+
+</span><span class="n">write.table</span><span class="p">(</span><span class="n">accessory</span><span class="p">,</span><span class="w"> </span><span class="s2">"supplementary_tables/accessory_gene_clusters.tsv"</span><span class="p">,</span><span class="w">
+            </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">,</span><span class="w"> </span><span class="n">quote</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Singleton gene clusters</span><span class="w">
+</span><span class="n">singletons</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pan</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">filter</span><span class="p">(</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"SINGLETON"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">select</span><span class="p">(</span><span class="n">gene_cluster_name</span><span class="p">,</span><span class="w"> </span><span class="n">genome_count</span><span class="p">,</span><span class="w"> </span><span class="n">all_of</span><span class="p">(</span><span class="n">genome_cols</span><span class="p">))</span><span class="w">
+
+</span><span class="n">write.table</span><span class="p">(</span><span class="n">singletons</span><span class="p">,</span><span class="w"> </span><span class="s2">"supplementary_tables/singleton_gene_clusters.tsv"</span><span class="p">,</span><span class="w">
+            </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">,</span><span class="w"> </span><span class="n">quote</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Unique to PC_D3_3</span><span class="w">
+</span><span class="n">pc_d3_unique</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pan</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">filter</span><span class="p">(</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"SINGLETON"</span><span class="p">,</span><span class="w"> </span><span class="n">PC_D3_3</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">select</span><span class="p">(</span><span class="n">gene_cluster_name</span><span class="p">,</span><span class="w"> </span><span class="n">genome_count</span><span class="p">,</span><span class="w"> </span><span class="n">all_of</span><span class="p">(</span><span class="n">genome_cols</span><span class="p">))</span><span class="w">
+
+</span><span class="n">write.table</span><span class="p">(</span><span class="n">pc_d3_unique</span><span class="p">,</span><span class="w"> </span><span class="s2">"supplementary_tables/PC_D3_3_unique_gene_clusters.tsv"</span><span class="p">,</span><span class="w">
+            </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">,</span><span class="w"> </span><span class="n">quote</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"PC_D3_3 unique gene clusters:"</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">pc_d3_unique</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr>
+
+<h2 id="step-14-panel-a--ani-heatmap">Step 14: Panel A — ANI Heatmap</h2>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">RColorBrewer</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Load ANI matrix</span><span class="w">
+</span><span class="n">ani</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.delim</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"ANI/ANIb_percentage_identity.txt"</span><span class="p">,</span><span class="w">
+    </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+    </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># ANI values are 0–1; multiply by 100 for percentage</span><span class="w">
+</span><span class="n">ani_pct</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">ani</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="w">
+
+</span><span class="c1"># Create heatmap</span><span class="w">
+</span><span class="n">pdf</span><span class="p">(</span><span class="s2">"figures/Panel_A_ANI_heatmap.pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">)</span><span class="w">
+
+</span><span class="n">pheatmap</span><span class="p">(</span><span class="w">
+    </span><span class="n">ani_pct</span><span class="p">,</span><span class="w">
+    </span><span class="n">cluster_rows</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+    </span><span class="n">cluster_cols</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+    </span><span class="n">border_color</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="w">
+    </span><span class="n">color</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="n">colorRampPalette</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"#f0f9ff"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#0ea5e9"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#1e3a5f"</span><span class="p">))(</span><span class="m">100</span><span class="p">),</span><span class="w">
+    </span><span class="n">main</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="s2">"Genome Similarity (ANI %)"</span><span class="p">,</span><span class="w">
+    </span><span class="n">fontsize</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w">
+    </span><span class="n">fontsize_row</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w">
+    </span><span class="n">fontsize_col</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w">
+    </span><span class="n">display_numbers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">     </span><span class="c1"># show values in cells</span><span class="w">
+    </span><span class="n">number_format</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"%.1f"</span><span class="p">,</span><span class="w">   </span><span class="c1"># one decimal place</span><span class="w">
+    </span><span class="n">number_color</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">dev.off</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>💡 <strong>Interpreting ANI:</strong> Values above 95% indicate the same species. Values between 70–95% suggest related species. The heatmap clustering will group your most similar genomes together automatically.</p>
+</blockquote>
+
+<hr>
+
+<h2 id="step-15-panel-b--gene-cluster-category-counts">Step 15: Panel B — Gene Cluster Category Counts</h2>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Count clusters per category</span><span class="w">
+</span><span class="n">counts</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pan</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">count</span><span class="p">(</span><span class="n">category</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">mutate</span><span class="p">(</span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"CORE"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ACCESSORY"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SINGLETON"</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1"># Define colours consistent with Anvi'o's default palette</span><span class="w">
+</span><span class="n">category_colours</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"CORE"</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"#2a9d8f"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ACCESSORY"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#e9c46a"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"SINGLETON"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#e76f51"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Create bar chart</span><span class="w">
+</span><span class="n">panel_b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">category</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_col</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">show.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.4</span><span class="p">,</span><span class="w"> </span><span class="n">fontface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">category_colours</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expansion</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.1</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">theme</span><span class="p">(</span><span class="w">
+        </span><span class="n">panel.grid.major.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">panel.grid.minor</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">axis.title.x</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">labs</span><span class="p">(</span><span class="w">
+        </span><span class="n">y</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of gene clusters"</span><span class="p">,</span><span class="w">
+        </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Pangenome Composition"</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"figures/Panel_B_gene_cluster_categories.pdf"</span><span class="p">,</span><span class="w">
+       </span><span class="n">panel_b</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+
+</span><span class="n">print</span><span class="p">(</span><span class="n">panel_b</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr>
+
+<h2 id="step-16-panel-d--gene-presenceabsence-heatmap">Step 16: Panel D — Gene Presence/Absence Heatmap</h2>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Build presence/absence matrix</span><span class="w">
+</span><span class="n">pa</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pan</span><span class="p">[,</span><span class="w"> </span><span class="n">genome_cols</span><span class="p">]</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">pa</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pan</span><span class="o">$</span><span class="n">gene_cluster_name</span><span class="w">
+
+</span><span class="c1"># Order rows: core first, then accessory, then singletons</span><span class="w">
+</span><span class="n">row_order</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">order</span><span class="p">(</span><span class="n">pan</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">pan</span><span class="o">$</span><span class="n">genome_count</span><span class="p">,</span><span class="w"> </span><span class="n">decreasing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">pa_ordered</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pa</span><span class="p">[</span><span class="n">row_order</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># Create annotation for rows (category)</span><span class="w">
+</span><span class="n">row_annotation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="w">
+    </span><span class="n">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pan</span><span class="o">$</span><span class="n">category</span><span class="p">[</span><span class="n">row_order</span><span class="p">]</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">row_annotation</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">pa_ordered</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Annotation colours</span><span class="w">
+</span><span class="n">ann_colours</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="w">
+    </span><span class="n">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+        </span><span class="s2">"CORE"</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"#2a9d8f"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ACCESSORY"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#e9c46a"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"SINGLETON"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#e76f51"</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">pdf</span><span class="p">(</span><span class="s2">"figures/Panel_D_presence_absence_heatmap.pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">)</span><span class="w">
+
+</span><span class="n">pheatmap</span><span class="p">(</span><span class="w">
+    </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">pa_ordered</span><span class="p">),</span><span class="w">
+    </span><span class="n">cluster_rows</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">      </span><span class="c1"># keep category order</span><span class="w">
+    </span><span class="n">cluster_cols</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">       </span><span class="c1"># cluster genomes by similarity</span><span class="w">
+    </span><span class="n">show_rownames</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">      </span><span class="c1"># too many clusters to label</span><span class="w">
+    </span><span class="n">show_colnames</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+    </span><span class="n">annotation_row</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">row_annotation</span><span class="p">,</span><span class="w">
+    </span><span class="n">annotation_colors</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">ann_colours</span><span class="p">,</span><span class="w">
+    </span><span class="n">color</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#f8fafc"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#0f172a"</span><span class="p">),</span><span class="w">   </span><span class="c1"># white = absent, dark = present</span><span class="w">
+    </span><span class="n">border_color</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="w">
+    </span><span class="n">main</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gene Cluster Presence / Absence"</span><span class="p">,</span><span class="w">
+    </span><span class="n">fontsize_col</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w">
+    </span><span class="n">gaps_row</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+        </span><span class="nf">sum</span><span class="p">(</span><span class="n">pan</span><span class="o">$</span><span class="n">category</span><span class="p">[</span><span class="n">row_order</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"CORE"</span><span class="p">),</span><span class="w">
+        </span><span class="nf">sum</span><span class="p">(</span><span class="n">pan</span><span class="o">$</span><span class="n">category</span><span class="p">[</span><span class="n">row_order</span><span class="p">]</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"CORE"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ACCESSORY"</span><span class="p">))</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">dev.off</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<hr>
+
+<h2 id="step-17-assemble-the-final-figure">Step 17: Assemble the Final Figure</h2>
+
+<p>Your four panels are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Panel</th>
+      <th>File</th>
+      <th>Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>A</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">Panel_A_ANI_heatmap.pdf</code></td>
+      <td>Genome similarity matrix</td>
+    </tr>
+    <tr>
+      <td><strong>B</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">Panel_B_gene_cluster_categories.pdf</code></td>
+      <td>Core / accessory / singleton counts</td>
+    </tr>
+    <tr>
+      <td><strong>C</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">pangenome_circle.svg</code></td>
+      <td>Circular pangenome (exported from Anvi’o viewer)</td>
+    </tr>
+    <tr>
+      <td><strong>D</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">Panel_D_presence_absence_heatmap.pdf</code></td>
+      <td>Gene presence/absence across all genomes</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Combine them in <strong>Inkscape</strong> (free), <strong>Adobe Illustrator</strong>, or <strong>Affinity Designer</strong>:</p>
+
+<ol>
+  <li>Open a new document at your journal’s required figure width (usually 180 mm for double-column)</li>
+  <li>Import each panel individually</li>
+  <li>Arrange in a 2×2 grid</li>
+  <li>Add panel labels (A, B, C, D) in the top-left corner of each panel — bold, 10pt</li>
+  <li>Add a unified legend if needed</li>
+  <li>Export as <code class="language-plaintext highlighter-rouge">Figure1.pdf</code> (vector) and <code class="language-plaintext highlighter-rouge">Figure1.tiff</code> at 300 DPI (for submission)</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────┬─────────────────┐
+│  A: ANI Heatmap │  B: Bar Chart   │
+│                 │   Core/Acc/Sin  │
+├─────────────────┼─────────────────┤
+│  C: Circular    │  D: Presence/   │
+│  Pangenome      │  Absence Heatmap│
+└─────────────────┴─────────────────┘
+</code></pre></div></div>
+
+<blockquote>
+  <p>💡 <strong>SVG tip:</strong> Panel C (the Anvi’o circle) is exported as SVG, which means it’s a vector graphic — you can resize it to any size without losing quality, and you can edit individual elements in Inkscape.</p>
+</blockquote>
+
+<hr>
+
+<h2 id="complete-project-directory-structure">Complete Project Directory Structure</h2>
+
+<p>Here is what your final project should look like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>anvio_project/
+│
+├── genomes/                    ← original FASTA files
+├── genomes_reformatted/        ← clean FASTA files (Anvi'o-compatible)
+├── contigs_db/                 ← one .db file per genome
+│
+├── external-genomes.txt        ← genome list for Anvi'o
+├── GENOMES.db                  ← genome storage database
+│
+├── PAN/                        ← pangenome results
+│   ├── Winogradskyella_pan-PAN.db
+│   └── Winogradskyella_pan-GENOMES.db
+│
+├── ANI/                        ← genome similarity results
+│   └── ANIb_percentage_identity.txt
+│
+├── PAN_SUMMARY/                ← exported summary tables
+│   └── Winogradskyella_pan_gene_clusters_summary.txt
+│
+├── supplementary_tables/       ← tables for paper submission
+│   ├── per_genome_gene_cluster_counts.tsv
+│   ├── core_gene_clusters.tsv
+│   ├── accessory_gene_clusters.tsv
+│   ├── singleton_gene_clusters.tsv
+│   └── PC_D3_3_unique_gene_clusters.tsv
+│
+├── figures/                    ← publication figures
+│   ├── Panel_A_ANI_heatmap.pdf
+│   ├── Panel_B_gene_cluster_categories.pdf
+│   ├── pangenome_circle.svg
+│   ├── Panel_D_presence_absence_heatmap.pdf
+│   └── Figure1.pdf             ← final assembled figure
+│
+└── scripts/
+    ├── 01_reformat_fasta.sh
+    ├── 02_create_contigs_db.sh
+    ├── 03_run_pangenome.sh
+    ├── 04_compute_ani.sh
+    └── 05_figures.R
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="key-results-to-report-in-your-paper">Key Results to Report in Your Paper</h2>
+
+<p>After running this analysis, you’ll have the numbers to fill in your methods and results sections:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Quick summary statistics — run this in R</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"=== Pangenome Summary ===\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Total gene clusters:    "</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">pan</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Core gene clusters:     "</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">pan</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"CORE"</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Accessory gene clusters:"</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">pan</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"ACCESSORY"</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Singleton gene clusters:"</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">pan</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"SINGLETON"</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"PC_D3_3 unique clusters:"</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">pc_d3_unique</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"\n=== Genomes ===\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Number of genomes:"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">genome_cols</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>A typical results paragraph looks like:</p>
+
+<blockquote>
+  <p><em>“The pangenome of 15 Winogradskyella genomes comprised X gene clusters in total. Of these, Y (Z%) constituted the core genome, A (B%) were accessory gene clusters, and C (D%) were singletons unique to individual genomes. The environmental isolate PC_D3_3 harboured E unique gene clusters not found in any other genome in the dataset (Supplementary Table X). Average nucleotide identity (ANI) analysis confirmed that all strains shared &gt;95% identity, consistent with membership in the same species (Figure 1A).”</em></p>
+</blockquote>
+
+<hr>
+
+<h2 id="common-errors-and-how-to-fix-them">Common Errors and How to Fix Them</h2>
+
+<p><strong>Error: “Sequence names in FASTA have characters Anvi’o doesn’t like”</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Fix: rerun Step 3 with --simplify-names</span>
+anvi-script-reformat-fasta genome.fa <span class="nt">-o</span> genome_clean.fa <span class="nt">--simplify-names</span>
+</code></pre></div></div>
+
+<p><strong>Error: “Some genome names in your external genomes file do not match”</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check that names in external-genomes.txt exactly match database names</span>
+<span class="nb">head </span>external-genomes.txt
+anvi-db-info contigs_db/PC_D3_3.db | <span class="nb">grep</span> <span class="s2">"project_name"</span>
+<span class="c"># Both should show exactly the same string</span>
+</code></pre></div></div>
+
+<p><strong>Error: anvi-pan-genome runs out of memory</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># In your SLURM script, increase memory and reduce threads</span>
+<span class="c">#SBATCH --mem=64G</span>
+<span class="c">#SBATCH --cpus-per-task=8</span>
+<span class="c"># (Fewer threads can sometimes reduce peak memory)</span>
+</code></pre></div></div>
+
+<p><strong>Error: “MCL is not installed”</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install MCL in your conda environment</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda mcl <span class="nt">-y</span>
+</code></pre></div></div>
+
+<p><strong>R error: “object ‘pan’ not found”</strong></p>
+
+<p>You likely loaded the wrong file or the column names contain extra whitespace. Check with:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">names</span><span class="p">(</span><span class="n">pan</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">]</span><span class="w">      </span><span class="c1"># check column names</span><span class="w">
+</span><span class="n">nrow</span><span class="p">(</span><span class="n">pan</span><span class="p">)</span><span class="w">            </span><span class="c1"># check number of rows</span><span class="w">
+</span><span class="nf">class</span><span class="p">(</span><span class="n">pan</span><span class="o">$</span><span class="n">category</span><span class="p">)</span><span class="w">  </span><span class="c1"># check it's a character/factor</span><span class="w">
+</span></code></pre></div></div>
+
+<hr>
+
+<h2 id="summary">Summary</h2>
+
+<p>This workflow demonstrates a clean <strong>hybrid approach</strong> to pangenome analysis:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Where</th>
+      <th>Tools</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Genome preparation</td>
+      <td>HPC or laptop</td>
+      <td>Anvi’o</td>
+    </tr>
+    <tr>
+      <td>Contigs databases</td>
+      <td>HPC</td>
+      <td>Anvi’o + Prodigal</td>
+    </tr>
+    <tr>
+      <td>Pangenome construction</td>
+      <td><strong>HPC</strong></td>
+      <td>Anvi’o + BLAST/DIAMOND + MCL</td>
+    </tr>
+    <tr>
+      <td>ANI computation</td>
+      <td><strong>HPC</strong></td>
+      <td>Anvi’o + pyANI</td>
+    </tr>
+    <tr>
+      <td>Interactive visualisation</td>
+      <td><strong>Laptop</strong></td>
+      <td>Anvi’o browser viewer</td>
+    </tr>
+    <tr>
+      <td>Figure generation</td>
+      <td><strong>Laptop</strong></td>
+      <td>R, ggplot2, pheatmap</td>
+    </tr>
+    <tr>
+      <td>Final figure assembly</td>
+      <td><strong>Laptop</strong></td>
+      <td>Inkscape / Illustrator</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The key insight: don’t fight your HPC’s GUI limitations. Move the results to your laptop and leverage the full power of R for publication-quality figures. The compute belongs on HPC; the creativity belongs on your machine.</p>
+
+<hr>
+
+<h2 id="references">References</h2>
+
+<ul>
+  <li>
+<strong>Anvi’o:</strong> Eren AM et al. (2015) <em>Anvi’o: an advanced analysis and visualization platform for ‘omics data.</em> PeerJ. <a href="https://merenlab.org/software/anvio/" rel="external nofollow noopener" target="_blank">merenlab.org/software/anvio</a>
+</li>
+  <li>
+<strong>pyANI:</strong> Pritchard L et al. (2016) <em>Genomics and taxonomy in diagnostics for food security.</em> Anal. Methods.</li>
+  <li>
+<strong>MCL:</strong> Enright AJ et al. (2002) <em>An efficient algorithm for large-scale detection of protein families.</em> Nucleic Acids Res.</li>
+  <li>
+<strong>pheatmap:</strong> Kolde R (2019). <em>pheatmap: Pretty Heatmaps.</em> R package.</li>
+</ul>
+
+<hr>
+
+<p><em>Questions about this workflow? Drop a comment below. The complete R script and SLURM submission scripts are available in the <a href="#">companion GitHub repository</a>.</em></p>
+
+<p><img src="/assets/img/pan_anvio.png" alt="PanGenomics-Anvio"></p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      © Copyright 2026
+      Jojy
+      
+      John. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+      
+      
+    </div>
+  </footer>
+
+
+
+    <!-- ========================= -->
+    <!-- JavaScripts (IMPORTANT ORDER) -->
+    <!-- ========================= -->
+
+    <!-- jQuery MUST load first -->
+    <!-- jQuery -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+
+    <!-- Bootstrap depends on jQuery -->
+    <!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/assets/js/mdb.min.js"></script> -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+
+    <!-- Other scripts -->
+    
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  <!-- Medium Zoom JS -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+<!-- Bootstrap Table -->
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+    
+  
+    <!-- MathJax -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          tags: 'ams',
+        },
+      };
+    </script>
+    <script defer type="text/javascript" id="MathJax-script" src="" integrity="" crossorigin="anonymous"></script>
+    <script defer src="" crossorigin="anonymous"></script>
+  
+
+
+    
+
+    
+
+
+
+    
+  <!-- Scrolling Progress Bar -->
+  <script type="text/javascript">
+    /*
+     * This JavaScript code has been adapted from the article
+     * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar,
+     * published on the website https://css-tricks.com on the 7th of May, 2014.
+     * Couple of changes were made to the original code to make it compatible
+     * with the `al-foio` theme.
+     */
+    const progressBar = $('#progress');
+    /*
+     * We set up the bar after all elements are done loading.
+     * In some cases, if the images in the page are larger than the intended
+     * size they'll have on the page, they'll be resized via CSS to accomodate
+     * the desired size. This mistake, however, breaks the computations as the
+     * scroll size is computed as soon as the elements finish loading.
+     * To account for this, a minimal delay was introduced before computing the
+     * values.
+     */
+    window.onload = function () {
+      setTimeout(progressBarSetup, 50);
+    };
+    /*
+     * We set up the bar according to the browser.
+     * If the browser supports the progress element we use that.
+     * Otherwise, we resize the bar thru CSS styling
+     */
+    function progressBarSetup() {
+      if ('max' in document.createElement('progress')) {
+        initializeProgressElement();
+        $(document).on('scroll', function () {
+          progressBar.attr({ value: getCurrentScrollPosition() });
+        });
+        $(window).on('resize', initializeProgressElement);
+      } else {
+        resizeProgressBar();
+        $(document).on('scroll', resizeProgressBar);
+        $(window).on('resize', resizeProgressBar);
+      }
+    }
+    /*
+     * The vertical scroll position is the same as the number of pixels that
+     * are hidden from view above the scrollable area. Thus, a value > 0 is
+     * how much the user has scrolled from the top
+     */
+    function getCurrentScrollPosition() {
+      return $(window).scrollTop();
+    }
+
+    function initializeProgressElement() {
+      let navbarHeight = $('#navbar').outerHeight(true);
+      $('body').css({ 'padding-top': navbarHeight });
+      $('progress-container').css({ 'padding-top': navbarHeight });
+      progressBar.css({ top: navbarHeight });
+      progressBar.attr({
+        max: getDistanceToScroll(),
+        value: getCurrentScrollPosition(),
+      });
+    }
+    /*
+     * The offset between the html document height and the browser viewport
+     * height will be greater than zero if vertical scroll is possible.
+     * This is the distance the user can scroll
+     */
+    function getDistanceToScroll() {
+      return $(document).height() - $(window).height();
+    }
+
+    function resizeProgressBar() {
+      progressBar.css({ width: getWidthPercentage() + '%' });
+    }
+    // The scroll ratio equals the percentage to resize the bar
+    function getWidthPercentage() {
+      return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+    }
+  </script>
+
+
+    
+
+    
+
+    
+
+    
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+    
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?601a2d3465e2a52bec38b600518d5f70"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script>
+    let searchTheme = determineComputedTheme();
+    const ninjaKeys = document.querySelector('ninja-keys');
+
+    if (searchTheme === 'dark') {
+      ninjaKeys.classList.add('dark');
+    } else {
+      ninjaKeys.classList.remove('dark');
+    }
+
+    const openSearchModal = () => {
+      // collapse navbarNav if expanded on mobile
+      const $navbarNav = $('#navbarNav');
+      if ($navbarNav.hasClass('show')) {
+        $navbarNav.collapse('hide');
+      }
+      ninjaKeys.open();
+    };
+  </script>
+  <script>
+    // get the ninja-keys element
+    const ninja = document.querySelector('ninja-keys');
+
+    // add the home and posts menu items
+    ninja.data = [{
+        id: "nav-",
+        title: "",
+        section: "Navigation",
+        handler: () => {
+          window.location.href = "/";
+        },
+      },{id: "nav-publications",
+              title: "Publications",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/publications/";
+              },
+            },{id: "nav-blog",
+              title: "Blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "nav-projects",
+              title: "Projects",
+              description: "Research projects spanning microbial ecology, genomics, and multi-omics..",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/projects/";
+              },
+            },{id: "nav-mentoring",
+              title: "Mentoring",
+              description: "Graduate, undergraduate, and intern research mentorship in microbial ecology, bioinformatics, and multi-omics analysis.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/mentoring/";
+              },
+            },{id: "nav-collaboration",
+              title: "Collaboration",
+              description: "Interdisciplinary research collaborations in microbial ecology, genomics, bioinformatics, and environmental biotechnology.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/collaborations/";
+              },
+            },{id: "nav-teaching",
+              title: "Teaching",
+              description: "Teaching experience from 2014",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/teaching/";
+              },
+            },{id: "nav-repositories",
+              title: "Repositories",
+              description: "Research code, bioinformatics pipelines, and reproducible workflows.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/repositories/";
+              },
+            },{id: "post-",
+          
+            title: "",
+          
+          description: "",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026-02-11-day6-specialized-functions/";
+            
+          },
+        },{id: "post-pangenome-analysis-with-anvi-39-o-from-hpc-to-publication-ready-figures",
+          
+            title: "Pangenome Analysis with Anvi&#39;o: From HPC to Publication-Ready Figures",
+          
+          description: "A complete beginner&#39;s guide to building and visualising a bacterial pangenome using Anvi&#39;o — running heavy computation on HPC and generating publication-quality figures with R on your laptop.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/pangenome-anvio-hpc/";
+            
+          },
+        },{id: "post-day-6-moving-your-data-scp-rsync-sftp-and-globus-connect",
+          
+            title: "Day 6 — Moving Your Data: scp, rsync, SFTP, and Globus Connect",
+          
+          description: "Your pipeline is ready, your HPC account is set up — but how do you actually move 300 GB of raw sequencing reads onto the cluster? A practical guide to every data transfer method you&#39;ll use in bioinformatics, from quick one-liners to terabyte-scale transfers.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day6-data-transfer/";
+            
+          },
+        },{id: "post-day-5-reproducible-pipelines-snakemake-and-nextflow",
+          
+            title: "Day 5 — Reproducible Pipelines: Snakemake and Nextflow",
+          
+          description: "Shell scripts work — until they don&#39;t. Here&#39;s how to graduate from manual job submissions to proper workflow managers that track dependencies, restart from failures, scale to HPC, and make your analysis reproducible by anyone, anywhere.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-pipelines/";
+            
+          },
+        },{id: "post-day-4-scaling-analysis-for-loops-vs-slurm-job-arrays",
+          
+            title: "Day 4 — Scaling Analysis: For Loops vs SLURM Job Arrays",
+          
+          description: "200 samples × 15 minutes = 50 hours sequential. Or 15 minutes parallel. Here&#39;s exactly how job arrays work, why they are the single biggest productivity unlock on HPC, and every pattern you need to handle real-world datasets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day4-job-arrays/";
+            
+          },
+        },{id: "post-day-3-running-jobs-terminal-bash-loops-and-slurm",
+          
+            title: "Day 3 — Running Jobs: Terminal, Bash Loops, and SLURM",
+          
+          description: "The biggest mindset shift in HPC: you don&#39;t run commands, you submit jobs. Why the login node is off-limits, what actually happens when you type sbatch, and how to go from a laptop bash loop to a proper SLURM script.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day3-running-jobs/";
+            
+          },
+        },{id: "post-day-2-software-installation-sudo-vs-module-load-vs-conda",
+          
+            title: "Day 2 — Software Installation: sudo vs module load vs conda",
+          
+          description: "The first real shock of HPC life: you can&#39;t install software the way you&#39;re used to. Here&#39;s why, and three progressively better solutions — explained step by step for beginners.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day2-software-installation/";
+            
+          },
+        },{id: "post-day-1-laptop-vs-hpc-why-bioinformatics-needs-both",
+          
+            title: "Day 1 — Laptop vs HPC: Why Bioinformatics Needs Both",
+          
+          description: "Your laptop crashed on a 50-sample microbiome run. Here&#39;s what that means, why it happens, and how HPC clusters solve it — explained from scratch for beginners.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day1-laptop-vs-hpc/";
+            
+          },
+        },{id: "post-day-8-from-raw-data-to-paper-figures-a-complete-microbiome-stats-workflow",
+          
+            title: "Day 8 — From Raw Data to Paper Figures: A Complete Microbiome Stats...",
+          
+          description: "Every method from Days 1–7, assembled into the actual order you run them, with the biological question that justifies each step — and the checklist you copy into every new project.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day8-complete-microbiome-stats-workflow/";
+            
+          },
+        },{id: "post-day-7-correlation-analysis-amp-mantel-test-linking-mags-to-environment",
+          
+            title: "Day 7 — Correlation Analysis &amp; Mantel Test: Linking MAGs to Environment",
+          
+          description: "Spearman correlation asks which environmental variables each MAG tracks. The Mantel test asks something deeper — does community dissimilarity itself scale with environmental dissimilarity?",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day7-correlation-mantel-test-microbiome/";
+            
+          },
+        },{id: "post-day-6-wgcna-for-microbiome-co-abundance-networks-from-individual-mags-to-modules",
+          
+            title: "Day 6 — WGCNA for Microbiome Co-Abundance Networks: From Individual MAGs to Modules...",
+          
+          description: "WGCNA moves you from 61 individual Wilcoxon tests to a handful of ecological guilds — each with a name, a size, and a direct relationship to the environmental gradient that drives it.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day6-wgcna-mag-coabundance-networks/";
+            
+          },
+        },{id: "post-day-5-multiple-regression-for-mag-abundance-linking-genomics-to-environment",
+          
+            title: "Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment",
+          
+          description: "This is multiple regression — the bridge from discrete group comparisons to the continuous environmental gradients that actually structure microbial communities in estuaries.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-multiple-regression-mag-abundance/";
+            
+          },
+        },{id: "post-day-4-non-parametric-tests-for-microbiome-data-wilcoxon-kruskal-wallis-amp-effect-sizes",
+          
+            title: "Day 4 — Non-Parametric Tests for Microbiome Data: Wilcoxon, Kruskal-Wallis &amp; Effect Sizes...",
+          
+          description: "After three days of community-level analysis, we step down to the taxon level — testing which individual MAGs differ between seasons, size fractions, and salinity regimes. Covers Wilcoxon, Kruskal-Wallis, FDR correction, and Cliff&#39;s delta effect size.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day4-nonparametric-tests-wilcoxon-kruskal-wallis/";
+            
+          },
+        },{id: "post-day-3-permanova-with-adonis2-testing-real-community-differences",
+          
+            title: "Day 3 — PERMANOVA with adonis2: Testing Real Community Differences",
+          
+          description: "You&#39;ve seen the groups separate in the RDA triplot. Now we test whether those differences are statistically real — using PERMANOVA, the permutation-based test built for multivariate community data. Includes the critical betadisper assumption test most papers skip.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day3-permanova-adonis2-microbiome/";
+            
+          },
+        },{id: "post-day-2-constrained-ordination-rda-amp-dbrda-for-microbiome-community-analysis",
+          
+            title: "Day 2 — Constrained Ordination: RDA &amp; dbRDA for Microbiome Community Analysis",
+          
+          description: "Learn how to run RDA with Hellinger-transformed MAG abundance data and interpret the resulting triplot — arrows, points, axes, and variance explained — using real Chesapeake and Delaware Bay metagenomes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day2-rda-dbrda-microbiome-ordination/";
+            
+          },
+        },{id: "post-day-1-why-normal-statistics-fail-for-microbiome-data-and-what-we-use-instead",
+          
+            title: "Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We...",
+          
+          description: "Before we run a single ordination or permutation test, we need to understand why standard statistics break down for microbiome and genomics data. This is your foundation for the entire 7-day series.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day1-why-normal-stats-fail-microbiome/";
+            
+          },
+        },{id: "post-from-messy-subfolders-to-analysis-ready-fasta-rename-with-python-collect-with-linux-find",
+          
+            title: "From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with Linux...",
+          
+          description: "A practical mini-workflow: add sample names to files inside many subfolders using a custom Python script, then use Linux find to gather all .fa files into one directory for downstream analysis (Prokka → InterProScan, DIAMOND → final tables).",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/python-rename-and-linux-find-collect-fasta/";
+            
+          },
+        },{id: "post-day-5-substrate-uptake-amp-utilization-in-size-fractionated-estuarine-microbiomes",
+          
+            title: "Day 5: Substrate Uptake &amp; Utilization in Size-Fractionated Estuarine Microbiomes",
+          
+          description: "From gene catalogs to carbon currency: a step-by-step functional workflow for analyzing CAZymes, ABC transporters, and TonB-dependent transporters in size-fractionated metagenomes and metatranscriptomes. Covers concatenated gene catalogs, dbCAN annotation, transporter filtering, read mapping, normalization, and heatmap visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-substrate-uptake-patterns/";
+            
+          },
+        },{id: "post-metagenome-analysis-graduate-course-materials",
+          
+            title: "Metagenome Analysis - Graduate Course Materials",
+          
+          description: "Beginner-friendly graduate course materials for metagenome analysis. Includes toy datasets (&lt;100MB), complete workflows, and hands-on tutorials covering QC, assembly, binning, taxonomy, and phylogenetics. Perfect for students new to bioinformatics with step-by-step guidance and realistic expectations.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-graduate-course/";
+            
+          },
+        },{id: "post-10-day-metagenome-analysis-series-complete-summary",
+          
+            title: "10-Day Metagenome Analysis Series - Complete Summary",
+          
+          description: "Complete metagenome analysis workflow from raw sequencing to publication: QC, assembly, binning, annotation, specialized functions, comparative genomics, automation, visualization, and multi-omics integration. Master 50+ tools in 10 comprehensive days with step-by-step tutorials.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-10day-complete-summary/";
+            
+          },
+        },{id: "post-day-10-multi-omics-integration-metagenomics-amp-metatranscriptomics",
+          
+            title: "Day 10: Multi-Omics Integration - Metagenomics &amp; Metatranscriptomics",
+          
+          description: "Master multi-omics integration: combine metagenomics (DNA) and metatranscriptomics (RNA) data to reveal active functions. Learn DESeq2 differential expression, expression ratio modeling, comparative heatmaps, pathway activity analysis, and taxonomic integration. Complete guide from count tables to biological insights.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day10-multiomics-integration/";
+            
+          },
+        },{id: "post-day-9-visualization-amp-publication-making-data-tell-stories",
+          
+            title: "Day 9: Visualization &amp; Publication - Making Data Tell Stories",
+          
+          description: "Create publication-quality figures for metagenomics: R/ggplot2, Python/matplotlib/seaborn, Krona taxonomic wheels, Circos genome comparisons, interactive Anvi&#39;o plots, network visualizations, and heatmaps. Complete guide to visual storytelling with your data.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day9-visualization/";
+            
+          },
+        },{id: "post-day-8-workflow-wrappers-amp-web-platforms-streamlining-metagenome-analysis",
+          
+            title: "Day 8: Workflow Wrappers &amp; Web Platforms - Streamlining Metagenome Analysis",
+          
+          description: "Master automated workflows with MetaWRAP, Anvi&#39;o, and nf-core/mag. Explore web-based platforms: Galaxy, KBase, IMG/M, and BV-BRC (PATRIC). Complete guide to streamlined metagenomics without the command-line complexity.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day8-workflows-platforms/";
+            
+          },
+        },{id: "post-day-7-comparative-genomics-amp-statistical-analysis-connecting-genomes-to-environment",
+          
+            title: "Day 7: Comparative Genomics &amp; Statistical Analysis - Connecting Genomes to Environment",
+          
+          description: "Master pangenome analysis (PanX, Anvi&#39;o, Roary, BPGA), statistical ecology (PERMANOVA, RDA, dbRDA), co-occurrence networks (WGCNA, SparCC), and environmental associations. Complete guide to understanding how metadata influences microbiomes and comparative genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day7-comparative-statistical/";
+            
+          },
+        },{id: "post-day-5-genome-annotation-understanding-metabolic-potential",
+          
+            title: "Day 5: Genome Annotation - Understanding Metabolic Potential",
+          
+          description: "Complete guide to genome annotation from basic (Prodigal, Prokka) to advanced (DRAM, METABOLIC). Learn to predict genes, assign functions, and reconstruct metabolic pathways from MAGs. Includes practical workflows for laptops and HPC.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day5-annotation/";
+            
+          },
+        },{id: "post-day-4-genome-dereplication-amp-taxonomic-classification-from-mags-to-species",
+          
+            title: "Day 4: Genome Dereplication &amp; Taxonomic Classification - From MAGs to Species",
+          
+          description: "Master genome dereplication with dRep and taxonomic classification with GTDB-Tk. Learn to identify unique species, remove redundancy, construct phylogenetic trees with iTOL and ggtree, and select species representatives from metagenomic datasets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day4-dereplication-taxonomy/";
+            
+          },
+        },{id: "post-day-3-genome-binning-recovering-individual-genomes-mags-from-metagenomes",
+          
+            title: "Day 3: Genome Binning - Recovering Individual Genomes (MAGs) from Metagenomes",
+          
+          description: "Master genome binning with modern MetaWRAP workflows, MetaBAT2, MaxBin2, and CONCOCT. Learn bin refinement, CheckM2 quality assessment, and MAG classification. Includes Python 3 setup, laptop-friendly workflows, and deep learning with SemiBin2.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day3-binning/";
+            
+          },
+        },{id: "post-day-2-metagenome-assembly-reconstructing-genomes-from-short-reads",
+          
+            title: "Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads",
+          
+          description: "A comprehensive guide to assembling metagenomic data using metaSPAdes and MEGAHIT, with quality assessment, parameter optimization, and comparison strategies. Includes desktop-friendly workflows and multi-language analysis scripts.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day2-assembly/";
+            
+          },
+        },{id: "post-day-1-quality-control-contamination-removal-and-read-based-taxonomic-analysis",
+          
+            title: "Day 1: Quality Control, Contamination Removal, and Read-Based Taxonomic Analysis",
+          
+          description: "A comprehensive guide to preprocessing metagenomic sequencing data, from raw reads to clean, taxonomically profiled datasets ready for assembly. Includes workflows for HPC, personal desktop, Linux, and Windows environments.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day1-qc-taxonomy/";
+            
+          },
+        },{id: "post-genome-resolved-metabolism-from-metabolic-potential-to-co-metabolism-networks",
+          
+            title: "Genome-Resolved Metabolism: From Metabolic Potential to Co-Metabolism Networks",
+          
+          description: "A comprehensive workflow for analyzing metabolic flexibility, co-energy metabolism, and co-metabolism networks in hydrocarbon-degrading MAGs using heatmaps and network visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-resolved-metabolism-co-metabolism/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-4-gene-catalog-construction-amp-functional-annotation",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp; Functional Annotation",
+          
+          description: "Day 4 of the size-fractionated microbiome series: Building a non-redundant prokaryotic gene catalog from metagenomes using Prodigal, CD-HIT clustering, and eggNOG functional annotation.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day4/";
+            
+          },
+        },{id: "post-bridging-clinical-and-ecological-ml-from-heart-disease-to-soil-ecosystem-multifunctionality",
+          
+            title: "Bridging Clinical and Ecological ML: From Heart Disease to Soil Ecosystem Multifunctionality",
+          
+          description: "Revisiting my masters in datascience project on heart disease prediction to explore Random Forest applications in microbial ecosystem multifunctionality research. A comprehensive comparison of 5 ML algorithms with real results and lessons learned.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/heart-disease-prediction-ml-random-forest/";
+            
+          },
+        },{id: "post-building-custom-humann3-databases-with-struo2-and-gtdb-a-realistic-guide-from-the-trenches",
+          
+            title: "Building Custom HUMAnN3 Databases with Struo2 and GTDB: A Realistic Guide from the...",
+          
+          description: "A comprehensive, honest guide to building custom HUMAnN3 databases using Struo2 with GTDB r220, including all the troubleshooting, workarounds, and lessons learned from 40 hours in the trenches.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/building-custom-humann3-databases-struo2-gtdb/";
+            
+          },
+        },{id: "post-visualize-your-data-day-5-bubble-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 5: Bubble Plots in Bioinformatics",
+          
+          description: "Day 5 of the Visualize Your Data series: using bubble plots to visualize multi-dimensional relationships in genomics and functional ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day5-bubble-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-4-volcano-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 4: Volcano Plots in Bioinformatics",
+          
+          description: "Day 4 of the Visualize Your Data series: mastering volcano plots for differential expression and abundance analysis in bioinformatics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day4-volcano-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-3-ordination-plots-pca-pcoa-nmds-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 3: Ordination Plots (PCA, PCoA, NMDS) in Bioinformatics...",
+          
+          description: "Day 3 of the Visualize Your Data series: exploring PCA, PCoA, and NMDS to visualize sample relationships and community structure in bioinformatics and microbial ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day3-ordination/";
+            
+          },
+        },{id: "post-visualize-your-data-day-2-heatmaps-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 2: Heatmaps in Bioinformatics",
+          
+          description: "Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps,  commonly used in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day2-heatmaps/";
+            
+          },
+        },{id: "post-visualize-your-data-day-1-box-plot-vs-violin-plot-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics...",
+          
+          description: "Day 1 of the Visualize Your Data series: understanding when and how to use box plots and violin plots to visualize data distributions in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day1-box-vs-violin/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-5-comparative-amp-downstream-genomic-analyses",
+          
+            title: "Whole Genome Sequencing — Day 5: Comparative &amp; Downstream Genomic Analyses",
+          
+          description: "Day 5 of the WGS series: moving from individual genomes to comparative insights through pangenome analysis, secondary metabolite screening, and pathogen detection",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day5-comparative-genomics/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-4-genome-annotation-amp-functional-potential",
+          
+            title: "Whole Genome Sequencing — Day 4: Genome Annotation &amp; Functional Potential",
+          
+          description: "Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day4-annotation-function/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-3-taxonomy-phylogeny-amp-genome-similarity",
+          
+            title: "Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp; Genome Similarity",
+          
+          description: "Day 3 of the WGS series: genome-based taxonomy using GTDB-Tk, phylogenomic tree construction, and species/genus boundary testing using ANI, AAI, and dDDH across large genome sets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day3-taxonomy-phylogeny/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-2-genome-assembly-quality-assessment-and-topology",
+          
+            title: "Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology",
+          
+          description: "Day 2 of the WGS series: short- and long-read genome assembly using SPAdes, MEGAHIT, Shovill, and Flye, followed by assembly evaluation with QUAST, GC content visualization, topology assessment, and graph inspection with Bandage.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day2-genome-assembly/";
+            
+          },
+        },{id: "post-whole-genome-analysis-day-1-from-raw-reads-to-clean-assembly-ready-data",
+          
+            title: "Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data...",
+          
+          description: "Day 1 of a whole-genome analysis series covering raw Illumina and Nanopore reads, integrity checks, quality control with FastQC and NanoPlot, and read trimming using Trimmomatic and Cutadapt.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day1-raw-reads-qc/";
+            
+          },
+        },{id: "post-exploring-the-pan-genome-with-panx-a-practical-workflow-for-darpa-isolates",
+          
+            title: "Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates",
+          
+          description: "5 complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/panx-pangenome-analysis/";
+            
+          },
+        },{id: "post-extracting-full-length-16s-rrna-from-bacterial-genomes-using-barrnap",
+          
+            title: "Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap",
+          
+          description: "A quick and reproducible workflow to extract 16S rRNA genes from assembled genomes and validate taxonomy using NCBI BLAST.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/barrnap-16s-extraction/";
+            
+          },
+        },{id: "post-from-genome-assembly-to-novel-species-a-step-by-step-genomic-workflow",
+          
+            title: "From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow",
+          
+          description: "How do we confidently determine whether a newly sequenced genome represents a novel bacterial species?",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/novel-species-a-step-by-step-guide/";
+            
+          },
+        },{id: "post-using-syncthing-tmux-and-git-to-sync-my-bioinformatics-workflow-across-devices",
+          
+            title: "Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices",
+          
+          description: "How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/syncthing-tmux-git-workflow/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-3-species-level-profiling-with-motus",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs",
+          
+          description: "Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day3/";
+            
+          },
+        },{id: "post-genome-topology-and-genome-announcement-reports-a-practical-reviewer-safe-workflow",
+          
+            title: "Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow",
+          
+          description: "A step-by-step guide to answering NCBI genome topology questions and generating a complete, automated genome report table for Genome Resource Announcements.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-topology-and-genome-report/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-2-kaiju-classification-and-extraction-of-bacterial-amp-archaeal-reads",
+          
+            title: "Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial...",
+          
+          description: "Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day2/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-anlaysis-day-1-from-raw-reads-to-clean-data",
+          
+            title: "Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data...",
+          
+          description: "Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day1/";
+            
+          },
+        },{id: "post-amplicon-week-day-6-wrap-up-from-reads-to-insights",
+          
+            title: "Amplicon Week — Day 6: Wrap-Up: From Reads to Insights",
+          
+          description: "Day 6 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day6/";
+            
+          },
+        },{id: "post-amplicon-week-day-5-web-based-microbiome-analysis-with-easy16s",
+          
+            title: "Amplicon Week — Day 5: Web-based microbiome analysis with easy16S",
+          
+          description: "Day 5 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day5/";
+            
+          },
+        },{id: "post-amplicon-week-day-4-functional-prediction-from-amplicon-data-picrust2-tax4fun2-faprotax",
+          
+            title: "Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)...",
+          
+          description: "Day 4 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day4/";
+            
+          },
+        },{id: "post-amplicon-week-day-3-visualization-amp-ecological-analysis-using-qiime2-microeco-r",
+          
+            title: "Amplicon Week — Day 3: Visualization &amp; Ecological Analysis Using QIIME2 + Microeco...",
+          
+          description: "Day 3 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day3/";
+            
+          },
+        },{id: "post-amplicon-week-day-2-qiime2-setup-importing-data-amp-classifier-training",
+          
+            title: "Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training",
+          
+          description: "Day 2 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day2/";
+            
+          },
+        },{id: "post-amplicon-week-day-1-introduction-to-16s-its-18s-12s-and-coi-metabarcoding",
+          
+            title: "Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI...",
+          
+          description: "Day 1 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day1/";
+            
+          },
+        },{id: "post-cleaning-and-preparing-genomes-for-ncbi-submission-a-complete-workflow",
+          
+            title: "Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow",
+          
+          description: "Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/ncbi-submission-cleaning/";
+            
+          },
+        },{id: "post-machine-learning-mag-binning-with-semibin2-and-snakemake-soil-metagenomes",
+          
+            title: "Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)",
+          
+          description: "How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/semibin-snakemake-soil-mag-workflow/";
+            
+          },
+        },{id: "post-installing-amp-setting-up-my-new-linux-laptop-a-real-journey-through-dual-boot-partitions-amp-persistence",
+          
+            title: "Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot,...",
+          
+          description: "A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/dual-booting-with-linux/";
+            
+          },
+        },{id: "post-gtdb-tk-complete-workflow",
+          
+            title: "GTDB-Tk Complete Workflow",
+          
+          description: "A practical walkthrough of GTDB-Tk Complete Workflow",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/gtdbtk-tree-custom/";
+            
+          },
+        },{id: "post-genome-assembly-day-shovill-for-illumina-amp-flye-for-nanopore-reads",
+          
+            title: "Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads",
+          
+          description: "A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-assembly-day/";
+            
+          },
+        },{id: "post-visualizing-genome-assemblies-with-bandage-building-from-source-on-linux",
+          
+            title: "Visualizing Genome Assemblies with Bandage: Building from Source on Linux",
+          
+          description: "A practical guide to installing Bandage from source using Qt and visualizing assembly graphs generated by Flye and Shovill.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-visualization/";
+            
+          },
+        },{id: "post-re-working-figure-5-visualizing-functional-redundancy-fred-across-bays-seasons-and-salinity",
+          
+            title: "Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity",
+          
+          description: "Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/reworking-a-figure-manuscript-revision-story/";
+            
+          },
+        },{id: "post-my-journey-into-microbiology-the-deep-sea-and-bioinformatics",
+          
+            title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics",
+          
+          description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics/";
+            
+          },
+        },{id: "news-aaas-membership-and-science-magazine-subscription-nominated-by-cynthia-y-young-dean-of-college-of-science-clemson-university",
+              title: 'AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of...',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-asm-2025-los-angeles-usa",
+              title: 'Abstract accepted for **ASM 2025**, Los Angeles, USA.',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-aslo-2025-charlotte-usa",
+              title: 'Abstract accepted for **ASLO 2025**, Charlotte, USA',
+              description: "",
+              section: "News",},{id: "news-188-whole-genome-sequences-submitted-to-ncbi",
+              title: '188 whole-genome sequences submitted to NCBI.',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-baseline-evaluation-of-the-toxicity-potential-of-steel-slag-using-the-green-mussel-perna-viridis-for-sustainable-marine-reuse-applications-this-work-was-originally-completed-during-2019-2020-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Baseline evaluation of the toxicity potential of steel...',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-comparative-genomic-and-phenotypic-analysis-of-streptomyces-rochei-sosist-3-isolated-from-the-southern-ocean-this-work-is-a-part-of-colloboration-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Comparative genomic and phenotypic analysis of Streptomyces rochei...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-accepted-𝐀-𝐯𝐞𝐫𝐲-𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥-𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞-today-i-m-sharing-some-happy-news-𝐦𝐲-𝐟𝐢𝐫𝐬𝐭-𝐩𝐨𝐬𝐭𝐝𝐨𝐜𝐭𝐨𝐫𝐚𝐥-𝐩𝐚𝐩𝐞𝐫-𝐡𝐚𝐬-𝐛𝐞𝐞𝐧-𝐚𝐜𝐜𝐞𝐩𝐭𝐞𝐝-𝐢𝐧-𝐈𝐒𝐌𝐄-𝐂𝐨𝐦𝐦𝐮𝐧𝐢𝐜𝐚𝐭𝐢𝐨𝐧𝐬",
+              title: '**A new paper accepted!** “✨ 𝐀 𝐯𝐞𝐫𝐲 𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥 𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞 ✨ Today, I’m sharing...',
+              description: "",
+              section: "News",},{id: "news-the-accepted-version-available-online-quot-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays-quot-doi-https-doi-org-10-1093-ismeco-ycag021-link-https-academic-oup-com-ismecommun-advance-article-doi-10-1093-ismeco-ycag021-8454622",
+              title: '**The accepted version available online!** &quot;Functional redundancy and metabolic flexibility of microbial communities...',
+              description: "",
+              section: "News",},{id: "news-another-manuscript-accepted-quot-draft-genome-sequence-of-a-novel-species-of-winogradskyella-strain-pc-d3-3-isolated-from-a-red-antarctic-macroalgae-quot-in-microbiology-resource-announcements",
+              title: 'Another manuscript **accepted** &quot;Draft Genome Sequence of a novel species of Winogradskyella (strain...',
+              description: "",
+              section: "News",},{id: "news-another-manuscript-accepted-with-minor-revision-quot-genomic-insights-into-carbohydrate-active-enzymes-in-a-novel-radiobacillus-strain-from-the-antarctic-red-macroalga-pyropia-endiviifolia-quot-in-world-journal-of-microbiology-and-biotechnology-revision-submitted-back",
+              title: 'Another manuscript **accepted** with minor revision &quot;Genomic insights into carbohydrate-active enzymes in a...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-is-online-𝐍𝐚𝐧𝐨𝐥𝐢𝐩𝐨𝐬𝐨𝐦𝐞-𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐝-𝐜𝐨-𝐝𝐞𝐥𝐢𝐯𝐞𝐫𝐲-𝐨𝐟-𝐚𝐦𝐨𝐱𝐢𝐜𝐢𝐥𝐥𝐢𝐧-𝐚𝐧𝐝-𝐭𝐚𝐳𝐨𝐛𝐚𝐜𝐭𝐚𝐦-𝐫𝐞𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐬-𝐢𝐧𝐭𝐫𝐚𝐜𝐞𝐥𝐥𝐮𝐥𝐚𝐫-𝐢𝐧𝐟𝐞𝐜𝐭𝐢𝐨𝐧-𝐛𝐲-𝐦𝐮𝐥𝐭𝐢𝐝𝐫𝐮𝐠-𝐫𝐞𝐬𝐢𝐬𝐭𝐚𝐧𝐭-𝐒𝐚𝐥𝐦𝐨𝐧𝐞𝐥𝐥𝐚-𝐞𝐧𝐭𝐞𝐫𝐢𝐜𝐚-𝐬𝐞𝐫𝐨𝐯𝐚𝐫-𝐓𝐲𝐩𝐡𝐢𝐦𝐮𝐫𝐢𝐮𝐦-read-full-here-https-www-nature-com-articles-s41429-026-00903-5-citeas",
+              title: 'A new paper is online “𝐍𝐚𝐧𝐨𝐥𝐢𝐩𝐨𝐬𝐨𝐦𝐞-𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐝 𝐜𝐨-𝐝𝐞𝐥𝐢𝐯𝐞𝐫𝐲 𝐨𝐟 𝐚𝐦𝐨𝐱𝐢𝐜𝐢𝐥𝐥𝐢𝐧 𝐚𝐧𝐝 𝐭𝐚𝐳𝐨𝐛𝐚𝐜𝐭𝐚𝐦 𝐫𝐞𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐬 𝐢𝐧𝐭𝐫𝐚𝐜𝐞𝐥𝐥𝐮𝐥𝐚𝐫...',
+              description: "",
+              section: "News",},{id: "projects-genome-resolved-characterization-of-novel-antarctic-microbial-lineages",
+              title: 'Genome-Resolved Characterization of Novel Antarctic Microbial Lineages',
+              description: "Integrative genomics and phylogenomics to characterize novel microbial taxa from Antarctic and Southern Ocean ecosystems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Antarctic-Microbial-Diversity/";
+                },},{id: "projects-bacteriophages-and-auxiliary-metabolic-genes-of-the-chesapeake-and-delaware-bays",
+              title: 'Bacteriophages and Auxiliary Metabolic Genes of the Chesapeake and Delaware Bays',
+              description: "Integrative viromics using metagenomes, metatranscriptomes, and viral fractions to characterize viral taxonomy, auxiliary metabolic genes, host interactions, and ecosystem function in estuarine systems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Estury_Virome/";
+                },},{id: "projects-gut-microbiome-responses-to-food-borne-nanoplastics-exposure",
+              title: 'Gut Microbiome Responses to Food-Borne Nanoplastics Exposure',
+              description: "Multi-omics investigation of how pristine and digested nanoplastics alter gut microbial communities in healthy individuals and inflammatory bowel disease patients.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Gut_microbiome_nanoplastics/";
+                },},{id: "projects-microbial-biofouling-interactions-on-autonomous-navy-gliders",
+              title: 'Microbial Biofouling Interactions on Autonomous Navy Gliders',
+              description: "Genome-resolved and metagenomic analysis of marine biofilm communities on autonomous underwater vehicles to design a stable, invasion-resistant synthetic biofilm.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/darpa-biofouling-gliders/";
+                },},{id: "projects-diversity-genomic-studies-and-resistance-mechanisms-of-moderately-halophilic-bacteria",
+              title: 'Diversity, Genomic Studies, and Resistance Mechanisms of Moderately Halophilic Bacteria',
+              description: "Genomic and physiological characterization of halophilic bacteria from salt pan ecosystems to understand stress adaptation, resistance mechanisms, and biotechnological potential.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/diversity_and_genomics/";
+                },},{id: "projects-biological-and-microbial-responses-to-deep-sea-mining-hypoxia-and-anthropogenic-disturbance",
+              title: 'Biological and Microbial Responses to Deep-Sea Mining, Hypoxia, and Anthropogenic Disturbance',
+              description: "Environmental impact assessment of deep-sea mining, monsoon-driven hypoxia, and industrial disturbance using molecular and genomic approaches.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/environmental-impact-assessment/";
+                },},{id: "projects-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays",
+              title: 'Functional Redundancy and Metabolic Flexibility of Microbial Communities in Two Mid-Atlantic Bays',
+              description: "Genome-resolved metagenomic and metatranscriptomic analysis of functional redundancy and metabolic flexibility in estuarine microbial communities from the Chesapeake and Delaware Bays.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/functional-redundancy/";
+                },},{id: "projects-co-metabolism-and-co-expression-networks-of-hydrocarbon-degrading-estuarine-microbiomes",
+              title: 'Co-Metabolism and Co-Expression Networks of Hydrocarbon-Degrading Estuarine Microbiomes',
+              description: "Genome-resolved analysis of hydrocarbon-degrading MAGs across two Mid-Atlantic estuaries, linking metabolic potential, co-energy pathways, and co-metabolism networks using metagenomic and metatranscriptomic data.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/hydrocarbon-estury/";
+                },},{id: "projects-functional-redundancy-and-synthetic-biofilm-design-in-marine-communities-under-environmental-stress",
+              title: 'Functional Redundancy and Synthetic Biofilm Design in Marine Communities under Environmental Stress',
+              description: "Genome-guided analysis and design of marine synthetic biofilm communities to evaluate functional redundancy, biofilm formation potential, and resilience under environmental stress.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/marine_biofilm/";
+                },},{id: "projects-resource-partitioning-and-co-occurrence-of-size-fractionated-microbiomes-in-the-delaware-and-chesapeake-bays",
+              title: 'Resource Partitioning and Co-occurrence of Size-Fractionated Microbiomes in the Delaware and Chesapeake Bays...',
+              description: "Integrative metagenomic and metatranscriptomic analysis of free-living and particle-associated microbial communities to understand resource partitioning, co-occurrence patterns, and functional redundancy in estuarine ecosystems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/size-fractionated-resource-partitioning/";
+                },},{id: "projects-functional-redundancy-in-soil-microbiomes-under-cover-crop-agroecosystems",
+              title: 'Functional Redundancy in Soil Microbiomes under Cover Crop Agroecosystems',
+              description: "Genome-resolved metagenomics and metatranscriptomics reveal microbial functional redundancy across agricultural soils under different cover crop systems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/soil_microbiome/";
+                },},{
+            id: 'socials-email',
+            title: 'Send email',
+            section: 'Socials',
+            handler: () => {
+              window.open("mailto:%6A%6F%6A%79%6A@%63%6C%65%6D%73%6F%6E.%65%64%75", "_blank");
+            },
+          },{
+            id: 'socials-orcid',
+            title: 'ORCID',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://orcid.org/0000-0002-8739-9741", "_blank");
+            },
+          },{
+            id: 'socials-google-scholar',
+            title: 'Google Scholar',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://scholar.google.com/citations?user=w74rUUAAAAAJ", "_blank");
+            },
+          },{
+            id: 'socials-github',
+            title: 'GitHub',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://github.com/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-linkedin',
+            title: 'LinkedIn',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://www.linkedin.com/in/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-x',
+            title: 'X',
+            description: 'Twitter',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://twitter.com/JojyJon", "_blank");
+            },
+          },{
+            id: 'socials-rss',
+            title: 'RSS Feed',
+            section: 'Socials',
+            handler: () => {
+              window.open("/feed.xml", "_blank");
+            },
+          },{
+          id: 'light-theme',
+          title: 'Change theme to light',
+          description: 'Change the theme of the site to Light',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("light");
+          },
+        },
+        {
+          id: 'dark-theme',
+          title: 'Change theme to dark',
+          description: 'Change the theme of the site to Dark',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("dark");
+          },
+        },
+        {
+          id: 'system-theme',
+          title: 'Use system default theme',
+          description: 'Change the theme of the site to System Default',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("system");
+          },
+        },];
+  </script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+  </body>
+</html>
