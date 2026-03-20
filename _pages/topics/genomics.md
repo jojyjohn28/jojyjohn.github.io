@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Topic: Genomics"
+title: "Topic: Genomes & MAGs"
 permalink: /topics/genomics/
 ---
 

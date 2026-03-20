@@ -6,6 +6,7 @@ description: "A step-by-step guide to answering NCBI genome topology questions a
 comments: true
 giscus_comments: true
 featured: true
+categories: [genomics]
 permalink: /blog/genome-topology-and-genome-report/
 ---
 

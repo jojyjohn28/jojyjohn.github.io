@@ -15,7 +15,7 @@ order: 2
 
 # Day 2: Software Installation — sudo vs module load vs conda
 
-> _This is Day 2 of a 6-part series: **From Laptop to HPC: Scaling Computational Biology Workflows** and 🧬 Day 58 of Daily Bioinformatics from Jojy’s Desk. In [Day 1](https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc/) we covered what HPC is and why bioinformatics needs it. Today: the first thing that breaks when you log in._
+> _This is Day 2 of a 6-part series: **From Laptop to HPC: Scaling Computational Biology Workflows** and 🧬 Day 59 of Daily Bioinformatics from Jojy’s Desk. In [Day 1](https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc/) we covered what HPC is and why bioinformatics needs it. Today: the first thing that breaks when you log in._
 
 ---
 

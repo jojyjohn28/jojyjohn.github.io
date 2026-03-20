@@ -17,7 +17,7 @@ order: 5
 
 ![Reproducible Pipelines: Snakemake and Nextflow](./day5-hero.svg)
 
-> _This is Day 5 of a 6-part series: **From Laptop to HPC: Scaling Computational Biology Workflows** and 🧬 Day 61 of Daily Bioinformatics from Jojy’s Desk. In [Day 4](../day4-job-arrays/) we scaled to 200 samples in parallel with job arrays. Today: the final evolution — workflow managers that make the whole thing reproducible._
+> _This is Day 5 of a 6-part series: **From Laptop to HPC: Scaling Computational Biology Workflows** and 🧬 Day 62 of Daily Bioinformatics from Jojy’s Desk. In [Day 4](../day4-job-arrays/) we scaled to 200 samples in parallel with job arrays. Today: the final evolution — workflow managers that make the whole thing reproducible._
 
 ---
 

@@ -17,7 +17,7 @@ order: 3
 
 ![Running Jobs: Terminal vs SLURM](./day3-hero.svg)
 
-> _This is Day 3 of a 6-part series: **From Laptop to HPC: Scaling Computational Biology Workflows** and 🧬 Day 59 of Daily Bioinformatics from Jojy’s Desk.. In [Day 1](../day1-laptop-vs-hpc/) we covered what HPC is. In [Day 2](../day2-software-installation/) we covered software installation. Today: the biggest mindset shift — how to actually run things._
+> _This is Day 3 of a 6-part series: **From Laptop to HPC: Scaling Computational Biology Workflows** and 🧬 Day 60 of Daily Bioinformatics from Jojy’s Desk.. In [Day 1](../day1-laptop-vs-hpc/) we covered what HPC is. In [Day 2](../day2-software-installation/) we covered software installation. Today: the biggest mindset shift — how to actually run things._
 
 ---
 

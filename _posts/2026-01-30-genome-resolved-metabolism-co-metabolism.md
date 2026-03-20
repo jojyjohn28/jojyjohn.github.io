@@ -7,6 +7,7 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/genome-resolved-metabolism-co-metabolism/
+categories: [genomics]
 tags: [metagenomics, MAGs, co-metabolism, metabolic-flexibility, networks, R, bioinformatics]
 ---
 

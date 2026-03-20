@@ -7,6 +7,7 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/ncbi-submission-cleaning/
+categories: [genomics]
 ---
 
 > **Published: December 6, 2025**

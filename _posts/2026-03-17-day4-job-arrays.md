@@ -15,7 +15,7 @@ order: 4
 
 # Day 4: Scaling Analysis — For Loops vs SLURM Job Arrays
 
-> _This is Day 4 of a 6-part series: **From Laptop to HPC: Scaling Computational Biology Workflows** and 🧬 Day 60 of Daily Bioinformatics from Jojy’s Desk. In [Day 3](https://jojyjohn28.github.io/blog/day3-running-jobs/) we learned how to submit a single job. Today we scale it: the same work, 200× faster._
+> _This is Day 4 of a 6-part series: **From Laptop to HPC: Scaling Computational Biology Workflows** and 🧬 Day 61 of Daily Bioinformatics from Jojy’s Desk. In [Day 3](https://jojyjohn28.github.io/blog/day3-running-jobs/) we learned how to submit a single job. Today we scale it: the same work, 200× faster._
 
 ---
 

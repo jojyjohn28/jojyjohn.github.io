@@ -7,6 +7,7 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/gtdbtk-tree-custom/
+categories: [genomics]
 ---
 
 When I began in bioinformatics, those beautifully annotated phylogenetic trees felt impossible to create. Later, when I started binning and whole-genome analysis, visualizing my own genomes with that same level of detail became one of my top goals.
