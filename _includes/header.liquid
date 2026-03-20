@@ -1,14 +1,12 @@
 <header>
   <!-- Nav Bar -->
-  <nav id="navbar" class="navbar navbar-light navbar-expand-sm {% if site.navbar_fixed %}fixed-top{% else %}sticky-top{% endif %}" role="navigation">
+  <nav id="navbar" class="navbar navbar-light navbar-expand-lg {% if site.navbar_fixed %}fixed-top{% else %}sticky-top{% endif %}" role="navigation">
     <div class="container">
       {% if page.permalink != '/' %}
         <a class="navbar-brand title font-weight-lighter" href="{{ site.baseurl }}/">
           {% if site.title == 'blank' %}
             {% if site.first_name %}
-              <span class="font-weight-bold">
-                {{- site.first_name -}}
-              </span>
+              <span class="font-weight-bold">{{- site.first_name -}}</span>
             {% endif %}
             {% if site.middle_name %}
               {{- site.middle_name -}}
@@ -23,14 +21,30 @@
       {% elsif site.enable_navbar_social %}
         <!-- Social Icons -->
         <div class="navbar-brand social">{% include social.liquid %}</div>
+      {% else %}
+        <a class="navbar-brand title font-weight-lighter" href="{{ site.baseurl }}/">
+          {% if site.title == 'blank' %}
+            {% if site.first_name %}
+              <span class="font-weight-bold">{{- site.first_name -}}</span>
+            {% endif %}
+            {% if site.middle_name %}
+              {{- site.middle_name -}}
+            {% endif %}
+            {% if site.last_name %}
+              {{- site.last_name -}}
+            {% endif %}
+          {% else %}
+            {{- site.title -}}
+          {% endif %}
+        </a>
       {% endif %}
 
       <!-- Navbar Toggle -->
       <button
         class="navbar-toggler collapsed ml-auto"
         type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
+        data-toggle="collapse"
+        data-target="#navbarNav"
         aria-controls="navbarNav"
         aria-expanded="false"
         aria-label="Toggle navigation"
@@ -42,17 +56,18 @@
       </button>
 
       <div class="collapse navbar-collapse text-right" id="navbarNav">
-        <ul class="navbar-nav ml-auto flex-nowrap">
-          {% for page in site.pages %}
-            {% if page.permalink == '/' %}
-              {% assign about_title = page.title %}
+        <ul class="navbar-nav ml-auto">
+          {% assign about_title = 'About' %}
+          {% for pg in site.pages %}
+            {% if pg.permalink == '/' %}
+              {% assign about_title = pg.title %}
             {% endif %}
           {% endfor %}
 
           <!-- About -->
           <li class="nav-item {% if page.permalink == '/' %}active{% endif %}">
             <a class="nav-link" href="{{ '/' | relative_url }}">
-              {{- about_title }}
+              {{- about_title -}}
               {% if page.permalink == '/' %}
                 <span class="sr-only">(current)</span>
               {% endif %}
@@ -79,11 +94,11 @@
                     href="#"
                     id="{{ dropdown_id }}"
                     role="button"
-                    data-bs-toggle="dropdown"
+                    data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    {{- p.title }}
+                    {{- p.title -}}
                     {% if page.title == p.title or has_active_child %}
                       <span class="sr-only">(current)</span>
                     {% endif %}
@@ -94,10 +109,7 @@
                       {% if child.title == 'divider' %}
                         <div class="dropdown-divider"></div>
                       {% else %}
-                        <a
-                          class="dropdown-item {% if page.title == child.title %}active{% endif %}"
-                          href="{{ child.permalink | relative_url }}"
-                        >
+                        <a class="dropdown-item {% if page.title == child.title %}active{% endif %}" href="{{ child.permalink | relative_url }}">
                           {{- child.title -}}
                         </a>
                       {% endif %}
@@ -113,7 +125,7 @@
                     {% assign url = p.url %}
                   {% endif %}
                   <a class="nav-link" href="{{ url | relative_url }}">
-                    {{- p.title }}
+                    {{- p.title -}}
                     {% if page.url contains p.url %}
                       <span class="sr-only">(current)</span>
                     {% endif %}
@@ -124,18 +136,16 @@
           {% endfor %}
 
           {% if site.search_enabled %}
-            <!-- Search -->
             <li class="nav-item">
-              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()" type="button">
                 <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
               </button>
             </li>
           {% endif %}
 
           {% if site.enable_darkmode %}
-            <!-- Toogle theme mode -->
             <li class="toggle-container">
-              <button id="light-toggle" title="Change theme">
+              <button id="light-toggle" title="Change theme" type="button">
                 <i class="ti ti-sun-moon" id="light-toggle-system"></i>
                 <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
                 <i class="ti ti-sun-filled" id="light-toggle-light"></i>

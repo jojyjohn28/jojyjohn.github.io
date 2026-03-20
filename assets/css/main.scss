@@ -29,13 +29,11 @@ $max-content-width: {{ site.max_width }};
    CUSTOM BLOG BANNER STYLES
    =========================== */
 
-/* Outer wrapper for spacing */
 .blog-banner-container {
   text-align: center;
   margin: 25px 0 35px 0;
 }
 
-/* Actual banner styling */
 .blog-banner {
   width: 100%;
   max-height: 280px;
@@ -46,7 +44,6 @@ $max-content-width: {{ site.max_width }};
   box-shadow: 0 3px 10px rgba(0,0,0,0.18);
 }
 
-/* Mobile banner */
 @media (max-width: 600px) {
   .blog-banner {
     max-height: 220px;
@@ -56,6 +53,7 @@ $max-content-width: {{ site.max_width }};
 /* ==========================
    Homepage Tiles
    ========================== */
+
 .tile-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
@@ -100,6 +98,7 @@ $max-content-width: {{ site.max_width }};
 /* ==========================
    Expandable Skill Blocks
    ========================== */
+
 .skill-block{
   margin: 14px 0 16px 0;
   border-radius: 14px;
@@ -150,66 +149,32 @@ $max-content-width: {{ site.max_width }};
 }
 
 /* =========================
-   MOBILE NAVBAR FIX (CRITICAL)
+   SAFE MOBILE NAVBAR FIX
    ========================= */
+
 @media (max-width: 768px) {
 
   #navbar {
-    position: relative;
-    z-index: 5000 !important;
-  }
-
-  #navbar .container {
-    position: relative;
-  }
-
-  #navbar .navbar-toggler {
-    z-index: 7001 !important;
+    z-index: 2000;
   }
 
   #navbar .navbar-collapse {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 7000 !important;
-    background: #111 !important;
-    padding: 1rem;
-    border-radius: 0 0 16px 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-    max-height: calc(100vh - 80px);
-    overflow-y: auto;
+    background: var(--global-bg-color);
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
   }
 
   #navbar .navbar-nav {
-    width: 100%;
-    flex-wrap: wrap !important;
-  }
-
-  #navbar .nav-item {
-    margin: 0.2rem 0;
-    width: 100%;
+    flex-direction: column;
   }
 
   #navbar .nav-link {
-    display: block;
-    padding: 0.7rem 0.4rem;
-    font-size: 1rem;
+    padding: 0.6rem 0;
   }
 
   #navbar .dropdown-menu {
-    position: static !important;
+    position: static;
     float: none;
     width: 100%;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding-left: 0.8rem;
-    margin-top: 0.25rem;
-  }
-
-  #navbar .dropdown-item {
-    white-space: normal;
-    padding: 0.5rem 0.4rem;
   }
 }
