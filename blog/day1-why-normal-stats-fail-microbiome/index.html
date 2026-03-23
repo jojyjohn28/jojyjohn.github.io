@@ -860,6 +860,20 @@ How all of these methods connect in a real paper, and how to structure a results
 </span><span class="nf">all</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span><span class="w">
 </span><span class="c1"># Should return TRUE</span><span class="w">
 
+</span><span class="c1">#if not returing true, run the below</span><span class="w">
+</span><span class="c1"># Check whether sample names match</span><span class="w">
+</span><span class="n">identical</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">mag_raw</span><span class="p">),</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># If not, inspect differences</span><span class="w">
+</span><span class="n">setdiff</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">mag_raw</span><span class="p">),</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span><span class="w">
+</span><span class="n">setdiff</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">),</span><span class="w"> </span><span class="n">colnames</span><span class="p">(</span><span class="n">mag_raw</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># Reorder metadata to match abundance table if names are the same but order differs</span><span class="w">
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="p">[</span><span class="n">colnames</span><span class="p">(</span><span class="n">mag_raw</span><span class="p">),</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># Check again</span><span class="w">
+</span><span class="n">identical</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">mag_raw</span><span class="p">),</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span><span class="w"> </span><span class="c1">#will return true</span><span class="w">
+
 </span><span class="c1"># Quick summary of the abundance table</span><span class="w">
 </span><span class="n">summary</span><span class="p">(</span><span class="n">rowSums</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w">   </span><span class="c1"># row sums (should be ~1 if relative abundance)</span><span class="w">
 </span><span class="nf">sum</span><span class="p">(</span><span class="n">mag_abundance</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">prod</span><span class="p">(</span><span class="nf">dim</span><span class="p">(</span><span class="n">mag_abundance</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="w">  </span><span class="c1"># % zeros</span><span class="w">
