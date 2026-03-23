@@ -94,16 +94,27 @@ spe.hel <- decostand(mag_t, method = "hellinger")
 ### Step 3 — Prepare the environmental matrix
 
 ```r
-# Select continuous environmental variables only
-# metadata now has: Season, SF, Bay (categorical) — exclude these
-# keep only numeric predictors for the RDA
 env <- metadata[, c("Salinity", "Temperature", "Depth", "PAR",
                     "Attenuation", "Bacterial_Production", "nCells",
-                    "ChlA", "Nitrate", "Ammonium", "Phosphate", "Silicate")]
+                    "ChlA", "Nitrate", "Ammonium", "Phosphate", "Silicate"),
+                drop = FALSE]
 
-# Standardize to mean = 0, sd = 1 so all variables are comparable
-# (Salinity in ppt and nCells in millions are on completely different scales)
-env.z <- decostand(env, method = "stand")
+# Force numeric (prevents hidden character → NA issues)
+env <- as.data.frame(env)
+env[] <- lapply(env, function(x) as.numeric(as.character(x)))
+
+# Check missing values
+colSums(is.na(env))
+
+# Remove samples with missing environmental data
+keep <- complete.cases(env)
+
+env2 <- env[keep, , drop = FALSE]
+spe.hel <- spe.hel[keep, , drop = FALSE]
+metadata <- metadata[keep, , drop = FALSE]
+
+# Standardize AFTER cleaning
+env.z <- decostand(env2, method = "stand")
 ```
 
 ### Step 4 — Forward selection of significant variables
@@ -117,11 +128,11 @@ spe.rda.full <- rda(spe.hel ~ ., data = env.z)
 # Forward selection — adds variables one by one, keeps only significant ones
 # stops when adding more variables would exceed the full model's R²
 fwd.sel <- ordiR2step(
-  rda(spe.hel ~ 1, data = env.z),   # null model (lower bound)
-  scope = formula(spe.rda.full),     # upper bound
+  rda(spe.hel ~ 1, data = env.z),
+  scope = formula(spe.rda.full),
   direction = "forward",
   R2scope = TRUE,
-  pstep = 1000,
+  permutations = 1000,
   trace = FALSE
 )
 
@@ -136,20 +147,20 @@ Forward selection selected: **Temperature, Salinity, Phosphate, ChlA, Silicate, 
 ```r
 # Final RDA model with forward-selected variables
 spe.rda.signif <- rda(spe.hel ~ Temperature + Salinity + Phosphate +
-                        ChlA + Silicate + Nitrate + SF + nCells,
+                        ChlA + Silicate + Nitrate + nCells,
                       data = env.z)
 
 # Adjusted R² — how much community variance is explained?
-Rsquareadj(spe.rda.signif)
+RsquareAdj(spe.rda.signif)
 
 # Test overall model significance (permutation test)
-anova.cca(spe.rda.signif, step = 1000)
+anova.cca(spe.rda.signif, permutations = 1000)
 
 # Test significance of each individual term
-anova.cca(spe.rda.signif, step = 1000, by = "term")
+anova.cca(spe.rda.signif, permutations = 1000, by = "term")
 
 # Test significance of each axis
-anova.cca(spe.rda.signif, step = 1000, by = "axis")
+anova.cca(spe.rda.signif, permutations = 1000, by = "axis")
 ```
 
 > **Why permutation tests?** Because our data violates the normality assumptions of classical F-tests, `anova.cca()` tests significance by randomly shuffling the data 1000 times and asking: how often would we see this pattern by chance? This is the non-parametric equivalent of an F-test — no distributional assumptions required.
