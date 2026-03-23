@@ -182,6 +182,20 @@ Before any analysis, verify that your samples are in the same order in both file
 all(rownames(mag_abundance) == rownames(metadata))
 # Should return TRUE
 
+#if not returing true, run the below
+# Check whether sample names match
+identical(colnames(mag_raw), rownames(metadata))
+
+# If not, inspect differences
+setdiff(colnames(mag_raw), rownames(metadata))
+setdiff(rownames(metadata), colnames(mag_raw))
+
+# Reorder metadata to match abundance table if names are the same but order differs
+metadata <- metadata[colnames(mag_raw), , drop = FALSE]
+
+# Check again
+identical(colnames(mag_raw), rownames(metadata)) #will return true
+
 # Quick summary of the abundance table
 summary(rowSums(mag_abundance))   # row sums (should be ~1 if relative abundance)
 sum(mag_abundance == 0) / prod(dim(mag_abundance)) * 100  # % zeros
