@@ -766,16 +766,27 @@
 
 <h3 id="step-3--prepare-the-environmental-matrix">Step 3 — Prepare the environmental matrix</h3>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Select continuous environmental variables only</span><span class="w">
-</span><span class="c1"># metadata now has: Season, SF, Bay (categorical) — exclude these</span><span class="w">
-</span><span class="c1"># keep only numeric predictors for the RDA</span><span class="w">
-</span><span class="n">env</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Salinity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Temperature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Depth"</span><span class="p">,</span><span class="w"> </span><span class="s2">"PAR"</span><span class="p">,</span><span class="w">
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">env</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Salinity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Temperature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Depth"</span><span class="p">,</span><span class="w"> </span><span class="s2">"PAR"</span><span class="p">,</span><span class="w">
                     </span><span class="s2">"Attenuation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Bacterial_Production"</span><span class="p">,</span><span class="w"> </span><span class="s2">"nCells"</span><span class="p">,</span><span class="w">
-                    </span><span class="s2">"ChlA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Nitrate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Ammonium"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Phosphate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Silicate"</span><span class="p">)]</span><span class="w">
+                    </span><span class="s2">"ChlA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Nitrate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Ammonium"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Phosphate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Silicate"</span><span class="p">),</span><span class="w">
+                </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span><span class="w">
 
-</span><span class="c1"># Standardize to mean = 0, sd = 1 so all variables are comparable</span><span class="w">
-</span><span class="c1"># (Salinity in ppt and nCells in millions are on completely different scales)</span><span class="w">
-</span><span class="n">env.z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">decostand</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"stand"</span><span class="p">)</span><span class="w">
+</span><span class="c1"># Force numeric (prevents hidden character → NA issues)</span><span class="w">
+</span><span class="n">env</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">env</span><span class="p">)</span><span class="w">
+</span><span class="n">env</span><span class="p">[]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1"># Check missing values</span><span class="w">
+</span><span class="n">colSums</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">env</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># Remove samples with missing environmental data</span><span class="w">
+</span><span class="n">keep</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">complete.cases</span><span class="p">(</span><span class="n">env</span><span class="p">)</span><span class="w">
+
+</span><span class="n">env2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">env</span><span class="p">[</span><span class="n">keep</span><span class="p">,</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span><span class="w">
+</span><span class="n">spe.hel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">spe.hel</span><span class="p">[</span><span class="n">keep</span><span class="p">,</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span><span class="w">
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="p">[</span><span class="n">keep</span><span class="p">,</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># Standardize AFTER cleaning</span><span class="w">
+</span><span class="n">env.z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">decostand</span><span class="p">(</span><span class="n">env2</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"stand"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
 <h3 id="step-4--forward-selection-of-significant-variables">Step 4 — Forward selection of significant variables</h3>
@@ -788,11 +799,11 @@
 </span><span class="c1"># Forward selection — adds variables one by one, keeps only significant ones</span><span class="w">
 </span><span class="c1"># stops when adding more variables would exceed the full model's R²</span><span class="w">
 </span><span class="n">fwd.sel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ordiR2step</span><span class="p">(</span><span class="w">
-  </span><span class="n">rda</span><span class="p">(</span><span class="n">spe.hel</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env.z</span><span class="p">),</span><span class="w">   </span><span class="c1"># null model (lower bound)</span><span class="w">
-  </span><span class="n">scope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">formula</span><span class="p">(</span><span class="n">spe.rda.full</span><span class="p">),</span><span class="w">     </span><span class="c1"># upper bound</span><span class="w">
+  </span><span class="n">rda</span><span class="p">(</span><span class="n">spe.hel</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env.z</span><span class="p">),</span><span class="w">
+  </span><span class="n">scope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">formula</span><span class="p">(</span><span class="n">spe.rda.full</span><span class="p">),</span><span class="w">
   </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"forward"</span><span class="p">,</span><span class="w">
   </span><span class="n">R2scope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
-  </span><span class="n">pstep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w">
+  </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w">
   </span><span class="n">trace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
 </span><span class="p">)</span><span class="w">
 
@@ -806,20 +817,20 @@
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Final RDA model with forward-selected variables</span><span class="w">
 </span><span class="n">spe.rda.signif</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rda</span><span class="p">(</span><span class="n">spe.hel</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Temperature</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Salinity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Phosphate</span><span class="w"> </span><span class="o">+</span><span class="w">
-                        </span><span class="n">ChlA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Silicate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nitrate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SF</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nCells</span><span class="p">,</span><span class="w">
+                        </span><span class="n">ChlA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Silicate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Nitrate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nCells</span><span class="p">,</span><span class="w">
                       </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env.z</span><span class="p">)</span><span class="w">
 
 </span><span class="c1"># Adjusted R² — how much community variance is explained?</span><span class="w">
-</span><span class="n">Rsquareadj</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">)</span><span class="w">
+</span><span class="n">RsquareAdj</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">)</span><span class="w">
 
 </span><span class="c1"># Test overall model significance (permutation test)</span><span class="w">
-</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">)</span><span class="w">
+</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">)</span><span class="w">
 
 </span><span class="c1"># Test significance of each individual term</span><span class="w">
-</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"term"</span><span class="p">)</span><span class="w">
+</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"term"</span><span class="p">)</span><span class="w">
 
 </span><span class="c1"># Test significance of each axis</span><span class="w">
-</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"axis"</span><span class="p">)</span><span class="w">
+</span><span class="n">anova.cca</span><span class="p">(</span><span class="n">spe.rda.signif</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"axis"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
 <blockquote>
