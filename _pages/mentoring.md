@@ -57,7 +57,10 @@ _Cover crop effects on microbial functional redundancy_
 
 **Outcome:**
 
-- Manuscript in preparation
+- Shotgun Metagenomic and Metatranscriptomic Analysis of Soil Microbial Communities Under Monoculture and Polyculture Cover Crops**
+  Nichole Giani, **Jojy John**, and Barbara Campbell
+  **Keywords:\*\* Metagenomes, Metatranscriptomes, Cover Crops
+  Status : Under review in Microbial Resource Annoucements.
 
 ---
 
