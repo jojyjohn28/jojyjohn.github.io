@@ -452,7 +452,7 @@ The fix is simple: two read count checks and one repair script. Build them into 
 For three samples (or thirty), use the SLURM script provided in `Day2_QC_Preprocessing/scripts/`. See the companion repository for the full batch script.
 
 📦 **All code, SLURM scripts, and toy datasets used in this series are available in the companion repository**
-📦 [Github repository](github.com/jojyjohn28/metatranscriptomics)
+📦 [Github repository](https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day2-qc-preprocessing)
 
 ---
 
@@ -462,6 +462,8 @@ Preprocessing is not a formality. It is the foundation every downstream result i
 
 ---
 
-_Questions about this workflow? Drop a comment below. The complete R script and SLURM submission scripts are available in the [companion GitHub repository](#)._
+\_Questions about this workflow? Drop a comment below. The complete R script and SLURM submission scripts are available in the [companion GitHub repository](https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day2-qc-preprocessing).
 
-![Day1 metatrnscriptome](/assets/img/day2_mt.png)
+If you seeing the blog first time, read [DAY 1](https://jojyjohn28.github.io/blog/day1-metatranscriptomics-introduction/)
+
+![Day2 metatrnscriptome](/assets/img/day2_mt.png)
