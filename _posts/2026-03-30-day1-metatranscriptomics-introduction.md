@@ -102,9 +102,9 @@ Tomorrow we tackle the step most tutorials skip entirely: raw data preprocessing
 
 ---
 
-**All code, SLURM scripts, and toy datasets used in this series are available in the companion repository — clone it and follow along from Day 1.**
-https://github.com/jojyjohn28/metatrancriptome_analysis
+📦 **All code, SLURM scripts, and toy datasets used in this series are available in the companion repository**
+📦 [Github repository](https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day1-toy-data)
 
-_Questions about this workflow? Drop a comment below. The complete R script and SLURM submission scripts are available in the [companion GitHub repository](#)._
+_Questions about this workflow? Drop a comment below. The complete R script and SLURM submission scripts are available in the [companion GitHub repository](https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day1-toy-data)
 
 ![Day1 metatrnscriptome](/assets/img/d1_mt.png)
