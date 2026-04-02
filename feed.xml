@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-01T11:29:22-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-01T11:29:22-04:00</published><updated>2026-04-01T11:29:22-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-02T13:09:29-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-02T13:09:29-04:00</published><updated>2026-04-02T13:09:29-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,305 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 2 — Clean Your RNA : QC &amp;amp; Preprocessing for Metatranscriptomics</title><link href="https://jojyjohn28.github.io/blog/day2-metatranscriptomics-qc-preprocessing/" rel="alternate" type="text/html" title="Day 2 — Clean Your RNA : QC &amp;amp; Preprocessing for Metatranscriptomics" /><published>2026-03-31T00:00:00-04:00</published><updated>2026-03-31T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day2-metatranscriptomics-qc-preprocessing</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day2-metatranscriptomics-qc-preprocessing/"><![CDATA[<p><strong>Here is a truth most tutorials skip: the quality of your metatranscriptome analysis is decided before you ever run a mapper.</strong></p>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 3 — The Reference Problem: Your Database Defines Your Biology</title><link href="https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy/" rel="alternate" type="text/html" title="Day 3 — The Reference Problem: Your Database Defines Your Biology" /><published>2026-04-02T00:00:00-04:00</published><updated>2026-04-02T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy/"><![CDATA[<h2 id="the-reference-problem-your-database-defines-your-biology">The Reference Problem: Your Database Defines Your Biology</h2>
+
+<p>🧬 Day 67 of Daily Bioinformatics from Jojy’s Desk🧬</p>
+
+<p>After quality control, your RNA reads are clean, trimmed, rRNA-free, and perfectly synchronized. You are ready to map.</p>
+
+<p>But map to <em>what</em>?</p>
+
+<p>This question — deceptively simple on the surface — is the most consequential decision in your entire metatranscriptomics workflow. Get it wrong and your results will be technically correct but biologically misleading. You will not get an error message. The pipeline will finish. The count table will be generated. And you will draw conclusions that don’t reflect what actually happened in your sample.</p>
+
+<p>Let’s make sure you understand this choice before you make it.</p>
+
+<hr />
+
+<h2 id="the-core-concept-you-can-only-find-what-you-look-for">The core concept: you can only find what you look for</h2>
+
+<p>Imagine you lose your keys. You search your living room, your kitchen, your bedroom. You don’t find them. What does that tell you?</p>
+
+<p>It tells you your keys are not in those three rooms. It tells you <strong>nothing</strong> about whether they’re in the garage, the car, or your coat pocket — because you never looked there.</p>
+
+<p>Mapping works the same way. When a read fails to map, it doesn’t mean nothing was expressed. It means the expressed gene is not in your reference. You simply never looked for it.</p>
+
+<p>In a complex environmental sample like an estuarine sediment — where a single gram of sediment can contain thousands of microbial species, most of them never cultured and never sequenced — any reference you build is a small window into a vast room. Your job is to understand exactly how big that window is, and to be honest about what you can and cannot see through it.</p>
+
+<blockquote>
+  <p><strong>The rule:</strong> You can only detect what’s in your reference. Everything outside the window is invisible — not absent, just invisible.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="what-is-a-reference-exactly">What is a reference, exactly?</h2>
+
+<p>A reference is a collection of DNA sequences that you believe represent the organisms or genes in your sample. You build an index from those sequences (using <code class="language-plaintext highlighter-rouge">bowtie2-build</code>), and then the mapper searches that index for matches to your reads.</p>
+
+<p>Every reference has two properties that matter:</p>
+
+<ul>
+  <li><strong>Coverage</strong> — how much of the total community diversity does it represent? A reference with four MAGs covers maybe 2% of an estuarine community. A database with 50,000 reference genomes covers much more.</li>
+  <li><strong>Specificity</strong> — how closely do the reference sequences match the actual organisms in your sample? Genomes assembled directly from your sample are highly specific. Database genomes from culture collections may be generic representatives that differ meaningfully from your environmental strains.</li>
+</ul>
+
+<p>Coverage and specificity usually trade off against each other. The three reference strategies below sit at different points on this tradeoff.</p>
+
+<hr />
+
+<h2 id="strategy-1--mags-high-specificity-low-coverage">Strategy 1 — MAGs: high specificity, low coverage</h2>
+
+<p><strong>What is a MAG?</strong></p>
+
+<p>A Metagenome-Assembled Genome (MAG) is a draft genome assembled from environmental DNA. You take a paired metagenome from the same samples, assemble the DNA reads into contigs, and then computationally group (bin) those contigs by their coverage patterns and nucleotide composition — hoping that contigs from the same organism cluster together. Each bin is a draft genome of one (or a few) organisms from your community.</p>
+
+<p>MAGs are imperfect — they are partial (a typical high-quality MAG is 70–95% complete), sometimes contaminated with sequences from other organisms, and never perfectly phased. But they are built from your community, which makes them maximally specific to what actually lives in your sample.</p>
+
+<p><strong>Why we use MAGs in this series:</strong></p>
+
+<p>Our four MAGs — <code class="language-plaintext highlighter-rouge">MAG1.fasta</code> through <code class="language-plaintext highlighter-rouge">MAG4.fasta</code> — were assembled and binned from the same PA and FL estuarine metagenomes we are transcribing. When a read maps to one of these MAGs, we are confident it came from an organism actually present in our system, not a distant relative from a database.</p>
+
+<p><strong>Building the master reference:</strong></p>
+
+<p>The first step is simple: concatenate all your MAGs into a single FASTA file. Bowtie2 maps against one index, so all your reference sequences need to be in one file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /project/bcampb7/camplab/MICRO_8130_2026/metatranscriptome/MAGS
+
+<span class="c"># Concatenate all MAGs</span>
+<span class="nb">cat </span>MAG1.fasta MAG2.fasta MAG3.fasta MAG4.fasta <span class="o">&gt;</span> master_mags.fa
+
+<span class="c"># Verify: how many contigs do we have?</span>
+<span class="nb">grep</span> <span class="s2">"&gt;"</span> master_mags.fa | <span class="nb">wc</span> <span class="nt">-l</span>
+<span class="c"># Expected: 1274 contigs across 4 MAGs</span>
+</code></pre></div></div>
+
+<p><strong>The honest limitation:</strong></p>
+
+<p>Four MAGs representing 1,274 contigs is a tiny fraction of estuarine community diversity. When we map a whole-community metatranscriptome against this reference on Day 4, we will get approximately <strong>2% overall alignment</strong>. That means 98% of the reads — from the hundreds of taxa not represented in our MAGs — will quietly disappear. This is expected. It is not a failure. But you must know it is happening.</p>
+
+<p><strong>A beginner tip:</strong> The number of contigs in your reference is a rough proxy for how much of the community you can see. 1,274 contigs across 4 MAGs is a small window. A full GTDB-Tk reference database has millions of contigs — a much bigger window, but with lower specificity.</p>
+
+<hr />
+
+<h2 id="strategy-2--reference-genome-databases-medium-coverage-medium-specificity">Strategy 2 — Reference genome databases: medium coverage, medium specificity</h2>
+
+<p>Instead of assembling your own genomes, you can map against a curated collection of reference genomes. The most commonly used databases are:</p>
+
+<ul>
+  <li><strong>NCBI RefSeq</strong> — the broadest collection; millions of sequences but very uneven coverage across lineages</li>
+  <li><strong>GTDB-Tk representative genomes</strong> — a phylogenetically curated, non-redundant set of bacterial and archaeal genomes; better for environmental microbiomes than RefSeq</li>
+  <li><strong>Environment-specific databases</strong> — for example, the TARA Oceans MAG catalog for marine systems, or sediment-specific MAG collections from published studies</li>
+</ul>
+
+<p><strong>When to use this approach:</strong></p>
+
+<p>Use reference databases when you want broader taxonomic coverage than your own MAGs provide, especially for well-characterized lineages like Proteobacteria, Firmicutes, or Actinobacteria. If you’re studying a system where good reference genomes exist (e.g. marine surface water, human gut), a database reference can dramatically improve your alignment rate.</p>
+
+<p><strong>The tradeoff:</strong></p>
+
+<p>A database genome for <em>Sulfurimonas autotrophica</em> might share 90–95% average nucleotide identity (ANI) with your estuarine <em>Sulfurimonas</em> strain. That’s close enough for genus-level expression analysis but may miss strain-specific genes — precisely the genes that might be most ecologically interesting. You are measuring the expression of a cousin, not the actual organism.</p>
+
+<p><strong>Building a database reference:</strong></p>
+
+<p>The workflow is identical to MAGs — concatenate, then build a Bowtie2 index. The difference is file size: a GTDB-Tk representative set can be 50–150 GB, which requires more memory and time to index.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Example: download and prepare GTDB-Tk representative genomes</span>
+<span class="c"># (see SLURM script for full download workflow)</span>
+
+<span class="c"># After download and concatenation:</span>
+bowtie2-build <span class="se">\</span>
+  <span class="nt">--threads</span> 16 <span class="se">\</span>
+  <span class="nt">--large-index</span> <span class="se">\</span>
+  gtdb_representatives.fa <span class="se">\</span>
+  gtdb_index
+
+<span class="c"># --large-index is required for references &gt;4 GB</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="strategy-3--gene-catalogs-high-coverage-function-focused">Strategy 3 — Gene catalogs: high coverage, function-focused</h2>
+
+<p>Gene catalogs take a completely different approach. Instead of mapping to genomes, you map to a non-redundant collection of predicted protein-coding genes. Each entry in the catalog is a gene (typically 100–1000 bp), clustered at 95% nucleotide identity across many metagenomes.</p>
+
+<p><strong>Major gene catalogs:</strong></p>
+
+<ul>
+  <li><strong>Ocean Microbial Reference Gene Catalog (OM-RGC)</strong> — ~46 million non-redundant genes from the TARA Oceans project; excellent for marine systems</li>
+  <li><strong>Integrated Gene Catalog (IGC)</strong> — built from human gut metagenomes; not appropriate for environmental samples</li>
+  <li><strong>Soil Reference Gene Catalog</strong> — for soil systems</li>
+  <li><strong>Custom catalogs</strong> — you can build your own from a set of assembled metagenomes using CD-HIT or MMseqs2</li>
+</ul>
+
+<p><strong>Why use a gene catalog?</strong></p>
+
+<p>Gene catalogs give you the broadest functional coverage. Millions of genes from hundreds of studies means you capture expressed diversity that no individual reference genome set can match. When your question is “what metabolic functions are active in this community?” — not “which specific organism is doing it?” — a gene catalog is the most powerful choice.</p>
+
+<p><strong>The key limitation:</strong></p>
+
+<p>When a read maps to a gene catalog entry, you know the <em>function</em> that was expressed. You do not automatically know the <em>taxonomy</em> of the organism that expressed it, unless you have carefully tracked the provenance of each gene back to its source genome. For ecological questions that depend on linking function to organism identity (like our hydrocarbon degradation work), this is a meaningful limitation.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Map against a gene catalog (same Bowtie2 workflow, different reference)</span>
+bowtie2-build <span class="se">\</span>
+  <span class="nt">--threads</span> 16 <span class="se">\</span>
+  OM-RGC_v2.fa <span class="se">\</span>
+  omrgc_index
+
+bowtie2 <span class="se">\</span>
+  <span class="nt">-x</span> omrgc_index <span class="se">\</span>
+  <span class="nt">-1</span> CP_Spr15G08_R1.mRNA.fq <span class="se">\</span>
+  <span class="nt">-2</span> CP_Spr15G08_R2.mRNA.fq <span class="se">\</span>
+  <span class="nt">-p</span> 16 <span class="se">\</span>
+  <span class="nt">--no-unal</span> <span class="se">\</span>
+  <span class="nt">-S</span> CP_Spr15G08_omrgc.sam
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">--no-unal</code> flag suppresses unmapped reads in the SAM output — essential for gene catalogs where most reads won’t map, and your output files would otherwise be enormous.</p>
+
+<hr />
+
+<h2 id="comparing-the-three-strategies">Comparing the three strategies</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>MAGs</th>
+      <th>Reference genomes</th>
+      <th>Gene catalogs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Coverage</strong></td>
+      <td>Low (your genomes only)</td>
+      <td>Medium (known taxa)</td>
+      <td>High (millions of genes)</td>
+    </tr>
+    <tr>
+      <td><strong>Specificity</strong></td>
+      <td>Very high (your community)</td>
+      <td>Medium (genus level)</td>
+      <td>Low–medium (function only)</td>
+    </tr>
+    <tr>
+      <td><strong>Taxonomy</strong></td>
+      <td>Organism-resolved</td>
+      <td>Genus-resolved</td>
+      <td>Poor without extra steps</td>
+    </tr>
+    <tr>
+      <td><strong>File size</strong></td>
+      <td>Small (MB)</td>
+      <td>Large (GB–TB)</td>
+      <td>Medium–large (GB)</td>
+    </tr>
+    <tr>
+      <td><strong>Best for</strong></td>
+      <td>Focused taxa · paired metagenome</td>
+      <td>Broad surveys · known lineages</td>
+      <td>Functional profiling · novel environments</td>
+    </tr>
+    <tr>
+      <td><strong>Our series</strong></td>
+      <td>✓ Used here</td>
+      <td>Discussed as alternative</td>
+      <td>Discussed as alternative</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>The practical recommendation:</strong> Do not pick one and ignore the others. The best analyses use MAG-based mapping for high-confidence, organism-resolved expression of your taxa of interest, then complement with a database or gene catalog reference to characterize what your MAGs missed. Think of them as layers, not alternatives.</p>
+
+<hr />
+
+<h2 id="our-pipeline-building-the-master_magsfa-index">Our pipeline: building the master_mags.fa index</h2>
+
+<p>For this series, we work with four MAGs. Here is the complete workflow from concatenation to index, with verification steps at each stage.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ── Step 1: navigate to MAG directory ────────────────────────</span>
+<span class="nb">cd</span> /project/bcampb7/camplab/MICRO_8130_2026/metatranscriptome/MAGS
+
+<span class="c"># ── Step 2: check your MAG files ─────────────────────────────</span>
+<span class="nb">ls</span> <span class="k">*</span>.fasta
+<span class="c"># MAG1.fasta  MAG2.fasta  MAG3.fasta  MAG4.fasta</span>
+
+<span class="c"># How many contigs per MAG?</span>
+<span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>.fasta<span class="p">;</span> <span class="k">do
+  </span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">: </span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-c</span> <span class="s1">'&gt;'</span> <span class="nv">$f</span><span class="si">)</span><span class="s2"> contigs"</span>
+<span class="k">done</span>
+
+<span class="c"># ── Step 3: concatenate into master reference ─────────────────</span>
+<span class="nb">cat </span>MAG1.fasta MAG2.fasta MAG3.fasta MAG4.fasta <span class="o">&gt;</span> master_mags.fa
+
+<span class="c"># Verify total contig count</span>
+<span class="nb">grep</span> <span class="s2">"&gt;"</span> master_mags.fa | <span class="nb">wc</span> <span class="nt">-l</span>
+<span class="c"># 1274</span>
+
+<span class="c"># ── Step 4: load Bowtie2 and build the index ─────────────────</span>
+module load bowtie2/2.5.4
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> bowtie_index
+
+bowtie2-build <span class="se">\</span>
+  master_mags.fa <span class="se">\</span>
+  bowtie_index/master_MAGs_index
+
+<span class="c"># ── Step 5: confirm index files were created ──────────────────</span>
+<span class="nb">ls </span>bowtie_index/
+<span class="c"># master_MAGs_index.1.bt2</span>
+<span class="c"># master_MAGs_index.2.bt2</span>
+<span class="c"># master_MAGs_index.3.bt2</span>
+<span class="c"># master_MAGs_index.4.bt2</span>
+<span class="c"># master_MAGs_index.rev.1.bt2</span>
+<span class="c"># master_MAGs_index.rev.2.bt2</span>
+<span class="c"># Six files = successful index build</span>
+</code></pre></div></div>
+
+<p><strong>What are the .bt2 files?</strong></p>
+
+<p>Bowtie2 breaks the index into six files that together encode an FM-index — a compressed data structure that allows rapid substring search across millions of base pairs. You never open these files directly. You point Bowtie2 at them using the prefix (<code class="language-plaintext highlighter-rouge">master_MAGs_index</code>), and it handles the rest. You only need to build the index once — reuse it for all samples.</p>
+
+<p><strong>How long does indexing take?</strong></p>
+
+<p>For our four MAGs (~1,274 contigs, a few MB of sequence), indexing finishes in under a minute. For a GTDB-Tk representative database (50 GB+), expect 2–4 hours and 200+ GB of RAM with <code class="language-plaintext highlighter-rouge">--large-index</code>.</p>
+
+<hr />
+
+<h2 id="understanding-what-2-alignment-will-mean-tomorrow">Understanding what 2% alignment will mean tomorrow</h2>
+
+<p>We want to prepare you for what you will see on Day 4 so it does not feel like a failure.</p>
+
+<p>Our master reference has 1,274 contigs from 4 organisms. Our metatranscriptome is a snapshot of hundreds of organisms, all simultaneously expressing thousands of genes. When Bowtie2 searches our small index for matches, the vast majority of reads — from organisms not represented in our four MAGs — will find nothing and be reported as unmapped.</p>
+
+<p>The alignment rate will be approximately <strong>2%</strong>. This means:</p>
+
+<ul>
+  <li>98 out of every 100 reads in our community came from organisms we cannot see through our current window</li>
+  <li>The 2% that do map are biologically meaningful — those are real expression signals from our four MAG organisms</li>
+  <li>The 98% that don’t map are not lost data — they are a reminder that our reference is a starting point, not the complete picture</li>
+</ul>
+
+<p><strong>This is not a Bowtie2 problem. It is not a QC problem. It is a reference coverage problem — and it is normal, expected, and informative.</strong></p>
+
+<p>When you see 2% alignment tomorrow, the correct response is not panic. It is: “My four MAGs captured about 2% of the expressed community. How do I expand my reference to capture more?”</p>
+
+<hr />
+
+<h2 id="whats-next">What’s next</h2>
+
+<p>Tomorrow we run the actual mapping — every command, every flag, every output file, with the real alignment statistics from our estuarine dataset. We will also show you how to read the SAMtools flagstat output and what each number tells you about your data.</p>
+
+<p><strong>Day 4: Mapping &amp; Quantification — Bowtie2, SAMtools, and featureCounts</strong></p>
+
+<hr />
+
+<p>📦 <strong>All code, SLURM scripts, and toy datasets used in this series are available in the companion repository</strong>
+📦 <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day3-metatranscriptomics-reference">Github repository</a></p>
+
+<p>Questions about this workflow? Drop a comment below.
+The complete R script and SLURM submission scripts are available in the <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day3-metatranscriptomics-reference">companion GitHub repository</a>.</p>
+
+<p><img src="/assets/img/mt-d3.png" alt="Day2 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="reference" /><category term="MAGs" /><category term="GTDB" /><category term="gene-catalog" /><category term="bowtie2" /><category term="SLURM" /><category term="HPC" /><category term="beginner" /><summary type="html"><![CDATA[The most consequential decision in metatranscriptomics isn't which mapper you use — it's what you map against. A beginner-friendly guide to MAGs, reference genomes, and gene catalogs, with the commands to build each one and the SLURM scripts to run them on HPC.]]></summary></entry><entry><title type="html">Day 2 — Clean Your RNA : QC &amp;amp; Preprocessing for Metatranscriptomics</title><link href="https://jojyjohn28.github.io/blog/day2-metatranscriptomics-qc-preprocessing/" rel="alternate" type="text/html" title="Day 2 — Clean Your RNA : QC &amp;amp; Preprocessing for Metatranscriptomics" /><published>2026-03-31T00:00:00-04:00</published><updated>2026-03-31T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day2-metatranscriptomics-qc-preprocessing</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day2-metatranscriptomics-qc-preprocessing/"><![CDATA[<p><strong>Here is a truth most tutorials skip: the quality of your metatranscriptome analysis is decided before you ever run a mapper.</strong></p>
 
 <p>Downstream tools — Bowtie2, featureCounts, DESeq2 — are sophisticated, but they cannot rescue bad input data. Low-quality reads reduce alignment rates. Adapter contamination generates spurious mappings. Unremoved rRNA floods your count table with noise and buries the mRNA signal you actually care about. A pipeline that begins with dirty RNA produces a dirty result, even if every subsequent step is executed perfectly.</p>
 
@@ -5594,501 +5892,4 @@ conda <span class="nb">env </span>remove <span class="nt">-n</span> testenv
 
 <hr />
 
-<p><img src="/assets/img/d2-hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="conda" /><category term="modules" /><category term="sudo" /><category term="bioinformatics" /><category term="beginners" /><category term="reproducibility" /><category term="computational-biology" /><summary type="html"><![CDATA[The first real shock of HPC life: you can't install software the way you're used to. Here's why, and three progressively better solutions — explained step by step for beginners.]]></summary></entry><entry><title type="html">Day 1 — Laptop vs HPC: Why Bioinformatics Needs Both</title><link href="https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc/" rel="alternate" type="text/html" title="Day 1 — Laptop vs HPC: Why Bioinformatics Needs Both" /><published>2026-03-12T00:00:00-04:00</published><updated>2026-03-12T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc/"><![CDATA[<h1 id="day-1-laptop-vs-hpc--why-bioinformatics-needs-both">Day 1: Laptop vs HPC — Why Bioinformatics Needs Both</h1>
-
-<blockquote>
-  <p><em>This is Day 1 of a 6-part series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong>. Each post covers a real challenge you’ll face when moving from local development to high-performance computing. No prior HPC experience needed</em> and 🧬 <strong>Day 58</strong> of Daily Bioinformatics from Jojy’s Desk Dataset:</p>
-</blockquote>
-
-<hr />
-
-<h2 id="it-started-with-a-crash">It Started With a Crash</h2>
-
-<p>I was processing a microbiome dataset — 50 samples, nothing extraordinary. I fired up my script, walked to the kitchen to make coffee, came back, and saw this:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Killed: out of memory
-RAM used: 31.8 GB / 32 GB
-</code></pre></div></div>
-
-<p>My laptop had literally run out of memory trying to do bioinformatics work that, in the field, is considered <em>routine</em>.</p>
-
-<p>That moment is what most computational biologists experience eventually. Your laptop is powerful, but genomics data doesn’t care about your RAM. And that’s exactly why you need to understand both worlds: <strong>your local machine</strong> and <strong>an HPC cluster</strong>.</p>
-
-<p>By the end of this post, you’ll know exactly what each one is, when to use which, and why they work together — not against each other.</p>
-
-<hr />
-
-<h2 id="what-youll-need-for-this-series">What You’ll Need for This Series</h2>
-
-<p>Before we dive in, here’s what’s assumed:</p>
-
-<ul>
-  <li>You know basic command line (you can <code class="language-plaintext highlighter-rouge">cd</code>, <code class="language-plaintext highlighter-rouge">ls</code>, and run a script)</li>
-  <li>You have some bioinformatics background (you know what FASTQ, FASTA, or BAM files are)</li>
-  <li>You do <strong>not</strong> need any prior HPC or cluster experience — that’s what this series is for</li>
-</ul>
-
-<hr />
-
-<h2 id="what-is-a-local-machine">What Is a Local Machine?</h2>
-
-<p>Your laptop or workstation is your <strong>personal computing environment</strong>. When you type a command, it runs immediately. When you install software with <code class="language-plaintext highlighter-rouge">sudo apt-get install</code>, it installs on <em>your</em> system. You own it completely.</p>
-
-<p>Here’s a realistic picture of what a modern research laptop looks like:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Resource</th>
-      <th>Typical Range</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>RAM (Memory)</td>
-      <td>8 – 32 GB</td>
-    </tr>
-    <tr>
-      <td>CPU cores</td>
-      <td>4 – 16</td>
-    </tr>
-    <tr>
-      <td>Storage</td>
-      <td>500 GB – 4 TB</td>
-    </tr>
-    <tr>
-      <td>Root access (<code class="language-plaintext highlighter-rouge">sudo</code>)</td>
-      <td>✅ Yes</td>
-    </tr>
-    <tr>
-      <td>Job scheduler</td>
-      <td>❌ None — you run commands directly</td>
-    </tr>
-    <tr>
-      <td>Cost</td>
-      <td>One-time, yours forever</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>The laptop is great for:</strong></p>
-
-<ul>
-  <li>Writing and testing scripts</li>
-  <li>Exploring small datasets</li>
-  <li>Developing analysis pipelines</li>
-  <li>Running quick quality checks</li>
-</ul>
-
-<p><strong>The laptop struggles with:</strong></p>
-
-<ul>
-  <li>Datasets larger than your available RAM</li>
-  <li>Jobs that take days to run</li>
-  <li>Processing dozens or hundreds of samples at once</li>
-  <li>Analyses that need specialized hardware (high-memory nodes, GPU)</li>
-</ul>
-
-<blockquote>
-  <p>💡 <strong>Think of your laptop like a personal car.</strong> Fast, flexible, goes wherever you point it. But you can’t move 10,000 packages with it.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="what-is-an-hpc-cluster">What Is an HPC Cluster?</h2>
-
-<p>An <strong>HPC (High-Performance Computing) cluster</strong> is a collection of many powerful computers — called <strong>nodes</strong> — connected together via a high-speed network and managed by a central system.</p>
-
-<p>When you log into an HPC, you’re not logging into one computer. You’re logging into a shared ecosystem of computing resources that can be allocated to your jobs on demand.</p>
-
-<p>Here’s what a typical academic HPC cluster looks like:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Resource</th>
-      <th>Typical Range</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>RAM per node</td>
-      <td>256 GB – 4 TB</td>
-    </tr>
-    <tr>
-      <td>CPU cores per node</td>
-      <td>32 – 128</td>
-    </tr>
-    <tr>
-      <td>Number of nodes</td>
-      <td>100 – 1,000+</td>
-    </tr>
-    <tr>
-      <td>Total storage</td>
-      <td>Petabytes (shared filesystem)</td>
-    </tr>
-    <tr>
-      <td>Root access (<code class="language-plaintext highlighter-rouge">sudo</code>)</td>
-      <td>❌ No</td>
-    </tr>
-    <tr>
-      <td>Job scheduler</td>
-      <td>✅ Yes (SLURM, PBS, LSF)</td>
-    </tr>
-    <tr>
-      <td>Cost</td>
-      <td>Shared institutional resource</td>
-    </tr>
-  </tbody>
-</table>
-
-<blockquote>
-  <p>💡 <strong>Think of an HPC like a shipping fleet.</strong> You don’t own it. You book capacity. It can move massive loads in parallel that no personal car ever could.</p>
-</blockquote>
-
-<h3 id="how-does-access-work">How Does Access Work?</h3>
-
-<p>You typically access HPC clusters through:</p>
-
-<ol>
-  <li><strong>SSH</strong> — a secure terminal connection: <code class="language-plaintext highlighter-rouge">ssh username@hpc.university.edu</code></li>
-  <li><strong>A login node</strong> — a shared entry point where you prepare and submit jobs (not where you run them — more on this in Day 3!)</li>
-  <li><strong>A job scheduler</strong> — software like SLURM that manages who gets what resources and when</li>
-</ol>
-
-<hr />
-
-<h2 id="why-does-bioinformatics-specifically-need-hpc">Why Does Bioinformatics <em>Specifically</em> Need HPC?</h2>
-
-<p>Not every field runs into this problem. A data scientist might work comfortably with gigabytes of tabular data for years. Bioinformatics is different because of the nature of the data itself.</p>
-
-<h3 id="the-data-is-enormous">The Data Is Enormous</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Data Type</th>
-      <th>Typical Size per Sample</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Whole Genome Sequencing (WGS)</td>
-      <td>50 – 100+ GB raw reads</td>
-    </tr>
-    <tr>
-      <td>Metagenomics (gut microbiome)</td>
-      <td>5 – 20 GB per sample</td>
-    </tr>
-    <tr>
-      <td>RNA-seq (transcriptomics)</td>
-      <td>1 – 5 GB per sample</td>
-    </tr>
-    <tr>
-      <td>Single-cell RNA-seq</td>
-      <td>10 – 50 GB per experiment</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Now multiply any of those by 100 samples. You’re looking at terabytes of data, and processing each sample can require gigabytes of RAM <em>simultaneously</em>.</p>
-
-<h3 id="reference-databases-are-huge">Reference Databases Are Huge</h3>
-
-<p>Tools like Kraken2 (metagenomic classification) or STAR (RNA-seq alignment) require loading enormous reference databases into memory:</p>
-
-<ul>
-  <li>Kraken2 standard database: <strong>~100 GB RAM</strong> just to load</li>
-  <li>STAR human genome index: <strong>~30 GB RAM</strong></li>
-  <li>DIAMOND protein database: <strong>~200+ GB RAM</strong></li>
-</ul>
-
-<p>Your laptop never had a chance.</p>
-
-<h3 id="many-samples--many-jobs">Many Samples = Many Jobs</h3>
-
-<p>In a real study, you don’t process one sample. You process cohorts:</p>
-
-<ul>
-  <li>50 patients? That’s 50 alignment jobs.</li>
-  <li>200 microbiome samples? 200 assembly + annotation pipelines.</li>
-  <li>1,000-sample GWAS study? You need parallel computing or you’ll be waiting months.</li>
-</ul>
-
-<p>Running these sequentially on a laptop isn’t just slow — it’s often practically impossible.</p>
-
-<hr />
-
-<h2 id="head-to-head-comparison">Head-to-Head Comparison</h2>
-
-<p>Here’s the full picture side by side:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Feature</th>
-      <th>Your Laptop</th>
-      <th>HPC Cluster</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>RAM</td>
-      <td>16–32 GB</td>
-      <td>256 GB – 4 TB per node</td>
-    </tr>
-    <tr>
-      <td>CPUs</td>
-      <td>4–16 cores</td>
-      <td>32–128+ cores per node</td>
-    </tr>
-    <tr>
-      <td>Storage</td>
-      <td>1–4 TB</td>
-      <td>Petabyte-scale shared FS</td>
-    </tr>
-    <tr>
-      <td>Root access</td>
-      <td>✅ <code class="language-plaintext highlighter-rouge">sudo</code> works</td>
-      <td>❌ No <code class="language-plaintext highlighter-rouge">sudo</code></td>
-    </tr>
-    <tr>
-      <td>Install software</td>
-      <td><code class="language-plaintext highlighter-rouge">apt-get</code>, <code class="language-plaintext highlighter-rouge">pip</code> freely</td>
-      <td><code class="language-plaintext highlighter-rouge">module load</code> or <code class="language-plaintext highlighter-rouge">conda</code></td>
-    </tr>
-    <tr>
-      <td>Run a command</td>
-      <td>Just type it</td>
-      <td>Submit a job script</td>
-    </tr>
-    <tr>
-      <td>Run 200 samples</td>
-      <td>Days (sequential)</td>
-      <td>Hours (parallel)</td>
-    </tr>
-    <tr>
-      <td>Internet access</td>
-      <td>Full</td>
-      <td>Often restricted</td>
-    </tr>
-    <tr>
-      <td>Cost</td>
-      <td>Your machine</td>
-      <td>Shared institutional</td>
-    </tr>
-    <tr>
-      <td>Best for</td>
-      <td>Development, testing</td>
-      <td>Production runs</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="you-need-both--heres-why">You Need Both — Here’s Why</h2>
-
-<p>A common mistake beginners make is thinking HPC <em>replaces</em> their laptop. It doesn’t. They serve fundamentally different purposes.</p>
-
-<p><strong>Use your laptop for:</strong></p>
-
-<ul>
-  <li>Writing scripts and code</li>
-  <li>Testing on a small subset of data (5–10 samples)</li>
-  <li>Visualizing results in R or Python</li>
-  <li>Quick data exploration</li>
-</ul>
-
-<p><strong>Use HPC for:</strong></p>
-
-<ul>
-  <li>Running validated pipelines on full datasets</li>
-  <li>Any job needing &gt;32 GB RAM</li>
-  <li>Parallelizing across many samples</li>
-  <li>Long-running jobs (hours to days)</li>
-</ul>
-
-<p>The workflow that actually works in practice looks like this:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Write script on laptop
-          ↓
-Test on 2–3 samples locally
-          ↓
-Transfer data + script to HPC
-          ↓
-Submit job to scheduler
-          ↓
-Download/analyze results locally
-</code></pre></div></div>
-
-<p>This back-and-forth is not a limitation — it’s the correct workflow.</p>
-
-<hr />
-
-<h2 id="a-note-on-what-changes-and-what-doesnt">A Note on What Changes (and What Doesn’t)</h2>
-
-<p>Moving to HPC doesn’t mean learning an entirely new way to do bioinformatics. The tools are the same: <code class="language-plaintext highlighter-rouge">samtools</code>, <code class="language-plaintext highlighter-rouge">bowtie2</code>, <code class="language-plaintext highlighter-rouge">fastqc</code>, <code class="language-plaintext highlighter-rouge">kraken2</code>. The concepts are the same. What changes is:</p>
-
-<ol>
-  <li><strong>How you install software</strong> — no <code class="language-plaintext highlighter-rouge">sudo</code>, but there are solutions (Day 2)</li>
-  <li><strong>How you run jobs</strong> — not directly, but through a scheduler (Day 3)</li>
-  <li><strong>How you scale</strong> — not for loops, but job arrays (Day 4)</li>
-  <li><strong>How you structure pipelines</strong> — towards reproducibility (Day 5)</li>
-</ol>
-
-<p>Each of those changes is the topic of the next four posts in this series.</p>
-
-<hr />
-
-<h2 id="common-beginner-mistakes-on-day-one">Common Beginner Mistakes on Day One</h2>
-
-<p>Watch out for these when you first log into an HPC:</p>
-
-<ul>
-  <li><strong>Running compute jobs on the login node</strong> — this is like blocking the office entrance to do your work. Don’t do it. (Covered in Day 3)</li>
-  <li><strong>Trying to <code class="language-plaintext highlighter-rouge">sudo apt-get install</code></strong> — you’ll get “Permission denied”. There’s a better way. (Covered in Day 2)</li>
-  <li><strong>Expecting interactive terminal behavior</strong> — HPC jobs run in the background. You submit and wait. (Day 3)</li>
-  <li><strong>Not checking available storage quotas</strong> — most HPC systems have per-user storage limits. Check early.</li>
-</ul>
-
-<hr />
-
-<h2 id="connecting-from-windows-powershell-and-mobaxterm">Connecting from Windows: PowerShell and MobaXterm</h2>
-
-<p>If you’re on a Mac or Linux laptop, SSH just works in your terminal. If you’re on <strong>Windows</strong>, you have two excellent options — and you only need to pick one.</p>
-
-<h3 id="option-1-windows-powershell-built-in-no-install-needed">Option 1: Windows PowerShell (Built-in, No Install Needed)</h3>
-
-<p>Modern Windows 10 and 11 include a built-in SSH client. Open PowerShell (search for it in the Start menu) and connect exactly like you would on Linux:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Connect to your HPC</span><span class="w">
-</span><span class="n">ssh</span><span class="w"> </span><span class="nx">username</span><span class="err">@</span><span class="nx">hpc.yourinstitution.edu</span><span class="w">
-
-</span><span class="c"># Transfer a file to HPC</span><span class="w">
-</span><span class="n">scp</span><span class="w"> </span><span class="nx">myfile.fastq.gz</span><span class="w"> </span><span class="nx">username</span><span class="err">@</span><span class="nx">hpc.yourinstitution.edu:~/data/</span><span class="w">
-
-</span><span class="c"># Transfer a folder from HPC back to your Windows machine</span><span class="w">
-</span><span class="n">scp</span><span class="w"> </span><span class="nt">-r</span><span class="w"> </span><span class="nx">username</span><span class="err">@</span><span class="nx">hpc.yourinstitution.edu:~/results/</span><span class="w"> </span><span class="nx">C:\Users\YourName\Desktop\</span><span class="w">
-</span></code></pre></div></div>
-
-<p>PowerShell SSH is clean, fast, and requires zero setup. For most day-to-day HPC work, it’s all you need.</p>
-
-<blockquote>
-  <p>💡 <strong>Check your SSH version:</strong> Open PowerShell and type <code class="language-plaintext highlighter-rouge">ssh -V</code>. If you see <code class="language-plaintext highlighter-rouge">OpenSSH_8</code> or higher, you’re good to go. If not, update Windows or install OpenSSH from Settings → Optional Features.</p>
-</blockquote>
-
-<h3 id="option-2-mobaxterm-recommended-for-beginners">Option 2: MobaXterm (Recommended for Beginners)</h3>
-
-<p><a href="https://mobaxterm.mobatek.net/">MobaXterm</a> is a free Windows application that bundles SSH, file transfer, and a graphical interface all in one. It’s the most popular HPC client among Windows-based researchers for good reason.</p>
-
-<p><strong>Why researchers love MobaXterm:</strong></p>
-
-<ul>
-  <li><strong>Built-in file browser</strong> — drag and drop files between your laptop and HPC</li>
-  <li><strong>Graphical display (X11)</strong> — run GUI tools on the HPC and see them on your Windows screen</li>
-  <li><strong>Saved sessions</strong> — save your HPC login details so you don’t retype them every time</li>
-  <li><strong>Multiple tabs</strong> — open several HPC connections simultaneously</li>
-  <li><strong>SFTP sidebar</strong> — automatically shows your HPC files in a panel on the left</li>
-</ul>
-
-<p><strong>Getting started with MobaXterm:</strong></p>
-
-<ol>
-  <li>Download the free Home Edition from <a href="https://mobaxterm.mobatek.net/">mobaxterm.mobatek.net</a></li>
-  <li>Open it and click <strong>Session</strong> → <strong>SSH</strong></li>
-  <li>Enter your HPC hostname (e.g., <code class="language-plaintext highlighter-rouge">hpc.yourinstitution.edu</code>) and username</li>
-  <li>Click OK — you’re in</li>
-</ol>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Once connected in MobaXterm, everything works the same as Linux/Mac</span>
-ssh username@hpc.yourinstitution.edu   <span class="c"># or use the GUI session manager</span>
-
-<span class="c"># The left panel automatically opens an SFTP browser</span>
-<span class="c"># Drag files from your Windows desktop straight into ~/data/</span>
-</code></pre></div></div>
-
-<h3 id="which-should-you-use">Which Should You Use?</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th> </th>
-      <th>PowerShell</th>
-      <th>MobaXterm</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Install required</td>
-      <td>❌ No</td>
-      <td>✅ Yes (free)</td>
-    </tr>
-    <tr>
-      <td>File transfer GUI</td>
-      <td>❌ Command only</td>
-      <td>✅ Drag and drop</td>
-    </tr>
-    <tr>
-      <td>X11 / GUI forwarding</td>
-      <td>⚠️ Needs extra setup</td>
-      <td>✅ Built-in</td>
-    </tr>
-    <tr>
-      <td>Best for</td>
-      <td>Quick connections, scripting</td>
-      <td>Beginners, file management</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>If you’re just getting started and you’re on Windows, <strong>download MobaXterm</strong>. It removes a lot of friction in the early days. Once you’re comfortable with the command line, PowerShell works great for quick connections.</p>
-
-<hr />
-
-<h2 id="try-it-yourself">Try It Yourself</h2>
-
-<p>If you already have HPC access, try these commands right now:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Log in (replace with your actual HPC address)</span>
-ssh username@hpc.yourinstitution.edu
-
-<span class="c"># Check the system</span>
-<span class="nb">hostname</span>                    <span class="c"># What node am I on?</span>
-<span class="nb">cat</span> /proc/cpuinfo | <span class="nb">grep</span> <span class="s2">"model name"</span> | <span class="nb">head</span> <span class="nt">-1</span>   <span class="c"># CPU info</span>
-free <span class="nt">-h</span>                     <span class="c"># Available memory</span>
-<span class="nb">df</span> <span class="nt">-h</span> <span class="nv">$HOME</span>                 <span class="c"># Your storage quota</span>
-
-<span class="c"># See what compute nodes look like</span>
-sinfo                       <span class="c"># Show available partitions (SLURM)</span>
-</code></pre></div></div>
-
-<p>Don’t worry if <code class="language-plaintext highlighter-rouge">sinfo</code> shows a lot of unfamiliar output. By Day 3, it’ll make complete sense.</p>
-
-<hr />
-
-<h2 id="summary">Summary</h2>
-
-<ul>
-  <li>Your <strong>laptop</strong> is fast, flexible, and you have full control — but it has hard limits on RAM and can’t run hundreds of jobs in parallel</li>
-  <li>An <strong>HPC cluster</strong> gives you enormous compute power but requires learning new tools and workflows</li>
-  <li>Bioinformatics specifically hits laptop limits because of large reference databases, multi-GB sample files, and the need to process large cohorts in parallel</li>
-  <li>You need <strong>both</strong>: laptop for development and testing, HPC for production runs</li>
-  <li>Moving to HPC changes <em>how</em> you run things — not the bioinformatics tools themselves</li>
-</ul>
-
-<hr />
-
-<h2 id="up-next">Up Next</h2>
-
-<p><strong>Day 2: Software Installation — <code class="language-plaintext highlighter-rouge">sudo</code> vs <code class="language-plaintext highlighter-rouge">module load</code> vs <code class="language-plaintext highlighter-rouge">conda</code></strong></p>
-
-<p>We’ll tackle the first real surprise of HPC life: you can’t install software the way you’re used to. No <code class="language-plaintext highlighter-rouge">sudo</code>. No <code class="language-plaintext highlighter-rouge">apt-get</code>. But there are elegant solutions — and one of them works identically on both your laptop and HPC.</p>
-
-<hr />
-
-<p><em>Questions or corrections? Drop a comment below — I read every one.</em></p>
-
-<hr />
-
-<p><img src="/assets/img/hpc-d1.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="bioinformatics" /><category term="genomics" /><category term="metagenomics" /><category term="beginners" /><category term="SLURM" /><category term="computational-biology" /><category term="linux" /><summary type="html"><![CDATA[Your laptop crashed on a 50-sample microbiome run. Here's what that means, why it happens, and how HPC clusters solve it — explained from scratch for beginners.]]></summary></entry></feed>
+<p><img src="/assets/img/d2-hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="conda" /><category term="modules" /><category term="sudo" /><category term="bioinformatics" /><category term="beginners" /><category term="reproducibility" /><category term="computational-biology" /><summary type="html"><![CDATA[The first real shock of HPC life: you can't install software the way you're used to. Here's why, and three progressively better solutions — explained step by step for beginners.]]></summary></entry></feed>

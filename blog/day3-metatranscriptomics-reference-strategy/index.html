@@ -1,0 +1,2251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Day 3 — The Reference Problem: Your Database Defines Your Biology | Jojy John
+    
+  
+</title>
+<meta name="author" content="Jojy John">
+<meta name="description" content="The most consequential decision in metatranscriptomics isn't which mapper you use — it's what you map against. A beginner-friendly guide to MAGs, reference genomes, and gene catalogs, with the commands to build each one and the SLURM scripts to run them on HPC.">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="" integrity="" crossorigin="anonymous">
+
+<!-- Bootstrap Table -->
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" type="text/css" href="">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+<!-- pseudocode -->
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+<!-- GeoJSON support via Leaflet -->
+
+
+<!-- diff2html -->
+
+
+
+
+
+
+<!-- GoatCounter analytics -->
+<script data-goatcounter="https://jojyjohn28.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <nav id="navbar" class="fixed-top" role="navigation">
+    <div class="simple-nav-wrapper">
+      <a class="simple-brand" href="/">
+        
+          
+            <span class="font-weight-bold">Jojy</span>
+          
+          
+          John
+        
+      </a>
+
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <div class="simple-nav-menu">
+        <a href="/">About</a>
+
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+              
+              <a href="/publications/">Publications</a>
+            
+          
+        
+          
+            
+              
+              <a href="/blog/">Blog</a>
+            
+          
+        
+          
+            
+              
+              <a href="/projects/">Projects</a>
+            
+          
+        
+          
+        
+          
+        
+          
+            
+              
+              <a href="/mentoring/">Mentoring</a>
+            
+          
+        
+          
+            
+              
+              <a href="/collaborations/">Collaboration</a>
+            
+          
+        
+          
+        
+          
+            
+              
+              <a href="/teaching/">Teaching</a>
+            
+          
+        
+          
+        
+          
+            
+              
+              <a href="/repositories/">Repositories</a>
+            
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Day 3 — The Reference Problem: Your Database Defines Your Biology</h1>
+    <p class="post-meta">
+      Created in April 02, 2026
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/tag/metatranscriptomics"> <i class="fa-solid fa-hashtag fa-sm"></i> metatranscriptomics </a>
+          
+           
+        
+          
+            <a href="/blog/tag/reference"> <i class="fa-solid fa-hashtag fa-sm"></i> reference </a>
+          
+           
+        
+          
+            <a href="/blog/tag/mags"> <i class="fa-solid fa-hashtag fa-sm"></i> MAGs </a>
+          
+           
+        
+          
+            <a href="/blog/tag/gtdb"> <i class="fa-solid fa-hashtag fa-sm"></i> GTDB </a>
+          
+           
+        
+          
+            <a href="/blog/tag/gene-catalog"> <i class="fa-solid fa-hashtag fa-sm"></i> gene-catalog </a>
+          
+           
+        
+          
+            <a href="/blog/tag/bowtie2"> <i class="fa-solid fa-hashtag fa-sm"></i> bowtie2 </a>
+          
+           
+        
+          
+            <a href="/blog/tag/slurm"> <i class="fa-solid fa-hashtag fa-sm"></i> SLURM </a>
+          
+           
+        
+          
+            <a href="/blog/tag/hpc"> <i class="fa-solid fa-hashtag fa-sm"></i> HPC </a>
+          
+           
+        
+          
+            <a href="/blog/tag/beginner"> <i class="fa-solid fa-hashtag fa-sm"></i> beginner </a>
+          
+          
+        
+      
+
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    <div id="markdown-content">
+      <h2 id="the-reference-problem-your-database-defines-your-biology">The Reference Problem: Your Database Defines Your Biology</h2>
+
+<p>🧬 Day 67 of Daily Bioinformatics from Jojy’s Desk🧬</p>
+
+<p>After quality control, your RNA reads are clean, trimmed, rRNA-free, and perfectly synchronized. You are ready to map.</p>
+
+<p>But map to <em>what</em>?</p>
+
+<p>This question — deceptively simple on the surface — is the most consequential decision in your entire metatranscriptomics workflow. Get it wrong and your results will be technically correct but biologically misleading. You will not get an error message. The pipeline will finish. The count table will be generated. And you will draw conclusions that don’t reflect what actually happened in your sample.</p>
+
+<p>Let’s make sure you understand this choice before you make it.</p>
+
+<hr>
+
+<h2 id="the-core-concept-you-can-only-find-what-you-look-for">The core concept: you can only find what you look for</h2>
+
+<p>Imagine you lose your keys. You search your living room, your kitchen, your bedroom. You don’t find them. What does that tell you?</p>
+
+<p>It tells you your keys are not in those three rooms. It tells you <strong>nothing</strong> about whether they’re in the garage, the car, or your coat pocket — because you never looked there.</p>
+
+<p>Mapping works the same way. When a read fails to map, it doesn’t mean nothing was expressed. It means the expressed gene is not in your reference. You simply never looked for it.</p>
+
+<p>In a complex environmental sample like an estuarine sediment — where a single gram of sediment can contain thousands of microbial species, most of them never cultured and never sequenced — any reference you build is a small window into a vast room. Your job is to understand exactly how big that window is, and to be honest about what you can and cannot see through it.</p>
+
+<blockquote>
+  <p><strong>The rule:</strong> You can only detect what’s in your reference. Everything outside the window is invisible — not absent, just invisible.</p>
+</blockquote>
+
+<hr>
+
+<h2 id="what-is-a-reference-exactly">What is a reference, exactly?</h2>
+
+<p>A reference is a collection of DNA sequences that you believe represent the organisms or genes in your sample. You build an index from those sequences (using <code class="language-plaintext highlighter-rouge">bowtie2-build</code>), and then the mapper searches that index for matches to your reads.</p>
+
+<p>Every reference has two properties that matter:</p>
+
+<ul>
+  <li>
+<strong>Coverage</strong> — how much of the total community diversity does it represent? A reference with four MAGs covers maybe 2% of an estuarine community. A database with 50,000 reference genomes covers much more.</li>
+  <li>
+<strong>Specificity</strong> — how closely do the reference sequences match the actual organisms in your sample? Genomes assembled directly from your sample are highly specific. Database genomes from culture collections may be generic representatives that differ meaningfully from your environmental strains.</li>
+</ul>
+
+<p>Coverage and specificity usually trade off against each other. The three reference strategies below sit at different points on this tradeoff.</p>
+
+<hr>
+
+<h2 id="strategy-1--mags-high-specificity-low-coverage">Strategy 1 — MAGs: high specificity, low coverage</h2>
+
+<p><strong>What is a MAG?</strong></p>
+
+<p>A Metagenome-Assembled Genome (MAG) is a draft genome assembled from environmental DNA. You take a paired metagenome from the same samples, assemble the DNA reads into contigs, and then computationally group (bin) those contigs by their coverage patterns and nucleotide composition — hoping that contigs from the same organism cluster together. Each bin is a draft genome of one (or a few) organisms from your community.</p>
+
+<p>MAGs are imperfect — they are partial (a typical high-quality MAG is 70–95% complete), sometimes contaminated with sequences from other organisms, and never perfectly phased. But they are built from your community, which makes them maximally specific to what actually lives in your sample.</p>
+
+<p><strong>Why we use MAGs in this series:</strong></p>
+
+<p>Our four MAGs — <code class="language-plaintext highlighter-rouge">MAG1.fasta</code> through <code class="language-plaintext highlighter-rouge">MAG4.fasta</code> — were assembled and binned from the same PA and FL estuarine metagenomes we are transcribing. When a read maps to one of these MAGs, we are confident it came from an organism actually present in our system, not a distant relative from a database.</p>
+
+<p><strong>Building the master reference:</strong></p>
+
+<p>The first step is simple: concatenate all your MAGs into a single FASTA file. Bowtie2 maps against one index, so all your reference sequences need to be in one file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /project/bcampb7/camplab/MICRO_8130_2026/metatranscriptome/MAGS
+
+<span class="c"># Concatenate all MAGs</span>
+<span class="nb">cat </span>MAG1.fasta MAG2.fasta MAG3.fasta MAG4.fasta <span class="o">&gt;</span> master_mags.fa
+
+<span class="c"># Verify: how many contigs do we have?</span>
+<span class="nb">grep</span> <span class="s2">"&gt;"</span> master_mags.fa | <span class="nb">wc</span> <span class="nt">-l</span>
+<span class="c"># Expected: 1274 contigs across 4 MAGs</span>
+</code></pre></div></div>
+
+<p><strong>The honest limitation:</strong></p>
+
+<p>Four MAGs representing 1,274 contigs is a tiny fraction of estuarine community diversity. When we map a whole-community metatranscriptome against this reference on Day 4, we will get approximately <strong>2% overall alignment</strong>. That means 98% of the reads — from the hundreds of taxa not represented in our MAGs — will quietly disappear. This is expected. It is not a failure. But you must know it is happening.</p>
+
+<p><strong>A beginner tip:</strong> The number of contigs in your reference is a rough proxy for how much of the community you can see. 1,274 contigs across 4 MAGs is a small window. A full GTDB-Tk reference database has millions of contigs — a much bigger window, but with lower specificity.</p>
+
+<hr>
+
+<h2 id="strategy-2--reference-genome-databases-medium-coverage-medium-specificity">Strategy 2 — Reference genome databases: medium coverage, medium specificity</h2>
+
+<p>Instead of assembling your own genomes, you can map against a curated collection of reference genomes. The most commonly used databases are:</p>
+
+<ul>
+  <li>
+<strong>NCBI RefSeq</strong> — the broadest collection; millions of sequences but very uneven coverage across lineages</li>
+  <li>
+<strong>GTDB-Tk representative genomes</strong> — a phylogenetically curated, non-redundant set of bacterial and archaeal genomes; better for environmental microbiomes than RefSeq</li>
+  <li>
+<strong>Environment-specific databases</strong> — for example, the TARA Oceans MAG catalog for marine systems, or sediment-specific MAG collections from published studies</li>
+</ul>
+
+<p><strong>When to use this approach:</strong></p>
+
+<p>Use reference databases when you want broader taxonomic coverage than your own MAGs provide, especially for well-characterized lineages like Proteobacteria, Firmicutes, or Actinobacteria. If you’re studying a system where good reference genomes exist (e.g. marine surface water, human gut), a database reference can dramatically improve your alignment rate.</p>
+
+<p><strong>The tradeoff:</strong></p>
+
+<p>A database genome for <em>Sulfurimonas autotrophica</em> might share 90–95% average nucleotide identity (ANI) with your estuarine <em>Sulfurimonas</em> strain. That’s close enough for genus-level expression analysis but may miss strain-specific genes — precisely the genes that might be most ecologically interesting. You are measuring the expression of a cousin, not the actual organism.</p>
+
+<p><strong>Building a database reference:</strong></p>
+
+<p>The workflow is identical to MAGs — concatenate, then build a Bowtie2 index. The difference is file size: a GTDB-Tk representative set can be 50–150 GB, which requires more memory and time to index.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Example: download and prepare GTDB-Tk representative genomes</span>
+<span class="c"># (see SLURM script for full download workflow)</span>
+
+<span class="c"># After download and concatenation:</span>
+bowtie2-build <span class="se">\</span>
+  <span class="nt">--threads</span> 16 <span class="se">\</span>
+  <span class="nt">--large-index</span> <span class="se">\</span>
+  gtdb_representatives.fa <span class="se">\</span>
+  gtdb_index
+
+<span class="c"># --large-index is required for references &gt;4 GB</span>
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="strategy-3--gene-catalogs-high-coverage-function-focused">Strategy 3 — Gene catalogs: high coverage, function-focused</h2>
+
+<p>Gene catalogs take a completely different approach. Instead of mapping to genomes, you map to a non-redundant collection of predicted protein-coding genes. Each entry in the catalog is a gene (typically 100–1000 bp), clustered at 95% nucleotide identity across many metagenomes.</p>
+
+<p><strong>Major gene catalogs:</strong></p>
+
+<ul>
+  <li>
+<strong>Ocean Microbial Reference Gene Catalog (OM-RGC)</strong> — ~46 million non-redundant genes from the TARA Oceans project; excellent for marine systems</li>
+  <li>
+<strong>Integrated Gene Catalog (IGC)</strong> — built from human gut metagenomes; not appropriate for environmental samples</li>
+  <li>
+<strong>Soil Reference Gene Catalog</strong> — for soil systems</li>
+  <li>
+<strong>Custom catalogs</strong> — you can build your own from a set of assembled metagenomes using CD-HIT or MMseqs2</li>
+</ul>
+
+<p><strong>Why use a gene catalog?</strong></p>
+
+<p>Gene catalogs give you the broadest functional coverage. Millions of genes from hundreds of studies means you capture expressed diversity that no individual reference genome set can match. When your question is “what metabolic functions are active in this community?” — not “which specific organism is doing it?” — a gene catalog is the most powerful choice.</p>
+
+<p><strong>The key limitation:</strong></p>
+
+<p>When a read maps to a gene catalog entry, you know the <em>function</em> that was expressed. You do not automatically know the <em>taxonomy</em> of the organism that expressed it, unless you have carefully tracked the provenance of each gene back to its source genome. For ecological questions that depend on linking function to organism identity (like our hydrocarbon degradation work), this is a meaningful limitation.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Map against a gene catalog (same Bowtie2 workflow, different reference)</span>
+bowtie2-build <span class="se">\</span>
+  <span class="nt">--threads</span> 16 <span class="se">\</span>
+  OM-RGC_v2.fa <span class="se">\</span>
+  omrgc_index
+
+bowtie2 <span class="se">\</span>
+  <span class="nt">-x</span> omrgc_index <span class="se">\</span>
+  <span class="nt">-1</span> CP_Spr15G08_R1.mRNA.fq <span class="se">\</span>
+  <span class="nt">-2</span> CP_Spr15G08_R2.mRNA.fq <span class="se">\</span>
+  <span class="nt">-p</span> 16 <span class="se">\</span>
+  <span class="nt">--no-unal</span> <span class="se">\</span>
+  <span class="nt">-S</span> CP_Spr15G08_omrgc.sam
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">--no-unal</code> flag suppresses unmapped reads in the SAM output — essential for gene catalogs where most reads won’t map, and your output files would otherwise be enormous.</p>
+
+<hr>
+
+<h2 id="comparing-the-three-strategies">Comparing the three strategies</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>MAGs</th>
+      <th>Reference genomes</th>
+      <th>Gene catalogs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Coverage</strong></td>
+      <td>Low (your genomes only)</td>
+      <td>Medium (known taxa)</td>
+      <td>High (millions of genes)</td>
+    </tr>
+    <tr>
+      <td><strong>Specificity</strong></td>
+      <td>Very high (your community)</td>
+      <td>Medium (genus level)</td>
+      <td>Low–medium (function only)</td>
+    </tr>
+    <tr>
+      <td><strong>Taxonomy</strong></td>
+      <td>Organism-resolved</td>
+      <td>Genus-resolved</td>
+      <td>Poor without extra steps</td>
+    </tr>
+    <tr>
+      <td><strong>File size</strong></td>
+      <td>Small (MB)</td>
+      <td>Large (GB–TB)</td>
+      <td>Medium–large (GB)</td>
+    </tr>
+    <tr>
+      <td><strong>Best for</strong></td>
+      <td>Focused taxa · paired metagenome</td>
+      <td>Broad surveys · known lineages</td>
+      <td>Functional profiling · novel environments</td>
+    </tr>
+    <tr>
+      <td><strong>Our series</strong></td>
+      <td>✓ Used here</td>
+      <td>Discussed as alternative</td>
+      <td>Discussed as alternative</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>The practical recommendation:</strong> Do not pick one and ignore the others. The best analyses use MAG-based mapping for high-confidence, organism-resolved expression of your taxa of interest, then complement with a database or gene catalog reference to characterize what your MAGs missed. Think of them as layers, not alternatives.</p>
+
+<hr>
+
+<h2 id="our-pipeline-building-the-master_magsfa-index">Our pipeline: building the master_mags.fa index</h2>
+
+<p>For this series, we work with four MAGs. Here is the complete workflow from concatenation to index, with verification steps at each stage.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ── Step 1: navigate to MAG directory ────────────────────────</span>
+<span class="nb">cd</span> /project/bcampb7/camplab/MICRO_8130_2026/metatranscriptome/MAGS
+
+<span class="c"># ── Step 2: check your MAG files ─────────────────────────────</span>
+<span class="nb">ls</span> <span class="k">*</span>.fasta
+<span class="c"># MAG1.fasta  MAG2.fasta  MAG3.fasta  MAG4.fasta</span>
+
+<span class="c"># How many contigs per MAG?</span>
+<span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>.fasta<span class="p">;</span> <span class="k">do
+  </span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">: </span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-c</span> <span class="s1">'&gt;'</span> <span class="nv">$f</span><span class="si">)</span><span class="s2"> contigs"</span>
+<span class="k">done</span>
+
+<span class="c"># ── Step 3: concatenate into master reference ─────────────────</span>
+<span class="nb">cat </span>MAG1.fasta MAG2.fasta MAG3.fasta MAG4.fasta <span class="o">&gt;</span> master_mags.fa
+
+<span class="c"># Verify total contig count</span>
+<span class="nb">grep</span> <span class="s2">"&gt;"</span> master_mags.fa | <span class="nb">wc</span> <span class="nt">-l</span>
+<span class="c"># 1274</span>
+
+<span class="c"># ── Step 4: load Bowtie2 and build the index ─────────────────</span>
+module load bowtie2/2.5.4
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> bowtie_index
+
+bowtie2-build <span class="se">\</span>
+  master_mags.fa <span class="se">\</span>
+  bowtie_index/master_MAGs_index
+
+<span class="c"># ── Step 5: confirm index files were created ──────────────────</span>
+<span class="nb">ls </span>bowtie_index/
+<span class="c"># master_MAGs_index.1.bt2</span>
+<span class="c"># master_MAGs_index.2.bt2</span>
+<span class="c"># master_MAGs_index.3.bt2</span>
+<span class="c"># master_MAGs_index.4.bt2</span>
+<span class="c"># master_MAGs_index.rev.1.bt2</span>
+<span class="c"># master_MAGs_index.rev.2.bt2</span>
+<span class="c"># Six files = successful index build</span>
+</code></pre></div></div>
+
+<p><strong>What are the .bt2 files?</strong></p>
+
+<p>Bowtie2 breaks the index into six files that together encode an FM-index — a compressed data structure that allows rapid substring search across millions of base pairs. You never open these files directly. You point Bowtie2 at them using the prefix (<code class="language-plaintext highlighter-rouge">master_MAGs_index</code>), and it handles the rest. You only need to build the index once — reuse it for all samples.</p>
+
+<p><strong>How long does indexing take?</strong></p>
+
+<p>For our four MAGs (~1,274 contigs, a few MB of sequence), indexing finishes in under a minute. For a GTDB-Tk representative database (50 GB+), expect 2–4 hours and 200+ GB of RAM with <code class="language-plaintext highlighter-rouge">--large-index</code>.</p>
+
+<hr>
+
+<h2 id="understanding-what-2-alignment-will-mean-tomorrow">Understanding what 2% alignment will mean tomorrow</h2>
+
+<p>We want to prepare you for what you will see on Day 4 so it does not feel like a failure.</p>
+
+<p>Our master reference has 1,274 contigs from 4 organisms. Our metatranscriptome is a snapshot of hundreds of organisms, all simultaneously expressing thousands of genes. When Bowtie2 searches our small index for matches, the vast majority of reads — from organisms not represented in our four MAGs — will find nothing and be reported as unmapped.</p>
+
+<p>The alignment rate will be approximately <strong>2%</strong>. This means:</p>
+
+<ul>
+  <li>98 out of every 100 reads in our community came from organisms we cannot see through our current window</li>
+  <li>The 2% that do map are biologically meaningful — those are real expression signals from our four MAG organisms</li>
+  <li>The 98% that don’t map are not lost data — they are a reminder that our reference is a starting point, not the complete picture</li>
+</ul>
+
+<p><strong>This is not a Bowtie2 problem. It is not a QC problem. It is a reference coverage problem — and it is normal, expected, and informative.</strong></p>
+
+<p>When you see 2% alignment tomorrow, the correct response is not panic. It is: “My four MAGs captured about 2% of the expressed community. How do I expand my reference to capture more?”</p>
+
+<hr>
+
+<h2 id="whats-next">What’s next</h2>
+
+<p>Tomorrow we run the actual mapping — every command, every flag, every output file, with the real alignment statistics from our estuarine dataset. We will also show you how to read the SAMtools flagstat output and what each number tells you about your data.</p>
+
+<p><strong>Day 4: Mapping &amp; Quantification — Bowtie2, SAMtools, and featureCounts</strong></p>
+
+<hr>
+
+<p>📦 <strong>All code, SLURM scripts, and toy datasets used in this series are available in the companion repository</strong>
+📦 <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day3-metatranscriptomics-reference" rel="external nofollow noopener" target="_blank">Github repository</a></p>
+
+<p>Questions about this workflow? Drop a comment below.
+The complete R script and SLURM submission scripts are available in the <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day3-metatranscriptomics-reference" rel="external nofollow noopener" target="_blank">companion GitHub repository</a>.</p>
+
+<p><img src="/assets/img/mt-d3.png" alt="Day2 metatrnscriptome"></p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      © Copyright 2026
+      Jojy
+      
+      John. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+      
+      
+    </div>
+  </footer>
+
+
+
+    <!-- ========================= -->
+    <!-- JavaScripts (IMPORTANT ORDER) -->
+    <!-- ========================= -->
+
+    <!-- jQuery MUST load first -->
+    <!-- jQuery -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+
+    <!-- Bootstrap depends on jQuery -->
+    <!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/assets/js/mdb.min.js"></script> -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+
+    <!-- Other scripts -->
+    
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  <!-- Medium Zoom JS -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+<!-- Bootstrap Table -->
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+    
+  
+    <!-- MathJax -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          tags: 'ams',
+        },
+      };
+    </script>
+    <script defer type="text/javascript" id="MathJax-script" src="" integrity="" crossorigin="anonymous"></script>
+    <script defer src="" crossorigin="anonymous"></script>
+  
+
+
+    
+
+    
+
+
+
+    
+  <!-- Scrolling Progress Bar -->
+  <script type="text/javascript">
+    /*
+     * This JavaScript code has been adapted from the article
+     * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar,
+     * published on the website https://css-tricks.com on the 7th of May, 2014.
+     * Couple of changes were made to the original code to make it compatible
+     * with the `al-foio` theme.
+     */
+    const progressBar = $('#progress');
+    /*
+     * We set up the bar after all elements are done loading.
+     * In some cases, if the images in the page are larger than the intended
+     * size they'll have on the page, they'll be resized via CSS to accomodate
+     * the desired size. This mistake, however, breaks the computations as the
+     * scroll size is computed as soon as the elements finish loading.
+     * To account for this, a minimal delay was introduced before computing the
+     * values.
+     */
+    window.onload = function () {
+      setTimeout(progressBarSetup, 50);
+    };
+    /*
+     * We set up the bar according to the browser.
+     * If the browser supports the progress element we use that.
+     * Otherwise, we resize the bar thru CSS styling
+     */
+    function progressBarSetup() {
+      if ('max' in document.createElement('progress')) {
+        initializeProgressElement();
+        $(document).on('scroll', function () {
+          progressBar.attr({ value: getCurrentScrollPosition() });
+        });
+        $(window).on('resize', initializeProgressElement);
+      } else {
+        resizeProgressBar();
+        $(document).on('scroll', resizeProgressBar);
+        $(window).on('resize', resizeProgressBar);
+      }
+    }
+    /*
+     * The vertical scroll position is the same as the number of pixels that
+     * are hidden from view above the scrollable area. Thus, a value > 0 is
+     * how much the user has scrolled from the top
+     */
+    function getCurrentScrollPosition() {
+      return $(window).scrollTop();
+    }
+
+    function initializeProgressElement() {
+      let navbarHeight = $('#navbar').outerHeight(true);
+      $('body').css({ 'padding-top': navbarHeight });
+      $('progress-container').css({ 'padding-top': navbarHeight });
+      progressBar.css({ top: navbarHeight });
+      progressBar.attr({
+        max: getDistanceToScroll(),
+        value: getCurrentScrollPosition(),
+      });
+    }
+    /*
+     * The offset between the html document height and the browser viewport
+     * height will be greater than zero if vertical scroll is possible.
+     * This is the distance the user can scroll
+     */
+    function getDistanceToScroll() {
+      return $(document).height() - $(window).height();
+    }
+
+    function resizeProgressBar() {
+      progressBar.css({ width: getWidthPercentage() + '%' });
+    }
+    // The scroll ratio equals the percentage to resize the bar
+    function getWidthPercentage() {
+      return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+    }
+  </script>
+
+
+    
+
+    
+
+    
+
+    
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+    
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?601a2d3465e2a52bec38b600518d5f70"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script>
+    let searchTheme = determineComputedTheme();
+    const ninjaKeys = document.querySelector('ninja-keys');
+
+    if (searchTheme === 'dark') {
+      ninjaKeys.classList.add('dark');
+    } else {
+      ninjaKeys.classList.remove('dark');
+    }
+
+    const openSearchModal = () => {
+      // collapse navbarNav if expanded on mobile
+      const $navbarNav = $('#navbarNav');
+      if ($navbarNav.hasClass('show')) {
+        $navbarNav.collapse('hide');
+      }
+      ninjaKeys.open();
+    };
+  </script>
+  <script>
+    // get the ninja-keys element
+    const ninja = document.querySelector('ninja-keys');
+
+    // add the home and posts menu items
+    ninja.data = [{
+        id: "nav-",
+        title: "",
+        section: "Navigation",
+        handler: () => {
+          window.location.href = "/";
+        },
+      },{id: "nav-publications",
+              title: "Publications",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/publications/";
+              },
+            },{id: "nav-blog",
+              title: "Blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "nav-projects",
+              title: "Projects",
+              description: "Research projects spanning microbial ecology, genomics, and multi-omics..",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/projects/";
+              },
+            },{id: "nav-mentoring",
+              title: "Mentoring",
+              description: "Graduate, undergraduate, and intern research mentorship in microbial ecology, bioinformatics, and multi-omics analysis.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/mentoring/";
+              },
+            },{id: "nav-collaboration",
+              title: "Collaboration",
+              description: "Interdisciplinary research collaborations in microbial ecology, genomics, bioinformatics, and environmental biotechnology.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/collaborations/";
+              },
+            },{id: "nav-teaching",
+              title: "Teaching",
+              description: "Teaching experience from 2014",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/teaching/";
+              },
+            },{id: "nav-repositories",
+              title: "Repositories",
+              description: "Research code, bioinformatics pipelines, and reproducible workflows.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/repositories/";
+              },
+            },{id: "post-",
+          
+            title: "",
+          
+          description: "",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026-02-11-day6-specialized-functions/";
+            
+          },
+        },{id: "post-day-3-the-reference-problem-your-database-defines-your-biology",
+          
+            title: "Day 3 — The Reference Problem: Your Database Defines Your Biology",
+          
+          description: "The most consequential decision in metatranscriptomics isn&#39;t which mapper you use — it&#39;s what you map against. A beginner-friendly guide to MAGs, reference genomes, and gene catalogs, with the commands to build each one and the SLURM scripts to run them on HPC.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day3-metatranscriptomics-reference-strategy/";
+            
+          },
+        },{id: "post-day-2-clean-your-rna-qc-amp-preprocessing-for-metatranscriptomics",
+          
+            title: "Day 2 — Clean Your RNA : QC &amp; Preprocessing for Metatranscriptomics",
+          
+          description: "The step most tutorials skip — and the one that decides your mapping success rate before Bowtie2 ever runs. A complete walkthrough of FastQC, fastp, SortMeRNA, and bbduk with real commands for HPC.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day2-metatranscriptomics-qc-preprocessing/";
+            
+          },
+        },{id: "post-day-1-who-is-active-not-just-present-an-introduction-to-metatranscriptomics",
+          
+            title: "Day 1 — Who Is Active, Not Just Present? An Introduction to Metatranscriptomics...",
+          
+          description: "DNA is a blueprint. RNA is a timesheet. This opening post sets the conceptual foundation for the series — what metatranscriptomics actually measures, why activity and abundance are not the same thing, and why your estuarine samples are the perfect system to teach it.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day1-metatranscriptomics-introduction/";
+            
+          },
+        },{id: "post-pangenome-analysis-with-anvi-39-o-from-hpc-to-publication-ready-figures",
+          
+            title: "Pangenome Analysis with Anvi&#39;o: From HPC to Publication-Ready Figures",
+          
+          description: "A complete beginner&#39;s guide to building and visualising a bacterial pangenome using Anvi&#39;o — running heavy computation on HPC and generating publication-quality figures with R on your laptop.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/pangenome-anvio-hpc/";
+            
+          },
+        },{id: "post-day-6-moving-your-data-scp-rsync-sftp-and-globus-connect",
+          
+            title: "Day 6 — Moving Your Data: scp, rsync, SFTP, and Globus Connect",
+          
+          description: "Your pipeline is ready, your HPC account is set up — but how do you actually move 300 GB of raw sequencing reads onto the cluster? A practical guide to every data transfer method you&#39;ll use in bioinformatics, from quick one-liners to terabyte-scale transfers.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day6-data-transfer/";
+            
+          },
+        },{id: "post-day-5-reproducible-pipelines-snakemake-and-nextflow",
+          
+            title: "Day 5 — Reproducible Pipelines: Snakemake and Nextflow",
+          
+          description: "Shell scripts work — until they don&#39;t. Here&#39;s how to graduate from manual job submissions to proper workflow managers that track dependencies, restart from failures, scale to HPC, and make your analysis reproducible by anyone, anywhere.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-pipelines/";
+            
+          },
+        },{id: "post-day-4-scaling-analysis-for-loops-vs-slurm-job-arrays",
+          
+            title: "Day 4 — Scaling Analysis: For Loops vs SLURM Job Arrays",
+          
+          description: "200 samples × 15 minutes = 50 hours sequential. Or 15 minutes parallel. Here&#39;s exactly how job arrays work, why they are the single biggest productivity unlock on HPC, and every pattern you need to handle real-world datasets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day4-job-arrays/";
+            
+          },
+        },{id: "post-day-3-running-jobs-terminal-bash-loops-and-slurm",
+          
+            title: "Day 3 — Running Jobs: Terminal, Bash Loops, and SLURM",
+          
+          description: "The biggest mindset shift in HPC: you don&#39;t run commands, you submit jobs. Why the login node is off-limits, what actually happens when you type sbatch, and how to go from a laptop bash loop to a proper SLURM script.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day3-running-jobs/";
+            
+          },
+        },{id: "post-day-2-software-installation-sudo-vs-module-load-vs-conda",
+          
+            title: "Day 2 — Software Installation: sudo vs module load vs conda",
+          
+          description: "The first real shock of HPC life: you can&#39;t install software the way you&#39;re used to. Here&#39;s why, and three progressively better solutions — explained step by step for beginners.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day2-software-installation/";
+            
+          },
+        },{id: "post-day-1-laptop-vs-hpc-why-bioinformatics-needs-both",
+          
+            title: "Day 1 — Laptop vs HPC: Why Bioinformatics Needs Both",
+          
+          description: "Your laptop crashed on a 50-sample microbiome run. Here&#39;s what that means, why it happens, and how HPC clusters solve it — explained from scratch for beginners.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day1-laptop-vs-hpc/";
+            
+          },
+        },{id: "post-day-8-from-raw-data-to-paper-figures-a-complete-microbiome-stats-workflow",
+          
+            title: "Day 8 — From Raw Data to Paper Figures: A Complete Microbiome Stats...",
+          
+          description: "Every method from Days 1–7, assembled into the actual order you run them, with the biological question that justifies each step — and the checklist you copy into every new project.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day8-complete-microbiome-stats-workflow/";
+            
+          },
+        },{id: "post-day-7-correlation-analysis-amp-mantel-test-linking-mags-to-environment",
+          
+            title: "Day 7 — Correlation Analysis &amp; Mantel Test: Linking MAGs to Environment",
+          
+          description: "Spearman correlation asks which environmental variables each MAG tracks. The Mantel test asks something deeper — does community dissimilarity itself scale with environmental dissimilarity?",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day7-correlation-mantel-test-microbiome/";
+            
+          },
+        },{id: "post-day-6-wgcna-for-microbiome-co-abundance-networks-from-individual-mags-to-modules",
+          
+            title: "Day 6 — WGCNA for Microbiome Co-Abundance Networks: From Individual MAGs to Modules...",
+          
+          description: "WGCNA moves you from 61 individual Wilcoxon tests to a handful of ecological guilds — each with a name, a size, and a direct relationship to the environmental gradient that drives it.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day6-wgcna-mag-coabundance-networks/";
+            
+          },
+        },{id: "post-day-5-multiple-regression-for-mag-abundance-linking-genomics-to-environment",
+          
+            title: "Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment",
+          
+          description: "This is multiple regression — the bridge from discrete group comparisons to the continuous environmental gradients that actually structure microbial communities in estuaries.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-multiple-regression-mag-abundance/";
+            
+          },
+        },{id: "post-day-4-non-parametric-tests-for-microbiome-data-wilcoxon-kruskal-wallis-amp-effect-sizes",
+          
+            title: "Day 4 — Non-Parametric Tests for Microbiome Data: Wilcoxon, Kruskal-Wallis &amp; Effect Sizes...",
+          
+          description: "After three days of community-level analysis, we step down to the taxon level — testing which individual MAGs differ between seasons, size fractions, and salinity regimes. Covers Wilcoxon, Kruskal-Wallis, FDR correction, and Cliff&#39;s delta effect size.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day4-nonparametric-tests-wilcoxon-kruskal-wallis/";
+            
+          },
+        },{id: "post-day-3-permanova-with-adonis2-testing-real-community-differences",
+          
+            title: "Day 3 — PERMANOVA with adonis2: Testing Real Community Differences",
+          
+          description: "You&#39;ve seen the groups separate in the RDA triplot. Now we test whether those differences are statistically real — using PERMANOVA, the permutation-based test built for multivariate community data. Includes the critical betadisper assumption test most papers skip.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day3-permanova-adonis2-microbiome/";
+            
+          },
+        },{id: "post-day-2-constrained-ordination-rda-amp-dbrda-for-microbiome-community-analysis",
+          
+            title: "Day 2 — Constrained Ordination: RDA &amp; dbRDA for Microbiome Community Analysis",
+          
+          description: "Learn how to run RDA with Hellinger-transformed MAG abundance data and interpret the resulting triplot — arrows, points, axes, and variance explained — using real Chesapeake and Delaware Bay metagenomes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day2-rda-dbrda-microbiome-ordination/";
+            
+          },
+        },{id: "post-day-1-why-normal-statistics-fail-for-microbiome-data-and-what-we-use-instead",
+          
+            title: "Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We...",
+          
+          description: "Before we run a single ordination or permutation test, we need to understand why standard statistics break down for microbiome and genomics data. This is your foundation for the entire 7-day series.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day1-why-normal-stats-fail-microbiome/";
+            
+          },
+        },{id: "post-from-messy-subfolders-to-analysis-ready-fasta-rename-with-python-collect-with-linux-find",
+          
+            title: "From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with Linux...",
+          
+          description: "A practical mini-workflow: add sample names to files inside many subfolders using a custom Python script, then use Linux find to gather all .fa files into one directory for downstream analysis (Prokka → InterProScan, DIAMOND → final tables).",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/python-rename-and-linux-find-collect-fasta/";
+            
+          },
+        },{id: "post-day-5-substrate-uptake-amp-utilization-in-size-fractionated-estuarine-microbiomes",
+          
+            title: "Day 5: Substrate Uptake &amp; Utilization in Size-Fractionated Estuarine Microbiomes",
+          
+          description: "From gene catalogs to carbon currency: a step-by-step functional workflow for analyzing CAZymes, ABC transporters, and TonB-dependent transporters in size-fractionated metagenomes and metatranscriptomes. Covers concatenated gene catalogs, dbCAN annotation, transporter filtering, read mapping, normalization, and heatmap visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-substrate-uptake-patterns/";
+            
+          },
+        },{id: "post-metagenome-analysis-graduate-course-materials",
+          
+            title: "Metagenome Analysis - Graduate Course Materials",
+          
+          description: "Beginner-friendly graduate course materials for metagenome analysis. Includes toy datasets (&lt;100MB), complete workflows, and hands-on tutorials covering QC, assembly, binning, taxonomy, and phylogenetics. Perfect for students new to bioinformatics with step-by-step guidance and realistic expectations.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-graduate-course/";
+            
+          },
+        },{id: "post-10-day-metagenome-analysis-series-complete-summary",
+          
+            title: "10-Day Metagenome Analysis Series - Complete Summary",
+          
+          description: "Complete metagenome analysis workflow from raw sequencing to publication: QC, assembly, binning, annotation, specialized functions, comparative genomics, automation, visualization, and multi-omics integration. Master 50+ tools in 10 comprehensive days with step-by-step tutorials.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-10day-complete-summary/";
+            
+          },
+        },{id: "post-day-10-multi-omics-integration-metagenomics-amp-metatranscriptomics",
+          
+            title: "Day 10: Multi-Omics Integration - Metagenomics &amp; Metatranscriptomics",
+          
+          description: "Master multi-omics integration: combine metagenomics (DNA) and metatranscriptomics (RNA) data to reveal active functions. Learn DESeq2 differential expression, expression ratio modeling, comparative heatmaps, pathway activity analysis, and taxonomic integration. Complete guide from count tables to biological insights.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day10-multiomics-integration/";
+            
+          },
+        },{id: "post-day-9-visualization-amp-publication-making-data-tell-stories",
+          
+            title: "Day 9: Visualization &amp; Publication - Making Data Tell Stories",
+          
+          description: "Create publication-quality figures for metagenomics: R/ggplot2, Python/matplotlib/seaborn, Krona taxonomic wheels, Circos genome comparisons, interactive Anvi&#39;o plots, network visualizations, and heatmaps. Complete guide to visual storytelling with your data.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day9-visualization/";
+            
+          },
+        },{id: "post-day-8-workflow-wrappers-amp-web-platforms-streamlining-metagenome-analysis",
+          
+            title: "Day 8: Workflow Wrappers &amp; Web Platforms - Streamlining Metagenome Analysis",
+          
+          description: "Master automated workflows with MetaWRAP, Anvi&#39;o, and nf-core/mag. Explore web-based platforms: Galaxy, KBase, IMG/M, and BV-BRC (PATRIC). Complete guide to streamlined metagenomics without the command-line complexity.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day8-workflows-platforms/";
+            
+          },
+        },{id: "post-day-7-comparative-genomics-amp-statistical-analysis-connecting-genomes-to-environment",
+          
+            title: "Day 7: Comparative Genomics &amp; Statistical Analysis - Connecting Genomes to Environment",
+          
+          description: "Master pangenome analysis (PanX, Anvi&#39;o, Roary, BPGA), statistical ecology (PERMANOVA, RDA, dbRDA), co-occurrence networks (WGCNA, SparCC), and environmental associations. Complete guide to understanding how metadata influences microbiomes and comparative genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day7-comparative-statistical/";
+            
+          },
+        },{id: "post-day-5-genome-annotation-understanding-metabolic-potential",
+          
+            title: "Day 5: Genome Annotation - Understanding Metabolic Potential",
+          
+          description: "Complete guide to genome annotation from basic (Prodigal, Prokka) to advanced (DRAM, METABOLIC). Learn to predict genes, assign functions, and reconstruct metabolic pathways from MAGs. Includes practical workflows for laptops and HPC.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day5-annotation/";
+            
+          },
+        },{id: "post-day-4-genome-dereplication-amp-taxonomic-classification-from-mags-to-species",
+          
+            title: "Day 4: Genome Dereplication &amp; Taxonomic Classification - From MAGs to Species",
+          
+          description: "Master genome dereplication with dRep and taxonomic classification with GTDB-Tk. Learn to identify unique species, remove redundancy, construct phylogenetic trees with iTOL and ggtree, and select species representatives from metagenomic datasets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day4-dereplication-taxonomy/";
+            
+          },
+        },{id: "post-day-3-genome-binning-recovering-individual-genomes-mags-from-metagenomes",
+          
+            title: "Day 3: Genome Binning - Recovering Individual Genomes (MAGs) from Metagenomes",
+          
+          description: "Master genome binning with modern MetaWRAP workflows, MetaBAT2, MaxBin2, and CONCOCT. Learn bin refinement, CheckM2 quality assessment, and MAG classification. Includes Python 3 setup, laptop-friendly workflows, and deep learning with SemiBin2.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day3-binning/";
+            
+          },
+        },{id: "post-day-2-metagenome-assembly-reconstructing-genomes-from-short-reads",
+          
+            title: "Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads",
+          
+          description: "A comprehensive guide to assembling metagenomic data using metaSPAdes and MEGAHIT, with quality assessment, parameter optimization, and comparison strategies. Includes desktop-friendly workflows and multi-language analysis scripts.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day2-assembly/";
+            
+          },
+        },{id: "post-day-1-quality-control-contamination-removal-and-read-based-taxonomic-analysis",
+          
+            title: "Day 1: Quality Control, Contamination Removal, and Read-Based Taxonomic Analysis",
+          
+          description: "A comprehensive guide to preprocessing metagenomic sequencing data, from raw reads to clean, taxonomically profiled datasets ready for assembly. Includes workflows for HPC, personal desktop, Linux, and Windows environments.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day1-qc-taxonomy/";
+            
+          },
+        },{id: "post-genome-resolved-metabolism-from-metabolic-potential-to-co-metabolism-networks",
+          
+            title: "Genome-Resolved Metabolism: From Metabolic Potential to Co-Metabolism Networks",
+          
+          description: "A comprehensive workflow for analyzing metabolic flexibility, co-energy metabolism, and co-metabolism networks in hydrocarbon-degrading MAGs using heatmaps and network visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-resolved-metabolism-co-metabolism/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-4-gene-catalog-construction-amp-functional-annotation",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp; Functional Annotation",
+          
+          description: "Day 4 of the size-fractionated microbiome series: Building a non-redundant prokaryotic gene catalog from metagenomes using Prodigal, CD-HIT clustering, and eggNOG functional annotation.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day4/";
+            
+          },
+        },{id: "post-bridging-clinical-and-ecological-ml-from-heart-disease-to-soil-ecosystem-multifunctionality",
+          
+            title: "Bridging Clinical and Ecological ML: From Heart Disease to Soil Ecosystem Multifunctionality",
+          
+          description: "Revisiting my masters in datascience project on heart disease prediction to explore Random Forest applications in microbial ecosystem multifunctionality research. A comprehensive comparison of 5 ML algorithms with real results and lessons learned.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/heart-disease-prediction-ml-random-forest/";
+            
+          },
+        },{id: "post-building-custom-humann3-databases-with-struo2-and-gtdb-a-realistic-guide-from-the-trenches",
+          
+            title: "Building Custom HUMAnN3 Databases with Struo2 and GTDB: A Realistic Guide from the...",
+          
+          description: "A comprehensive, honest guide to building custom HUMAnN3 databases using Struo2 with GTDB r220, including all the troubleshooting, workarounds, and lessons learned from 40 hours in the trenches.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/building-custom-humann3-databases-struo2-gtdb/";
+            
+          },
+        },{id: "post-visualize-your-data-day-5-bubble-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 5: Bubble Plots in Bioinformatics",
+          
+          description: "Day 5 of the Visualize Your Data series: using bubble plots to visualize multi-dimensional relationships in genomics and functional ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day5-bubble-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-4-volcano-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 4: Volcano Plots in Bioinformatics",
+          
+          description: "Day 4 of the Visualize Your Data series: mastering volcano plots for differential expression and abundance analysis in bioinformatics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day4-volcano-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-3-ordination-plots-pca-pcoa-nmds-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 3: Ordination Plots (PCA, PCoA, NMDS) in Bioinformatics...",
+          
+          description: "Day 3 of the Visualize Your Data series: exploring PCA, PCoA, and NMDS to visualize sample relationships and community structure in bioinformatics and microbial ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day3-ordination/";
+            
+          },
+        },{id: "post-visualize-your-data-day-2-heatmaps-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 2: Heatmaps in Bioinformatics",
+          
+          description: "Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps,  commonly used in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day2-heatmaps/";
+            
+          },
+        },{id: "post-visualize-your-data-day-1-box-plot-vs-violin-plot-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics...",
+          
+          description: "Day 1 of the Visualize Your Data series: understanding when and how to use box plots and violin plots to visualize data distributions in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day1-box-vs-violin/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-5-comparative-amp-downstream-genomic-analyses",
+          
+            title: "Whole Genome Sequencing — Day 5: Comparative &amp; Downstream Genomic Analyses",
+          
+          description: "Day 5 of the WGS series: moving from individual genomes to comparative insights through pangenome analysis, secondary metabolite screening, and pathogen detection",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day5-comparative-genomics/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-4-genome-annotation-amp-functional-potential",
+          
+            title: "Whole Genome Sequencing — Day 4: Genome Annotation &amp; Functional Potential",
+          
+          description: "Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day4-annotation-function/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-3-taxonomy-phylogeny-amp-genome-similarity",
+          
+            title: "Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp; Genome Similarity",
+          
+          description: "Day 3 of the WGS series: genome-based taxonomy using GTDB-Tk, phylogenomic tree construction, and species/genus boundary testing using ANI, AAI, and dDDH across large genome sets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day3-taxonomy-phylogeny/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-2-genome-assembly-quality-assessment-and-topology",
+          
+            title: "Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology",
+          
+          description: "Day 2 of the WGS series: short- and long-read genome assembly using SPAdes, MEGAHIT, Shovill, and Flye, followed by assembly evaluation with QUAST, GC content visualization, topology assessment, and graph inspection with Bandage.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day2-genome-assembly/";
+            
+          },
+        },{id: "post-whole-genome-analysis-day-1-from-raw-reads-to-clean-assembly-ready-data",
+          
+            title: "Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data...",
+          
+          description: "Day 1 of a whole-genome analysis series covering raw Illumina and Nanopore reads, integrity checks, quality control with FastQC and NanoPlot, and read trimming using Trimmomatic and Cutadapt.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day1-raw-reads-qc/";
+            
+          },
+        },{id: "post-exploring-the-pan-genome-with-panx-a-practical-workflow-for-darpa-isolates",
+          
+            title: "Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates",
+          
+          description: "5 complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/panx-pangenome-analysis/";
+            
+          },
+        },{id: "post-extracting-full-length-16s-rrna-from-bacterial-genomes-using-barrnap",
+          
+            title: "Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap",
+          
+          description: "A quick and reproducible workflow to extract 16S rRNA genes from assembled genomes and validate taxonomy using NCBI BLAST.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/barrnap-16s-extraction/";
+            
+          },
+        },{id: "post-from-genome-assembly-to-novel-species-a-step-by-step-genomic-workflow",
+          
+            title: "From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow",
+          
+          description: "How do we confidently determine whether a newly sequenced genome represents a novel bacterial species?",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/novel-species-a-step-by-step-guide/";
+            
+          },
+        },{id: "post-using-syncthing-tmux-and-git-to-sync-my-bioinformatics-workflow-across-devices",
+          
+            title: "Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices",
+          
+          description: "How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/syncthing-tmux-git-workflow/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-3-species-level-profiling-with-motus",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs",
+          
+          description: "Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day3/";
+            
+          },
+        },{id: "post-genome-topology-and-genome-announcement-reports-a-practical-reviewer-safe-workflow",
+          
+            title: "Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow",
+          
+          description: "A step-by-step guide to answering NCBI genome topology questions and generating a complete, automated genome report table for Genome Resource Announcements.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-topology-and-genome-report/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-2-kaiju-classification-and-extraction-of-bacterial-amp-archaeal-reads",
+          
+            title: "Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial...",
+          
+          description: "Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day2/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-anlaysis-day-1-from-raw-reads-to-clean-data",
+          
+            title: "Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data...",
+          
+          description: "Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day1/";
+            
+          },
+        },{id: "post-amplicon-week-day-6-wrap-up-from-reads-to-insights",
+          
+            title: "Amplicon Week — Day 6: Wrap-Up: From Reads to Insights",
+          
+          description: "Day 6 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day6/";
+            
+          },
+        },{id: "post-amplicon-week-day-5-web-based-microbiome-analysis-with-easy16s",
+          
+            title: "Amplicon Week — Day 5: Web-based microbiome analysis with easy16S",
+          
+          description: "Day 5 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day5/";
+            
+          },
+        },{id: "post-amplicon-week-day-4-functional-prediction-from-amplicon-data-picrust2-tax4fun2-faprotax",
+          
+            title: "Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)...",
+          
+          description: "Day 4 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day4/";
+            
+          },
+        },{id: "post-amplicon-week-day-3-visualization-amp-ecological-analysis-using-qiime2-microeco-r",
+          
+            title: "Amplicon Week — Day 3: Visualization &amp; Ecological Analysis Using QIIME2 + Microeco...",
+          
+          description: "Day 3 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day3/";
+            
+          },
+        },{id: "post-amplicon-week-day-2-qiime2-setup-importing-data-amp-classifier-training",
+          
+            title: "Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training",
+          
+          description: "Day 2 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day2/";
+            
+          },
+        },{id: "post-amplicon-week-day-1-introduction-to-16s-its-18s-12s-and-coi-metabarcoding",
+          
+            title: "Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI...",
+          
+          description: "Day 1 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day1/";
+            
+          },
+        },{id: "post-cleaning-and-preparing-genomes-for-ncbi-submission-a-complete-workflow",
+          
+            title: "Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow",
+          
+          description: "Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/ncbi-submission-cleaning/";
+            
+          },
+        },{id: "post-machine-learning-mag-binning-with-semibin2-and-snakemake-soil-metagenomes",
+          
+            title: "Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)",
+          
+          description: "How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/semibin-snakemake-soil-mag-workflow/";
+            
+          },
+        },{id: "post-installing-amp-setting-up-my-new-linux-laptop-a-real-journey-through-dual-boot-partitions-amp-persistence",
+          
+            title: "Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot,...",
+          
+          description: "A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/dual-booting-with-linux/";
+            
+          },
+        },{id: "post-gtdb-tk-complete-workflow",
+          
+            title: "GTDB-Tk Complete Workflow",
+          
+          description: "A practical walkthrough of GTDB-Tk Complete Workflow",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/gtdbtk-tree-custom/";
+            
+          },
+        },{id: "post-genome-assembly-day-shovill-for-illumina-amp-flye-for-nanopore-reads",
+          
+            title: "Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads",
+          
+          description: "A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-assembly-day/";
+            
+          },
+        },{id: "post-visualizing-genome-assemblies-with-bandage-building-from-source-on-linux",
+          
+            title: "Visualizing Genome Assemblies with Bandage: Building from Source on Linux",
+          
+          description: "A practical guide to installing Bandage from source using Qt and visualizing assembly graphs generated by Flye and Shovill.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-visualization/";
+            
+          },
+        },{id: "post-re-working-figure-5-visualizing-functional-redundancy-fred-across-bays-seasons-and-salinity",
+          
+            title: "Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity",
+          
+          description: "Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/reworking-a-figure-manuscript-revision-story/";
+            
+          },
+        },{id: "post-my-journey-into-microbiology-the-deep-sea-and-bioinformatics",
+          
+            title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics",
+          
+          description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics/";
+            
+          },
+        },{id: "news-aaas-membership-and-science-magazine-subscription-nominated-by-cynthia-y-young-dean-of-college-of-science-clemson-university",
+              title: 'AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of...',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-asm-2025-los-angeles-usa",
+              title: 'Abstract accepted for **ASM 2025**, Los Angeles, USA.',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-aslo-2025-charlotte-usa",
+              title: 'Abstract accepted for **ASLO 2025**, Charlotte, USA',
+              description: "",
+              section: "News",},{id: "news-188-whole-genome-sequences-submitted-to-ncbi",
+              title: '188 whole-genome sequences submitted to NCBI.',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-baseline-evaluation-of-the-toxicity-potential-of-steel-slag-using-the-green-mussel-perna-viridis-for-sustainable-marine-reuse-applications-this-work-was-originally-completed-during-2019-2020-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Baseline evaluation of the toxicity potential of steel...',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-comparative-genomic-and-phenotypic-analysis-of-streptomyces-rochei-sosist-3-isolated-from-the-southern-ocean-this-work-is-a-part-of-colloboration-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Comparative genomic and phenotypic analysis of Streptomyces rochei...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-accepted-𝐀-𝐯𝐞𝐫𝐲-𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥-𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞-today-i-m-sharing-some-happy-news-𝐦𝐲-𝐟𝐢𝐫𝐬𝐭-𝐩𝐨𝐬𝐭𝐝𝐨𝐜𝐭𝐨𝐫𝐚𝐥-𝐩𝐚𝐩𝐞𝐫-𝐡𝐚𝐬-𝐛𝐞𝐞𝐧-𝐚𝐜𝐜𝐞𝐩𝐭𝐞𝐝-𝐢𝐧-𝐈𝐒𝐌𝐄-𝐂𝐨𝐦𝐦𝐮𝐧𝐢𝐜𝐚𝐭𝐢𝐨𝐧𝐬",
+              title: '**A new paper accepted!** “✨ 𝐀 𝐯𝐞𝐫𝐲 𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥 𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞 ✨ Today, I’m sharing...',
+              description: "",
+              section: "News",},{id: "news-the-accepted-version-available-online-quot-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays-quot-doi-https-doi-org-10-1093-ismeco-ycag021-link-https-academic-oup-com-ismecommun-advance-article-doi-10-1093-ismeco-ycag021-8454622",
+              title: '**The accepted version available online!** &quot;Functional redundancy and metabolic flexibility of microbial communities...',
+              description: "",
+              section: "News",},{id: "news-another-manuscript-accepted-quot-draft-genome-sequence-of-a-novel-species-of-winogradskyella-strain-pc-d3-3-isolated-from-a-red-antarctic-macroalgae-quot-in-microbiology-resource-announcements",
+              title: 'Another manuscript **accepted** &quot;Draft Genome Sequence of a novel species of Winogradskyella (strain...',
+              description: "",
+              section: "News",},{id: "news-another-manuscript-accepted-with-minor-revision-quot-genomic-insights-into-carbohydrate-active-enzymes-in-a-novel-radiobacillus-strain-from-the-antarctic-red-macroalga-pyropia-endiviifolia-quot-in-world-journal-of-microbiology-and-biotechnology-revision-submitted-back",
+              title: 'Another manuscript **accepted** with minor revision &quot;Genomic insights into carbohydrate-active enzymes in a...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-is-online-𝐍𝐚𝐧𝐨𝐥𝐢𝐩𝐨𝐬𝐨𝐦𝐞-𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐝-𝐜𝐨-𝐝𝐞𝐥𝐢𝐯𝐞𝐫𝐲-𝐨𝐟-𝐚𝐦𝐨𝐱𝐢𝐜𝐢𝐥𝐥𝐢𝐧-𝐚𝐧𝐝-𝐭𝐚𝐳𝐨𝐛𝐚𝐜𝐭𝐚𝐦-𝐫𝐞𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐬-𝐢𝐧𝐭𝐫𝐚𝐜𝐞𝐥𝐥𝐮𝐥𝐚𝐫-𝐢𝐧𝐟𝐞𝐜𝐭𝐢𝐨𝐧-𝐛𝐲-𝐦𝐮𝐥𝐭𝐢𝐝𝐫𝐮𝐠-𝐫𝐞𝐬𝐢𝐬𝐭𝐚𝐧𝐭-𝐒𝐚𝐥𝐦𝐨𝐧𝐞𝐥𝐥𝐚-𝐞𝐧𝐭𝐞𝐫𝐢𝐜𝐚-𝐬𝐞𝐫𝐨𝐯𝐚𝐫-𝐓𝐲𝐩𝐡𝐢𝐦𝐮𝐫𝐢𝐮𝐦-read-full-here-https-www-nature-com-articles-s41429-026-00903-5-citeas",
+              title: 'A new paper is online “𝐍𝐚𝐧𝐨𝐥𝐢𝐩𝐨𝐬𝐨𝐦𝐞-𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐝 𝐜𝐨-𝐝𝐞𝐥𝐢𝐯𝐞𝐫𝐲 𝐨𝐟 𝐚𝐦𝐨𝐱𝐢𝐜𝐢𝐥𝐥𝐢𝐧 𝐚𝐧𝐝 𝐭𝐚𝐳𝐨𝐛𝐚𝐜𝐭𝐚𝐦 𝐫𝐞𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐬 𝐢𝐧𝐭𝐫𝐚𝐜𝐞𝐥𝐥𝐮𝐥𝐚𝐫...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-is-online-draft-genome-sequence-of-a-novel-species-of-winogradskyella-strain-pc-d3-3-isolated-from-a-red-antarctic-macroalgae-read-full-here-https-journals-asm-org-doi-10-1128-mra-00055-26",
+              title: 'A new paper is online “Draft genome sequence of a novel species of...',
+              description: "",
+              section: "News",},{id: "news-a-new-prprint-is-online-draft-genome-sequence-of-a-novel-species-of-winogradskyella-strain-pc-d3-3-isolated-from-a-red-antarctic-macroalgae-read-full-here-https-www-biorxiv-org-content-10-64898-2026-03-25-714183v1-abstract",
+              title: 'A new prprint is online “Draft genome sequence of a novel species of...',
+              description: "",
+              section: "News",},{id: "projects-genome-resolved-characterization-of-novel-antarctic-microbial-lineages",
+              title: 'Genome-Resolved Characterization of Novel Antarctic Microbial Lineages',
+              description: "Integrative genomics and phylogenomics to characterize novel microbial taxa from Antarctic and Southern Ocean ecosystems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Antarctic-Microbial-Diversity/";
+                },},{id: "projects-bacteriophages-and-auxiliary-metabolic-genes-of-the-chesapeake-and-delaware-bays",
+              title: 'Bacteriophages and Auxiliary Metabolic Genes of the Chesapeake and Delaware Bays',
+              description: "Integrative viromics using metagenomes, metatranscriptomes, and viral fractions to characterize viral taxonomy, auxiliary metabolic genes, host interactions, and ecosystem function in estuarine systems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Estury_Virome/";
+                },},{id: "projects-gut-microbiome-responses-to-food-borne-nanoplastics-exposure",
+              title: 'Gut Microbiome Responses to Food-Borne Nanoplastics Exposure',
+              description: "Multi-omics investigation of how pristine and digested nanoplastics alter gut microbial communities in healthy individuals and inflammatory bowel disease patients.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Gut_microbiome_nanoplastics/";
+                },},{id: "projects-microbial-biofouling-interactions-on-autonomous-navy-gliders",
+              title: 'Microbial Biofouling Interactions on Autonomous Navy Gliders',
+              description: "Genome-resolved and metagenomic analysis of marine biofilm communities on autonomous underwater vehicles to design a stable, invasion-resistant synthetic biofilm.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/darpa-biofouling-gliders/";
+                },},{id: "projects-diversity-genomic-studies-and-resistance-mechanisms-of-moderately-halophilic-bacteria",
+              title: 'Diversity, Genomic Studies, and Resistance Mechanisms of Moderately Halophilic Bacteria',
+              description: "Genomic and physiological characterization of halophilic bacteria from salt pan ecosystems to understand stress adaptation, resistance mechanisms, and biotechnological potential.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/diversity_and_genomics/";
+                },},{id: "projects-biological-and-microbial-responses-to-deep-sea-mining-hypoxia-and-anthropogenic-disturbance",
+              title: 'Biological and Microbial Responses to Deep-Sea Mining, Hypoxia, and Anthropogenic Disturbance',
+              description: "Environmental impact assessment of deep-sea mining, monsoon-driven hypoxia, and industrial disturbance using molecular and genomic approaches.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/environmental-impact-assessment/";
+                },},{id: "projects-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays",
+              title: 'Functional Redundancy and Metabolic Flexibility of Microbial Communities in Two Mid-Atlantic Bays',
+              description: "Genome-resolved metagenomic and metatranscriptomic analysis of functional redundancy and metabolic flexibility in estuarine microbial communities from the Chesapeake and Delaware Bays.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/functional-redundancy/";
+                },},{id: "projects-co-metabolism-and-co-expression-networks-of-hydrocarbon-degrading-estuarine-microbiomes",
+              title: 'Co-Metabolism and Co-Expression Networks of Hydrocarbon-Degrading Estuarine Microbiomes',
+              description: "Genome-resolved analysis of hydrocarbon-degrading MAGs across two Mid-Atlantic estuaries, linking metabolic potential, co-energy pathways, and co-metabolism networks using metagenomic and metatranscriptomic data.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/hydrocarbon-estury/";
+                },},{id: "projects-functional-redundancy-and-synthetic-biofilm-design-in-marine-communities-under-environmental-stress",
+              title: 'Functional Redundancy and Synthetic Biofilm Design in Marine Communities under Environmental Stress',
+              description: "Genome-guided analysis and design of marine synthetic biofilm communities to evaluate functional redundancy, biofilm formation potential, and resilience under environmental stress.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/marine_biofilm/";
+                },},{id: "projects-resource-partitioning-and-co-occurrence-of-size-fractionated-microbiomes-in-the-delaware-and-chesapeake-bays",
+              title: 'Resource Partitioning and Co-occurrence of Size-Fractionated Microbiomes in the Delaware and Chesapeake Bays...',
+              description: "Integrative metagenomic and metatranscriptomic analysis of free-living and particle-associated microbial communities to understand resource partitioning, co-occurrence patterns, and functional redundancy in estuarine ecosystems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/size-fractionated-resource-partitioning/";
+                },},{id: "projects-functional-redundancy-in-soil-microbiomes-under-cover-crop-agroecosystems",
+              title: 'Functional Redundancy in Soil Microbiomes under Cover Crop Agroecosystems',
+              description: "Genome-resolved metagenomics and metatranscriptomics reveal microbial functional redundancy across agricultural soils under different cover crop systems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/soil_microbiome/";
+                },},{
+            id: 'socials-email',
+            title: 'Send email',
+            section: 'Socials',
+            handler: () => {
+              window.open("mailto:%6A%6F%6A%79%6A@%63%6C%65%6D%73%6F%6E.%65%64%75", "_blank");
+            },
+          },{
+            id: 'socials-orcid',
+            title: 'ORCID',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://orcid.org/0000-0002-8739-9741", "_blank");
+            },
+          },{
+            id: 'socials-google-scholar',
+            title: 'Google Scholar',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://scholar.google.com/citations?user=w74rUUAAAAAJ", "_blank");
+            },
+          },{
+            id: 'socials-github',
+            title: 'GitHub',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://github.com/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-linkedin',
+            title: 'LinkedIn',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://www.linkedin.com/in/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-x',
+            title: 'X',
+            description: 'Twitter',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://twitter.com/JojyJon", "_blank");
+            },
+          },{
+            id: 'socials-rss',
+            title: 'RSS Feed',
+            section: 'Socials',
+            handler: () => {
+              window.open("/feed.xml", "_blank");
+            },
+          },{
+          id: 'light-theme',
+          title: 'Change theme to light',
+          description: 'Change the theme of the site to Light',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("light");
+          },
+        },
+        {
+          id: 'dark-theme',
+          title: 'Change theme to dark',
+          description: 'Change the theme of the site to Dark',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("dark");
+          },
+        },
+        {
+          id: 'system-theme',
+          title: 'Use system default theme',
+          description: 'Change the theme of the site to System Default',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("system");
+          },
+        },];
+  </script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+  </body>
+</html>
