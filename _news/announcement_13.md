@@ -6,5 +6,5 @@ inline: true
 related_posts: false
 ---
 
-A new prprint is online “Draft genome sequence of a novel species of Winogradskyella (strain PC D3.3) isolated from a Red Antarctic macroalgae”
+A new prprint is online “Environmental Gradients Shape the Hydrocarbon-Degrading Microbiome in Two Mid Atlantic Bays”
 read full here : https://www.biorxiv.org/content/10.64898/2026.03.25.714183v1.abstract
