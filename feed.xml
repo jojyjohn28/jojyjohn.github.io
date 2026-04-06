@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-02T13:10:52-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-02T13:10:52-04:00</published><updated>2026-04-02T13:10:52-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-06T09:59:29-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-06T09:59:29-04:00</published><updated>2026-04-06T09:59:29-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,413 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 3 — The Reference Problem: Your Database Defines Your Biology</title><link href="https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy/" rel="alternate" type="text/html" title="Day 3 — The Reference Problem: Your Database Defines Your Biology" /><published>2026-04-02T00:00:00-04:00</published><updated>2026-04-02T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy/"><![CDATA[<h2 id="the-reference-problem-your-database-defines-your-biology">The Reference Problem: Your Database Defines Your Biology</h2>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 4 — Reads Meet Reference: The Mapping &amp;amp; Quantification Pipeline</title><link href="https://jojyjohn28.github.io/blog/day4-metatranscriptomics-mapping-quantification/" rel="alternate" type="text/html" title="Day 4 — Reads Meet Reference: The Mapping &amp;amp; Quantification Pipeline" /><published>2026-04-06T00:00:00-04:00</published><updated>2026-04-06T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day4-metatranscriptomics-mapping-quantification</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day4-metatranscriptomics-mapping-quantification/"><![CDATA[<p>*<em>🧬 Day 68 of Daily Bioinformatics from Jojy’s Desk🧬</em></p>
+
+<p>This is where the analysis becomes concrete.</p>
+
+<p>Three days of preparation — quality control, rRNA removal, paired-end repair, reference construction — have led here. Your reads are clean. Your reference is indexed. Your read pairs are synchronized. Now you are going to find out which genes were being expressed in your estuarine community, and how many reads support each one.</p>
+
+<p>The pipeline has four stages: <strong>mapping</strong> (Bowtie2), <strong>format conversion</strong> (SAM → BAM), <strong>sorting and indexing</strong> (SAMtools), and <strong>quantification</strong> (featureCounts). We will walk through every command, show you the real output from our dataset, and — critically — explain what the numbers mean when they look alarming.</p>
+
+<hr />
+
+<h2 id="before-you-start-a-quick-checklist">Before you start: a quick checklist</h2>
+
+<p>Before running any mapping command, verify these three things. Every mapping failure I have seen in the analysis traces back to one of them:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Are your mRNA reads where you expect them?</span>
+<span class="nb">ls </span>mRNA_reads/
+<span class="c"># Should show: CP_Spr15G08_mRNA_fwd.fq  CP_Spr15G08_mRNA_rev.fq</span>
+<span class="c"># (and the same pattern for all other samples)</span>
+
+<span class="c"># 2. Are R1 and R2 synchronized?</span>
+<span class="nb">echo</span> <span class="s2">"R1: </span><span class="si">$(</span><span class="nb">cat </span>mRNA_reads/CP_Spr15G08_mRNA_fwd.fq | <span class="nb">wc</span> <span class="nt">-l</span> | <span class="nb">awk</span> <span class="s1">'{print $1/4}'</span><span class="si">)</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">"R2: </span><span class="si">$(</span><span class="nb">cat </span>mRNA_reads/CP_Spr15G08_mRNA_rev.fq | <span class="nb">wc</span> <span class="nt">-l</span> | <span class="nb">awk</span> <span class="s1">'{print $1/4}'</span><span class="si">)</span><span class="s2">"</span>
+<span class="c"># These two numbers MUST be identical — see Day 2 repair scripts if not</span>
+
+<span class="c"># 3. Does your Bowtie2 index exist?</span>
+<span class="nb">ls </span>MAGS/bowtie_index/
+<span class="c"># Should show six files: master_MAGs_index.1.bt2 through master_MAGs_index.rev.2.bt2</span>
+<span class="c"># If missing: run Day 3 script 01_build_mag_index.slurm first</span>
+</code></pre></div></div>
+
+<p>If all three pass, you are ready. If any fail, stop and fix them first — do not run Bowtie2 with broken input.</p>
+
+<hr />
+
+<h2 id="stage-1--bowtie2-mapping-reads-to-the-reference">Stage 1 — Bowtie2: mapping reads to the reference</h2>
+
+<p>Bowtie2 takes your clean RNA reads and searches the reference index for matching sequences. For each read, it either finds a location in the reference (a mapping) or it doesn’t. The result is a SAM file recording every read, where it mapped (or that it didn’t), and how confidently.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load bowtie2/2.5.4
+</code></pre></div></div>
+
+<p>If you want to install it refer : https://github.com/benlangmead/bowtie2</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bowtie2 <span class="se">\</span>
+  <span class="nt">-x</span> /project/bcampb7/camplab/MICRO_8130_2026/metatranscriptome/MAGS/bowtie_index/master_MAGs_index <span class="se">\</span>
+  <span class="nt">-1</span> mRNA_reads/CP_Spr15G08_mRNA_fwd.fq <span class="se">\</span>
+  <span class="nt">-2</span> mRNA_reads/CP_Spr15G08_mRNA_rev.fq <span class="se">\</span>
+  <span class="nt">-p</span> 8 <span class="se">\</span>
+  <span class="nt">--no-unal</span> <span class="se">\</span>
+  <span class="nt">--very-sensitive</span> <span class="se">\</span>
+  <span class="nt">-S</span> CP_Spr15G08.sam <span class="se">\</span>
+  2&gt; logs/CP_Spr15G08_bowtie2.log
+</code></pre></div></div>
+
+<p><strong>What each flag means — explained for beginners:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>What it does</th>
+      <th>Why it matters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-x</code></td>
+      <td>Path to the index prefix</td>
+      <td>Points Bowtie2 to the six .bt2 files you built on Day 3. Leave off the <code class="language-plaintext highlighter-rouge">.bt2</code> extension — Bowtie2 finds them automatically</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-1</code> / <code class="language-plaintext highlighter-rouge">-2</code></td>
+      <td>R1 and R2 read files</td>
+      <td>Always provide both. Your reads are paired — Bowtie2 needs both mates to attempt concordant mapping</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-p 8</code></td>
+      <td>Use 8 CPU threads</td>
+      <td>Match this to your <code class="language-plaintext highlighter-rouge">--cpus-per-task</code> SLURM allocation. More threads = faster, not more reads</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-unal</code></td>
+      <td>Do not write unmapped reads to SAM</td>
+      <td>Critical for low-alignment-rate datasets. Without this flag, 98% of your reads (unmapped) inflate the SAM file to many GB for no benefit</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--very-sensitive</code></td>
+      <td>More thorough alignment search</td>
+      <td>Environmental reads are often divergent from your reference. This flag tells Bowtie2 to try harder before giving up on a read</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-S</code></td>
+      <td>Output SAM file</td>
+      <td>The alignment result. One line per read</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">2&gt;</code></td>
+      <td>Redirect stderr to a log file</td>
+      <td>Bowtie2 prints its alignment statistics to stderr, not stdout. Capturing it means you can check the stats later without re-running</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="reading-the-alignment-statistics-what-the-numbers-mean">Reading the alignment statistics: what the numbers mean</h2>
+
+<p>When Bowtie2 finishes, check the log file you captured:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>logs/CP_Spr15G08_bowtie2.log
+</code></pre></div></div>
+
+<p>Here is the real output from our estuarine dataset:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3647405 reads; of these:
+  3647405 (100.00%) were paired; of these:
+    3647405 (100.00%) aligned concordantly 0 times
+    0 (0.00%) aligned concordantly exactly 1 time
+    0 (0.00%) aligned concordantly &gt;1 times
+    ----
+    3647405 pairs aligned concordantly 0 times; of these:
+      1747 (0.05%) aligned discordantly 1 time
+    ----
+    3645658 pairs aligned 0 times concordantly or discordantly; of these:
+      7291316 mates make up the pairs; of these:
+        7137598 (97.89%) aligned 0 times
+        152441 (2.09%) aligned exactly 1 time
+        1277 (0.02%) aligned &gt;1 times
+2.16% overall alignment rate
+</code></pre></div></div>
+
+<p>This output has a specific structure. Let’s decode it line by line.</p>
+
+<p><strong>“aligned concordantly 0 times: 100%”</strong></p>
+
+<p>This is the line that makes beginners panic. It means zero read <em>pairs</em> mapped in the expected orientation — both mates on the same contig, pointing inward, within the expected insert size. In a genome resequencing experiment, 100% concordant failure is catastrophic. Here, it is expected.</p>
+
+<p>Our four MAGs contain 1,274 contigs, each typically a few thousand basepairs long. For a pair to map concordantly, <em>both</em> mates need to land on <em>the same contig</em>. With such short, fragmented reference contigs and only four organisms represented, the chance of both mates from any given pair both happening to hit our reference is very small. This is a geometry problem, not a quality problem.</p>
+
+<p><strong>“152,441 (2.09%) aligned exactly 1 time”</strong></p>
+
+<p>This is your actual signal. These are individual mates that found a unique, unambiguous match in your reference. A uniquely mapped read is the gold standard — it came from exactly one place in the reference, with high confidence. 152,441 of these is not a lot, but it is real biological signal from the organisms in your four MAGs.</p>
+
+<p><strong>“2.16% overall alignment rate”</strong></p>
+
+<p>Your headline number. 157,212 reads mapped out of 7.3 million. The rest — from the hundreds of estuarine taxa not in your four MAGs — found nothing to match against and were discarded by <code class="language-plaintext highlighter-rouge">--no-unal</code>.</p>
+
+<blockquote>
+  <p><strong>Repeat this until it feels true: 2% is not a failure.</strong> It means your four MAGs captured approximately 2% of the expressed community. The 98% that didn’t map are not lost data — they are a reminder that your reference is a window, not the whole room. As you add more MAGs or switch to a reference database (Day 3), this number will climb.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="stage-2--samtools-sam-to-sorted-bam">Stage 2 — SAMtools: SAM to sorted BAM</h2>
+
+<p>The SAM file Bowtie2 produces is a plain text file. Every mapped read occupies one line. For a dataset with 157,000 mapped reads, this is manageable. For a dataset with millions of reads at high alignment rates, SAM files become enormous — tens or hundreds of GB — and are slow to work with.</p>
+
+<p><strong>BAM</strong> is the binary (compressed) version of SAM. Same information, a fraction of the file size, and orders of magnitude faster for every downstream tool. We always convert immediately.</p>
+
+<p><strong>Sorted BAM</strong> organizes alignments by their position along each reference contig. featureCounts requires this. So does IGV if you want to visualize your mappings. Always sort.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load samtools
+
+<span class="c"># Step 1: Convert SAM to BAM</span>
+samtools view <span class="se">\</span>
+  <span class="nt">-bS</span> <span class="se">\</span>
+  -@ 8 <span class="se">\</span>
+  CP_Spr15G08.sam <span class="o">&gt;</span> CP_Spr15G08.bam
+
+<span class="c"># Step 2: Sort by genomic coordinate</span>
+samtools <span class="nb">sort</span> <span class="se">\</span>
+  -@ 8 <span class="se">\</span>
+  <span class="nt">-m</span> 4G <span class="se">\</span>
+  CP_Spr15G08.bam <span class="se">\</span>
+  <span class="nt">-o</span> CP_Spr15G08_sorted.bam
+
+<span class="c"># Step 3: Index the sorted BAM</span>
+<span class="c"># (creates CP_Spr15G08_sorted.bam.bai)</span>
+samtools index CP_Spr15G08_sorted.bam
+
+<span class="c"># Step 4: Remove the unsorted BAM and SAM to save disk space</span>
+<span class="nb">rm </span>CP_Spr15G08.bam CP_Spr15G08.sam
+</code></pre></div></div>
+
+<p><strong>Flag explanation:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">samtools view -bS</code> — <code class="language-plaintext highlighter-rouge">-b</code> = output BAM format; <code class="language-plaintext highlighter-rouge">-S</code> = input is SAM format</li>
+  <li><code class="language-plaintext highlighter-rouge">-@ 8</code> — use 8 threads (works for both <code class="language-plaintext highlighter-rouge">view</code> and <code class="language-plaintext highlighter-rouge">sort</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">-m 4G</code> — allow each thread up to 4 GB RAM during sorting (prevents disk spill on large files)</li>
+  <li><code class="language-plaintext highlighter-rouge">samtools index</code> — creates a <code class="language-plaintext highlighter-rouge">.bai</code> index file next to the BAM; required for featureCounts and visualization tools</li>
+</ul>
+
+<blockquote>
+  <p><strong>Disk space tip:</strong> Delete your SAM files after converting to BAM. A SAM file for 157,000 mapped reads with <code class="language-plaintext highlighter-rouge">--no-unal</code> is small, but if you run without <code class="language-plaintext highlighter-rouge">--no-unal</code>, your SAM files can be 10–50× larger than the BAM. Always clean up.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="stage-3--samtools-flagstat-understanding-your-alignments">Stage 3 — SAMtools flagstat: understanding your alignments</h2>
+
+<p>Before running featureCounts, always run <code class="language-plaintext highlighter-rouge">flagstat</code>. It gives you a concise diagnostic of what is actually in your BAM file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>samtools flagstat CP_Spr15G08_sorted.bam
+</code></pre></div></div>
+
+<p>Real output from our dataset:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>7294810 + 0 in total (QC-passed reads + QC-failed reads)
+7294810 + 0 primary
+0 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+157212 + 0 mapped (2.16% : N/A)
+157212 + 0 primary mapped (2.16% : N/A)
+7294810 + 0 paired in sequencing
+3647405 + 0 read1
+3647405 + 0 read2
+0 + 0 properly paired (0.00% : N/A)
+3566 + 0 with itself and mate mapped
+153646 + 0 singletons (2.11% : N/A)
+3496 + 0 with mate mapped to a different chr
+</code></pre></div></div>
+
+<p><strong>Reading this output — beginner guide:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Line</th>
+      <th>What it means</th>
+      <th>Our value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">in total</code></td>
+      <td>Total reads entering SAM/BAM</td>
+      <td>7,294,810 (all reads, mapped + unmapped if <code class="language-plaintext highlighter-rouge">--no-unal</code> was not used)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mapped</code></td>
+      <td>Reads that aligned to the reference</td>
+      <td>157,212 (2.16%)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">properly paired</code></td>
+      <td>Both mates mapped to same contig, correct orientation</td>
+      <td>0 — expected with fragmented MAG contigs</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">with itself and mate mapped</code></td>
+      <td>Both mates mapped, but not necessarily same contig</td>
+      <td>3,566 — these are real pairs</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">singletons</code></td>
+      <td>One mate mapped, the other didn’t</td>
+      <td>153,646 — one mate hit a MAG gene, other hit nothing</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Why is “properly paired” zero?</strong> This confuses almost every beginner. “Properly paired” requires both mates to map to the <em>same contig</em> within the expected insert size (~200–800 bp). Our MAG contigs are short and fragmented. Even when both mates of a pair come from the same organism, they often land on <em>different contigs</em> of that MAG — giving 0% properly paired even when the mapping is biologically valid. This is a reference fragmentation effect, not a data problem.</p>
+
+<p><strong>What about the 153,646 singletons?</strong> These are reads where one mate matched a gene in your MAGs and the other mate did not. The mate that mapped is still a valid biological signal — it came from a real gene. featureCounts can handle these with the right flags.</p>
+
+<hr />
+
+<h2 id="stage-4--featurecounts-from-alignments-to-gene-counts">Stage 4 — featureCounts: from alignments to gene counts</h2>
+
+<p>featureCounts (from the Subread package) is the counting engine. It reads your sorted BAM and your GFF annotation file, then asks for each read: which annotated gene does this overlap? The result is a count table — one row per gene, one column per sample.</p>
+
+<p><strong>What is a GFF file?</strong> A GFF (General Feature Format) file is a text table describing the location of every annotated gene on your reference. Each row describes one feature: which contig it is on, where it starts and ends, which strand it is on, and what its ID is. We use a GFF generated by DRAM annotation of our four MAGs.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load subread
+
+featureCounts <span class="se">\</span>
+  <span class="nt">-T</span> 8 <span class="se">\</span>
+  <span class="nt">-p</span> <span class="se">\</span>
+  <span class="nt">-B</span> <span class="se">\</span>
+  <span class="nt">-C</span> <span class="se">\</span>
+  <span class="nt">-t</span> CDS <span class="se">\</span>
+  <span class="nt">-g</span> ID <span class="se">\</span>
+  <span class="nt">-a</span> MAGS/master_MAGs.fixed.gff <span class="se">\</span>
+  <span class="nt">-o</span> counts/gene_counts_CP_Spr15G08.txt <span class="se">\</span>
+  bam/CP_Spr15G08_sorted.bam
+</code></pre></div></div>
+
+<p><strong>Every flag explained:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-T 8</code></td>
+      <td>Use 8 threads</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-p</code></td>
+      <td>Paired-end mode — counts fragments (read pairs), not individual reads. Required for paired data</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-B</code></td>
+      <td>Only count reads where both mates map. Remove this if you also want to count singletons</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-C</code></td>
+      <td>Do not count chimeric fragments (mates mapping to different chromosomes/contigs). Removes likely noise</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-t CDS</code></td>
+      <td>Count reads overlapping CDS (coding sequence) features in the GFF. Use <code class="language-plaintext highlighter-rouge">gene</code> if your GFF does not have CDS annotations</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-g ID</code></td>
+      <td>Use the <code class="language-plaintext highlighter-rouge">ID</code> attribute from the GFF as the gene identifier in the output table</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-a</code></td>
+      <td>Your GFF annotation file</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-o</code></td>
+      <td>Output count table file</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><strong>GFF troubleshooting — the most common featureCounts error:</strong> featureCounts fails silently (all zeros) when the sequence IDs in your BAM do not match the sequence IDs in your GFF. This happens when your MAG FASTA headers and your GFF contig names were generated independently. Check with: <code class="language-plaintext highlighter-rouge">grep "^&gt;" MAGS/master_mags.fa | head -5</code> and compare to the first column of your GFF. If they differ, you need to fix the GFF — this is why we use <code class="language-plaintext highlighter-rouge">master_MAGs.fixed.gff</code> (pre-cleaned for this series).</p>
+</blockquote>
+
+<hr />
+
+<h2 id="running-all-samples-the-batch-approach">Running all samples: the batch approach</h2>
+
+<p>For a single sample the above commands are fine to run interactively. For three samples — or thirty — you want a single featureCounts call across all BAM files simultaneously. featureCounts produces a single count matrix when given multiple BAM files, which is exactly what you need for downstream analysis:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># After mapping and sorting all three samples:</span>
+featureCounts <span class="se">\</span>
+  <span class="nt">-T</span> 8 <span class="se">\</span>
+  <span class="nt">-p</span> <span class="se">\</span>
+  <span class="nt">-B</span> <span class="se">\</span>
+  <span class="nt">-C</span> <span class="se">\</span>
+  <span class="nt">-t</span> CDS <span class="se">\</span>
+  <span class="nt">-g</span> ID <span class="se">\</span>
+  <span class="nt">-a</span> MAGS/master_MAGs.fixed.gff <span class="se">\</span>
+  <span class="nt">-o</span> counts/all_samples_counts.txt <span class="se">\</span>
+  bam/CP_Spr15G08_sorted.bam <span class="se">\</span>
+  bam/CP_Spr15L08_sorted.bam <span class="se">\</span>
+  bam/CP_Spr31G08_sorted.bam
+</code></pre></div></div>
+
+<p>The output file <code class="language-plaintext highlighter-rouge">all_samples_counts.txt</code> has this structure:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Geneid    Chr    Start    End    Strand    Length    CP_Spr15G08    CP_Spr15L08    CP_Spr31G08
+gene_001  contig1  100  900  +  800  0  0  2
+gene_002  contig1  950  1800  -  850  4  1  0
+gene_003  contig2  200  1100  +  900  0  3  0
+...
+</code></pre></div></div>
+
+<p>Most genes will have zero counts — expected, given our 2% alignment rate. A small number of genes will have non-zero counts. Those non-zero counts are your actual signal: real expression from the organisms in your four MAGs. This is the table you carry into Day 5.</p>
+
+<hr />
+
+<h2 id="understanding-your-count-table-zeros-are-not-failure">Understanding your count table: zeros are not failure</h2>
+
+<p>When you open the count table and see hundreds of zeros, resist the instinct to panic. Let’s do the math:</p>
+
+<ul>
+  <li>Our four MAGs have ~1,274 annotated genes (after DRAM annotation)</li>
+  <li>157,212 reads mapped across all genes</li>
+  <li>Average reads per gene: ~123</li>
+</ul>
+
+<p>But expression is not uniform. Highly expressed genes (ribosomes, transporters, central metabolism) will absorb most of the reads. Many genes will genuinely have zero expression — either the gene was not active at the time of sampling, or the reads that should have mapped to it were among the 98% from taxa outside our reference.</p>
+
+<p><strong>This zero-inflation is expected in metatranscriptomics</strong>, especially with a small reference. It does not mean featureCounts failed. It means your reference is small and your community is large.</p>
+
+<p>What you are looking for: genes with consistent non-zero counts across your samples, or genes with differential counts between conditions (PA vs FL). Even at 2% alignment, if your four MAGs include organisms that are genuinely active in your system, you will see signal.</p>
+
+<hr />
+
+<h2 id="whats-next">What’s next</h2>
+
+<p>You now have a count table. It is a matrix of integers. By itself, it tells you almost nothing biologically — raw counts are not comparable between samples (different sequencing depths), not normalized for gene length, and not corrected for compositional differences between communities.</p>
+
+<p>Day 5 transforms that matrix into biological insight: TPM normalization, DESeq2 differential expression, DNA:RNA ratios, and ecological interpretation of who is metabolically active in the PA and FL estuarine communities.</p>
+
+<p><strong>Day 5: From Counts to Biology — Normalization, DESeq2, and Ecological Interpretation</strong></p>
+
+<hr />
+
+<p>📦 <strong>All code, SLURM scripts, and toy datasets used in this series are available in the companion repository</strong>
+📦 <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day4-metatranscriptomics-mapping-quantification">Github repository</a></p>
+
+<p>Questions about this workflow? Drop a comment below.
+The complete R script and SLURM submission scripts are available in the <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day4-metatranscriptomics-mapping-quantification">companion GitHub repository</a>.</p>
+
+<p><img src="/assets/img/mt-d4.png" alt="Day4 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="bowtie2" /><category term="samtools" /><category term="featureCounts" /><category term="mapping" /><category term="quantification" /><category term="SAM" /><category term="BAM" /><category term="SLURM" /><category term="HPC" /><category term="beginner" /><summary type="html"><![CDATA[Every command, every output, every flag explained — from Bowtie2 mapping to featureCounts. With the real alignment statistics from our estuarine dataset and a beginner-friendly guide to reading what those numbers actually mean.]]></summary></entry><entry><title type="html">Day 3 — The Reference Problem: Your Database Defines Your Biology</title><link href="https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy/" rel="alternate" type="text/html" title="Day 3 — The Reference Problem: Your Database Defines Your Biology" /><published>2026-04-02T00:00:00-04:00</published><updated>2026-04-02T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy/"><![CDATA[<h2 id="the-reference-problem-your-database-defines-your-biology">The Reference Problem: Your Database Defines Your Biology</h2>
 
 <p>🧬 Day 67 of Daily Bioinformatics from Jojy’s Desk🧬</p>
 
@@ -5429,467 +5835,4 @@ seff 84560
 
 <hr />
 
-<p><img src="/assets/img/d3_hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="SLURM" /><category term="sbatch" /><category term="bioinformatics" /><category term="beginners" /><category term="job-scheduler" /><category term="bash" /><category term="computational-biology" /><summary type="html"><![CDATA[The biggest mindset shift in HPC: you don't run commands, you submit jobs. Why the login node is off-limits, what actually happens when you type sbatch, and how to go from a laptop bash loop to a proper SLURM script.]]></summary></entry><entry><title type="html">Day 2 — Software Installation: sudo vs module load vs conda</title><link href="https://jojyjohn28.github.io/blog/day2-software-installation/" rel="alternate" type="text/html" title="Day 2 — Software Installation: sudo vs module load vs conda" /><published>2026-03-13T00:00:00-04:00</published><updated>2026-03-13T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day2-software-installation</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day2-software-installation/"><![CDATA[<h1 id="day-2-software-installation--sudo-vs-module-load-vs-conda">Day 2: Software Installation — sudo vs module load vs conda</h1>
-
-<blockquote>
-  <p><em>This is Day 2 of a 6-part series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong> and 🧬 Day 59 of Daily Bioinformatics from Jojy’s Desk. In <a href="https://jojyjohn28.github.io/blog/day1-laptop-vs-hpc/">Day 1</a> we covered what HPC is and why bioinformatics needs it. Today: the first thing that breaks when you log in.</em></p>
-</blockquote>
-
-<hr />
-
-<h2 id="the-sudo-story">The sudo Story</h2>
-
-<p>Picture this. You’ve just logged into an HPC cluster for the first time. You need <code class="language-plaintext highlighter-rouge">samtools</code>. On your terminal, you’d type:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>samtools
-</code></pre></div></div>
-
-<p>So you type exactly that on the HPC. And get this:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo: Permission denied
-</code></pre></div></div>
-
-<p>Your first instinct: <em>“Something’s wrong with my account. Let me email IT.”</em></p>
-
-<p>Nothing is wrong with your account.</p>
-
-<p><strong>You don’t have root access on HPC — and that is completely intentional.</strong></p>
-
-<p>Here’s why, and here’s what to do instead.</p>
-
-<hr />
-
-<h2 id="what-youll-learn-today">What You’ll Learn Today</h2>
-
-<p>By the end of this post you’ll understand:</p>
-
-<ul>
-  <li>What <code class="language-plaintext highlighter-rouge">sudo</code> actually does, and why it’s dangerous on a shared system</li>
-  <li>How to use <strong>environment modules</strong> — the HPC-native way to load software</li>
-  <li>How to use <strong>conda</strong> to install anything you want, without root access</li>
-  <li>How to write an <code class="language-plaintext highlighter-rouge">environment.yml</code> file so your analysis is reproducible on any machine</li>
-</ul>
-
-<hr />
-
-<h2 id="part-1-what-does-sudo-actually-mean">Part 1: What Does sudo Actually Mean?</h2>
-
-<p><code class="language-plaintext highlighter-rouge">sudo</code> stands for <strong>“superuser do”</strong>. When you run a command with <code class="language-plaintext highlighter-rouge">sudo</code>, you’re telling the operating system: <em>run this as the root user — the most powerful account on the system.</em></p>
-
-<p><strong>On your laptop, that’s fine. You own the machine. If you accidentally break something, it affects only you.</strong></p>
-
-<p>But on an HPC cluster, you are sharing infrastructure with potentially <strong>hundreds or thousands of other users</strong>. The cluster might be running active jobs for colleagues in your lab, researchers at other institutions, and automated pipelines that have been running for weeks.</p>
-
-<p>If any user had root access and ran:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get upgrade
-</code></pre></div></div>
-
-<p>…they could upgrade every system package on every node. That could:</p>
-
-<ul>
-  <li>Break every other user’s software environment instantly</li>
-  <li>Crash jobs that have been running for 3 days</li>
-  <li>Render the entire cluster unusable until an admin spends hours fixing it</li>
-</ul>
-
-<p>This isn’t hypothetical. It’s exactly why HPC sysadmins remove sudo access entirely. It’s not a punishment. It’s responsible infrastructure.</p>
-
-<blockquote>
-  <p>💡 <strong>The rule:</strong> On HPC, the root account belongs to system administrators only. Your account is a <strong>regular user account</strong> — powerful enough to do everything you need, but sandboxed to protect everyone else.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="part-2-the-hpc-native-solution--environment-modules">Part 2: The HPC-Native Solution — Environment Modules</h2>
-
-<p>Most HPC clusters come with a system called <strong>environment modules</strong> (sometimes called <code class="language-plaintext highlighter-rouge">lmod</code> or just <code class="language-plaintext highlighter-rouge">module</code>). System administrators pre-install common research software — samtools, bowtie2, STAR, Python, R, FastQC — and make them available through the module system.</p>
-
-<p>You don’t install these tools. You <strong>load</strong> them when you need them.</p>
-
-<h3 id="exploring-whats-available">Exploring What’s Available</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># See everything that's installed on the HPC</span>
-module avail
-
-<span class="c"># Filter by name (much more useful on real clusters)</span>
-module avail samtools
-module avail python
-module avail kraken
-</code></pre></div></div>
-
-<p>On most academic clusters this will show a long list like:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>----------------- /software/modulefiles ----------------
-samtools/1.15    samtools/1.17    samtools/1.18
-python/3.9       python/3.11      python/3.12
-bowtie2/2.4.5    bowtie2/2.5.1
-fastqc/0.11.9    fastqc/0.12.1
-kraken2/2.1.2    kraken2/2.1.3
-star/2.7.10      star/2.7.11
-</code></pre></div></div>
-
-<h3 id="loading-and-using-a-module">Loading and Using a Module</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Load a specific version</span>
-module load samtools/1.17
-
-<span class="c"># Check it works</span>
-samtools <span class="nt">--version</span>
-<span class="c"># samtools 1.17</span>
-
-<span class="c"># Load multiple tools</span>
-module load samtools/1.17
-module load bowtie2/2.5.1
-module load fastqc/0.12.1
-
-<span class="c"># See what you currently have loaded</span>
-module list
-
-<span class="c"># Unload a single module</span>
-module unload samtools/1.17
-
-<span class="c"># Unload everything and start fresh</span>
-module purge
-</code></pre></div></div>
-
-<h3 id="why-version-numbers-matter">Why Version Numbers Matter</h3>
-
-<p>Notice that you load <code class="language-plaintext highlighter-rouge">samtools/1.17</code> not just <code class="language-plaintext highlighter-rouge">samtools</code>. This is intentional and important. Different versions of the same tool can produce <strong>different results</strong> — a known issue in bioinformatics reproducibility. Always specify the version, and always record it in your methods section.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Vague — which version did you use? Nobody knows.</span>
-module load samtools
-
-<span class="c"># Explicit — anyone can reproduce this</span>
-module load samtools/1.17
-</code></pre></div></div>
-
-<h3 id="loading-modules-in-job-scripts">Loading Modules in Job Scripts</h3>
-
-<p>When you submit jobs to SLURM (covered in Day 3), your job script needs to load its own modules. Modules loaded in your terminal session are <strong>not automatically inherited</strong> by submitted jobs.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --job-name=align</span>
-<span class="c">#SBATCH --cpus-per-task=8</span>
-<span class="c">#SBATCH --mem=16G</span>
-
-<span class="c"># Always load modules explicitly in job scripts</span>
-module purge                    <span class="c"># start clean</span>
-module load samtools/1.17
-module load bowtie2/2.5.1
-
-<span class="c"># Now run your analysis</span>
-bowtie2 <span class="nt">-x</span> ref/genome <span class="nt">-U</span> sample.fastq.gz | samtools <span class="nb">sort</span> <span class="nt">-o</span> output.bam
-</code></pre></div></div>
-
-<h3 id="when-modules-fall-short">When Modules Fall Short</h3>
-
-<p>The module system is great, but it has a gap: it only contains software that <strong>your HPC administrators have chosen to install</strong>. If you need:</p>
-
-<ul>
-  <li>A niche Python package (<code class="language-plaintext highlighter-rouge">scikit-bio</code>, <code class="language-plaintext highlighter-rouge">empress</code>, a custom analysis tool)</li>
-  <li>A specific version not available in modules</li>
-  <li>Something you developed yourself</li>
-  <li>A tool that was just released last week</li>
-</ul>
-
-<p>…you need a different solution. That’s where <code class="language-plaintext highlighter-rouge">conda</code> comes in.</p>
-
-<hr />
-
-<h2 id="part-3-conda--your-personal-package-manager">Part 3: conda — Your Personal Package Manager</h2>
-
-<p><code class="language-plaintext highlighter-rouge">conda</code> is a package manager that works entirely in <strong>user space</strong> — meaning it installs software into your home directory, not system directories. No root access required. It works identically on your laptop and on HPC.</p>
-
-<p>If you haven’t used conda before, think of it like this:</p>
-
-<blockquote>
-  <p><strong>conda creates isolated “boxes” of software</strong> called environments. Each box has its own Python version and its own set of packages. You switch between boxes depending on which project you’re working on. Boxes can’t interfere with each other.</p>
-</blockquote>
-
-<p>This isolation is important. Without it:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Without environments, all packages pile up together</span>
-pip <span class="nb">install </span><span class="nv">numpy</span><span class="o">==</span>1.24      <span class="c"># project A needs this</span>
-pip <span class="nb">install </span><span class="nv">numpy</span><span class="o">==</span>1.26      <span class="c"># project B needs this — now project A breaks</span>
-</code></pre></div></div>
-
-<p>With conda environments, each project gets its own independent copy of everything.</p>
-
-<h3 id="step-1-install-conda-if-you-havent-already">Step 1: Install conda (If You Haven’t Already)</h3>
-
-<p>On your <strong>laptop</strong>, download and install <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a> — the lightweight version of conda.</p>
-
-<p>On <strong>HPC</strong>, conda is often pre-installed or available as a module:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check if conda is available on HPC</span>
-which conda           <span class="c"># if this returns a path, you're good</span>
-conda <span class="nt">--version</span>
-
-<span class="c"># If not, load it as a module</span>
-module load anaconda3
-<span class="c"># or</span>
-module load miniconda3
-</code></pre></div></div>
-
-<h3 id="step-2-create-your-first-environment">Step 2: Create Your First Environment</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create a new environment named 'bioenv' with Python 3.11</span>
-conda create <span class="nt">-n</span> bioenv <span class="nv">python</span><span class="o">=</span>3.11
-
-<span class="c"># You'll be asked to confirm: type 'y' and press Enter</span>
-<span class="c"># Proceed ([y]/n)? y</span>
-</code></pre></div></div>
-
-<p>What just happened? conda created a brand new, isolated Python 3.11 installation in your home directory. Nothing on the system was changed.</p>
-
-<h3 id="step-3-activate-the-environment">Step 3: Activate the Environment</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Activate (switch into) your environment</span>
-conda activate bioenv
-
-<span class="c"># Your prompt changes to show which environment is active:</span>
-<span class="c"># (bioenv) user@hpc:~$</span>
-</code></pre></div></div>
-
-<p>That <code class="language-plaintext highlighter-rouge">(bioenv)</code> prefix tells you: everything you install now goes into this environment.</p>
-
-<h3 id="step-4-install-your-bioinformatics-tools">Step 4: Install Your Bioinformatics Tools</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install tools from the bioconda channel (bioinformatics-specific packages)</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge samtools bowtie2 fastqc
-
-<span class="c"># Install Python packages the same way</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> conda-forge biopython pandas matplotlib
-
-<span class="c"># Or use pip inside your conda environment (fine for packages not on conda)</span>
-pip <span class="nb">install </span>multiqc
-</code></pre></div></div>
-
-<blockquote>
-  <p>💡 <strong>What is bioconda?</strong> It’s a community-maintained collection of bioinformatics tools packaged for conda. It has over 8,000 packages including virtually every bioinformatics tool you’ll ever need. Always add <code class="language-plaintext highlighter-rouge">-c bioconda -c conda-forge</code> when installing bioinformatics software.</p>
-</blockquote>
-
-<h3 id="step-5-verify-everything-works">Step 5: Verify Everything Works</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Still inside (bioenv)</span>
-samtools <span class="nt">--version</span>
-<span class="c"># samtools 1.17</span>
-
-fastqc <span class="nt">--version</span>
-<span class="c"># FastQC v0.12.1</span>
-
-python <span class="nt">-c</span> <span class="s2">"import biopython; print('biopython OK')"</span>
-<span class="c"># biopython OK</span>
-</code></pre></div></div>
-
-<h3 id="switching-between-environments">Switching Between Environments</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Deactivate current environment</span>
-conda deactivate
-
-<span class="c"># Create a second environment for a different project</span>
-conda create <span class="nt">-n</span> rnaseq <span class="nv">python</span><span class="o">=</span>3.11
-conda activate rnaseq
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda star hisat2 salmon
-
-<span class="c"># Switch back to the first</span>
-conda deactivate
-conda activate bioenv
-</code></pre></div></div>
-
-<p>Your two environments are completely independent. Installing something in <code class="language-plaintext highlighter-rouge">rnaseq</code> has zero effect on <code class="language-plaintext highlighter-rouge">bioenv</code>.</p>
-
-<hr />
-
-<h2 id="part-4-the-environmentyml-file--reproducibility-unlocked">Part 4: The environment.yml File — Reproducibility Unlocked</h2>
-
-<p>Here’s a scenario that happens all the time:</p>
-
-<blockquote>
-  <p>You run your metagenomics pipeline, get results, write the paper. Three months later a reviewer asks you to re-run with a slight modification. You open your laptop. Python updated itself. A package auto-upgraded. The results are slightly different. The reviewer is unhappy.</p>
-</blockquote>
-
-<p>The fix is an <code class="language-plaintext highlighter-rouge">environment.yml</code> file. It’s a plain text file that records every package and its exact version in your environment.</p>
-
-<h3 id="creating-an-environmentyml">Creating an environment.yml</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Activate your environment first</span>
-conda activate bioenv
-
-<span class="c"># Export the full environment spec to a file</span>
-conda <span class="nb">env export</span> <span class="o">&gt;</span> environment.yml
-
-<span class="c"># What it looks like:</span>
-<span class="nb">cat </span>environment.yml
-</code></pre></div></div>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">bioenv</span>
-<span class="na">channels</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">bioconda</span>
-  <span class="pi">-</span> <span class="s">conda-forge</span>
-  <span class="pi">-</span> <span class="s">defaults</span>
-<span class="na">dependencies</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">python=3.11.0</span>
-  <span class="pi">-</span> <span class="s">samtools=1.17</span>
-  <span class="pi">-</span> <span class="s">bowtie2=2.5.1</span>
-  <span class="pi">-</span> <span class="s">fastqc=0.12.1</span>
-  <span class="pi">-</span> <span class="s">biopython=1.83</span>
-  <span class="pi">-</span> <span class="s">pandas=2.1.0</span>
-  <span class="pi">-</span> <span class="s">matplotlib=3.8.0</span>
-  <span class="pi">-</span> <span class="na">pip</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">multiqc==1.18</span>
-</code></pre></div></div>
-
-<h3 id="recreating-the-environment-anywhere">Recreating the Environment Anywhere</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># On a new machine, new HPC account, or a colleague's laptop:</span>
-conda <span class="nb">env </span>create <span class="nt">-f</span> environment.yml
-
-<span class="c"># Activate it</span>
-conda activate bioenv
-
-<span class="c"># Everything is identical — same versions, same behaviour</span>
-</code></pre></div></div>
-
-<p>This single file is what turns your analysis from <em>“it worked on my machine”</em> into <strong>reproducible science</strong>.</p>
-
-<h3 id="a-minimal-environmentyml-better-practice">A Minimal environment.yml (Better Practice)</h3>
-
-<p>The full export above includes every dependency of every dependency. That can cause issues when recreating across different operating systems. A cleaner approach is to write a minimal file with just your direct dependencies:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># environment.yml — keep this in your project git repo</span>
-<span class="na">name</span><span class="pi">:</span> <span class="s">metagenomics-pipeline</span>
-<span class="na">channels</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">bioconda</span>
-  <span class="pi">-</span> <span class="s">conda-forge</span>
-<span class="na">dependencies</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">python=3.11</span>
-  <span class="pi">-</span> <span class="s">samtools=1.17</span>
-  <span class="pi">-</span> <span class="s">bowtie2=2.5.1</span>
-  <span class="pi">-</span> <span class="s">fastqc=0.12.1</span>
-  <span class="pi">-</span> <span class="s">kraken2=2.1.3</span>
-  <span class="pi">-</span> <span class="s">biopython=1.83</span>
-  <span class="pi">-</span> <span class="s">pandas&gt;=2.0</span>
-  <span class="pi">-</span> <span class="na">pip</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">multiqc==1.18</span>
-</code></pre></div></div>
-
-<p>Commit this file to your project’s Git repository. Anyone who clones your repo can recreate your exact environment in one command.</p>
-
-<hr />
-
-<h2 id="the-full-decision-tree">The Full Decision Tree</h2>
-
-<p>When you need software on HPC, ask yourself:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Is it available as a module?
-    ├── YES → module load toolname/version  ✓
-    └── NO  → Is it on bioconda/conda-forge?
-                  ├── YES → conda install -c bioconda toolname  ✓
-                  └── NO  → pip install inside conda environment  ✓
-                             (or contact your HPC admin to add a module)
-</code></pre></div></div>
-
-<p>In practice, for bioinformatics:</p>
-
-<ul>
-  <li><strong>Core alignment/assembly tools</strong> (samtools, bowtie2, STAR, GATK) → usually available as modules AND conda</li>
-  <li><strong>Python packages</strong> (pandas, scikit-bio, biopython) → conda or pip</li>
-  <li><strong>R packages</strong> → <code class="language-plaintext highlighter-rouge">install.packages()</code> or <code class="language-plaintext highlighter-rouge">BiocManager::install()</code> inside a loaded R module</li>
-  <li><strong>Very new or niche tools</strong> → conda or build from source in your home directory</li>
-</ul>
-
-<hr />
-
-<h2 id="common-mistakes-to-avoid">Common Mistakes to Avoid</h2>
-
-<p><strong>Installing packages outside an environment</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Bad — installs into your base conda, pollutes everything</span>
-conda <span class="nb">install </span>samtools
-
-<span class="c"># ✅ Good — always activate your environment first</span>
-conda activate bioenv
-conda <span class="nb">install </span>samtools
-</code></pre></div></div>
-
-<p><strong>Forgetting to load modules in your job script</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ This will fail — modules from your terminal don't carry over</span>
-sbatch myjob.sh
-
-<span class="c"># ✅ Always put module load commands inside the script itself</span>
-</code></pre></div></div>
-
-<p><strong>Mixing conda channels inconsistently</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Can cause version conflicts</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda samtools
-conda <span class="nb">install</span> <span class="nt">-c</span> defaults python
-
-<span class="c"># ✅ Be explicit and consistent with channels</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge samtools python
-</code></pre></div></div>
-
-<p><strong>Using <code class="language-plaintext highlighter-rouge">conda update --all</code> carelessly</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ⚠️ This upgrades everything in the environment — can break your pipeline</span>
-conda update <span class="nt">--all</span>
-
-<span class="c"># ✅ Update specific packages when you need to</span>
-conda update samtools
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="try-it-yourself">Try It Yourself</h2>
-
-<p>If you have HPC access, run these commands now:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Explore what modules are available</span>
-module avail 2&gt;&amp;1 | <span class="nb">grep</span> <span class="nt">-i</span> samtools
-
-<span class="c"># 2. Load a module and check it</span>
-module load samtools/1.17
-samtools <span class="nt">--version</span>
-module purge
-
-<span class="c"># 3. Create a test conda environment</span>
-conda create <span class="nt">-n</span> testenv <span class="nv">python</span><span class="o">=</span>3.11 <span class="nt">-y</span>
-conda activate testenv
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda fastqc <span class="nt">-y</span>
-fastqc <span class="nt">--version</span>
-
-<span class="c"># 4. Export it</span>
-conda <span class="nb">env export</span> <span class="o">&gt;</span> testenv.yml
-<span class="nb">cat </span>testenv.yml
-
-<span class="c"># 5. Clean up</span>
-conda deactivate
-conda <span class="nb">env </span>remove <span class="nt">-n</span> testenv
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="summary">Summary</h2>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">sudo</code> is deliberately disabled on HPC — one user with root could break the system for everyone</li>
-  <li><strong>Environment modules</strong> (<code class="language-plaintext highlighter-rouge">module load</code>) give you access to software pre-installed by HPC admins — always specify the version</li>
-  <li><strong>conda</strong> lets you install anything you want without root access, works identically on laptop and HPC</li>
-  <li><strong><code class="language-plaintext highlighter-rouge">environment.yml</code></strong> records your exact environment so any analysis can be reproduced by anyone, anywhere</li>
-  <li>The golden workflow: test your conda environment on your laptop, then recreate it on HPC with <code class="language-plaintext highlighter-rouge">conda env create -f environment.yml</code></li>
-</ul>
-
-<hr />
-
-<h2 id="up-next">Up Next</h2>
-
-<p><strong>Day 3: Running One Job — Terminal vs SLURM</strong></p>
-
-<p>Your software is installed and your environment is ready. Now: how do you actually run something on HPC? Spoiler — you can’t just type <code class="language-plaintext highlighter-rouge">fastqc sample.fastq.gz</code> and hit Enter. We’ll cover why, and walk through writing your first SLURM job script from scratch.</p>
-
-<hr />
-
-<p><img src="/assets/img/d2-hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="conda" /><category term="modules" /><category term="sudo" /><category term="bioinformatics" /><category term="beginners" /><category term="reproducibility" /><category term="computational-biology" /><summary type="html"><![CDATA[The first real shock of HPC life: you can't install software the way you're used to. Here's why, and three progressively better solutions — explained step by step for beginners.]]></summary></entry></feed>
+<p><img src="/assets/img/d3_hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="SLURM" /><category term="sbatch" /><category term="bioinformatics" /><category term="beginners" /><category term="job-scheduler" /><category term="bash" /><category term="computational-biology" /><summary type="html"><![CDATA[The biggest mindset shift in HPC: you don't run commands, you submit jobs. Why the login node is off-limits, what actually happens when you type sbatch, and how to go from a laptop bash loop to a proper SLURM script.]]></summary></entry></feed>
