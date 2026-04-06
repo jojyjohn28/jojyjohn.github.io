@@ -764,6 +764,10 @@
 
 <hr>
 
+<h2 id="prebuilt-bowtie-index">Prebuilt Bowtie Index</h2>
+
+<p>A pre-built Bowtie2 index generated from 3–4 MAGs is now available in the Day 1 repository (<a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day1-toy-data/bowtie_index" rel="external nofollow noopener" target="_blank">bowtie_index</a>. This allows you to skip the indexing step and directly run the mapping workflow.</p>
+
 <h2 id="stage-1--bowtie2-mapping-reads-to-the-reference">Stage 1 — Bowtie2: mapping reads to the reference</h2>
 
 <p>Bowtie2 takes your clean RNA reads and searches the reference index for matching sequences. For each read, it either finds a location in the reference (a mapping) or it doesn’t. The result is a SAM file recording every read, where it mapped (or that it didn’t), and how confidently.</p>
