@@ -17,7 +17,9 @@ order: 6
 
 ![Data Transfer: scp, rsync, SFTP, Globus Connect](./day6-hero.svg)
 
-> _This is Day 6 — the final post in the series: **From Laptop to HPC: Scaling Computational Biology Workflows** and 🧬 Day 63 of Daily Bioinformatics from Jojy’s Desk. In [Day 5](https://jojyjohn28.github.io/blog/day5-pipelines/) we built reproducible pipelines with Snakemake and Nextflow. Today: the question everyone hits at the start — how do you actually get your data there?_
+This is Day 6 — the final post in the series: **From Laptop to HPC: Scaling Computational Biology Workflows** and 🧬 Day 63 of Daily Bioinformatics from Jojy’s Desk. In [Day 5](https://jojyjohn28.github.io/blog/day5-pipelines/) we built reproducible pipelines with Snakemake and Nextflow.
+
+Today: the question everyone hits at the start — how do you actually get your data there?
 
 ---
 
