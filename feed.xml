@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-06T10:08:17-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-06T10:08:17-04:00</published><updated>2026-04-06T10:08:17-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-08T16:09:11-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-08T16:09:11-04:00</published><updated>2026-04-08T16:09:11-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,527 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 4 — Reads Meet Reference: The Mapping &amp;amp; Quantification Pipeline</title><link href="https://jojyjohn28.github.io/blog/day4-metatranscriptomics-mapping-quantification/" rel="alternate" type="text/html" title="Day 4 — Reads Meet Reference: The Mapping &amp;amp; Quantification Pipeline" /><published>2026-04-06T00:00:00-04:00</published><updated>2026-04-06T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day4-metatranscriptomics-mapping-quantification</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day4-metatranscriptomics-mapping-quantification/"><![CDATA[<p>*<em>🧬 Day 68 of Daily Bioinformatics from Jojy’s Desk🧬</em></p>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 5 — From Counts to Biology: Normalization, DESeq2, DNA:RNA Ratios, and Ecological Interpretation</title><link href="https://jojyjohn28.github.io/blog/day5-metatranscriptomics-counts-to-biology/" rel="alternate" type="text/html" title="Day 5 — From Counts to Biology: Normalization, DESeq2, DNA:RNA Ratios, and Ecological Interpretation" /><published>2026-04-08T00:00:00-04:00</published><updated>2026-04-08T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day5-metatranscriptomics-counts-to-biology</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day5-metatranscriptomics-counts-to-biology/"><![CDATA[<p>You made it to the final day.</p>
+
+<p>You have a count matrix. It came from four days of careful work — quality control, rRNA removal, paired-end repair, reference construction, Bowtie2 mapping, featureCounts quantification. Each step was essential. Each step protected the integrity of what you are about to analyze.</p>
+
+<p>But that count matrix — integers in a spreadsheet — is not your result. It is your raw material. Right now it cannot answer a single biological question. Counts are not comparable across samples, not corrected for gene length, and not adjusted for the compositional structure of microbial community data. Before you can interpret anything, you need to transform those integers into meaningful quantities.</p>
+
+<p>This is the day most tutorials skip entirely. This is the day that matters most.</p>
+
+<hr />
+
+<h2 id="what-the-count-table-looks-like-and-why-it-cannot-be-used-directly">What the count table looks like and why it cannot be used directly</h2>
+
+<p>Open your <code class="language-plaintext highlighter-rouge">all_samples_counts.txt</code> from Day 4. It looks something like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Geneid          Length  CP_Spr15G08  CP_Spr15L08  CP_Spr31G08
+MAG1_gene_001   800     4            0            12
+MAG1_gene_002   1200    0            2            0
+MAG2_gene_001   600     8            8            3
+MAG3_gene_001   2400    1            0            4
+...
+</code></pre></div></div>
+
+<p>Three problems make these raw counts uninterpretable directly:</p>
+
+<p><strong>Problem 1 — Sequencing depth differs between samples.</strong> Sample CP_Spr31G08 might have 500,000 total mapped reads while CP_Spr15G08 has 150,000. A gene with 12 counts in CP_Spr31G08 and 4 counts in CP_Spr15G08 might actually have <em>lower</em> relative expression in CP_Spr31G08 — you cannot tell from raw counts alone.</p>
+
+<p><strong>Problem 2 — Gene length affects count accumulation.</strong> A 2,400 bp gene physically intercepts three times as many reads as an 800 bp gene with identical expression per basepair. Without length correction, long genes appear more expressed than short ones simply due to geometry.</p>
+
+<p><strong>Problem 3 — Compositional structure.</strong> In community RNA data, samples differ in their total mRNA pool composition. If PA samples have an organism that constitutes 30% of all expression and FL samples don’t, every other gene appears relatively lower in PA — not because it’s less expressed, but because the denominator has changed. DESeq2’s normalization specifically corrects for this.</p>
+
+<hr />
+
+<h2 id="part-1--tpm-within-sample-normalization">Part 1 — TPM: within-sample normalization</h2>
+
+<p><strong>TPM (Transcripts Per Million)</strong> is the standard within-sample normalization. It answers the question: “For this sample, what fraction of all expression does each gene represent?”</p>
+
+<p>TPM is calculated in two steps:</p>
+
+<p><strong>Step 1:</strong> Divide each gene’s count by its length in kilobases → this gives RPK (Reads Per Kilobase). Now longer genes no longer dominate.</p>
+
+<p><strong>Step 2:</strong> Divide each RPK value by the sum of all RPK values for that sample, then multiply by 1,000,000 → this scales everything so all TPM values in a sample sum to exactly one million.</p>
+
+<p>The key property: <strong>TPM values within a sample are directly comparable to each other.</strong> A gene with TPM = 500 contributes five times as much to the total mRNA pool as a gene with TPM = 100. TPM values are also more comparable across samples than RPKM (the older alternative), because the sum-to-one-million property holds across samples.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ── TPM calculation from featureCounts output ─────────────────</span><span class="w">
+
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Load the featureCounts table</span><span class="w">
+</span><span class="c1"># Skip the first comment line (starts with #)</span><span class="w">
+</span><span class="n">counts_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"counts/all_samples_counts.txt"</span><span class="p">,</span><span class="w">
+                         </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+                         </span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+                         </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">,</span><span class="w">
+                         </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Extract gene lengths and count matrix</span><span class="w">
+</span><span class="n">gene_ids</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">counts_raw</span><span class="o">$</span><span class="n">Geneid</span><span class="w">
+</span><span class="n">gene_length</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">counts_raw</span><span class="o">$</span><span class="n">Length</span><span class="w">
+
+</span><span class="c1"># Sample columns start at column 7 in featureCounts output</span><span class="w">
+</span><span class="n">count_matrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">counts_raw</span><span class="p">[,</span><span class="w"> </span><span class="m">7</span><span class="o">:</span><span class="n">ncol</span><span class="p">(</span><span class="n">counts_raw</span><span class="p">)])</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gene_ids</span><span class="w">
+
+</span><span class="c1"># ── Calculate TPM ──────────────────────────────────────────────</span><span class="w">
+</span><span class="c1"># Step 1: RPK = counts / (length in kb)</span><span class="w">
+</span><span class="n">RPK</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sweep</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">gene_length</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">FUN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"/"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Step 2: TPM = RPK / (sum of RPK per sample) * 1e6</span><span class="w">
+</span><span class="n">TPM</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sweep</span><span class="p">(</span><span class="n">RPK</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">colSums</span><span class="p">(</span><span class="n">RPK</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">1e6</span><span class="p">,</span><span class="w"> </span><span class="n">FUN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"/"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Verify: each column should sum to ~1,000,000</span><span class="w">
+</span><span class="n">colSums</span><span class="p">(</span><span class="n">TPM</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Save TPM table</span><span class="w">
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">TPM</span><span class="p">),</span><span class="w"> </span><span class="s2">"counts/TPM_matrix.csv"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<blockquote>
+  <p><strong>When to use TPM:</strong> comparing expression between genes within a sample (“is gene A more expressed than gene B?”), reporting expression levels in publications, and building the DNA:RNA ratio (Part 3). <strong>Do not use TPM for differential expression between samples</strong> — that is what DESeq2 is for.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>What about RPKM?</strong> RPKM (Reads Per Kilobase per Million) is the older version. It does not guarantee that all values in a sample sum to the same number, making cross-sample comparison less reliable. Use TPM for any new analysis. Use RPKM only when replicating published analyses that used it.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="part-2--deseq2-differential-expression-across-conditions">Part 2 — DESeq2: differential expression across conditions</h2>
+
+<p>TPM tells you the relative expression within a sample. DESeq2 tells you <strong>which genes are differentially expressed between conditions</strong> — PA vs FL, Spring vs Summer, high salinity vs low salinity.</p>
+
+<p>DESeq2 uses a completely different normalization strategy: <strong>median-of-ratios</strong>. For each sample, it computes a size factor (a single scaling number) that accounts for both sequencing depth and compositional differences between samples. This is more robust for community RNA data than TPM-based comparisons, because it handles the zero-inflation and overdispersion typical of environmental metatranscriptomics.</p>
+
+<h3 id="setting-up-the-deseq2-object">Setting up the DESeq2 object</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">DESeq2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># ── Load count matrix (integers only — DESeq2 requires raw counts) ──</span><span class="w">
+</span><span class="n">counts_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"counts/all_samples_counts.txt"</span><span class="p">,</span><span class="w">
+                         </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+                         </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">gene_ids</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">counts_raw</span><span class="o">$</span><span class="n">Geneid</span><span class="w">
+</span><span class="n">count_matrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">counts_raw</span><span class="p">[,</span><span class="w"> </span><span class="m">7</span><span class="o">:</span><span class="n">ncol</span><span class="p">(</span><span class="n">counts_raw</span><span class="p">)])</span><span class="w">
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gene_ids</span><span class="w">
+</span><span class="n">mode</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"integer"</span><span class="w">
+
+</span><span class="c1"># ── Load sample metadata ──────────────────────────────────────</span><span class="w">
+</span><span class="c1"># Your metadata CSV should have columns: SampleID, Site, Season, Salinity</span><span class="w">
+</span><span class="c1"># Example:</span><span class="w">
+</span><span class="c1">#   SampleID,       Site, Season, Salinity</span><span class="w">
+</span><span class="c1">#   CP_Spr15G08,    PA,   Spring, Low</span><span class="w">
+</span><span class="c1">#   CP_Spr15L08,    PA,   Spring, High</span><span class="w">
+</span><span class="c1">#   CP_Spr31G08,    FL,   Spring, Low</span><span class="w">
+
+</span><span class="n">colData</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"metadata/sample_metadata.csv"</span><span class="p">,</span><span class="w">
+                    </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+                    </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">colData</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">colData</span><span class="o">$</span><span class="n">SampleID</span><span class="w">
+
+</span><span class="c1"># Align: column names of count matrix must match row names of colData</span><span class="w">
+</span><span class="n">count_matrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">count_matrix</span><span class="p">[,</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">colData</span><span class="p">)]</span><span class="w">
+</span><span class="n">stopifnot</span><span class="p">(</span><span class="nf">all</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">colData</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1"># Set factor levels — reference level comes first</span><span class="w">
+</span><span class="n">colData</span><span class="o">$</span><span class="n">Site</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">colData</span><span class="o">$</span><span class="n">Site</span><span class="p">)</span><span class="w">
+</span><span class="n">colData</span><span class="o">$</span><span class="n">Season</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">colData</span><span class="o">$</span><span class="n">Season</span><span class="p">)</span><span class="w">
+</span><span class="n">colData</span><span class="o">$</span><span class="n">Salinity</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">colData</span><span class="o">$</span><span class="n">Salinity</span><span class="p">)</span><span class="w">
+
+</span><span class="n">colData</span><span class="o">$</span><span class="n">Site</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">relevel</span><span class="p">(</span><span class="n">colData</span><span class="o">$</span><span class="n">Site</span><span class="p">,</span><span class="w">     </span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PA"</span><span class="p">)</span><span class="w">
+</span><span class="n">colData</span><span class="o">$</span><span class="n">Season</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">relevel</span><span class="p">(</span><span class="n">colData</span><span class="o">$</span><span class="n">Season</span><span class="p">,</span><span class="w">   </span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Spring"</span><span class="p">)</span><span class="w">
+</span><span class="n">colData</span><span class="o">$</span><span class="n">Salinity</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">relevel</span><span class="p">(</span><span class="n">colData</span><span class="o">$</span><span class="n">Salinity</span><span class="p">,</span><span class="w"> </span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Low"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="qc-pca-and-sample-distance-heatmap">QC: PCA and sample distance heatmap</h3>
+
+<p>Before running differential expression, always visualize your samples. PCA tells you whether your samples cluster as expected. Unexpected clustering (e.g. samples grouping by sequencing batch rather than site) reveals problems before they propagate to your results.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ── PCA and sample distance heatmap ──────────────────────────</span><span class="w">
+
+</span><span class="c1"># Build a DESeq2 object for QC only (no design factor)</span><span class="w">
+</span><span class="n">dds_qc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">count_matrix</span><span class="p">,</span><span class="w">
+                                 </span><span class="n">colData</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">colData</span><span class="p">,</span><span class="w">
+                                 </span><span class="n">design</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Filter genes with very low counts (&lt; 10 reads total across all samples)</span><span class="w">
+</span><span class="c1"># These genes contribute noise and inflate multiple testing burden</span><span class="w">
+</span><span class="n">dds_qc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dds_qc</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="n">counts</span><span class="p">(</span><span class="n">dds_qc</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># Variance-stabilizing transformation (VST)</span><span class="w">
+</span><span class="c1"># This is the DESeq2-recommended way to log-transform for visualization</span><span class="w">
+</span><span class="c1"># blind = TRUE means VST ignores the experimental design (appropriate for QC)</span><span class="w">
+</span><span class="n">vsd</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">varianceStabilizingTransformation</span><span class="p">(</span><span class="n">dds_qc</span><span class="p">,</span><span class="w"> </span><span class="n">blind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># ── PCA plot ─────────────────────────────────────────────────</span><span class="w">
+</span><span class="n">pca_df</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">plotPCA</span><span class="p">(</span><span class="n">vsd</span><span class="p">,</span><span class="w"> </span><span class="n">intgroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Site"</span><span class="p">,</span><span class="s2">"Season"</span><span class="p">,</span><span class="s2">"Salinity"</span><span class="p">),</span><span class="w"> </span><span class="n">returnData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">percentVar</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">attr</span><span class="p">(</span><span class="n">pca_df</span><span class="p">,</span><span class="w"> </span><span class="s2">"percentVar"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">pca_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">PC1</span><span class="p">,</span><span class="w"> </span><span class="n">PC2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Site</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Season</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">xlab</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PC1: "</span><span class="p">,</span><span class="w"> </span><span class="n">percentVar</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">"% variance"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">ylab</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PC2: "</span><span class="p">,</span><span class="w"> </span><span class="n">percentVar</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="s2">"% variance"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">"PCA — metatranscriptome samples (VST)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"plots/PCA_samples.pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># ── Sample distance heatmap ───────────────────────────────────</span><span class="w">
+</span><span class="n">sampleDistMatrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">dist</span><span class="p">(</span><span class="n">t</span><span class="p">(</span><span class="n">assay</span><span class="p">(</span><span class="n">vsd</span><span class="p">))))</span><span class="w">
+
+</span><span class="n">pheatmap</span><span class="p">(</span><span class="n">sampleDistMatrix</span><span class="p">,</span><span class="w">
+         </span><span class="n">annotation_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">colData</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Site"</span><span class="p">,</span><span class="s2">"Season"</span><span class="p">,</span><span class="s2">"Salinity"</span><span class="p">),</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">],</span><span class="w">
+         </span><span class="n">main</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sample distances (VST)"</span><span class="p">,</span><span class="w">
+         </span><span class="n">filename</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"plots/sample_distance_heatmap.pdf"</span><span class="p">,</span><span class="w">
+         </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>What to look for in the PCA:</strong></p>
+
+<ul>
+  <li>PA and FL samples should separate along PC1 or PC2 if site drives community expression</li>
+  <li>Seasonal samples may separate if season is a strong driver</li>
+  <li>If samples from the same site do not cluster together, check your metadata alignment</li>
+</ul>
+
+<h3 id="running-deseq2-for-each-factor">Running DESeq2 for each factor</h3>
+
+<p>For our dataset we test three environmental factors independently: Site (PA vs FL), Season (Spring vs Summer), and Salinity (Low vs High). Running one factor at a time is the cleanest approach for exploratory analysis.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ── DESeq2: one factor at a time ─────────────────────────────</span><span class="w">
+
+</span><span class="n">run_deseq2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">factor_name</span><span class="p">,</span><span class="w"> </span><span class="n">count_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">colData</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="w">
+    </span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">count_matrix</span><span class="p">,</span><span class="w">
+    </span><span class="n">colData</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">colData</span><span class="p">,</span><span class="w">
+    </span><span class="n">design</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">as.formula</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"~ "</span><span class="p">,</span><span class="w"> </span><span class="n">factor_name</span><span class="p">))</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+  </span><span class="c1"># Filter low-count genes</span><span class="w">
+  </span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dds</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="n">counts</span><span class="p">(</span><span class="n">dds</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="c1"># Run DESeq2</span><span class="w">
+  </span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeq</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w">
+  </span><span class="c1"># Extract results</span><span class="w">
+  </span><span class="n">res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">results</span><span class="p">(</span><span class="n">dds</span><span class="p">))</span><span class="w">
+  </span><span class="n">res</span><span class="o">$</span><span class="n">Gene</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w">
+  </span><span class="n">res</span><span class="o">$</span><span class="n">Factor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor_name</span><span class="w">
+  </span><span class="n">res</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1"># Run for all three factors</span><span class="w">
+</span><span class="n">res_all</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bind_rows</span><span class="p">(</span><span class="w">
+  </span><span class="n">run_deseq2</span><span class="p">(</span><span class="s2">"Site"</span><span class="p">,</span><span class="w">     </span><span class="n">count_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">colData</span><span class="p">),</span><span class="w">
+  </span><span class="n">run_deseq2</span><span class="p">(</span><span class="s2">"Season"</span><span class="p">,</span><span class="w">   </span><span class="n">count_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">colData</span><span class="p">),</span><span class="w">
+  </span><span class="n">run_deseq2</span><span class="p">(</span><span class="s2">"Salinity"</span><span class="p">,</span><span class="w"> </span><span class="n">count_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">colData</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">padj</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># Save full results table</span><span class="w">
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">res_all</span><span class="p">,</span><span class="w"> </span><span class="s2">"results/DESeq2_all_factors.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Pull significant genes (padj &lt; 0.05, |log2FC| &gt; 1)</span><span class="w">
+</span><span class="n">sig_genes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_all</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">log2FoldChange</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">padj</span><span class="p">)</span><span class="w">
+
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Significant genes per factor:\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">sig_genes</span><span class="o">$</span><span class="n">Factor</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="volcano-plots">Volcano plots</h3>
+
+<p>A volcano plot is the standard way to visualize DESeq2 results. The x-axis is log2 fold change (how much more expressed in one condition vs the other). The y-axis is -log10(adjusted p-value) (statistical confidence). Genes in the upper right are significantly upregulated; upper left are significantly downregulated.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ── Volcano plot — all genes, faceted by factor ───────────────</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">res_all</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">Factor</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_x"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">          </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"grey70"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#e85050"</span><span class="p">),</span><span class="w">
+                     </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"not significant"</span><span class="p">,</span><span class="w"> </span><span class="s2">"padj &lt; 0.05"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">legend.position</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Differential expression by environmental factor"</span><span class="p">,</span><span class="w">
+       </span><span class="n">x</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 fold change"</span><span class="p">,</span><span class="w">
+       </span><span class="n">y</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 adjusted p-value"</span><span class="p">,</span><span class="w">
+       </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"plots/volcano_all_factors.pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># ── Faceted volcano with top 5 gene labels per factor ─────────</span><span class="w">
+
+</span><span class="c1"># Extract short gene names for labels (text inside parentheses)</span><span class="w">
+</span><span class="n">res_labeled</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_all</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">padj</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">ShortName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_extract</span><span class="p">(</span><span class="n">Gene</span><span class="p">,</span><span class="w"> </span><span class="s2">"(?&lt;=\\().+?(?=\\))"</span><span class="p">),</span><span class="w">
+    </span><span class="n">ShortName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">ShortName</span><span class="p">),</span><span class="w"> </span><span class="n">Gene</span><span class="p">,</span><span class="w"> </span><span class="n">ShortName</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">top5</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_labeled</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">Factor</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">slice_min</span><span class="p">(</span><span class="n">order_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">padj</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">res_labeled</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text_repel</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">top5</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ShortName</span><span class="p">),</span><span class="w">
+                  </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">max.overlaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w">
+                  </span><span class="n">box.padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">point.padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="w">
+                  </span><span class="n">segment.color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">Factor</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_x"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">           </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"grey70"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#e85050"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">legend.position</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Top differentially expressed genes by factor"</span><span class="p">,</span><span class="w">
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 fold change"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 adjusted p-value"</span><span class="p">,</span><span class="w">
+       </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"padj &lt; 0.05"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"plots/volcano_labeled.pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<blockquote>
+  <p><strong>Interpreting the volcano:</strong> In our dataset with 2% alignment and a small MAG reference, do not expect hundreds of significant genes. Even five to ten significantly differentially expressed genes with strong fold changes are biologically meaningful — they represent real expression differences between PA and FL estuarine communities for the organisms you have reference for.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="part-3--dnarna-ratio-expression-above-and-beyond-abundance">Part 3 — DNA:RNA ratio: expression above and beyond abundance</h2>
+
+<p>This is where metatranscriptomics diverges from standard RNA-seq and becomes genuinely powerful.</p>
+
+<p>A gene can appear highly expressed in your count table for two very different reasons:</p>
+
+<ol>
+  <li>The organism carrying it is abundant — there are many gene copies in the community, so even modest per-cell transcription yields many reads</li>
+  <li>The organism carrying it is <em>actively upregulating</em> this gene right now — few copies but intense transcription per cell</li>
+</ol>
+
+<p>These two scenarios have completely different biological meanings. The first is constitutive expression tracking abundance — background activity. The second is active metabolic engagement — the ecologically interesting signal.</p>
+
+<p>The <strong>DNA:RNA ratio</strong> separates them. By computing TPM from a paired metagenome (DNA) of the same sample and dividing it into your metatranscriptome TPM (RNA), you get a ratio that reflects expression relative to genomic copy number.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ── DNA:RNA ratio calculation ─────────────────────────────────</span><span class="w">
+</span><span class="c1"># Requires: TPM from metatranscriptome (RNA_TPM)</span><span class="w">
+</span><span class="c1">#           TPM from paired metagenome   (DNA_TPM)</span><span class="w">
+</span><span class="c1"># Both computed the same way, mapped to the same reference</span><span class="w">
+
+</span><span class="c1"># Load RNA TPM (computed in Part 1)</span><span class="w">
+</span><span class="n">RNA_TPM</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"counts/TPM_matrix.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Load DNA TPM (from your paired metagenome mapping)</span><span class="w">
+</span><span class="c1"># (same workflow: map metagenome reads to master_mags.fa → featureCounts → TPM)</span><span class="w">
+</span><span class="n">DNA_TPM</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"counts/DNA_TPM_matrix.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Align: keep only genes present in both</span><span class="w">
+</span><span class="n">shared_genes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">intersect</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">RNA_TPM</span><span class="p">),</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">DNA_TPM</span><span class="p">))</span><span class="w">
+</span><span class="n">RNA_sub</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">RNA_TPM</span><span class="p">[</span><span class="n">shared_genes</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="n">DNA_sub</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DNA_TPM</span><span class="p">[</span><span class="n">shared_genes</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># ── Compute log2 DNA:RNA ratio ────────────────────────────────</span><span class="w">
+</span><span class="c1"># +1 pseudocount avoids log(0)</span><span class="w">
+</span><span class="c1"># Positive ratio = more mRNA than DNA predicts (active upregulation)</span><span class="w">
+</span><span class="c1"># Negative ratio = less mRNA than DNA predicts (gene present but silent)</span><span class="w">
+</span><span class="c1"># Near zero      = expression tracks abundance (constitutive)</span><span class="w">
+
+</span><span class="n">DNA_RNA_ratio</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">log2</span><span class="p">((</span><span class="n">RNA_sub</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">DNA_sub</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">DNA_RNA_ratio</span><span class="p">,</span><span class="w"> </span><span class="s2">"results/DNA_RNA_ratio.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># ── Visualize: heatmap of top variable ratio genes ───────────</span><span class="w">
+</span><span class="n">top_variable</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DNA_RNA_ratio</span><span class="p">[</span><span class="w">
+  </span><span class="n">order</span><span class="p">(</span><span class="n">apply</span><span class="p">(</span><span class="n">DNA_RNA_ratio</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">var</span><span class="p">),</span><span class="w"> </span><span class="n">decreasing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">50</span><span class="p">],</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="n">pheatmap</span><span class="p">(</span><span class="n">top_variable</span><span class="p">,</span><span class="w">
+         </span><span class="n">annotation_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">colData</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Site"</span><span class="p">,</span><span class="s2">"Salinity"</span><span class="p">),</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">],</span><span class="w">
+         </span><span class="n">scale</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s2">"row"</span><span class="p">,</span><span class="w">
+         </span><span class="n">show_rownames</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+         </span><span class="n">main</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="s2">"DNA:RNA ratio — top 50 variable genes"</span><span class="p">,</span><span class="w">
+         </span><span class="n">filename</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"plots/DNA_RNA_ratio_heatmap.pdf"</span><span class="p">,</span><span class="w">
+         </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Reading the ratio:</strong></p>
+
+<ul>
+  <li><strong>Positive ratio (RNA &gt; DNA):</strong> this gene is transcribed at higher levels than its genomic abundance would predict. The organism is actively upregulating it. This is your ecological signal — stress responses, substrate activation, niche differentiation.</li>
+  <li><strong>Negative ratio (RNA &lt; DNA):</strong> the gene is present but mostly silent. The organism is there but not using this pathway.</li>
+  <li><strong>Near zero:</strong> expression tracks abundance. This is constitutive expression — housekeeping genes, stable metabolic maintenance.</li>
+</ul>
+
+<p>For hydrocarbon degradation in our estuarine system: alkane monooxygenase genes (alkB) and ring-cleaving dioxygenases in contaminated sites should show strongly positive DNA:RNA ratios — a few rare organisms expressing intensely. Background Bacteroidetes might show near-zero ratios across the same samples.</p>
+
+<hr />
+
+<h2 id="part-4--python-workflow-tpm-ratio-and-summary-statistics">Part 4 — Python workflow: TPM, ratio, and summary statistics</h2>
+
+<p>For users who prefer Python or want to automate the analysis as part of a larger pipeline:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># day5_analysis.py
+# TPM normalization + DNA:RNA ratio + summary statistics
+# Usage: python day5_analysis.py
+</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">matplotlib</span>
+<span class="n">matplotlib</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">'</span><span class="s">Agg</span><span class="sh">'</span><span class="p">)</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">from</span> <span class="n">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="c1"># ── Paths ──────────────────────────────────────────────────────
+</span><span class="n">COUNTS_FILE</span>   <span class="o">=</span> <span class="sh">"</span><span class="s">counts/all_samples_counts.txt</span><span class="sh">"</span>
+<span class="n">DNA_TPM_FILE</span>  <span class="o">=</span> <span class="sh">"</span><span class="s">counts/DNA_TPM_matrix.csv</span><span class="sh">"</span>   <span class="c1"># from metagenome mapping
+</span><span class="n">METADATA_FILE</span> <span class="o">=</span> <span class="sh">"</span><span class="s">metadata/sample_metadata.csv</span><span class="sh">"</span>
+<span class="n">OUT_DIR</span>       <span class="o">=</span> <span class="nc">Path</span><span class="p">(</span><span class="sh">"</span><span class="s">results</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">PLOT_DIR</span>      <span class="o">=</span> <span class="nc">Path</span><span class="p">(</span><span class="sh">"</span><span class="s">plots</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">OUT_DIR</span><span class="p">.</span><span class="nf">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">PLOT_DIR</span><span class="p">.</span><span class="nf">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># ── Load featureCounts output ──────────────────────────────────
+</span><span class="n">counts_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">COUNTS_FILE</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">gene_lengths</span> <span class="o">=</span> <span class="n">counts_raw</span><span class="p">[</span><span class="sh">"</span><span class="s">Length</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">count_matrix</span> <span class="o">=</span> <span class="n">counts_raw</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">5</span><span class="p">:]</span>   <span class="c1"># sample columns start at position 6 (0-indexed 5)
+</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Loaded count matrix: </span><span class="si">{</span><span class="n">count_matrix</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s"> genes × </span><span class="si">{</span><span class="n">count_matrix</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s"> samples</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># ── TPM normalization ──────────────────────────────────────────
+</span><span class="k">def</span> <span class="nf">compute_tpm</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">lengths</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">
+    counts  : DataFrame, genes × samples (raw integer counts)
+    lengths : Series, gene lengths in bp
+    returns : DataFrame, genes × samples (TPM values)
+    </span><span class="sh">"""</span>
+    <span class="c1"># Step 1: RPK = counts / (length / 1000)
+</span>    <span class="n">rpk</span> <span class="o">=</span> <span class="n">counts</span><span class="p">.</span><span class="nf">div</span><span class="p">(</span><span class="n">lengths</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># Step 2: TPM = RPK / (sum RPK per sample) * 1e6
+</span>    <span class="n">tpm</span> <span class="o">=</span> <span class="n">rpk</span><span class="p">.</span><span class="nf">div</span><span class="p">(</span><span class="n">rpk</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tpm</span>
+
+<span class="n">RNA_TPM</span> <span class="o">=</span> <span class="nf">compute_tpm</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">,</span> <span class="n">gene_lengths</span><span class="p">)</span>
+<span class="n">RNA_TPM</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="n">OUT_DIR</span> <span class="o">/</span> <span class="sh">"</span><span class="s">TPM_matrix.csv</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">TPM matrix saved. Column sums (should be ~1e6):</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">RNA_TPM</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="nf">round</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="c1"># ── DNA:RNA ratio (if DNA TPM available) ──────────────────────
+</span><span class="k">if</span> <span class="nc">Path</span><span class="p">(</span><span class="n">DNA_TPM_FILE</span><span class="p">).</span><span class="nf">exists</span><span class="p">():</span>
+    <span class="n">DNA_TPM</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">DNA_TPM_FILE</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">shared</span> <span class="o">=</span> <span class="n">RNA_TPM</span><span class="p">.</span><span class="n">index</span><span class="p">.</span><span class="nf">intersection</span><span class="p">(</span><span class="n">DNA_TPM</span><span class="p">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">shared_samples</span> <span class="o">=</span> <span class="n">RNA_TPM</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="nf">intersection</span><span class="p">(</span><span class="n">DNA_TPM</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span>
+
+    <span class="n">RNA_sub</span> <span class="o">=</span> <span class="n">RNA_TPM</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">shared</span><span class="p">,</span> <span class="n">shared_samples</span><span class="p">]</span>
+    <span class="n">DNA_sub</span> <span class="o">=</span> <span class="n">DNA_TPM</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">shared</span><span class="p">,</span> <span class="n">shared_samples</span><span class="p">]</span>
+
+    <span class="n">ratio</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">log2</span><span class="p">((</span><span class="n">RNA_sub</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">DNA_sub</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">ratio</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="n">OUT_DIR</span> <span class="o">/</span> <span class="sh">"</span><span class="s">DNA_RNA_ratio.csv</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">DNA:RNA ratio computed for </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span><span class="si">}</span><span class="s"> genes, </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">shared_samples</span><span class="p">)</span><span class="si">}</span><span class="s"> samples</span><span class="sh">"</span><span class="p">)</span>
+
+    <span class="c1"># Plot: distribution of ratios per sample
+</span>    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">ratio</span><span class="p">.</span><span class="nf">boxplot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">.</span><span class="nf">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">"</span><span class="s">grey</span><span class="sh">"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">"</span><span class="s">--</span><span class="sh">"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">"</span><span class="s">DNA:RNA ratio distribution per sample</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">"</span><span class="s">log2(RNA_TPM + 1 / DNA_TPM + 1)</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">.</span><span class="nf">set_xticklabels</span><span class="p">(</span><span class="n">ax</span><span class="p">.</span><span class="nf">get_xticklabels</span><span class="p">(),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="sh">"</span><span class="s">right</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="n">PLOT_DIR</span> <span class="o">/</span> <span class="sh">"</span><span class="s">DNA_RNA_ratio_boxplot.pdf</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">DNA:RNA ratio boxplot saved.</span><span class="sh">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">DNA TPM file not found: </span><span class="si">{</span><span class="n">DNA_TPM_FILE</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Skipping DNA:RNA ratio. Provide paired metagenome TPM to enable this.</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># ── Summary statistics ─────────────────────────────────────────
+</span><span class="n">total_genes</span>   <span class="o">=</span> <span class="n">count_matrix</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">expressed</span>     <span class="o">=</span> <span class="p">(</span><span class="n">count_matrix</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">).</span><span class="nf">sum</span><span class="p">()</span>
+<span class="n">zero_genes</span>    <span class="o">=</span> <span class="n">total_genes</span> <span class="o">-</span> <span class="n">expressed</span>
+<span class="n">mean_tpm</span>      <span class="o">=</span> <span class="n">RNA_TPM</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">top10</span>         <span class="o">=</span> <span class="n">mean_tpm</span><span class="p">.</span><span class="nf">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">── Expression summary ──────────────────────────</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Total genes:              </span><span class="si">{</span><span class="n">total_genes</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Genes with ≥1 count:      </span><span class="si">{</span><span class="n">expressed</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Zero-count genes:         </span><span class="si">{</span><span class="n">zero_genes</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Median mean TPM:          </span><span class="si">{</span><span class="n">mean_tpm</span><span class="p">.</span><span class="nf">median</span><span class="p">()</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">Top 10 expressed genes (mean TPM across samples):</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">top10</span><span class="p">.</span><span class="nf">round</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nf">to_string</span><span class="p">())</span>
+
+<span class="c1"># ── TPM heatmap: top 50 expressed genes ───────────────────────
+</span><span class="n">top50</span> <span class="o">=</span> <span class="n">RNA_TPM</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mean_tpm</span><span class="p">.</span><span class="nf">nlargest</span><span class="p">(</span><span class="mi">50</span><span class="p">).</span><span class="n">index</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span>
+    <span class="n">np</span><span class="p">.</span><span class="nf">log2</span><span class="p">(</span><span class="n">top50</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">YlOrRd</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">xticklabels</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="sh">"</span><span class="s">label</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">log2(TPM + 1)</span><span class="sh">"</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">"</span><span class="s">Top 50 expressed genes (log2 TPM)</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="n">PLOT_DIR</span> <span class="o">/</span> <span class="sh">"</span><span class="s">top50_TPM_heatmap.pdf</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">Top-50 TPM heatmap saved.</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">All outputs in: </span><span class="si">{</span><span class="n">OUT_DIR</span><span class="si">}</span><span class="s">/ and </span><span class="si">{</span><span class="n">PLOT_DIR</span><span class="si">}</span><span class="s">/</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="connecting-everything-to-the-biology">Connecting everything to the biology</h2>
+
+<p>We started this series with one question: <strong>“Who is active, not just present?”</strong></p>
+
+<p>By Day 5, you have the tools to answer it at multiple levels:</p>
+
+<p><strong>TPM</strong> tells you which genes dominate the expressed community within each sample. In our estuarine data, expect ribosomal proteins, transport systems, and central metabolic genes to dominate — these are the constitutively expressed housekeeping functions that run constantly.</p>
+
+<p><strong>DESeq2 (Site: PA vs FL)</strong> identifies genes that are systematically more expressed in one estuary than the other, controlling for sequencing depth and compositional differences. These are your ecologically differentiated functions — the pathways that distinguish PA estuarine activity from FL estuarine activity.</p>
+
+<p><strong>DNA:RNA ratio</strong> reveals which of those differences reflect genuine upregulation versus simply more organisms being present. A gene with high TPM and a strongly positive DNA:RNA ratio is being actively induced — the organism carrying it is responding to something in its environment. That is where the ecological narrative lives.</p>
+
+<hr />
+
+<h2 id="series-complete">Series complete</h2>
+
+<p>Five days. One complete pipeline. Every step documented with real data, real numbers, and honest interpretation of what those numbers mean.</p>
+
+<p>The 2% alignment rate from Day 4 is not a footnote — it is a starting point. As you add more MAGs, expand your reference, and pair your metatranscriptomes with matched metagenomes for DNA:RNA ratios, the biological picture gets richer. The framework you built this week scales to any number of samples, any community, any ecological question.</p>
+
+<p><strong>For co-expression network analysis</strong> of metatranscriptomics data — identifying modules of genes that are co-regulated across samples — see the <a href="https://jojyjohn28.github.io/blog/day6-wgcna-mag-coabundance-networks/">WGCNA and network analysis post</a> in the Applied Stats series and deatailed codes for practice in <a href="https://github.com/jojyjohn28/microbiome_stats/tree/main/day6-wgcna">Git hub Repo</a>.</p>
+
+<p><strong>For multi-omics integration</strong> connecting your metatranscriptomics to metabolomics and metaproteomics — see the <a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day10-multiomics-integration/">multi-omics integration post</a> and corresponding codes in <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day010-multiomics-integration">git hub repo</a></p>
+
+<hr />
+
+<h2 id="-all-r-scripts-python-script-slurm-scripts-and-toy-datasets-githubcomjojyjohn28metatranscriptomics--day5_counts_to_biologyscripts">📦 <strong>All R scripts, Python script, SLURM scripts, and toy datasets:</strong> <a href="#">github.com/jojyjohn28/metatranscriptomics</a> → <code class="language-plaintext highlighter-rouge">Day5_Counts_to_Biology/scripts/</code></h2>
+
+<p>📦 <strong>All code, SLURM scripts, and toy datasets used in this series are available in the companion repository</strong>
+📦 <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day5-metatranscriptomics-counts-to-biology">Github repository</a></p>
+
+<p>Questions about this workflow? Drop a comment below.
+The complete R script and SLURM submission scripts are available in the <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day5-metatranscriptomics-counts-to-biology">companion GitHub repository</a>.</p>
+
+<p><img src="/assets/img/mt-d5.png" alt="Day5 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="DESeq2" /><category term="TPM" /><category term="normalization" /><category term="DNA-RNA-ratio" /><category term="functional-redundancy" /><category term="ecological-interpretation" /><category term="R" /><category term="python" /><category term="estuarine-microbiomes" /><summary type="html"><![CDATA[The day most tutorials stop — and the day that matters most. A complete walkthrough of TPM normalization, DESeq2 differential expression across PA and FL estuarine sites, DNA:RNA ratio calculation, functional redundancy analysis, and how to connect every number back to ecology.]]></summary></entry><entry><title type="html">Day 4 — Reads Meet Reference: The Mapping &amp;amp; Quantification Pipeline</title><link href="https://jojyjohn28.github.io/blog/day4-metatranscriptomics-mapping-quantification/" rel="alternate" type="text/html" title="Day 4 — Reads Meet Reference: The Mapping &amp;amp; Quantification Pipeline" /><published>2026-04-06T00:00:00-04:00</published><updated>2026-04-06T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day4-metatranscriptomics-mapping-quantification</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day4-metatranscriptomics-mapping-quantification/"><![CDATA[<p>*<em>🧬 Day 68 of Daily Bioinformatics from Jojy’s Desk🧬</em></p>
 
 <p>This is where the analysis becomes concrete.</p>
 
@@ -3110,9 +3630,9 @@ conda <span class="nb">install</span> <span class="nt">-c</span> bioconda mcl <s
 
 <p><img src="./day6-hero.svg" alt="Data Transfer: scp, rsync, SFTP, Globus Connect" /></p>
 
-<blockquote>
-  <p><em>This is Day 6 — the final post in the series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong> and 🧬 Day 63 of Daily Bioinformatics from Jojy’s Desk. In <a href="https://jojyjohn28.github.io/blog/day5-pipelines/">Day 5</a> we built reproducible pipelines with Snakemake and Nextflow. Today: the question everyone hits at the start — how do you actually get your data there?</em></p>
-</blockquote>
+<p>This is Day 6 — the final post in the series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong> and 🧬 Day 63 of Daily Bioinformatics from Jojy’s Desk. In <a href="https://jojyjohn28.github.io/blog/day5-pipelines/">Day 5</a> we built reproducible pipelines with Snakemake and Nextflow.</p>
+
+<p>Today: the question everyone hits at the start — how do you actually get your data there?</p>
 
 <hr />
 
@@ -5173,670 +5693,4 @@ watch squeue <span class="nt">-u</span> <span class="nv">$USER</span>
 
 <hr />
 
-<p><img src="/assets/img/d4-hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="SLURM" /><category term="job-arrays" /><category term="bioinformatics" /><category term="parallelism" /><category term="scaling" /><category term="genomics" /><category term="beginners" /><summary type="html"><![CDATA[200 samples × 15 minutes = 50 hours sequential. Or 15 minutes parallel. Here's exactly how job arrays work, why they are the single biggest productivity unlock on HPC, and every pattern you need to handle real-world datasets.]]></summary></entry><entry><title type="html">Day 3 — Running Jobs: Terminal, Bash Loops, and SLURM</title><link href="https://jojyjohn28.github.io/blog/day3-running-jobs/" rel="alternate" type="text/html" title="Day 3 — Running Jobs: Terminal, Bash Loops, and SLURM" /><published>2026-03-16T00:00:00-04:00</published><updated>2026-03-16T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day3-running-jobs</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day3-running-jobs/"><![CDATA[<h1 id="day-3-running-jobs--terminal-bash-loops-and-slurm">Day 3: Running Jobs — Terminal, Bash Loops, and SLURM</h1>
-
-<p><img src="./day3-hero.svg" alt="Running Jobs: Terminal vs SLURM" /></p>
-
-<blockquote>
-  <p><em>This is Day 3 of a 6-part series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong> and 🧬 Day 60 of Daily Bioinformatics from Jojy’s Desk.. In <a href="../day1-laptop-vs-hpc/">Day 1</a> we covered what HPC is. In <a href="../day2-software-installation/">Day 2</a> we covered software installation. Today: the biggest mindset shift — how to actually run things.</em></p>
-</blockquote>
-
-<hr />
-
-<h2 id="the-moment-that-confuses-everyone">The Moment That Confuses Everyone</h2>
-
-<p>You’ve logged into the HPC. Your conda environment is ready. You type:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fastqc sample_R1.fastq.gz <span class="nt">-o</span> qc_results/
-</code></pre></div></div>
-
-<p>And it… runs. The output scrolls past. You think: <em>“That wasn’t so bad.”</em></p>
-
-<p>Then you get an email from your sysadmin:</p>
-
-<blockquote>
-  <p><em>“Please do not run compute jobs on the login node. Use the job scheduler.”</em></p>
-</blockquote>
-
-<p>What did you do wrong? What even is a login node? What’s a job scheduler? And what does “submit a job” actually mean?</p>
-
-<p>This post answers all of it — from scratch.</p>
-
-<hr />
-
-<h2 id="what-youll-learn-today">What You’ll Learn Today</h2>
-
-<ul>
-  <li>The difference between a laptop, a login node, and a compute node</li>
-  <li>Why you must <strong>never</strong> run jobs on the login node</li>
-  <li>How to run things on your <strong>laptop</strong> — direct commands and bash loops</li>
-  <li>How to use an <strong>interactive node</strong> on HPC for testing</li>
-  <li>How to write and submit your first <strong>SLURM batch script</strong></li>
-  <li>What <code class="language-plaintext highlighter-rouge">%j</code> means in output filenames — demystified</li>
-  <li>The full picture: queued vs running jobs</li>
-</ul>
-
-<hr />
-
-<h2 id="part-1-the-three-environments--laptop-login-node-compute-node">Part 1: The Three Environments — Laptop, Login Node, Compute Node</h2>
-
-<p>Before anything else, you need to understand the geography of an HPC cluster. There are three distinct places where code can run, and they are <strong>not interchangeable</strong>.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌────────────────────────────────────────────────────────────────────┐
-│                         HPC CLUSTER                                 │
-│                                                                     │
-│   You (SSH in)                                                      │
-│       │                                                             │
-│       ▼                                                             │
-│  ┌──────────────┐    sbatch job.sh    ┌──────────────────────────┐ │
-│  │  LOGIN NODE  │ ─────────────────▶  │    SLURM SCHEDULER       │ │
-│  │              │                     │  (manages the queue)     │ │
-│  │ - Edit files │                     └────────────┬─────────────┘ │
-│  │ - Submit jobs│                                  │ allocates     │
-│  │ - Check queue│                                  ▼               │
-│  │              │                     ┌──────────────────────────┐ │
-│  │ ❌ NO compute│                     │     COMPUTE NODES        │ │
-│  └──────────────┘                     │  node001, node002, ...   │ │
-│                                       │  - Run your actual jobs  │ │
-│                                       │  - 64–128 CPUs each      │ │
-│                                       │  - 256 GB–4 TB RAM each  │ │
-│                                       └──────────────────────────┘ │
-└────────────────────────────────────────────────────────────────────┘
-</code></pre></div></div>
-
-<h3 id="the-login-node-gateway-not-workbench">The Login Node: Gateway, Not Workbench</h3>
-
-<p>The login node is the machine you land on when you SSH into the cluster. It’s <strong>shared by every user simultaneously</strong> — dozens or hundreds of people editing files, checking jobs, and transferring data all at the same time.</p>
-
-<p>Its job is to be a gateway, not a workhorse.</p>
-
-<p>When you run a heavy computation on the login node, here’s what happens:</p>
-
-<ul>
-  <li>You consume CPU and RAM that everyone shares</li>
-  <li>Other users’ terminals slow down or freeze</li>
-  <li>The admins get an alert and find your process</li>
-  <li>Your process gets killed — possibly mid-analysis, losing all progress</li>
-  <li>You get a politely stern email</li>
-</ul>
-
-<blockquote>
-  <p>💡 <strong>The rule is simple:</strong> On the login node you may: edit files, write scripts, transfer files, submit jobs, and check job status. That’s it. Anything that does computation goes through the scheduler.</p>
-</blockquote>
-
-<h3 id="compute-nodes-where-the-work-happens">Compute Nodes: Where the Work Happens</h3>
-
-<p>Compute nodes are the powerful machines that actually run your jobs. You never SSH directly into them during normal use — the scheduler allocates them to your jobs automatically.</p>
-
-<p>When your job is allocated a compute node, it gets exclusive use of the requested CPUs and RAM for the duration of the job. Nobody else touches those resources while your job runs.</p>
-
-<hr />
-
-<h2 id="part-2-running-things-on-your-laptop">Part 2: Running Things on Your Laptop</h2>
-
-<p>On your laptop, there’s no scheduler. Commands run immediately, use your local resources, and block your terminal until they finish. This is fine for small work and essential for development and testing.</p>
-
-<h3 id="direct-command-one-sample">Direct Command: One Sample</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run directly — blocks terminal until done</span>
-fastqc sample_R1.fastq.gz <span class="nt">-o</span> qc_results/
-
-<span class="c"># Run in the background so you can keep using the terminal</span>
-fastqc sample_R1.fastq.gz <span class="nt">-o</span> qc_results/ &amp;
-
-<span class="c"># Check what's running in background</span>
-<span class="nb">jobs</span>
-
-<span class="c"># Bring it back to foreground</span>
-<span class="nb">fg</span>
-</code></pre></div></div>
-
-<h3 id="bash-for-loop-many-samples-on-laptop">Bash For Loop: Many Samples on Laptop</h3>
-
-<p>When you have multiple samples, the simplest approach on a laptop is a for loop:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c"># run_fastqc_loop.sh — processes samples one by one</span>
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> qc_results/
-
-<span class="k">for </span>sample <span class="k">in </span>data/<span class="k">*</span>.fastq.gz<span class="p">;</span> <span class="k">do
-    </span><span class="nv">name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> .fastq.gz<span class="si">)</span>
-    <span class="nb">echo</span> <span class="s2">"Processing: </span><span class="nv">$name</span><span class="s2">"</span>
-    fastqc <span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="nt">-o</span> qc_results/
-<span class="k">done
-
-</span><span class="nb">echo</span> <span class="s2">"All done!"</span>
-</code></pre></div></div>
-
-<p>Run it:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash run_fastqc_loop.sh
-
-<span class="c"># Or make it executable and run directly</span>
-<span class="nb">chmod</span> +x run_fastqc_loop.sh
-./run_fastqc_loop.sh
-</code></pre></div></div>
-
-<p><strong>What’s actually happening:</strong> Each sample is processed fully before the next one starts. If you have 200 samples and each takes 5 minutes, you’re looking at <strong>16 hours of sequential processing</strong> — your laptop fan running at full speed the whole time.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Rough timing estimate</span>
-<span class="nb">echo</span> <span class="s2">"Estimated time: </span><span class="k">$((</span> <span class="m">200</span> <span class="o">*</span> <span class="m">5</span> <span class="k">))</span><span class="s2"> minutes = </span><span class="k">$((</span> <span class="m">200</span> <span class="o">*</span> <span class="m">5</span> <span class="o">/</span> <span class="m">60</span> <span class="k">))</span><span class="s2"> hours"</span>
-<span class="c"># Estimated time: 1000 minutes = 16 hours</span>
-</code></pre></div></div>
-
-<p>A loop is fine for 10 samples. For 50+, you need parallelism — which is exactly what job arrays give you (covered in Day 4). But first, let’s get a single job running on HPC properly.</p>
-
-<hr />
-
-<h2 id="part-3-why-cant-i-just-run-it-on-hpc">Part 3: Why Can’t I Just Run It on HPC?</h2>
-
-<p>The short answer: you can — but only in the right place.</p>
-
-<p>The confusion comes from the fact that <strong>the login node feels like a normal Linux machine</strong>. You can type commands, they run, output appears. It feels identical to your laptop.</p>
-
-<p>But you’re sharing that machine’s CPUs and RAM with every logged-in user. Imagine 80 researchers simultaneously deciding to align their FASTQ files on that one machine. It would grind to a halt within seconds.</p>
-
-<p>The solution is to route all computation through <strong>SLURM</strong> — the job scheduler.</p>
-
-<h3 id="what-does-slurm-actually-do">What Does SLURM Actually Do?</h3>
-
-<p>SLURM (<strong>S</strong>imple <strong>L</strong>inux <strong>U</strong>tility for <strong>R</strong>esource <strong>M</strong>anagement) is software that:</p>
-
-<ol>
-  <li>Maintains a <strong>queue</strong> of pending jobs from all users</li>
-  <li>Monitors which <strong>compute nodes</strong> are free</li>
-  <li>Allocates free nodes to queued jobs based on requested resources and priority</li>
-  <li>Starts your job on the allocated node</li>
-  <li>Returns the node to the pool when your job finishes</li>
-</ol>
-
-<p>When you “submit a job”, you’re adding it to SLURM’s queue. SLURM decides when and where it runs.</p>
-
-<hr />
-
-<h2 id="part-4-interactive-nodes--hpc-for-testing">Part 4: Interactive Nodes — HPC for Testing</h2>
-
-<p>Before writing a full batch script, you often want to test your commands interactively — just like on your laptop, but on a compute node with proper resources.</p>
-
-<p>That’s what interactive sessions are for.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Request an interactive session on a compute node</span>
-srun <span class="nt">--cpus-per-task</span><span class="o">=</span>4 <span class="nt">--mem</span><span class="o">=</span>8G <span class="nt">--time</span><span class="o">=</span>01:00:00 <span class="nt">--pty</span> bash
-
-<span class="c"># Shorter version (flags vary by cluster — check your HPC docs)</span>
-srun <span class="nt">-c</span> 4 <span class="nt">--mem</span><span class="o">=</span>8G <span class="nt">-t</span> 1:00:00 <span class="nt">--pty</span> bash
-
-<span class="c"># On some clusters, use salloc instead</span>
-salloc <span class="nt">--cpus-per-task</span><span class="o">=</span>4 <span class="nt">--mem</span><span class="o">=</span>8G <span class="nt">--time</span><span class="o">=</span>01:00:00
-</code></pre></div></div>
-
-<p>Once SLURM allocates you a node, your prompt changes:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user@login01:~$ srun --cpus-per-task=4 --mem=8G --pty bash
-srun: job 84530 queued and waiting for resources
-srun: job 84530 has been allocated resources
-
-user@node099:~$   # ← you're now on a compute node!
-</code></pre></div></div>
-
-<p>Now you can run commands exactly like on your laptop — they execute on the compute node, using its resources:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Test your pipeline on one sample</span>
-fastqc test_sample.fastq.gz <span class="nt">-t</span> 4 <span class="nt">-o</span> qc_test/
-
-<span class="c"># Test a memory-intensive tool</span>
-kraken2 <span class="nt">--db</span> /scratch/databases/kraken2_standard <span class="se">\</span>
-        <span class="nt">--report</span> test.report <span class="se">\</span>
-        test_sample.fastq.gz
-
-<span class="c"># When done, exit back to the login node</span>
-<span class="nb">exit</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>💡 <strong>Interactive sessions are for testing, not production.</strong> If you close your terminal or lose your connection, the session ends and anything running stops. For real analyses, use batch jobs (below).</p>
-</blockquote>
-
-<hr />
-
-<h2 id="part-5-your-first-slurm-batch-script">Part 5: Your First SLURM Batch Script</h2>
-
-<p>A batch job is a shell script with special <code class="language-plaintext highlighter-rouge">#SBATCH</code> comments at the top. These comments tell SLURM what resources your job needs. Everything that isn’t a <code class="language-plaintext highlighter-rouge">#SBATCH</code> line is just normal bash.</p>
-
-<h3 id="anatomy-of-a-slurm-script">Anatomy of a SLURM Script</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c"># ↑ Always the first line — tells the system this is a bash script</span>
-
-<span class="c"># ──── SLURM directives ────────────────────────────────────────────</span>
-<span class="c">#SBATCH --job-name=fastqc_run      # Name shown in squeue</span>
-<span class="c">#SBATCH --output=logs/fastqc_%j.out  # Stdout log (%j = job ID)</span>
-<span class="c">#SBATCH --error=logs/fastqc_%j.err   # Stderr log (errors go here)</span>
-<span class="c">#SBATCH --time=01:00:00            # Max wall time: 1 hour</span>
-<span class="c">#SBATCH --mem=8G                   # RAM requested</span>
-<span class="c">#SBATCH --cpus-per-task=4          # CPU cores requested</span>
-<span class="c">#SBATCH --partition=normal         # Which queue/partition to use</span>
-
-<span class="c"># ──── Your actual script starts here ──────────────────────────────</span>
-<span class="c"># Create output directory</span>
-<span class="nb">mkdir</span> <span class="nt">-p</span> qc_results/
-<span class="nb">mkdir</span> <span class="nt">-p</span> logs/
-
-<span class="c"># Load software (always do this — terminal modules don't carry over)</span>
-module purge
-module load fastqc/0.12.1
-
-<span class="c"># Run the analysis</span>
-<span class="nb">echo</span> <span class="s2">"Job started: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="s2">"Running on node: </span><span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span><span class="s2">"</span>
-
-fastqc data/sample_R1.fastq.gz <span class="se">\</span>
-       <span class="nt">-t</span> <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="se">\ </span>  <span class="c"># use exactly what was allocated</span>
-       <span class="nt">-o</span> qc_results/
-
-<span class="nb">echo</span> <span class="s2">"Job finished: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<h3 id="what-is-j-and-why-does-it-matter">What Is %j and Why Does It Matter?</h3>
-
-<p>Look at this line:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --output=logs/fastqc_%j.out</span>
-</code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">%j</code> is a <strong>SLURM placeholder</strong> that gets replaced with the actual job ID when the job runs. So if SLURM assigns your job ID 84521, the output file becomes:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logs/fastqc_84521.out
-</code></pre></div></div>
-
-<p><strong>Why this matters:</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Without %j — every run overwrites the same file</span>
-<span class="c">#SBATCH --output=logs/fastqc.out   # ← run 1 and run 2 both write here</span>
-
-<span class="c"># With %j — every run gets its own file</span>
-<span class="c">#SBATCH --output=logs/fastqc_%j.out</span>
-<span class="c"># run 1 → logs/fastqc_84521.out</span>
-<span class="c"># run 2 → logs/fastqc_84522.out</span>
-<span class="c"># run 3 → logs/fastqc_84523.out</span>
-</code></pre></div></div>
-
-<p>Without <code class="language-plaintext highlighter-rouge">%j</code>, if you resubmit a job because something went wrong, the new output overwrites the old one. You lose the evidence of what failed. With <code class="language-plaintext highlighter-rouge">%j</code>, you have a permanent, unique log for every job you’ve ever run.</p>
-
-<p>Other useful SLURM placeholders:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Placeholder</th>
-      <th>Expands to</th>
-      <th>Use case</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">%j</code></td>
-      <td>Job ID</td>
-      <td>Single jobs</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">%A</code></td>
-      <td>Array job ID</td>
-      <td>Job arrays (Day 4)</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">%a</code></td>
-      <td>Array task ID</td>
-      <td>Job arrays (Day 4)</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">%N</code></td>
-      <td>Node name</td>
-      <td>Debugging node issues</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">%x</code></td>
-      <td>Job name</td>
-      <td>Alternative to job ID</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>So for job arrays you’ll often write:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --output=logs/%x_%A_%a.out</span>
-<span class="c"># becomes: logs/fastqc_84600_42.out</span>
-</code></pre></div></div>
-
-<h3 id="key-sbatch-directives-reference">Key #SBATCH Directives Reference</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --job-name=myanalysis      # Name in squeue (keep it short)</span>
-<span class="c">#SBATCH --output=logs/job_%j.out   # Stdout (create logs/ dir first!)</span>
-<span class="c">#SBATCH --error=logs/job_%j.err    # Stderr — check this when jobs fail</span>
-<span class="c">#SBATCH --time=02:00:00            # Format: HH:MM:SS or D-HH:MM:SS</span>
-<span class="c">#SBATCH --mem=16G                  # Total RAM (or --mem-per-cpu=4G)</span>
-<span class="c">#SBATCH --cpus-per-task=8          # CPU threads per task</span>
-<span class="c">#SBATCH --ntasks=1                 # Number of parallel tasks (usually 1)</span>
-<span class="c">#SBATCH --partition=normal         # Partition/queue (check your HPC docs)</span>
-<span class="c">#SBATCH --mail-type=END,FAIL       # Email you when job ends or fails</span>
-<span class="c">#SBATCH --mail-user=you@uni.edu    # Your email address</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>⚠️ <strong>Important:</strong> Create your log directory before submitting. If <code class="language-plaintext highlighter-rouge">logs/</code> doesn’t exist, SLURM can’t write the output file and your job fails immediately with a confusing error.</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> logs/   <span class="c"># Do this once before your first sbatch</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="part-6-submitting-and-monitoring-your-job">Part 6: Submitting and Monitoring Your Job</h2>
-
-<h3 id="submitting">Submitting</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbatch run_fastqc.sh
-
-<span class="c"># SLURM responds with:</span>
-<span class="c"># Submitted batch job 84521</span>
-</code></pre></div></div>
-
-<p>That number (84521) is your <strong>job ID</strong>. Write it down. You’ll need it to check status, read logs, or cancel the job.</p>
-
-<h3 id="checking-job-status">Checking Job Status</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># See all your jobs</span>
-squeue <span class="nt">-u</span> <span class="nv">$USER</span>
-
-<span class="c"># See all jobs on the cluster</span>
-squeue
-
-<span class="c"># See more detail on a specific job</span>
-scontrol show job 84521
-</code></pre></div></div>
-
-<p>The output of <code class="language-plaintext highlighter-rouge">squeue</code> looks like this:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>JOBID   PARTITION  NAME        USER    ST  TIME    NODES  NODELIST
-84521   normal     fastqc_run  you     R   0:42    1      node042
-84522   normal     align_r1    you     R   0:18    1      node043
-84523   normal     align_r2    you     PD  0:00    1      (Resources)
-</code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">ST</code> column is the most important. The main states you’ll see:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>State</th>
-      <th>Code</th>
-      <th>Meaning</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Running</td>
-      <td><code class="language-plaintext highlighter-rouge">R</code></td>
-      <td>Your job is executing on a compute node</td>
-    </tr>
-    <tr>
-      <td>Pending</td>
-      <td><code class="language-plaintext highlighter-rouge">PD</code></td>
-      <td>Waiting in the queue for resources</td>
-    </tr>
-    <tr>
-      <td>Completing</td>
-      <td><code class="language-plaintext highlighter-rouge">CG</code></td>
-      <td>Finishing up, cleaning up</td>
-    </tr>
-    <tr>
-      <td>Failed</td>
-      <td><code class="language-plaintext highlighter-rouge">F</code></td>
-      <td>Job exited with an error</td>
-    </tr>
-    <tr>
-      <td>Completed</td>
-      <td><code class="language-plaintext highlighter-rouge">CD</code></td>
-      <td>Finished successfully</td>
-    </tr>
-    <tr>
-      <td>Cancelled</td>
-      <td><code class="language-plaintext highlighter-rouge">CA</code></td>
-      <td>You or an admin cancelled it</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="what-happens-between-pending-and-running">What Happens Between Pending and Running?</h3>
-
-<p>When you submit a job, it enters the <strong>pending</strong> state. SLURM looks at your requested resources (CPUs, RAM, time) and finds a compute node that:</p>
-
-<ol>
-  <li>Has enough free CPUs and RAM</li>
-  <li>Can fit your requested time within scheduling constraints</li>
-  <li>Matches your requested partition</li>
-</ol>
-
-<p>Once a suitable node is found, your job transitions to <strong>running</strong>. This can take anywhere from seconds (cluster is quiet) to hours or days (cluster is busy, you requested a lot of resources).</p>
-
-<p>You can estimate your wait time:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Show estimated start time for pending jobs</span>
-squeue <span class="nt">-u</span> <span class="nv">$USER</span> <span class="nt">--start</span>
-</code></pre></div></div>
-
-<h3 id="reading-your-output-files">Reading Your Output Files</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Watch the output file live as the job runs</span>
-<span class="nb">tail</span> <span class="nt">-f</span> logs/fastqc_84521.out
-
-<span class="c"># Read the full output after completion</span>
-<span class="nb">cat </span>logs/fastqc_84521.out
-
-<span class="c"># Check for errors</span>
-<span class="nb">cat </span>logs/fastqc_84521.err
-
-<span class="c"># Get a summary of resources used after job completes</span>
-seff 84521
-</code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">seff</code> command is especially useful. It tells you:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Job ID: 84521
-State: COMPLETED (exit code 0)
-Cores: 4
-CPU Utilized: 00:03:12
-CPU Efficiency: 80.00%
-Memory Utilized: 2.34 GB
-Memory Efficiency: 29.25% of 8.00 GB
-</code></pre></div></div>
-
-<p>If your CPU efficiency is very low, you requested too many cores. If memory efficiency is very low, you requested too much RAM. Use this to tune your future jobs — both for your own queue priority and to be a good citizen of a shared resource.</p>
-
-<h3 id="cancelling-a-job">Cancelling a Job</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Cancel a specific job</span>
-scancel 84521
-
-<span class="c"># Cancel all your jobs</span>
-scancel <span class="nt">-u</span> <span class="nv">$USER</span>
-
-<span class="c"># Cancel all your pending jobs only</span>
-scancel <span class="nt">-u</span> <span class="nv">$USER</span> <span class="nt">-t</span> PENDING
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="part-7-from-laptop-loop-to-hpc-batch--side-by-side">Part 7: From Laptop Loop to HPC Batch — Side by Side</h2>
-
-<p>Here’s the same task — running FastQC on many samples — in all three approaches:</p>
-
-<h3 id="approach-1-laptop-bash-loop-sequential">Approach 1: Laptop bash loop (sequential)</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c"># run_local.sh — works on laptop, slow for many samples</span>
-
-<span class="k">for </span>sample <span class="k">in </span>data/<span class="k">*</span>.fastq.gz<span class="p">;</span> <span class="k">do
-    </span>fastqc <span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="nt">-o</span> qc_results/
-<span class="k">done</span>
-<span class="c"># 200 samples × 5 min = 16 hours, one core at a time</span>
-</code></pre></div></div>
-
-<h3 id="approach-2-hpc-batch-script-single-job-all-samples">Approach 2: HPC batch script (single job, all samples)</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --job-name=fastqc_all</span>
-<span class="c">#SBATCH --output=logs/fastqc_all_%j.out</span>
-<span class="c">#SBATCH --error=logs/fastqc_all_%j.err</span>
-<span class="c">#SBATCH --time=08:00:00       # allow enough time for all samples</span>
-<span class="c">#SBATCH --mem=16G</span>
-<span class="c">#SBATCH --cpus-per-task=8</span>
-
-module purge
-module load fastqc/0.12.1
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> qc_results/ logs/
-
-<span class="c"># Still sequential, but on a powerful compute node</span>
-<span class="k">for </span>sample <span class="k">in </span>data/<span class="k">*</span>.fastq.gz<span class="p">;</span> <span class="k">do
-    </span>fastqc <span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="nt">-t</span> <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="nt">-o</span> qc_results/
-<span class="k">done</span>
-
-<span class="c"># 200 samples on 8 CPUs — still sequential per sample,</span>
-<span class="c"># but each sample now uses 8 threads</span>
-</code></pre></div></div>
-
-<h3 id="approach-3-hpc-job-array-truly-parallel--day-4-preview">Approach 3: HPC job array (truly parallel — Day 4 preview)</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --job-name=fastqc_array</span>
-<span class="c">#SBATCH --output=logs/fastqc_%A_%a.out</span>
-<span class="c">#SBATCH --array=1-200           # 200 jobs, all running at once</span>
-<span class="c">#SBATCH --cpus-per-task=4</span>
-<span class="c">#SBATCH --mem=4G</span>
-<span class="c">#SBATCH --time=00:30:00</span>
-
-module purge
-module load fastqc/0.12.1
-
-<span class="c"># Each job processes exactly one sample</span>
-<span class="nv">SAMPLES</span><span class="o">=(</span>data/<span class="k">*</span>.fastq.gz<span class="o">)</span>
-<span class="nv">SAMPLE</span><span class="o">=</span><span class="k">${</span><span class="nv">SAMPLES</span><span class="p">[</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="p"> - 1]</span><span class="k">}</span>
-
-fastqc <span class="s2">"</span><span class="nv">$SAMPLE</span><span class="s2">"</span> <span class="nt">-t</span> <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="nt">-o</span> qc_results/
-
-<span class="c"># 200 jobs run simultaneously — wall time ~5 minutes total</span>
-</code></pre></div></div>
-
-<p>We’ll go deep on job arrays in Day 4. For now, the key insight: a single SLURM batch script is already a huge upgrade over a laptop loop because you can request dedicated resources, your laptop is freed up, and the job runs even if you close your laptop.</p>
-
-<hr />
-
-<h2 id="common-mistakes-to-avoid">Common Mistakes to Avoid</h2>
-
-<p><strong>Not creating the logs directory</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Job fails instantly — can't write to logs/</span>
-<span class="c">#SBATCH --output=logs/job_%j.out</span>
-<span class="c"># → logs/ doesn't exist → sbatch error</span>
-
-<span class="c"># ✅ Create it before submitting</span>
-<span class="nb">mkdir</span> <span class="nt">-p</span> logs/
-sbatch myjob.sh
-</code></pre></div></div>
-
-<p><strong>Requesting too much time “just in case”</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Lower priority, longer to start</span>
-<span class="c">#SBATCH --time=7-00:00:00   # 7 days for a 2-hour job</span>
-
-<span class="c"># ✅ Estimate reasonably + add 20% buffer</span>
-<span class="c">#SBATCH --time=02:30:00</span>
-</code></pre></div></div>
-
-<p><strong>Forgetting to load modules in the script</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Works in terminal, fails in sbatch — modules don't transfer</span>
-module load samtools/1.17      <span class="c"># in your terminal</span>
-sbatch myjob.sh                <span class="c"># job doesn't have samtools</span>
-
-<span class="c"># ✅ Load inside the script</span>
-module purge
-module load samtools/1.17
-</code></pre></div></div>
-
-<p><strong>Using $HOME for large data</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ $HOME is usually small quota (50–100 GB)</span>
-<span class="c">#SBATCH --chdir=$HOME/data/</span>
-
-<span class="c"># ✅ Use scratch storage for large files</span>
-<span class="c">#SBATCH --chdir=/scratch/$USER/project/</span>
-</code></pre></div></div>
-
-<p><strong>Not checking seff after jobs</strong></p>
-
-<p>Always run <code class="language-plaintext highlighter-rouge">seff &lt;jobid&gt;</code> after a job completes. It’s 10 seconds of work that tells you exactly how to tune your resource requests — which means shorter queue wait times for your next job.</p>
-
-<hr />
-
-<h2 id="try-it-yourself">Try It Yourself</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Create a minimal test script</span>
-<span class="nb">mkdir</span> <span class="nt">-p</span> ~/test_job/logs/
-<span class="nb">cd</span> ~/test_job/
-
-<span class="nb">cat</span> <span class="o">&gt;</span> test.sh <span class="o">&lt;&lt;</span> <span class="sh">'</span><span class="no">EOF</span><span class="sh">'
-#!/bin/bash
-#SBATCH --job-name=hello_hpc
-#SBATCH --output=logs/hello_%j.out
-#SBATCH --time=00:05:00
-#SBATCH --mem=1G
-#SBATCH --cpus-per-task=1
-
-echo "Hello from node: </span><span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span><span class="sh">"
-echo "My job ID is: </span><span class="nv">$SLURM_JOB_ID</span><span class="sh">"
-echo "Date: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="sh">"
-sleep 30
-echo "Done!"
-</span><span class="no">EOF
-
-</span><span class="c"># 2. Submit it</span>
-sbatch test.sh
-<span class="c"># Submitted batch job 84560</span>
-
-<span class="c"># 3. Watch it run</span>
-squeue <span class="nt">-u</span> <span class="nv">$USER</span>
-
-<span class="c"># 4. Read the output (once state = R or CG)</span>
-<span class="nb">cat </span>logs/hello_84560.out
-
-<span class="c"># 5. Check resource usage</span>
-seff 84560
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="summary">Summary</h2>
-
-<ul>
-  <li>The <strong>login node</strong> is a shared gateway — never run compute there. Use it only for editing files, submitting jobs, and checking status</li>
-  <li>On your <strong>laptop</strong>, commands run directly. Bash for loops work but are sequential — fine for small datasets, slow for 50+ samples</li>
-  <li><strong>Interactive nodes</strong> (<code class="language-plaintext highlighter-rouge">srun --pty bash</code>) give you a compute node for testing, exactly like your laptop but with HPC resources</li>
-  <li><strong>SLURM batch scripts</strong> (<code class="language-plaintext highlighter-rouge">sbatch</code>) are shell scripts with <code class="language-plaintext highlighter-rouge">#SBATCH</code> headers that tell the scheduler what resources your job needs</li>
-  <li><code class="language-plaintext highlighter-rouge">%j</code> in output filenames is replaced by the job ID — always use it so every run has its own unique log file</li>
-  <li>After every job, run <code class="language-plaintext highlighter-rouge">seff &lt;jobid&gt;</code> to see how efficiently you used your requested resources</li>
-</ul>
-
-<hr />
-
-<h2 id="up-next">Up Next</h2>
-
-<p><strong>Day 4: Scaling Analysis — For Loops vs Job Arrays</strong></p>
-
-<p>You now know how to run one job properly. In Day 4, we scale it. We’ll take that bash for loop processing 200 samples in 16 hours and turn it into a SLURM job array that finishes in 15 minutes — with the same amount of total compute, just running in parallel.</p>
-
-<hr />
-
-<p><img src="/assets/img/d3_hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="SLURM" /><category term="sbatch" /><category term="bioinformatics" /><category term="beginners" /><category term="job-scheduler" /><category term="bash" /><category term="computational-biology" /><summary type="html"><![CDATA[The biggest mindset shift in HPC: you don't run commands, you submit jobs. Why the login node is off-limits, what actually happens when you type sbatch, and how to go from a laptop bash loop to a proper SLURM script.]]></summary></entry></feed>
+<p><img src="/assets/img/d4-hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="SLURM" /><category term="job-arrays" /><category term="bioinformatics" /><category term="parallelism" /><category term="scaling" /><category term="genomics" /><category term="beginners" /><summary type="html"><![CDATA[200 samples × 15 minutes = 50 hours sequential. Or 15 minutes parallel. Here's exactly how job arrays work, why they are the single biggest productivity unlock on HPC, and every pattern you need to handle real-world datasets.]]></summary></entry></feed>
