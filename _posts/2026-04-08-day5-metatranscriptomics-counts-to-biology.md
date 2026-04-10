@@ -39,7 +39,7 @@ MAG3_gene_001   2400    1            0            4
 
 Three problems make these raw counts uninterpretable directly:
 
-**Problem 1 — Sequencing depth differs between samples.** Sample CP_Spr31G08 might have 500,000 total mapped reads while CP_Spr15G08 has 150,000. A gene with 12 counts in CP_Spr31G08 and 4 counts in CP_Spr15G08 might actually have _lower_ relative expression in CP_Spr31G08 — you cannot tell from raw counts alone.
+**Problem 1 — Sequencing depth differs between samples.** Sample CP*Spr31G08 might have 500,000 total mapped reads while CP_Spr15G08 has 150,000. A gene with 12 counts in CP_Spr31G08 and 4 counts in CP_Spr15G08 might actually have \_lower* relative expression in CP_Spr31G08 — you cannot tell from raw counts alone.
 
 **Problem 2 — Gene length affects count accumulation.** A 2,400 bp gene physically intercepts three times as many reads as an 800 bp gene with identical expression per basepair. Without length correction, long genes appear more expressed than short ones simply due to geometry.
 
