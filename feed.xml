@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-08T16:09:11-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-08T16:09:11-04:00</published><updated>2026-04-08T16:09:11-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-10T14:10:37-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-10T14:10:37-04:00</published><updated>2026-04-10T14:10:37-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,377 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Day 5 — From Counts to Biology: Normalization, DESeq2, DNA:RNA Ratios, and Ecological Interpretation</title><link href="https://jojyjohn28.github.io/blog/day5-metatranscriptomics-counts-to-biology/" rel="alternate" type="text/html" title="Day 5 — From Counts to Biology: Normalization, DESeq2, DNA:RNA Ratios, and Ecological Interpretation" /><published>2026-04-08T00:00:00-04:00</published><updated>2026-04-08T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day5-metatranscriptomics-counts-to-biology</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day5-metatranscriptomics-counts-to-biology/"><![CDATA[<p>You made it to the final day.</p>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Conda, Mamba, Micromamba — What’s the Difference (and What You Should Actually Use)</title><link href="https://jojyjohn28.github.io/blog/conda-mamba-micromamba-guide/" rel="alternate" type="text/html" title="Conda, Mamba, Micromamba — What’s the Difference (and What You Should Actually Use)" /><published>2026-04-10T00:00:00-04:00</published><updated>2026-04-10T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/conda-mamba-micromamba-guide</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/conda-mamba-micromamba-guide/"><![CDATA[<h2 id="conda-mamba-micromamba--whats-the-difference">Conda, Mamba, Micromamba — What’s the Difference</h2>
+
+<p><em>🧬 𝐷𝑎𝑦 70 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠</em>
+You ran <code class="language-plaintext highlighter-rouge">conda install</code> on something.</p>
+
+<p>Now your environment takes eight minutes to solve. Or it can’t solve at all. Or everything was working yesterday, and today you get a wall of red text about conflicting dependencies. Or — the most demoralizing outcome — your <code class="language-plaintext highlighter-rouge">base</code> environment is broken and you don’t know how it happened.</p>
+
+<p>If any of that sounds familiar, this post is for you. We’re going to cut through the confusion around conda, mamba, and micromamba, explain exactly what each one does, and give you a workflow that will save you hours of frustration.</p>
+
+<hr />
+
+<h2 id="what-is-conda-and-why-does-bioinformatics-depend-on-it">What is conda, and why does bioinformatics depend on it?</h2>
+
+<p><strong>conda</strong> is two things at once: a <strong>package manager</strong> (it downloads and installs software) and an <strong>environment manager</strong> (it creates isolated software containers so your tools don’t conflict with each other).</p>
+
+<p>Bioinformatics depends on it for one simple reason: the tools we use have complex, often incompatible dependencies. FastQC needs a specific version of Java. Bowtie2 needs a specific version of Python. GATK needs yet another. If you tried to install all of these into one global environment, they would constantly conflict — one tool’s required library version would break another tool entirely.</p>
+
+<p>Conda solves this by creating <strong>environments</strong>: isolated boxes where each project gets exactly the software versions it needs, completely separated from everything else. You can have ten different projects on one computer, each with their own Python version and tools, and they will never interfere with each other.</p>
+
+<hr />
+
+<h2 id="the-two-commands-everyone-confuses-conda-create-vs-conda-install">The two commands everyone confuses: <code class="language-plaintext highlighter-rouge">conda create</code> vs <code class="language-plaintext highlighter-rouge">conda install</code></h2>
+
+<p>This confusion is the source of more broken environments than anything else.</p>
+
+<h3 id="conda-create--makes-a-new-isolated-environment"><code class="language-plaintext highlighter-rouge">conda create</code> — makes a new isolated environment</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> myenv <span class="nv">python</span><span class="o">=</span>3.10
+</code></pre></div></div>
+
+<p>This creates a brand new, empty environment called <code class="language-plaintext highlighter-rouge">myenv</code> with Python 3.10 inside it. Nothing else. It does not install anything into your current environment. It does not touch <code class="language-plaintext highlighter-rouge">base</code>. It is a clean slate.</p>
+
+<p>Think of it like creating a new project folder. You do this once per project, at the beginning.</p>
+
+<h3 id="conda-install--installs-a-package-into-the-currently-active-environment"><code class="language-plaintext highlighter-rouge">conda install</code> — installs a package into the currently active environment</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate myenv
+conda <span class="nb">install </span>fastqc
+</code></pre></div></div>
+
+<p>This installs FastQC into <code class="language-plaintext highlighter-rouge">myenv</code> — the environment you activated. If you run <code class="language-plaintext highlighter-rouge">conda install</code> without activating an environment first, conda installs into <code class="language-plaintext highlighter-rouge">base</code>. This is almost always a mistake.</p>
+
+<p><strong>The rule that will save your setup:</strong></p>
+
+<blockquote>
+  <p><strong>Never install research software into <code class="language-plaintext highlighter-rouge">base</code>.</strong> Base is conda’s home environment — it manages conda itself. If you break it by installing conflicting packages, you may have to reinstall conda from scratch.</p>
+</blockquote>
+
+<p>Always create a new environment for each project, activate it, then install.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># The correct order, every time:</span>
+conda create <span class="nt">-n</span> metatranscriptomics <span class="nv">python</span><span class="o">=</span>3.10
+conda activate metatranscriptomics
+conda <span class="nb">install </span>fastqc bowtie2 samtools
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="the-problem-with-conda-it-is-slow">The problem with conda: it is slow</h2>
+
+<p>Here is why conda frustrates people. Its <strong>dependency solver</strong> — the part that figures out which exact versions of packages are compatible with each other — is written in Python and is genuinely slow. For complex bioinformatics environments with 20+ packages, it can take 10–30 minutes to solve. Sometimes it fails entirely with a message like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Solving environment: failed with initial frozen solve. Retrying with flexible solve.
+Solving environment: failed with repodata from current_repodata.json...
+</code></pre></div></div>
+
+<p>This is not your fault. This is conda’s solver hitting its limits. The solution is mamba.</p>
+
+<hr />
+
+<h2 id="mamba-conda-but-fast">Mamba: conda but fast</h2>
+
+<p><strong>Mamba</strong> is a drop-in replacement for conda that uses a C++ dependency solver instead of conda’s Python-based solver. It is dramatically faster — solving environments in seconds instead of minutes — and more reliable at finding solutions that conda fails to find.</p>
+
+<p>The key thing to understand: <strong>mamba uses exactly the same commands as conda.</strong> You do not need to learn anything new. Just replace the word <code class="language-plaintext highlighter-rouge">conda</code> with <code class="language-plaintext highlighter-rouge">mamba</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Instead of this (slow):</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda fastqc bowtie2 samtools
+
+<span class="c"># Do this (fast):</span>
+mamba <span class="nb">install</span> <span class="nt">-c</span> bioconda fastqc bowtie2 samtools
+</code></pre></div></div>
+
+<p>Same channels, same package names, same flags. Just faster.</p>
+
+<h3 id="installing-mamba">Installing mamba</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install mamba into your base environment once</span>
+conda <span class="nb">install</span> <span class="nt">-n</span> base <span class="nt">-c</span> conda-forge mamba
+</code></pre></div></div>
+
+<blockquote>
+  <p><strong>Note:</strong> As of conda 23.x, you can also enable the fast solver directly without installing mamba as a separate tool: <code class="language-plaintext highlighter-rouge">conda config --set solver libmamba</code>. Either approach gives you the speed benefit.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="micromamba-built-for-hpc-and-containers">Micromamba: built for HPC and containers</h2>
+
+<p><strong>Micromamba</strong> is a standalone, self-contained binary that reimplements the mamba functionality without requiring a base conda installation at all. It has no <code class="language-plaintext highlighter-rouge">base</code> environment and no conda dependency — you download one file and it works.</p>
+
+<p>This makes it ideal for two situations:</p>
+
+<p><strong>HPC clusters:</strong> Many clusters have an older system-wide conda or none at all. Installing micromamba in your home directory gives you full environment management without needing admin access or touching anything system-wide.</p>
+
+<p><strong>Containers:</strong> In Docker or Singularity containers, you want the smallest possible footprint. Micromamba adds almost nothing to container size compared to a full Miniconda installation.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install micromamba (Linux / HPC)</span>
+<span class="s2">"</span><span class="k">${</span><span class="nv">SHELL</span><span class="k">}</span><span class="s2">"</span> &lt;<span class="o">(</span>curl <span class="nt">-L</span> micro.mamba.pm/install.sh<span class="o">)</span>
+
+<span class="c"># Usage is identical to mamba/conda</span>
+micromamba create <span class="nt">-n</span> myenv <span class="nv">python</span><span class="o">=</span>3.10
+micromamba activate myenv
+micromamba <span class="nb">install</span> <span class="nt">-c</span> bioconda fastqc bowtie2
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="conda-vs-mamba-vs-micromamba--the-comparison">Conda vs Mamba vs Micromamba — the comparison</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>conda</th>
+      <th>mamba</th>
+      <th>micromamba</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>What it is</strong></td>
+      <td>Original package + environment manager</td>
+      <td>Faster drop-in replacement</td>
+      <td>Standalone binary, no base needed</td>
+    </tr>
+    <tr>
+      <td><strong>Solver speed</strong></td>
+      <td>Slow</td>
+      <td>Fast</td>
+      <td>Fast</td>
+    </tr>
+    <tr>
+      <td><strong>Installation</strong></td>
+      <td>Comes with Anaconda / Miniconda</td>
+      <td>Install into base conda</td>
+      <td>Single binary download</td>
+    </tr>
+    <tr>
+      <td><strong>Commands</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">conda install</code> etc.</td>
+      <td>Same — just type <code class="language-plaintext highlighter-rouge">mamba</code></td>
+      <td>Same — just type <code class="language-plaintext highlighter-rouge">micromamba</code></td>
+    </tr>
+    <tr>
+      <td><strong>Base environment</strong></td>
+      <td>Yes</td>
+      <td>Yes (uses conda’s base)</td>
+      <td>No — fully standalone</td>
+    </tr>
+    <tr>
+      <td><strong>Best for</strong></td>
+      <td>Learning the concepts</td>
+      <td>Daily bioinformatics work</td>
+      <td>HPC clusters · containers</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>The recommendation:</strong></p>
+
+<ul>
+  <li><strong>Just starting out?</strong> Use conda. The slowness teaches patience, and understanding conda makes mamba trivial.</li>
+  <li><strong>Daily bioinformatics work?</strong> Switch to mamba. Install it once, use it everywhere.</li>
+  <li><strong>Working on HPC or in containers?</strong> Use micromamba. No installation politics, no base environment to protect.</li>
+</ul>
+
+<hr />
+
+<h2 id="a-real-workflow-from-scratch">A real workflow from scratch</h2>
+
+<p>Here is the complete pattern to memorize for starting any new bioinformatics project:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Step 1: Create a dedicated environment</span>
+<span class="c"># Give it a meaningful name — not "test" or "env1"</span>
+conda create <span class="nt">-n</span> metatranscriptomics <span class="nv">python</span><span class="o">=</span>3.10
+
+<span class="c"># Step 2: Activate it</span>
+conda activate metatranscriptomics
+
+<span class="c"># Step 3: Install tools using mamba (fast)</span>
+mamba <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge <span class="se">\</span>
+  fastqc <span class="se">\</span>
+  fastp <span class="se">\</span>
+  sortmerna <span class="se">\</span>
+  bowtie2 <span class="se">\</span>
+  samtools <span class="se">\</span>
+  subread
+
+<span class="c"># Step 4: Export your environment for reproducibility</span>
+conda <span class="nb">env export</span> <span class="o">&gt;</span> environment.yml
+
+<span class="c"># Step 5: Deactivate when done</span>
+conda deactivate
+</code></pre></div></div>
+
+<p>That <code class="language-plaintext highlighter-rouge">environment.yml</code> file is critical. Commit it to your git repository immediately. Anyone — including future you — can recreate your exact environment with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">env </span>create <span class="nt">-f</span> environment.yml
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="what-an-environmentyml-looks-like">What an <code class="language-plaintext highlighter-rouge">environment.yml</code> looks like</h2>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">metatranscriptomics</span>
+<span class="na">channels</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">bioconda</span>
+  <span class="pi">-</span> <span class="s">conda-forge</span>
+  <span class="pi">-</span> <span class="s">defaults</span>
+<span class="na">dependencies</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">python=3.10</span>
+  <span class="pi">-</span> <span class="s">fastqc=0.12.1</span>
+  <span class="pi">-</span> <span class="s">fastp=0.23.4</span>
+  <span class="pi">-</span> <span class="s">sortmerna=4.3.6</span>
+  <span class="pi">-</span> <span class="s">bowtie2=2.5.4</span>
+  <span class="pi">-</span> <span class="s">samtools=1.19</span>
+  <span class="pi">-</span> <span class="s">subread=2.0.6</span>
+</code></pre></div></div>
+
+<p>This single file makes your computational environment fully reproducible — months later, on a different computer, on a collaborator’s machine, on a new HPC allocation.</p>
+
+<hr />
+
+<h2 id="channels-the-part-nobody-explains-clearly">Channels: the part nobody explains clearly</h2>
+
+<p>Packages come from <strong>channels</strong> — online repositories. The three you need to know:</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">conda-forge</code></strong> is the largest community channel. It has the most packages and the most up-to-date versions. Use it as your first choice for general packages.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">bioconda</code></strong> is the bioinformatics-specific channel. FastQC, Bowtie2, SAMtools, GATK, DESeq2 — all here. Always pair it with conda-forge.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">defaults</code></strong> is Anaconda’s official channel. Used automatically if you specify nothing. Sometimes has older versions than conda-forge.</p>
+
+<p>The right way to install bioinformatics tools:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mamba <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge samtools
+</code></pre></div></div>
+
+<p>Or set them globally once so you never need to type <code class="language-plaintext highlighter-rouge">-c</code> again:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda config <span class="nt">--add</span> channels conda-forge
+conda config <span class="nt">--add</span> channels bioconda
+conda config <span class="nt">--set</span> channel_priority strict
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">channel_priority strict</code> setting is important — it tells conda to respect the channel order you specified and not mix package versions across channels randomly. Mixing channels is one of the main causes of broken environments.</p>
+
+<hr />
+
+<h2 id="common-mistakes-that-break-environments">Common mistakes that break environments</h2>
+
+<p><strong>Installing everything into <code class="language-plaintext highlighter-rouge">base</code></strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># BAD — pollutes base, hard to recover</span>
+conda <span class="nb">install </span>samtools bowtie2
+
+<span class="c"># GOOD — create a dedicated environment first</span>
+conda create <span class="nt">-n</span> myproject
+conda activate myproject
+mamba <span class="nb">install </span>samtools bowtie2
+</code></pre></div></div>
+
+<p><strong>Mixing channels inconsistently</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># BAD — installs packages from different channels without order</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda samtools
+conda <span class="nb">install</span> <span class="nt">-c</span> defaults python
+
+<span class="c"># GOOD — specify channels consistently every time</span>
+mamba <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge samtools python
+</code></pre></div></div>
+
+<p><strong>Never exporting the environment</strong></p>
+
+<p>You finish a project, everything works. Six months later, on a new machine, you cannot remember what you installed. Always export:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">env export</span> <span class="o">&gt;</span> environment.yml
+git add environment.yml
+git commit <span class="nt">-m</span> <span class="s2">"add environment file"</span>
+</code></pre></div></div>
+
+<p><strong>One giant environment for everything</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># BAD — 50 tools from three projects, one broken dependency breaks all of them</span>
+conda activate everything_env
+
+<span class="c"># GOOD — one focused environment per project</span>
+conda activate metatranscriptomics
+</code></pre></div></div>
+
+<p>Smaller environments solve faster, break less, and are easier to debug. A focused environment with 10 tools is far more maintainable than a kitchen-sink environment with 50.</p>
+
+<p><strong>Running <code class="language-plaintext highlighter-rouge">conda update --all</code> without thinking</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># RISKY — updates every package in your environment at once</span>
+conda update <span class="nt">--all</span>
+
+<span class="c"># SAFER — update only what you specifically need</span>
+mamba <span class="nb">install </span><span class="nv">samtools</span><span class="o">=</span>1.20
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="on-hpc-conda-vs-module-load">On HPC: conda vs module load</h2>
+
+<p>Many HPC systems offer tools through the module system (<code class="language-plaintext highlighter-rouge">module load bowtie2</code>). When should you use modules versus conda?</p>
+
+<p>Use <strong>module load</strong> when you need a tool that your HPC admin has specifically compiled and optimized for that cluster’s hardware — this can be meaningfully faster for compute-intensive tools.</p>
+
+<p>Use <strong>conda / micromamba</strong> when you need a specific version not available in the module system, you need reproducibility across different clusters, you need Python packages, or you are building a pipeline that others need to run elsewhere.</p>
+
+<p>On Palmetto and similar clusters, a practical hybrid works well: <code class="language-plaintext highlighter-rouge">module load</code> for heavy compute steps (Bowtie2 alignment, STAR), and a micromamba environment for Python-based analysis (Snakemake, custom scripts, downstream R via conda-installed R packages).</p>
+
+<hr />
+
+<h2 id="quick-reference-card">Quick reference card</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create</span>
+conda create <span class="nt">-n</span> myenv <span class="nv">python</span><span class="o">=</span>3.10
+
+<span class="c"># Activate</span>
+conda activate myenv
+
+<span class="c"># Install fast</span>
+mamba <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge fastqc bowtie2 samtools
+
+<span class="c"># List all environments</span>
+conda <span class="nb">env </span>list
+
+<span class="c"># List packages in active environment</span>
+conda list
+
+<span class="c"># Export</span>
+conda <span class="nb">env export</span> <span class="o">&gt;</span> environment.yml
+
+<span class="c"># Recreate from file</span>
+conda <span class="nb">env </span>create <span class="nt">-f</span> environment.yml
+
+<span class="c"># Remove an environment</span>
+conda <span class="nb">env </span>remove <span class="nt">-n</span> myenv
+
+<span class="c"># Deactivate</span>
+conda deactivate
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="the-one-line-summary">The one-line summary</h2>
+
+<blockquote>
+  <p>Use <strong>mamba</strong> for daily work. Use <strong>micromamba</strong> on HPC. Never install into <code class="language-plaintext highlighter-rouge">base</code>. One environment per project. Always export <code class="language-plaintext highlighter-rouge">environment.yml</code>.</p>
+</blockquote>
+
+<p>That is everything you need. The edge cases will come — a package that only exists on one channel, a conflict that requires pinning a specific version, a tool that needs a separate environment entirely — but you will debug those one at a time, and the conda-forge and bioconda GitHub issues are surprisingly helpful when you do.</p>
+
+<hr />
+
+<p><em>Have a broken environment story or a tool installation question? Drop it in the comments.</em></p>
+
+<p><img src="/assets/img/conda_in.png" alt="Conda Install" /></p>]]></content><author><name></name></author><category term="linux" /><category term="conda" /><category term="mamba" /><category term="micromamba" /><category term="environment-management" /><category term="bioinformatics" /><category term="beginner" /><category term="HPC" /><category term="reproducibility" /><summary type="html"><![CDATA[You ran conda install and now your environment is broken. Sound familiar? This beginner-friendly guide explains exactly what conda, mamba, and micromamba are, when to use each one, and the common mistakes that silently destroy bioinformatics environments.]]></summary></entry><entry><title type="html">Day 5 — From Counts to Biology: Normalization, DESeq2, DNA:RNA Ratios, and Ecological Interpretation</title><link href="https://jojyjohn28.github.io/blog/day5-metatranscriptomics-counts-to-biology/" rel="alternate" type="text/html" title="Day 5 — From Counts to Biology: Normalization, DESeq2, DNA:RNA Ratios, and Ecological Interpretation" /><published>2026-04-08T00:00:00-04:00</published><updated>2026-04-08T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day5-metatranscriptomics-counts-to-biology</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day5-metatranscriptomics-counts-to-biology/"><![CDATA[<p>You made it to the final day.</p>
 
 <p>You have a count matrix. It came from four days of careful work — quality control, rRNA removal, paired-end repair, reference construction, Bowtie2 mapping, featureCounts quantification. Each step was essential. Each step protected the integrity of what you are about to analyze.</p>
 
@@ -790,7 +1160,7 @@ MAG3_gene_001   2400    1            0            4
 
 <p>Three problems make these raw counts uninterpretable directly:</p>
 
-<p><strong>Problem 1 — Sequencing depth differs between samples.</strong> Sample CP_Spr31G08 might have 500,000 total mapped reads while CP_Spr15G08 has 150,000. A gene with 12 counts in CP_Spr31G08 and 4 counts in CP_Spr15G08 might actually have <em>lower</em> relative expression in CP_Spr31G08 — you cannot tell from raw counts alone.</p>
+<p><strong>Problem 1 — Sequencing depth differs between samples.</strong> Sample CP<em>Spr31G08 might have 500,000 total mapped reads while CP_Spr15G08 has 150,000. A gene with 12 counts in CP_Spr31G08 and 4 counts in CP_Spr15G08 might actually have _lower</em> relative expression in CP_Spr31G08 — you cannot tell from raw counts alone.</p>
 
 <p><strong>Problem 2 — Gene length affects count accumulation.</strong> A 2,400 bp gene physically intercepts three times as many reads as an 800 bp gene with identical expression per basepair. Without length correction, long genes appear more expressed than short ones simply due to geometry.</p>
 
@@ -5120,577 +5490,4 @@ snakemake <span class="nt">--cores</span> 2
 
 <hr />
 
-<p><img src="/assets/img/d5_hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="Snakemake" /><category term="Nextflow" /><category term="bioinformatics" /><category term="reproducibility" /><category term="workflow" /><category term="pipeline" /><category term="beginners" /><summary type="html"><![CDATA[Shell scripts work — until they don't. Here's how to graduate from manual job submissions to proper workflow managers that track dependencies, restart from failures, scale to HPC, and make your analysis reproducible by anyone, anywhere.]]></summary></entry><entry><title type="html">Day 4 — Scaling Analysis: For Loops vs SLURM Job Arrays</title><link href="https://jojyjohn28.github.io/blog/day4-job-arrays/" rel="alternate" type="text/html" title="Day 4 — Scaling Analysis: For Loops vs SLURM Job Arrays" /><published>2026-03-17T00:00:00-04:00</published><updated>2026-03-17T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day4-job-arrays</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day4-job-arrays/"><![CDATA[<h1 id="day-4-scaling-analysis--for-loops-vs-slurm-job-arrays">Day 4: Scaling Analysis — For Loops vs SLURM Job Arrays</h1>
-
-<blockquote>
-  <p><em>This is Day 4 of a 6-part series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong> and 🧬 Day 61 of Daily Bioinformatics from Jojy’s Desk. In <a href="https://jojyjohn28.github.io/blog/day3-running-jobs/">Day 3</a> we learned how to submit a single job. Today we scale it: the same work, 200× faster.</em></p>
-</blockquote>
-
-<hr />
-
-<h2 id="the-problem-with-sequential-processing">The Problem With Sequential Processing</h2>
-
-<p>You’ve written your SLURM script. You know how to run one job. Now your supervisor hands you 200 samples and says the analysis needs to be done by Friday.</p>
-
-<p>Your first instinct is a for loop:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>sample <span class="k">in </span>data/<span class="k">*</span>.fastq.gz<span class="p">;</span> <span class="k">do
-    </span>sbatch process_one_sample.sh <span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span>
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>Or maybe a single job with a loop inside:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --time=50:00:00</span>
-
-<span class="k">for </span>sample <span class="k">in </span>data/<span class="k">*</span>.fastq.gz<span class="p">;</span> <span class="k">do
-    </span>fastqc <span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="nt">-o</span> qc_results/
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p>Both of these work. But they’re leaving enormous potential on the table.</p>
-
-<p>The for loop approach submits 200 separate jobs manually. The single-job-with-loop approach runs everything sequentially — sample 2 waits for sample 1 to finish, sample 3 waits for sample 2, and so on.</p>
-
-<p>With 200 samples at 15 minutes each, you’re looking at <strong>50 hours of wall time</strong>.</p>
-
-<p>Job arrays run all 200 simultaneously. Wall time: <strong>15 minutes</strong>.</p>
-
-<p>Same total CPU hours. Completely different calendar time.</p>
-
-<hr />
-
-<h2 id="what-youll-learn-today">What You’ll Learn Today</h2>
-
-<ul>
-  <li>Why sequential processing is the wrong default for large datasets</li>
-  <li>What a SLURM job array actually is and how it works</li>
-  <li>How <code class="language-plaintext highlighter-rouge">$SLURM_ARRAY_TASK_ID</code> maps to your sample files</li>
-  <li>How to control concurrency — running 20 at a time instead of all 200</li>
-  <li>How to handle failed tasks, rerun subsets, and read per-task logs</li>
-  <li>Real patterns: paired-end reads, sample sheets, parameter sweeps</li>
-  <li>A benchmark comparison: for loop vs job array</li>
-</ul>
-
-<hr />
-
-<h2 id="part-1-what-is-a-job-array">Part 1: What Is a Job Array?</h2>
-
-<p>A <strong>SLURM job array</strong> is a single <code class="language-plaintext highlighter-rouge">sbatch</code> submission that creates multiple identical jobs, each identified by a unique <strong>task ID</strong> — an integer from 1 to N.</p>
-
-<p>Every task runs the same script, but gets a different task ID through the environment variable <code class="language-plaintext highlighter-rouge">$SLURM_ARRAY_TASK_ID</code>. Your script uses that ID to figure out which sample it should process.</p>
-
-<p>Think of it like this:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbatch --array=1-200 process.sh
-    ↓
-SLURM creates 200 jobs:
-  Job 84600_1   → process.sh  (SLURM_ARRAY_TASK_ID=1)
-  Job 84600_2   → process.sh  (SLURM_ARRAY_TASK_ID=2)
-  Job 84600_3   → process.sh  (SLURM_ARRAY_TASK_ID=3)
-  ...
-  Job 84600_200 → process.sh  (SLURM_ARRAY_TASK_ID=200)
-
-All 200 run in parallel across available nodes.
-</code></pre></div></div>
-
-<p>The <strong>array job ID</strong> (84600) is shared across all tasks. Each task has its own <strong>task ID</strong> (1–200). Together they form a unique identifier: <code class="language-plaintext highlighter-rouge">84600_1</code>, <code class="language-plaintext highlighter-rouge">84600_2</code>, etc.</p>
-
-<hr />
-
-<h2 id="part-2-your-first-job-array">Part 2: Your First Job Array</h2>
-
-<p>Let’s convert a for loop into a job array step by step.</p>
-
-<h3 id="starting-point-the-for-loop">Starting Point: The For Loop</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c"># run_loop.sh — processes samples sequentially</span>
-
-module load fastqc/0.12.1
-<span class="nb">mkdir</span> <span class="nt">-p</span> qc_results/
-
-<span class="k">for </span>sample <span class="k">in </span>data/<span class="k">*</span>.fastq.gz<span class="p">;</span> <span class="k">do
-    </span>fastqc <span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="nt">-o</span> qc_results/
-<span class="k">done</span>
-
-<span class="c"># ⏱ 200 samples × 15 min = 50 hours wall time</span>
-</code></pre></div></div>
-
-<h3 id="step-1-add-the-sbatch-array-directive">Step 1: Add the #SBATCH –array directive</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --job-name=fastqc_array</span>
-<span class="c">#SBATCH --array=1-200              # create 200 tasks</span>
-<span class="c">#SBATCH --output=logs/%A_%a.out    # %A=array ID, %a=task ID</span>
-<span class="c">#SBATCH --error=logs/%A_%a.err</span>
-<span class="c">#SBATCH --time=00:30:00            # per-task time limit</span>
-<span class="c">#SBATCH --mem=4G                   # per-task memory</span>
-<span class="c">#SBATCH --cpus-per-task=4</span>
-
-module purge
-module load fastqc/0.12.1
-<span class="nb">mkdir</span> <span class="nt">-p</span> qc_results/ logs/
-
-<span class="c"># Step 2: Use $SLURM_ARRAY_TASK_ID to pick one sample</span>
-<span class="nv">SAMPLES</span><span class="o">=(</span>data/<span class="k">*</span>.fastq.gz<span class="o">)</span>           <span class="c"># bash array of all files</span>
-<span class="nv">SAMPLE</span><span class="o">=</span><span class="k">${</span><span class="nv">SAMPLES</span><span class="p">[</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="p"> - 1]</span><span class="k">}</span>   <span class="c"># pick the Nth one</span>
-
-<span class="nb">echo</span> <span class="s2">"Task </span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="s2"> processing: </span><span class="nv">$SAMPLE</span><span class="s2">"</span>
-
-fastqc <span class="s2">"</span><span class="nv">$SAMPLE</span><span class="s2">"</span> <span class="se">\</span>
-       <span class="nt">-t</span> <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="se">\</span>
-       <span class="nt">-o</span> qc_results/
-
-<span class="nb">echo</span> <span class="s2">"Done: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
-
-<span class="c"># ⚡ 200 tasks run in parallel → 15 min wall time</span>
-</code></pre></div></div>
-
-<p>Submit it:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbatch run_array.sh
-<span class="c"># Submitted batch job 84600</span>
-</code></pre></div></div>
-
-<p>That one command launches 200 jobs. All of them start as soon as compute nodes become available.</p>
-
-<h3 id="what-does-slurm_array_task_id---1-mean">What Does $SLURM_ARRAY_TASK_ID - 1 Mean?</h3>
-
-<p>Bash arrays are <strong>0-indexed</strong> (first element is index 0), but SLURM arrays start at <strong>1</strong> by default. Subtracting 1 aligns them:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SLURM_ARRAY_TASK_ID=1  →  index 0  →  data/sample_001.fastq.gz
-SLURM_ARRAY_TASK_ID=2  →  index 1  →  data/sample_002.fastq.gz
-SLURM_ARRAY_TASK_ID=3  →  index 2  →  data/sample_003.fastq.gz
-...
-SLURM_ARRAY_TASK_ID=200 → index 199 → data/sample_200.fastq.gz
-</code></pre></div></div>
-
-<p>If you prefer to start your array at 0:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --array=0-199</span>
-<span class="nv">SAMPLE</span><span class="o">=</span><span class="k">${</span><span class="nv">SAMPLES</span><span class="p">[</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="p">]</span><span class="k">}</span>   <span class="c"># no subtraction needed</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="part-3-monitoring-job-arrays">Part 3: Monitoring Job Arrays</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># See all your array tasks</span>
-squeue <span class="nt">-u</span> <span class="nv">$USER</span>
-
-<span class="c"># The output shows each task separately:</span>
-<span class="c"># JOBID        PARTITION  NAME           USER  ST  TIME   NODES</span>
-<span class="c"># 84600_1      normal     fastqc_array   you   R   0:03   1</span>
-<span class="c"># 84600_2      normal     fastqc_array   you   R   0:03   1</span>
-<span class="c"># 84600_[3-200]normal     fastqc_array   you   PD  0:00   1</span>
-
-<span class="c"># Compact view (groups pending tasks in brackets)</span>
-squeue <span class="nt">-u</span> <span class="nv">$USER</span> <span class="nt">-t</span> all
-
-<span class="c"># Check one specific task</span>
-scontrol show job 84600_42
-
-<span class="c"># Get efficiency for one task</span>
-seff 84600_42
-</code></pre></div></div>
-
-<h3 id="reading-per-task-log-files">Reading Per-Task Log Files</h3>
-
-<p>Because you used <code class="language-plaintext highlighter-rouge">%A_%a</code> in your output filename, every task has its own log:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logs/84600_1.out    <span class="c"># task 1</span>
-logs/84600_2.out    <span class="c"># task 2</span>
-...
-logs/84600_200.out  <span class="c"># task 200</span>
-
-<span class="c"># Check if any tasks failed</span>
-<span class="nb">grep</span> <span class="nt">-l</span> <span class="s2">"error</span><span class="se">\|</span><span class="s2">Error</span><span class="se">\|</span><span class="s2">FAILED"</span> logs/84600_<span class="k">*</span>.err
-
-<span class="c"># Check a specific task's output</span>
-<span class="nb">cat </span>logs/84600_42.out
-
-<span class="c"># See how many tasks completed successfully</span>
-<span class="nb">grep</span> <span class="nt">-l</span> <span class="s2">"Done:"</span> logs/84600_<span class="k">*</span>.out | <span class="nb">wc</span> <span class="nt">-l</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="part-4-controlling-concurrency--the-n-throttle">Part 4: Controlling Concurrency — The %N Throttle</h2>
-
-<p>Sometimes you don’t want all 200 tasks running at once. Reasons include:</p>
-
-<ul>
-  <li>The cluster has limited nodes and you don’t want to monopolise them</li>
-  <li>A shared database or reference file has read limits</li>
-  <li>You want to be a polite cluster citizen</li>
-</ul>
-
-<p>Control maximum simultaneous tasks with <code class="language-plaintext highlighter-rouge">%N</code>:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run at most 20 tasks at a time</span>
-<span class="c">#SBATCH --array=1-200%20</span>
-
-<span class="c"># Run at most 50 tasks at a time</span>
-<span class="c">#SBATCH --array=1-200%50</span>
-
-<span class="c"># Run them all (default)</span>
-<span class="c">#SBATCH --array=1-200</span>
-</code></pre></div></div>
-
-<p>With <code class="language-plaintext highlighter-rouge">--array=1-200%20</code>, SLURM starts 20 tasks, and as each one finishes, it immediately starts the next pending one. The queue self-manages — you don’t need to babysit it.</p>
-
-<hr />
-
-<h2 id="part-5-rerunning-failed-tasks">Part 5: Rerunning Failed Tasks</h2>
-
-<p>In real workflows, some tasks fail. Maybe a sample had corrupted data. Maybe a node went down mid-job. Job arrays make it trivial to rerun only the failures.</p>
-
-<h3 id="finding-which-tasks-failed">Finding Which Tasks Failed</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check exit codes for all tasks</span>
-sacct <span class="nt">-j</span> 84600 <span class="nt">--format</span><span class="o">=</span>JobID,State,ExitCode
-
-<span class="c"># Output:</span>
-<span class="c"># 84600_1     COMPLETED  0:0</span>
-<span class="c"># 84600_2     COMPLETED  0:0</span>
-<span class="c"># 84600_5     FAILED     1:0   ← this one failed</span>
-<span class="c"># 84600_42    FAILED     1:0   ← and this one</span>
-<span class="c"># ...</span>
-
-<span class="c"># Quick one-liner to list just the failed task IDs</span>
-sacct <span class="nt">-j</span> 84600 <span class="nt">--format</span><span class="o">=</span>JobID,State <span class="nt">-n</span> | <span class="se">\</span>
-    <span class="nb">awk</span> <span class="s1">'$2=="FAILED" {print $1}'</span> | <span class="se">\</span>
-    <span class="nb">sed</span> <span class="s1">'s/84600_//'</span>
-<span class="c"># outputs: 5, 42</span>
-</code></pre></div></div>
-
-<h3 id="rerunning-specific-tasks">Rerunning Specific Tasks</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Rerun only tasks 5 and 42</span>
-<span class="c">#SBATCH --array=5,42</span>
-
-<span class="c"># Rerun a range of tasks</span>
-<span class="c">#SBATCH --array=10-20</span>
-
-<span class="c"># Combine: specific tasks plus a range</span>
-<span class="c">#SBATCH --array=5,42,100-110</span>
-</code></pre></div></div>
-
-<p>Or cancel a specific task that’s running but producing bad output:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Cancel one task</span>
-scancel 84600_42
-
-<span class="c"># Cancel all pending tasks in the array (let running ones finish)</span>
-scancel <span class="nt">-t</span> PENDING 84600
-
-<span class="c"># Cancel the entire array</span>
-scancel 84600
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="part-6-real-bioinformatics-patterns">Part 6: Real Bioinformatics Patterns</h2>
-
-<h3 id="pattern-1-paired-end-fastq-files">Pattern 1: Paired-End FASTQ Files</h3>
-
-<p>Most sequencing data comes in pairs (R1 and R2). Your array needs to handle both files for each sample.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --array=1-100</span>
-<span class="c">#SBATCH --job-name=align_pe</span>
-<span class="c">#SBATCH --output=logs/%A_%a.out</span>
-<span class="c">#SBATCH --cpus-per-task=8</span>
-<span class="c">#SBATCH --mem=16G</span>
-<span class="c">#SBATCH --time=02:00:00</span>
-
-module purge
-module load bowtie2/2.5.1 samtools/1.17
-
-<span class="c"># Build arrays of R1 and R2 files</span>
-<span class="nv">R1_FILES</span><span class="o">=(</span>data/<span class="k">*</span>_R1.fastq.gz<span class="o">)</span>
-<span class="nv">R2_FILES</span><span class="o">=(</span>data/<span class="k">*</span>_R2.fastq.gz<span class="o">)</span>
-
-<span class="nv">R1</span><span class="o">=</span><span class="k">${</span><span class="nv">R1_FILES</span><span class="p">[</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="p"> - 1]</span><span class="k">}</span>
-<span class="nv">R2</span><span class="o">=</span><span class="k">${</span><span class="nv">R2_FILES</span><span class="p">[</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="p"> - 1]</span><span class="k">}</span>
-
-<span class="c"># Derive sample name from R1 filename</span>
-<span class="nv">SAMPLE</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$R1</span><span class="s2">"</span> _R1.fastq.gz<span class="si">)</span>
-
-<span class="nb">echo</span> <span class="s2">"Processing sample: </span><span class="nv">$SAMPLE</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="s2">"R1: </span><span class="nv">$R1</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="s2">"R2: </span><span class="nv">$R2</span><span class="s2">"</span>
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> alignments/
-
-bowtie2 <span class="se">\</span>
-    <span class="nt">-x</span> ref/genome <span class="se">\</span>
-    <span class="nt">-1</span> <span class="s2">"</span><span class="nv">$R1</span><span class="s2">"</span> <span class="se">\</span>
-    <span class="nt">-2</span> <span class="s2">"</span><span class="nv">$R2</span><span class="s2">"</span> <span class="se">\</span>
-    <span class="nt">-p</span> <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="se">\</span>
-    2&gt; alignments/<span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.log | <span class="se">\</span>
-samtools <span class="nb">sort</span> <span class="se">\</span>
-    -@ <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="se">\</span>
-    <span class="nt">-o</span> alignments/<span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.bam
-
-samtools index alignments/<span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.bam
-
-<span class="nb">echo</span> <span class="s2">"Alignment complete: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<h3 id="pattern-2-sample-sheet-csv">Pattern 2: Sample Sheet (CSV)</h3>
-
-<p>For complex projects, maintain a CSV sample sheet instead of relying on filename patterns:</p>
-
-<pre><code class="language-csv">sample_id,r1_path,r2_path,condition
-ctrl_01,data/ctrl_01_R1.fastq.gz,data/ctrl_01_R2.fastq.gz,control
-ctrl_02,data/ctrl_02_R1.fastq.gz,data/ctrl_02_R2.fastq.gz,control
-treat_01,data/treat_01_R1.fastq.gz,data/treat_01_R2.fastq.gz,treatment
-</code></pre>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --array=2-51    # rows 2-51 of the CSV (row 1 = header)</span>
-<span class="c">#SBATCH --job-name=align_sheet</span>
-<span class="c">#SBATCH --output=logs/%A_%a.out</span>
-<span class="c">#SBATCH --cpus-per-task=8</span>
-<span class="c">#SBATCH --mem=16G</span>
-<span class="c">#SBATCH --time=02:00:00</span>
-
-module purge
-module load bowtie2/2.5.1 samtools/1.17
-
-<span class="nv">SHEET</span><span class="o">=</span><span class="s2">"samples.csv"</span>
-
-<span class="c"># Extract this task's row from the CSV</span>
-<span class="nv">ROW</span><span class="o">=</span><span class="si">$(</span><span class="nb">awk</span> <span class="nt">-F</span><span class="s1">','</span> <span class="s2">"NR==</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$SHEET</span><span class="s2">"</span><span class="si">)</span>
-
-<span class="nv">SAMPLE</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$ROW</span><span class="s2">"</span> | <span class="nb">cut</span> <span class="nt">-d</span><span class="s1">','</span> <span class="nt">-f1</span><span class="si">)</span>
-<span class="nv">R1</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span>     <span class="s2">"</span><span class="nv">$ROW</span><span class="s2">"</span> | <span class="nb">cut</span> <span class="nt">-d</span><span class="s1">','</span> <span class="nt">-f2</span><span class="si">)</span>
-<span class="nv">R2</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span>     <span class="s2">"</span><span class="nv">$ROW</span><span class="s2">"</span> | <span class="nb">cut</span> <span class="nt">-d</span><span class="s1">','</span> <span class="nt">-f3</span><span class="si">)</span>
-<span class="nv">COND</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span>   <span class="s2">"</span><span class="nv">$ROW</span><span class="s2">"</span> | <span class="nb">cut</span> <span class="nt">-d</span><span class="s1">','</span> <span class="nt">-f4</span><span class="si">)</span>
-
-<span class="nb">echo</span> <span class="s2">"Sample: </span><span class="nv">$SAMPLE</span><span class="s2">  |  Condition: </span><span class="nv">$COND</span><span class="s2">"</span>
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> alignments/
-
-bowtie2 <span class="nt">-x</span> ref/genome <span class="nt">-1</span> <span class="s2">"</span><span class="nv">$R1</span><span class="s2">"</span> <span class="nt">-2</span> <span class="s2">"</span><span class="nv">$R2</span><span class="s2">"</span> <span class="se">\</span>
-        <span class="nt">-p</span> <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="se">\</span>
-    | samtools <span class="nb">sort</span> -@ <span class="nv">$SLURM_CPUS_PER_TASK</span> <span class="se">\</span>
-      <span class="nt">-o</span> alignments/<span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.bam
-
-samtools index alignments/<span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.bam
-</code></pre></div></div>
-
-<h3 id="pattern-3-parameter-sweep">Pattern 3: Parameter Sweep</h3>
-
-<p>Job arrays aren’t just for processing different samples. They’re perfect for testing a range of parameters:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --array=1-10</span>
-<span class="c">#SBATCH --job-name=param_sweep</span>
-<span class="c">#SBATCH --output=logs/sweep_%A_%a.out</span>
-<span class="c">#SBATCH --cpus-per-task=4</span>
-<span class="c">#SBATCH --mem=8G</span>
-
-module load kraken2/2.1.3
-
-<span class="c"># Test 10 different confidence thresholds (0.1 to 1.0)</span>
-<span class="nv">CONFIDENCE</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"scale=1; </span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="s2"> / 10"</span> | bc<span class="si">)</span>
-
-<span class="nb">echo</span> <span class="s2">"Testing confidence threshold: </span><span class="nv">$CONFIDENCE</span><span class="s2">"</span>
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> results/sweep_<span class="k">${</span><span class="nv">CONFIDENCE</span><span class="k">}</span>/
-
-kraken2 <span class="se">\</span>
-    <span class="nt">--db</span> /scratch/databases/kraken2_standard <span class="se">\</span>
-    <span class="nt">--confidence</span> <span class="s2">"</span><span class="nv">$CONFIDENCE</span><span class="s2">"</span> <span class="se">\</span>
-    <span class="nt">--report</span> results/sweep_<span class="k">${</span><span class="nv">CONFIDENCE</span><span class="k">}</span>/report.txt <span class="se">\</span>
-    data/test_sample.fastq.gz <span class="se">\</span>
-    <span class="o">&gt;</span> results/sweep_<span class="k">${</span><span class="nv">CONFIDENCE</span><span class="k">}</span>/output.txt
-
-<span class="nb">echo</span> <span class="s2">"Confidence </span><span class="nv">$CONFIDENCE</span><span class="s2"> done: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="part-7-the-full-benchmark">Part 7: The Full Benchmark</h2>
-
-<p>Here’s the comparison across all three approaches for 200 samples, 15 minutes processing time each:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Approach</th>
-      <th>Wall Time</th>
-      <th>CPU Hours</th>
-      <th>Notes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Laptop for loop</td>
-      <td>~50 hours</td>
-      <td>50</td>
-      <td>Sequential, laptop tied up</td>
-    </tr>
-    <tr>
-      <td>Single HPC job with loop</td>
-      <td>~50 hours</td>
-      <td>50</td>
-      <td>Better resources, still sequential</td>
-    </tr>
-    <tr>
-      <td>HPC job array (200 tasks)</td>
-      <td>~15 minutes</td>
-      <td>50</td>
-      <td>All tasks run simultaneously</td>
-    </tr>
-    <tr>
-      <td>HPC job array (throttled 50%)</td>
-      <td>~30 minutes</td>
-      <td>50</td>
-      <td>Max 100 tasks at once</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The total CPU hours are identical in every case — you’re not doing less work. The difference is pure <strong>parallelism</strong>. Job arrays don’t reduce compute; they compress wall time.</p>
-
-<p>This matters enormously in practice:</p>
-
-<ul>
-  <li>A 50-hour sequential job must finish without interruption</li>
-  <li>If it crashes at hour 48, you lose everything and restart</li>
-  <li>A 15-minute array job is easy to rerun; each task is independent</li>
-  <li>Failures affect one task, not the whole analysis</li>
-</ul>
-
-<hr />
-
-<h2 id="part-8-common-mistakes-and-how-to-fix-them">Part 8: Common Mistakes and How to Fix Them</h2>
-
-<h3 id="array-size-doesnt-match-number-of-files">Array size doesn’t match number of files</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ If you have 200 files but array=1-199</span>
-<span class="c"># Task 200 is never run — one sample missed silently</span>
-
-<span class="c"># ✅ Count your files first</span>
-<span class="nb">ls </span>data/<span class="k">*</span>.fastq.gz | <span class="nb">wc</span> <span class="nt">-l</span>
-<span class="c"># 200</span>
-
-<span class="c">#SBATCH --array=1-200   # matches exactly</span>
-</code></pre></div></div>
-
-<h3 id="off-by-one-errors">Off-by-one errors</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ SLURM starts at 1, bash arrays at 0</span>
-<span class="nv">SAMPLES</span><span class="o">=(</span>data/<span class="k">*</span>.fastq.gz<span class="o">)</span>
-<span class="nv">SAMPLE</span><span class="o">=</span><span class="k">${</span><span class="nv">SAMPLES</span><span class="p">[</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="p">]</span><span class="k">}</span>   <span class="c"># task 1 → index 1 (skips sample 1)</span>
-
-<span class="c"># ✅ Always subtract 1 when using --array=1-N</span>
-<span class="nv">SAMPLE</span><span class="o">=</span><span class="k">${</span><span class="nv">SAMPLES</span><span class="p">[</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="p"> - 1]</span><span class="k">}</span>   <span class="c"># task 1 → index 0 (correct)</span>
-</code></pre></div></div>
-
-<h3 id="requesting-too-many-resources-per-task">Requesting too many resources per task</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Overkill — wastes queue priority</span>
-<span class="c">#SBATCH --mem=64G     # for a FastQC job that uses 2 GB</span>
-
-<span class="c"># ✅ Profile one sample first with an interactive node</span>
-<span class="c"># then set realistic limits</span>
-<span class="c">#SBATCH --mem=4G</span>
-</code></pre></div></div>
-
-<h3 id="not-checking-for-silent-failures">Not checking for silent failures</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Job shows COMPLETED but output is wrong</span>
-<span class="c"># FastQC might fail on a corrupted file but exit 0</span>
-
-<span class="c"># ✅ Add explicit checks</span>
-<span class="k">if</span> <span class="o">[[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="s2">"qc_results/</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_fastqc.html"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
-    </span><span class="nb">echo</span> <span class="s2">"ERROR: output not created for </span><span class="nv">$SAMPLE</span><span class="s2">"</span>
-    <span class="nb">exit </span>1
-<span class="k">fi</span>
-</code></pre></div></div>
-
-<h3 id="forgetting-to-create-output-and-log-directories">Forgetting to create output and log directories</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Job fails: cannot open output file</span>
-<span class="c">#SBATCH --output=logs/%A_%a.out</span>
-<span class="c"># → logs/ doesn't exist</span>
-
-<span class="c"># ✅ Create directories in your pre-submission step</span>
-<span class="nb">mkdir</span> <span class="nt">-p</span> logs/ qc_results/ alignments/
-sbatch run_array.sh
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="try-it-yourself">Try It Yourself</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Create 10 test files</span>
-<span class="nb">mkdir</span> <span class="nt">-p</span> test_array/data/ test_array/logs/
-<span class="nb">cd </span>test_array/
-
-<span class="c"># Generate 10 small fake FASTQ files for testing</span>
-<span class="k">for </span>i <span class="k">in</span> <span class="si">$(</span><span class="nb">seq</span> <span class="nt">-w</span> 1 10<span class="si">)</span><span class="p">;</span> <span class="k">do
-    </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"@read1</span><span class="se">\n</span><span class="s2">ACGT</span><span class="se">\n</span><span class="s2">+</span><span class="se">\n</span><span class="s2">IIII"</span> <span class="o">&gt;</span> data/sample_<span class="k">${</span><span class="nv">i</span><span class="k">}</span>.fastq
-<span class="k">done</span>
-
-<span class="c"># 2. Write the array script</span>
-<span class="nb">cat</span> <span class="o">&gt;</span> run_array.sh <span class="o">&lt;&lt;</span> <span class="sh">'</span><span class="no">EOF</span><span class="sh">'
-#!/bin/bash
-#SBATCH --job-name=test_array
-#SBATCH --array=1-10
-#SBATCH --output=logs/%A_%a.out
-#SBATCH --time=00:05:00
-#SBATCH --mem=500M
-#SBATCH --cpus-per-task=1
-
-SAMPLES=(data/*.fastq)
-SAMPLE=</span><span class="k">${</span><span class="nv">SAMPLES</span><span class="p">[</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="p"> - 1]</span><span class="k">}</span><span class="sh">
-
-echo "Task </span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="sh"> → </span><span class="nv">$SAMPLE</span><span class="sh">"
-echo "Lines in file: </span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="nv">$SAMPLE</span><span class="si">)</span><span class="sh">"
-sleep 10
-echo "Done: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="sh">"
-</span><span class="no">EOF
-
-</span><span class="c"># 3. Submit</span>
-sbatch run_array.sh
-
-<span class="c"># 4. Watch all 10 tasks run simultaneously</span>
-watch squeue <span class="nt">-u</span> <span class="nv">$USER</span>
-
-<span class="c"># 5. Check outputs</span>
-<span class="nb">ls </span>logs/
-<span class="nb">grep</span> <span class="s2">"Task"</span> logs/<span class="k">*</span>.out
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="summary">Summary</h2>
-
-<ul>
-  <li><strong>For loops</strong> are sequential — simple to write but all samples wait in line</li>
-  <li><strong>Job arrays</strong> run one task per sample, all in parallel — same total compute, fraction of the wall time</li>
-  <li><code class="language-plaintext highlighter-rouge">$SLURM_ARRAY_TASK_ID</code> is the key: each task uses it to select its own input file</li>
-  <li>Use <code class="language-plaintext highlighter-rouge">%A_%a</code> in output filenames for per-task logs (array job ID + task ID)</li>
-  <li>Throttle with <code class="language-plaintext highlighter-rouge">--array=1-200%50</code> to limit concurrent tasks</li>
-  <li>Rerun only failed tasks by specifying their IDs: <code class="language-plaintext highlighter-rouge">--array=5,42</code></li>
-  <li>200 samples × 15 min = 50 hours sequential → 15 minutes parallel — that’s the single biggest win in HPC bioinformatics</li>
-</ul>
-
-<hr />
-
-<h2 id="up-next">Up Next</h2>
-
-<p><strong>Day 5: Reproducible Pipelines — Snakemake and Nextflow</strong></p>
-
-<p>You can now run any analysis on HPC at scale. But shell scripts and job arrays have a hidden problem: they don’t track dependencies. If step 2 depends on step 1 finishing, and step 1 fails halfway through, your script doesn’t know. In Day 5, we introduce workflow managers that solve this — and make your science reproducible.</p>
-
-<hr />
-
-<p><img src="/assets/img/d4-hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="SLURM" /><category term="job-arrays" /><category term="bioinformatics" /><category term="parallelism" /><category term="scaling" /><category term="genomics" /><category term="beginners" /><summary type="html"><![CDATA[200 samples × 15 minutes = 50 hours sequential. Or 15 minutes parallel. Here's exactly how job arrays work, why they are the single biggest productivity unlock on HPC, and every pattern you need to handle real-world datasets.]]></summary></entry></feed>
+<p><img src="/assets/img/d5_hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="Snakemake" /><category term="Nextflow" /><category term="bioinformatics" /><category term="reproducibility" /><category term="workflow" /><category term="pipeline" /><category term="beginners" /><summary type="html"><![CDATA[Shell scripts work — until they don't. Here's how to graduate from manual job submissions to proper workflow managers that track dependencies, restart from failures, scale to HPC, and make your analysis reproducible by anyone, anywhere.]]></summary></entry></feed>
