@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-14T09:58:09-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-14T09:58:09-04:00</published><updated>2026-04-14T09:58:09-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-16T13:11:42-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-16T13:11:42-04:00</published><updated>2026-04-16T13:11:42-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,518 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Co-occurrence Networks from Genome Abundance Data — A Complete R Workflow</title><link href="https://jojyjohn28.github.io/blog/cooccurrence-network-genome-data/" rel="alternate" type="text/html" title="Co-occurrence Networks from Genome Abundance Data — A Complete R Workflow" /><published>2026-04-14T00:00:00-04:00</published><updated>2026-04-14T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/cooccurrence-network-genome-data</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/cooccurrence-network-genome-data/"><![CDATA[<h2 id="co-occurrence-networks-from-genome-abundance-data--a-complete-r-workflow">Co-occurrence networks from genome abundance data — a complete R workflow</h2>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Genome Visualization Tools — A Beginner’s Guide to Seeing Your Genome</title><link href="https://jojyjohn28.github.io/blog/genome-visualization-tools-beginners-guide/" rel="alternate" type="text/html" title="Genome Visualization Tools — A Beginner’s Guide to Seeing Your Genome" /><published>2026-04-16T00:00:00-04:00</published><updated>2026-04-16T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/genome-visualization-tools</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/genome-visualization-tools-beginners-guide/"><![CDATA[<h2 id="genome-visualization-tools--a-beginners-guide-to-seeing-your-genome">Genome visualization tools — a beginner’s guide to seeing your genome</h2>
+
+<p><em>🧬 𝐷𝑎𝑦 72 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠</em></p>
+
+<p>You assembled a genome. Or you downloaded one from NCBI. You have a <code class="language-plaintext highlighter-rouge">.fasta</code> or a <code class="language-plaintext highlighter-rouge">.gbk</code> file sitting on your computer, and you want to actually <em>see</em> what is in it — genes, GC content, features, how everything is arranged.</p>
+
+<p>But where do you start?</p>
+
+<p>This post introduces four tools that cover the main use cases: from beautiful one-click circular maps to detailed interactive genome browsing. No programming background is needed for any of these (though a command line helps for one of them).</p>
+
+<hr />
+
+<h2 id="a-quick-primer-what-are-we-visualizing">A quick primer: what are we visualizing?</h2>
+
+<p>A genome file contains DNA sequence. By itself, sequence is just a string of A, T, G, C characters — not very useful visually. What makes visualization meaningful is <strong>annotation</strong>: knowing where genes start and stop, which strand they are on, what they encode, whether regions have unusual GC content or repeats.</p>
+
+<p>The most common file formats you will encounter:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Format</th>
+      <th>What it contains</th>
+      <th>Common extension</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>FASTA</td>
+      <td>Raw sequence only</td>
+      <td><code class="language-plaintext highlighter-rouge">.fa</code>, <code class="language-plaintext highlighter-rouge">.fasta</code>, <code class="language-plaintext highlighter-rouge">.fna</code></td>
+    </tr>
+    <tr>
+      <td>GenBank</td>
+      <td>Sequence + annotations</td>
+      <td><code class="language-plaintext highlighter-rouge">.gb</code>, <code class="language-plaintext highlighter-rouge">.gbk</code>, <code class="language-plaintext highlighter-rouge">.gbff</code></td>
+    </tr>
+    <tr>
+      <td>GFF3</td>
+      <td>Annotations only (no sequence)</td>
+      <td><code class="language-plaintext highlighter-rouge">.gff</code>, <code class="language-plaintext highlighter-rouge">.gff3</code></td>
+    </tr>
+    <tr>
+      <td>BAM/CRAM</td>
+      <td>Short read alignments to a reference</td>
+      <td><code class="language-plaintext highlighter-rouge">.bam</code>, <code class="language-plaintext highlighter-rouge">.cram</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Most visualization tools want either a GenBank file (sequence + annotations bundled together) or a FASTA + GFF3 pair (sequence and annotations separately). If you only have a FASTA, you will need to annotate it first — tools like <strong>Prokka</strong> or <strong>PGAP</strong> do this automatically for prokaryotes.</p>
+
+<hr />
+
+<h2 id="tool-1-proksee--the-easiest-starting-point">Tool 1: Proksee — the easiest starting point</h2>
+
+<p><strong>What it is:</strong> A browser-based platform for prokaryotic genome visualization and annotation. No installation, no command line, no account required to get started.</p>
+
+<p><strong>Best for:</strong> Beginners who want a visual result in minutes. Also excellent for running annotation tools (Prokka, CARD, AMRFinder) directly on the platform.</p>
+
+<p><strong>Website:</strong> <a href="https://proksee.ca">proksee.ca</a></p>
+
+<h3 id="what-proksee-does">What Proksee does</h3>
+
+<p>Upload a FASTA file, and Proksee builds a circular genome map immediately. From there you can:</p>
+
+<ul>
+  <li>Run <strong>Prokka</strong> to annotate genes directly inside the browser</li>
+  <li>Add tracks for GC content, GC skew, COG categories, AMR genes, prophages</li>
+  <li>Customize colours, labels, and legend</li>
+  <li>Download PNG, SVG, or a JSON archive of your project</li>
+</ul>
+
+<h3 id="step-by-step-from-raw-fasta-to-annotated-circular-map">Step-by-step: from raw FASTA to annotated circular map</h3>
+
+<p><strong>1. Upload your genome</strong></p>
+
+<p>Go to <a href="https://proksee.ca">proksee.ca</a> → New Project → Browse → select your <code class="language-plaintext highlighter-rouge">.fasta</code> or <code class="language-plaintext highlighter-rouge">.fa</code> file → Create Map.</p>
+
+<p>The status page will appear for a few seconds while the initial map is built. When it loads, you will see a circular map — mostly empty, because you have not added annotations yet.</p>
+
+<p><strong>2. Run Prokka for annotation</strong></p>
+
+<p>In the right-hand Sidebar, find the <strong>Tools</strong> panel → click <strong>Prokka</strong> → Start. The default settings work well for most bacteria. Click OK.</p>
+
+<p>A Job Tab opens and shows a live log as Prokka runs. For a typical bacterial genome (~4–5 Mb) this takes about 1–2 minutes.</p>
+
+<p><strong>3. Add features to the map</strong></p>
+
+<p>When the job finishes, the Report Card shows a summary (for example: “1,761 features found”). Click <strong>Add Features to Map</strong> → choose a track and legend → OK.</p>
+
+<p>You will now see all annotated genes on the circular map, colour-coded by feature type.</p>
+
+<p><strong>4. Save your project</strong></p>
+
+<p>This is the most commonly forgotten step. Proksee does <strong>not</strong> auto-save. Click <strong>Save Changes</strong> in the top bar before closing the browser tab.</p>
+
+<p><strong>5. Download results</strong></p>
+
+<p>In the Sidebar’s <strong>Download</strong> panel:</p>
+
+<ul>
+  <li><strong>PNG</strong> or <strong>SVG</strong> for publication-quality images</li>
+  <li><strong>JSON</strong> to save a complete project archive (can be re-loaded into Proksee later)</li>
+  <li><strong>Sequences</strong> to export nucleotide or amino acid sequences of annotated features</li>
+</ul>
+
+<h3 id="what-the-output-looks-like">What the output looks like</h3>
+
+<p>The default circular map shows:</p>
+
+<ul>
+  <li>Outer ring: forward-strand CDSs</li>
+  <li>Inner ring: reverse-strand CDSs</li>
+  <li>GC content track (if added): deviation from mean GC</li>
+  <li>GC skew track: positive (leading strand synthesis) vs negative regions</li>
+</ul>
+
+<h3 id="when-to-use-proksee">When to use Proksee</h3>
+
+<ul>
+  <li>You are new to genome visualization and want results quickly</li>
+  <li>You want to run annotation tools without setting up a command-line environment</li>
+  <li>You need a clean circular figure for a paper or presentation</li>
+  <li>You are working with a prokaryotic genome (Proksee is designed for bacteria and archaea)</li>
+</ul>
+
+<hr />
+
+<h2 id="tool-2-gbdraw--publication-quality-diagrams-from-the-command-line-or-browser">Tool 2: gbdraw — publication-quality diagrams from the command line or browser</h2>
+
+<p><strong>What it is:</strong> A Python-based tool for generating circular and linear genome diagrams. Available as a web app (no installation) or as a Bioconda package for local use.</p>
+
+<p><strong>Best for:</strong> Clean, customizable figures for publication. Especially good for comparative genomics (showing BLAST similarity between two genomes side by side).</p>
+
+<p><strong>Web app:</strong> <a href="https://gbdraw.app">gbdraw.app</a> — runs entirely in your browser, your data never leaves your machine.</p>
+
+<p><strong>Citation:</strong> Kawato, S. (2026). gbdraw: a genome diagram generator for microbes and organelles. bioRxiv. <a href="https://doi.org/10.64898/2026.04.07.716863">https://doi.org/10.64898/2026.04.07.716863</a></p>
+
+<h3 id="what-gbdraw-does">What gbdraw does</h3>
+
+<ul>
+  <li>Takes a <strong>GenBank/DDBJ flatfile</strong> or a <strong>GFF3 + FASTA pair</strong> as input</li>
+  <li>Produces <strong>circular or linear</strong> genome diagrams</li>
+  <li>Exports to <strong>SVG, PNG, PDF, EPS, or PS</strong></li>
+  <li>Supports <strong>comparative genomics tracks</strong> from BLAST output (outfmt 6 or 7)</li>
+  <li>Fine-grained control over colours, labels, legends, and track layout</li>
+</ul>
+
+<h3 id="using-gbdraw-in-the-browser-no-installation-needed">Using gbdraw in the browser (no installation needed)</h3>
+
+<p>Go to <a href="https://gbdraw.app">gbdraw.app</a>. The interface lets you:</p>
+
+<ol>
+  <li>Upload a GenBank file (<code class="language-plaintext highlighter-rouge">.gb</code> or <code class="language-plaintext highlighter-rouge">.gbk</code>) or a GFF3 + FASTA pair</li>
+  <li>Choose circular or linear layout</li>
+  <li>Configure colours and tracks</li>
+  <li>Download the resulting SVG or PNG</li>
+</ol>
+
+<p>No Streamlit install, no Python setup. Your data stays on your local machine.</p>
+
+<h3 id="installing-gbdraw-locally-bioconda">Installing gbdraw locally (Bioconda)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mamba create <span class="nt">-n</span> gbdraw <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda gbdraw
+conda activate gbdraw
+gbdraw <span class="nt">-h</span>
+</code></pre></div></div>
+
+<p>To launch the local GUI version (same interface as the web app, but running on your machine):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gbdraw gui
+</code></pre></div></div>
+
+<p>For PNG/PDF/EPS/PS export from a local install, add the optional export dependency:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">-e</span> <span class="s2">".[dev,export]"</span>
+</code></pre></div></div>
+
+<h3 id="basic-command-line-usage">Basic command-line usage</h3>
+
+<p>Circular diagram from a GenBank file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gbdraw <span class="nt">-i</span> genome.gbk <span class="nt">-o</span> my_genome_circle
+<span class="c"># Output: my_genome_circle.svg (and .png if export is installed)</span>
+</code></pre></div></div>
+
+<p>Linear diagram:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gbdraw <span class="nt">--linear</span> <span class="nt">-i</span> genome.gbk <span class="nt">-o</span> my_genome_linear
+</code></pre></div></div>
+
+<p>Comparative diagram (two genomes + BLAST output):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># First run BLAST to compare the two genomes</span>
+makeblastdb <span class="nt">-in</span> genome2.fasta <span class="nt">-dbtype</span> nucl
+blastn <span class="nt">-query</span> genome1.fasta <span class="nt">-db</span> genome2.fasta <span class="nt">-outfmt</span> 6 <span class="nt">-out</span> blast_results.txt
+
+<span class="c"># Then pass both GenBank files and the BLAST result to gbdraw</span>
+gbdraw <span class="nt">-i</span> genome1.gbk genome2.gbk <span class="nt">--blast</span> blast_results.txt <span class="nt">-o</span> comparison
+</code></pre></div></div>
+
+<h3 id="what-input-files-does-gbdraw-need">What input files does gbdraw need?</h3>
+
+<p><strong>Option A — GenBank flatfile (easiest)</strong></p>
+
+<p>If you downloaded your genome from NCBI, the <code class="language-plaintext highlighter-rouge">.gbff</code> file from the RefSeq or GenBank FTP already contains everything gbdraw needs. If you assembled and annotated your genome with Prokka, it produces a <code class="language-plaintext highlighter-rouge">.gbk</code> file directly.</p>
+
+<p><strong>Option B — GFF3 + FASTA pair</strong></p>
+
+<p>If your annotation is in GFF3 format (common output from PGAP, BAKTA, or manual annotation), keep the <code class="language-plaintext highlighter-rouge">.gff3</code> and <code class="language-plaintext highlighter-rouge">.fasta</code> files together and pass both to gbdraw:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gbdraw <span class="nt">-i</span> annotation.gff3 genome.fasta <span class="nt">-o</span> my_genome
+</code></pre></div></div>
+
+<h3 id="when-to-use-gbdraw">When to use gbdraw</h3>
+
+<ul>
+  <li>You need a polished, publication-ready figure (SVG output is fully editable in Illustrator or Inkscape)</li>
+  <li>You want to compare two related genomes and show the BLAST similarity as a ribbon between them</li>
+  <li>You are working with organelle genomes (mitochondria, chloroplasts) — gbdraw handles these particularly well</li>
+  <li>You want fine-grained control over every visual element</li>
+</ul>
+
+<hr />
+
+<h2 id="tool-3-artemis--the-full-genome-browser-for-detailed-annotation-work">Tool 3: Artemis — the full genome browser for detailed annotation work</h2>
+
+<p><strong>What it is:</strong> A desktop genome browser and annotation editor from the Wellcome Sanger Institute. Written in Java, runs on Windows, Mac, and Linux.</p>
+
+<p><strong>Best for:</strong> Detailed inspection of genome features — looking at individual genes, editing annotations, viewing read alignments (via the integrated BamView), and comparing two genomes side by side (via ACT, Artemis Comparison Tool).</p>
+
+<p><strong>Download:</strong> <a href="https://github.com/sanger-pathogens/Artemis">github.com/sanger-pathogens/Artemis</a></p>
+
+<h3 id="the-artemis-software-suite">The Artemis software suite</h3>
+
+<p>The Artemis package includes four tools:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Artemis</strong></td>
+      <td>Genome browser + annotation editor</td>
+    </tr>
+    <tr>
+      <td><strong>ACT</strong></td>
+      <td>Pairwise genome comparison viewer</td>
+    </tr>
+    <tr>
+      <td><strong>BamView</strong></td>
+      <td>BAM/CRAM read alignment viewer</td>
+    </tr>
+    <tr>
+      <td><strong>DNAPlotter</strong></td>
+      <td>Circular and linear genome diagram generator</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>Artemis requires <strong>Java 11</strong> or later. The easiest route is:</p>
+
+<ol>
+  <li>Download OpenJDK 11 from <a href="https://adoptopenjdk.net">adoptopenjdk.net</a> — select OpenJDK 11 + HotSpot for your platform</li>
+  <li>Install it</li>
+  <li>Download the Artemis release <code class="language-plaintext highlighter-rouge">.jar</code> or OS-specific installer from the GitHub Releases page</li>
+</ol>
+
+<p>If you use Bioconda, you can skip the Java setup entirely:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> bioconda artemis
+</code></pre></div></div>
+
+<h3 id="what-artemis-shows-you">What Artemis shows you</h3>
+
+<p>When you open a GenBank or GFF3 file in Artemis, you see:</p>
+
+<ul>
+  <li><strong>Sequence view</strong> — the raw DNA, scrollable, with annotation features drawn as coloured boxes above and below the sequence (above = forward strand, below = reverse strand)</li>
+  <li><strong>Feature list</strong> — a table of all annotated features (CDS, rRNA, tRNA, etc.) that you can click to jump to on the sequence</li>
+  <li><strong>Six-frame translation</strong> — all six reading frames shown simultaneously, letting you spot potential ORFs even in unannotated regions</li>
+  <li><strong>Graph tracks</strong> — GC content, GC deviation, entropy, and other sequence statistics plotted as graphs that scroll with the sequence</li>
+</ul>
+
+<h3 id="opening-a-genome-in-artemis">Opening a genome in Artemis</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># From the command line (if installed via Bioconda):</span>
+art genome.gbk
+
+<span class="c"># Or just double-click the Artemis.jar file and use File &gt; Open</span>
+</code></pre></div></div>
+
+<h3 id="bamview-viewing-read-alignments-inside-artemis">BamView: viewing read alignments inside Artemis</h3>
+
+<p>If you have mapped short reads to your genome (producing a <code class="language-plaintext highlighter-rouge">.bam</code> file), you can open it inside Artemis to see read depth and individual alignments in context of the annotation:</p>
+
+<p>File → Open BAM / VCF → select your <code class="language-plaintext highlighter-rouge">.bam</code> file.</p>
+
+<p>This is particularly useful for:</p>
+
+<ul>
+  <li>Checking coverage of a gene you are interested in</li>
+  <li>Identifying regions with unexpectedly high or low coverage</li>
+  <li>Inspecting variant sites manually</li>
+</ul>
+
+<h3 id="act-comparing-two-genomes">ACT: comparing two genomes</h3>
+
+<p>ACT (Artemis Comparison Tool) takes two genome files and a BLAST comparison file and shows them as horizontal sequence lanes with coloured ribbons connecting regions of similarity. This is the classic view for comparing related bacterial genomes or looking at genomic rearrangements.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Generate BLAST comparison first</span>
+makeblastdb <span class="nt">-in</span> genome2.fasta <span class="nt">-dbtype</span> nucl <span class="nt">-out</span> genome2_db
+blastn <span class="nt">-query</span> genome1.fasta <span class="nt">-db</span> genome2_db <span class="nt">-outfmt</span> 6 <span class="nt">-out</span> comparison.txt
+
+<span class="c"># Open ACT</span>
+act genome1.gbk comparison.txt genome2.gbk
+</code></pre></div></div>
+
+<h3 id="when-to-use-artemis">When to use Artemis</h3>
+
+<ul>
+  <li>You want to manually inspect and edit gene annotations</li>
+  <li>You need to look at specific genes in detail — sequence, translation, qualifiers</li>
+  <li>You have read alignments (BAM files) and want to view them in context of annotations</li>
+  <li>You are comparing two closely related genomes to identify rearrangements or deletions (use ACT)</li>
+  <li>You want six-frame translation to find unannotated ORFs</li>
+</ul>
+
+<hr />
+
+<h2 id="tool-4-bandage--for-visualizing-assembly-graphs">Tool 4: Bandage — for visualizing assembly graphs</h2>
+
+<p><strong>What it is:</strong> A desktop tool for visualizing and exploring genome assembly graphs (the output of assemblers like SPAdes, Flye, or Velvet before the final contigs are called).</p>
+
+<p><strong>Best for:</strong> Understanding how your assembly went — identifying tangled regions, circular elements (plasmids, circular chromosomes), and repeat-induced complexity.</p>
+
+<p><strong>Download:</strong> <a href="https://rrwick.github.io/Bandage/">rrwick.github.io/Bandage</a></p>
+
+<h3 id="why-assembly-graphs-matter-for-beginners">Why assembly graphs matter for beginners</h3>
+
+<p>When an assembler processes your reads, it builds a <strong>de Bruijn graph</strong> or overlap graph before calling contigs. The final contigs you get are just one possible path through this graph. Bandage lets you see the actual graph — which reveals:</p>
+
+<ul>
+  <li>Whether your chromosome assembled into a single clean circle (good) or many tangled fragments (complex repeat structure)</li>
+  <li>Plasmids, which often appear as separate circular elements in the graph</li>
+  <li>Repeat regions, which appear as “bubbles” or tangles in the graph</li>
+</ul>
+
+<h3 id="how-to-use-bandage">How to use Bandage</h3>
+
+<ol>
+  <li>Run your assembler and keep the assembly graph file (<code class="language-plaintext highlighter-rouge">.gfa</code> for SPAdes/Flye, or <code class="language-plaintext highlighter-rouge">.fastg</code> for older SPAdes)</li>
+  <li>Open Bandage → File → Load Graph → select the <code class="language-plaintext highlighter-rouge">.gfa</code> file</li>
+  <li>Click <strong>Draw Graph</strong></li>
+</ol>
+
+<p>The graph is drawn with each node representing a sequence segment and edges representing connections. You can:</p>
+
+<ul>
+  <li>Click on a node to see its sequence and coverage</li>
+  <li>BLAST a sequence against the graph to find where it maps</li>
+  <li>Label nodes with BLAST hits or taxonomic annotations</li>
+</ul>
+
+<h3 id="when-to-use-bandage">When to use Bandage</h3>
+
+<ul>
+  <li>Right after assembly, to assess assembly quality</li>
+  <li>When you suspect plasmids are present in your sample</li>
+  <li>When your assembly has many small contigs and you want to understand why</li>
+  <li>For long-read assemblies (Nanopore/PacBio) where circular elements are common</li>
+</ul>
+
+<p>A detailed post is available here <a href="https://jojyjohn28.github.io/blog/genome-visualization/">Visualizing Genome Assemblies with Bandage</a></p>
+
+<hr />
+
+<h2 id="comparison-which-tool-should-you-use">Comparison: which tool should you use?</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Situation</th>
+      <th>Best tool</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Quick circular map from a FASTA file</td>
+      <td><strong>Proksee</strong></td>
+    </tr>
+    <tr>
+      <td>Publication-quality circular or linear figure</td>
+      <td><strong>gbdraw</strong></td>
+    </tr>
+    <tr>
+      <td>Comparing two genomes side by side with BLAST ribbons</td>
+      <td><strong>gbdraw</strong> or <strong>Artemis/ACT</strong></td>
+    </tr>
+    <tr>
+      <td>Detailed gene-level inspection and annotation editing</td>
+      <td><strong>Artemis</strong></td>
+    </tr>
+    <tr>
+      <td>Viewing read alignments in context of annotations</td>
+      <td><strong>Artemis + BamView</strong></td>
+    </tr>
+    <tr>
+      <td>Understanding assembly quality and finding plasmids</td>
+      <td><strong>Bandage</strong></td>
+    </tr>
+    <tr>
+      <td>No installation, browser only</td>
+      <td><strong>Proksee</strong> or <strong>gbdraw.app</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="a-typical-beginner-workflow">A typical beginner workflow</h2>
+
+<p>If you are starting from scratch with a newly assembled bacterial genome:</p>
+
+<p><strong>Step 1 — Assess assembly quality:</strong> Open the assembly graph in <strong>Bandage</strong>. Check whether the chromosome assembled as a single circle or many fragments. Identify any plasmid-sized circular elements.</p>
+
+<p><strong>Step 2 — Annotate:</strong> Use <strong>Prokka</strong> (either via command line or directly inside Proksee) to call genes, rRNAs, tRNAs, and other features. This produces a GenBank file.</p>
+
+<p><strong>Step 3 — Quick visualization:</strong> Load the Prokka GenBank output into <strong>Proksee</strong> for an immediate interactive circular map. Add GC content and GC skew tracks. This is your working figure for lab meetings and presentations.</p>
+
+<p><strong>Step 4 — Publication figure:</strong> Once you are happy with the annotation, pass the GenBank file to <strong>gbdraw</strong> (web app or command line) for a clean, fully exportable SVG/PDF figure.</p>
+
+<p><strong>Step 5 — Detailed inspection:</strong> Open the GenBank file in <strong>Artemis</strong> when you need to look at specific genes in detail, compare two strains with ACT, or overlay read alignments from a BAM file.</p>
+
+<hr />
+
+<h2 id="common-beginner-mistakes">Common beginner mistakes</h2>
+
+<p><strong>Mistake 1: Trying to visualize a FASTA file directly</strong></p>
+
+<p>A raw FASTA file has no annotation. Circular map tools will show you a circle with nothing on it. Annotate first with Prokka (or download a GenBank file from NCBI that already has annotations).</p>
+
+<p><strong>Mistake 2: Forgetting to save in Proksee</strong></p>
+
+<p>Proksee does not auto-save. If you close the tab before clicking Save Changes, your annotation additions and visual customizations are gone. Save early, save often.</p>
+
+<p><strong>Mistake 3: Not checking the assembly graph before publishing</strong></p>
+
+<p>Many beginners go straight from assembly to annotation without ever looking at the assembly graph. A Bandage plot takes five minutes and can reveal that what you thought was a single chromosome is actually three disconnected large contigs — that changes how you interpret everything downstream.</p>
+
+<p><strong>Mistake 4: Using a circular map tool for a multi-contig assembly</strong></p>
+
+<p>Proksee and gbdraw work best with complete or near-complete single-contig assemblies. If your assembly has 50 contigs, a circular map will concatenate them in an arbitrary order and the result will be visually misleading. Fix the assembly first (with tools like Unicycler for short reads, or Flye + Medaka for long reads) or use a linear visualization instead.</p>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Input</th>
+      <th>Installation</th>
+      <th>Best output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Proksee</strong></td>
+      <td>FASTA or GenBank</td>
+      <td>None (browser)</td>
+      <td>Interactive circular map + annotation</td>
+    </tr>
+    <tr>
+      <td><strong>gbdraw</strong></td>
+      <td>GenBank or GFF3+FASTA</td>
+      <td>None (browser) or Bioconda</td>
+      <td>Publication SVG/PDF</td>
+    </tr>
+    <tr>
+      <td><strong>Artemis</strong></td>
+      <td>GenBank, FASTA, GFF3, BAM</td>
+      <td>Java + download</td>
+      <td>Detailed annotation browser</td>
+    </tr>
+    <tr>
+      <td><strong>Bandage</strong></td>
+      <td>Assembly graph (.gfa)</td>
+      <td>Desktop app</td>
+      <td>Assembly quality + plasmid detection</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Start with Proksee for your first genome — you will have a circular map in under five minutes. When you need a figure for a paper, switch to gbdraw. When you need to dig into specific genes or compare strains, open Artemis.</p>
+
+<hr />
+
+<p><em>Tools covered: <a href="https://proksee.ca">Proksee</a>, <a href="https://gbdraw.app">gbdraw</a> (<a href="https://doi.org/10.64898/2026.04.07.716863">citation</a>), <a href="https://github.com/sanger-pathogens/Artemis">Artemis</a> (Wellcome Sanger Institute), <a href="https://rrwick.github.io/Bandage/">Bandage</a>.
+All are free and open-source.</em></p>
+
+<hr />
+
+<p><img src="/assets/img/genome-vis.png" alt="see_your_Genome" /></p>]]></content><author><name></name></author><category term="genomics" /><category term="genome-visualization" /><category term="Proksee" /><category term="gbdraw" /><category term="Artemis" /><category term="Bandage" /><category term="circular-map" /><category term="GenBank" /><category term="annotation" /><category term="beginner" /><category term="bioinformatics" /><summary type="html"><![CDATA[You have a genome file and no idea how to visualize it. This beginner-friendly guide walks through four tools — Proksee, gbdraw, Artemis, and Bandage — that take you from raw FASTA or GenBank files to beautiful, publication-ready circular maps and genome browsers, with zero programming required for most of them.]]></summary></entry><entry><title type="html">Co-occurrence Networks from Genome Abundance Data — A Complete R Workflow</title><link href="https://jojyjohn28.github.io/blog/cooccurrence-network-genome-data/" rel="alternate" type="text/html" title="Co-occurrence Networks from Genome Abundance Data — A Complete R Workflow" /><published>2026-04-14T00:00:00-04:00</published><updated>2026-04-14T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/cooccurrence-network-genome-data</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/cooccurrence-network-genome-data/"><![CDATA[<h2 id="co-occurrence-networks-from-genome-abundance-data--a-complete-r-workflow">Co-occurrence networks from genome abundance data — a complete R workflow</h2>
 
 <p><em>🧬 𝐷𝑎𝑦 71 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠</em></p>
 
@@ -4531,702 +5042,4 @@ conda <span class="nb">install</span> <span class="nt">-c</span> bioconda mcl <s
 
 <p><em>Questions about this workflow? Drop a comment below. The complete R script and SLURM submission scripts are available in the <a href="#">companion GitHub repository</a>.</em></p>
 
-<p><img src="/assets/img/pan_anvio.png" alt="PanGenomics-Anvio" /></p>]]></content><author><name></name></author><category term="pangenomics" /><category term="pangenomics" /><category term="anvio" /><category term="bioinformatics" /><category term="HPC" /><category term="R" /><category term="ggplot2" /><category term="microbiology" /><category term="genomics" /><category term="beginners" /><summary type="html"><![CDATA[A complete beginner's guide to building and visualising a bacterial pangenome using Anvi'o — running heavy computation on HPC and generating publication-quality figures with R on your laptop.]]></summary></entry><entry><title type="html">Day 6 — Moving Your Data: scp, rsync, SFTP, and Globus Connect</title><link href="https://jojyjohn28.github.io/blog/day6-data-transfer/" rel="alternate" type="text/html" title="Day 6 — Moving Your Data: scp, rsync, SFTP, and Globus Connect" /><published>2026-03-19T00:00:00-04:00</published><updated>2026-03-19T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day6-data-transfer</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day6-data-transfer/"><![CDATA[<h1 id="day-6-moving-your-data--scp-rsync-sftp-and-globus-connect">Day 6: Moving Your Data — scp, rsync, SFTP, and Globus Connect</h1>
-
-<p><img src="./day6-hero.svg" alt="Data Transfer: scp, rsync, SFTP, Globus Connect" /></p>
-
-<p>This is Day 6 — the final post in the series: <strong>From Laptop to HPC: Scaling Computational Biology Workflows</strong> and 🧬 Day 63 of Daily Bioinformatics from Jojy’s Desk. In <a href="https://jojyjohn28.github.io/blog/day5-pipelines/">Day 5</a> we built reproducible pipelines with Snakemake and Nextflow.</p>
-
-<p>Today: the question everyone hits at the start — how do you actually get your data there?</p>
-
-<hr />
-
-<h2 id="the-problem-nobody-warns-you-about">The Problem Nobody Warns You About</h2>
-
-<p>You’ve set up your conda environment. You’ve written your SLURM script. You know how to submit jobs and run job arrays. Everything is in order.</p>
-
-<p>Then you look at your external hard drive with 300 GB of raw sequencing reads and think:</p>
-
-<p><em>“How do I get this onto the cluster?”</em></p>
-
-<p>Data transfer is one of those things that seems trivial right up until you’re staring at a progress bar saying <strong>14 hours remaining</strong> — and then it fails at hour 13 because your Wi-Fi dropped. You restart. It starts from scratch.</p>
-
-<p>There is a better way. Several better ways, in fact. This post covers every tool you’ll actually use, when to reach for each one, and how to avoid the mistakes that cost researchers hours of wasted time.</p>
-
-<hr />
-
-<h2 id="what-youll-need">What You’ll Need</h2>
-
-<ul>
-  <li>SSH access to your HPC (covered in Day 1)</li>
-  <li>A terminal on your laptop (Linux/Mac: built-in Terminal; Windows: PowerShell or MobaXterm)</li>
-  <li>For Globus: a free account at <a href="https://www.globus.org">globus.org</a></li>
-</ul>
-
-<hr />
-
-<h2 id="the-full-toolkit-at-a-glance">The Full Toolkit at a Glance</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Method</th>
-      <th>Best For</th>
-      <th>Resumes on Failure</th>
-      <th>GUI Available</th>
-      <th>Speed</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">scp</code></td>
-      <td>Single files, quick uploads</td>
-      <td>❌ No</td>
-      <td>MobaXterm, Cyberduck</td>
-      <td>Good</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">rsync</code></td>
-      <td>Folders, large batches, repeat syncs</td>
-      <td>✅ Yes</td>
-      <td>❌ CLI only</td>
-      <td>Good–Great</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">sftp</code></td>
-      <td>Interactive browsing + transfer</td>
-      <td>❌ No</td>
-      <td>MobaXterm, FileZilla</td>
-      <td>Good</td>
-    </tr>
-    <tr>
-      <td>Globus Connect</td>
-      <td>Multi-TB, HPC↔HPC, unattended</td>
-      <td>✅ Yes</td>
-      <td>✅ Web UI + CLI</td>
-      <td>Excellent</td>
-    </tr>
-  </tbody>
-</table>
-
-<blockquote>
-  <p>💡 <strong>Quick decision rule:</strong> Small file, one-off → <code class="language-plaintext highlighter-rouge">scp</code>. Large folder or repeat syncs → <code class="language-plaintext highlighter-rouge">rsync</code>. Prefer clicking to typing → <code class="language-plaintext highlighter-rouge">sftp</code> with a GUI. Terabytes, long-distance, or must-not-fail → <strong>Globus</strong>.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="method-1-scp--the-default-workhorse">Method 1: scp — The Default Workhorse</h2>
-
-<p><code class="language-plaintext highlighter-rouge">scp</code> (Secure Copy Protocol) works exactly like the Unix <code class="language-plaintext highlighter-rouge">cp</code> command, but over SSH. It’s the fastest way to transfer a file when you don’t need any extra features.</p>
-
-<h3 id="basic-syntax">Basic Syntax</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ── Upload: laptop → HPC ─────────────────────────────────────────</span>
-
-<span class="c"># Single file</span>
-scp sample_R1.fastq.gz username@hpc.university.edu:~/data/
-
-<span class="c"># Entire directory (-r flag for recursive)</span>
-scp <span class="nt">-r</span> ./raw_reads/ username@hpc.university.edu:~/data/
-
-<span class="c"># Multiple files using wildcard</span>
-scp data/<span class="k">*</span>.fastq.gz username@hpc.university.edu:~/data/
-
-<span class="c"># Specify destination filename</span>
-scp local_file.txt username@hpc.university.edu:~/data/renamed_file.txt
-
-<span class="c"># ── Download: HPC → laptop ───────────────────────────────────────</span>
-
-<span class="c"># Single file from HPC to current directory</span>
-scp username@hpc.university.edu:~/results/summary.csv ./
-
-<span class="c"># Entire results folder</span>
-scp <span class="nt">-r</span> username@hpc.university.edu:~/project/results/ ./local_results/
-</code></pre></div></div>
-
-<h3 id="useful-scp-flags">Useful scp Flags</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -r  recursive (directories)</span>
-<span class="c"># -p  preserve timestamps and permissions</span>
-<span class="c"># -C  compress during transfer (useful over slow connections)</span>
-<span class="c"># -v  verbose (shows progress details)</span>
-<span class="c"># -P  specify port if not 22</span>
-
-scp <span class="nt">-rCp</span> ./data/ username@hpc.university.edu:~/data/
-</code></pre></div></div>
-
-<h3 id="windows-scp-in-powershell">Windows: scp in PowerShell</h3>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># PowerShell — identical syntax to Linux/Mac</span><span class="w">
-</span><span class="n">scp</span><span class="w"> </span><span class="nx">C:\Users\YourName\data\sample.fastq.gz</span><span class="w"> </span><span class="nx">username</span><span class="err">@</span><span class="nx">hpc.uni.edu:~/data/</span><span class="w">
-
-</span><span class="c"># Upload a folder</span><span class="w">
-</span><span class="n">scp</span><span class="w"> </span><span class="nt">-r</span><span class="w"> </span><span class="nx">C:\Users\YourName\raw_reads\</span><span class="w"> </span><span class="nx">username</span><span class="err">@</span><span class="nx">hpc.uni.edu:~/data/</span><span class="w">
-
-</span><span class="c"># Download results back to Desktop</span><span class="w">
-</span><span class="n">scp</span><span class="w"> </span><span class="nx">username</span><span class="err">@</span><span class="nx">hpc.uni.edu:~/results/report.html</span><span class="w"> </span><span class="nx">C:\Users\YourName\Desktop\</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="when-scp-falls-short">When scp Falls Short</h3>
-
-<p><code class="language-plaintext highlighter-rouge">scp</code> has one critical weakness: <strong>if the transfer fails halfway, it starts from scratch</strong>. For a 5 GB file that’s annoying. For 200 GB — that’s a 6-hour restart. Use <code class="language-plaintext highlighter-rouge">rsync</code> or Globus for anything over ~10 GB.</p>
-
-<hr />
-
-<h2 id="method-2-rsync--the-smart-synchroniser">Method 2: rsync — The Smart Synchroniser</h2>
-
-<p><code class="language-plaintext highlighter-rouge">rsync</code> is the tool you reach for when <code class="language-plaintext highlighter-rouge">scp</code> isn’t enough. Its superpower: it <strong>only transfers what has changed</strong>, and it <strong>resumes interrupted transfers</strong> automatically.</p>
-
-<p>For bioinformatics workflows — where you regularly sync updated scripts back to HPC, or pull incremental results back to your laptop — <code class="language-plaintext highlighter-rouge">rsync</code> becomes indispensable.</p>
-
-<h3 id="core-command">Core Command</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rsync <span class="nt">-avz</span> <span class="nt">--progress</span> <span class="nb">source</span>/ destination/
-</code></pre></div></div>
-
-<p>Breaking down the flags:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Flag</th>
-      <th>What it does</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">-a</code></td>
-      <td>Archive mode: preserves permissions, timestamps, symlinks. Use this almost always.</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">-v</code></td>
-      <td>Verbose: shows each file being transferred</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">-z</code></td>
-      <td>Compress data during transfer (saves bandwidth, helpful over slow links)</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">--progress</code></td>
-      <td>Shows per-file progress bar and speed</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">--dry-run</code></td>
-      <td>Preview what <em>would</em> be transferred without actually doing it</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">--delete</code></td>
-      <td>Delete files on destination that no longer exist on source</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">--exclude</code></td>
-      <td>Skip files matching a pattern</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="uploading-to-hpc">Uploading to HPC</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Sync your raw data directory to HPC</span>
-rsync <span class="nt">-avz</span> <span class="nt">--progress</span> ./raw_reads/ <span class="se">\</span>
-    username@hpc.university.edu:~/project/raw_reads/
-
-<span class="c"># Sync your scripts (quick, small files)</span>
-rsync <span class="nt">-avz</span> ./scripts/ <span class="se">\</span>
-    username@hpc.university.edu:~/project/scripts/
-
-<span class="c"># Exclude large intermediate files you don't need on HPC</span>
-rsync <span class="nt">-avz</span> <span class="nt">--progress</span> <span class="se">\</span>
-    <span class="nt">--exclude</span> <span class="s2">"*.bam"</span> <span class="se">\</span>
-    <span class="nt">--exclude</span> <span class="s2">"*.sam"</span> <span class="se">\</span>
-    <span class="nt">--exclude</span> <span class="s2">"__pycache__/"</span> <span class="se">\</span>
-    ./project/ <span class="se">\</span>
-    username@hpc.university.edu:~/project/
-</code></pre></div></div>
-
-<h3 id="downloading-results">Downloading Results</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Pull your results folder back after jobs complete</span>
-rsync <span class="nt">-avz</span> <span class="nt">--progress</span> <span class="se">\</span>
-    username@hpc.university.edu:~/project/results/ <span class="se">\</span>
-    ./local_results/
-
-<span class="c"># Only download specific file types</span>
-rsync <span class="nt">-avz</span> <span class="nt">--include</span> <span class="s2">"*.csv"</span> <span class="nt">--include</span> <span class="s2">"*.html"</span> <span class="se">\</span>
-    <span class="nt">--exclude</span> <span class="s2">"*"</span> <span class="se">\</span>
-    username@hpc.university.edu:~/project/results/ <span class="se">\</span>
-    ./local_results/
-</code></pre></div></div>
-
-<h3 id="resuming-a-failed-transfer--the-key-feature">Resuming a Failed Transfer — The Key Feature</h3>
-
-<p>This is the most important thing to know about rsync. If a transfer dies, <strong>just run the exact same command again</strong>:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># First attempt — fails at 60%</span>
-rsync <span class="nt">-avz</span> <span class="nt">--progress</span> ./big_dataset/ username@hpc.university.edu:~/data/
-<span class="c"># Connection reset. Transferred 120/200 files.</span>
-
-<span class="c"># Rerun — picks up exactly where it stopped</span>
-rsync <span class="nt">-avz</span> <span class="nt">--progress</span> ./big_dataset/ username@hpc.university.edu:~/data/
-<span class="c"># Only the remaining 80 files are transferred</span>
-<span class="c"># Already-transferred files are checked and skipped</span>
-</code></pre></div></div>
-
-<p>rsync compares file sizes and timestamps (or checksums with <code class="language-plaintext highlighter-rouge">--checksum</code>). Files that already exist at the destination and haven’t changed are skipped entirely.</p>
-
-<h3 id="dry-run-preview-before-transferring">Dry Run: Preview Before Transferring</h3>
-
-<p>Always a good habit before a large sync:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rsync <span class="nt">-avz</span> <span class="nt">--dry-run</span> ./data/ username@hpc.university.edu:~/data/
-<span class="c"># Shows exactly what would be transferred without sending anything</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>⚠️ <strong>The trailing slash matters.</strong> <code class="language-plaintext highlighter-rouge">rsync ./data/</code> syncs the <em>contents</em> of <code class="language-plaintext highlighter-rouge">data/</code>. <code class="language-plaintext highlighter-rouge">rsync ./data</code> (no trailing slash) syncs the <em>folder itself</em>, creating <code class="language-plaintext highlighter-rouge">destination/data/</code> instead. This trips up almost everyone at least once.</p>
-</blockquote>
-
-<h3 id="keeping-scripts-in-sync-during-development">Keeping Scripts in Sync During Development</h3>
-
-<p>A common workflow: develop your scripts on your laptop, rsync them to HPC, test, iterate.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create an alias for quick sync</span>
-<span class="nb">alias </span>sync-hpc<span class="o">=</span><span class="s1">'rsync -avz ./scripts/ username@hpc.university.edu:~/project/scripts/'</span>
-
-<span class="c"># One command to push your latest script changes</span>
-sync-hpc
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="method-3-sftp--interactive-file-transfer">Method 3: SFTP — Interactive File Transfer</h2>
-
-<p><code class="language-plaintext highlighter-rouge">sftp</code> (SSH File Transfer Protocol) opens an interactive session where you can browse both your local and remote filesystems before deciding what to transfer. Think of it as a terminal-based file manager.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Connect</span>
-sftp username@hpc.university.edu
-
-<span class="c"># Once inside the sftp prompt:</span>
-sftp&gt; <span class="nb">ls</span>                          <span class="c"># list remote files</span>
-sftp&gt; lls                         <span class="c"># list LOCAL files</span>
-sftp&gt; <span class="nb">cd </span>data/                    <span class="c"># change remote directory</span>
-sftp&gt; lcd ~/Downloads/            <span class="c"># change LOCAL directory</span>
-sftp&gt; <span class="nb">pwd</span>                         <span class="c"># show current remote path</span>
-sftp&gt; lpwd                        <span class="c"># show current local path</span>
-
-<span class="c"># Transfers</span>
-sftp&gt; put sample_R1.fastq.gz      <span class="c"># upload one file</span>
-sftp&gt; get results/output.tsv      <span class="c"># download one file</span>
-sftp&gt; mput <span class="k">*</span>.fastq.gz             <span class="c"># upload multiple files</span>
-sftp&gt; mget results/<span class="k">*</span>.bam          <span class="c"># download multiple files</span>
-
-sftp&gt; bye                         <span class="c"># exit</span>
-</code></pre></div></div>
-
-<h3 id="sftp-with-a-gui">sftp with a GUI</h3>
-
-<p>Most beginners prefer a drag-and-drop interface. Three good options:</p>
-
-<p><strong>MobaXterm (Windows — free):</strong>
-Already covered in Day 1. When you SSH in, the left panel automatically shows an SFTP file browser. Drag files from Windows Explorer directly into it.</p>
-
-<p><strong>FileZilla (Windows, Mac, Linux — free):</strong></p>
-
-<ol>
-  <li>Open FileZilla → File → Site Manager → New Site</li>
-  <li>Protocol: <code class="language-plaintext highlighter-rouge">SFTP - SSH File Transfer Protocol</code></li>
-  <li>Host: <code class="language-plaintext highlighter-rouge">hpc.university.edu</code>, Port: <code class="language-plaintext highlighter-rouge">22</code></li>
-  <li>Logon Type: <code class="language-plaintext highlighter-rouge">Normal</code> → enter username and password</li>
-  <li>Connect → drag and drop between left (local) and right (remote) panels</li>
-</ol>
-
-<p><strong>Cyberduck (Mac and Windows — free):</strong></p>
-
-<ol>
-  <li>Click Open Connection</li>
-  <li>Select SFTP from the dropdown</li>
-  <li>Enter your HPC hostname and credentials</li>
-  <li>Browse and transfer with a familiar file manager interface</li>
-</ol>
-
-<blockquote>
-  <p>💡 <strong>Data Transfer Nodes (DTNs):</strong> Many HPC clusters have dedicated <strong>data transfer nodes</strong> — separate machines optimised for file transfer with faster network connections to the outside world. Check your HPC documentation. Using <code class="language-plaintext highlighter-rouge">transfer.hpc.university.edu</code> instead of the login node for large transfers can dramatically improve speed.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="method-4-globus-connect--the-professional-standard">Method 4: Globus Connect — The Professional Standard</h2>
-
-<p>For anything involving terabytes of data, transfers between two HPC systems, or data that absolutely must arrive intact and intact, <strong>Globus is the tool researchers rely on</strong>.</p>
-
-<p>Globus is a cloud-based data transfer service used by virtually every major research computing facility in the world — NIH Biowulf, TACC Frontera, UK Research Data Facility, Pawsey, NCI, and hundreds of university clusters. If your institution has an HPC, it almost certainly has a Globus endpoint already configured.</p>
-
-<h3 id="why-globus-is-different-from-everything-else">Why Globus Is Different From Everything Else</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Feature</th>
-      <th>scp/rsync</th>
-      <th>Globus</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Runs on your laptop</td>
-      <td>Yes</td>
-      <td>No — runs on Globus servers</td>
-    </tr>
-    <tr>
-      <td>Close laptop mid-transfer</td>
-      <td>Cancels transfer</td>
-      <td>✅ Transfer keeps running</td>
-    </tr>
-    <tr>
-      <td>Multi-TB transfers</td>
-      <td>Possible but risky</td>
-      <td>✅ Designed for this</td>
-    </tr>
-    <tr>
-      <td>Automatic retry on network failure</td>
-      <td>rsync: yes</td>
-      <td>✅ Automatic</td>
-    </tr>
-    <tr>
-      <td>MD5 checksum verification</td>
-      <td>Manual</td>
-      <td>✅ Automatic on every file</td>
-    </tr>
-    <tr>
-      <td>HPC endpoint to HPC endpoint</td>
-      <td>Not directly</td>
-      <td>✅ First-class feature</td>
-    </tr>
-    <tr>
-      <td>GUI</td>
-      <td>No (rsync)</td>
-      <td>✅ Web browser</td>
-    </tr>
-    <tr>
-      <td>Free for research</td>
-      <td>Yes</td>
-      <td>✅ Yes</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The single biggest advantage: <strong>you don’t need to keep your laptop open</strong>. Globus runs the transfer between the two endpoints (e.g., your university storage and the HPC cluster) through its own servers. You start it, close your laptop, and come back to a completed transfer.</p>
-
-<h3 id="step-1-create-a-globus-account">Step 1: Create a Globus Account</h3>
-
-<p>Go to <a href="https://www.globus.org">globus.org</a> and sign in with your institutional credentials (most universities are already federated). If not, create a free account.</p>
-
-<h3 id="step-2-install-globus-connect-personal-for-your-laptop">Step 2: Install Globus Connect Personal (For Your Laptop)</h3>
-
-<p>If you want to transfer <em>from your laptop</em>, install Globus Connect Personal:</p>
-
-<ol>
-  <li>Download from <a href="https://www.globus.org/globus-connect-personal">globus.org/globus-connect-personal</a></li>
-  <li>Install and open it — it runs silently in the background</li>
-  <li>Log in with your Globus account</li>
-  <li>Your laptop is now a Globus endpoint</li>
-</ol>
-
-<blockquote>
-  <p>If you’re transferring between two HPC systems, both of which already have Globus endpoints configured, you skip this step entirely.</p>
-</blockquote>
-
-<h3 id="step-3-find-your-hpc-endpoint">Step 3: Find Your HPC Endpoint</h3>
-
-<p>Your institution’s HPC almost certainly already has a Globus endpoint. Find it:</p>
-
-<ol>
-  <li>Go to <a href="https://app.globus.org">app.globus.org</a></li>
-  <li>Click <strong>File Manager</strong></li>
-  <li>In the Collection search box, type your institution name (e.g., “University of Edinburgh”, “TACC”, “NIH”)</li>
-  <li>Select the correct endpoint from the dropdown</li>
-</ol>
-
-<h3 id="step-4-transfer-files-via-the-web-interface">Step 4: Transfer Files via the Web Interface</h3>
-
-<ol>
-  <li>In the left panel: select your source endpoint (e.g., your laptop or home institution storage)</li>
-  <li>Navigate to the folder you want to transfer</li>
-  <li>In the right panel: select your HPC endpoint</li>
-  <li>Navigate to the destination folder</li>
-  <li>Select files/folders and click <strong>Start</strong></li>
-</ol>
-
-<p>That’s it. Globus handles everything:</p>
-
-<ul>
-  <li>Parallel data streams for maximum throughput</li>
-  <li>Automatic retry on network interruption</li>
-  <li>MD5 checksum verification on every file after transfer</li>
-  <li>Email notification when complete</li>
-</ul>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Transfer initiated: 2026-03-16 09:14:22
-Source:      my-laptop/Users/you/raw_data/
-Destination: uni-hpc/scratch/project/raw_data/
-Files:       847 files, 312 GB
-
-[==========&gt;          ] 47% · 146 GB of 312 GB
-Estimated completion: 2026-03-16 13:22:00
-
-You can close this browser window.
-Your transfer will continue running.
-</code></pre></div></div>
-
-<h3 id="step-5-globus-cli--scripting-transfers">Step 5: Globus CLI — Scripting Transfers</h3>
-
-<p>For automated or scripted transfers, use the Globus CLI:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install</span>
-pip <span class="nb">install </span>globus-cli
-
-<span class="c"># Authenticate</span>
-globus login
-
-<span class="c"># List your endpoints</span>
-globus endpoint search <span class="s2">"your institution"</span>
-
-<span class="c"># Transfer a folder</span>
-globus transfer <span class="se">\</span>
-    &lt;SOURCE_ENDPOINT_UUID&gt;:/path/to/source/ <span class="se">\</span>
-    &lt;DEST_ENDPOINT_UUID&gt;:/path/to/destination/ <span class="se">\</span>
-    <span class="nt">--recursive</span> <span class="se">\</span>
-    <span class="nt">--sync-level</span> checksum <span class="se">\</span>
-    <span class="nt">--label</span> <span class="s2">"Raw reads upload 2026-03-16"</span>
-
-<span class="c"># Check transfer status</span>
-globus task list
-globus task show &lt;TASK_ID&gt;
-
-<span class="c"># Wait for completion (useful in scripts)</span>
-globus task <span class="nb">wait</span> &lt;TASK_ID&gt;
-<span class="nb">echo</span> <span class="s2">"Transfer complete!"</span>
-</code></pre></div></div>
-
-<p>You can embed this in a pipeline script — trigger the Globus transfer, wait for it to complete, then kick off your SLURM jobs automatically.</p>
-
-<h3 id="globus-for-hpc-to-hpc-transfers">Globus for HPC-to-HPC Transfers</h3>
-
-<p>This is where Globus truly has no competition. Moving data from one cluster to another (e.g., from your home institution to a national computing facility) is trivial:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Transfer between two HPC endpoints directly</span>
-<span class="c"># Neither needs to be your laptop</span>
-globus transfer <span class="se">\</span>
-    &lt;HOME_HPC_ENDPOINT&gt;:/scratch/project/results/ <span class="se">\</span>
-    &lt;NATIONAL_HPC_ENDPOINT&gt;:/project/incoming/ <span class="se">\</span>
-    <span class="nt">--recursive</span> <span class="se">\</span>
-    <span class="nt">--label</span> <span class="s2">"Results to national facility"</span>
-</code></pre></div></div>
-
-<p>The transfer happens directly between the two clusters at wire speed. Your laptop is completely uninvolved.</p>
-
-<hr />
-
-<h2 id="choosing-the-right-tool-decision-guide">Choosing the Right Tool: Decision Guide</h2>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>How much data?
-    ├── &lt; 1 GB → scp  (simplest, no setup)
-    └── &gt; 1 GB →
-            Do you prefer a GUI?
-                ├── YES → SFTP + MobaXterm or FileZilla
-                └── NO  →
-                        Will you repeat this transfer or sync regularly?
-                            ├── YES → rsync  (skips unchanged files)
-                            └── NO  →
-                                    Is it &gt; 100 GB or HPC-to-HPC?
-                                        ├── YES → Globus Connect  ✓
-                                        └── NO  → rsync or scp
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="practical-patterns-for-bioinformatics">Practical Patterns for Bioinformatics</h2>
-
-<h3 id="pattern-1-upload-raw-reads-download-results">Pattern 1: Upload raw reads, download results</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Upload raw data (do this once)</span>
-rsync <span class="nt">-avz</span> <span class="nt">--progress</span> ./raw_reads/ <span class="se">\</span>
-    username@hpc.university.edu:~/project/raw_reads/
-
-<span class="c"># Submit jobs on HPC...</span>
-
-<span class="c"># Download results when done</span>
-rsync <span class="nt">-avz</span> <span class="nt">--progress</span> <span class="se">\</span>
-    username@hpc.university.edu:~/project/results/ <span class="se">\</span>
-    ./results/
-</code></pre></div></div>
-
-<h3 id="pattern-2-keep-scripts-in-sync-during-development">Pattern 2: Keep scripts in sync during development</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Push latest script version to HPC</span>
-rsync <span class="nt">-avz</span> ./scripts/ username@hpc.university.edu:~/project/scripts/
-
-<span class="c"># Pull back updated config or notes</span>
-rsync <span class="nt">-avz</span> username@hpc.university.edu:~/project/config.yaml ./
-</code></pre></div></div>
-
-<h3 id="pattern-3-large-dataset-upload-with-globus">Pattern 3: Large dataset upload with Globus</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Start Globus transfer from terminal</span>
-globus transfer <span class="se">\</span>
-    &lt;LAPTOP_ENDPOINT&gt;:/Users/you/sequencing_run_2026/ <span class="se">\</span>
-    &lt;HPC_ENDPOINT&gt;:/scratch/project/raw/ <span class="se">\</span>
-    <span class="nt">--recursive</span> <span class="nt">--label</span> <span class="s2">"Sequencing run Mar 2026"</span>
-
-<span class="c"># Close laptop. Come back in 3 hours.</span>
-globus task list  <span class="c"># check status anytime</span>
-</code></pre></div></div>
-
-<h3 id="pattern-4-verify-transfer-integrity">Pattern 4: Verify transfer integrity</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># After rsync, verify checksums</span>
-<span class="c"># On HPC:</span>
-<span class="nb">md5sum </span>raw_reads/<span class="k">*</span>.fastq.gz <span class="o">&gt;</span> checksums_hpc.md5
-
-<span class="c"># On laptop:</span>
-<span class="nb">md5sum </span>raw_reads/<span class="k">*</span>.fastq.gz <span class="o">&gt;</span> checksums_local.md5
-
-<span class="c"># Compare (should produce no output if identical)</span>
-diff checksums_local.md5 checksums_hpc.md5
-</code></pre></div></div>
-
-<p>Globus does this automatically. For rsync, add <code class="language-plaintext highlighter-rouge">--checksum</code> to force checksum comparison instead of size+timestamp:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rsync <span class="nt">-avz</span> <span class="nt">--checksum</span> ./data/ username@hpc.university.edu:~/data/
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="common-mistakes-to-avoid">Common Mistakes to Avoid</h2>
-
-<p><strong>Transferring to the login node’s home directory, which has a small quota</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ /home has limited space (often 50–100 GB)</span>
-scp big_dataset/ username@hpc.university.edu:~/data/
-
-<span class="c"># ✅ Use scratch or project storage</span>
-scp big_dataset/ username@hpc.university.edu:/scratch/username/data/
-</code></pre></div></div>
-
-<p><strong>Forgetting the trailing slash with rsync</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Creates destination/data/contents (extra nesting)</span>
-rsync <span class="nt">-avz</span> ./data username@hpc.university.edu:~/project/
-
-<span class="c"># ✅ Transfers contents directly into ~/project/</span>
-rsync <span class="nt">-avz</span> ./data/ username@hpc.university.edu:~/project/data/
-</code></pre></div></div>
-
-<p><strong>Using scp for multi-GB transfers over unstable connections</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ One Wi-Fi drop = restart from scratch</span>
-scp big_genome.tar.gz username@hpc.university.edu:~/data/
-
-<span class="c"># ✅ rsync resumes where it left off</span>
-rsync <span class="nt">-avz</span> <span class="nt">--progress</span> big_genome.tar.gz username@hpc.university.edu:~/data/
-</code></pre></div></div>
-
-<p><strong>Transferring through the login node instead of a DTN</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ❌ Slow — login node is not optimised for transfers</span>
-scp data.tar.gz username@hpc-login.university.edu:~/
-
-<span class="c"># ✅ If available, use the transfer node</span>
-scp data.tar.gz username@hpc-transfer.university.edu:~/scratch/
-</code></pre></div></div>
-
-<p><strong>Not compressing before transfer</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For many small files, tar + gzip before transfer</span>
-<span class="nb">tar </span>czf raw_reads.tar.gz raw_reads/
-rsync <span class="nt">-avz</span> raw_reads.tar.gz username@hpc.university.edu:~/
-<span class="c"># Then extract on HPC: tar xzf raw_reads.tar.gz</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="try-it-yourself">Try It Yourself</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Test scp with a small file</span>
-<span class="nb">echo</span> <span class="s2">"Hello HPC"</span> <span class="o">&gt;</span> test_transfer.txt
-scp test_transfer.txt username@hpc.university.edu:~/
-<span class="c"># Verify it arrived</span>
-ssh username@hpc.university.edu <span class="s2">"cat ~/test_transfer.txt"</span>
-
-<span class="c"># 2. Test rsync with a folder</span>
-<span class="nb">mkdir</span> <span class="nt">-p</span> test_folder/
-<span class="nb">echo</span> <span class="s2">"file 1"</span> <span class="o">&gt;</span> test_folder/a.txt
-<span class="nb">echo</span> <span class="s2">"file 2"</span> <span class="o">&gt;</span> test_folder/b.txt
-rsync <span class="nt">-avz</span> <span class="nt">--dry-run</span> ./test_folder/ username@hpc.university.edu:~/test_folder/
-<span class="c"># If dry run looks right, remove --dry-run and run for real</span>
-
-<span class="c"># 3. Download something back</span>
-scp username@hpc.university.edu:~/test_transfer.txt ./downloaded_test.txt
-<span class="nb">cat </span>downloaded_test.txt   <span class="c"># should say "Hello HPC"</span>
-
-<span class="c"># 4. Check your storage quota on HPC</span>
-ssh username@hpc.university.edu <span class="s2">"df -h </span><span class="nv">$HOME</span><span class="s2"> &amp;&amp; df -h /scratch/</span><span class="nv">$USER</span><span class="s2"> 2&gt;/dev/null"</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="series-complete--you-now-have-the-full-stack">Series Complete — You Now Have the Full Stack</h2>
-
-<p>You’ve covered the complete arc from laptop to reproducible, scalable HPC bioinformatics:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Day</th>
-      <th>Topic</th>
-      <th>What You Can Now Do</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>Laptop vs HPC</td>
-      <td>Understand the infrastructure, connect from any OS</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Software installation</td>
-      <td>Install tools without root, manage reproducible environments</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Running jobs</td>
-      <td>Write SLURM scripts, use interactive nodes, read logs</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>Scaling</td>
-      <td>Turn 50-hour sequential runs into 15-minute parallel arrays</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>Pipelines</td>
-      <td>Build reproducible Snakemake/Nextflow workflows</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>Data transfer</td>
-      <td>Move any amount of data, reliably, to and from HPC</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The tools you use — <code class="language-plaintext highlighter-rouge">fastqc</code>, <code class="language-plaintext highlighter-rouge">bowtie2</code>, <code class="language-plaintext highlighter-rouge">kraken2</code>, <code class="language-plaintext highlighter-rouge">samtools</code> — haven’t changed. What’s changed is the infrastructure around them. And that infrastructure is what separates a researcher who can do 10 samples on their laptop from one who can do 10,000 samples on a national computing facility.</p>
-
-<hr />
-
-<p>Thank you for reading the series — if it was useful, please share it with a colleague who’s making the same journey. Questions? Drop a comment below.*</p>
-
-<hr />
-
-<p><img src="/assets/img/d6_hpc.png" alt="Laptop vs HPC: Scaling Computational Biology" /></p>]]></content><author><name></name></author><category term="HPC" /><category term="data-transfer" /><category term="globus" /><category term="rsync" /><category term="scp" /><category term="sftp" /><category term="bioinformatics" /><category term="beginners" /><category term="genomics" /><summary type="html"><![CDATA[Your pipeline is ready, your HPC account is set up — but how do you actually move 300 GB of raw sequencing reads onto the cluster? A practical guide to every data transfer method you'll use in bioinformatics, from quick one-liners to terabyte-scale transfers.]]></summary></entry></feed>
+<p><img src="/assets/img/pan_anvio.png" alt="PanGenomics-Anvio" /></p>]]></content><author><name></name></author><category term="pangenomics" /><category term="pangenomics" /><category term="anvio" /><category term="bioinformatics" /><category term="HPC" /><category term="R" /><category term="ggplot2" /><category term="microbiology" /><category term="genomics" /><category term="beginners" /><summary type="html"><![CDATA[A complete beginner's guide to building and visualising a bacterial pangenome using Anvi'o — running heavy computation on HPC and generating publication-quality figures with R on your laptop.]]></summary></entry></feed>
