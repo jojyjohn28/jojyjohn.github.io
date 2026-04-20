@@ -7,7 +7,7 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/qiime2-to-r-visualization/
-categories: [amplicon, R, visualization]
+categories: [R]
 tags: [QIIME2, 16S, amplicon, R, ggplot2, alpha-diversity, beta-diversity, taxonomy, DADA2, beginner, microbiome]
 ---
 
