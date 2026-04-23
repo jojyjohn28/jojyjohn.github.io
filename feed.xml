@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-20T10:49:22-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-20T10:49:22-04:00</published><updated>2026-04-20T10:49:22-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-22T21:00:20-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-22T21:00:20-04:00</published><updated>2026-04-22T21:00:20-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,733 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">From QIIME 2 to R — Visualizing Your 16S Amplicon Results</title><link href="https://jojyjohn28.github.io/blog/qiime2-to-r-visualization/" rel="alternate" type="text/html" title="From QIIME 2 to R — Visualizing Your 16S Amplicon Results" /><published>2026-04-20T00:00:00-04:00</published><updated>2026-04-20T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/qiime2-to-r-visualization</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/qiime2-to-r-visualization/"><![CDATA[<h2 id="from-qiime-2-to-r--visualizing-your-16s-amplicon-results">From QIIME 2 to R — visualizing your 16S amplicon results</h2>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Genome Annotation Tools — From RAST’s 19% to a Complete Picture with PGAP, eggNOG, DRAM, and InterProScan</title><link href="https://jojyjohn28.github.io/blog/genome-annotation-tools-pgap-eggnog-dram/" rel="alternate" type="text/html" title="Genome Annotation Tools — From RAST’s 19% to a Complete Picture with PGAP, eggNOG, DRAM, and InterProScan" /><published>2026-04-22T00:00:00-04:00</published><updated>2026-04-22T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/genome-annotation-tools-pgap-eggnog-dram</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/genome-annotation-tools-pgap-eggnog-dram/"><![CDATA[<h2 id="genome-annotation-tools--from-rasts-19-to-a-complete-picture">Genome annotation tools — from RAST’s 19% to a complete picture</h2>
+
+<p><em>🧬 𝐷𝑎𝑦 74 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 desk</em></p>
+
+<p>You assembled your genome. You uploaded it to RAST, waited a few minutes, and got your annotation back. You opened the results and saw this number staring at you:</p>
+
+<p><strong>19% of genes assigned to subsystems.</strong></p>
+
+<p>That means 81% of your genes are sitting in the “not assigned” category. You start wondering — did the assembly fail? Is the genome bad? Is the organism too unusual for RAST to know about?</p>
+
+<p>The answer is almost certainly none of those things. RAST is working exactly as intended. The problem is that <strong>RAST only tells you one part of the story</strong>, and you need several tools together to see the full picture.</p>
+
+<p>This post explains what each tool does, why the numbers differ so dramatically between tools, and how to combine PGAP, eggNOG-mapper, DRAM, and InterProScan to produce annotation figures that will satisfy a reviewer. At the end, there is a complete R visualization script for your manuscript.</p>
+
+<hr />
+
+<h2 id="why-rast-only-annotated-19-of-your-genes">Why RAST only annotated 19% of your genes</h2>
+
+<p>RAST uses the <strong>SEED subsystem framework</strong>. A subsystem is a hand-curated set of genes that together perform a specific metabolic or cellular function — things like “arginine biosynthesis” or “sporulation.” RAST assigns a gene to a subsystem only if the gene is a known, well-characterised member of one of these curated pathways.</p>
+
+<p>The key word is <em>curated</em>. SEED subsystems exist for pathways that have been studied in detail in well-known organisms (mostly <em>E. coli</em>, <em>Bacillus subtilis</em>, and other model bacteria). If your organism is a novel isolate, an environmental bacterium from an unusual habitat, or contains genes that have not been formally placed into a SEED subsystem, RAST will not annotate them — even if the gene has a clear homolog in another database.</p>
+
+<p><strong>So 19% assigned to subsystems is not a failure. It is the normal result for a novel environmental isolate.</strong> RAST’s 19% tells you about the conserved, well-understood metabolic core. The other 81% needs a different kind of tool.</p>
+
+<hr />
+
+<h2 id="the-annotation-toolkit-what-each-tool-does">The annotation toolkit: what each tool does</h2>
+
+<p>Think of genome annotation like describing a person to someone who has never met them. RAST tells you their job title if it is one of ten well-known professions. PGAP gives you a full CV. eggNOG-mapper groups them by family resemblance to other people. InterProScan describes their structural features and protein domains. DRAM links them to specific metabolic pathways relevant to ecology.</p>
+
+<h3 id="rast--bv-brc">RAST / BV-BRC</h3>
+
+<p><strong>What it does:</strong> Web-based genome annotation using the SEED subsystem framework. Fast (minutes), no installation, good for a first look and for conservative pathway interpretation.</p>
+
+<p><strong>Best for:</strong> Ecological discussion, subsystem category counts, nitrogen/carbon/stress metabolic interpretation.</p>
+
+<p><strong>Limitation:</strong> Only annotates genes that fit into curated SEED subsystems. Everything else is “not assigned.”</p>
+
+<p><strong>Use it for:</strong> Getting a quick first annotation, the “conservative subsystem” column in your Table 1, and ecological narrative.</p>
+
+<p><strong>Web server:</strong> <a href="https://rast.nmpdr.org">rast.nmpdr.org</a> or <a href="https://www.bv-brc.org">bv-brc.org</a></p>
+
+<h3 id="pgap-ncbi-prokaryotic-genome-annotation-pipeline">PGAP (NCBI Prokaryotic Genome Annotation Pipeline)</h3>
+
+<p><strong>What it does:</strong> NCBI’s official prokaryotic annotation pipeline. Identifies CDS, RNA genes, pseudogenes, regulatory elements. Uses NCBI’s protein databases plus HMM-based searches. Produces GenBank-ready output that NCBI actually accepts for genome submission.</p>
+
+<p><strong>Best for:</strong> Primary annotation for your manuscript, reviewer compliance, GenBank submission.</p>
+
+<p><strong>The honest truth about PGAP:</strong> You will likely still see 30–50% “hypothetical proteins.” This is not bad — it means those genes have no characterised homolog in NCBI’s databases. Hypothetical proteins in novel genomes are normal and expected. PGAP annotates them correctly as “hypothetical protein” rather than making up a function.</p>
+
+<p><strong>Installation:</strong> Docker-based on a local Linux/Mac machine. Avoid HPC Singularity/Apptainer — too many cgroups and SSL issues.</p>
+
+<h3 id="eggnog-mapper">eggNOG-mapper</h3>
+
+<p><strong>What it does:</strong> Maps your proteins against the eggNOG database of orthologous groups using DIAMOND as the search engine. Assigns COG categories, KEGG pathways and KO numbers, GO terms, and EC numbers.</p>
+
+<p><strong>Best for:</strong> Functional depth, orthology-based annotation, COG category plots, KEGG pathway analysis.</p>
+
+<p><strong>Why the numbers jump:</strong> eggNOG uses sequence similarity to orthologous groups across all of the sequenced microbial world — not just curated subsystems. A gene that RAST never heard of can still hit an eggNOG ortholog and get a COG and KEGG assignment. This is why eggNOG typically annotates 60–80% of proteins compared to RAST’s 10–20%.</p>
+
+<h3 id="dram-distilled-and-refined-annotation-of-metabolism">DRAM (Distilled and Refined Annotation of Metabolism)</h3>
+
+<p><strong>What it does:</strong> Specifically designed for environmental metagenomes and isolate genomes. Integrates annotations from KEGG, MEROPS, dbCAN (for CAZymes), PFAM, and TIGRfam into a unified distillation framework. Produces metabolism summary tables and heat maps of key metabolic pathways.</p>
+
+<p><strong>Best for:</strong> Ecological interpretation of metabolic potential, especially for environmental genomes. Excellent for showing nitrogen cycling, carbon degradation, sulfur metabolism, and energy conservation genes.</p>
+
+<p><strong>Installation:</strong> Conda.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mamba create <span class="nt">-n</span> DRAM <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda dram
+conda activate DRAM
+DRAM-setup.py prepare_databases <span class="nt">--output_dir</span> /path/to/DRAM_databases
+</code></pre></div></div>
+
+<p><strong>Run DRAM:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DRAM.py annotate <span class="se">\</span>
+  <span class="nt">-i</span> genome.fna <span class="se">\</span>
+  <span class="nt">-o</span> dram_output <span class="se">\</span>
+  <span class="nt">--threads</span> 16
+
+DRAM.py distill <span class="se">\</span>
+  <span class="nt">-i</span> dram_output/annotations.tsv <span class="se">\</span>
+  <span class="nt">-o</span> dram_distill <span class="se">\</span>
+  <span class="nt">--trna_path</span> dram_output/trnas.tsv <span class="se">\</span>
+  <span class="nt">--rrna_path</span> dram_output/rrnas.tsv
+</code></pre></div></div>
+
+<p>Key output: <code class="language-plaintext highlighter-rouge">dram_distill/product.html</code> — an interactive heat map of metabolic modules. This single file is often worth more for ecological discussion than any other annotation output.</p>
+
+<h3 id="interproscan">InterProScan</h3>
+
+<p><strong>What it does:</strong> Scans protein sequences against 13+ integrated protein signature databases: Pfam, TIGRFAM, PRINTS, ProSite, SUPERFAMILY, Gene3D, and others. Assigns protein domains, structural families, and functional sites.</p>
+
+<p><strong>Best for:</strong> Understanding what protein families your genes belong to, especially for hypothetical proteins. An “unknown protein” that hits a PFAM domain for a histidine kinase receiver domain is no longer truly unknown.</p>
+
+<p><strong>Installation and run:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Download from https://www.ebi.ac.uk/interpro/download/</span>
+<span class="c"># Or via conda:</span>
+conda <span class="nb">install</span> <span class="nt">-c</span> bioconda interproscan
+
+interproscan.sh <span class="se">\</span>
+  <span class="nt">-i</span> annot_translated_cds.faa <span class="se">\</span>
+  <span class="nt">-f</span> TSV,GFF3 <span class="se">\</span>
+  <span class="nt">-o</span> interproscan_results <span class="se">\</span>
+  <span class="nt">--cpu</span> 16 <span class="se">\</span>
+  <span class="nt">--goterms</span> <span class="se">\</span>
+  <span class="nt">--iprlookup</span> <span class="se">\</span>
+  <span class="nt">--pathways</span>
+</code></pre></div></div>
+
+<p>The key output is a TSV with protein domain assignments. Even if a protein has no known function, a Pfam domain hit tells you something about its structure and likely molecular function.</p>
+
+<hr />
+
+<h2 id="the-recommended-strategy">The recommended strategy</h2>
+
+<p>Here is the order and logic that worked well for a novel environmental isolate (<em>Radiobacillus</em> sp.):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Tool</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>RAST</td>
+      <td>Quick first look, subsystem counts for table</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>PGAP (Docker)</td>
+      <td>Primary manuscript annotation, GenBank submission</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>eggNOG-mapper</td>
+      <td>COG/KEGG/GO annotation using PGAP proteins</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>DRAM</td>
+      <td>Metabolic pathway distillation for ecology</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>InterProScan</td>
+      <td>Domain annotation for hypothetical proteins</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>R + ggplot2</td>
+      <td>Manuscript figures and supplementary tables</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The key insight: <strong>use PGAP proteins as the input for eggNOG-mapper and InterProScan</strong>. This keeps all tools using the same gene calls and avoids the inconsistency of running Prodigal separately for each tool.</p>
+
+<hr />
+
+<h2 id="part-1-pgap--primary-annotation">Part 1: PGAP — primary annotation</h2>
+
+<h3 id="install-docker-and-pgap">Install Docker and PGAP</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Docker (Ubuntu)</span>
+<span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt <span class="nb">install </span>docker.io
+<span class="nb">sudo </span>systemctl <span class="nb">enable </span>docker <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>systemctl start docker
+<span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker <span class="nv">$USER</span>
+newgrp docker
+docker run hello-world   <span class="c"># should print hello-world message</span>
+
+<span class="c"># Download PGAP</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> ~/pgap <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ~/pgap
+curl <span class="nt">-LO</span> https://github.com/ncbi/pgap/raw/prod/scripts/pgap.py
+<span class="nb">chmod</span> +x pgap.py
+./pgap.py <span class="nt">--update</span>   <span class="c"># downloads container + databases (~60 GB)</span>
+</code></pre></div></div>
+
+<h3 id="run-pgap">Run PGAP</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./pgap.py <span class="se">\</span>
+  <span class="nt">-g</span> Radiobacillus_sp._PE_A8_2.fna <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s2">"Radiobacillus sp."</span> <span class="se">\</span>
+  <span class="nt">-o</span> pgap_out <span class="se">\</span>
+  <span class="nt">-n</span>
+</code></pre></div></div>
+
+<h3 id="check-the-output">Check the output</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>pgap_out
+
+<span class="c"># Total CDS</span>
+<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"CDS"</span> annot.gff
+
+<span class="c"># Hypothetical proteins</span>
+<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"product=hypothetical protein"</span> annot.gff
+
+<span class="c"># Percent functionally annotated</span>
+<span class="nv">TOTAL</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"CDS"</span> annot.gff<span class="si">)</span>
+<span class="nv">HYP</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"product=hypothetical protein"</span> annot.gff<span class="si">)</span>
+<span class="nb">echo</span> <span class="s2">"scale=2; (</span><span class="nv">$TOTAL</span><span class="s2"> - </span><span class="nv">$HYP</span><span class="s2">)/</span><span class="nv">$TOTAL</span><span class="s2"> * 100"</span> | bc
+</code></pre></div></div>
+
+<h3 id="export-a-simple-annotation-table">Export a simple annotation table</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">awk</span> <span class="nt">-F</span><span class="s1">'\t'</span> <span class="s1">'$3=="CDS" {
+    split($9,a,";");
+    id=""; product="";
+    for(i in a){
+        if(a[i] ~ /ID=/){split(a[i],b,"="); id=b[2]}
+        if(a[i] ~ /product=/){split(a[i],b,"="); product=b[2]}
+    }
+    print id"\t"product
+}'</span> annot.gff <span class="o">&gt;</span> pgap_annotations.tsv
+</code></pre></div></div>
+
+<h3 id="key-pgap-output-files">Key PGAP output files</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>What it contains</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">annot.gff</code></td>
+      <td>Main annotation in GFF3 format</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">annot.gbk</code></td>
+      <td>GenBank format (for genome browsers)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">annot_translated_cds.faa</code></td>
+      <td>Protein FASTA — <strong>use this for all downstream tools</strong></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">annot.sqn</code></td>
+      <td>Submission-ready file for NCBI</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="part-2-eggnog-mapper--functional-depth">Part 2: eggNOG-mapper — functional depth</h2>
+
+<h3 id="install">Install</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> eggnog <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge eggnog-mapper diamond
+conda activate eggnog
+download_eggnog_data.py <span class="nt">-y</span>   <span class="c"># downloads ~50 GB</span>
+</code></pre></div></div>
+
+<h3 id="run">Run</h3>
+
+<p>Use the PGAP protein file as input:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>emapper.py <span class="se">\</span>
+  <span class="nt">-i</span> pgap_out/annot_translated_cds.faa <span class="se">\</span>
+  <span class="nt">-o</span> Radiobacillus_eggnog <span class="se">\</span>
+  <span class="nt">--cpu</span> 16 <span class="se">\</span>
+  <span class="nt">--data_dir</span> /path/to/eggnog_database <span class="se">\</span>
+  <span class="nt">--itype</span> proteins <span class="se">\</span>
+  <span class="nt">-m</span> diamond <span class="se">\</span>
+  <span class="nt">--override</span>
+</code></pre></div></div>
+
+<p><strong>Use <code class="language-plaintext highlighter-rouge">--override</code> not <code class="language-plaintext highlighter-rouge">--resume</code>.</strong> If a previous run was interrupted and output files exist but are empty or partial, <code class="language-plaintext highlighter-rouge">--resume</code> will silently keep the broken intermediates and report zero processed hits. <code class="language-plaintext highlighter-rouge">--override</code> starts clean.</p>
+
+<p>A successful run ends with:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Total hits processed: XXXX
+</code></pre></div></div>
+
+<p>If that number is zero, something went wrong — check that the input file is not empty and the database path is correct.</p>
+
+<hr />
+
+<h2 id="part-3-dram--metabolic-distillation">Part 3: DRAM — metabolic distillation</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate DRAM
+
+DRAM.py annotate <span class="se">\</span>
+  <span class="nt">-i</span> genome.fna <span class="se">\</span>
+  <span class="nt">-o</span> dram_output <span class="se">\</span>
+  <span class="nt">--threads</span> 16
+
+DRAM.py distill <span class="se">\</span>
+  <span class="nt">-i</span> dram_output/annotations.tsv <span class="se">\</span>
+  <span class="nt">-o</span> dram_distill <span class="se">\</span>
+  <span class="nt">--trna_path</span> dram_output/trnas.tsv <span class="se">\</span>
+  <span class="nt">--rrna_path</span> dram_output/rrnas.tsv
+</code></pre></div></div>
+
+<p>Open <code class="language-plaintext highlighter-rouge">dram_distill/product.html</code> in a browser. You will see a heat map of metabolic modules — rows are pathways, columns are completeness. This is the figure that goes into the ecological discussion section.</p>
+
+<hr />
+
+<h2 id="part-4-interproscan--domain-annotation">Part 4: InterProScan — domain annotation</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interproscan.sh <span class="se">\</span>
+  <span class="nt">-i</span> pgap_out/annot_translated_cds.faa <span class="se">\</span>
+  <span class="nt">-f</span> TSV,GFF3 <span class="se">\</span>
+  <span class="nt">-o</span> interproscan_results <span class="se">\</span>
+  <span class="nt">--cpu</span> 16 <span class="se">\</span>
+  <span class="nt">--goterms</span> <span class="se">\</span>
+  <span class="nt">--iprlookup</span> <span class="se">\</span>
+  <span class="nt">--pathways</span>
+</code></pre></div></div>
+
+<p>The TSV output has one row per domain hit. A protein that PGAP called “hypothetical protein” may hit a Pfam domain like <code class="language-plaintext highlighter-rouge">PF00069</code> (protein kinase domain) — now you know it is a kinase, even if you do not know which substrate it phosphorylates.</p>
+
+<hr />
+
+<h2 id="part-5-comparing-the-tools--the-numbers">Part 5: Comparing the tools — the numbers</h2>
+
+<p>Here is what a typical novel environmental bacterial genome looks like across tools:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Total features</th>
+      <th>Annotated</th>
+      <th>% annotated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RAST/SEED</td>
+      <td>~5,000</td>
+      <td>~950</td>
+      <td><strong>19%</strong></td>
+    </tr>
+    <tr>
+      <td>PGAP</td>
+      <td>~4,800</td>
+      <td>~3,000</td>
+      <td><strong>~63%</strong></td>
+    </tr>
+    <tr>
+      <td>eggNOG-mapper</td>
+      <td>~4,800</td>
+      <td>~3,600</td>
+      <td><strong>~75%</strong></td>
+    </tr>
+    <tr>
+      <td>InterProScan</td>
+      <td>~4,800</td>
+      <td>~3,200</td>
+      <td><strong>~67%</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>These numbers are consistent across novel isolates. RAST’s low number is not a bug — it is a feature of a conservative, curated database. PGAP and eggNOG are not more “correct,” they are just using broader sequence similarity approaches.</p>
+
+<p>For your manuscript: report all four numbers. A sentence like <em>“Of the 4,812 predicted protein-coding genes, 63% were assigned a function by PGAP, 75% had eggNOG ortholog assignments, and 19% were placed into SEED subsystems”</em> is both accurate and demonstrates analytical depth.</p>
+
+<hr />
+
+<h2 id="part-6-r-visualization-script">Part 6: R visualization script</h2>
+
+<p>This script produces a four-panel figure: Panel A (annotation comparison across methods), Panel B (PGAP functional groups), Panel C (eggNOG COG categories), Panel D (top SEED subsystems). It also writes all data to a supplementary Excel file.</p>
+
+<h3 id="libraries">Libraries</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">cowplot</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">writexl</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">forcats</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="read-input-files">Read input files</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">eggnog_file</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"Radiobacillus_eggnog.emapper.annotations"</span><span class="w">
+</span><span class="n">pgap_file</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"pgap_annotations.tsv"</span><span class="w">
+
+</span><span class="c1"># Read PGAP annotation table</span><span class="w">
+</span><span class="n">pgap</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="w">
+  </span><span class="n">pgap_file</span><span class="p">,</span><span class="w">
+  </span><span class="n">col_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Gene_ID"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Product"</span><span class="p">),</span><span class="w">
+  </span><span class="n">show_col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
+</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">Product</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">replace_na</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span><span class="w"> </span><span class="s2">"NA"</span><span class="p">),</span><span class="w">
+    </span><span class="n">hypothetical</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_to_lower</span><span class="p">(</span><span class="n">Product</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"hypothetical protein"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Read eggNOG — skip comment lines, use the #query header</span><span class="w">
+</span><span class="n">egg_lines</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readLines</span><span class="p">(</span><span class="n">eggnog_file</span><span class="p">)</span><span class="w">
+</span><span class="n">header_line</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">egg_lines</span><span class="p">[</span><span class="n">str_detect</span><span class="p">(</span><span class="n">egg_lines</span><span class="p">,</span><span class="w"> </span><span class="s2">"^#query"</span><span class="p">)][</span><span class="m">1</span><span class="p">]</span><span class="w">
+</span><span class="n">header_vec</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">str_split</span><span class="p">(</span><span class="n">str_remove</span><span class="p">(</span><span class="n">header_line</span><span class="p">,</span><span class="w"> </span><span class="s2">"^#"</span><span class="p">),</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">)[[</span><span class="m">1</span><span class="p">]]</span><span class="w">
+
+</span><span class="n">eggnog</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="w">
+  </span><span class="n">eggnog_file</span><span class="p">,</span><span class="w">
+  </span><span class="n">comment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#"</span><span class="p">,</span><span class="w">
+  </span><span class="n">col_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">header_vec</span><span class="p">,</span><span class="w">
+  </span><span class="n">show_col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="calculate-summary-statistics">Calculate summary statistics</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pgap_total</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">pgap</span><span class="p">)</span><span class="w">
+</span><span class="n">pgap_hyp</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">pgap</span><span class="o">$</span><span class="n">hypothetical</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">pgap_annot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pgap_total</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">pgap_hyp</span><span class="w">
+</span><span class="n">pgap_pct</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pgap_annot</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">pgap_total</span><span class="w">
+
+</span><span class="n">eggnog_total</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">eggnog</span><span class="p">)</span><span class="w">
+</span><span class="n">eggnog_annot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">eggnog</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">replace_na</span><span class="p">(</span><span class="n">Description</span><span class="p">,</span><span class="w"> </span><span class="s2">"-"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Description</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"-"</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Description</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">""</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pull</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">
+</span><span class="n">eggnog_unannot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">eggnog_total</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">eggnog_annot</span><span class="w">
+</span><span class="n">eggnog_pct</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">eggnog_annot</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">eggnog_total</span><span class="w">
+
+</span><span class="c1"># SEED values from RAST output (fill these in from your RAST report)</span><span class="w">
+</span><span class="n">seed_total</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">5077</span><span class="w">
+</span><span class="n">seed_annot</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">seed_total</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.19</span><span class="p">)</span><span class="w">
+</span><span class="n">seed_unannot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">seed_total</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">seed_annot</span><span class="w">
+</span><span class="n">seed_pct</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">seed_annot</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">seed_total</span><span class="w">
+
+</span><span class="c1"># Summary table</span><span class="w">
+</span><span class="n">summary_tbl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tibble</span><span class="p">(</span><span class="w">
+  </span><span class="n">Method</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"eggNOG-mapper"</span><span class="p">,</span><span class="w"> </span><span class="s2">"PGAP"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SEED subsystem"</span><span class="p">),</span><span class="w">
+  </span><span class="n">Total_features</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">eggnog_total</span><span class="p">,</span><span class="w"> </span><span class="n">pgap_total</span><span class="p">,</span><span class="w"> </span><span class="n">seed_total</span><span class="p">),</span><span class="w">
+  </span><span class="n">Annotated_features</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">eggnog_annot</span><span class="p">,</span><span class="w"> </span><span class="n">pgap_annot</span><span class="p">,</span><span class="w"> </span><span class="n">seed_annot</span><span class="p">),</span><span class="w">
+  </span><span class="n">Unannotated_features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">eggnog_unannot</span><span class="p">,</span><span class="w"> </span><span class="n">pgap_hyp</span><span class="p">,</span><span class="w"> </span><span class="n">seed_unannot</span><span class="p">),</span><span class="w">
+  </span><span class="n">Percent_annotated</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">eggnog_pct</span><span class="p">,</span><span class="w"> </span><span class="n">pgap_pct</span><span class="p">,</span><span class="w"> </span><span class="n">seed_pct</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="pgap-functional-groups">PGAP functional groups</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pgap_groups</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tibble</span><span class="p">(</span><span class="w">
+  </span><span class="n">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"Transporters"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Dehydrogenases"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Kinases"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Ribosomal proteins"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Regulators"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Hypothetical proteins"</span><span class="w">
+  </span><span class="p">),</span><span class="w">
+  </span><span class="n">Pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"transporter|permease|ABC transporter|MFS transporter"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"dehydrogenase"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"kinase"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ribosomal"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"transcription factor|response regulator|helix-turn-helix"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"^hypothetical protein$"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">rowwise</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">pgap</span><span class="o">$</span><span class="n">Product</span><span class="p">,</span><span class="w">
+                                </span><span class="n">regex</span><span class="p">(</span><span class="n">Pattern</span><span class="p">,</span><span class="w"> </span><span class="n">ignore_case</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)),</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">Count</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="cog-categories-from-eggnog">COG categories from eggNOG</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cog_map</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+  </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Energy production and conversion"</span><span class="p">,</span><span class="w">
+  </span><span class="n">E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Amino acid transport and metabolism"</span><span class="p">,</span><span class="w">
+  </span><span class="n">G</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Carbohydrate transport and metabolism"</span><span class="p">,</span><span class="w">
+  </span><span class="n">J</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Translation, ribosomal structure"</span><span class="p">,</span><span class="w">
+  </span><span class="n">K</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Transcription"</span><span class="p">,</span><span class="w">
+  </span><span class="n">L</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Replication, recombination and repair"</span><span class="p">,</span><span class="w">
+  </span><span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Cell wall/membrane biogenesis"</span><span class="p">,</span><span class="w">
+  </span><span class="n">O</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Protein modification and turnover"</span><span class="p">,</span><span class="w">
+  </span><span class="n">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Inorganic ion transport and metabolism"</span><span class="p">,</span><span class="w">
+  </span><span class="n">R</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"General function prediction only"</span><span class="p">,</span><span class="w">
+  </span><span class="n">S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Function unknown"</span><span class="p">,</span><span class="w">
+  </span><span class="nb">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Signal transduction"</span><span class="p">,</span><span class="w">
+  </span><span class="n">V</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Defense mechanisms"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">cog_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">eggnog</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">query</span><span class="p">,</span><span class="w"> </span><span class="n">COG_category</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">COG_category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">replace_na</span><span class="p">(</span><span class="n">COG_category</span><span class="p">,</span><span class="w"> </span><span class="s2">"-"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">COG_category</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"-"</span><span class="p">,</span><span class="w"> </span><span class="n">COG_category</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">""</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">COG_category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_split</span><span class="p">(</span><span class="n">COG_category</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest</span><span class="p">(</span><span class="n">COG_category</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">COG_category</span><span class="p">,</span><span class="w"> </span><span class="s2">"[A-Z]"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">COG_description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recode</span><span class="p">(</span><span class="n">COG_category</span><span class="p">,</span><span class="w"> </span><span class="o">!!!</span><span class="n">cog_map</span><span class="p">,</span><span class="w"> </span><span class="n">.default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Other"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">cog_summary</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cog_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">count</span><span class="p">(</span><span class="n">COG_category</span><span class="p">,</span><span class="w"> </span><span class="n">COG_description</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Count"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="seed-subsystem-summary-from-rast-report">SEED subsystem summary (from RAST report)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">seed_summary</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tribble</span><span class="p">(</span><span class="w">
+  </span><span class="o">~</span><span class="n">SEED_category</span><span class="p">,</span><span class="w">                                          </span><span class="o">~</span><span class="n">Count</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Amino Acids and Derivatives"</span><span class="p">,</span><span class="w">                           </span><span class="m">253</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Protein Metabolism"</span><span class="p">,</span><span class="w">                                    </span><span class="m">180</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Carbohydrates"</span><span class="p">,</span><span class="w">                                         </span><span class="m">166</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Cofactors, Vitamins, Prosthetic Groups, Pigments"</span><span class="p">,</span><span class="w">      </span><span class="m">115</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Nucleosides and Nucleotides"</span><span class="p">,</span><span class="w">                           </span><span class="m">101</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"DNA Metabolism"</span><span class="p">,</span><span class="w">                                         </span><span class="m">57</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"RNA Metabolism"</span><span class="p">,</span><span class="w">                                         </span><span class="m">49</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Respiration"</span><span class="p">,</span><span class="w">                                            </span><span class="m">45</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Fatty Acids, Lipids, and Isoprenoids"</span><span class="p">,</span><span class="w">                   </span><span class="m">45</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Membrane Transport"</span><span class="p">,</span><span class="w">                                     </span><span class="m">41</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Virulence, Disease and Defense"</span><span class="p">,</span><span class="w">                         </span><span class="m">41</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Cell Wall and Capsule"</span><span class="p">,</span><span class="w">                                  </span><span class="m">38</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Stress Response"</span><span class="p">,</span><span class="w">                                        </span><span class="m">32</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Dormancy and Sporulation"</span><span class="p">,</span><span class="w">                               </span><span class="m">31</span><span class="w">
+</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">Count</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="shared-plot-theme">Shared plot theme</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">theme_pub</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">panel.grid</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">axis.text</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.title</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">),</span><span class="w">
+    </span><span class="n">plot.margin</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="panel-a-annotation-comparison-stacked-bar">Panel A: annotation comparison (stacked bar)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">comp_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">summary_tbl</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">Method</span><span class="p">,</span><span class="w"> </span><span class="n">Annotated_features</span><span class="p">,</span><span class="w"> </span><span class="n">Unannotated_features</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">Annotated_features</span><span class="p">,</span><span class="w"> </span><span class="n">Unannotated_features</span><span class="p">),</span><span class="w">
+               </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Status"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Count"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">Status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recode</span><span class="p">(</span><span class="n">Status</span><span class="p">,</span><span class="w">
+                    </span><span class="n">Annotated_features</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"Annotated"</span><span class="p">,</span><span class="w">
+                    </span><span class="n">Unannotated_features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Unannotated / not assigned"</span><span class="p">),</span><span class="w">
+    </span><span class="n">Method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">Method</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"eggNOG-mapper"</span><span class="p">,</span><span class="w"> </span><span class="s2">"PGAP"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SEED subsystem"</span><span class="p">))</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">figA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">comp_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">Method</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">percent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Count</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">Status</span><span class="p">,</span><span class="w">
+                         </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Annotated"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Unannotated / not assigned"</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Method</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Count</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Status</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.72</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">percent</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="s2">"%"</span><span class="p">)),</span><span class="w">
+            </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_stack</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">),</span><span class="w">
+            </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Annotated"</span><span class="w">                    </span><span class="o">=</span><span class="w"> </span><span class="s2">"#1b9e77"</span><span class="p">,</span><span class="w">
+                                </span><span class="s2">"Unannotated / not assigned"</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"#d95f02"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of genes / proteins"</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_pub</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w">
+        </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"top"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="panel-b-pgap-functional-groups">Panel B: PGAP functional groups</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">figB</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pgap_groups</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_wrap</span><span class="p">(</span><span class="n">Category</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">22</span><span class="p">),</span><span class="w">
+         </span><span class="n">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fct_reorder</span><span class="p">(</span><span class="n">Category</span><span class="p">,</span><span class="w"> </span><span class="n">Count</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Count</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Category</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.72</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#1b9e77"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gene count"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_pub</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="panel-c-cog-categories-eggnog-top-8">Panel C: COG categories (eggNOG top 8)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">figC</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cog_summary</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">slice_head</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="n">COG_category</span><span class="p">,</span><span class="w"> </span><span class="n">COG_description</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">" — "</span><span class="p">),</span><span class="w">
+         </span><span class="n">Label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_wrap</span><span class="p">(</span><span class="n">Label</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">34</span><span class="p">),</span><span class="w">
+         </span><span class="n">Label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fct_reorder</span><span class="p">(</span><span class="n">Label</span><span class="p">,</span><span class="w"> </span><span class="n">Count</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Count</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Label</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.72</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#d95f02"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Protein count"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_pub</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8.5</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="panel-d-seed-subsystems-top-8">Panel D: SEED subsystems (top 8)</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">figD</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">seed_summary</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">slice_head</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">SEED_category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_wrap</span><span class="p">(</span><span class="n">SEED_category</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">),</span><span class="w">
+         </span><span class="n">SEED_category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fct_reorder</span><span class="p">(</span><span class="n">SEED_category</span><span class="p">,</span><span class="w"> </span><span class="n">Count</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Count</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SEED_category</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.72</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#7570b3"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Feature count"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_pub</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8.5</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="assemble-and-save">Assemble and save</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">panelA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggdraw</span><span class="p">(</span><span class="n">figA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">draw_label</span><span class="p">(</span><span class="s2">"A"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="m">0.01</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="m">0.99</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w">
+</span><span class="n">panelB</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggdraw</span><span class="p">(</span><span class="n">figB</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">draw_label</span><span class="p">(</span><span class="s2">"B"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="m">0.01</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="m">0.99</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w">
+</span><span class="n">panelC</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggdraw</span><span class="p">(</span><span class="n">figC</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">draw_label</span><span class="p">(</span><span class="s2">"C"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="m">0.01</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="m">0.99</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w">
+</span><span class="n">panelD</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggdraw</span><span class="p">(</span><span class="n">figD</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">draw_label</span><span class="p">(</span><span class="s2">"D"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="m">0.01</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="m">0.99</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w">
+
+</span><span class="n">right_stack</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">plot_grid</span><span class="p">(</span><span class="n">panelB</span><span class="p">,</span><span class="w"> </span><span class="n">panelC</span><span class="p">,</span><span class="w"> </span><span class="n">panelD</span><span class="p">,</span><span class="w">
+                         </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"v"</span><span class="p">,</span><span class="w"> </span><span class="n">rel_heights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w">
+
+</span><span class="n">combined_fig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">plot_grid</span><span class="p">(</span><span class="n">panelA</span><span class="p">,</span><span class="w"> </span><span class="n">right_stack</span><span class="p">,</span><span class="w">
+                          </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">rel_widths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1.15</span><span class="p">,</span><span class="w"> </span><span class="m">1.35</span><span class="p">),</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"h"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"Figure_annotation_composite.png"</span><span class="p">,</span><span class="w"> </span><span class="n">combined_fig</span><span class="p">,</span><span class="w">
+       </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">600</span><span class="p">)</span><span class="w">
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"Figure_annotation_composite.pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">combined_fig</span><span class="p">,</span><span class="w">
+       </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="supplementary-tables">Supplementary tables</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">supp_list</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="w">
+  </span><span class="s2">"S1_method_summary"</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">summary_tbl</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"S1_pgap_annotations"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pgap</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"S1_pgap_groups"</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">pgap_groups</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"S1_eggnog_full"</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">eggnog</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"S1_COG_summary"</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">cog_summary</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"S1_SEED_summary"</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">seed_summary</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">write_xlsx</span><span class="p">(</span><span class="n">supp_list</span><span class="p">,</span><span class="w"> </span><span class="s2">"Supplementary_Table_S1_Radiobacillus.xlsx"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="quick-comparison-all-five-tools-side-by-side">Quick comparison: all five tools side by side</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Approach</th>
+      <th>Input</th>
+      <th>Main output</th>
+      <th>Best for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>RAST</strong></td>
+      <td>Curated subsystems</td>
+      <td>FASTA</td>
+      <td>Subsystem categories</td>
+      <td>Quick first look, ecological table</td>
+    </tr>
+    <tr>
+      <td><strong>PGAP</strong></td>
+      <td>NCBI HMM + BLAST</td>
+      <td>FASTA</td>
+      <td>GenBank, GFF3, FAA</td>
+      <td>Primary manuscript annotation</td>
+    </tr>
+    <tr>
+      <td><strong>eggNOG-mapper</strong></td>
+      <td>Ortholog groups (DIAMOND)</td>
+      <td>Protein FAA</td>
+      <td>COG, KEGG, GO, EC</td>
+      <td>Functional depth, COG plots</td>
+    </tr>
+    <tr>
+      <td><strong>DRAM</strong></td>
+      <td>Multi-DB metabolic distillation</td>
+      <td>FASTA</td>
+      <td>Metabolism heat map</td>
+      <td>Ecological interpretation</td>
+    </tr>
+    <tr>
+      <td><strong>InterProScan</strong></td>
+      <td>13 domain databases</td>
+      <td>Protein FAA</td>
+      <td>Pfam, TIGRFAM, GO</td>
+      <td>Domain annotation, hypothetical proteins</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="what-to-put-in-your-manuscript">What to put in your manuscript</h2>
+
+<p><strong>Table 1 (genome statistics):</strong> Include a row for each tool — total features, annotated, percentage.</p>
+
+<p><strong>Main figure:</strong> The four-panel figure produced by the R script above — annotation comparison (A), functional groups (B), COG categories (C), SEED subsystems (D).</p>
+
+<p><strong>Supplementary:</strong> The full eggNOG annotation table, the full PGAP product list, and the COG/SEED summaries.</p>
+
+<p><strong>Methods section:</strong></p>
+
+<blockquote>
+  <p>Genome annotation was performed using NCBI PGAP (version X.X) run via Docker. Functional annotation was extended using eggNOG-mapper v2 (version X.X) with DIAMOND search against the eggNOG 5.0 database. Metabolic potential was assessed using DRAM (version X.X). Protein domain assignments were obtained using InterProScan (version X.X) against Pfam, TIGRFAM, and SUPERFAMILY databases. Subsystem-based interpretation was performed using the RAST/SEED annotation service.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="a-note-on-hypothetical-proteins">A note on “hypothetical proteins”</h2>
+
+<p>One more thing beginners often worry about: you might have 35% hypothetical proteins after PGAP, 25% after eggNOG, and you wonder if that makes the genome look bad.</p>
+
+<p>It does not. In most environmental bacterial genomes published today, 20–40% hypothetical proteins is completely normal. These are genes that are real (they pass gene-calling filters, they have Shine-Dalgarno sequences, they are conserved across strains) but simply have no characterised homolog yet. As more environmental bacteria are sequenced and characterised, these numbers will improve.</p>
+
+<p>In your manuscript, frame it positively: <em>“Our analysis revealed X% hypothetical proteins, consistent with the novel ecological niche of this organism and suggesting a reservoir of uncharacterised functional diversity.”</em></p>
+
+<hr />
+
+<p><em>This workflow was developed during annotation of Radiobacillus sp. PE-A8-2. The same pipeline applies to any novel prokaryotic genome — adapt species names and file names accordingly. PGAP requires ~60–80 GB disk space; eggNOG databases require ~50 GB.</em></p>
+
+<hr />
+
+<p><strong>Tags:</strong> <code class="language-plaintext highlighter-rouge">PGAP</code> <code class="language-plaintext highlighter-rouge">eggNOG-mapper</code> <code class="language-plaintext highlighter-rouge">RAST</code> <code class="language-plaintext highlighter-rouge">DRAM</code> <code class="language-plaintext highlighter-rouge">InterProScan</code> <code class="language-plaintext highlighter-rouge">genome-annotation</code> <code class="language-plaintext highlighter-rouge">COG</code> <code class="language-plaintext highlighter-rouge">KEGG</code> <code class="language-plaintext highlighter-rouge">ggplot2</code> <code class="language-plaintext highlighter-rouge">hypothetical-proteins</code> <code class="language-plaintext highlighter-rouge">bioinformatics</code> <code class="language-plaintext highlighter-rouge">beginner</code></p>
+
+<p><img src="/assets/img/genome-annotatin-2.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="genomics" /><category term="PGAP" /><category term="eggNOG" /><category term="RAST" /><category term="DRAM" /><category term="InterProScan" /><category term="genome-annotation" /><category term="COG" /><category term="KEGG" /><category term="ggplot2" /><category term="beginner" /><category term="bioinformatics" /><summary type="html"><![CDATA[You annotated your genome with RAST and only 19% of genes got a subsystem assignment. Sound familiar? This beginner-friendly guide walks through why that happens and how to fix it using PGAP, eggNOG-mapper, DRAM, and InterProScan — with a complete R visualization script for your manuscript figures.]]></summary></entry><entry><title type="html">From QIIME 2 to R — Visualizing Your 16S Amplicon Results</title><link href="https://jojyjohn28.github.io/blog/qiime2-to-r-visualization/" rel="alternate" type="text/html" title="From QIIME 2 to R — Visualizing Your 16S Amplicon Results" /><published>2026-04-20T00:00:00-04:00</published><updated>2026-04-20T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/qiime2-to-r-visualization</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/qiime2-to-r-visualization/"><![CDATA[<h2 id="from-qiime-2-to-r--visualizing-your-16s-amplicon-results">From QIIME 2 to R — visualizing your 16S amplicon results</h2>
 
 <p><em>🧬 𝐷𝑎𝑦 73 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠</em></p>
 
@@ -4735,139 +5461,4 @@ bowtie2 <span class="se">\</span>
 
 <p>If you seeing the blog first time, read <a href="https://jojyjohn28.github.io/blog/day1-metatranscriptomics-introduction/">DAY 1</a></p>
 
-<p><img src="/assets/img/day2_mt.png" alt="Day2 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="QC" /><category term="FastQC" /><category term="fastp" /><category term="SortMeRNA" /><category term="bbduk" /><category term="rRNA-removal" /><category term="preprocessing" /><category term="SLURM" /><category term="HPC" /><summary type="html"><![CDATA[The step most tutorials skip — and the one that decides your mapping success rate before Bowtie2 ever runs. A complete walkthrough of FastQC, fastp, SortMeRNA, and bbduk with real commands for HPC.]]></summary></entry><entry><title type="html">Day 1 — Who Is Active, Not Just Present? An Introduction to Metatranscriptomics</title><link href="https://jojyjohn28.github.io/blog/day1-metatranscriptomics-introduction/" rel="alternate" type="text/html" title="Day 1 — Who Is Active, Not Just Present? An Introduction to Metatranscriptomics" /><published>2026-03-30T00:00:00-04:00</published><updated>2026-03-30T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day1-metatranscriptomics-introduction</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day1-metatranscriptomics-introduction/"><![CDATA[<p><strong>The central question of microbial ecology is not “who is there?” — it’s “who is doing what, right now?”</strong></p>
-
-<p>For years, metagenomics gave us a powerful answer to the first question. Sequence the DNA from an environmental sample and you can reconstruct which microorganisms are present, which genes they carry, and what they’re theoretically capable of. But there’s a fundamental problem with that picture: <strong>DNA is a blueprint, not a timesheet.</strong></p>
-
-<p>A gene sitting on a chromosome is silent. It might be expressed constantly, occasionally, never, or only in response to conditions that no longer exist by the time you sampled. Two communities could have identical genomic potential but operate in completely opposite ways — one active, stressed, growing; the other dormant, maintenance-mode, barely ticking over. Metagenomics alone cannot tell you the difference.</p>
-
-<p>That’s where <strong>metatranscriptomics</strong> enters.</p>
-
-<hr />
-
-<h2 id="what-metatranscriptomics-actually-measures">What metatranscriptomics actually measures</h2>
-
-<p>Metatranscriptomics captures the <strong>mRNA pool</strong> of an entire microbial community at the moment of sampling. Instead of sequencing DNA, you extract RNA, convert it to cDNA, and sequence that. The result is a snapshot of <strong>gene expression</strong> — not what could happen, but what is happening.</p>
-
-<p>This matters enormously. In estuarine systems like the ones we study — coastal habitats spanning salinity gradients from Pennsylvania marshes to Florida mangroves — community composition might look similar along a transect while the metabolic activities are entirely different. A sulfur-oxidizing bacterium present in both environments might be actively oxidizing sulfide in the anoxic zone of a PA salt marsh but effectively dormant in the shallow, well-oxygenated FL seagrass bed. Metagenomics sees the organism in both places. Metatranscriptomics tells you which one is actually working.</p>
-
-<p>The central biological question shifts from:</p>
-
-<blockquote>
-  <p>“Who is present?”</p>
-</blockquote>
-
-<p>to:</p>
-
-<blockquote>
-  <p>“Who is active, and what are they doing?”</p>
-</blockquote>
-
-<hr />
-
-<h2 id="metagenomics-vs-metatranscriptomics-the-key-differences">Metagenomics vs. metatranscriptomics: the key differences</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th> </th>
-      <th>Metagenomics</th>
-      <th>Metatranscriptomics</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Template</td>
-      <td>DNA</td>
-      <td>RNA (as cDNA)</td>
-    </tr>
-    <tr>
-      <td>What it captures</td>
-      <td>Genomic potential</td>
-      <td>Active gene expression</td>
-    </tr>
-    <tr>
-      <td>Stability</td>
-      <td>Stable; survives harsh extraction</td>
-      <td>Fragile; degrades rapidly</td>
-    </tr>
-    <tr>
-      <td>Reference</td>
-      <td>Any assembled sequence</td>
-      <td>mRNA only (after rRNA removal)</td>
-    </tr>
-    <tr>
-      <td>Temporal signal</td>
-      <td>None — accumulated over cell lifetime</td>
-      <td>Snapshot — moment of sampling</td>
-    </tr>
-    <tr>
-      <td>Dominant signal</td>
-      <td>All genes in all organisms</td>
-      <td>Highly expressed genes only</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The RNA fragility issue is not just a lab inconvenience — it’s biologically meaningful. Because RNA degrades fast, your metatranscriptome reflects what cells were actively transcribing at the time of freezing. That’s a feature, not a bug. But it means <strong>sample handling is everything.</strong> Flash-freezing in liquid nitrogen in the field, or immediate preservation in RNAlater, is non-negotiable.</p>
-
-<hr />
-
-<h2 id="the-challenges-youll-face">The challenges you’ll face</h2>
-
-<p><strong>Challenge 1: rRNA dominance</strong></p>
-
-<p>Even in a “total RNA” extraction, 80–95% of your reads will be ribosomal RNA. This is not a problem you can sequence your way out of — you have to actively remove rRNA either biologically (depletion kits) or computationally (SortMeRNA, bbduk). Day 2 of this series covers this in full.</p>
-
-<p><strong>Challenge 2: low mapping rates</strong></p>
-
-<p>Even after QC and rRNA removal, your mRNA reads face another challenge: finding a reference to map against. In Day 4 we show real alignment stats from our own pipeline — a whole-community metatranscriptome mapped against four MAGs yielding roughly <strong>2% overall alignment</strong>. To the uninitiated, this looks catastrophic. It isn’t. It reflects a fundamental truth: your reference can only capture what you’ve already assembled. Understanding why low alignment rates happen — and what they mean — is one of the most important lessons in this series.</p>
-
-<p><strong>Challenge 3: normalization and interpretation</strong></p>
-
-<p>Raw counts are not expression levels. A highly expressed gene in a rare organism and a moderately expressed gene in an abundant organism can produce similar read counts. Disentangling expression from abundance requires normalization strategies (TPM, RPKM) and, ideally, pairing your metatranscriptome with a metagenome to compute DNA:RNA ratios. This is where the real biology lives, and we cover it fully on Day 5.</p>
-
-<hr />
-
-<h2 id="our-system-estuarine-microbiomes-under-salinity-gradients">Our system: estuarine microbiomes under salinity gradients</h2>
-
-<p>The samples in this series come from tidal estuaries in Pennsylvania and Florida. Our samples follow a naming convention you’ll learn to read:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">CP_Spr15G08</code> — Cape (location), Spring (season), Station 15G, Replicate 08</li>
-</ul>
-
-<p>The PA and FL sites differ in salinity gradient structure, temperature regime, and organic matter inputs. These environmental differences create distinct selection pressures on microbial communities — and our metatranscriptomes capture how those communities respond in real time.</p>
-
-<p>Across this gradient, we’re particularly interested in hydrocarbon-degrading guilds, sulfur cycling communities, and the organisms mediating metabolic coupling between primary producers and heterotrophs.</p>
-
-<hr />
-
-<h2 id="a-conceptual-map-dna--rna--function">A conceptual map: DNA → RNA → function</h2>
-
-<p>The diagram below frames where metatranscriptomics sits relative to metagenomics and why neither alone is sufficient:</p>
-
-<ul>
-  <li><strong>DNA</strong> (metagenomics): stable, complete blueprint. Tells you what’s possible.</li>
-  <li><strong>mRNA</strong> (metatranscriptomics): fragile, moment-specific snapshot. Tells you what’s happening.</li>
-  <li><strong>Function</strong> (ecological outcome): what we actually care about — metabolic activity, niche occupation, ecosystem process.</li>
-</ul>
-
-<p>Metatranscriptomics bridges the gap between blueprint and behavior. It’s not a replacement for metagenomics — it’s the layer that tells you which parts of the blueprint are running right now.</p>
-
-<hr />
-
-<h2 id="whats-next">What’s next</h2>
-
-<p>Tomorrow we tackle the step most tutorials skip entirely: raw data preprocessing. FastQC diagnostics, adapter trimming with fastp, and rRNA removal with SortMeRNA and bbduk. The mapping success you get on Day 4 is decided here — long before a single read touches Bowtie2.</p>
-
-<p><strong>Day 2: QC and Preprocessing</strong></p>
-
-<hr />
-
-<p>📦 <strong>All code, SLURM scripts, and toy datasets used in this series are available in the companion repository</strong>
-📦 <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day1-toy-data">Github repository</a></p>
-
-<p>_Questions about this workflow? Drop a comment below. The complete R script and SLURM submission scripts are available in the <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day1-toy-data">companion GitHub repository</a></p>
-
-<p><img src="/assets/img/d1_mt.png" alt="Day1 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="RNA-seq" /><category term="metagenomics" /><category term="estuarine-microbiomes" /><category term="activity-vs-abundance" /><category term="conceptual" /><category term="microbial-ecology" /><summary type="html"><![CDATA[DNA is a blueprint. RNA is a timesheet. This opening post sets the conceptual foundation for the series — what metatranscriptomics actually measures, why activity and abundance are not the same thing, and why your estuarine samples are the perfect system to teach it.]]></summary></entry></feed>
+<p><img src="/assets/img/day2_mt.png" alt="Day2 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="QC" /><category term="FastQC" /><category term="fastp" /><category term="SortMeRNA" /><category term="bbduk" /><category term="rRNA-removal" /><category term="preprocessing" /><category term="SLURM" /><category term="HPC" /><summary type="html"><![CDATA[The step most tutorials skip — and the one that decides your mapping success rate before Bowtie2 ever runs. A complete walkthrough of FastQC, fastp, SortMeRNA, and bbduk with real commands for HPC.]]></summary></entry></feed>
