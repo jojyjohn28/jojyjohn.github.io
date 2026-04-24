@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-22T21:00:20-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-22T21:00:20-04:00</published><updated>2026-04-22T21:00:20-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-24T16:00:17-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-24T16:00:17-04:00</published><updated>2026-04-24T16:00:17-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,271 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Genome Annotation Tools — From RAST’s 19% to a Complete Picture with PGAP, eggNOG, DRAM, and InterProScan</title><link href="https://jojyjohn28.github.io/blog/genome-annotation-tools-pgap-eggnog-dram/" rel="alternate" type="text/html" title="Genome Annotation Tools — From RAST’s 19% to a Complete Picture with PGAP, eggNOG, DRAM, and InterProScan" /><published>2026-04-22T00:00:00-04:00</published><updated>2026-04-22T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/genome-annotation-tools-pgap-eggnog-dram</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/genome-annotation-tools-pgap-eggnog-dram/"><![CDATA[<h2 id="genome-annotation-tools--from-rasts-19-to-a-complete-picture">Genome annotation tools — from RAST’s 19% to a complete picture</h2>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">What is a Metadata File — and Why Does Your Microbiome Analysis Depend on It?</title><link href="https://jojyjohn28.github.io/blog/metadata-file-qiime2-diversity-beginner/" rel="alternate" type="text/html" title="What is a Metadata File — and Why Does Your Microbiome Analysis Depend on It?" /><published>2026-04-24T00:00:00-04:00</published><updated>2026-04-24T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/metadata-file-qiime2-diversity-beginner</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metadata-file-qiime2-diversity-beginner/"><![CDATA[<h2 id="what-is-a-metadata-file--and-why-does-your-microbiome-analysis-depend-on-it">What is a metadata file — and why does your microbiome analysis depend on it?</h2>
+
+<p><em>🧬 𝐷𝑎𝑦 75 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠</em></p>
+
+<p>You have run your 16S samples through QIIME 2. You have a feature table with thousands of ASVs. You have a taxonomy file. You have alpha diversity vectors.</p>
+
+<p>Now what?</p>
+
+<p>You run <code class="language-plaintext highlighter-rouge">qiime diversity core-metrics-phylogenetic</code> and it asks for a metadata file. You open a blank spreadsheet and wonder: <em>what exactly goes in this? Why does every tutorial spend three paragraphs warning you about it? Why does the analysis crash if the column names look slightly wrong?</em></p>
+
+<p>This post explains what metadata actually is, why it is the most important file in your entire analysis, how to build one from scratch, and how it directly drives the diversity figures you are trying to make.</p>
+
+<hr />
+
+<h2 id="what-is-a-metadata-file">What is a metadata file?</h2>
+
+<p>A metadata file is simply a table that links each of your <strong>sample IDs</strong> to information about that sample — what it is, where it came from, what treatment it received, when it was collected.</p>
+
+<p>Think of it this way. Your sequencing machine gives you 36 FASTQ files. Each file is just a pile of DNA reads. On its own, the machine has no idea whether sample <code class="language-plaintext highlighter-rouge">S01</code> came from a nitrogen-fertilized pot or an untreated control, whether it was collected in spring or fall, or whether it came from Chesapeake Bay or Delaware Bay. That context lives entirely in the metadata file — and without it, every diversity comparison, every statistical test, and every figure you want to make is impossible.</p>
+
+<p>The metadata file is not a supplementary file. It is the file that connects biology to data.</p>
+
+<hr />
+
+<h2 id="the-minimum-viable-metadata-file">The minimum viable metadata file</h2>
+
+<p>Here is the simplest possible metadata file — a soil amendment experiment with three treatments (negative control, NPK fertiliser, and a <em>Bacillus</em>-based bioinoculant):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#SampleID	Treatment	Replicate
+S1a	        NC	      1
+S1b	        NC	      2
+S1c	        NC	      3
+S2a	        NPK	      1
+S2b	        NPK	      2
+S2c	        NPK	      3
+S3a	        nOB9	    1
+S3b	        nOB9	    2
+S3c	        nOB9	    3
+</code></pre></div></div>
+
+<p>That is it. Two columns beyond the sample IDs. This is enough to:</p>
+
+<ul>
+  <li>Group samples by treatment in alpha diversity boxplots</li>
+  <li>Test whether treatments differ in community composition (PERMANOVA)</li>
+  <li>Colour a PCoA plot by treatment</li>
+  <li>Generate faceted taxonomy barplots</li>
+</ul>
+
+<p><strong>The rules you must follow:</strong></p>
+
+<p>First, the first column must be the sample ID column, and its header must be one of the values QIIME 2 accepts: <code class="language-plaintext highlighter-rouge">#SampleID</code>, <code class="language-plaintext highlighter-rouge">sample-id</code>, <code class="language-plaintext highlighter-rouge">id</code>, or <code class="language-plaintext highlighter-rouge">sampleid</code>. If you use anything else, QIIME 2 will throw a confusing error about missing identifiers.</p>
+
+<p>Second, every sample ID in your metadata must exactly match a sample ID in your feature table. If they differ by even a single space, underscore, or capital letter, the join will silently drop samples and your figures will be missing data with no warning.</p>
+
+<p>Third, save the file as TSV (tab-separated values), not CSV. Excel exports TSV if you choose “Tab Delimited Text” as the format. Google Sheets exports TSV if you choose “Tab-separated values (.tsv)”.</p>
+
+<p>Fourth, avoid the <code class="language-plaintext highlighter-rouge">#q2:types</code> row unless you need it. QIIME 2 uses a second header row to specify column types (categorical vs numeric). If you include it, it must be the second row exactly — and it is the row that confuses R users who forget to filter it out before calling <code class="language-plaintext highlighter-rouge">as.numeric()</code>.</p>
+
+<hr />
+
+<h2 id="a-slightly-richer-metadata-file">A slightly richer metadata file</h2>
+
+<p>In practice, you will want more columns. Here is the same experiment with a few extra variables that make the analysis more interesting:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#SampleID	Treatment	Replicate	Season	SoilpH	MoisturePercent
+S1a	        NC	      1	      Spring	  6.8	      32.1
+S1b	        NC	      2	      Spring	  6.7	      31.4
+S1c	        NC	      3	      Spring	  6.9	      33.0
+S2a	        NPK	      1	      Spring	  7.1	      29.8
+S2b	        NPK	      2	      Spring	  7.0	      30.2
+S2c	        NPK	      3	      Spring	  7.3	      28.9
+S3a	        nOB9	    1	      Spring	  6.8	      34.5
+S3b	        nOB9	    2	      Spring	  6.8	      35.1
+S3c	        nOB9	    3	      Spring	  6.9	      33.8
+</code></pre></div></div>
+
+<p>Now you can ask: does soil pH correlate with community diversity? Is moisture a better predictor of community structure than treatment? These are the questions that turn a simple experiment into a paper.</p>
+
+<hr />
+
+<h2 id="from-metadata-to-diversity--how-it-actually-works">From metadata to diversity — how it actually works</h2>
+
+<h3 id="alpha-diversity-within-sample-richness">Alpha diversity: within-sample richness</h3>
+
+<p>Alpha diversity asks: <strong>how diverse is each individual sample?</strong> Three common metrics:</p>
+
+<ul>
+  <li><strong>Shannon index</strong> — accounts for richness (how many taxa) and evenness (how equally abundant they are). A sample with 100 equally abundant taxa scores higher than a sample with 100 taxa where 95% of reads come from one organism.</li>
+  <li><strong>Observed features</strong> — simply counts the unique ASVs detected in each sample after rarefaction. Easy to interpret, sensitive to sequencing depth.</li>
+  <li><strong>Faith’s phylogenetic diversity (PD)</strong> — sums the branch lengths of the phylogenetic tree covered by the detected ASVs. A sample with many distantly related organisms scores higher than one with many closely related organisms.</li>
+</ul>
+
+<p>The metadata file enters here in one key step: after calculating alpha diversity values per sample, you join them to the metadata to ask <em>does diversity differ between my groups?</em></p>
+
+<p>In QIIME 2:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qiime diversity alpha-group-significance <span class="se">\</span>
+  <span class="nt">--i-alpha-diversity</span> core-metrics-results/shannon_vector.qza <span class="se">\</span>
+  <span class="nt">--m-metadata-file</span> my_metadata.txt <span class="se">\</span>
+  <span class="nt">--o-visualization</span> shannon_significance.qzv
+</code></pre></div></div>
+
+<p>In R:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">alpha_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">meta</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">left_join</span><span class="p">(</span><span class="n">shannon</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"SampleID"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">alpha_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Treatment</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Shannon</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Treatment</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">outlier.shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Alpha diversity by treatment"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Shannon index"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>In our Bacillus experiment, if the nOB9 inoculant is promoting microbial diversity in the soil, you would expect the <code class="language-plaintext highlighter-rouge">nOB9</code> group to show higher Shannon values than <code class="language-plaintext highlighter-rouge">NC</code>. The metadata file is what connects Shannon values (which are just numbers attached to sample IDs) to the treatment grouping that makes that comparison meaningful.</p>
+
+<h3 id="beta-diversity-between-sample-community-differences">Beta diversity: between-sample community differences</h3>
+
+<p>Beta diversity asks: <strong>how different are communities between samples?</strong> The most common metrics:</p>
+
+<ul>
+  <li><strong>Bray-Curtis dissimilarity</strong> — compares the relative abundances of taxa between two samples. Two samples sharing all the same taxa at the same abundances have Bray-Curtis = 0. Two samples sharing no taxa have Bray-Curtis = 1.</li>
+  <li><strong>Unweighted UniFrac</strong> — a phylogenetic metric that asks whether the same lineages are present or absent. Does not account for abundance differences.</li>
+  <li><strong>Weighted UniFrac</strong> — like unweighted UniFrac but weighted by relative abundance. Accounts for both presence/absence and how dominant each lineage is.</li>
+</ul>
+
+<p>Beta diversity is visualised with <strong>PCoA (Principal Coordinates Analysis)</strong>. PCoA takes a pairwise distance matrix and projects samples into 2D or 3D space so that similar samples cluster together and dissimilar samples are spread apart.</p>
+
+<p>The metadata file drives PCoA in two ways: it provides the colour coding for the plot (e.g., colour points by treatment), and it provides the grouping variable for <strong>PERMANOVA</strong>, which tests whether the between-group distances are significantly larger than within-group distances.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># PERMANOVA: does treatment predict community composition?</span><span class="w">
+</span><span class="n">adon</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adonis2</span><span class="p">(</span><span class="n">dist_obj</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Treatment</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">meta</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>A significant PERMANOVA (p &lt; 0.05) means treatments have statistically different microbial communities. R² tells you how much of the community variation is explained by treatment.</p>
+
+<hr />
+
+<h2 id="real-environmental-metadata-what-it-looks-like-in-practice">Real environmental metadata: what it looks like in practice</h2>
+
+<p>The experiment above is clean and controlled — same location, same time, three treatments. Environmental studies are messier and richer. Here is what a metadata file looks like for an estuarine microbiome study across two bays, three seasons, and two size fractions:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#SampleID	      Bay	     Season	Fraction	        Salinity	Temperature	pH	  Depth_m	  Month
+CP_Sp_FL_01	Chesapeake	Spring	Free_Living	      8.2	        14.3	    7.8	    0.5	    March
+CP_Sp_PA_01	Chesapeake	Spring	Particle_Attached	8.2	        14.3	    7.8	    0.5	    March
+CP_Su_FL_01	Chesapeake	Summer	Free_Living	      12.7	      26.8	    7.6	    0.5	    July
+CP_Su_PA_01	Chesapeake	Summer	Particle_Attached	12.7	      26.8	    7.6	    0.5	    July
+CP_Fa_FL_01	Chesapeake	Fall	  Free_Living	      15.1	      18.2	    7.7	    0.5	    October
+DE_Sp_FL_01	Delaware	  Spring	Free_Living	      24.3	      13.1	    7.9	    0.5	    March
+DE_Sp_PA_01	Delaware	  Spring	Particle_Attached	24.3	      13.1	    7.9	    0.5	    March
+DE_Su_FL_01	Delaware	  Summer	Free_Living	      28.6	      25.4	    7.5	    0.5	    July
+DE_Su_PA_01	Delaware	  Summer	Particle_Attached	28.6	      25.4	    7.5	    0.5	    July
+DE_Fa_FL_01	Delaware	  Fall	  Free_Living	      30.2	      17.8	    7.8	    0.5	    October
+</code></pre></div></div>
+
+<p>Notice several things:</p>
+
+<p><strong>Categorical columns</strong> (<code class="language-plaintext highlighter-rouge">Bay</code>, <code class="language-plaintext highlighter-rouge">Season</code>, <code class="language-plaintext highlighter-rouge">Fraction</code>, <code class="language-plaintext highlighter-rouge">Month</code>) define the groupings for boxplots, PERMANOVA, and faceted barplots.</p>
+
+<p><strong>Numeric columns</strong> (<code class="language-plaintext highlighter-rouge">Salinity</code>, <code class="language-plaintext highlighter-rouge">Temperature</code>, <code class="language-plaintext highlighter-rouge">pH</code>, <code class="language-plaintext highlighter-rouge">Depth_m</code>) allow correlation analyses — you can ask “does salinity predict Shannon diversity?” or “which environmental variable best explains community turnover?”</p>
+
+<p><strong>Sample IDs encode information</strong> — <code class="language-plaintext highlighter-rouge">CP_Sp_FL_01</code> tells you immediately that this is Chesapeake Bay, Spring, Free-Living, replicate 1. This is good practice: meaningful IDs make it easier to spot errors when samples appear in unexpected places.</p>
+
+<p><strong>The same sample location contributes multiple rows</strong> — the Spring Chesapeake station has both a <code class="language-plaintext highlighter-rouge">FL</code> (free-living, 0.2–0.8 µm filter) and a <code class="language-plaintext highlighter-rouge">PA</code> (particle-attached, &gt;0.8 µm filter) sample. These are separate samples with separate DNA extractions and separate rows in the metadata.</p>
+
+<h3 id="how-this-richer-metadata-enables-richer-analysis">How this richer metadata enables richer analysis</h3>
+
+<p>With this metadata you can ask questions that the simple soil experiment could not:</p>
+
+<ul>
+  <li>Does the free-living community have higher Shannon diversity than the particle-attached community? (alpha diversity, grouped by <code class="language-plaintext highlighter-rouge">Fraction</code>)</li>
+  <li>Are Chesapeake and Delaware Bay communities more similar within a season or within a bay? (beta diversity PERMANOVA with both <code class="language-plaintext highlighter-rouge">Bay</code> and <code class="language-plaintext highlighter-rouge">Season</code>)</li>
+  <li>Does salinity predict community composition better than temperature? (distance-based redundancy analysis, <code class="language-plaintext highlighter-rouge">dbrda(dist_obj ~ Salinity + Temperature, data = meta)</code>)</li>
+  <li>Which ASVs are specifically associated with high-salinity samples? (indicator species analysis using <code class="language-plaintext highlighter-rouge">Salinity</code> as a continuous predictor)</li>
+  <li>Does the free-living to particle-attached transition look different in the two bays? (two-way PERMANOVA: <code class="language-plaintext highlighter-rouge">adonis2(dist ~ Fraction * Bay)</code>)</li>
+</ul>
+
+<p>None of these analyses is possible without the metadata file. The sequences contain the raw biological signal; the metadata tells you what that signal means.</p>
+
+<hr />
+
+<h2 id="the-difference-between-minimal-and-environmental-metadata">The difference between minimal and environmental metadata</h2>
+
+<p>Here is a side-by-side summary:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Lab experiment metadata</th>
+      <th>Environmental study metadata</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Sample IDs</td>
+      <td>Short, simple (<code class="language-plaintext highlighter-rouge">S1a</code>)</td>
+      <td>Encode location/time/fraction</td>
+    </tr>
+    <tr>
+      <td>Key grouping variables</td>
+      <td>Treatment (2–5 levels)</td>
+      <td>Bay, Season, Fraction, Site</td>
+    </tr>
+    <tr>
+      <td>Continuous variables</td>
+      <td>Rarely needed</td>
+      <td>Salinity, Temperature, pH, DO</td>
+    </tr>
+    <tr>
+      <td>Replication</td>
+      <td>Biological replicates</td>
+      <td>Spatial and temporal replicates</td>
+    </tr>
+    <tr>
+      <td>Typical rows</td>
+      <td>9–30</td>
+      <td>30–300+</td>
+    </tr>
+    <tr>
+      <td>Main comparisons</td>
+      <td>Treatment vs. control</td>
+      <td>Multi-factor, gradient analyses</td>
+    </tr>
+    <tr>
+      <td>PERMANOVA structure</td>
+      <td><code class="language-plaintext highlighter-rouge">~ Treatment</code></td>
+      <td><code class="language-plaintext highlighter-rouge">~ Bay * Season + Fraction</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="common-beginner-mistakes-with-metadata">Common beginner mistakes with metadata</h2>
+
+<p><strong>Wrong column separator.</strong> QIIME 2 needs TSV, not CSV. If you save from Excel as “Comma Separated Values” instead of “Tab Delimited Text,” every cell with a comma in it will break the column structure silently.</p>
+
+<p><strong>Spaces in column names.</strong> <code class="language-plaintext highlighter-rouge">Sample ID</code> with a space in the column name will cause problems in R (<code class="language-plaintext highlighter-rouge">meta$Sample ID</code> is not valid syntax). Use underscores: <code class="language-plaintext highlighter-rouge">Sample_ID</code>.</p>
+
+<p><strong>Sample IDs that do not match the feature table.</strong> The most common silent failure. If your feature table has <code class="language-plaintext highlighter-rouge">S1a</code> but your metadata has <code class="language-plaintext highlighter-rouge">S-1a</code> or <code class="language-plaintext highlighter-rouge">s1a</code>, the join returns empty rows with <code class="language-plaintext highlighter-rouge">NA</code> values for every diversity metric. Always run <code class="language-plaintext highlighter-rouge">setdiff(meta$SampleID, colnames(feature_table))</code> to check.</p>
+
+<p><strong>Mixing numeric and categorical in one column.</strong> If your <code class="language-plaintext highlighter-rouge">Treatment</code> column has values <code class="language-plaintext highlighter-rouge">1</code>, <code class="language-plaintext highlighter-rouge">2</code>, <code class="language-plaintext highlighter-rouge">3</code>, QIIME 2 will infer it as numeric and treat it as a continuous variable. Either rename the values (<code class="language-plaintext highlighter-rouge">Control</code>, <code class="language-plaintext highlighter-rouge">Low</code>, <code class="language-plaintext highlighter-rouge">High</code>) or use the <code class="language-plaintext highlighter-rouge">#q2:types</code> row to declare it categorical.</p>
+
+<p><strong>Forgetting to update metadata after removing samples.</strong> If you drop a sample that failed QC from your feature table, remove it from the metadata too. Stale rows in the metadata will not break the analysis, but they will show up as empty points in boxplots and cause confusion.</p>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>The metadata file is a simple TSV table with one row per sample and one column per variable. But every statistical comparison, every diversity figure, every plot in your paper ultimately flows through this file. The sequences tell you who is there. The metadata tells you what it means.</p>
+
+<p>For a basic lab experiment, the metadata file might be just two columns beyond the sample IDs. For a multi-site, multi-season environmental study, it can have twenty columns of physical, chemical, and biological variables — and each one opens a new analytical door.</p>
+
+<p>When in doubt, collect more metadata in the field than you think you will need. You cannot go back and remeasure salinity on a sample from two years ago, but you can always choose not to use a column you collected.</p>
+
+<hr />
+
+<p><em>QIIME 2 metadata documentation: <a href="https://docs.qiime2.org/2024.10/tutorials/metadata/">docs.qiime2.org</a>. Keemei validator for Google Sheets: <a href="https://keemei.qiime2.org">keemei.qiime2.org</a>.</em></p>
+
+<hr />
+
+<iframe src="/assets/html/metadata-explainer.html" width="100%" height="680" frameborder="0" style="border: none; border-radius: 8px; overflow: hidden;">
+</iframe>]]></content><author><name></name></author><category term="metadata" /><category term="QIIME2" /><category term="alpha-diversity" /><category term="beta-diversity" /><category term="diversity" /><category term="16S" /><category term="amplicon" /><category term="beginner" /><category term="experimental-design" /><category term="microbiome" /><summary type="html"><![CDATA[A metadata file is the table that tells QIIME 2 what each of your samples actually is. Without it, you have sequences but no story. This beginner-friendly guide explains what metadata is, how to build one, how it drives alpha and beta diversity, and what it looks like when you add real environmental variables like salinity, temperature, and bay location.]]></summary></entry><entry><title type="html">Genome Annotation Tools — From RAST’s 19% to a Complete Picture with PGAP, eggNOG, DRAM, and InterProScan</title><link href="https://jojyjohn28.github.io/blog/genome-annotation-tools-pgap-eggnog-dram/" rel="alternate" type="text/html" title="Genome Annotation Tools — From RAST’s 19% to a Complete Picture with PGAP, eggNOG, DRAM, and InterProScan" /><published>2026-04-22T00:00:00-04:00</published><updated>2026-04-22T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/genome-annotation-tools-pgap-eggnog-dram</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/genome-annotation-tools-pgap-eggnog-dram/"><![CDATA[<h2 id="genome-annotation-tools--from-rasts-19-to-a-complete-picture">Genome annotation tools — from RAST’s 19% to a complete picture</h2>
 
 <p><em>🧬 𝐷𝑎𝑦 74 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 desk</em></p>
 
@@ -4967,498 +5231,4 @@ bowtie2-build <span class="se">\</span>
 <p>Questions about this workflow? Drop a comment below.
 The complete R script and SLURM submission scripts are available in the <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day3-metatranscriptomics-reference">companion GitHub repository</a>.</p>
 
-<p><img src="/assets/img/mt-d3.png" alt="Day2 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="reference" /><category term="MAGs" /><category term="GTDB" /><category term="gene-catalog" /><category term="bowtie2" /><category term="SLURM" /><category term="HPC" /><category term="beginner" /><summary type="html"><![CDATA[The most consequential decision in metatranscriptomics isn't which mapper you use — it's what you map against. A beginner-friendly guide to MAGs, reference genomes, and gene catalogs, with the commands to build each one and the SLURM scripts to run them on HPC.]]></summary></entry><entry><title type="html">Day 2 — Clean Your RNA : QC &amp;amp; Preprocessing for Metatranscriptomics</title><link href="https://jojyjohn28.github.io/blog/day2-metatranscriptomics-qc-preprocessing/" rel="alternate" type="text/html" title="Day 2 — Clean Your RNA : QC &amp;amp; Preprocessing for Metatranscriptomics" /><published>2026-03-31T00:00:00-04:00</published><updated>2026-03-31T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day2-metatranscriptomics-qc-preprocessing</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day2-metatranscriptomics-qc-preprocessing/"><![CDATA[<p><strong>Here is a truth most tutorials skip: the quality of your metatranscriptome analysis is decided before you ever run a mapper.</strong></p>
-
-<p>Downstream tools — Bowtie2, featureCounts, DESeq2 — are sophisticated, but they cannot rescue bad input data. Low-quality reads reduce alignment rates. Adapter contamination generates spurious mappings. Unremoved rRNA floods your count table with noise and buries the mRNA signal you actually care about. A pipeline that begins with dirty RNA produces a dirty result, even if every subsequent step is executed perfectly.</p>
-
-<blockquote>
-  <p><strong>Garbage RNA in → garbage expression out.</strong></p>
-</blockquote>
-
-<p>This is the step that separates careful work from fast work. Let’s do it carefully.</p>
-
-<hr />
-
-<h2 id="why-rna-data-is-especially-messy">Why RNA data is especially messy</h2>
-
-<p>RNA-seq data has all the quality issues of DNA sequencing, plus several of its own:</p>
-
-<p><strong>Adapter contamination.</strong> Libraries are built by ligating adapter sequences onto your cDNA fragments. If your insert is shorter than the read length — common with degraded RNA — the sequencer reads straight into the adapter. These adapter sequences are not biological and will either fail to map or map to the wrong place.</p>
-
-<p><strong>Low-quality 3′ bases.</strong> Sequencing quality degrades toward the end of reads. Phred scores below Q20 mean more than 1 in 100 bases is wrong. For short environmental RNA reads this degrades alignment substantially.</p>
-
-<p><strong>rRNA dominance.</strong> Even with ribosomal depletion kits, 60–95% of reads in a metatranscriptome are ribosomal RNA. The ribosome is the most transcribed molecular machine in any living cell — this is unavoidable biology, not a kit failure. These reads must be removed computationally before mapping.</p>
-
-<p><strong>Paired-end inconsistency.</strong> After trimming, some read pairs lose one mate (one mate trimmed below the minimum length threshold). These orphaned reads need to be tracked or excluded — most downstream tools expect matched pairs, and mismatched files cause silent errors.</p>
-
-<hr />
-
-<h2 id="the-preprocessing-pipeline">The preprocessing pipeline</h2>
-
-<p>The full workflow has four stages, run in this order:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Raw reads → FastQC (diagnose) → fastp (trim) → SortMeRNA (remove rRNA) → clean mRNA reads
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="step-1--fastqc-know-what-you-have-before-touching-it">Step 1 — FastQC: know what you have before touching it</h2>
-
-<p>Before trimming anything, run FastQC. It takes minutes and prevents hours of debugging.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load fastqc
-
-fastqc <span class="se">\</span>
-  CP_Spr15G08_R1.paired.fq <span class="se">\</span>
-  CP_Spr15G08_R2.paired.fq <span class="se">\</span>
-  <span class="nt">-o</span> fastqc_raw/ <span class="se">\</span>
-  <span class="nt">-t</span> 8
-</code></pre></div></div>
-
-<p>Open the HTML report and check five things:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Module</th>
-      <th>What to look for</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Per base sequence quality</td>
-      <td>Median Phred ≥ Q28 across the read; a 3′ drop is normal</td>
-    </tr>
-    <tr>
-      <td>Adapter content</td>
-      <td>Any Illumina adapter flagged = you must trim</td>
-    </tr>
-    <tr>
-      <td>Per sequence quality scores</td>
-      <td>Distribution should peak above Q30</td>
-    </tr>
-    <tr>
-      <td>Sequence duplication levels</td>
-      <td>&gt;50% warrants attention in metatranscriptomics</td>
-    </tr>
-    <tr>
-      <td>Per base N content</td>
-      <td>Should be near zero; spikes = flow cell problem</td>
-    </tr>
-  </tbody>
-</table>
-
-<blockquote>
-  <p>FastQC <strong>diagnoses only</strong> — it does not fix anything. Run it before trimming and again after, to confirm your preprocessing worked.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="step-2--fastp-trim-adapters-and-low-quality-bases">Step 2 — fastp: trim adapters and low-quality bases</h2>
-
-<p><code class="language-plaintext highlighter-rouge">fastp</code> is the preferred trimmer for metatranscriptomics. It handles paired-end reads gracefully, detects adapters automatically, and produces an HTML report alongside the cleaned reads.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load fastp
-
-fastp <span class="se">\</span>
-  <span class="nt">-i</span> CP_Spr15G08_R1.paired.fq <span class="se">\</span>
-  <span class="nt">-I</span> CP_Spr15G08_R2.paired.fq <span class="se">\</span>
-  <span class="nt">-o</span> CP_Spr15G08_R1.trimmed.fq <span class="se">\</span>
-  <span class="nt">-O</span> CP_Spr15G08_R2.trimmed.fq <span class="se">\</span>
-  <span class="nt">--unpaired1</span> CP_Spr15G08_unpaired.fq <span class="se">\</span>
-  <span class="nt">--unpaired2</span> CP_Spr15G08_unpaired.fq <span class="se">\</span>
-  <span class="nt">--detect_adapter_for_pe</span> <span class="se">\</span>
-  <span class="nt">--qualified_quality_phred</span> 20 <span class="se">\</span>
-  <span class="nt">--length_required</span> 50 <span class="se">\</span>
-  <span class="nt">--thread</span> 8 <span class="se">\</span>
-  <span class="nt">--html</span> CP_Spr15G08_fastp.html <span class="se">\</span>
-  <span class="nt">--json</span> CP_Spr15G08_fastp.json
-</code></pre></div></div>
-
-<p><strong>Flag breakdown:</strong></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">--detect_adapter_for_pe</code> — auto-detects adapters in paired-end mode; no need to specify sequences manually</li>
-  <li><code class="language-plaintext highlighter-rouge">--qualified_quality_phred 20</code> — removes reads where average quality drops below Q20</li>
-  <li><code class="language-plaintext highlighter-rouge">--length_required 50</code> — discards reads shorter than 50 bp after trimming (too short to map reliably)</li>
-  <li><code class="language-plaintext highlighter-rouge">--unpaired1 / --unpaired2</code> — saves orphaned reads separately rather than discarding them silently</li>
-  <li><code class="language-plaintext highlighter-rouge">--html / --json</code> — produces a quality report you should always check</li>
-</ul>
-
-<p><strong>Alternative — Trimmomatic:</strong> If you need to exactly replicate parameters from a published study, Trimmomatic gives finer control with sliding-window trimming:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>trimmomatic PE <span class="se">\</span>
-  CP_Spr15G08_R1.paired.fq <span class="se">\</span>
-  CP_Spr15G08_R2.paired.fq <span class="se">\</span>
-  R1_paired.fq R1_unpaired.fq <span class="se">\</span>
-  R2_paired.fq R2_unpaired.fq <span class="se">\</span>
-  ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 <span class="se">\</span>
-  LEADING:3 TRAILING:3 <span class="se">\</span>
-  SLIDINGWINDOW:4:20 <span class="se">\</span>
-  MINLEN:50
-</code></pre></div></div>
-
-<p>For most metatranscriptomics workflows, fastp defaults are sufficient and considerably faster.</p>
-
-<hr />
-
-<h2 id="step-3--sortmerna-remove-ribosomal-rna">Step 3 — SortMeRNA: remove ribosomal RNA</h2>
-
-<p>This is the most important preprocessing step specific to metatranscriptomics. SortMeRNA compares your reads against curated rRNA databases (Silva, Rfam) using a k-mer index and separates rRNA reads from putative mRNA reads.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load sortmerna
-
-sortmerna <span class="se">\</span>
-  <span class="nt">--ref</span> <span class="nv">$SILVA</span>/silva-bac-16s-id90.fasta <span class="se">\</span>
-  <span class="nt">--ref</span> <span class="nv">$SILVA</span>/silva-arc-16s-id95.fasta <span class="se">\</span>
-  <span class="nt">--ref</span> <span class="nv">$SILVA</span>/silva-euk-18s-id95.fasta <span class="se">\</span>
-  <span class="nt">--ref</span> <span class="nv">$SILVA</span>/rfam-5s-database-id98.fasta <span class="se">\</span>
-  <span class="nt">--reads</span> CP_Spr15G08_R1.trimmed.fq <span class="se">\</span>
-  <span class="nt">--reads</span> CP_Spr15G08_R2.trimmed.fq <span class="se">\</span>
-  <span class="nt">--aligned</span>  rRNA_reads/CP_Spr15G08_rRNA <span class="se">\</span>
-  <span class="nt">--other</span>    mRNA_reads/CP_Spr15G08_mRNA <span class="se">\</span>
-  <span class="nt">--fastx</span> <span class="se">\</span>
-  <span class="nt">--paired-in</span> <span class="se">\</span>
-  <span class="nt">--out2</span> <span class="se">\</span>
-  <span class="nt">--threads</span> 8 <span class="se">\</span>
-  <span class="nt">--workdir</span> sortmerna_tmp/CP_Spr15G08
-</code></pre></div></div>
-
-<p><strong>Key flags:</strong></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">--ref</code> — pass each rRNA database separately; use all four for comprehensive coverage (bacterial 16S, archaeal 16S, eukaryotic 18S, 5S/5.8S)</li>
-  <li><code class="language-plaintext highlighter-rouge">--aligned</code> — destination for rRNA reads (you keep these for QC checks but don’t map them)</li>
-  <li><code class="language-plaintext highlighter-rouge">--other</code> — your mRNA-enriched output; <strong>this is what you carry forward</strong></li>
-  <li><code class="language-plaintext highlighter-rouge">--paired-in</code> — treats both mates as rRNA if either mate matches a database entry</li>
-  <li><code class="language-plaintext highlighter-rouge">--out2</code> — writes separate R1 and R2 output files (required for paired-end downstream tools)</li>
-  <li><code class="language-plaintext highlighter-rouge">--workdir</code> — SortMeRNA writes a large KV store here; use a separate directory per sample</li>
-</ul>
-
-<p><strong>How much rRNA should you expect?</strong></p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Depletion protocol</th>
-      <th>Typical rRNA fraction</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>No depletion (total RNA)</td>
-      <td>90–97%</td>
-    </tr>
-    <tr>
-      <td>Commercial depletion kit</td>
-      <td>50–80%</td>
-    </tr>
-    <tr>
-      <td>Poly-A selection (eukaryote-biased)</td>
-      <td>5–20%</td>
-    </tr>
-    <tr>
-      <td>After SortMeRNA removal</td>
-      <td>&lt;5% remaining</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>After SortMeRNA, expect your read count to drop to roughly 5–40% of the pre-removal total depending on how effective your wet-lab depletion was. This is not read loss — this is noise removal.</p>
-
-<p><strong>Alternative — bbduk (BBTools):</strong> Faster than SortMeRNA, slightly less sensitive for divergent sequences. Excellent when processing many samples in parallel:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bbduk.sh <span class="se">\</span>
-  <span class="nv">in1</span><span class="o">=</span>CP_Spr15G08_R1.trimmed.fq <span class="se">\</span>
-  <span class="nv">in2</span><span class="o">=</span>CP_Spr15G08_R2.trimmed.fq <span class="se">\</span>
-  <span class="nv">out1</span><span class="o">=</span>CP_Spr15G08_R1.mRNA.fq <span class="se">\</span>
-  <span class="nv">out2</span><span class="o">=</span>CP_Spr15G08_R2.mRNA.fq <span class="se">\</span>
-  <span class="nv">ref</span><span class="o">=</span>ribokmers.fa.gz <span class="se">\</span>
-  <span class="nv">k</span><span class="o">=</span>31 <span class="se">\</span>
-  <span class="nv">ordered</span><span class="o">=</span>t <span class="se">\</span>
-  <span class="nv">threads</span><span class="o">=</span>8
-</code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">ribokmers.fa.gz</code> file ships with BBTools. For well-characterized systems bbduk and SortMeRNA perform comparably; for novel environments with divergent rRNA, SortMeRNA with multiple databases is more thorough.</p>
-
-<hr />
-
-<h2 id="step-4--post-trimming-fastqc-verify-your-work">Step 4 — Post-trimming FastQC: verify your work</h2>
-
-<p>Always run FastQC again on the mRNA-enriched reads. A successful preprocessing run should show:</p>
-
-<ul>
-  <li>✅ No adapter content flags</li>
-  <li>✅ Per-base quality stable across read length (the 3′ drop is gone)</li>
-  <li>✅ Read length distribution consistent with your trimming parameters</li>
-  <li>✅ R1 and R2 have identical read counts (paired-end consistency)</li>
-</ul>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fastqc <span class="se">\</span>
-  CP_Spr15G08_R1.mRNA.fq <span class="se">\</span>
-  CP_Spr15G08_R2.mRNA.fq <span class="se">\</span>
-  <span class="nt">-o</span> fastqc_clean/ <span class="se">\</span>
-  <span class="nt">-t</span> 8
-</code></pre></div></div>
-
-<p>If adapters still appear after fastp, or quality remains poor, something went wrong in trimming. Do not proceed to mapping with a failed QC. Diagnose first.</p>
-
-<hr />
-
-<h2 id="checking-your-read-counts-at-each-stage">Checking your read counts at each stage</h2>
-
-<p>Track read counts through the pipeline to catch silent failures:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Raw reads</span>
-<span class="nb">echo</span> <span class="s2">"Raw R1:"</span> <span class="si">$(</span><span class="nb">cat </span>CP_Spr15G08_R1.paired.fq | <span class="nb">wc</span> <span class="nt">-l</span><span class="si">)</span> / 4 | bc
-
-<span class="c"># After fastp</span>
-<span class="nb">echo</span> <span class="s2">"Trimmed R1:"</span> <span class="si">$(</span><span class="nb">cat </span>CP_Spr15G08_R1.trimmed.fq | <span class="nb">wc</span> <span class="nt">-l</span><span class="si">)</span> / 4 | bc
-
-<span class="c"># After SortMeRNA</span>
-<span class="nb">echo</span> <span class="s2">"mRNA R1:"</span> <span class="si">$(</span><span class="nb">cat </span>mRNA_reads/CP_Spr15G08_mRNA_fwd.fq | <span class="nb">wc</span> <span class="nt">-l</span><span class="si">)</span> / 4 | bc
-</code></pre></div></div>
-
-<p>A typical progression for our estuarine samples:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Raw:     3,647,405 pairs
-Trimmed: 3,512,000 pairs   (~96% retained — good)
-mRNA:      420,000 pairs   (~12% of raw — expected with depletion kit)
-</code></pre></div></div>
-
-<p>The large drop at the rRNA removal step is expected and healthy. If your mRNA fraction is above 60% after SortMeRNA, double-check that your depletion kit worked — you may be mapping mostly rRNA in downstream steps.</p>
-
-<hr />
-
-<h2 id="when-your-paired-reads-fall-out-of-sync-repair-scripts--why-they-matter">When Your Paired Reads Fall Out of Sync: Repair Scripts &amp; Why They Matter</h2>
-
-<p>The silent killer of metatranscriptomics pipelines: mismatched R1/R2 read counts after preprocessing. What causes it, what it breaks downstream, and how to fix it</p>
-
-<h2 id="the-problem-nobody-warns-you-about">The problem nobody warns you about</h2>
-
-<p>You run FastQC. Reads look clean. You run fastp. You run SortMeRNA. You check the output folders — files are there. You move confidently to mapping and run Bowtie2.</p>
-
-<p>Then this happens:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: reads file 2 contains a different number of reads
-than reads file 1. Terminating Bowtie2.
-</code></pre></div></div>
-
-<p>Or with featureCounts, you get a count table full of zeros and no obvious error message. Or SAMtools flagstat returns 0 properly paired reads when you expected thousands.</p>
-
-<p><strong>Your R1 and R2 files have different numbers of reads.</strong> The paired-end contract is broken. And it happened silently somewhere in your preprocessing.</p>
-
-<p>This is one of the most common and frustrating problems in metatranscriptomics pipelines — and it is completely fixable if you know to look for it.</p>
-
-<hr />
-
-<h2 id="what-is-paired-end-sequencing-and-why-does-the-count-matter">What is paired-end sequencing and why does the count matter?</h2>
-
-<p>In paired-end RNA-seq, each cDNA fragment is sequenced from <strong>both ends</strong>. R1 reads the forward strand; R2 reads the reverse strand of the same fragment. They are linked — read number 1 in R1 corresponds exactly to read number 1 in R2. Read 500,000 in R1 corresponds to read 500,000 in R2.</p>
-
-<p>This is not just a convention. Every paired-end tool — Bowtie2, STAR, featureCounts with <code class="language-plaintext highlighter-rouge">-p</code>, DESeq2 — <strong>assumes this positional correspondence is intact.</strong> When R1 has 420,000 reads and R2 has 418,347 reads, that assumption is violated everywhere from line 418,348 onward. The tools either crash with an error (the good outcome) or silently produce wrong results (the dangerous outcome).</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Quick check — these numbers must match</span>
-<span class="nb">echo</span> <span class="s2">"R1 reads: </span><span class="si">$(</span><span class="nb">cat </span>mRNA_reads/CP_Spr15G08_mRNA_fwd.fq | <span class="nb">wc</span> <span class="nt">-l</span> | <span class="nb">awk</span> <span class="s1">'{print $1/4}'</span><span class="si">)</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="s2">"R2 reads: </span><span class="si">$(</span><span class="nb">cat </span>mRNA_reads/CP_Spr15G08_mRNA_rev.fq | <span class="nb">wc</span> <span class="nt">-l</span> | <span class="nb">awk</span> <span class="s1">'{print $1/4}'</span><span class="si">)</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<p>If these numbers differ by even one read, you have a problem.</p>
-
-<hr />
-
-<h2 id="why-does-this-happen-the-three-main-causes">Why does this happen? The three main causes</h2>
-
-<h3 id="cause-1-sortmerna-asymmetric-filtering">Cause 1: SortMeRNA asymmetric filtering</h3>
-
-<p>This is the most common cause in metatranscriptomics pipelines specifically.</p>
-
-<p>SortMeRNA decides per read whether it matches rRNA databases. With <code class="language-plaintext highlighter-rouge">--paired-in</code>, it flags a pair as rRNA if <strong>either</strong> mate matches. But in some versions and configurations, the output split between <code class="language-plaintext highlighter-rouge">--aligned</code> and <code class="language-plaintext highlighter-rouge">--other</code> can produce unequal mate counts — especially when reads are processed in chunks across threads, or when the <code class="language-plaintext highlighter-rouge">--workdir</code> KV store becomes corrupted mid-run.</p>
-
-<p>When you run SortMeRNA without <code class="language-plaintext highlighter-rouge">--out2</code>, it writes a single interleaved output. When you split that output or pass it to tools expecting separate files, the interleaving can get broken. Always use <code class="language-plaintext highlighter-rouge">--out2</code> and always check counts afterward.</p>
-
-<h3 id="cause-2-fastp-orphan-handling">Cause 2: fastp orphan handling</h3>
-
-<p>fastp removes reads that fall below quality or length thresholds after trimming. In paired-end mode, when one mate in a pair is discarded (because trimming left it shorter than <code class="language-plaintext highlighter-rouge">--length_required</code>), the surviving mate becomes an <strong>orphan</strong> — it has no partner.</p>
-
-<p>If you write orphans to the same output files as paired reads (a common mistake), your R1 and R2 files end up with different counts. If you discard orphans entirely without tracking them, you silently lose data. The <code class="language-plaintext highlighter-rouge">--unpaired1</code> and <code class="language-plaintext highlighter-rouge">--unpaired2</code> flags in fastp exist exactly to prevent this — they route orphans to a separate file, keeping R1 and R2 synchronized.</p>
-
-<h3 id="cause-3-manual-or-pipeline-file-operations">Cause 3: Manual or pipeline file operations</h3>
-
-<p>Any <code class="language-plaintext highlighter-rouge">grep</code>, <code class="language-plaintext highlighter-rouge">head</code>, <code class="language-plaintext highlighter-rouge">split</code>, <code class="language-plaintext highlighter-rouge">cat</code>, or file copy applied to only one of your paired files can silently desynchronize them. This also happens when a job runs out of walltime mid-write — SLURM kills the job while R1 is being written, leaving R2 complete and R1 truncated. Always check file sizes and read counts after any operation that writes FASTQ files.</p>
-
-<hr />
-
-<h2 id="why-this-matters-so-much-for-mapping">Why this matters so much for mapping</h2>
-
-<p>Bowtie2 maps paired-end reads by looking for <strong>concordant alignments</strong> — both mates mapping to the same reference contig, in the right orientation, within the expected insert size. This concordant signal is what gives you high-confidence mappings and the “properly paired” statistic in SAMtools flagstat.</p>
-
-<p>When your files are out of sync, Bowtie2 cannot find concordant pairs — not because your reference is incomplete, but because the R1/R2 positional correspondence is broken. You’ll see:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 (0.00%) aligned concordantly exactly 1 time
-0 (0.00%) properly paired
-</code></pre></div></div>
-
-<p>This looks identical to a genuine reference coverage problem (like our 2% rate from Day 4). The difference is: a coverage problem is biological and expected. A pairing problem is a data integrity issue and will silently corrupt every downstream analysis — featureCounts, DESeq2, DNA:RNA ratios, all of it.</p>
-
-<p><strong>The consequence:</strong> you might think your MAGs simply aren’t expressed. In reality, your data is broken and any signal is noise.</p>
-
-<hr />
-
-<h2 id="the-fix-two-approaches">The fix: two approaches</h2>
-
-<h3 id="option-a--bbduk-repairsh-bbtools">Option A — bbduk repair.sh (BBTools)</h3>
-
-<p><code class="language-plaintext highlighter-rouge">repair.sh</code> is purpose-built for this exact problem. It reads both FASTQ files, matches read IDs between them, and outputs three files: synchronized R1, synchronized R2, and a singletons file for reads whose mate was lost entirely.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>repair.sh <span class="se">\</span>
-  <span class="nv">in1</span><span class="o">=</span>CP_Spr15G08_mRNA_fwd.fq <span class="se">\</span>
-  <span class="nv">in2</span><span class="o">=</span>CP_Spr15G08_mRNA_rev.fq <span class="se">\</span>
-  <span class="nv">out1</span><span class="o">=</span>CP_Spr15G08_R1.repaired.fq <span class="se">\</span>
-  <span class="nv">out2</span><span class="o">=</span>CP_Spr15G08_R2.repaired.fq <span class="se">\</span>
-  <span class="nv">outs</span><span class="o">=</span>CP_Spr15G08_singletons.fq <span class="se">\</span>
-  <span class="nv">repair</span><span class="o">=</span>t <span class="se">\</span>
-  <span class="nv">threads</span><span class="o">=</span>8 <span class="se">\</span>
-  <span class="nt">-Xmx28g</span>
-</code></pre></div></div>
-
-<p><strong>How it works:</strong> repair.sh loads all read IDs from both files into memory, identifies which IDs appear in one file but not the other, and writes only the matched pairs to output. Unmatched reads go to the singletons file — you keep them separately but do not use them in paired-end mapping.</p>
-
-<p><strong>Memory note:</strong> repair.sh loads read IDs into RAM. For large files (&gt;50M reads per file), request at least 64 GB. The <code class="language-plaintext highlighter-rouge">-Xmx</code> flag sets the Java heap size — set it slightly below your <code class="language-plaintext highlighter-rouge">--mem</code> allocation.</p>
-
-<p><strong>When to use repair.sh:</strong> when you already have mismatched files and need to rescue them. It is a post-hoc fix.</p>
-
-<hr />
-
-<h3 id="option-b--fastp-with-strict-paired-end-enforcement">Option B — fastp with strict paired-end enforcement</h3>
-
-<p>fastp can prevent the mismatch from ever occurring if run with the right flags. The key is ensuring that when one mate is discarded, the other is never written to the main output:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fastp <span class="se">\</span>
-  <span class="nt">-i</span> CP_Spr15G08_R1.paired.fq <span class="se">\</span>
-  <span class="nt">-I</span> CP_Spr15G08_R2.paired.fq <span class="se">\</span>
-  <span class="nt">-o</span> CP_Spr15G08_R1.trimmed.fq <span class="se">\</span>
-  <span class="nt">-O</span> CP_Spr15G08_R2.trimmed.fq <span class="se">\</span>
-  <span class="nt">--unpaired1</span> CP_Spr15G08_R1.unpaired.fq <span class="se">\</span>
-  <span class="nt">--unpaired2</span> CP_Spr15G08_R2.unpaired.fq <span class="se">\</span>
-  <span class="nt">--detect_adapter_for_pe</span> <span class="se">\</span>
-  <span class="nt">--qualified_quality_phred</span> 20 <span class="se">\</span>
-  <span class="nt">--length_required</span> 50 <span class="se">\</span>
-  <span class="nt">--disable_adapter_trimming_for_paired</span> <span class="se">\</span>
-  <span class="nt">--thread</span> 8
-</code></pre></div></div>
-
-<p>The critical flags:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">--unpaired1</code> and <code class="language-plaintext highlighter-rouge">--unpaired2</code> route orphans to separate files — they never contaminate the paired output</li>
-  <li>fastp guarantees that R1 output and R2 output always have identical read counts when these flags are set</li>
-</ul>
-
-<p><strong>When to use fastp for this:</strong> prevention, not repair. Run it correctly the first time and you should never need repair.sh — unless SortMeRNA introduces the mismatch afterward.</p>
-
-<hr />
-
-<h2 id="the-recommended-workflow-order">The recommended workflow order</h2>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Raw reads
-    ↓
-fastp (with --unpaired1/2)    ← prevents mismatch from trimming
-    ↓
-CHECK: R1 == R2 read count?
-    ↓
-SortMeRNA (with --out2)       ← --out2 keeps pairs synchronized
-    ↓
-CHECK: R1 == R2 read count?   ← if not equal, run repair.sh here
-    ↓
-repair.sh (if needed)
-    ↓
-Final CHECK: R1 == R2?
-    ↓
-→ Mapping (Day 4) — with confidence
-</code></pre></div></div>
-
-<p>Two check points: immediately after fastp, and immediately after SortMeRNA. If either check fails, run repair.sh before proceeding. Do not proceed to mapping with mismatched files.</p>
-
-<hr />
-
-<h2 id="quick-diagnostic-are-my-files-in-sync">Quick diagnostic: are my files in sync?</h2>
-
-<p>Add this function to your pipeline scripts:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check_pairs<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">local </span><span class="nv">R1</span><span class="o">=</span><span class="nv">$1</span>
-  <span class="nb">local </span><span class="nv">R2</span><span class="o">=</span><span class="nv">$2</span>
-  <span class="nb">local </span><span class="nv">SAMPLE</span><span class="o">=</span><span class="nv">$3</span>
-
-  <span class="nv">R1_N</span><span class="o">=</span><span class="si">$(</span><span class="nb">cat</span> <span class="s2">"</span><span class="nv">$R1</span><span class="s2">"</span> | <span class="nb">wc</span> <span class="nt">-l</span> | <span class="nb">awk</span> <span class="s1">'{print $1/4}'</span><span class="si">)</span>
-  <span class="nv">R2_N</span><span class="o">=</span><span class="si">$(</span><span class="nb">cat</span> <span class="s2">"</span><span class="nv">$R2</span><span class="s2">"</span> | <span class="nb">wc</span> <span class="nt">-l</span> | <span class="nb">awk</span> <span class="s1">'{print $1/4}'</span><span class="si">)</span>
-
-  <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$R1_N</span><span class="s2">"</span> <span class="nt">-eq</span> <span class="s2">"</span><span class="nv">$R2_N</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-    </span><span class="nb">echo</span> <span class="s2">"✓ </span><span class="nv">$SAMPLE</span><span class="s2"> — paired: </span><span class="nv">$R1_N</span><span class="s2"> reads each"</span>
-  <span class="k">else
-    </span><span class="nb">echo</span> <span class="s2">"✗ </span><span class="nv">$SAMPLE</span><span class="s2"> — MISMATCH: R1=</span><span class="nv">$R1_N</span><span class="s2">  R2=</span><span class="nv">$R2_N</span><span class="s2"> — run repair.sh"</span>
-    <span class="nb">exit </span>1
-  <span class="k">fi</span>
-<span class="o">}</span>
-
-<span class="c"># Usage:</span>
-check_pairs mRNA_reads/CP_Spr15G08_mRNA_fwd.fq <span class="se">\</span>
-            mRNA_reads/CP_Spr15G08_mRNA_rev.fq <span class="se">\</span>
-            <span class="s2">"CP_Spr15G08"</span>
-</code></pre></div></div>
-
-<p>This function is embedded in all the SLURM scripts in the companion repository.</p>
-
-<hr />
-
-<h2 id="what-about-singletons--can-i-still-use-them">What about singletons — can I still use them?</h2>
-
-<p>Yes. Singletons (reads whose mate was lost) can be mapped as single-end reads and included in featureCounts. They contribute to gene counts, though without the concordance signal of proper pairs. Whether to include them is a judgment call:</p>
-
-<ul>
-  <li>For <strong>quantification</strong> (TPM, DESeq2): include singletons — they add signal</li>
-  <li>For <strong>structural analyses</strong> that depend on insert size: exclude them</li>
-  <li>For <strong>this series</strong>: we focus on paired reads for clarity, but the SLURM scripts save singletons separately so you can use them if needed</li>
-</ul>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Map singletons separately as single-end reads</span>
-bowtie2 <span class="se">\</span>
-  <span class="nt">-x</span> master_MAGs_index <span class="se">\</span>
-  <span class="nt">-U</span> CP_Spr15G08_singletons.fq <span class="se">\</span>
-  <span class="nt">-p</span> 8 <span class="se">\</span>
-  <span class="nt">-S</span> CP_Spr15G08_singletons.sam
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="the-takeaway">The takeaway</h2>
-
-<p>Paired-end read synchronization is a prerequisite for every downstream step. A single out-of-sync file can make a working pipeline produce results that are wrong in ways that are hard to detect — zeros where there should be signal, artificially low alignment rates, inflated variance in DESeq2.</p>
-
-<p>The fix is simple: two read count checks and one repair script. Build them into your pipeline from the start and you will never diagnose this problem from the wrong end — hours into a mapping run, staring at a count table full of zeros.</p>
-
-<p><strong>→ <a href="/blog/day3-metatranscriptomics-reference-strategy/">Day 3: Reference Strategy — Your Database Defines Your Biology</a></strong></p>
-
-<hr />
-
-<h2 id="running-all-samples-as-a-slurm-batch-job">Running all samples as a SLURM batch job</h2>
-
-<p>For three samples (or thirty), use the SLURM script provided in <code class="language-plaintext highlighter-rouge">Day2_QC_Preprocessing/scripts/</code>. See the companion repository for the full batch script.</p>
-
-<p>📦 <strong>All code, SLURM scripts, and toy datasets used in this series are available in the companion repository</strong>
-📦 <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day2-qc-preprocessing">Github repository</a></p>
-
-<hr />
-
-<h2 id="the-takeaway-1">The takeaway</h2>
-
-<p>Preprocessing is not a formality. It is the foundation every downstream result is built on. The 30–45 minutes you spend on FastQC, fastp, and SortMeRNA protects every hour of analysis that follows — and explains a significant portion of the alignment rate you will see on coming days.</p>
-
-<hr />
-
-<p>_Questions about this workflow? Drop a comment below. The complete R script and SLURM submission scripts are available in the <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day2-qc-preprocessing">companion GitHub repository</a>.</p>
-
-<p>If you seeing the blog first time, read <a href="https://jojyjohn28.github.io/blog/day1-metatranscriptomics-introduction/">DAY 1</a></p>
-
-<p><img src="/assets/img/day2_mt.png" alt="Day2 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="QC" /><category term="FastQC" /><category term="fastp" /><category term="SortMeRNA" /><category term="bbduk" /><category term="rRNA-removal" /><category term="preprocessing" /><category term="SLURM" /><category term="HPC" /><summary type="html"><![CDATA[The step most tutorials skip — and the one that decides your mapping success rate before Bowtie2 ever runs. A complete walkthrough of FastQC, fastp, SortMeRNA, and bbduk with real commands for HPC.]]></summary></entry></feed>
+<p><img src="/assets/img/mt-d3.png" alt="Day2 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="reference" /><category term="MAGs" /><category term="GTDB" /><category term="gene-catalog" /><category term="bowtie2" /><category term="SLURM" /><category term="HPC" /><category term="beginner" /><summary type="html"><![CDATA[The most consequential decision in metatranscriptomics isn't which mapper you use — it's what you map against. A beginner-friendly guide to MAGs, reference genomes, and gene catalogs, with the commands to build each one and the SLURM scripts to run them on HPC.]]></summary></entry></feed>
