@@ -1,0 +1,1456 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Metadata & Diversity Explainer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0a0f1a;
+        --surface: #111827;
+        --surface2: #1a2236;
+        --border: #1e2d42;
+        --border2: #2a3d55;
+        --text: #e2eaf4;
+        --muted: #6b859e;
+        --faint: #2a3d55;
+
+        --nc: #34d399;
+        --nc-bg: #0d2a1f;
+        --npk: #60a5fa;
+        --npk-bg: #0d1f38;
+        --ob9: #c084fc;
+        --ob9-bg: #1a0d2e;
+
+        --alpha: #f59e0b;
+        --beta: #38bdf8;
+        --accent: #00e5ff;
+
+        --mono: "JetBrains Mono", monospace;
+        --display: "Syne", sans-serif;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 13px;
+        line-height: 1.6;
+        padding: 0;
+        min-height: 100vh;
+      }
+
+      /* ── HEADER ── */
+      .header {
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 18px 24px 14px;
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .header-dot {
+        width: 4px;
+        border-radius: 2px;
+        background: var(--accent);
+        flex-shrink: 0;
+        align-self: stretch;
+        min-height: 36px;
+      }
+      .header-title {
+        font-family: var(--display);
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: -0.02em;
+      }
+      .header-sub {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 2px;
+        font-family: var(--mono);
+      }
+
+      /* ── TABS ── */
+      .tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+        padding: 0 24px;
+      }
+      .tab {
+        padding: 10px 16px;
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--muted);
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.15s,
+          border-color 0.15s;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        font-family: var(--mono);
+        background: none;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
+      .tab.active {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+      .tab:hover:not(.active) {
+        color: var(--text);
+      }
+
+      /* ── PANELS ── */
+      .panel {
+        display: none;
+        padding: 20px 24px;
+      }
+      .panel.active {
+        display: block;
+      }
+
+      /* ── GRID LAYOUTS ── */
+      .two-col {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 16px;
+      }
+      .three-col {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+      @media (max-width: 640px) {
+        .two-col,
+        .three-col {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ── CARDS ── */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .card-head {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border);
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: var(--surface2);
+      }
+      .card-body {
+        padding: 14px;
+      }
+
+      /* ── METADATA TABLE ── */
+      .meta-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .meta-table th {
+        text-align: left;
+        padding: 7px 10px;
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .meta-table td {
+        padding: 7px 10px;
+        border-bottom: 1px solid var(--faint);
+        font-size: 11px;
+        color: var(--text);
+        white-space: nowrap;
+        cursor: pointer;
+        transition: background 0.1s;
+      }
+      .meta-table tr:last-child td {
+        border-bottom: none;
+      }
+      .meta-table tr.hl-NC td {
+        background: rgba(52, 211, 153, 0.06);
+      }
+      .meta-table tr.hl-NPK td {
+        background: rgba(96, 165, 250, 0.06);
+      }
+      .meta-table tr.hl-nOB9 td {
+        background: rgba(192, 132, 252, 0.06);
+      }
+      .meta-table tr:hover td {
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      /* ── PILLS ── */
+      .pill {
+        display: inline-block;
+        padding: 2px 9px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+      }
+      .pill-NC {
+        background: var(--nc-bg);
+        color: var(--nc);
+        border: 1px solid rgba(52, 211, 153, 0.25);
+      }
+      .pill-NPK {
+        background: var(--npk-bg);
+        color: var(--npk);
+        border: 1px solid rgba(96, 165, 250, 0.25);
+      }
+      .pill-nOB9 {
+        background: var(--ob9-bg);
+        color: var(--ob9);
+        border: 1px solid rgba(192, 132, 252, 0.25);
+      }
+      .pill-FL {
+        background: #0d2530;
+        color: #22d3ee;
+        border: 1px solid rgba(34, 211, 238, 0.2);
+      }
+      .pill-PA {
+        background: #2a1505;
+        color: #fb923c;
+        border: 1px solid rgba(251, 146, 60, 0.2);
+      }
+      .pill-Spring {
+        background: #0d2a1a;
+        color: #4ade80;
+        border: 1px solid rgba(74, 222, 128, 0.2);
+      }
+      .pill-Summer {
+        background: #2a1f05;
+        color: #fbbf24;
+        border: 1px solid rgba(251, 191, 36, 0.2);
+      }
+      .pill-Fall {
+        background: #1a1505;
+        color: #fb923c;
+        border: 1px solid rgba(251, 146, 60, 0.2);
+      }
+
+      /* ── CLICK HINT ── */
+      .hint {
+        font-size: 10px;
+        color: var(--muted);
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .hint-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+        opacity: 0.6;
+        animation: pulse 1.8s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.3;
+        }
+        50% {
+          opacity: 0.9;
+        }
+      }
+
+      /* ── SVG CANVASES ── */
+      canvas,
+      svg {
+        display: block;
+        width: 100%;
+      }
+
+      /* ── STAT ROW ── */
+      .stat-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .stat-card {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 12px;
+        text-align: center;
+      }
+      .stat-val {
+        font-size: 18px;
+        font-weight: 700;
+        font-family: var(--display);
+      }
+      .stat-lbl {
+        font-size: 10px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+
+      /* ── RULE LIST ── */
+      .rule-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+      .rule-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .rule-icon {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 9px;
+        font-weight: 700;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .ok {
+        background: rgba(52, 211, 153, 0.15);
+        color: var(--nc);
+      }
+      .err {
+        background: rgba(239, 68, 68, 0.15);
+        color: #f87171;
+      }
+
+      /* ── ENV TABLE ── */
+      .env-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 7px 0;
+        border-bottom: 1px solid var(--faint);
+        font-size: 11px;
+      }
+      .env-row:last-child {
+        border-bottom: none;
+      }
+      .env-key {
+        color: var(--muted);
+      }
+      .env-badge {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: var(--surface2);
+        color: var(--text);
+        border: 1px solid var(--border2);
+      }
+
+      /* ── LEGEND ── */
+      .legend {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .legend-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      /* ── SECTION LABEL ── */
+      .sec-lbl {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+
+      /* ── PERMANOVA BADGE ── */
+      .perm-badge {
+        margin-top: 10px;
+        padding: 8px 12px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 11px;
+        color: var(--muted);
+        font-family: var(--mono);
+        text-align: center;
+        transition: all 0.3s;
+      }
+      .perm-badge span {
+        color: var(--text);
+        font-weight: 500;
+      }
+
+      /* ── IFRAME NOTE ── */
+      .iframe-note {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-top: 16px;
+      }
+      .iframe-note pre {
+        font-size: 11px;
+        color: #7dd3fc;
+        overflow-x: auto;
+        white-space: pre;
+        line-height: 1.6;
+      }
+      .iframe-note p {
+        font-size: 11px;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      /* ── INTRO BOX ── */
+      .intro-box {
+        background: linear-gradient(135deg, rgba(0, 229, 255, 0.04) 0%, transparent 60%);
+        border: 1px solid rgba(0, 229, 255, 0.15);
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin-bottom: 18px;
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .intro-box strong {
+        color: var(--text);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="header-dot"></div>
+      <div>
+        <div class="header-title">Metadata &amp; Diversity — Interactive Explainer</div>
+        <div class="header-sub">Click rows · switch views · explore how metadata drives every diversity analysis</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('metadata')">Metadata file</button>
+      <button class="tab" onclick="switchTab('alpha')">Alpha diversity</button>
+      <button class="tab" onclick="switchTab('beta')">Beta diversity</button>
+      <button class="tab" onclick="switchTab('env')">Environmental metadata</button>
+      <button class="tab" onclick="switchTab('rules')">Format rules</button>
+    </div>
+
+    <!-- ══ TAB 1: METADATA ══ -->
+    <div id="tab-metadata" class="panel active">
+      <div class="intro-box">
+        A <strong>metadata file</strong> links each sample ID to its context — treatment, season, location, measured variables. Without it, QIIME 2
+        and R cannot group or compare your samples. <strong>Click any row</strong> to highlight that treatment group across all panels.
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="sec-lbl">my_metadata.txt</div>
+          <div class="card">
+            <div class="card-head">#SampleID · Treatment · Replicate · Season · Shannon</div>
+            <div style="overflow-x: auto">
+              <table class="meta-table" id="meta-table">
+                <thead>
+                  <tr>
+                    <th>#SampleID</th>
+                    <th>Treatment</th>
+                    <th>Rep</th>
+                    <th>Season</th>
+                    <th>Shannon</th>
+                  </tr>
+                </thead>
+                <tbody id="meta-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="hint"><span class="hint-dot"></span> Click any row to highlight its treatment group</div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div>
+            <div class="sec-lbl">What each column does</div>
+            <div class="card">
+              <div class="card-body">
+                <div class="env-row">
+                  <span class="env-key">#SampleID</span>
+                  <span class="env-badge">must match feature table exactly</span>
+                </div>
+                <div class="env-row">
+                  <span class="env-key">Treatment</span>
+                  <span class="env-badge">categorical → boxplot groups</span>
+                </div>
+                <div class="env-row">
+                  <span class="env-key">Replicate</span>
+                  <span class="env-badge">numeric or categorical</span>
+                </div>
+                <div class="env-row">
+                  <span class="env-key">Season</span>
+                  <span class="env-badge">categorical → Kruskal-Wallis</span>
+                </div>
+                <div class="env-row">
+                  <span class="env-key">Shannon</span>
+                  <span class="env-badge">numeric (calculated separately)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="sec-lbl">How to use in QIIME 2</div>
+            <div class="card">
+              <div class="card-body">
+                <pre style="font-size: 10px; color: #7dd3fc; line-height: 1.8; overflow-x: auto">
+qiime diversity core-metrics-phylogenetic \
+  --i-phylogeny rooted-tree.qza \
+  --i-table table-no-contam.qza \
+  --p-sampling-depth 50000 \
+  --m-metadata-file my_metadata.txt \
+  --output-dir core-metrics/</pre
+                >
+              </div>
+            </div>
+          </div>
+
+          <div id="selected-info" style="display: none">
+            <div class="sec-lbl">Selected group</div>
+            <div class="card" id="selected-card">
+              <div class="card-body" id="selected-body"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TAB 2: ALPHA ══ -->
+    <div id="tab-alpha" class="panel">
+      <div class="intro-box">
+        <strong>Alpha diversity</strong> measures how diverse each individual sample is. The metadata file's grouping column (Treatment) is what lets
+        you compare distributions — without it, you just have 9 numbers with no biological meaning.
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="sec-lbl">Shannon index by treatment</div>
+          <div class="card">
+            <div class="card-body" style="padding: 10px">
+              <canvas id="alpha-canvas" height="220"></canvas>
+            </div>
+          </div>
+          <div class="legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--nc)"></div>
+              NC (negative control)
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--npk)"></div>
+              NPK fertiliser
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--ob9)"></div>
+              nOB9 bioinoculant
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div>
+            <div class="sec-lbl">Group statistics</div>
+            <div class="card">
+              <div class="card-body" style="padding: 10px">
+                <canvas id="stats-canvas" height="130"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="sec-lbl">Three metrics explained</div>
+            <div class="card">
+              <div class="card-body">
+                <div class="env-row">
+                  <div>
+                    <div style="font-size: 11px; color: var(--text); font-weight: 500">Shannon index</div>
+                    <div style="font-size: 10px; color: var(--muted); margin-top: 2px">richness + evenness combined</div>
+                  </div>
+                  <span class="env-badge" style="background: rgba(245, 158, 11, 0.08); color: var(--alpha); border-color: rgba(245, 158, 11, 0.2)"
+                    >most common</span
+                  >
+                </div>
+                <div class="env-row">
+                  <div>
+                    <div style="font-size: 11px; color: var(--text); font-weight: 500">Observed features</div>
+                    <div style="font-size: 10px; color: var(--muted); margin-top: 2px">raw ASV count after rarefaction</div>
+                  </div>
+                  <span class="env-badge">simple count</span>
+                </div>
+                <div class="env-row" style="border: none">
+                  <div>
+                    <div style="font-size: 11px; color: var(--text); font-weight: 500">Faith's PD</div>
+                    <div style="font-size: 10px; color: var(--muted); margin-top: 2px">phylogenetic branch length covered</div>
+                  </div>
+                  <span class="env-badge" style="background: rgba(56, 189, 248, 0.08); color: var(--beta); border-color: rgba(56, 189, 248, 0.2)"
+                    >phylogenetic</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="sec-lbl">R code to plot</div>
+            <div class="card">
+              <div class="card-body">
+                <pre style="font-size: 10px; color: #7dd3fc; line-height: 1.8; overflow-x: auto">
+ggplot(alpha_df,
+  aes(Treatment, Shannon,
+      fill=Treatment)) +
+  geom_boxplot(alpha=.5) +
+  geom_jitter(width=.1, size=2) +
+  theme_bw()</pre
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TAB 3: BETA ══ -->
+    <div id="tab-beta" class="panel">
+      <div class="intro-box">
+        <strong>Beta diversity</strong> asks how different communities are between samples. The PCoA plot below is coloured by the
+        <strong>Treatment</strong> column from the metadata. Switch the colour-by variable to see how different metadata columns reveal different
+        structure. PERMANOVA tests whether your groups are significantly different.
+      </div>
+
+      <div style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+        <span style="font-size: 11px; color: var(--muted)">Colour points by:</span>
+        <button
+          class="tab active"
+          id="btn-treatment"
+          onclick="setBetaColor('Treatment')"
+          style="border-radius: 6px; padding: 5px 12px; font-size: 10px"
+        >
+          Treatment
+        </button>
+        <button class="tab" id="btn-season" onclick="setBetaColor('Season')" style="border-radius: 6px; padding: 5px 12px; font-size: 10px">
+          Season
+        </button>
+        <button class="tab" id="btn-rep" onclick="setBetaColor('Replicate')" style="border-radius: 6px; padding: 5px 12px; font-size: 10px">
+          Replicate
+        </button>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="sec-lbl">Bray-Curtis PCoA</div>
+          <div class="card">
+            <div class="card-body" style="padding: 10px">
+              <canvas id="beta-canvas" height="260"></canvas>
+            </div>
+          </div>
+          <div id="beta-legend" class="legend" style="margin-top: 10px"></div>
+          <div id="perm-badge" class="perm-badge">
+            PERMANOVA (Treatment): <span>R²=0.68, p=0.001</span> — treatment explains 68% of community variation
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div>
+            <div class="sec-lbl">Three beta metrics</div>
+            <div class="card">
+              <div class="card-body">
+                <div class="env-row">
+                  <div>
+                    <div style="font-size: 11px; color: var(--text); font-weight: 500">Bray-Curtis</div>
+                    <div style="font-size: 10px; color: var(--muted); margin-top: 2px">relative abundance differences</div>
+                  </div>
+                  <span class="env-badge" style="background: rgba(56, 189, 248, 0.08); color: var(--beta); border-color: rgba(56, 189, 248, 0.2)"
+                    >most used</span
+                  >
+                </div>
+                <div class="env-row">
+                  <div>
+                    <div style="font-size: 11px; color: var(--text); font-weight: 500">Unweighted UniFrac</div>
+                    <div style="font-size: 10px; color: var(--muted); margin-top: 2px">presence/absence only, phylogenetic</div>
+                  </div>
+                  <span class="env-badge">presence/absence</span>
+                </div>
+                <div class="env-row" style="border: none">
+                  <div>
+                    <div style="font-size: 11px; color: var(--text); font-weight: 500">Weighted UniFrac</div>
+                    <div style="font-size: 10px; color: var(--muted); margin-top: 2px">abundance + phylogeny combined</div>
+                  </div>
+                  <span class="env-badge">phylogenetic</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="sec-lbl">PERMANOVA in R</div>
+            <div class="card">
+              <div class="card-body">
+                <pre style="font-size: 10px; color: #7dd3fc; line-height: 1.8; overflow-x: auto">
+library(vegan)
+dist_mat &lt;- read.delim(
+  "bray_distance/distance-matrix.tsv",
+  row.names=1)
+dist_obj &lt;- as.dist(dist_mat)
+
+adon &lt;- adonis2(
+  dist_obj ~ Treatment,
+  data = meta,
+  permutations = 999)
+
+# R² = variance explained
+# p &lt; 0.05 → significant</pre
+                >
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="sec-lbl">What the PCoA shows</div>
+            <div class="card">
+              <div class="card-body">
+                <div class="env-row">
+                  <span class="env-key">Clusters close together</span><span class="env-badge" style="color: var(--nc)">similar communities</span>
+                </div>
+                <div class="env-row">
+                  <span class="env-key">Clusters far apart</span><span class="env-badge" style="color: #f87171">different communities</span>
+                </div>
+                <div class="env-row" style="border: none">
+                  <span class="env-key">Mixed/overlapping</span><span class="env-badge">treatment not significant</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TAB 4: ENVIRONMENTAL ══ -->
+    <div id="tab-env" class="panel">
+      <div class="intro-box">
+        A <strong>minimal lab metadata file</strong> has Treatment, Replicate, and Season. A <strong>real environmental study</strong> adds physical
+        and chemical measurements. Each extra column unlocks a new class of analysis. Below is a real-world example from an estuarine microbiome
+        study.
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="sec-lbl">Environmental metadata example</div>
+          <div class="card">
+            <div style="overflow-x: auto">
+              <table class="meta-table">
+                <thead>
+                  <tr>
+                    <th>#SampleID</th>
+                    <th>Bay</th>
+                    <th>Season</th>
+                    <th>Fraction</th>
+                    <th>Salinity</th>
+                    <th>Temp °C</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="color: #7dd3fc; font-size: 10px">CP_Sp_FL_01</td>
+                    <td><span class="pill" style="background: #1a1000; color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.2)">CP</span></td>
+                    <td><span class="pill pill-Spring">Spring</span></td>
+                    <td><span class="pill pill-FL">FL</span></td>
+                    <td style="color: var(--npk)">8.2</td>
+                    <td>14.3</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #7dd3fc; font-size: 10px">CP_Su_PA_01</td>
+                    <td><span class="pill" style="background: #1a1000; color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.2)">CP</span></td>
+                    <td><span class="pill pill-Summer">Summer</span></td>
+                    <td><span class="pill pill-PA">PA</span></td>
+                    <td style="color: #fb923c">12.7</td>
+                    <td>26.8</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #7dd3fc; font-size: 10px">DE_Su_FL_01</td>
+                    <td><span class="pill" style="background: #200010; color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.2)">DE</span></td>
+                    <td><span class="pill pill-Summer">Summer</span></td>
+                    <td><span class="pill pill-FL">FL</span></td>
+                    <td style="color: #f87171">28.6</td>
+                    <td>25.4</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #7dd3fc; font-size: 10px">DE_Fa_PA_01</td>
+                    <td><span class="pill" style="background: #200010; color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.2)">DE</span></td>
+                    <td><span class="pill pill-Fall">Fall</span></td>
+                    <td><span class="pill pill-PA">PA</span></td>
+                    <td style="color: #f87171">30.2</td>
+                    <td>17.8</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style="margin-top: 14px">
+            <div class="sec-lbl">FL = Free Living · PA = Particle Attached</div>
+            <div class="card">
+              <div class="card-body">
+                <div class="env-row">
+                  <span class="env-key">FL (0.2–0.8 µm)</span><span class="env-badge" style="color: #22d3ee">planktonic bacteria</span>
+                </div>
+                <div class="env-row" style="border: none">
+                  <span class="env-key">PA (&gt;0.8 µm)</span><span class="env-badge" style="color: #fb923c">particle-attached bacteria</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-lbl">What each variable enables</div>
+          <div class="card">
+            <div class="card-body">
+              <div class="env-row">
+                <div>
+                  <div style="color: var(--text); font-size: 11px; font-weight: 500">Salinity</div>
+                  <div style="color: var(--muted); font-size: 10px">continuous, 0–40 PSU</div>
+                </div>
+                <span class="env-badge" style="color: var(--alpha)">Spearman ρ with Shannon</span>
+              </div>
+              <div class="env-row">
+                <div>
+                  <div style="color: var(--text); font-size: 11px; font-weight: 500">Temperature</div>
+                  <div style="color: var(--muted); font-size: 10px">continuous, °C</div>
+                </div>
+                <span class="env-badge" style="color: var(--beta)">dbRDA gradient analysis</span>
+              </div>
+              <div class="env-row">
+                <div>
+                  <div style="color: var(--text); font-size: 11px; font-weight: 500">Bay</div>
+                  <div style="color: var(--muted); font-size: 10px">Chesapeake / Delaware</div>
+                </div>
+                <span class="env-badge">PERMANOVA factor</span>
+              </div>
+              <div class="env-row">
+                <div>
+                  <div style="color: var(--text); font-size: 11px; font-weight: 500">Season</div>
+                  <div style="color: var(--muted); font-size: 10px">Spring / Summer / Fall</div>
+                </div>
+                <span class="env-badge">Kruskal-Wallis</span>
+              </div>
+              <div class="env-row">
+                <div>
+                  <div style="color: var(--text); font-size: 11px; font-weight: 500">Size fraction</div>
+                  <div style="color: var(--muted); font-size: 10px">FL / PA</div>
+                </div>
+                <span class="env-badge">Wilcoxon test</span>
+              </div>
+              <div class="env-row">
+                <div>
+                  <div style="color: var(--text); font-size: 11px; font-weight: 500">Fraction × Season</div>
+                  <div style="color: var(--muted); font-size: 10px">interaction term</div>
+                </div>
+                <span class="env-badge">two-way PERMANOVA</span>
+              </div>
+              <div class="env-row" style="border: none">
+                <div>
+                  <div style="color: var(--text); font-size: 11px; font-weight: 500">pH, DO, depth</div>
+                  <div style="color: var(--muted); font-size: 10px">continuous drivers</div>
+                </div>
+                <span class="env-badge">indicator species analysis</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 14px">
+            <div class="sec-lbl">Complexity comparison</div>
+            <div class="card">
+              <div class="card-body">
+                <div class="env-row">
+                  <span class="env-key">Lab experiment</span><span class="env-badge" style="color: var(--nc)">3 treatments × 3 reps = 9 rows</span>
+                </div>
+                <div class="env-row" style="border: none">
+                  <span class="env-key">Environmental study</span
+                  ><span class="env-badge" style="color: var(--ob9)">2 bays × 3 seasons × 2 fractions × 3 reps = 36 rows</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TAB 5: RULES ══ -->
+    <div id="tab-rules" class="panel">
+      <div class="intro-box">
+        QIIME 2 has strict requirements for metadata files. Most analysis failures trace back to a formatting mistake here. Read these once and save
+        yourself hours of debugging.
+      </div>
+
+      <div class="three-col">
+        <div>
+          <div class="sec-lbl">Required format</div>
+          <div class="card">
+            <div class="card-body">
+              <ul class="rule-list">
+                <li>
+                  <div class="rule-icon ok">✓</div>
+                  <span
+                    >First column header must be <code style="color: #7dd3fc">#SampleID</code>, <code style="color: #7dd3fc">sample-id</code>, or
+                    <code style="color: #7dd3fc">id</code></span
+                  >
+                </li>
+                <li>
+                  <div class="rule-icon ok">✓</div>
+                  <span>Tab-separated (.tsv), not comma-separated (.csv)</span>
+                </li>
+                <li>
+                  <div class="rule-icon ok">✓</div>
+                  <span>UTF-8 encoding. Use Google Sheets or Excel "Tab Delimited Text" export</span>
+                </li>
+                <li>
+                  <div class="rule-icon ok">✓</div>
+                  <span>Column names must be unique regardless of case</span>
+                </li>
+                <li>
+                  <div class="rule-icon err">✗</div>
+                  <span
+                    >No spaces in column names — use underscores: <code style="color: #f87171">Sample_ID</code> not
+                    <code style="color: #f87171">Sample ID</code></span
+                  >
+                </li>
+                <li>
+                  <div class="rule-icon err">✗</div>
+                  <span>IDs cannot start with <code style="color: #f87171">#</code> — rows starting with # are treated as comments</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-lbl">Common mistakes</div>
+          <div class="card">
+            <div class="card-body">
+              <ul class="rule-list">
+                <li>
+                  <div class="rule-icon err">✗</div>
+                  <span>Sample IDs differ between metadata and feature table (extra space, underscore, capital)</span>
+                </li>
+                <li>
+                  <div class="rule-icon err">✗</div>
+                  <span
+                    >Forgot to remove the <code style="color: #f87171">#q2:types</code> row before reading into R with <code>as.numeric()</code></span
+                  >
+                </li>
+                <li>
+                  <div class="rule-icon err">✗</div>
+                  <span>Numeric treatment IDs (1, 2, 3) inferred as continuous — declare as categorical</span>
+                </li>
+                <li>
+                  <div class="rule-icon err">✗</div>
+                  <span>Saved as CSV instead of TSV from Excel</span>
+                </li>
+                <li>
+                  <div class="rule-icon err">✗</div>
+                  <span>Stale metadata rows for samples removed from the feature table</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-lbl">Validation tips</div>
+          <div class="card">
+            <div class="card-body">
+              <ul class="rule-list">
+                <li>
+                  <div class="rule-icon ok">✓</div>
+                  <span>Use <strong>Keemei</strong> in Google Sheets to validate before importing</span>
+                </li>
+                <li>
+                  <div class="rule-icon ok">✓</div>
+                  <span
+                    >In R: <code style="color: #7dd3fc">setdiff(meta$SampleID, colnames(table))</code> should return <code>character(0)</code></span
+                  >
+                </li>
+                <li>
+                  <div class="rule-icon ok">✓</div>
+                  <span>Use <code style="color: #7dd3fc">qiime metadata tabulate</code> to check column types after import</span>
+                </li>
+                <li>
+                  <div class="rule-icon ok">✓</div>
+                  <span>Keep a backup of the original metadata before editing</span>
+                </li>
+                <li>
+                  <div class="rule-icon ok">✓</div>
+                  <span>When in doubt, collect more metadata in the field — you cannot retroactively measure salinity</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div style="margin-top: 12px">
+            <div class="sec-lbl">The #q2:types row</div>
+            <div class="card">
+              <div class="card-body">
+                <pre style="font-size: 10px; color: #7dd3fc; line-height: 1.7; overflow-x: auto">
+#SampleID  Treatment  pH
+#q2:types  categorical  numeric
+S1a        NC          6.8
+S1b        NC          6.7</pre
+                >
+                <div style="font-size: 10px; color: var(--muted); margin-top: 8px">
+                  This row tells QIIME 2 the column type explicitly. Always filter it out before calling
+                  <code style="color: #7dd3fc">as.numeric()</code> in R.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const SAMPLES = [
+        { id: "S1a", trt: "NC", rep: 1, season: "Spring", shannon: 3.82, obs: 342, faithpd: 18.2 },
+        { id: "S1b", trt: "NC", rep: 2, season: "Spring", shannon: 3.75, obs: 328, faithpd: 17.6 },
+        { id: "S1c", trt: "NC", rep: 3, season: "Spring", shannon: 3.9, obs: 358, faithpd: 18.9 },
+        { id: "S2a", trt: "NPK", rep: 1, season: "Spring", shannon: 4.01, obs: 371, faithpd: 19.8 },
+        { id: "S2b", trt: "NPK", rep: 2, season: "Spring", shannon: 3.95, obs: 362, faithpd: 19.2 },
+        { id: "S2c", trt: "NPK", rep: 3, season: "Spring", shannon: 4.08, obs: 385, faithpd: 20.4 },
+        { id: "S3a", trt: "nOB9", rep: 1, season: "Spring", shannon: 4.45, obs: 412, faithpd: 22.8 },
+        { id: "S3b", trt: "nOB9", rep: 2, season: "Spring", shannon: 4.52, obs: 428, faithpd: 23.4 },
+        { id: "S3c", trt: "nOB9", rep: 3, season: "Spring", shannon: 4.38, obs: 401, faithpd: 22.1 },
+      ];
+
+      const TRT_COL = { NC: "#34d399", NPK: "#60a5fa", nOB9: "#c084fc" };
+      const TRT_BG = { NC: "rgba(52,211,153,", NPK: "rgba(96,165,250,", nOB9: "rgba(192,132,252," };
+      const SEASON_COL = { Spring: "#4ade80", Summer: "#fbbf24", Fall: "#fb923c" };
+      const REP_COL = { 1: "#f472b6", 2: "#fb923c", 3: "#a3e635" };
+
+      let selectedTrt = null;
+      let betaColorBy = "Treatment";
+
+      /* ── TAB SWITCHING ── */
+      function switchTab(name) {
+        document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+        document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+        document.getElementById("tab-" + name).classList.add("active");
+        document.querySelectorAll(".tabs .tab").forEach((t) => {
+          if (t.getAttribute("onclick") === `switchTab('${name}')`) t.classList.add("active");
+        });
+        if (name === "alpha") {
+          drawAlphaCanvas();
+          drawStatsCanvas();
+        }
+        if (name === "beta") {
+          drawBetaCanvas();
+        }
+      }
+
+      /* ── METADATA TABLE ── */
+      function buildTable() {
+        const tbody = document.getElementById("meta-tbody");
+        tbody.innerHTML = "";
+        SAMPLES.forEach((s) => {
+          const tr = document.createElement("tr");
+          if (selectedTrt === s.trt) tr.classList.add("hl-" + s.trt);
+          tr.innerHTML = `
+      <td style="color:#7dd3fc;font-family:var(--mono);font-size:10px">${s.id}</td>
+      <td><span class="pill pill-${s.trt}">${s.trt}</span></td>
+      <td style="color:var(--muted)">${s.rep}</td>
+      <td><span class="pill pill-${s.season}">${s.season}</span></td>
+      <td style="font-family:var(--mono);font-size:11px;color:${TRT_COL[s.trt]}">${s.shannon.toFixed(2)}</td>
+    `;
+          tr.style.cursor = "pointer";
+          tr.addEventListener("click", () => {
+            selectedTrt = selectedTrt === s.trt ? null : s.trt;
+            buildTable();
+            updateSelectedInfo();
+          });
+          tbody.appendChild(tr);
+        });
+      }
+
+      function updateSelectedInfo() {
+        const el = document.getElementById("selected-info");
+        const body = document.getElementById("selected-body");
+        if (!selectedTrt) {
+          el.style.display = "none";
+          return;
+        }
+        el.style.display = "block";
+        const pts = SAMPLES.filter((s) => s.trt === selectedTrt);
+        const avg = (v) => (pts.reduce((a, s) => a + s[v], 0) / pts.length).toFixed(2);
+        body.innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <span class="pill pill-${selectedTrt}">${selectedTrt}</span>
+      <span style="font-size:11px;color:var(--muted)">${pts.length} samples selected</span>
+    </div>
+    <div class="env-row"><span class="env-key">Mean Shannon</span><span style="color:${TRT_COL[selectedTrt]};font-weight:700">${avg("shannon")}</span></div>
+    <div class="env-row"><span class="env-key">Mean observed ASVs</span><span style="color:${TRT_COL[selectedTrt]};font-weight:700">${avg("obs")}</span></div>
+    <div class="env-row" style="border:none"><span class="env-key">Mean Faith's PD</span><span style="color:${TRT_COL[selectedTrt]};font-weight:700">${avg("faithpd")}</span></div>
+  `;
+      }
+
+      /* ── ALPHA CANVAS ── */
+      function drawAlphaCanvas() {
+        const canvas = document.getElementById("alpha-canvas");
+        const W = canvas.offsetWidth || 400;
+        canvas.width = W;
+        canvas.height = 220;
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, W, 220);
+
+        const trts = ["NC", "NPK", "nOB9"];
+        const PAD = { t: 20, b: 40, l: 44, r: 20 };
+        const plotW = W - PAD.l - PAD.r;
+        const plotH = 220 - PAD.t - PAD.b;
+        const minV = 3.5,
+          maxV = 4.8;
+
+        const px = (i) => PAD.l + (i + 0.5) * (plotW / 3);
+        const py = (v) => PAD.t + (1 - (v - minV) / (maxV - minV)) * plotH;
+
+        ctx.strokeStyle = "rgba(255,255,255,0.06)";
+        ctx.lineWidth = 0.5;
+        [3.6, 3.8, 4.0, 4.2, 4.4, 4.6].forEach((v) => {
+          ctx.beginPath();
+          ctx.moveTo(PAD.l, py(v));
+          ctx.lineTo(W - PAD.r, py(v));
+          ctx.stroke();
+          ctx.fillStyle = "rgba(107,133,158,0.7)";
+          ctx.font = "9px JetBrains Mono, monospace";
+          ctx.textAlign = "right";
+          ctx.fillText(v.toFixed(1), PAD.l - 5, py(v) + 3);
+        });
+
+        trts.forEach((t, i) => {
+          const pts = SAMPLES.filter((s) => s.trt === t);
+          const vals = pts.map((s) => s.shannon).sort((a, b) => a - b);
+          const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+          const q1 = vals[0],
+            q3 = vals[2],
+            iqr = q3 - q1;
+          const cx = px(i);
+          const bw = 32;
+          const col = TRT_COL[t];
+          const isHL = !selectedTrt || selectedTrt === t;
+          const alpha = isHL ? 1 : 0.2;
+
+          ctx.globalAlpha = alpha;
+
+          // box
+          ctx.fillStyle = TRT_BG[t] + "0.18)";
+          ctx.strokeStyle = col;
+          ctx.lineWidth = isHL ? 1.5 : 0.5;
+          ctx.beginPath();
+          ctx.roundRect(cx - bw / 2, py(q3), bw, py(q1) - py(q3), 4);
+          ctx.fill();
+          ctx.stroke();
+
+          // median
+          ctx.strokeStyle = col;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(cx - bw / 2, py(mean));
+          ctx.lineTo(cx + bw / 2, py(mean));
+          ctx.stroke();
+
+          // whiskers
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.moveTo(cx, py(q3));
+          ctx.lineTo(cx, py(Math.min(vals[vals.length - 1], q3 + 1.5 * iqr)));
+          ctx.moveTo(cx, py(q1));
+          ctx.lineTo(cx, py(Math.max(vals[0], q1 - 1.5 * iqr)));
+          ctx.stroke();
+
+          // jitter dots
+          pts.forEach((s, j) => {
+            const jx = cx + (j - 1) * 8;
+            ctx.fillStyle = col;
+            ctx.beginPath();
+            ctx.arc(jx, py(s.shannon), isHL ? 4.5 : 3.5, 0, Math.PI * 2);
+            ctx.fill();
+          });
+
+          // label
+          ctx.globalAlpha = 1;
+          ctx.fillStyle = isHL ? col : "rgba(107,133,158,0.5)";
+          ctx.font = (isHL ? "500 11px" : "11px") + " JetBrains Mono, monospace";
+          ctx.textAlign = "center";
+          ctx.fillText(t, cx, 220 - PAD.b + 16);
+        });
+        ctx.globalAlpha = 1;
+      }
+
+      /* ── STATS CANVAS ── */
+      function drawStatsCanvas() {
+        const canvas = document.getElementById("stats-canvas");
+        const W = canvas.offsetWidth || 300;
+        canvas.width = W;
+        canvas.height = 130;
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, W, 130);
+
+        const trts = ["NC", "NPK", "nOB9"];
+        const metric = "shannon";
+        const barH = 22,
+          gap = 14,
+          startY = 18;
+        const maxVal = 4.8;
+        const barMaxW = W - 120;
+
+        trts.forEach((t, i) => {
+          const pts = SAMPLES.filter((s) => s.trt === t);
+          const mean = pts.reduce((a, s) => a + s[metric], 0) / pts.length;
+          const barW = (mean / maxVal) * barMaxW;
+          const y = startY + i * (barH + gap);
+          const col = TRT_COL[t];
+          const isHL = !selectedTrt || selectedTrt === t;
+
+          ctx.globalAlpha = isHL ? 1 : 0.25;
+
+          ctx.fillStyle = TRT_BG[t] + "0.15)";
+          ctx.fillRect(100, y, barW, barH);
+          ctx.strokeStyle = col;
+          ctx.lineWidth = 0.8;
+          ctx.strokeRect(100, y, barW, barH);
+
+          ctx.fillStyle = isHL ? col : "rgba(107,133,158,0.5)";
+          ctx.font = "500 10px JetBrains Mono, monospace";
+          ctx.textAlign = "right";
+          ctx.fillText(t, 90, y + barH / 2 + 3);
+
+          ctx.fillStyle = col;
+          ctx.font = "500 10px JetBrains Mono, monospace";
+          ctx.textAlign = "left";
+          ctx.fillText(mean.toFixed(2), 104 + barW, y + barH / 2 + 3);
+        });
+        ctx.globalAlpha = 1;
+
+        ctx.fillStyle = "rgba(107,133,158,0.6)";
+        ctx.font = "9px JetBrains Mono, monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("Mean Shannon index", W / 2, 125);
+      }
+
+      /* ── BETA CANVAS ── */
+      const PCOA_PTS = [
+        { id: "S1a", trt: "NC", rep: 1, season: "Spring", x: 0.32, y: 0.17 },
+        { id: "S1b", trt: "NC", rep: 2, season: "Spring", x: 0.27, y: 0.14 },
+        { id: "S1c", trt: "NC", rep: 3, season: "Spring", x: 0.35, y: 0.22 },
+        { id: "S2a", trt: "NPK", rep: 1, season: "Spring", x: -0.06, y: 0.28 },
+        { id: "S2b", trt: "NPK", rep: 2, season: "Spring", x: -0.13, y: 0.24 },
+        { id: "S2c", trt: "NPK", rep: 3, season: "Spring", x: -0.08, y: 0.32 },
+        { id: "S3a", trt: "nOB9", rep: 1, season: "Spring", x: -0.38, y: -0.13 },
+        { id: "S3b", trt: "nOB9", rep: 2, season: "Spring", x: -0.43, y: -0.09 },
+        { id: "S3c", trt: "nOB9", rep: 3, season: "Spring", x: -0.36, y: -0.16 },
+      ];
+
+      const BETA_SCHEMES = {
+        Treatment: {
+          col: (p) => TRT_COL[p.trt],
+          groups: ["NC", "NPK", "nOB9"],
+          groupCol: (g) => TRT_COL[g],
+          label: (g) => g,
+          perm: "PERMANOVA (Treatment): <span>R²=0.68, p=0.001</span> — treatment explains 68% of community variation",
+        },
+        Season: {
+          col: (p) => SEASON_COL[p.season],
+          groups: ["Spring"],
+          groupCol: (g) => SEASON_COL[g],
+          label: (g) => g,
+          perm: "PERMANOVA (Season): <span>only Spring samples → no grouping</span> — collect multiple seasons to test this",
+        },
+        Replicate: {
+          col: (p) => REP_COL[p.rep],
+          groups: [1, 2, 3],
+          groupCol: (g) => REP_COL[g],
+          label: (g) => "Rep " + g,
+          perm: "PERMANOVA (Replicate): <span>R²=0.09, p=0.41</span> — replicates don't explain community variation (good!)",
+        },
+      };
+
+      function setBetaColor(scheme) {
+        betaColorBy = scheme;
+        ["Treatment", "Season", "Replicate"].forEach((s) => {
+          const btn = document.getElementById("btn-" + s.toLowerCase());
+          if (btn) btn.classList.toggle("active", s === scheme);
+        });
+        drawBetaCanvas();
+      }
+
+      function drawBetaCanvas() {
+        const canvas = document.getElementById("beta-canvas");
+        const W = canvas.offsetWidth || 400;
+        canvas.width = W;
+        canvas.height = 260;
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, W, 260);
+
+        const PAD = { t: 20, b: 40, l: 44, r: 20 };
+        const plotW = W - PAD.l - PAD.r;
+        const plotH = 260 - PAD.t - PAD.b;
+        const xRange = [-0.65, 0.65],
+          yRange = [-0.42, 0.52];
+        const px = (v) => PAD.l + ((v - xRange[0]) / (xRange[1] - xRange[0])) * plotW;
+        const py = (v) => PAD.t + (1 - (v - yRange[0]) / (yRange[1] - yRange[0])) * plotH;
+        const scheme = BETA_SCHEMES[betaColorBy];
+
+        // grid
+        ctx.strokeStyle = "rgba(255,255,255,0.05)";
+        ctx.lineWidth = 0.5;
+        [-0.4, -0.2, 0, 0.2, 0.4].forEach((v) => {
+          ctx.beginPath();
+          ctx.moveTo(px(v), PAD.t);
+          ctx.lineTo(px(v), 260 - PAD.b);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(PAD.l, py(v));
+          ctx.lineTo(W - PAD.r, py(v));
+          ctx.stroke();
+        });
+
+        // ellipses per treatment group
+        if (betaColorBy === "Treatment") {
+          ["NC", "NPK", "nOB9"].forEach((t) => {
+            const pts = PCOA_PTS.filter((p) => p.trt === t);
+            const cx = pts.reduce((a, p) => a + px(p.x), 0) / pts.length;
+            const cy = pts.reduce((a, p) => a + py(p.y), 0) / pts.length;
+            const rx = Math.max(...pts.map((p) => Math.abs(px(p.x) - cx))) + 14;
+            const ry = Math.max(...pts.map((p) => Math.abs(py(p.y) - cy))) + 14;
+            const col = TRT_COL[t];
+            const isHL = !selectedTrt || selectedTrt === t;
+            ctx.globalAlpha = isHL ? 1 : 0.15;
+            ctx.fillStyle = TRT_BG[t] + "0.08)";
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 0.8;
+            ctx.setLineDash([4, 3]);
+            ctx.beginPath();
+            ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.setLineDash([]);
+          });
+        }
+        ctx.globalAlpha = 1;
+
+        // dots
+        PCOA_PTS.forEach((p) => {
+          const col = scheme.col(p);
+          const isHL = !selectedTrt || selectedTrt === p.trt;
+          ctx.globalAlpha = isHL ? 0.92 : 0.18;
+          ctx.fillStyle = col;
+          ctx.beginPath();
+          ctx.arc(px(p.x), py(p.y), isHL ? 6 : 5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = "#0a0f1a";
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+          if (selectedTrt === p.trt) {
+            ctx.globalAlpha = 0.9;
+            ctx.fillStyle = col;
+            ctx.font = "500 9px JetBrains Mono, monospace";
+            ctx.textAlign = "left";
+            ctx.fillText(p.id, px(p.x) + 9, py(p.y) + 3);
+          }
+        });
+        ctx.globalAlpha = 1;
+
+        // axes
+        ctx.fillStyle = "rgba(107,133,158,0.6)";
+        ctx.font = "10px JetBrains Mono, monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("PC1 (38.2%)", W / 2, 260 - 8);
+        ctx.save();
+        ctx.translate(12, 130);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText("PC2 (22.1%)", 0, 0);
+        ctx.restore();
+
+        // legend
+        const legendEl = document.getElementById("beta-legend");
+        legendEl.innerHTML = scheme.groups
+          .map((g) => `<div class="legend-item"><div class="legend-dot" style="background:${scheme.groupCol(g)}"></div>${scheme.label(g)}</div>`)
+          .join("");
+
+        document.getElementById("perm-badge").innerHTML = scheme.perm;
+      }
+
+      /* ── INIT ── */
+      buildTable();
+
+      window.addEventListener("resize", () => {
+        const tabs = ["alpha", "beta"];
+        tabs.forEach((t) => {
+          const panel = document.getElementById("tab-" + t);
+          if (panel && panel.classList.contains("active")) {
+            if (t === "alpha") {
+              drawAlphaCanvas();
+              drawStatsCanvas();
+            }
+            if (t === "beta") {
+              drawBetaCanvas();
+            }
+          }
+        });
+      });
+
+      document.querySelectorAll(".tab:not(.tabs .tab)").forEach((btn) => {
+        btn.style.background = "none";
+        btn.style.border = "1px solid var(--border2)";
+        btn.style.color = "var(--muted)";
+        btn.style.cursor = "pointer";
+        btn.style.borderRadius = "6px";
+      });
+    </script>
+  </body>
+</html>
