@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-24T16:00:17-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-24T16:00:17-04:00</published><updated>2026-04-24T16:00:17-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-27T14:23:36-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-27T14:23:36-04:00</published><updated>2026-04-27T14:23:36-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,379 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">What is a Metadata File — and Why Does Your Microbiome Analysis Depend on It?</title><link href="https://jojyjohn28.github.io/blog/metadata-file-qiime2-diversity-beginner/" rel="alternate" type="text/html" title="What is a Metadata File — and Why Does Your Microbiome Analysis Depend on It?" /><published>2026-04-24T00:00:00-04:00</published><updated>2026-04-24T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/metadata-file-qiime2-diversity-beginner</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metadata-file-qiime2-diversity-beginner/"><![CDATA[<h2 id="what-is-a-metadata-file--and-why-does-your-microbiome-analysis-depend-on-it">What is a metadata file — and why does your microbiome analysis depend on it?</h2>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Genome Coverage — What It Is, Why It Matters, and How to Calculate It for NCBI Submission</title><link href="https://jojyjohn28.github.io/blog/genome-coverage-calculation-ncbi-submission/" rel="alternate" type="text/html" title="Genome Coverage — What It Is, Why It Matters, and How to Calculate It for NCBI Submission" /><published>2026-04-27T00:00:00-04:00</published><updated>2026-04-27T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/genome-coverage-calculation-ncbi-submission</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/genome-coverage-calculation-ncbi-submission/"><![CDATA[<h2 id="genome-coverage--what-it-is-why-it-matters-and-how-to-calculate-it">Genome coverage — what it is, why it matters, and how to calculate it</h2>
+
+<p><em>🧬 𝐷𝑎𝑦 76 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠</em></p>
+
+<p>You assembled your genome and you are getting ready to submit it to NCBI. The submission form asks for sequencing depth. Your supervisor mentions you need at least 30×. A reviewer comes back asking for coverage statistics.</p>
+
+<p>What exactly is coverage? Where does the number come from? And what do you do when you have both Illumina and ONT reads?</p>
+
+<p>This post answers all of that from the beginning — no assumed knowledge — and ends with a Python script that calculates coverage for all three assembly types and produces a table ready for NCBI submission.</p>
+
+<hr />
+
+<h2 id="what-is-genome-coverage">What is genome coverage?</h2>
+
+<p>Imagine your genome is a road that is 5 million base pairs long. You sequence it by taking millions of short snapshots of random pieces of that road. Coverage tells you, on average, how many times each position on that road was photographed.</p>
+
+<p><strong>The formula is dead simple:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Coverage (X) = Total sequencing bases / Genome assembly size
+</code></pre></div></div>
+
+<p>That is it. No magic. If you sequenced 500 million bases and your assembled genome is 5 million base pairs, your coverage is 100×.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">×</code> symbol (pronounced “times” or “x”) is the unit. 30× means every base in your genome was covered by 30 reads on average. 100× means 100 reads on average.</p>
+
+<h3 id="a-concrete-example">A concrete example</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Genome size:       4,800,000 bp  (4.8 Mb — typical small bacterium)
+Total Illumina bases: 480,000,000 bp  (480 Mb — 2 × 150 bp × 1.6M read pairs)
+
+Coverage = 480,000,000 / 4,800,000 = 100×
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="why-does-coverage-matter">Why does coverage matter?</h2>
+
+<p>Coverage is not just a number for NCBI. It directly determines the quality and reliability of your assembly.</p>
+
+<p><strong>Low coverage (&lt; 10×):</strong> Large gaps. The assembler does not have enough reads to build confident contigs. Many positions will have only one or two reads supporting them — any sequencing error there becomes a permanent mistake in your assembly.</p>
+
+<p><strong>Adequate coverage (20–30×):</strong> Sufficient for most Illumina assemblies of simple genomes. This is the practical minimum for a genome you would publish.</p>
+
+<p><strong>Good coverage (50–100×):</strong> Most positions covered many times. Random sequencing errors (which occur at a rate of ~0.1% per base in Illumina) are effectively corrected by consensus across many reads. Assembly is confident and complete.</p>
+
+<p><strong>Very high coverage (&gt; 200×):</strong> Usually not necessary for assembly quality. Can even cause problems — some assemblers collapse repeated regions when coverage is too high. Useful for detecting heterozygosity or mixed populations.</p>
+
+<h3 id="why-illumina-and-ont-are-measured-the-same-way-but-contribute-differently">Why Illumina and ONT are measured the same way but contribute differently</h3>
+
+<p><strong>Illumina reads</strong> are short (150–300 bp) but extremely accurate (~99.9%). High Illumina coverage gives you precise, error-corrected sequences of small regions.</p>
+
+<p><strong>ONT (Oxford Nanopore) reads</strong> are long (thousands to hundreds of thousands of bp) but less accurate individually (~95–98%). Lower ONT coverage can still give good assemblies because long reads span repeat regions and resolve structural complexity that short reads cannot.</p>
+
+<p>A <strong>hybrid assembly</strong> uses both — Illumina reads for base-level accuracy, ONT reads for long-range structural scaffolding. When calculating hybrid coverage, you add the bases from both technologies.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Assembly type</th>
+      <th>Minimum coverage (typical)</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Illumina-only</td>
+      <td>40–100×</td>
+      <td>Short reads need depth to correct errors</td>
+    </tr>
+    <tr>
+      <td>ONT-only</td>
+      <td>30–50×</td>
+      <td>Long reads resolve structure but need depth for polishing</td>
+    </tr>
+    <tr>
+      <td>Hybrid</td>
+      <td>30× Illumina + 20× ONT</td>
+      <td>Each technology contributes what the other lacks</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="what-files-do-you-need">What files do you need?</h2>
+
+<p>To calculate coverage you need three pieces of information for each sample:</p>
+
+<p><strong>1. Genome assembly size</strong> — the total number of base pairs in your final assembled genome. This comes from your assembler statistics file (e.g., from <code class="language-plaintext highlighter-rouge">seqkit stats</code>, <code class="language-plaintext highlighter-rouge">assembly-stats</code>, or the assembler’s own report). The relevant column is usually <code class="language-plaintext highlighter-rouge">sum_len</code> or <code class="language-plaintext highlighter-rouge">total_length</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample              sum_len
+Eco_001.fna         4821340
+Bac_002.fna         3987200
+Rhizo_003.fna       6123450
+</code></pre></div></div>
+
+<p><strong>2. Total sequencing bases per sample</strong> — the sum of all bases in your FASTQ reads. Not the number of reads — the total base count. You get this from tools like <code class="language-plaintext highlighter-rouge">seqkit stats</code> or <code class="language-plaintext highlighter-rouge">FastQC</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Generate read statistics with seqkit</span>
+seqkit stats <span class="nt">-T</span> sample_R1.fastq.gz sample_R2.fastq.gz <span class="o">&gt;</span> illumina_read_stats.tsv
+</code></pre></div></div>
+
+<p>The column you want is <code class="language-plaintext highlighter-rouge">sum_len</code> (total bases) not <code class="language-plaintext highlighter-rouge">num_seqs</code> (read count).</p>
+
+<p><strong>3. Sequencing technology</strong> — which strategy was used for each sample (Illumina-only, ONT-only, or hybrid). This is a simple lookup table you create:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample    tech
+Eco_001   illumina
+Bac_002   long-read/ONT
+Rhizo_003 hybrid
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="calculating-coverage-step-by-step-manually">Calculating coverage: step by step manually</h2>
+
+<p>Let’s walk through one example of each type before looking at the Python script.</p>
+
+<h3 id="illumina-only">Illumina-only</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sample: Eco_001
+Genome size:     4,821,340 bp
+Illumina bases:  587,000,000 bp
+
+Coverage = 587,000,000 / 4,821,340 = 121.8×
+</code></pre></div></div>
+
+<h3 id="ont-only">ONT-only</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sample: Bac_002
+Genome size:     3,987,200 bp
+ONT bases:       198,600,000 bp
+
+Coverage = 198,600,000 / 3,987,200 = 49.8×
+</code></pre></div></div>
+
+<h3 id="hybrid-assembly">Hybrid assembly</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sample: Rhizo_003
+Genome size:      6,123,450 bp
+Illumina bases:   420,000,000 bp
+ONT bases:        180,000,000 bp
+
+Coverage = (420,000,000 + 180,000,000) / 6,123,450 = 97.9×
+</code></pre></div></div>
+
+<p>For hybrid assemblies you add the two base counts because both technologies contributed reads to the assembly. You are asking: across all the reads we fed into the assembler, how many times does that cover the genome?</p>
+
+<hr />
+
+<h2 id="python-script-for-batch-coverage-calculation">Python script for batch coverage calculation</h2>
+
+<p>When you have dozens of genomes across all three assembly types, doing this by hand is error-prone. Here is a complete Python script that reads your four input files, matches samples by name, applies the correct coverage formula per technology, and outputs a clean TSV ready for NCBI submission.</p>
+
+<h3 id="input-files-expected">Input files expected</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>genome_stats.tsv                 — assembly sizes (columns: file, sum_len)
+illumina_read_stats_per_sample.tsv  — Illumina base counts (columns: sample, total_bases)
+ont_read_stats_per_sample.tsv       — ONT base counts (columns: sample, total_bases)
+sequencing_tech.txt                 — technology per sample (columns: sample, tech)
+</code></pre></div></div>
+
+<h3 id="the-script">The script</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="c1"># ── Input file paths ──
+</span><span class="n">BASE</span>     <span class="o">=</span> <span class="sh">"</span><span class="s">/project/dkarig/ecocoat/NCBI_oct22</span><span class="sh">"</span>
+<span class="n">GENOMES</span>  <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">BASE</span><span class="si">}</span><span class="s">/genome_stats.tsv</span><span class="sh">"</span>
+<span class="n">ILLUMINA</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">BASE</span><span class="si">}</span><span class="s">/illumina_read_stats_per_sample.tsv</span><span class="sh">"</span>
+<span class="n">ONT</span>      <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">BASE</span><span class="si">}</span><span class="s">/ont_read_stats_per_sample.tsv</span><span class="sh">"</span>
+<span class="n">TECH</span>     <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">BASE</span><span class="si">}</span><span class="s">/sequencing_tech.txt</span><span class="sh">"</span>
+<span class="n">OUT</span>      <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">BASE</span><span class="si">}</span><span class="s">/Genome_Coverage/genome_coverage_summary.tsv</span><span class="sh">"</span>
+
+<span class="n">os</span><span class="p">.</span><span class="nf">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">BASE</span><span class="si">}</span><span class="s">/Genome_Coverage</span><span class="sh">"</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># ── Load all four files ──
+</span><span class="n">genomes</span>  <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">GENOMES</span><span class="p">,</span>  <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">illumina</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">ILLUMINA</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">ont</span>      <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">ONT</span><span class="p">,</span>      <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">tech</span>     <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">TECH</span><span class="p">,</span>     <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="c1"># Normalize column names (lowercase, strip whitespace)
+</span><span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="p">[</span><span class="n">genomes</span><span class="p">,</span> <span class="n">illumina</span><span class="p">,</span> <span class="n">ont</span><span class="p">,</span> <span class="n">tech</span><span class="p">]:</span>
+    <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">.</span><span class="nf">strip</span><span class="p">().</span><span class="nf">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">]</span>
+
+<span class="c1"># Convert numeric columns
+</span><span class="n">genomes</span><span class="p">[</span><span class="sh">"</span><span class="s">sum_len</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">to_numeric</span><span class="p">(</span><span class="n">genomes</span><span class="p">[</span><span class="sh">"</span><span class="s">sum_len</span><span class="sh">"</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="sh">"</span><span class="s">coerce</span><span class="sh">"</span><span class="p">).</span><span class="nf">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">illumina</span><span class="p">[</span><span class="sh">"</span><span class="s">total_bases</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">to_numeric</span><span class="p">(</span>
+    <span class="n">illumina</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">total_bases</span><span class="sh">"</span><span class="p">,</span> <span class="n">illumina</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">sum_len</span><span class="sh">"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+    <span class="n">errors</span><span class="o">=</span><span class="sh">"</span><span class="s">coerce</span><span class="sh">"</span>
+<span class="p">).</span><span class="nf">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">ont</span><span class="p">[</span><span class="sh">"</span><span class="s">total_bases</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">to_numeric</span><span class="p">(</span>
+    <span class="n">ont</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">total_bases</span><span class="sh">"</span><span class="p">,</span> <span class="n">ont</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">sum_len</span><span class="sh">"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+    <span class="n">errors</span><span class="o">=</span><span class="sh">"</span><span class="s">coerce</span><span class="sh">"</span>
+<span class="p">).</span><span class="nf">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># ── Extract clean sample names from genome file paths ──
+</span><span class="k">def</span> <span class="nf">extract_sample</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">
+    Strips path, extension, and returns the first two
+    underscore-separated parts of the filename as the sample ID.
+    Example: /path/to/Eco_001.fna  →  Eco_001
+    </span><span class="sh">"""</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="nf">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">basename</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="p">[</span><span class="sh">"</span><span class="s">.fa</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.fna</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.fasta</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.fastq.gz</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">.fq.gz</span><span class="sh">"</span><span class="p">]:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="sh">""</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sh">"</span><span class="s">_</span><span class="sh">"</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">_</span><span class="sh">"</span><span class="p">)[:</span><span class="mi">2</span><span class="p">])</span> <span class="k">if</span> <span class="sh">"</span><span class="s">_</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">else</span> <span class="n">s</span>
+
+<span class="n">genomes</span><span class="p">[</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">]</span>  <span class="o">=</span> <span class="n">genomes</span><span class="p">[</span><span class="sh">"</span><span class="s">file</span><span class="sh">"</span><span class="p">].</span><span class="nf">apply</span><span class="p">(</span><span class="n">extract_sample</span><span class="p">)</span>
+<span class="n">illumina</span><span class="p">[</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">illumina</span><span class="p">[</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">].</span><span class="nf">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nf">str</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">/</span><span class="sh">"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ont</span><span class="p">[</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">]</span>      <span class="o">=</span> <span class="n">ont</span><span class="p">[</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">].</span><span class="nf">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nf">str</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">/</span><span class="sh">"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">tech</span><span class="p">[</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">]</span>     <span class="o">=</span> <span class="n">tech</span><span class="p">[</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="c1"># ── Aggregate base counts per sample (in case of multiple FASTQ lanes) ──
+</span><span class="n">illumina_sum</span> <span class="o">=</span> <span class="n">illumina</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="bp">False</span><span class="p">)[</span><span class="sh">"</span><span class="s">total_bases</span><span class="sh">"</span><span class="p">].</span><span class="nf">sum</span><span class="p">()</span>
+<span class="n">illumina_sum</span><span class="p">.</span><span class="nf">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="sh">"</span><span class="s">total_bases</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">IlluminaBases_bp</span><span class="sh">"</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">ont_sum</span> <span class="o">=</span> <span class="n">ont</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="bp">False</span><span class="p">)[</span><span class="sh">"</span><span class="s">total_bases</span><span class="sh">"</span><span class="p">].</span><span class="nf">sum</span><span class="p">()</span>
+<span class="n">ont_sum</span><span class="p">.</span><span class="nf">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="sh">"</span><span class="s">total_bases</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">ONTBases_bp</span><span class="sh">"</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># ── Merge all data on sample ID ──
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">genomes</span><span class="p">[[</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">sum_len</span><span class="sh">"</span><span class="p">]].</span><span class="nf">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="sh">"</span><span class="s">sum_len</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">GenomeSize_bp</span><span class="sh">"</span><span class="p">})</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">illumina_sum</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">"</span><span class="s">left</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">ont_sum</span><span class="p">,</span>      <span class="n">on</span><span class="o">=</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">"</span><span class="s">left</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">tech</span><span class="p">,</span>         <span class="n">on</span><span class="o">=</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">"</span><span class="s">left</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="sh">"</span><span class="s">IlluminaBases_bp</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sh">"</span><span class="s">IlluminaBases_bp</span><span class="sh">"</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="sh">"</span><span class="s">ONTBases_bp</span><span class="sh">"</span><span class="p">]</span>      <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sh">"</span><span class="s">ONTBases_bp</span><span class="sh">"</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="sh">"</span><span class="s">GenomeSize_bp</span><span class="sh">"</span><span class="p">]</span>    <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sh">"</span><span class="s">GenomeSize_bp</span><span class="sh">"</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="c1"># ── Calculate coverage based on technology ──
+</span><span class="k">def</span> <span class="nf">calculate_coverage</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">GenomeSize_bp</span><span class="sh">"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">g</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">nan</span>                         <span class="c1"># no assembly size → skip
+</span>    <span class="n">t</span> <span class="o">=</span> <span class="nf">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">tech</span><span class="sh">"</span><span class="p">]).</span><span class="nf">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="nf">startswith</span><span class="p">(</span><span class="sh">"</span><span class="s">illumina</span><span class="sh">"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">IlluminaBases_bp</span><span class="sh">"</span><span class="p">]</span> <span class="o">/</span> <span class="n">g</span>    <span class="c1"># Illumina only
+</span>    <span class="k">elif</span> <span class="n">t</span><span class="p">.</span><span class="nf">startswith</span><span class="p">(</span><span class="sh">"</span><span class="s">hybrid</span><span class="sh">"</span><span class="p">):</span>
+        <span class="nf">return </span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">IlluminaBases_bp</span><span class="sh">"</span><span class="p">]</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">ONTBases_bp</span><span class="sh">"</span><span class="p">])</span> <span class="o">/</span> <span class="n">g</span>  <span class="c1"># both
+</span>    <span class="k">elif</span> <span class="n">t</span><span class="p">.</span><span class="nf">startswith</span><span class="p">(</span><span class="sh">"</span><span class="s">long</span><span class="sh">"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">t</span><span class="p">.</span><span class="nf">startswith</span><span class="p">(</span><span class="sh">"</span><span class="s">ont</span><span class="sh">"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">ONTBases_bp</span><span class="sh">"</span><span class="p">]</span> <span class="o">/</span> <span class="n">g</span>         <span class="c1"># ONT only
+</span>    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">nan</span>                         <span class="c1"># unknown tech
+</span>
+<span class="n">df</span><span class="p">[</span><span class="sh">"</span><span class="s">CoverageX</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">apply</span><span class="p">(</span><span class="n">calculate_coverage</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># ── Flag samples with missing coverage data ──
+</span><span class="n">missing</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">"</span><span class="s">CoverageX</span><span class="sh">"</span><span class="p">].</span><span class="nf">isna</span><span class="p">())</span> <span class="o">|</span>
+    <span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="sh">"</span><span class="s">IlluminaBases_bp</span><span class="sh">"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">"</span><span class="s">ONTBases_bp</span><span class="sh">"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+<span class="p">]</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">missing</span><span class="p">.</span><span class="n">empty</span><span class="p">:</span>
+    <span class="n">missing</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span>
+        <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">BASE</span><span class="si">}</span><span class="s">/Genome_Coverage/missing_samples.tsv</span><span class="sh">"</span><span class="p">,</span>
+        <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span>
+    <span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">⚠️  </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span><span class="si">}</span><span class="s"> samples missing coverage data → missing_samples.tsv</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># ── Save final table ──
+</span><span class="n">df</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="n">OUT</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">✅ Coverage summary saved: </span><span class="si">{</span><span class="n">OUT</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">First 10 rows:</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="sh">"</span><span class="s">sample</span><span class="sh">"</span><span class="p">,</span><span class="sh">"</span><span class="s">GenomeSize_bp</span><span class="sh">"</span><span class="p">,</span><span class="sh">"</span><span class="s">IlluminaBases_bp</span><span class="sh">"</span><span class="p">,</span><span class="sh">"</span><span class="s">ONTBases_bp</span><span class="sh">"</span><span class="p">,</span><span class="sh">"</span><span class="s">tech</span><span class="sh">"</span><span class="p">,</span><span class="sh">"</span><span class="s">CoverageX</span><span class="sh">"</span><span class="p">]].</span><span class="nf">head</span><span class="p">(</span><span class="mi">10</span><span class="p">).</span><span class="nf">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h3 id="what-each-section-does">What each section does</h3>
+
+<p><strong>Column normalization:</strong> QIIME 2 and genomics tools produce headers with inconsistent capitalisation and spacing. Lowercasing everything and stripping whitespace prevents silent merge failures where <code class="language-plaintext highlighter-rouge">Sample</code> ≠ <code class="language-plaintext highlighter-rouge">sample</code>.</p>
+
+<p><strong>Sample name extraction:</strong> Genome files are usually named like <code class="language-plaintext highlighter-rouge">/path/to/Eco_001.fna</code>. The <code class="language-plaintext highlighter-rouge">extract_sample</code> function strips the path, removes the file extension, and returns <code class="language-plaintext highlighter-rouge">Eco_001</code>. This must match exactly what is in your read statistics files — if your FASTQ files use a different naming convention, edit this function.</p>
+
+<p><strong>Left merge:</strong> All merges use <code class="language-plaintext highlighter-rouge">how="left"</code>, keeping every genome in the assembly file as a row even if read stats are missing. Missing samples go to <code class="language-plaintext highlighter-rouge">missing_samples.tsv</code> rather than silently disappearing.</p>
+
+<p><strong>Coverage logic:</strong> Three branches based on the <code class="language-plaintext highlighter-rouge">tech</code> column. The match is case-insensitive and checks the start of the string, so <code class="language-plaintext highlighter-rouge">Illumina</code>, <code class="language-plaintext highlighter-rouge">illumina</code>, and <code class="language-plaintext highlighter-rouge">ILLUMINA-only</code> all match.</p>
+
+<h3 id="output-table">Output table</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample     GenomeSize_bp  IlluminaBases_bp  ONTBases_bp  tech      CoverageX
+Eco_001     4821340        587000000         0            illumina  121.77
+Bac_002     3987200        0                 198600000    long-read  49.81
+Rhizo_003   6123450        420000000         180000000   hybrid     97.94
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="common-problems-and-how-to-fix-them">Common problems and how to fix them</h2>
+
+<p><strong>Sample names do not match across files</strong></p>
+
+<p>This is the most common failure. Your genome file might be <code class="language-plaintext highlighter-rouge">Eco_001.fna</code> but your read stats file might have <code class="language-plaintext highlighter-rouge">eco_001</code> or <code class="language-plaintext highlighter-rouge">Eco-001</code>. The script normalises paths and extensions but not dashes vs underscores or case differences in the sample name itself. Check your naming convention and make it consistent before running.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Quick check: print unique sample names from each file</span>
+<span class="nb">cut</span> <span class="nt">-f1</span> illumina_read_stats_per_sample.tsv | <span class="nb">sort</span> | <span class="nb">uniq
+cut</span> <span class="nt">-f1</span> sequencing_tech.txt | <span class="nb">sort</span> | <span class="nb">uniq</span>
+</code></pre></div></div>
+
+<p><strong>CoverageX comes out as NaN for some samples</strong></p>
+
+<p>Check <code class="language-plaintext highlighter-rouge">missing_samples.tsv</code>. The most common causes are: the <code class="language-plaintext highlighter-rouge">tech</code> column value does not match any of the three expected strings (<code class="language-plaintext highlighter-rouge">illumina</code>, <code class="language-plaintext highlighter-rouge">hybrid</code>, <code class="language-plaintext highlighter-rouge">long-read</code>), or the base count is genuinely zero (the FASTQ file was empty or the stats tool failed on that sample).</p>
+
+<p><strong>Coverage seems unrealistically low (e.g. 2×)</strong></p>
+
+<p>Usually means the base count is being read from the wrong column. The script looks for <code class="language-plaintext highlighter-rouge">total_bases</code> — if your <code class="language-plaintext highlighter-rouge">seqkit stats</code> output uses a different column name like <code class="language-plaintext highlighter-rouge">sum_len</code>, update the column name in the <code class="language-plaintext highlighter-rouge">illumina["total_bases"]</code> line.</p>
+
+<p><strong>Hybrid samples show coverage from only one technology</strong></p>
+
+<p>Means one of the read stats files has zero for that sample. Check whether the sample appears in both <code class="language-plaintext highlighter-rouge">illumina_read_stats_per_sample.tsv</code> and <code class="language-plaintext highlighter-rouge">ont_read_stats_per_sample.tsv</code>.</p>
+
+<hr />
+
+<h2 id="generating-the-read-statistics-input-files">Generating the read statistics input files</h2>
+
+<p>If you do not already have <code class="language-plaintext highlighter-rouge">illumina_read_stats_per_sample.tsv</code> and <code class="language-plaintext highlighter-rouge">ont_read_stats_per_sample.tsv</code>, here is how to generate them with <code class="language-plaintext highlighter-rouge">seqkit</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For Illumina paired-end reads (run for all samples)</span>
+<span class="k">for </span>sample_dir <span class="k">in</span> /path/to/illumina/reads/<span class="k">*</span>/<span class="p">;</span> <span class="k">do
+    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$sample_dir</span><span class="s2">"</span><span class="si">)</span>
+    seqkit stats <span class="nt">-T</span> <span class="s2">"</span><span class="k">${</span><span class="nv">sample_dir</span><span class="k">}</span><span class="s2">"</span><span class="k">*</span>R1<span class="k">*</span>.fastq.gz <span class="se">\</span>
+                    <span class="s2">"</span><span class="k">${</span><span class="nv">sample_dir</span><span class="k">}</span><span class="s2">"</span><span class="k">*</span>R2<span class="k">*</span>.fastq.gz <span class="se">\</span>
+    | <span class="nb">tail</span> <span class="nt">-n</span> +2 <span class="se">\</span>
+    | <span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">s</span><span class="o">=</span><span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="s1">'{print s"\t"$5}'</span> <span class="o">&gt;&gt;</span> illumina_read_stats_per_sample.tsv
+<span class="k">done</span>
+
+<span class="c"># For ONT reads</span>
+<span class="k">for </span>fq <span class="k">in</span> /path/to/ont/reads/<span class="k">*</span>.fastq.gz<span class="p">;</span> <span class="k">do
+    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fq</span><span class="s2">"</span> .fastq.gz<span class="si">)</span>
+    seqkit stats <span class="nt">-T</span> <span class="s2">"</span><span class="nv">$fq</span><span class="s2">"</span> <span class="se">\</span>
+    | <span class="nb">tail</span> <span class="nt">-n</span> +2 <span class="se">\</span>
+    | <span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">s</span><span class="o">=</span><span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="s1">'{print s"\t"$5}'</span> <span class="o">&gt;&gt;</span> ont_read_stats_per_sample.tsv
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>Column 5 (<code class="language-plaintext highlighter-rouge">$5</code>) in <code class="language-plaintext highlighter-rouge">seqkit stats -T</code> output is <code class="language-plaintext highlighter-rouge">sum_len</code> — the total base count. Add a header manually:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'1s/^/sample\ttotal_bases\n/'</span> illumina_read_stats_per_sample.tsv
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'1s/^/sample\ttotal_bases\n/'</span> ont_read_stats_per_sample.tsv
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="what-to-write-in-your-methods-section-and-ncbi-submission">What to write in your methods section and NCBI submission</h2>
+
+<p>NCBI asks for coverage during genome submission as part of the biosample/genome metadata. You can fill it in directly from the <code class="language-plaintext highlighter-rouge">CoverageX</code> column — round to one decimal place.</p>
+
+<p><strong>Methods sentence you can copy:</strong></p>
+
+<blockquote>
+  <p>Genome coverage was estimated as the ratio of total sequencing bases to final assembly size. For Illumina-only assemblies, coverage was calculated using total paired-end Illumina bases. For ONT-only assemblies, coverage was calculated using total nanopore bases. For hybrid assemblies, coverage was calculated using the combined total of Illumina and ONT bases. Read statistics were generated with seqkit stats.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>Coverage is a single number — total sequencing bases divided by genome size — but it tells you immediately whether your assembly has enough read support to be reliable. 30× is the practical floor for publication. 50–100× is comfortable. The formula changes slightly depending on whether you used Illumina only, ONT only, or both.</p>
+
+<p>The Python script above handles all three cases, flags missing data, and produces a clean TSV you can copy straight into your NCBI submission form.</p>
+
+<hr />
+
+<p><em>Tools used: seqkit (read statistics), pandas + numpy (Python table manipulation). Assembly statistics can also be generated with <code class="language-plaintext highlighter-rouge">assembly-stats</code> or <code class="language-plaintext highlighter-rouge">seqkit stats</code> on the assembled FASTA.</em></p>
+
+<hr />
+
+<p><img src="/assets/img/coverage.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="genomics" /><category term="genome-coverage" /><category term="sequencing-depth" /><category term="Illumina" /><category term="ONT" /><category term="hybrid-assembly" /><category term="NCBI" /><category term="genome-submission" /><category term="Python" /><category term="beginner" /><category term="bioinformatics" /><summary type="html"><![CDATA[Coverage is one of the first numbers reviewers and NCBI look for when you submit a genome. This beginner-friendly guide explains what coverage actually means, why 30x is different from 100x, how Illumina and ONT reads contribute differently, and includes a complete Python script to calculate coverage for Illumina-only, ONT-only, and hybrid assemblies.]]></summary></entry><entry><title type="html">What is a Metadata File — and Why Does Your Microbiome Analysis Depend on It?</title><link href="https://jojyjohn28.github.io/blog/metadata-file-qiime2-diversity-beginner/" rel="alternate" type="text/html" title="What is a Metadata File — and Why Does Your Microbiome Analysis Depend on It?" /><published>2026-04-24T00:00:00-04:00</published><updated>2026-04-24T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/metadata-file-qiime2-diversity-beginner</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/metadata-file-qiime2-diversity-beginner/"><![CDATA[<h2 id="what-is-a-metadata-file--and-why-does-your-microbiome-analysis-depend-on-it">What is a metadata file — and why does your microbiome analysis depend on it?</h2>
 
 <p><em>🧬 𝐷𝑎𝑦 75 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠</em></p>
 
@@ -4933,302 +5305,4 @@ gene_003  contig2  200  1100  +  900  0  3  0
 <p>Questions about this workflow? Drop a comment below.
 The complete R script and SLURM submission scripts are available in the <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day4-metatranscriptomics-mapping-quantification">companion GitHub repository</a>.</p>
 
-<p><img src="/assets/img/mt-d4.png" alt="Day4 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="bowtie2" /><category term="samtools" /><category term="featureCounts" /><category term="mapping" /><category term="quantification" /><category term="SAM" /><category term="BAM" /><category term="SLURM" /><category term="HPC" /><category term="beginner" /><summary type="html"><![CDATA[Every command, every output, every flag explained — from Bowtie2 mapping to featureCounts. With the real alignment statistics from our estuarine dataset and a beginner-friendly guide to reading what those numbers actually mean.]]></summary></entry><entry><title type="html">Day 3 — The Reference Problem: Your Database Defines Your Biology</title><link href="https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy/" rel="alternate" type="text/html" title="Day 3 — The Reference Problem: Your Database Defines Your Biology" /><published>2026-04-02T00:00:00-04:00</published><updated>2026-04-02T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day3-metatranscriptomics-reference-strategy/"><![CDATA[<h2 id="the-reference-problem-your-database-defines-your-biology">The Reference Problem: Your Database Defines Your Biology</h2>
-
-<p>🧬 Day 67 of Daily Bioinformatics from Jojy’s Desk🧬</p>
-
-<p>After quality control, your RNA reads are clean, trimmed, rRNA-free, and perfectly synchronized. You are ready to map.</p>
-
-<p>But map to <em>what</em>?</p>
-
-<p>This question — deceptively simple on the surface — is the most consequential decision in your entire metatranscriptomics workflow. Get it wrong and your results will be technically correct but biologically misleading. You will not get an error message. The pipeline will finish. The count table will be generated. And you will draw conclusions that don’t reflect what actually happened in your sample.</p>
-
-<p>Let’s make sure you understand this choice before you make it.</p>
-
-<hr />
-
-<h2 id="the-core-concept-you-can-only-find-what-you-look-for">The core concept: you can only find what you look for</h2>
-
-<p>Imagine you lose your keys. You search your living room, your kitchen, your bedroom. You don’t find them. What does that tell you?</p>
-
-<p>It tells you your keys are not in those three rooms. It tells you <strong>nothing</strong> about whether they’re in the garage, the car, or your coat pocket — because you never looked there.</p>
-
-<p>Mapping works the same way. When a read fails to map, it doesn’t mean nothing was expressed. It means the expressed gene is not in your reference. You simply never looked for it.</p>
-
-<p>In a complex environmental sample like an estuarine sediment — where a single gram of sediment can contain thousands of microbial species, most of them never cultured and never sequenced — any reference you build is a small window into a vast room. Your job is to understand exactly how big that window is, and to be honest about what you can and cannot see through it.</p>
-
-<blockquote>
-  <p><strong>The rule:</strong> You can only detect what’s in your reference. Everything outside the window is invisible — not absent, just invisible.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="what-is-a-reference-exactly">What is a reference, exactly?</h2>
-
-<p>A reference is a collection of DNA sequences that you believe represent the organisms or genes in your sample. You build an index from those sequences (using <code class="language-plaintext highlighter-rouge">bowtie2-build</code>), and then the mapper searches that index for matches to your reads.</p>
-
-<p>Every reference has two properties that matter:</p>
-
-<ul>
-  <li><strong>Coverage</strong> — how much of the total community diversity does it represent? A reference with four MAGs covers maybe 2% of an estuarine community. A database with 50,000 reference genomes covers much more.</li>
-  <li><strong>Specificity</strong> — how closely do the reference sequences match the actual organisms in your sample? Genomes assembled directly from your sample are highly specific. Database genomes from culture collections may be generic representatives that differ meaningfully from your environmental strains.</li>
-</ul>
-
-<p>Coverage and specificity usually trade off against each other. The three reference strategies below sit at different points on this tradeoff.</p>
-
-<hr />
-
-<h2 id="strategy-1--mags-high-specificity-low-coverage">Strategy 1 — MAGs: high specificity, low coverage</h2>
-
-<p><strong>What is a MAG?</strong></p>
-
-<p>A Metagenome-Assembled Genome (MAG) is a draft genome assembled from environmental DNA. You take a paired metagenome from the same samples, assemble the DNA reads into contigs, and then computationally group (bin) those contigs by their coverage patterns and nucleotide composition — hoping that contigs from the same organism cluster together. Each bin is a draft genome of one (or a few) organisms from your community.</p>
-
-<p>MAGs are imperfect — they are partial (a typical high-quality MAG is 70–95% complete), sometimes contaminated with sequences from other organisms, and never perfectly phased. But they are built from your community, which makes them maximally specific to what actually lives in your sample.</p>
-
-<p><strong>Why we use MAGs in this series:</strong></p>
-
-<p>Our four MAGs — <code class="language-plaintext highlighter-rouge">MAG1.fasta</code> through <code class="language-plaintext highlighter-rouge">MAG4.fasta</code> — were assembled and binned from the same PA and FL estuarine metagenomes we are transcribing. When a read maps to one of these MAGs, we are confident it came from an organism actually present in our system, not a distant relative from a database.</p>
-
-<p><strong>Building the master reference:</strong></p>
-
-<p>The first step is simple: concatenate all your MAGs into a single FASTA file. Bowtie2 maps against one index, so all your reference sequences need to be in one file.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /project/bcampb7/camplab/MICRO_8130_2026/metatranscriptome/MAGS
-
-<span class="c"># Concatenate all MAGs</span>
-<span class="nb">cat </span>MAG1.fasta MAG2.fasta MAG3.fasta MAG4.fasta <span class="o">&gt;</span> master_mags.fa
-
-<span class="c"># Verify: how many contigs do we have?</span>
-<span class="nb">grep</span> <span class="s2">"&gt;"</span> master_mags.fa | <span class="nb">wc</span> <span class="nt">-l</span>
-<span class="c"># Expected: 1274 contigs across 4 MAGs</span>
-</code></pre></div></div>
-
-<p><strong>The honest limitation:</strong></p>
-
-<p>Four MAGs representing 1,274 contigs is a tiny fraction of estuarine community diversity. When we map a whole-community metatranscriptome against this reference on Day 4, we will get approximately <strong>2% overall alignment</strong>. That means 98% of the reads — from the hundreds of taxa not represented in our MAGs — will quietly disappear. This is expected. It is not a failure. But you must know it is happening.</p>
-
-<p><strong>A beginner tip:</strong> The number of contigs in your reference is a rough proxy for how much of the community you can see. 1,274 contigs across 4 MAGs is a small window. A full GTDB-Tk reference database has millions of contigs — a much bigger window, but with lower specificity.</p>
-
-<hr />
-
-<h2 id="strategy-2--reference-genome-databases-medium-coverage-medium-specificity">Strategy 2 — Reference genome databases: medium coverage, medium specificity</h2>
-
-<p>Instead of assembling your own genomes, you can map against a curated collection of reference genomes. The most commonly used databases are:</p>
-
-<ul>
-  <li><strong>NCBI RefSeq</strong> — the broadest collection; millions of sequences but very uneven coverage across lineages</li>
-  <li><strong>GTDB-Tk representative genomes</strong> — a phylogenetically curated, non-redundant set of bacterial and archaeal genomes; better for environmental microbiomes than RefSeq</li>
-  <li><strong>Environment-specific databases</strong> — for example, the TARA Oceans MAG catalog for marine systems, or sediment-specific MAG collections from published studies</li>
-</ul>
-
-<p><strong>When to use this approach:</strong></p>
-
-<p>Use reference databases when you want broader taxonomic coverage than your own MAGs provide, especially for well-characterized lineages like Proteobacteria, Firmicutes, or Actinobacteria. If you’re studying a system where good reference genomes exist (e.g. marine surface water, human gut), a database reference can dramatically improve your alignment rate.</p>
-
-<p><strong>The tradeoff:</strong></p>
-
-<p>A database genome for <em>Sulfurimonas autotrophica</em> might share 90–95% average nucleotide identity (ANI) with your estuarine <em>Sulfurimonas</em> strain. That’s close enough for genus-level expression analysis but may miss strain-specific genes — precisely the genes that might be most ecologically interesting. You are measuring the expression of a cousin, not the actual organism.</p>
-
-<p><strong>Building a database reference:</strong></p>
-
-<p>The workflow is identical to MAGs — concatenate, then build a Bowtie2 index. The difference is file size: a GTDB-Tk representative set can be 50–150 GB, which requires more memory and time to index.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Example: download and prepare GTDB-Tk representative genomes</span>
-<span class="c"># (see SLURM script for full download workflow)</span>
-
-<span class="c"># After download and concatenation:</span>
-bowtie2-build <span class="se">\</span>
-  <span class="nt">--threads</span> 16 <span class="se">\</span>
-  <span class="nt">--large-index</span> <span class="se">\</span>
-  gtdb_representatives.fa <span class="se">\</span>
-  gtdb_index
-
-<span class="c"># --large-index is required for references &gt;4 GB</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="strategy-3--gene-catalogs-high-coverage-function-focused">Strategy 3 — Gene catalogs: high coverage, function-focused</h2>
-
-<p>Gene catalogs take a completely different approach. Instead of mapping to genomes, you map to a non-redundant collection of predicted protein-coding genes. Each entry in the catalog is a gene (typically 100–1000 bp), clustered at 95% nucleotide identity across many metagenomes.</p>
-
-<p><strong>Major gene catalogs:</strong></p>
-
-<ul>
-  <li><strong>Ocean Microbial Reference Gene Catalog (OM-RGC)</strong> — ~46 million non-redundant genes from the TARA Oceans project; excellent for marine systems</li>
-  <li><strong>Integrated Gene Catalog (IGC)</strong> — built from human gut metagenomes; not appropriate for environmental samples</li>
-  <li><strong>Soil Reference Gene Catalog</strong> — for soil systems</li>
-  <li><strong>Custom catalogs</strong> — you can build your own from a set of assembled metagenomes using CD-HIT or MMseqs2</li>
-</ul>
-
-<p><strong>Why use a gene catalog?</strong></p>
-
-<p>Gene catalogs give you the broadest functional coverage. Millions of genes from hundreds of studies means you capture expressed diversity that no individual reference genome set can match. When your question is “what metabolic functions are active in this community?” — not “which specific organism is doing it?” — a gene catalog is the most powerful choice.</p>
-
-<p><strong>The key limitation:</strong></p>
-
-<p>When a read maps to a gene catalog entry, you know the <em>function</em> that was expressed. You do not automatically know the <em>taxonomy</em> of the organism that expressed it, unless you have carefully tracked the provenance of each gene back to its source genome. For ecological questions that depend on linking function to organism identity (like our hydrocarbon degradation work), this is a meaningful limitation.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Map against a gene catalog (same Bowtie2 workflow, different reference)</span>
-bowtie2-build <span class="se">\</span>
-  <span class="nt">--threads</span> 16 <span class="se">\</span>
-  OM-RGC_v2.fa <span class="se">\</span>
-  omrgc_index
-
-bowtie2 <span class="se">\</span>
-  <span class="nt">-x</span> omrgc_index <span class="se">\</span>
-  <span class="nt">-1</span> CP_Spr15G08_R1.mRNA.fq <span class="se">\</span>
-  <span class="nt">-2</span> CP_Spr15G08_R2.mRNA.fq <span class="se">\</span>
-  <span class="nt">-p</span> 16 <span class="se">\</span>
-  <span class="nt">--no-unal</span> <span class="se">\</span>
-  <span class="nt">-S</span> CP_Spr15G08_omrgc.sam
-</code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">--no-unal</code> flag suppresses unmapped reads in the SAM output — essential for gene catalogs where most reads won’t map, and your output files would otherwise be enormous.</p>
-
-<hr />
-
-<h2 id="comparing-the-three-strategies">Comparing the three strategies</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th> </th>
-      <th>MAGs</th>
-      <th>Reference genomes</th>
-      <th>Gene catalogs</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Coverage</strong></td>
-      <td>Low (your genomes only)</td>
-      <td>Medium (known taxa)</td>
-      <td>High (millions of genes)</td>
-    </tr>
-    <tr>
-      <td><strong>Specificity</strong></td>
-      <td>Very high (your community)</td>
-      <td>Medium (genus level)</td>
-      <td>Low–medium (function only)</td>
-    </tr>
-    <tr>
-      <td><strong>Taxonomy</strong></td>
-      <td>Organism-resolved</td>
-      <td>Genus-resolved</td>
-      <td>Poor without extra steps</td>
-    </tr>
-    <tr>
-      <td><strong>File size</strong></td>
-      <td>Small (MB)</td>
-      <td>Large (GB–TB)</td>
-      <td>Medium–large (GB)</td>
-    </tr>
-    <tr>
-      <td><strong>Best for</strong></td>
-      <td>Focused taxa · paired metagenome</td>
-      <td>Broad surveys · known lineages</td>
-      <td>Functional profiling · novel environments</td>
-    </tr>
-    <tr>
-      <td><strong>Our series</strong></td>
-      <td>✓ Used here</td>
-      <td>Discussed as alternative</td>
-      <td>Discussed as alternative</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>The practical recommendation:</strong> Do not pick one and ignore the others. The best analyses use MAG-based mapping for high-confidence, organism-resolved expression of your taxa of interest, then complement with a database or gene catalog reference to characterize what your MAGs missed. Think of them as layers, not alternatives.</p>
-
-<hr />
-
-<h2 id="our-pipeline-building-the-master_magsfa-index">Our pipeline: building the master_mags.fa index</h2>
-
-<p>For this series, we work with four MAGs. Here is the complete workflow from concatenation to index, with verification steps at each stage.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ── Step 1: navigate to MAG directory ────────────────────────</span>
-<span class="nb">cd</span> /project/bcampb7/camplab/MICRO_8130_2026/metatranscriptome/MAGS
-
-<span class="c"># ── Step 2: check your MAG files ─────────────────────────────</span>
-<span class="nb">ls</span> <span class="k">*</span>.fasta
-<span class="c"># MAG1.fasta  MAG2.fasta  MAG3.fasta  MAG4.fasta</span>
-
-<span class="c"># How many contigs per MAG?</span>
-<span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>.fasta<span class="p">;</span> <span class="k">do
-  </span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$f</span><span class="s2">: </span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-c</span> <span class="s1">'&gt;'</span> <span class="nv">$f</span><span class="si">)</span><span class="s2"> contigs"</span>
-<span class="k">done</span>
-
-<span class="c"># ── Step 3: concatenate into master reference ─────────────────</span>
-<span class="nb">cat </span>MAG1.fasta MAG2.fasta MAG3.fasta MAG4.fasta <span class="o">&gt;</span> master_mags.fa
-
-<span class="c"># Verify total contig count</span>
-<span class="nb">grep</span> <span class="s2">"&gt;"</span> master_mags.fa | <span class="nb">wc</span> <span class="nt">-l</span>
-<span class="c"># 1274</span>
-
-<span class="c"># ── Step 4: load Bowtie2 and build the index ─────────────────</span>
-module load bowtie2/2.5.4
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> bowtie_index
-
-bowtie2-build <span class="se">\</span>
-  master_mags.fa <span class="se">\</span>
-  bowtie_index/master_MAGs_index
-
-<span class="c"># ── Step 5: confirm index files were created ──────────────────</span>
-<span class="nb">ls </span>bowtie_index/
-<span class="c"># master_MAGs_index.1.bt2</span>
-<span class="c"># master_MAGs_index.2.bt2</span>
-<span class="c"># master_MAGs_index.3.bt2</span>
-<span class="c"># master_MAGs_index.4.bt2</span>
-<span class="c"># master_MAGs_index.rev.1.bt2</span>
-<span class="c"># master_MAGs_index.rev.2.bt2</span>
-<span class="c"># Six files = successful index build</span>
-</code></pre></div></div>
-
-<p><strong>What are the .bt2 files?</strong></p>
-
-<p>Bowtie2 breaks the index into six files that together encode an FM-index — a compressed data structure that allows rapid substring search across millions of base pairs. You never open these files directly. You point Bowtie2 at them using the prefix (<code class="language-plaintext highlighter-rouge">master_MAGs_index</code>), and it handles the rest. You only need to build the index once — reuse it for all samples.</p>
-
-<p><strong>How long does indexing take?</strong></p>
-
-<p>For our four MAGs (~1,274 contigs, a few MB of sequence), indexing finishes in under a minute. For a GTDB-Tk representative database (50 GB+), expect 2–4 hours and 200+ GB of RAM with <code class="language-plaintext highlighter-rouge">--large-index</code>.</p>
-
-<hr />
-
-<h2 id="understanding-what-2-alignment-will-mean-tomorrow">Understanding what 2% alignment will mean tomorrow</h2>
-
-<p>We want to prepare you for what you will see on Day 4 so it does not feel like a failure.</p>
-
-<p>Our master reference has 1,274 contigs from 4 organisms. Our metatranscriptome is a snapshot of hundreds of organisms, all simultaneously expressing thousands of genes. When Bowtie2 searches our small index for matches, the vast majority of reads — from organisms not represented in our four MAGs — will find nothing and be reported as unmapped.</p>
-
-<p>The alignment rate will be approximately <strong>2%</strong>. This means:</p>
-
-<ul>
-  <li>98 out of every 100 reads in our community came from organisms we cannot see through our current window</li>
-  <li>The 2% that do map are biologically meaningful — those are real expression signals from our four MAG organisms</li>
-  <li>The 98% that don’t map are not lost data — they are a reminder that our reference is a starting point, not the complete picture</li>
-</ul>
-
-<p><strong>This is not a Bowtie2 problem. It is not a QC problem. It is a reference coverage problem — and it is normal, expected, and informative.</strong></p>
-
-<p>When you see 2% alignment tomorrow, the correct response is not panic. It is: “My four MAGs captured about 2% of the expressed community. How do I expand my reference to capture more?”</p>
-
-<hr />
-
-<h2 id="whats-next">What’s next</h2>
-
-<p>Tomorrow we run the actual mapping — every command, every flag, every output file, with the real alignment statistics from our estuarine dataset. We will also show you how to read the SAMtools flagstat output and what each number tells you about your data.</p>
-
-<p><strong>Day 4: Mapping &amp; Quantification — Bowtie2, SAMtools, and featureCounts</strong></p>
-
-<hr />
-
-<p>📦 <strong>All code, SLURM scripts, and toy datasets used in this series are available in the companion repository</strong>
-📦 <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day3-metatranscriptomics-reference">Github repository</a></p>
-
-<p>Questions about this workflow? Drop a comment below.
-The complete R script and SLURM submission scripts are available in the <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day3-metatranscriptomics-reference">companion GitHub repository</a>.</p>
-
-<p><img src="/assets/img/mt-d3.png" alt="Day2 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="reference" /><category term="MAGs" /><category term="GTDB" /><category term="gene-catalog" /><category term="bowtie2" /><category term="SLURM" /><category term="HPC" /><category term="beginner" /><summary type="html"><![CDATA[The most consequential decision in metatranscriptomics isn't which mapper you use — it's what you map against. A beginner-friendly guide to MAGs, reference genomes, and gene catalogs, with the commands to build each one and the SLURM scripts to run them on HPC.]]></summary></entry></feed>
+<p><img src="/assets/img/mt-d4.png" alt="Day4 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="bowtie2" /><category term="samtools" /><category term="featureCounts" /><category term="mapping" /><category term="quantification" /><category term="SAM" /><category term="BAM" /><category term="SLURM" /><category term="HPC" /><category term="beginner" /><summary type="html"><![CDATA[Every command, every output, every flag explained — from Bowtie2 mapping to featureCounts. With the real alignment statistics from our estuarine dataset and a beginner-friendly guide to reading what those numbers actually mean.]]></summary></entry></feed>
