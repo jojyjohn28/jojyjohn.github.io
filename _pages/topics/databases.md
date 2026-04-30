@@ -1,7 +1,7 @@
 ---
 layout: page
-title: "Topic: Databases & Custom Workflows"
-permalink: /topics/databases-custom-workflows/
+title: "Topic: Databases"
+permalink: /topics/databases/
 ---
 
 {% assign posts = site.categories.databases | sort: "date" | reverse %}
