@@ -6,6 +6,7 @@ description: "A comprehensive, honest guide to building custom HUMAnN3 databases
 comments: true
 giscus_comments: true
 featured: true
+categories: [databases]
 permalink: /blog/building-custom-humann3-databases-struo2-gtdb/
 tags: [metagenomics, humann3, struo2, gtdb, bioinformatics, database-building, troubleshooting]
 ---
