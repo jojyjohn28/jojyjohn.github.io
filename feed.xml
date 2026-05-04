@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-30T13:25:27-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-04-30T13:25:27-04:00</published><updated>2026-04-30T13:25:27-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-04T16:23:15-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-05-04T16:23:15-04:00</published><updated>2026-05-04T16:23:15-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,431 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Building a Custom GTDBtk Database for HUMAnN3 — A Gene Catalogue Approach for Environmental Metagenomics</title><link href="https://jojyjohn28.github.io/blog/custom-gtdb-humann3-gene-catalogue/" rel="alternate" type="text/html" title="Building a Custom GTDBtk Database for HUMAnN3 — A Gene Catalogue Approach for Environmental Metagenomics" /><published>2026-04-30T00:00:00-04:00</published><updated>2026-04-30T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/custom-gtdb-humann3-gene-catalogue</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/custom-gtdb-humann3-gene-catalogue/"><![CDATA[<h2 id="building-a-custom-gtdbtk-database-for-humann3--a-gene-catalogue-approach-for-environmental-metagenomics">Building a custom GTDBtk database for HUMAnN3 — a gene catalogue approach for environmental metagenomics</h2>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">From Metagenome to Viral OTUs: Identifying, Filtering, and Clustering Viral Genomes</title><link href="https://jojyjohn28.github.io/blog/viromics-day1-metagenome-to-votus/" rel="alternate" type="text/html" title="From Metagenome to Viral OTUs: Identifying, Filtering, and Clustering Viral Genomes" /><published>2026-05-04T00:00:00-04:00</published><updated>2026-05-04T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/viromics-day1-metagenome-to-votus</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/viromics-day1-metagenome-to-votus/"><![CDATA[<h2 id="part-1--why-viromics">Part 1 — Why Viromics?</h2>
+
+<p><em>🧬 𝐷𝑎𝑦 78 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 desk</em></p>
+
+<h3 id="the-invisible-majority">The invisible majority</h3>
+
+<p>When microbiologists talk about a microbiome — whether from the ocean, soil, or a human gut — they usually mean the bacteria and archaea. But there is an entire parallel community that rarely makes it onto the plot: the viruses.</p>
+
+<p>In any spoonful of seawater, viral particles outnumber bacterial cells by roughly ten to one. In soil and sediment, the ratio is similar. These are not passive bystanders. Viruses infect and lyse microbial cells, releasing nutrients and carbon back into the environment in a process sometimes called the <strong>viral shunt</strong>. They transfer genes between hosts through transduction, accelerating microbial evolution. And a surprising number of them carry <strong>auxiliary metabolic genes (AMGs)</strong> — functional copies of host metabolic genes that the virus expresses during infection to boost its own replication, effectively reprogramming the host cell’s biochemistry mid-infection.</p>
+
+<p>In short, you cannot fully understand a microbial ecosystem without understanding its viruses.</p>
+
+<h3 id="why-viruses-are-hard-to-detect">Why viruses are hard to detect</h3>
+
+<p>Bacteria and archaea have a universal marker gene — the 16S rRNA gene — that makes community profiling relatively straightforward. Amplify it, sequence it, count it.</p>
+
+<p>Viruses have no such universal marker. They are phenomenally diverse, evolve rapidly, and share very few genes across groups. This means the only reliable way to detect them is to look at the raw sequence data itself: assemble the metagenome into contigs, then ask which contigs look viral.</p>
+
+<p>This is the core challenge of viromics, and it is what this post walks through end to end.</p>
+
+<h3 id="the-six-post-series-at-a-glance">The six-post series at a glance</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Post</th>
+      <th>Topic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1 (this post)</strong></td>
+      <td>Metagenome context, viral identification (VirSorter2 + VITAP), vOTU clustering, CheckV quality</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Taxonomic classification (geNomad + BLAST) and abundance estimation (CoverM)</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Auxiliary metabolic genes with DRAM-v</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Host prediction with iPHoP</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Viral lifestyle prediction (PhaBOX2) and network analysis (vConTACT2)</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Active viral communities from metatranscriptomes and expressed AMGs</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="part-2--starting-point-the-assembled-metagenome">Part 2 — Starting Point: The Assembled Metagenome</h2>
+
+<p>A <strong>metagenome</strong> is the collective DNA extracted from an environmental sample and sequenced without culturing. You homogenize the sample, extract total DNA, fragment it, and sequence millions of short paired-end reads. Those reads represent every organism present: bacteria, archaea, viruses, eukaryotes, and free-floating environmental DNA.</p>
+
+<p>The first computational step is <strong>assembly</strong> — reconstructing longer contiguous sequences (contigs) from overlapping short reads using tools like MEGAHIT or metaSPAdes.</p>
+
+<blockquote>
+  <p><strong>This series starts from already-assembled contigs.</strong> If you still need to assemble, a standard MEGAHIT run looks like this:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Quality trim first (always worth doing)</span>
+fastp <span class="se">\</span>
+  <span class="nt">-i</span> sample_R1.fastq.gz <span class="nt">-I</span> sample_R2.fastq.gz <span class="se">\</span>
+  <span class="nt">-o</span> sample_R1_trimmed.fastq.gz <span class="nt">-O</span> sample_R2_trimmed.fastq.gz <span class="se">\</span>
+  <span class="nt">--thread</span> 16 <span class="nt">--detect_adapter_for_pe</span>
+
+<span class="c"># Assemble</span>
+megahit <span class="se">\</span>
+  <span class="nt">-1</span> sample_R1_trimmed.fastq.gz <span class="se">\</span>
+  <span class="nt">-2</span> sample_R2_trimmed.fastq.gz <span class="se">\</span>
+  <span class="nt">-o</span> megahit_output <span class="se">\</span>
+  <span class="nt">--min-contig-len</span> 500 <span class="se">\</span>
+  <span class="nt">-t</span> 16
+</code></pre></div>  </div>
+</blockquote>
+
+<p>After assembly you will have one FASTA file containing hundreds of thousands of contigs — bacterial, archaeal, viral, and eukaryotic sequences all mixed together. The goal of everything that follows is to pull out the viral fraction.</p>
+
+<h3 id="why-viruses-are-hard-to-find-inside-a-metagenome">Why viruses are hard to find inside a metagenome</h3>
+
+<p>Viral contigs tend to be shorter than bacterial ones (most viral genomes are 5–200 kb), their genes are highly divergent from cellular genes, and in bulk DNA extractions they are often under-represented because cellular DNA swamps them numerically. Two complementary approaches are needed to find them reliably:</p>
+
+<ul>
+  <li><strong>Machine learning on genome features</strong> — VirSorter2 learns patterns of gene density, coding strand bias, and viral hallmark gene content that distinguish viral from cellular contigs.</li>
+  <li><strong>Alignment-based taxonomy</strong> — VITAP translates contigs into predicted proteins, aligns them against a viral reference database, and assigns lineage. Contigs placed in <em>Riboviria</em> or <em>Duplodnaviria</em> are flagged as viral.</li>
+</ul>
+
+<p>Running both and combining their output is standard practice. Each tool has complementary strengths and blind spots.</p>
+
+<hr />
+
+<h2 id="part-3--virsorter2-machine-learning-viral-prediction">Part 3 — VirSorter2: Machine Learning Viral Prediction</h2>
+
+<p>VirSorter2 uses a combination of viral hallmark gene HMMs and a random forest classifier to score each contig for viral likelihood. It supports multiple viral groups: dsDNA phage, ssDNA viruses, RNA viruses, NCLDVs (giant viruses), and Lavidaviridae (virophages).</p>
+
+<h3 id="environment-setup">Environment setup</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load anaconda3/2023.09-0
+conda activate /path/to/virsorter2_env
+</code></pre></div></div>
+
+<h3 id="running-virsorter2">Running VirSorter2</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>virsorter run <span class="se">\</span>
+  <span class="nt">-i</span> assembly.fa <span class="se">\</span>
+  <span class="nt">-w</span> virsorter2_output <span class="se">\</span>
+  <span class="nt">--db-dir</span> /path/to/virsorter2_db <span class="se">\</span>
+  <span class="nt">--min-length</span> 1500 <span class="se">\</span>
+  <span class="nt">--include-groups</span> <span class="s2">"dsDNAphage,ssDNA,RNA,NCLDV,lavidaviridae"</span> <span class="se">\</span>
+  <span class="nt">-j</span> 16 <span class="se">\</span>
+  all
+</code></pre></div></div>
+
+<p><strong>Key parameters explained:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--min-length 1500</code></td>
+      <td>ignore contigs shorter than 1500 bp — too short to reliably classify</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--include-groups</code></td>
+      <td>viral categories to screen for; include all unless you have a reason to exclude</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-j 16</code></td>
+      <td>threads</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">all</code></td>
+      <td>run the full pipeline including score calculation</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="key-output-file">Key output file</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>virsorter2_output/final-viral-combined.fa
+</code></pre></div></div>
+
+<p>This FASTA contains all contigs that passed VirSorter2’s viral score threshold. This is the file you carry forward.</p>
+
+<blockquote>
+  <p><strong>Note for DRAM-v users (Day 3):</strong> If you plan to run DRAM-v for AMG identification, you need to rerun VirSorter2 with <code class="language-plaintext highlighter-rouge">--prep-for-dramv</code> added to the command. This generates additional annotation files that DRAM-v requires. We cover this in the AMG post.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="part-4--vitap-alignment-based-viral-detection">Part 4 — VITAP: Alignment-Based Viral Detection</h2>
+
+<p>VITAP predicts open reading frames on each contig and aligns the translated proteins against a curated viral reference database using DIAMOND. It assigns a taxonomic lineage to every contig, including reference genomes from the ICTV database alongside your sample contigs.</p>
+
+<h3 id="environment-setup-1">Environment setup</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate /path/to/VITAP_env
+module load diamond/2.0.14
+</code></pre></div></div>
+
+<p>If VITAP has an older bundled DIAMOND version that conflicts with the module, resolve it before running:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ENV</span><span class="o">=</span>/path/to/VITAP_env
+<span class="nb">mv</span> <span class="s2">"</span><span class="nv">$ENV</span><span class="s2">/bin/diamond"</span> <span class="s2">"</span><span class="nv">$ENV</span><span class="s2">/bin/diamond.old_0.9.19"</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">true
+hash</span> <span class="nt">-r</span>
+module load diamond/2.0.14
+which diamond    <span class="c"># should point to the module version</span>
+diamond version
+</code></pre></div></div>
+
+<h3 id="running-vitap">Running VITAP</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>VITAP assignment <span class="se">\</span>
+  <span class="nt">-i</span> assembly.fa <span class="se">\</span>
+  <span class="nt">-d</span> /path/to/VITAP_db <span class="se">\</span>
+  <span class="nt">-o</span> vitap_output
+</code></pre></div></div>
+
+<h3 id="filtering-viral-contigs-from-vitap-output">Filtering viral contigs from VITAP output</h3>
+
+<p>VITAP assigns taxonomy to <strong>all</strong> contigs — it does not output a viral-only FASTA directly. You need to filter it yourself.</p>
+
+<p>In this dataset, viral sequences belong to two realms: <strong>Riboviria</strong> (RNA viruses) and <strong>Duplodnaviria</strong> (dsDNA viruses including most phages).</p>
+
+<p><strong>Step 1 — inspect the output</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">head</span> <span class="nt">-n</span> 5 vitap_output/best_determined_lineages.tsv
+</code></pre></div></div>
+
+<p>The file has four columns: <code class="language-plaintext highlighter-rouge">Genome_ID</code>, <code class="language-plaintext highlighter-rouge">lineage</code>, <code class="language-plaintext highlighter-rouge">lineage_score</code>, <code class="language-plaintext highlighter-rouge">Confidence_level</code>. IDs starting with <code class="language-plaintext highlighter-rouge">k141_</code> are your assembled contigs; alphanumeric IDs like <code class="language-plaintext highlighter-rouge">AJ428555.1</code> are ICTV reference genomes bundled in the database.</p>
+
+<p><strong>Step 2 — extract viral contig IDs</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">awk</span> <span class="nt">-F</span> <span class="s1">'\t'</span> <span class="s1">'NR&gt;1 &amp;&amp; ($2 ~ /Riboviria|Duplodnaviria/) {print $1}'</span> <span class="se">\</span>
+  vitap_output/best_determined_lineages.tsv <span class="o">&gt;</span> viral_ids.txt
+
+<span class="nb">wc</span> <span class="nt">-l</span> viral_ids.txt
+</code></pre></div></div>
+
+<p><strong>Step 3 — remove reference genomes</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="s2">"^k"</span> viral_ids.txt <span class="o">&gt;</span> viral_ids_clean.txt
+<span class="nb">wc</span> <span class="nt">-l</span> viral_ids_clean.txt
+</code></pre></div></div>
+
+<p><strong>Step 4 — extract sequences</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load seqkit
+
+seqkit <span class="nb">grep</span> <span class="nt">-f</span> viral_ids_clean.txt <span class="se">\</span>
+  assembly.fa <span class="se">\</span>
+  <span class="o">&gt;</span> viral_contigs_vitap.fa
+
+<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> viral_contigs_vitap.fa   <span class="c"># should match wc -l viral_ids_clean.txt</span>
+</code></pre></div></div>
+
+<p><strong>Step 5 — optional length filter</strong></p>
+
+<p>For higher-confidence downstream analysis, filter to contigs ≥ 5 kb:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seqkit <span class="nb">seq</span> <span class="nt">-m</span> 5000 viral_contigs_vitap.fa <span class="o">&gt;</span> viral_contigs_vitap_min5kb.fa
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="part-5--combining-both-tools">Part 5 — Combining Both Tools</h2>
+
+<p>After running VirSorter2 and VITAP you have two viral FASTA files. Combining them captures the union of both detection strategies.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>virsorter2_output/final-viral-combined.fa <span class="se">\</span>
+    viral_contigs_vitap_min5kb.fa <span class="se">\</span>
+    <span class="o">&gt;</span> viral_contigs_combined.fa
+</code></pre></div></div>
+
+<p>Because the two tools may have detected some of the same contigs, the combined file will contain <strong>duplicate sequences with different or identical headers</strong>. The clustering step below handles this, but if you want a clean deduplicated FASTA before clustering, the companion Python script <code class="language-plaintext highlighter-rouge">combine_viral_contigs.py</code> (in the repository) does this properly — it tracks which tool detected each contig, removes exact duplicates, and writes a summary table.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python scripts/combine_viral_contigs.py <span class="se">\</span>
+  <span class="nt">--virsorter</span> virsorter2_output/final-viral-combined.fa <span class="se">\</span>
+  <span class="nt">--vitap</span> viral_contigs_vitap_min5kb.fa <span class="se">\</span>
+  <span class="nt">--out</span> viral_contigs_combined.fa <span class="se">\</span>
+  <span class="nt">--summary</span> combine_summary.tsv
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="part-6--clustering-into-votus-with-cd-hit">Part 6 — Clustering into vOTUs with CD-HIT</h2>
+
+<p>Individual viral contigs from different samples, or from different tools, may represent the same viral genome at slightly different coverage or with minor assembly errors. Clustering groups these into <strong>viral operational taxonomic units (vOTUs)</strong> — one representative per distinct viral genome.</p>
+
+<p>The community standard for vOTU clustering is 95% nucleotide identity over 85% of the shorter contig’s length, following the Minimum Information about an Uncultivated Virus (MIUViG) guidelines.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load cd-hit/4.8.1
+
+cd-hit-est <span class="se">\</span>
+  <span class="nt">-i</span> viral_contigs_combined.fa <span class="se">\</span>
+  <span class="nt">-o</span> vOTUs.fa <span class="se">\</span>
+  <span class="nt">-c</span> 0.95 <span class="se">\</span>
+  <span class="nt">-aS</span> 0.85 <span class="se">\</span>
+  <span class="nt">-T</span> 20 <span class="se">\</span>
+  <span class="nt">-M</span> 0
+</code></pre></div></div>
+
+<p><strong>Parameter reference:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Value</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-c</code></td>
+      <td>0.95</td>
+      <td>95% nucleotide identity threshold</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-aS</code></td>
+      <td>0.85</td>
+      <td>85% alignment coverage of the shorter sequence</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-T</code></td>
+      <td>20</td>
+      <td>threads</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-M</code></td>
+      <td>0</td>
+      <td>unlimited memory usage</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The output <code class="language-plaintext highlighter-rouge">vOTUs.fa</code> contains one representative contig per cluster. <strong>This file is the input for all downstream steps</strong> in this series.</p>
+
+<hr />
+
+<h2 id="part-7--quality-assessment-with-checkv">Part 7 — Quality Assessment with CheckV</h2>
+
+<p>Not all contigs in <code class="language-plaintext highlighter-rouge">vOTUs.fa</code> are complete viral genomes. Some are fragments, and some may carry host contamination (cellular DNA dragged along with a prophage). CheckV estimates genome completeness, detects contamination, and assigns a quality tier to each vOTU.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate checkv_env
+
+checkv end_to_end <span class="se">\</span>
+  vOTUs.fa <span class="se">\</span>
+  checkv_output <span class="se">\</span>
+  <span class="nt">-d</span> /path/to/checkv_db <span class="se">\</span>
+  <span class="nt">-t</span> 16
+</code></pre></div></div>
+
+<h3 id="key-output-files">Key output files</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>What it contains</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">checkv_output/quality_summary.tsv</code></td>
+      <td>completeness, contamination, quality tier per vOTU</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">checkv_output/viruses.fna</code></td>
+      <td>predicted free-living viral genomes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">checkv_output/proviruses.fna</code></td>
+      <td>viral regions integrated in host scaffolds</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">checkv_output/contamination.tsv</code></td>
+      <td>detailed contamination estimates</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="quality-tiers">Quality tiers</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tier</th>
+      <th>Completeness</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Complete</td>
+      <td>circular or DTR-confirmed complete genome</td>
+    </tr>
+    <tr>
+      <td>High quality</td>
+      <td>≥ 90% complete</td>
+    </tr>
+    <tr>
+      <td>Medium quality</td>
+      <td>50–90% complete</td>
+    </tr>
+    <tr>
+      <td>Low quality</td>
+      <td>&lt; 50% complete</td>
+    </tr>
+    <tr>
+      <td>Not determined</td>
+      <td>insufficient information</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For most downstream analyses — taxonomy, abundance, AMG identification — medium quality and above is a reasonable minimum. For network analysis and host prediction, high quality or complete genomes give the most reliable results.</p>
+
+<h3 id="proviruses-vs-free-living-viruses">Proviruses vs free-living viruses</h3>
+
+<p>CheckV distinguishes two types of viral sequences:</p>
+
+<ul>
+  <li><strong>Free-living viruses</strong> (<code class="language-plaintext highlighter-rouge">viruses.fna</code>) — contigs that appear to be standalone viral genomes not integrated in a host</li>
+  <li><strong>Proviruses</strong> (<code class="language-plaintext highlighter-rouge">proviruses.fna</code>) — viral sequences embedded within a longer host scaffold; CheckV trims the host flanking regions</li>
+</ul>
+
+<p>For most ecological analyses you will work with <code class="language-plaintext highlighter-rouge">viruses.fna</code>. Proviruses are important for understanding lysogeny (covered in Post 5) and should not be discarded.</p>
+
+<hr />
+
+<h2 id="part-8--what-you-have-at-the-end-of-this-step">Part 8 — What You Have at the End of This Step</h2>
+
+<p>After running through this pipeline you have:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">vOTUs.fa</code> — representative viral genomes, one per cluster, ready for taxonomy and abundance estimation</li>
+  <li><code class="language-plaintext highlighter-rouge">checkv_output/quality_summary.tsv</code> — quality metadata for every vOTU</li>
+  <li><code class="language-plaintext highlighter-rouge">checkv_output/viruses.fna</code> — free-living subset</li>
+  <li><code class="language-plaintext highlighter-rouge">checkv_output/proviruses.fna</code> — integrated prophage subset</li>
+  <li><code class="language-plaintext highlighter-rouge">combine_summary.tsv</code> — which tool detected each contig (useful for understanding detection overlap)</li>
+</ul>
+
+<p>In the next post we assign taxonomy to these vOTUs using geNomad and BLAST, and estimate their abundance across samples using CoverM.</p>
+
+<hr />
+
+<blockquote>
+  <p><strong>Companion repository:</strong> <a href="https://github.com/jojyjohn28/metagenome-to-viromics">metagenome-to-viromics</a>
+Toy assembly, batch scripts, the combine Python script, and installation guides for every tool used here.</p>
+</blockquote>
+
+<p><img src="/assets/img/vir-d1.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="viromics" /><category term="viral-metagenomics" /><category term="VirSorter2" /><category term="VITAP" /><category term="CD-HIT" /><category term="CheckV" /><category term="vOTU" /><category term="metagenome-assembly" /><category term="phage" /><category term="AMG" /><category term="bioinformatics" /><category term="beginners" /><summary type="html"><![CDATA[Viruses outnumber every other biological entity on Earth, yet most metagenomic workflows ignore them. This post walks through the full first stage of a viromics pipeline — from assembled contigs to quality-filtered viral OTUs — using VirSorter2, VITAP, CD-HIT, and CheckV.]]></summary></entry><entry><title type="html">Building a Custom GTDBtk Database for HUMAnN3 — A Gene Catalogue Approach for Environmental Metagenomics</title><link href="https://jojyjohn28.github.io/blog/custom-gtdb-humann3-gene-catalogue/" rel="alternate" type="text/html" title="Building a Custom GTDBtk Database for HUMAnN3 — A Gene Catalogue Approach for Environmental Metagenomics" /><published>2026-04-30T00:00:00-04:00</published><updated>2026-04-30T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/custom-gtdb-humann3-gene-catalogue</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/custom-gtdb-humann3-gene-catalogue/"><![CDATA[<h2 id="building-a-custom-gtdbtk-database-for-humann3--a-gene-catalogue-approach-for-environmental-metagenomics">Building a custom GTDBtk database for HUMAnN3 — a gene catalogue approach for environmental metagenomics</h2>
 
 <p><em>🧬 𝐷𝑎𝑦 77 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 desk</em></p>
 
@@ -4636,524 +5060,4 @@ conda deactivate
 
 <p><em>Have a broken environment story or a tool installation question? Drop it in the comments.</em></p>
 
-<p><img src="/assets/img/conda_in.png" alt="Conda Install" /></p>]]></content><author><name></name></author><category term="linux" /><category term="conda" /><category term="mamba" /><category term="micromamba" /><category term="environment-management" /><category term="bioinformatics" /><category term="beginner" /><category term="HPC" /><category term="reproducibility" /><summary type="html"><![CDATA[You ran conda install and now your environment is broken. Sound familiar? This beginner-friendly guide explains exactly what conda, mamba, and micromamba are, when to use each one, and the common mistakes that silently destroy bioinformatics environments.]]></summary></entry><entry><title type="html">Day 5 — From Counts to Biology: Normalization, DESeq2, DNA:RNA Ratios, and Ecological Interpretation</title><link href="https://jojyjohn28.github.io/blog/day5-metatranscriptomics-counts-to-biology/" rel="alternate" type="text/html" title="Day 5 — From Counts to Biology: Normalization, DESeq2, DNA:RNA Ratios, and Ecological Interpretation" /><published>2026-04-08T00:00:00-04:00</published><updated>2026-04-08T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day5-metatranscriptomics-counts-to-biology</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/day5-metatranscriptomics-counts-to-biology/"><![CDATA[<p>You made it to the final day.</p>
-
-<p>You have a count matrix. It came from four days of careful work — quality control, rRNA removal, paired-end repair, reference construction, Bowtie2 mapping, featureCounts quantification. Each step was essential. Each step protected the integrity of what you are about to analyze.</p>
-
-<p>But that count matrix — integers in a spreadsheet — is not your result. It is your raw material. Right now it cannot answer a single biological question. Counts are not comparable across samples, not corrected for gene length, and not adjusted for the compositional structure of microbial community data. Before you can interpret anything, you need to transform those integers into meaningful quantities.</p>
-
-<p>This is the day most tutorials skip entirely. This is the day that matters most.</p>
-
-<hr />
-
-<h2 id="what-the-count-table-looks-like-and-why-it-cannot-be-used-directly">What the count table looks like and why it cannot be used directly</h2>
-
-<p>Open your <code class="language-plaintext highlighter-rouge">all_samples_counts.txt</code> from Day 4. It looks something like this:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Geneid          Length  CP_Spr15G08  CP_Spr15L08  CP_Spr31G08
-MAG1_gene_001   800     4            0            12
-MAG1_gene_002   1200    0            2            0
-MAG2_gene_001   600     8            8            3
-MAG3_gene_001   2400    1            0            4
-...
-</code></pre></div></div>
-
-<p>Three problems make these raw counts uninterpretable directly:</p>
-
-<p><strong>Problem 1 — Sequencing depth differs between samples.</strong> Sample CP<em>Spr31G08 might have 500,000 total mapped reads while CP_Spr15G08 has 150,000. A gene with 12 counts in CP_Spr31G08 and 4 counts in CP_Spr15G08 might actually have _lower</em> relative expression in CP_Spr31G08 — you cannot tell from raw counts alone.</p>
-
-<p><strong>Problem 2 — Gene length affects count accumulation.</strong> A 2,400 bp gene physically intercepts three times as many reads as an 800 bp gene with identical expression per basepair. Without length correction, long genes appear more expressed than short ones simply due to geometry.</p>
-
-<p><strong>Problem 3 — Compositional structure.</strong> In community RNA data, samples differ in their total mRNA pool composition. If PA samples have an organism that constitutes 30% of all expression and FL samples don’t, every other gene appears relatively lower in PA — not because it’s less expressed, but because the denominator has changed. DESeq2’s normalization specifically corrects for this.</p>
-
-<hr />
-
-<h2 id="part-1--tpm-within-sample-normalization">Part 1 — TPM: within-sample normalization</h2>
-
-<p><strong>TPM (Transcripts Per Million)</strong> is the standard within-sample normalization. It answers the question: “For this sample, what fraction of all expression does each gene represent?”</p>
-
-<p>TPM is calculated in two steps:</p>
-
-<p><strong>Step 1:</strong> Divide each gene’s count by its length in kilobases → this gives RPK (Reads Per Kilobase). Now longer genes no longer dominate.</p>
-
-<p><strong>Step 2:</strong> Divide each RPK value by the sum of all RPK values for that sample, then multiply by 1,000,000 → this scales everything so all TPM values in a sample sum to exactly one million.</p>
-
-<p>The key property: <strong>TPM values within a sample are directly comparable to each other.</strong> A gene with TPM = 500 contributes five times as much to the total mRNA pool as a gene with TPM = 100. TPM values are also more comparable across samples than RPKM (the older alternative), because the sum-to-one-million property holds across samples.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ── TPM calculation from featureCounts output ─────────────────</span><span class="w">
-
-</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Load the featureCounts table</span><span class="w">
-</span><span class="c1"># Skip the first comment line (starts with #)</span><span class="w">
-</span><span class="n">counts_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"counts/all_samples_counts.txt"</span><span class="p">,</span><span class="w">
-                         </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
-                         </span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
-                         </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">,</span><span class="w">
-                         </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Extract gene lengths and count matrix</span><span class="w">
-</span><span class="n">gene_ids</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">counts_raw</span><span class="o">$</span><span class="n">Geneid</span><span class="w">
-</span><span class="n">gene_length</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">counts_raw</span><span class="o">$</span><span class="n">Length</span><span class="w">
-
-</span><span class="c1"># Sample columns start at column 7 in featureCounts output</span><span class="w">
-</span><span class="n">count_matrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">counts_raw</span><span class="p">[,</span><span class="w"> </span><span class="m">7</span><span class="o">:</span><span class="n">ncol</span><span class="p">(</span><span class="n">counts_raw</span><span class="p">)])</span><span class="w">
-</span><span class="n">rownames</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gene_ids</span><span class="w">
-
-</span><span class="c1"># ── Calculate TPM ──────────────────────────────────────────────</span><span class="w">
-</span><span class="c1"># Step 1: RPK = counts / (length in kb)</span><span class="w">
-</span><span class="n">RPK</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sweep</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">gene_length</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">FUN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"/"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Step 2: TPM = RPK / (sum of RPK per sample) * 1e6</span><span class="w">
-</span><span class="n">TPM</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sweep</span><span class="p">(</span><span class="n">RPK</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">colSums</span><span class="p">(</span><span class="n">RPK</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">1e6</span><span class="p">,</span><span class="w"> </span><span class="n">FUN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"/"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Verify: each column should sum to ~1,000,000</span><span class="w">
-</span><span class="n">colSums</span><span class="p">(</span><span class="n">TPM</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Save TPM table</span><span class="w">
-</span><span class="n">write.csv</span><span class="p">(</span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">TPM</span><span class="p">),</span><span class="w"> </span><span class="s2">"counts/TPM_matrix.csv"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<blockquote>
-  <p><strong>When to use TPM:</strong> comparing expression between genes within a sample (“is gene A more expressed than gene B?”), reporting expression levels in publications, and building the DNA:RNA ratio (Part 3). <strong>Do not use TPM for differential expression between samples</strong> — that is what DESeq2 is for.</p>
-</blockquote>
-
-<blockquote>
-  <p><strong>What about RPKM?</strong> RPKM (Reads Per Kilobase per Million) is the older version. It does not guarantee that all values in a sample sum to the same number, making cross-sample comparison less reliable. Use TPM for any new analysis. Use RPKM only when replicating published analyses that used it.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="part-2--deseq2-differential-expression-across-conditions">Part 2 — DESeq2: differential expression across conditions</h2>
-
-<p>TPM tells you the relative expression within a sample. DESeq2 tells you <strong>which genes are differentially expressed between conditions</strong> — PA vs FL, Spring vs Summer, high salinity vs low salinity.</p>
-
-<p>DESeq2 uses a completely different normalization strategy: <strong>median-of-ratios</strong>. For each sample, it computes a size factor (a single scaling number) that accounts for both sequencing depth and compositional differences between samples. This is more robust for community RNA data than TPM-based comparisons, because it handles the zero-inflation and overdispersion typical of environmental metatranscriptomics.</p>
-
-<h3 id="setting-up-the-deseq2-object">Setting up the DESeq2 object</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">DESeq2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># ── Load count matrix (integers only — DESeq2 requires raw counts) ──</span><span class="w">
-</span><span class="n">counts_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="s2">"counts/all_samples_counts.txt"</span><span class="p">,</span><span class="w">
-                         </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
-                         </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-
-</span><span class="n">gene_ids</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">counts_raw</span><span class="o">$</span><span class="n">Geneid</span><span class="w">
-</span><span class="n">count_matrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">counts_raw</span><span class="p">[,</span><span class="w"> </span><span class="m">7</span><span class="o">:</span><span class="n">ncol</span><span class="p">(</span><span class="n">counts_raw</span><span class="p">)])</span><span class="w">
-</span><span class="n">rownames</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gene_ids</span><span class="w">
-</span><span class="n">mode</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"integer"</span><span class="w">
-
-</span><span class="c1"># ── Load sample metadata ──────────────────────────────────────</span><span class="w">
-</span><span class="c1"># Your metadata CSV should have columns: SampleID, Site, Season, Salinity</span><span class="w">
-</span><span class="c1"># Example:</span><span class="w">
-</span><span class="c1">#   SampleID,       Site, Season, Salinity</span><span class="w">
-</span><span class="c1">#   CP_Spr15G08,    PA,   Spring, Low</span><span class="w">
-</span><span class="c1">#   CP_Spr15L08,    PA,   Spring, High</span><span class="w">
-</span><span class="c1">#   CP_Spr31G08,    FL,   Spring, Low</span><span class="w">
-
-</span><span class="n">colData</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"metadata/sample_metadata.csv"</span><span class="p">,</span><span class="w">
-                    </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
-                    </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-
-</span><span class="n">rownames</span><span class="p">(</span><span class="n">colData</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">colData</span><span class="o">$</span><span class="n">SampleID</span><span class="w">
-
-</span><span class="c1"># Align: column names of count matrix must match row names of colData</span><span class="w">
-</span><span class="n">count_matrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">count_matrix</span><span class="p">[,</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">colData</span><span class="p">)]</span><span class="w">
-</span><span class="n">stopifnot</span><span class="p">(</span><span class="nf">all</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">colData</span><span class="p">)))</span><span class="w">
-
-</span><span class="c1"># Set factor levels — reference level comes first</span><span class="w">
-</span><span class="n">colData</span><span class="o">$</span><span class="n">Site</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">colData</span><span class="o">$</span><span class="n">Site</span><span class="p">)</span><span class="w">
-</span><span class="n">colData</span><span class="o">$</span><span class="n">Season</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">colData</span><span class="o">$</span><span class="n">Season</span><span class="p">)</span><span class="w">
-</span><span class="n">colData</span><span class="o">$</span><span class="n">Salinity</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">colData</span><span class="o">$</span><span class="n">Salinity</span><span class="p">)</span><span class="w">
-
-</span><span class="n">colData</span><span class="o">$</span><span class="n">Site</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">relevel</span><span class="p">(</span><span class="n">colData</span><span class="o">$</span><span class="n">Site</span><span class="p">,</span><span class="w">     </span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PA"</span><span class="p">)</span><span class="w">
-</span><span class="n">colData</span><span class="o">$</span><span class="n">Season</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">relevel</span><span class="p">(</span><span class="n">colData</span><span class="o">$</span><span class="n">Season</span><span class="p">,</span><span class="w">   </span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Spring"</span><span class="p">)</span><span class="w">
-</span><span class="n">colData</span><span class="o">$</span><span class="n">Salinity</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">relevel</span><span class="p">(</span><span class="n">colData</span><span class="o">$</span><span class="n">Salinity</span><span class="p">,</span><span class="w"> </span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Low"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="qc-pca-and-sample-distance-heatmap">QC: PCA and sample distance heatmap</h3>
-
-<p>Before running differential expression, always visualize your samples. PCA tells you whether your samples cluster as expected. Unexpected clustering (e.g. samples grouping by sequencing batch rather than site) reveals problems before they propagate to your results.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ── PCA and sample distance heatmap ──────────────────────────</span><span class="w">
-
-</span><span class="c1"># Build a DESeq2 object for QC only (no design factor)</span><span class="w">
-</span><span class="n">dds_qc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">count_matrix</span><span class="p">,</span><span class="w">
-                                 </span><span class="n">colData</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">colData</span><span class="p">,</span><span class="w">
-                                 </span><span class="n">design</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Filter genes with very low counts (&lt; 10 reads total across all samples)</span><span class="w">
-</span><span class="c1"># These genes contribute noise and inflate multiple testing burden</span><span class="w">
-</span><span class="n">dds_qc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dds_qc</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="n">counts</span><span class="p">(</span><span class="n">dds_qc</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-
-</span><span class="c1"># Variance-stabilizing transformation (VST)</span><span class="w">
-</span><span class="c1"># This is the DESeq2-recommended way to log-transform for visualization</span><span class="w">
-</span><span class="c1"># blind = TRUE means VST ignores the experimental design (appropriate for QC)</span><span class="w">
-</span><span class="n">vsd</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">varianceStabilizingTransformation</span><span class="p">(</span><span class="n">dds_qc</span><span class="p">,</span><span class="w"> </span><span class="n">blind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># ── PCA plot ─────────────────────────────────────────────────</span><span class="w">
-</span><span class="n">pca_df</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">plotPCA</span><span class="p">(</span><span class="n">vsd</span><span class="p">,</span><span class="w"> </span><span class="n">intgroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Site"</span><span class="p">,</span><span class="s2">"Season"</span><span class="p">,</span><span class="s2">"Salinity"</span><span class="p">),</span><span class="w"> </span><span class="n">returnData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
-</span><span class="n">percentVar</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">attr</span><span class="p">(</span><span class="n">pca_df</span><span class="p">,</span><span class="w"> </span><span class="s2">"percentVar"</span><span class="p">))</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">pca_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">PC1</span><span class="p">,</span><span class="w"> </span><span class="n">PC2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Site</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Season</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">xlab</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PC1: "</span><span class="p">,</span><span class="w"> </span><span class="n">percentVar</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s2">"% variance"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">ylab</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"PC2: "</span><span class="p">,</span><span class="w"> </span><span class="n">percentVar</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="s2">"% variance"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">"PCA — metatranscriptome samples (VST)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-        </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">())</span><span class="w">
-
-</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"plots/PCA_samples.pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># ── Sample distance heatmap ───────────────────────────────────</span><span class="w">
-</span><span class="n">sampleDistMatrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">dist</span><span class="p">(</span><span class="n">t</span><span class="p">(</span><span class="n">assay</span><span class="p">(</span><span class="n">vsd</span><span class="p">))))</span><span class="w">
-
-</span><span class="n">pheatmap</span><span class="p">(</span><span class="n">sampleDistMatrix</span><span class="p">,</span><span class="w">
-         </span><span class="n">annotation_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">colData</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Site"</span><span class="p">,</span><span class="s2">"Season"</span><span class="p">,</span><span class="s2">"Salinity"</span><span class="p">),</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">],</span><span class="w">
-         </span><span class="n">main</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sample distances (VST)"</span><span class="p">,</span><span class="w">
-         </span><span class="n">filename</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"plots/sample_distance_heatmap.pdf"</span><span class="p">,</span><span class="w">
-         </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>What to look for in the PCA:</strong></p>
-
-<ul>
-  <li>PA and FL samples should separate along PC1 or PC2 if site drives community expression</li>
-  <li>Seasonal samples may separate if season is a strong driver</li>
-  <li>If samples from the same site do not cluster together, check your metadata alignment</li>
-</ul>
-
-<h3 id="running-deseq2-for-each-factor">Running DESeq2 for each factor</h3>
-
-<p>For our dataset we test three environmental factors independently: Site (PA vs FL), Season (Spring vs Summer), and Salinity (Low vs High). Running one factor at a time is the cleanest approach for exploratory analysis.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ── DESeq2: one factor at a time ─────────────────────────────</span><span class="w">
-
-</span><span class="n">run_deseq2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">factor_name</span><span class="p">,</span><span class="w"> </span><span class="n">count_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">colData</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="w">
-    </span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">count_matrix</span><span class="p">,</span><span class="w">
-    </span><span class="n">colData</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">colData</span><span class="p">,</span><span class="w">
-    </span><span class="n">design</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">as.formula</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"~ "</span><span class="p">,</span><span class="w"> </span><span class="n">factor_name</span><span class="p">))</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-  </span><span class="c1"># Filter low-count genes</span><span class="w">
-  </span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dds</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="n">counts</span><span class="p">(</span><span class="n">dds</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-  </span><span class="c1"># Run DESeq2</span><span class="w">
-  </span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeq</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w">
-  </span><span class="c1"># Extract results</span><span class="w">
-  </span><span class="n">res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">results</span><span class="p">(</span><span class="n">dds</span><span class="p">))</span><span class="w">
-  </span><span class="n">res</span><span class="o">$</span><span class="n">Gene</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w">
-  </span><span class="n">res</span><span class="o">$</span><span class="n">Factor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor_name</span><span class="w">
-  </span><span class="n">res</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="c1"># Run for all three factors</span><span class="w">
-</span><span class="n">res_all</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bind_rows</span><span class="p">(</span><span class="w">
-  </span><span class="n">run_deseq2</span><span class="p">(</span><span class="s2">"Site"</span><span class="p">,</span><span class="w">     </span><span class="n">count_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">colData</span><span class="p">),</span><span class="w">
-  </span><span class="n">run_deseq2</span><span class="p">(</span><span class="s2">"Season"</span><span class="p">,</span><span class="w">   </span><span class="n">count_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">colData</span><span class="p">),</span><span class="w">
-  </span><span class="n">run_deseq2</span><span class="p">(</span><span class="s2">"Salinity"</span><span class="p">,</span><span class="w"> </span><span class="n">count_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">colData</span><span class="p">)</span><span class="w">
-</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">padj</span><span class="p">))</span><span class="w">
-
-</span><span class="c1"># Save full results table</span><span class="w">
-</span><span class="n">write.csv</span><span class="p">(</span><span class="n">res_all</span><span class="p">,</span><span class="w"> </span><span class="s2">"results/DESeq2_all_factors.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Pull significant genes (padj &lt; 0.05, |log2FC| &gt; 1)</span><span class="w">
-</span><span class="n">sig_genes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_all</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">log2FoldChange</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">arrange</span><span class="p">(</span><span class="n">padj</span><span class="p">)</span><span class="w">
-
-</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Significant genes per factor:\n"</span><span class="p">)</span><span class="w">
-</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">sig_genes</span><span class="o">$</span><span class="n">Factor</span><span class="p">))</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="volcano-plots">Volcano plots</h3>
-
-<p>A volcano plot is the standard way to visualize DESeq2 results. The x-axis is log2 fold change (how much more expressed in one condition vs the other). The y-axis is -log10(adjusted p-value) (statistical confidence). Genes in the upper right are significantly upregulated; upper left are significantly downregulated.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ── Volcano plot — all genes, faceted by factor ───────────────</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">res_all</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">Factor</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_x"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">          </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"grey70"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#e85050"</span><span class="p">),</span><span class="w">
-                     </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"not significant"</span><span class="p">,</span><span class="w"> </span><span class="s2">"padj &lt; 0.05"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-        </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-        </span><span class="n">legend.position</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Differential expression by environmental factor"</span><span class="p">,</span><span class="w">
-       </span><span class="n">x</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 fold change"</span><span class="p">,</span><span class="w">
-       </span><span class="n">y</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 adjusted p-value"</span><span class="p">,</span><span class="w">
-       </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"plots/volcano_all_factors.pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># ── Faceted volcano with top 5 gene labels per factor ─────────</span><span class="w">
-
-</span><span class="c1"># Extract short gene names for labels (text inside parentheses)</span><span class="w">
-</span><span class="n">res_labeled</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_all</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">padj</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-    </span><span class="n">ShortName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_extract</span><span class="p">(</span><span class="n">Gene</span><span class="p">,</span><span class="w"> </span><span class="s2">"(?&lt;=\\().+?(?=\\))"</span><span class="p">),</span><span class="w">
-    </span><span class="n">ShortName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">ShortName</span><span class="p">),</span><span class="w"> </span><span class="n">Gene</span><span class="p">,</span><span class="w"> </span><span class="n">ShortName</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-
-</span><span class="n">top5</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_labeled</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">group_by</span><span class="p">(</span><span class="n">Factor</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">slice_min</span><span class="p">(</span><span class="n">order_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">padj</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">ungroup</span><span class="p">()</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">res_labeled</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_text_repel</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">top5</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ShortName</span><span class="p">),</span><span class="w">
-                  </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">max.overlaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w">
-                  </span><span class="n">box.padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">point.padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="w">
-                  </span><span class="n">segment.color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">Factor</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_x"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">           </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"grey70"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#e85050"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-        </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-        </span><span class="n">legend.position</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Top differentially expressed genes by factor"</span><span class="p">,</span><span class="w">
-       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 fold change"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 adjusted p-value"</span><span class="p">,</span><span class="w">
-       </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"padj &lt; 0.05"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"plots/volcano_labeled.pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<blockquote>
-  <p><strong>Interpreting the volcano:</strong> In our dataset with 2% alignment and a small MAG reference, do not expect hundreds of significant genes. Even five to ten significantly differentially expressed genes with strong fold changes are biologically meaningful — they represent real expression differences between PA and FL estuarine communities for the organisms you have reference for.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="part-3--dnarna-ratio-expression-above-and-beyond-abundance">Part 3 — DNA:RNA ratio: expression above and beyond abundance</h2>
-
-<p>This is where metatranscriptomics diverges from standard RNA-seq and becomes genuinely powerful.</p>
-
-<p>A gene can appear highly expressed in your count table for two very different reasons:</p>
-
-<ol>
-  <li>The organism carrying it is abundant — there are many gene copies in the community, so even modest per-cell transcription yields many reads</li>
-  <li>The organism carrying it is <em>actively upregulating</em> this gene right now — few copies but intense transcription per cell</li>
-</ol>
-
-<p>These two scenarios have completely different biological meanings. The first is constitutive expression tracking abundance — background activity. The second is active metabolic engagement — the ecologically interesting signal.</p>
-
-<p>The <strong>DNA:RNA ratio</strong> separates them. By computing TPM from a paired metagenome (DNA) of the same sample and dividing it into your metatranscriptome TPM (RNA), you get a ratio that reflects expression relative to genomic copy number.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ── DNA:RNA ratio calculation ─────────────────────────────────</span><span class="w">
-</span><span class="c1"># Requires: TPM from metatranscriptome (RNA_TPM)</span><span class="w">
-</span><span class="c1">#           TPM from paired metagenome   (DNA_TPM)</span><span class="w">
-</span><span class="c1"># Both computed the same way, mapped to the same reference</span><span class="w">
-
-</span><span class="c1"># Load RNA TPM (computed in Part 1)</span><span class="w">
-</span><span class="n">RNA_TPM</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"counts/TPM_matrix.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Load DNA TPM (from your paired metagenome mapping)</span><span class="w">
-</span><span class="c1"># (same workflow: map metagenome reads to master_mags.fa → featureCounts → TPM)</span><span class="w">
-</span><span class="n">DNA_TPM</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"counts/DNA_TPM_matrix.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Align: keep only genes present in both</span><span class="w">
-</span><span class="n">shared_genes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">intersect</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">RNA_TPM</span><span class="p">),</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">DNA_TPM</span><span class="p">))</span><span class="w">
-</span><span class="n">RNA_sub</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">RNA_TPM</span><span class="p">[</span><span class="n">shared_genes</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span><span class="n">DNA_sub</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DNA_TPM</span><span class="p">[</span><span class="n">shared_genes</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-
-</span><span class="c1"># ── Compute log2 DNA:RNA ratio ────────────────────────────────</span><span class="w">
-</span><span class="c1"># +1 pseudocount avoids log(0)</span><span class="w">
-</span><span class="c1"># Positive ratio = more mRNA than DNA predicts (active upregulation)</span><span class="w">
-</span><span class="c1"># Negative ratio = less mRNA than DNA predicts (gene present but silent)</span><span class="w">
-</span><span class="c1"># Near zero      = expression tracks abundance (constitutive)</span><span class="w">
-
-</span><span class="n">DNA_RNA_ratio</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">log2</span><span class="p">((</span><span class="n">RNA_sub</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">DNA_sub</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w">
-
-</span><span class="n">write.csv</span><span class="p">(</span><span class="n">DNA_RNA_ratio</span><span class="p">,</span><span class="w"> </span><span class="s2">"results/DNA_RNA_ratio.csv"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># ── Visualize: heatmap of top variable ratio genes ───────────</span><span class="w">
-</span><span class="n">top_variable</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DNA_RNA_ratio</span><span class="p">[</span><span class="w">
-  </span><span class="n">order</span><span class="p">(</span><span class="n">apply</span><span class="p">(</span><span class="n">DNA_RNA_ratio</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">var</span><span class="p">),</span><span class="w"> </span><span class="n">decreasing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">50</span><span class="p">],</span><span class="w"> </span><span class="p">]</span><span class="w">
-
-</span><span class="n">pheatmap</span><span class="p">(</span><span class="n">top_variable</span><span class="p">,</span><span class="w">
-         </span><span class="n">annotation_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">colData</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Site"</span><span class="p">,</span><span class="s2">"Salinity"</span><span class="p">),</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">],</span><span class="w">
-         </span><span class="n">scale</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s2">"row"</span><span class="p">,</span><span class="w">
-         </span><span class="n">show_rownames</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
-         </span><span class="n">main</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="s2">"DNA:RNA ratio — top 50 variable genes"</span><span class="p">,</span><span class="w">
-         </span><span class="n">filename</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"plots/DNA_RNA_ratio_heatmap.pdf"</span><span class="p">,</span><span class="w">
-         </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>Reading the ratio:</strong></p>
-
-<ul>
-  <li><strong>Positive ratio (RNA &gt; DNA):</strong> this gene is transcribed at higher levels than its genomic abundance would predict. The organism is actively upregulating it. This is your ecological signal — stress responses, substrate activation, niche differentiation.</li>
-  <li><strong>Negative ratio (RNA &lt; DNA):</strong> the gene is present but mostly silent. The organism is there but not using this pathway.</li>
-  <li><strong>Near zero:</strong> expression tracks abundance. This is constitutive expression — housekeeping genes, stable metabolic maintenance.</li>
-</ul>
-
-<p>For hydrocarbon degradation in our estuarine system: alkane monooxygenase genes (alkB) and ring-cleaving dioxygenases in contaminated sites should show strongly positive DNA:RNA ratios — a few rare organisms expressing intensely. Background Bacteroidetes might show near-zero ratios across the same samples.</p>
-
-<hr />
-
-<h2 id="part-4--python-workflow-tpm-ratio-and-summary-statistics">Part 4 — Python workflow: TPM, ratio, and summary statistics</h2>
-
-<p>For users who prefer Python or want to automate the analysis as part of a larger pipeline:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># day5_analysis.py
-# TPM normalization + DNA:RNA ratio + summary statistics
-# Usage: python day5_analysis.py
-</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">import</span> <span class="n">matplotlib</span>
-<span class="n">matplotlib</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">'</span><span class="s">Agg</span><span class="sh">'</span><span class="p">)</span>
-<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
-<span class="kn">from</span> <span class="n">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-
-<span class="c1"># ── Paths ──────────────────────────────────────────────────────
-</span><span class="n">COUNTS_FILE</span>   <span class="o">=</span> <span class="sh">"</span><span class="s">counts/all_samples_counts.txt</span><span class="sh">"</span>
-<span class="n">DNA_TPM_FILE</span>  <span class="o">=</span> <span class="sh">"</span><span class="s">counts/DNA_TPM_matrix.csv</span><span class="sh">"</span>   <span class="c1"># from metagenome mapping
-</span><span class="n">METADATA_FILE</span> <span class="o">=</span> <span class="sh">"</span><span class="s">metadata/sample_metadata.csv</span><span class="sh">"</span>
-<span class="n">OUT_DIR</span>       <span class="o">=</span> <span class="nc">Path</span><span class="p">(</span><span class="sh">"</span><span class="s">results</span><span class="sh">"</span><span class="p">)</span>
-<span class="n">PLOT_DIR</span>      <span class="o">=</span> <span class="nc">Path</span><span class="p">(</span><span class="sh">"</span><span class="s">plots</span><span class="sh">"</span><span class="p">)</span>
-<span class="n">OUT_DIR</span><span class="p">.</span><span class="nf">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">PLOT_DIR</span><span class="p">.</span><span class="nf">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
-<span class="c1"># ── Load featureCounts output ──────────────────────────────────
-</span><span class="n">counts_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">COUNTS_FILE</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">gene_lengths</span> <span class="o">=</span> <span class="n">counts_raw</span><span class="p">[</span><span class="sh">"</span><span class="s">Length</span><span class="sh">"</span><span class="p">]</span>
-<span class="n">count_matrix</span> <span class="o">=</span> <span class="n">counts_raw</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">5</span><span class="p">:]</span>   <span class="c1"># sample columns start at position 6 (0-indexed 5)
-</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Loaded count matrix: </span><span class="si">{</span><span class="n">count_matrix</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s"> genes × </span><span class="si">{</span><span class="n">count_matrix</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s"> samples</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># ── TPM normalization ──────────────────────────────────────────
-</span><span class="k">def</span> <span class="nf">compute_tpm</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">lengths</span><span class="p">):</span>
-    <span class="sh">"""</span><span class="s">
-    counts  : DataFrame, genes × samples (raw integer counts)
-    lengths : Series, gene lengths in bp
-    returns : DataFrame, genes × samples (TPM values)
-    </span><span class="sh">"""</span>
-    <span class="c1"># Step 1: RPK = counts / (length / 1000)
-</span>    <span class="n">rpk</span> <span class="o">=</span> <span class="n">counts</span><span class="p">.</span><span class="nf">div</span><span class="p">(</span><span class="n">lengths</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="c1"># Step 2: TPM = RPK / (sum RPK per sample) * 1e6
-</span>    <span class="n">tpm</span> <span class="o">=</span> <span class="n">rpk</span><span class="p">.</span><span class="nf">div</span><span class="p">(</span><span class="n">rpk</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">tpm</span>
-
-<span class="n">RNA_TPM</span> <span class="o">=</span> <span class="nf">compute_tpm</span><span class="p">(</span><span class="n">count_matrix</span><span class="p">,</span> <span class="n">gene_lengths</span><span class="p">)</span>
-<span class="n">RNA_TPM</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="n">OUT_DIR</span> <span class="o">/</span> <span class="sh">"</span><span class="s">TPM_matrix.csv</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">TPM matrix saved. Column sums (should be ~1e6):</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="n">RNA_TPM</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="nf">round</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-
-<span class="c1"># ── DNA:RNA ratio (if DNA TPM available) ──────────────────────
-</span><span class="k">if</span> <span class="nc">Path</span><span class="p">(</span><span class="n">DNA_TPM_FILE</span><span class="p">).</span><span class="nf">exists</span><span class="p">():</span>
-    <span class="n">DNA_TPM</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">DNA_TPM_FILE</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="n">shared</span> <span class="o">=</span> <span class="n">RNA_TPM</span><span class="p">.</span><span class="n">index</span><span class="p">.</span><span class="nf">intersection</span><span class="p">(</span><span class="n">DNA_TPM</span><span class="p">.</span><span class="n">index</span><span class="p">)</span>
-    <span class="n">shared_samples</span> <span class="o">=</span> <span class="n">RNA_TPM</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="nf">intersection</span><span class="p">(</span><span class="n">DNA_TPM</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span>
-
-    <span class="n">RNA_sub</span> <span class="o">=</span> <span class="n">RNA_TPM</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">shared</span><span class="p">,</span> <span class="n">shared_samples</span><span class="p">]</span>
-    <span class="n">DNA_sub</span> <span class="o">=</span> <span class="n">DNA_TPM</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">shared</span><span class="p">,</span> <span class="n">shared_samples</span><span class="p">]</span>
-
-    <span class="n">ratio</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">log2</span><span class="p">((</span><span class="n">RNA_sub</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">DNA_sub</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">ratio</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="n">OUT_DIR</span> <span class="o">/</span> <span class="sh">"</span><span class="s">DNA_RNA_ratio.csv</span><span class="sh">"</span><span class="p">)</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">DNA:RNA ratio computed for </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span><span class="si">}</span><span class="s"> genes, </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">shared_samples</span><span class="p">)</span><span class="si">}</span><span class="s"> samples</span><span class="sh">"</span><span class="p">)</span>
-
-    <span class="c1"># Plot: distribution of ratios per sample
-</span>    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-    <span class="n">ratio</span><span class="p">.</span><span class="nf">boxplot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">.</span><span class="nf">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">"</span><span class="s">grey</span><span class="sh">"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">"</span><span class="s">--</span><span class="sh">"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">"</span><span class="s">DNA:RNA ratio distribution per sample</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">"</span><span class="s">log2(RNA_TPM + 1 / DNA_TPM + 1)</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">.</span><span class="nf">set_xticklabels</span><span class="p">(</span><span class="n">ax</span><span class="p">.</span><span class="nf">get_xticklabels</span><span class="p">(),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="sh">"</span><span class="s">right</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
-    <span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="n">PLOT_DIR</span> <span class="o">/</span> <span class="sh">"</span><span class="s">DNA_RNA_ratio_boxplot.pdf</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">DNA:RNA ratio boxplot saved.</span><span class="sh">"</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">DNA TPM file not found: </span><span class="si">{</span><span class="n">DNA_TPM_FILE</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Skipping DNA:RNA ratio. Provide paired metagenome TPM to enable this.</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># ── Summary statistics ─────────────────────────────────────────
-</span><span class="n">total_genes</span>   <span class="o">=</span> <span class="n">count_matrix</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">expressed</span>     <span class="o">=</span> <span class="p">(</span><span class="n">count_matrix</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">).</span><span class="nf">sum</span><span class="p">()</span>
-<span class="n">zero_genes</span>    <span class="o">=</span> <span class="n">total_genes</span> <span class="o">-</span> <span class="n">expressed</span>
-<span class="n">mean_tpm</span>      <span class="o">=</span> <span class="n">RNA_TPM</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">top10</span>         <span class="o">=</span> <span class="n">mean_tpm</span><span class="p">.</span><span class="nf">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">── Expression summary ──────────────────────────</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Total genes:              </span><span class="si">{</span><span class="n">total_genes</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Genes with ≥1 count:      </span><span class="si">{</span><span class="n">expressed</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Zero-count genes:         </span><span class="si">{</span><span class="n">zero_genes</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Median mean TPM:          </span><span class="si">{</span><span class="n">mean_tpm</span><span class="p">.</span><span class="nf">median</span><span class="p">()</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">Top 10 expressed genes (mean TPM across samples):</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="n">top10</span><span class="p">.</span><span class="nf">round</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nf">to_string</span><span class="p">())</span>
-
-<span class="c1"># ── TPM heatmap: top 50 expressed genes ───────────────────────
-</span><span class="n">top50</span> <span class="o">=</span> <span class="n">RNA_TPM</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mean_tpm</span><span class="p">.</span><span class="nf">nlargest</span><span class="p">(</span><span class="mi">50</span><span class="p">).</span><span class="n">index</span><span class="p">]</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span>
-    <span class="n">np</span><span class="p">.</span><span class="nf">log2</span><span class="p">(</span><span class="n">top50</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">YlOrRd</span><span class="sh">"</span><span class="p">,</span>
-    <span class="n">xticklabels</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-    <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="sh">"</span><span class="s">label</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">log2(TPM + 1)</span><span class="sh">"</span><span class="p">}</span>
-<span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">"</span><span class="s">Top 50 expressed genes (log2 TPM)</span><span class="sh">"</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="n">PLOT_DIR</span> <span class="o">/</span> <span class="sh">"</span><span class="s">top50_TPM_heatmap.pdf</span><span class="sh">"</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">Top-50 TPM heatmap saved.</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">All outputs in: </span><span class="si">{</span><span class="n">OUT_DIR</span><span class="si">}</span><span class="s">/ and </span><span class="si">{</span><span class="n">PLOT_DIR</span><span class="si">}</span><span class="s">/</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="connecting-everything-to-the-biology">Connecting everything to the biology</h2>
-
-<p>We started this series with one question: <strong>“Who is active, not just present?”</strong></p>
-
-<p>By Day 5, you have the tools to answer it at multiple levels:</p>
-
-<p><strong>TPM</strong> tells you which genes dominate the expressed community within each sample. In our estuarine data, expect ribosomal proteins, transport systems, and central metabolic genes to dominate — these are the constitutively expressed housekeeping functions that run constantly.</p>
-
-<p><strong>DESeq2 (Site: PA vs FL)</strong> identifies genes that are systematically more expressed in one estuary than the other, controlling for sequencing depth and compositional differences. These are your ecologically differentiated functions — the pathways that distinguish PA estuarine activity from FL estuarine activity.</p>
-
-<p><strong>DNA:RNA ratio</strong> reveals which of those differences reflect genuine upregulation versus simply more organisms being present. A gene with high TPM and a strongly positive DNA:RNA ratio is being actively induced — the organism carrying it is responding to something in its environment. That is where the ecological narrative lives.</p>
-
-<hr />
-
-<h2 id="series-complete">Series complete</h2>
-
-<p>Five days. One complete pipeline. Every step documented with real data, real numbers, and honest interpretation of what those numbers mean.</p>
-
-<p>The 2% alignment rate from Day 4 is not a footnote — it is a starting point. As you add more MAGs, expand your reference, and pair your metatranscriptomes with matched metagenomes for DNA:RNA ratios, the biological picture gets richer. The framework you built this week scales to any number of samples, any community, any ecological question.</p>
-
-<p><strong>For co-expression network analysis</strong> of metatranscriptomics data — identifying modules of genes that are co-regulated across samples — see the <a href="https://jojyjohn28.github.io/blog/day6-wgcna-mag-coabundance-networks/">WGCNA and network analysis post</a> in the Applied Stats series and deatailed codes for practice in <a href="https://github.com/jojyjohn28/microbiome_stats/tree/main/day6-wgcna">Git hub Repo</a>.</p>
-
-<p><strong>For multi-omics integration</strong> connecting your metatranscriptomics to metabolomics and metaproteomics — see the <a href="https://jojyjohn28.github.io/blog/metagenome-analysis-day10-multiomics-integration/">multi-omics integration post</a> and corresponding codes in <a href="https://github.com/jojyjohn28/metagenome-analysis-series/tree/main/day010-multiomics-integration">git hub repo</a></p>
-
-<hr />
-
-<h2 id="-all-r-scripts-python-script-slurm-scripts-and-toy-datasets-githubcomjojyjohn28metatranscriptomics--day5_counts_to_biologyscripts">📦 <strong>All R scripts, Python script, SLURM scripts, and toy datasets:</strong> <a href="#">github.com/jojyjohn28/metatranscriptomics</a> → <code class="language-plaintext highlighter-rouge">Day5_Counts_to_Biology/scripts/</code></h2>
-
-<p>📦 <strong>All code, SLURM scripts, and toy datasets used in this series are available in the companion repository</strong>
-📦 <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day5-metatranscriptomics-counts-to-biology">Github repository</a></p>
-
-<p>Questions about this workflow? Drop a comment below.
-The complete R script and SLURM submission scripts are available in the <a href="https://github.com/jojyjohn28/metatrancriptome_analysis/tree/main/day5-metatranscriptomics-counts-to-biology">companion GitHub repository</a>.</p>
-
-<p><img src="/assets/img/mt-d5.png" alt="Day5 metatrnscriptome" /></p>]]></content><author><name></name></author><category term="metatranscriptomics" /><category term="DESeq2" /><category term="TPM" /><category term="normalization" /><category term="DNA-RNA-ratio" /><category term="functional-redundancy" /><category term="ecological-interpretation" /><category term="R" /><category term="python" /><category term="estuarine-microbiomes" /><summary type="html"><![CDATA[The day most tutorials stop — and the day that matters most. A complete walkthrough of TPM normalization, DESeq2 differential expression across PA and FL estuarine sites, DNA:RNA ratio calculation, functional redundancy analysis, and how to connect every number back to ecology.]]></summary></entry></feed>
+<p><img src="/assets/img/conda_in.png" alt="Conda Install" /></p>]]></content><author><name></name></author><category term="linux" /><category term="conda" /><category term="mamba" /><category term="micromamba" /><category term="environment-management" /><category term="bioinformatics" /><category term="beginner" /><category term="HPC" /><category term="reproducibility" /><summary type="html"><![CDATA[You ran conda install and now your environment is broken. Sound familiar? This beginner-friendly guide explains exactly what conda, mamba, and micromamba are, when to use each one, and the common mistakes that silently destroy bioinformatics environments.]]></summary></entry></feed>
