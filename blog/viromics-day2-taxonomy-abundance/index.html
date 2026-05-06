@@ -1,0 +1,2992 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Who Are These Viruses? Taxonomy and Abundance from Viral OTUs | Jojy John
+    
+  
+</title>
+<meta name="author" content="Jojy John">
+<meta name="description" content="You have your vOTUs — now what? This second post in the viromics series walks through classifying viral genomes using geNomad and BLAST, then estimating their abundance across samples using Bowtie2 and CoverM. Beginner-friendly, with every command explained.">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="" integrity="" crossorigin="anonymous">
+
+<!-- Bootstrap Table -->
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" type="text/css" href="">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+<!-- pseudocode -->
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/viromics-day2-taxonomy-abundance/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+<!-- GeoJSON support via Leaflet -->
+
+
+<!-- diff2html -->
+
+
+
+
+
+
+<!-- GoatCounter analytics -->
+<script data-goatcounter="https://jojyjohn28.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <nav id="navbar" class="fixed-top" role="navigation">
+    <div class="simple-nav-wrapper">
+      <a class="simple-brand" href="/">
+        
+          
+            <span class="font-weight-bold">Jojy</span>
+          
+          
+          John
+        
+      </a>
+
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <div class="simple-nav-menu">
+        <a href="/">About</a>
+
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+              
+              <a href="/publications/">Publications</a>
+            
+          
+        
+          
+            
+              
+              <a href="/blog/">Blog</a>
+            
+          
+        
+          
+            
+              
+              <a href="/projects/">Projects</a>
+            
+          
+        
+          
+        
+          
+        
+          
+            
+              
+              <a href="/mentoring/">Mentoring</a>
+            
+          
+        
+          
+            
+              
+              <a href="/collaborations/">Collaboration</a>
+            
+          
+        
+          
+        
+          
+            
+              
+              <a href="/teaching/">Teaching</a>
+            
+          
+        
+          
+        
+          
+            
+              
+              <a href="/repositories/">Repositories</a>
+            
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Who Are These Viruses? Taxonomy and Abundance from Viral OTUs</h1>
+    <p class="post-meta">
+      Created in May 06, 2026
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/tag/viromics"> <i class="fa-solid fa-hashtag fa-sm"></i> viromics </a>
+          
+           
+        
+          
+            <a href="/blog/tag/taxonomy"> <i class="fa-solid fa-hashtag fa-sm"></i> taxonomy </a>
+          
+           
+        
+          
+            <a href="/blog/tag/genomad"> <i class="fa-solid fa-hashtag fa-sm"></i> geNomad </a>
+          
+           
+        
+          
+            <a href="/blog/tag/blast"> <i class="fa-solid fa-hashtag fa-sm"></i> BLAST </a>
+          
+           
+        
+          
+            <a href="/blog/tag/coverm"> <i class="fa-solid fa-hashtag fa-sm"></i> CoverM </a>
+          
+           
+        
+          
+            <a href="/blog/tag/bowtie2"> <i class="fa-solid fa-hashtag fa-sm"></i> Bowtie2 </a>
+          
+           
+        
+          
+            <a href="/blog/tag/votu"> <i class="fa-solid fa-hashtag fa-sm"></i> vOTU </a>
+          
+           
+        
+          
+            <a href="/blog/tag/abundance"> <i class="fa-solid fa-hashtag fa-sm"></i> abundance </a>
+          
+           
+        
+          
+            <a href="/blog/tag/viral-metagenomics"> <i class="fa-solid fa-hashtag fa-sm"></i> viral-metagenomics </a>
+          
+           
+        
+          
+            <a href="/blog/tag/environmental-microbiome"> <i class="fa-solid fa-hashtag fa-sm"></i> environmental-microbiome </a>
+          
+           
+        
+          
+            <a href="/blog/tag/bioinformatics"> <i class="fa-solid fa-hashtag fa-sm"></i> bioinformatics </a>
+          
+           
+        
+          
+            <a href="/blog/tag/beginners"> <i class="fa-solid fa-hashtag fa-sm"></i> beginners </a>
+          
+          
+        
+      
+
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    <div id="markdown-content">
+      <p><em>🧬 𝐷𝑎𝑦 79 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 desk</em></p>
+
+<h2 id="where-we-left-off">Where we left off</h2>
+
+<p>In the previous post we went from a raw metagenomic assembly to a set of representative viral genomes — our <strong>vOTUs</strong> (<code class="language-plaintext highlighter-rouge">vOTUs.fa</code>), quality-assessed with CheckV. We know these sequences look viral. We do not yet know <em>what</em> viruses they are or <em>how abundant</em> each one is across our samples.</p>
+
+<p>That is exactly what this post addresses.</p>
+
+<p>By the end you will have:</p>
+
+<ul>
+  <li>A taxonomy table telling you which viral family (or order, or realm) each vOTU belongs to</li>
+  <li>A per-sample abundance matrix showing how many reads map to each vOTU</li>
+  <li>The biological intuition to interpret both</li>
+</ul>
+
+<hr>
+
+<h2 id="part-1--why-taxonomy-is-hard-for-viruses">Part 1 — Why taxonomy is hard for viruses</h2>
+
+<p>Before diving into tools, it helps to understand why viral taxonomy is genuinely difficult — and why we use two complementary approaches rather than one.</p>
+
+<h3 id="viruses-evolve-fast-and-recombine-freely">Viruses evolve fast and recombine freely</h3>
+
+<p>Bacterial 16S rRNA genes evolve slowly enough that a single marker gene reliably places an organism in a lineage. Viral genomes evolve orders of magnitude faster, and many viruses regularly swap genomic modules through recombination. A single phage genome might have a capsid protein that looks like one family and a tail fibre that looks like another. This <strong>genome mosaicism</strong> is real biology, not an artefact, and it means that no single gene reliably represents “the whole virus”.</p>
+
+<h3 id="the-reference-database-is-deeply-incomplete">The reference database is deeply incomplete</h3>
+
+<p>The vast majority of environmental viral diversity has never been cultured, sequenced as an isolate, or formally described. Even the best viral reference databases capture only a fraction of what exists in nature. Studies consistently find that 50–80% of environmental viral contigs cannot be classified at the family level. This is not a failure of the tools — it reflects genuine novelty in the samples.</p>
+
+<h3 id="two-methods-combined">Two methods, combined</h3>
+
+<p>Because of these challenges, we use two approaches:</p>
+
+<ol>
+  <li>
+<strong>geNomad</strong> — a modern machine learning + HMM-based classifier that works at the genome level, placing contigs into ICTV-recognised lineages using a comprehensive marker gene database.</li>
+  <li>
+<strong>Gene-based BLAST</strong> — translates each vOTU into predicted proteins, BLASTs them against the NCBI viral RefSeq protein database, and assigns taxonomy by consensus across all ORFs. This catches cases where geNomad’s markers are absent but individual genes still match known viruses.</li>
+</ol>
+
+<p>When both methods agree, confidence is high. When they disagree, we flag the assignment as provisional. When neither can classify a vOTU, it is recorded as “Unknown” — which in environmental viromics is entirely expected and often the most scientifically interesting outcome.</p>
+
+<hr>
+
+<h2 id="part-2--genomad-genome-based-viral-classification">Part 2 — geNomad: genome-based viral classification</h2>
+
+<h3 id="what-genomad-does">What geNomad does</h3>
+
+<p>geNomad identifies viral sequences and assigns taxonomy in a single run. It uses a combination of:</p>
+
+<ul>
+  <li>A large set of viral and cellular marker gene HMMs</li>
+  <li>A neural network classifier trained on known viral and cellular genomes</li>
+  <li>The ICTV taxonomy hierarchy (realm → kingdom → phylum → class → order → family → genus)</li>
+</ul>
+
+<p>It is fast, handles fragmented genomes well, and is regularly updated to track ICTV reclassifications. If you have already run VITAP in Day 1, you will notice that VITAP also outputs geNomad-style taxonomy — that is because VITAP uses geNomad internally for the taxonomy step. If you used VITAP, you already have geNomad taxonomy for contigs that VITAP assigned. However, running geNomad independently on your final vOTUs gives a clean, consistent classification for the representative set.</p>
+
+<h3 id="installation">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load anaconda3/2023.09-0
+
+conda create <span class="se">\</span>
+  <span class="nt">-p</span> /your/tools/dir/genomad_env <span class="se">\</span>
+  <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda <span class="se">\</span>
+  genomad <span class="se">\</span>
+  <span class="nt">-y</span>
+
+conda activate /your/tools/dir/genomad_env
+genomad <span class="nt">--version</span>
+</code></pre></div></div>
+
+<p>Download the database (~3 GB):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> /your/db/dir/genomad_db
+
+conda activate /your/tools/dir/genomad_env
+genomad download-database /your/db/dir/genomad_db
+</code></pre></div></div>
+
+<p>The database directory will contain a folder called <code class="language-plaintext highlighter-rouge">genomad_db/</code> with HMM profiles and marker gene references. The download takes 10–20 minutes.</p>
+
+<h3 id="running-genomad">Running geNomad</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate /your/tools/dir/genomad_env
+
+genomad end-to-end <span class="se">\</span>
+  vOTUs.fa <span class="se">\</span>
+  genomad_output <span class="se">\</span>
+  /your/db/dir/genomad_db <span class="se">\</span>
+  <span class="nt">--threads</span> 16 <span class="se">\</span>
+  <span class="nt">--cleanup</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--cleanup</code> removes large intermediate files after the run — useful on HPC systems with tight quotas.</p>
+
+<h3 id="key-output-files">Key output files</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>genomad_output/
+  vOTUs_summary/
+    vOTUs_virus_summary.tsv      ← per-vOTU classification and scores
+    vOTUs_taxonomy.tsv           ← full lineage string per vOTU
+    vOTUs_virus_genes.tsv        ← per-gene annotations and marker matches
+</code></pre></div></div>
+
+<p><strong>The most useful file is <code class="language-plaintext highlighter-rouge">vOTUs_virus_summary.tsv</code>.</strong> It contains one row per viral sequence with columns including:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">seq_name</code></td>
+      <td>vOTU ID</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">taxonomy</code></td>
+      <td>full ICTV lineage string</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">taxonomy_agreement</code></td>
+      <td>fraction of marker genes supporting the assignment</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">virus_score</code></td>
+      <td>confidence that the sequence is viral (0–1)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">n_genes</code></td>
+      <td>number of predicted genes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">topology</code></td>
+      <td>linear or circular (circular = likely complete genome)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A quick look at the taxonomy distribution:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Count vOTUs per viral family</span>
+<span class="nb">awk</span> <span class="nt">-F</span><span class="s1">'\t'</span> <span class="s1">'NR&gt;1 {print $NF}'</span> <span class="se">\</span>
+  genomad_output/vOTUs_summary/vOTUs_virus_summary.tsv | <span class="se">\</span>
+  <span class="nb">grep</span> <span class="nt">-oP</span> <span class="s1">'(?&lt;=;)[^;]+$'</span> | <span class="se">\</span>
+  <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-rn</span> | <span class="nb">head</span> <span class="nt">-20</span>
+</code></pre></div></div>
+
+<h3 id="interpreting-genomad-taxonomy-strings">Interpreting geNomad taxonomy strings</h3>
+
+<p>geNomad returns semicolon-separated lineage strings following the ICTV hierarchy:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Duplodnaviria;Heunggongvirae;Uroviricota;Caudoviricetes;Caudovirales;Drexlerviridae
+</code></pre></div></div>
+
+<p>Reading right to left: family → order → class → phylum → kingdom → realm.</p>
+
+<p>In environmental metagenomes, most classified phages belong to <strong>Caudoviricetes</strong> — the class encompassing all tailed phages (historically called myoviruses, siphoviruses, and podoviruses, though ICTV no longer recognises these as formal families). Within Caudoviricetes, you will typically see families like Drexlerviridae, Demerecviridae, Straboviridae, Schitoviridae, and many others depending on your environment.</p>
+
+<hr>
+
+<h2 id="part-3--blast-based-gene-taxonomy">Part 3 — BLAST-based gene taxonomy</h2>
+
+<p>Gene-based BLAST taxonomy acts as a second opinion. It is especially useful for:</p>
+
+<ul>
+  <li>Highly divergent viruses that geNomad misses because their marker genes are too distant from references</li>
+  <li>Confirming geNomad assignments at the family level using a different database (NCBI RefSeq vs geNomad’s own markers)</li>
+  <li>Catching mosaic genomes where different genomic regions match different lineages</li>
+</ul>
+
+<h3 id="step-1--predict-orfs-with-prodigal">Step 1 — Predict ORFs with Prodigal</h3>
+
+<p>Prodigal (<code class="language-plaintext highlighter-rouge">-p meta</code> mode) is the standard tool for predicting open reading frames in metagenomic sequences. It does not require training data and handles fragmented genomes well.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load prodigal/2.6.3
+
+prodigal <span class="se">\</span>
+  <span class="nt">-i</span> vOTUs.fa <span class="se">\</span>
+  <span class="nt">-a</span> vOTUs_orfs.faa <span class="se">\</span>
+  <span class="nt">-d</span> vOTUs_orfs.fna <span class="se">\</span>
+  <span class="nt">-p</span> meta <span class="se">\</span>
+  <span class="nt">-m</span> <span class="nt">-c</span> <span class="se">\</span>
+  <span class="nt">-f</span> gff <span class="se">\</span>
+  <span class="nt">-o</span> vOTUs_prodigal.gff
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-a</code></td>
+      <td>output predicted protein sequences (amino acid)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-d</code></td>
+      <td>output predicted nucleotide ORF sequences</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-p meta</code></td>
+      <td>metagenome mode (no model training)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-m</code></td>
+      <td>do not use RBS motif model (recommended for short contigs)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-c</code></td>
+      <td>closed ends — do not allow partial genes at contig edges</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-f gff</code></td>
+      <td>GFF3 format coordinate output</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Check how many ORFs were predicted:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> vOTUs_orfs.faa
+</code></pre></div></div>
+
+<p>You should see several ORFs per vOTU on average — typically 5–50 depending on genome length.</p>
+
+<h3 id="step-2--blast-against-viral-refseq-protein-database">Step 2 — BLAST against viral RefSeq protein database</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load ncbi-blast+/2.17.0
+
+blastp <span class="se">\</span>
+  <span class="nt">-query</span> vOTUs_orfs.faa <span class="se">\</span>
+  <span class="nt">-db</span> /your/db/dir/viral_refseq/viral_refseq_db <span class="se">\</span>
+  <span class="nt">-evalue</span> 1e-5 <span class="se">\</span>
+  <span class="nt">-outfmt</span> <span class="s2">"6 qseqid sseqid pident length evalue bitscore staxids sscinames"</span> <span class="se">\</span>
+  <span class="nt">-num_threads</span> 16 <span class="se">\</span>
+  <span class="nt">-max_target_seqs</span> 5 <span class="se">\</span>
+  <span class="nt">-out</span> blastp_vs_refseq.txt
+</code></pre></div></div>
+
+<p><strong>Output format columns</strong> (<code class="language-plaintext highlighter-rouge">-outfmt 6</code> custom):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">qseqid</code></td>
+      <td>your ORF ID</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">sseqid</code></td>
+      <td>RefSeq protein ID</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">pident</code></td>
+      <td>percent identity</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">length</code></td>
+      <td>alignment length</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">evalue</code></td>
+      <td>E-value</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">bitscore</code></td>
+      <td>bit score</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">staxids</code></td>
+      <td>NCBI taxonomy ID</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">sscinames</code></td>
+      <td>scientific name of the match</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A quick sanity check — how many ORFs got hits?</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cut</span> <span class="nt">-f1</span> blastp_vs_refseq.txt | <span class="nb">sort</span> <span class="nt">-u</span> | <span class="nb">wc</span> <span class="nt">-l</span>
+</code></pre></div></div>
+
+<p>In environmental samples, expect 20–60% of ORFs to get hits, depending on how similar your environment is to cultured virus hosts.</p>
+
+<h3 id="step-3--assign-family-level-taxonomy-by-consensus">Step 3 — Assign family-level taxonomy by consensus</h3>
+
+<p>The core logic: for each vOTU, collect all the BLAST hits for all its ORFs, extract the family-level assignment for each hit, and assign the family that represents more than 50% of hits. This handles mosaic genomes by requiring majority support.</p>
+
+<p>A simple bash approach to extract the family counts:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># First, check what your hits look like</span>
+<span class="nb">head</span> <span class="nt">-5</span> blastp_vs_refseq.txt
+</code></pre></div></div>
+
+<p>For a proper consensus assignment, use the Python script <code class="language-plaintext highlighter-rouge">assign_blast_taxonomy.py</code> provided in the companion repository (<code class="language-plaintext highlighter-rouge">day2/scripts/</code>). It:</p>
+
+<ol>
+  <li>Parses the BLAST tabular output</li>
+  <li>Queries the NCBI taxonomy hierarchy for each hit using the taxid</li>
+  <li>Extracts the family-level assignment</li>
+  <li>Assigns consensus taxonomy per vOTU at the ≥50% threshold</li>
+  <li>Flags conflicting assignments</li>
+</ol>
+
+<h3 id="step-4--reconcile-genomad-and-blast-taxonomy">Step 4 — Reconcile geNomad and BLAST taxonomy</h3>
+
+<p>Once you have both taxonomy tables, reconcile them:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Both agree on family     →  assign that family (high confidence)
+Only geNomad assigns     →  keep as provisional
+Only BLAST assigns       →  keep as provisional
+Both assign, disagree    →  flag as "Conflicting", investigate manually
+Neither assigns          →  "Unknown" (expected for novel viruses)
+</code></pre></div></div>
+
+<p>The reconciliation script <code class="language-plaintext highlighter-rouge">reconcile_taxonomy.py</code> in the repository handles this automatically and outputs a single master taxonomy table.</p>
+
+<hr>
+
+<h2 id="part-4--what-your-taxonomy-tells-you-ecologically">Part 4 — What your taxonomy tells you ecologically</h2>
+
+<p>Before moving on to abundance, it is worth pausing on what taxonomy actually tells you.</p>
+
+<p><strong>Family-level classification</strong> reveals broad ecological patterns:</p>
+
+<ul>
+  <li>
+<em>Caudoviricetes</em> phages (tailed phages) dominate most bacterial-associated environments</li>
+  <li>
+<em>Microviridae</em> (small ssDNA phages) are often abundant in gut and wastewater samples</li>
+  <li>
+<em>Inoviridae</em> (filamentous phages) are common in marine sediment and associated with chronic infections rather than lysis</li>
+  <li>RNA viruses (Riboviria) can be highly dynamic seasonally and are often overlooked in DNA-only extractions</li>
+</ul>
+
+<p><strong>Unknown viruses are informative.</strong> A high proportion of unknowns in your dataset is not a sign of failure — it often means your environment harbours genuinely novel viral diversity. This is especially true in deep sea sediments, hypersaline environments, and unexplored soils. Documenting and describing novel viral lineages is a contribution in itself.</p>
+
+<p><strong>Taxonomy without abundance is half the story.</strong> Knowing that Drexlerviridae are present tells you little about their ecological impact. A rare Drexlerviridae phage and an extremely abundant one have very different roles in the community. That is what we measure next.</p>
+
+<hr>
+
+<h2 id="part-5--read-mapping-with-bowtie2">Part 5 — Read mapping with Bowtie2</h2>
+
+<p>Abundance estimation works by mapping the original short reads from each sample back to the vOTU representative genomes. The more reads that map to a given vOTU, the more abundant that virus was in that sample.</p>
+
+<p>This requires two steps:</p>
+
+<ol>
+  <li>Build a Bowtie2 index from your vOTUs FASTA</li>
+  <li>Map each sample’s reads to that index</li>
+</ol>
+
+<h3 id="why-bowtie2-instead-of-bwa-or-minimap2">Why Bowtie2 instead of BWA or Minimap2?</h3>
+
+<p>Bowtie2 is the standard choice for short-read mapping to viral genomes in metagenomics for a few reasons:</p>
+
+<ul>
+  <li>It handles the short, fragmented nature of viral genomes well</li>
+  <li>It has been extensively validated in viromics workflows</li>
+  <li>CoverM (the tool we use for abundance calculation) has native support for Bowtie2-formatted BAM files</li>
+  <li>It is fast and memory-efficient for genome-scale references</li>
+</ul>
+
+<p>BWA-MEM is also acceptable and produces compatible output. The key is consistency — use the same mapper for all samples.</p>
+
+<h3 id="installation-1">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load anaconda3/2023.09-0
+
+conda create <span class="se">\</span>
+  <span class="nt">-p</span> /your/tools/dir/bowtie2_env <span class="se">\</span>
+  <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda <span class="se">\</span>
+  bowtie2 samtools <span class="se">\</span>
+  <span class="nt">-y</span>
+
+conda activate /your/tools/dir/bowtie2_env
+bowtie2 <span class="nt">--version</span>
+samtools <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h3 id="step-1--build-the-bowtie2-index">Step 1 — Build the Bowtie2 index</h3>
+
+<p>This only needs to be done once for your vOTUs:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate /your/tools/dir/bowtie2_env
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> bowtie2_index
+
+bowtie2-build <span class="se">\</span>
+  vOTUs.fa <span class="se">\</span>
+  bowtie2_index/vOTUs <span class="se">\</span>
+  <span class="nt">--threads</span> 16
+</code></pre></div></div>
+
+<p>This creates six index files (<code class="language-plaintext highlighter-rouge">vOTUs.1.bt2</code>, <code class="language-plaintext highlighter-rouge">.2.bt2</code>, <code class="language-plaintext highlighter-rouge">.3.bt2</code>, <code class="language-plaintext highlighter-rouge">.4.bt2</code>, <code class="language-plaintext highlighter-rouge">.rev.1.bt2</code>, <code class="language-plaintext highlighter-rouge">.rev.2.bt2</code>) in the <code class="language-plaintext highlighter-rouge">bowtie2_index/</code> directory.</p>
+
+<h3 id="step-2--map-reads-from-each-sample">Step 2 — Map reads from each sample</h3>
+
+<p>For each sample you want to include in the abundance table:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate /your/tools/dir/bowtie2_env
+
+<span class="nv">SAMPLE</span><span class="o">=</span><span class="s2">"Control_23_R1_S13"</span>
+<span class="nv">R1</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_R1.fastq.gz"</span>
+<span class="nv">R2</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_R2.fastq.gz"</span>
+
+bowtie2 <span class="se">\</span>
+  <span class="nt">-x</span> bowtie2_index/vOTUs <span class="se">\</span>
+  <span class="nt">-1</span> <span class="s2">"</span><span class="nv">$R1</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">-2</span> <span class="s2">"</span><span class="nv">$R2</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--end-to-end</span> <span class="se">\</span>
+  <span class="nt">--very-sensitive</span> <span class="se">\</span>
+  <span class="nt">-p</span> 16 <span class="se">\</span>
+  <span class="nt">--no-unal</span> <span class="se">\</span>
+  2&gt; <span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_bowtie2.log"</span> | <span class="se">\</span>
+  samtools <span class="nb">sort</span> -@ 4 <span class="nt">-o</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_sorted.bam"</span>
+
+samtools index <span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_sorted.bam"</span>
+</code></pre></div></div>
+
+<p><strong>Key flags explained:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-x</code></td>
+      <td>index prefix (without file extensions)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-1 / -2</code></td>
+      <td>paired-end read files</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--end-to-end</code></td>
+      <td>full read alignment (recommended for abundance, avoids soft-clipping artefacts)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--very-sensitive</code></td>
+      <td>most thorough alignment preset</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-unal</code></td>
+      <td>do not output unmapped reads (keeps BAM files manageable)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-unal</code></td>
+      <td>do not output unmapped reads</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The output is a sorted, indexed BAM file ready for CoverM.</p>
+
+<p><strong>Check mapping rate</strong> from the log:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_bowtie2.log"</span>
+</code></pre></div></div>
+
+<p>Typical viral mapping rates in environmental metagenomes are 0.5–10% — most reads come from bacteria and archaea, so a low mapping rate to viral references is expected and normal.</p>
+
+<h3 id="running-for-multiple-samples">Running for multiple samples</h3>
+
+<p>In practice you will have many samples. The batch script <code class="language-plaintext highlighter-rouge">05_bowtie2_mapping.sh</code> in the repository loops over all samples automatically. The loop pattern looks like:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>SAMPLE <span class="k">in </span>Control_23 Control_36 Treatment_A Treatment_B<span class="p">;</span> <span class="k">do
+  </span>bowtie2 <span class="nt">-x</span> bowtie2_index/vOTUs <span class="se">\</span>
+    <span class="nt">-1</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_R1.fastq.gz <span class="se">\</span>
+    <span class="nt">-2</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_R2.fastq.gz <span class="se">\</span>
+    <span class="nt">--end-to-end</span> <span class="nt">--very-sensitive</span> <span class="nt">-p</span> 16 <span class="nt">--no-unal</span> <span class="se">\</span>
+    2&gt; <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_bowtie2.log | <span class="se">\</span>
+    samtools <span class="nb">sort</span> -@ 4 <span class="nt">-o</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_sorted.bam
+  samtools index <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_sorted.bam
+<span class="k">done</span>
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="part-6--abundance-estimation-with-coverm">Part 6 — Abundance estimation with CoverM</h2>
+
+<p>Bowtie2 gives you BAM files. CoverM reads those BAM files and calculates meaningful abundance metrics per vOTU per sample. It is the tool that turns raw mapping data into an ecology-ready abundance table.</p>
+
+<h3 id="what-abundance-metrics-mean">What abundance metrics mean</h3>
+
+<p>CoverM can report several metrics. The three most useful for viromics are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>What it measures</th>
+      <th>When to use it</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mean</code></td>
+      <td>average depth of coverage across the genome</td>
+      <td>assessing replication activity; highly active viruses have deep coverage</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">relative_abundance</code></td>
+      <td>fraction of all mapped reads going to this vOTU, normalised to genome length</td>
+      <td>comparing viruses across samples; accounts for genome size differences</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">covered_fraction</code></td>
+      <td>fraction of the vOTU sequence covered by at least one read</td>
+      <td>quality check — low covered fraction suggests a false-positive mapping</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>A practical rule:</strong> require <code class="language-plaintext highlighter-rouge">covered_fraction ≥ 0.75</code> before treating a vOTU as truly present in a sample. If less than 75% of the genome is covered, the mapping hits are likely artefactual (short conserved regions attracting reads from non-viral sources).</p>
+
+<h3 id="installation-2">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load anaconda3/2023.09-0
+
+conda create <span class="se">\</span>
+  <span class="nt">-p</span> /your/tools/dir/coverm_env <span class="se">\</span>
+  <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda <span class="se">\</span>
+  coverm <span class="se">\</span>
+  <span class="nt">-y</span>
+
+conda activate /your/tools/dir/coverm_env
+coverm <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h3 id="running-coverm-in-bam-mode">Running CoverM in BAM mode</h3>
+
+<p>Once you have sorted BAM files from Bowtie2, CoverM genome mode reads them directly:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate /your/tools/dir/coverm_env
+
+coverm genome <span class="se">\</span>
+  <span class="nt">--bam-files</span> <span class="k">*</span>_sorted.bam <span class="se">\</span>
+  <span class="nt">--genome-fasta-files</span> vOTUs.fa <span class="se">\</span>
+  <span class="nt">-m</span> mean relative_abundance covered_fraction <span class="se">\</span>
+  <span class="nt">--min-covered-fraction</span> 0 <span class="se">\</span>
+  <span class="nt">-t</span> 16 <span class="se">\</span>
+  <span class="nt">--output-file</span> coverm_abundance_all_samples.tsv
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--min-covered-fraction 0</code> tells CoverM to report all vOTUs including those with zero coverage in a sample — important for keeping the matrix complete with zeros rather than missing values.</p>
+
+<p>The output <code class="language-plaintext highlighter-rouge">coverm_abundance_all_samples.tsv</code> is a matrix with vOTU IDs as rows and one column per sample per metric.</p>
+
+<h3 id="alternative-coverm-with-paired-reads-directly">Alternative: CoverM with paired reads directly</h3>
+
+<p>If you prefer to skip the separate Bowtie2 step, CoverM can do the mapping internally:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coverm genome <span class="se">\</span>
+  <span class="nt">--coupled</span> sample1_R1.fastq.gz sample1_R2.fastq.gz <span class="se">\</span>
+  <span class="nt">--genome-fasta-files</span> vOTUs.fa <span class="se">\</span>
+  <span class="nt">-m</span> mean relative_abundance covered_fraction <span class="se">\</span>
+  <span class="nt">-t</span> 16 <span class="se">\</span>
+  <span class="nt">--output-file</span> coverm_sample1.tsv
+</code></pre></div></div>
+
+<p>This is convenient for single samples but gives you less control over mapping parameters. For large multi-sample projects, running Bowtie2 separately and then feeding BAM files to CoverM is more flexible and lets you reuse the BAM files for other analyses (such as transcript counting in Day 6).</p>
+
+<h3 id="post-processing-applying-the-covered-fraction-filter">Post-processing: applying the covered-fraction filter</h3>
+
+<p>After CoverM runs, apply the 75% covered-fraction threshold to set low-confidence presence calls to zero:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">coverm_abundance_all_samples.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Extract covered_fraction columns
+</span><span class="n">cf_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="sh">"</span><span class="s">Covered_Fraction</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">c</span><span class="p">]</span>
+<span class="n">ra_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="sh">"</span><span class="s">Relative_Abundance</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">c</span><span class="p">]</span>
+
+<span class="c1"># For each sample, zero out relative abundance where covered fraction &lt; 0.75
+</span><span class="k">for</span> <span class="n">cf_col</span><span class="p">,</span> <span class="n">ra_col</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">cf_cols</span><span class="p">,</span> <span class="n">ra_cols</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cf_col</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.75</span>
+    <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="n">ra_col</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="n">df</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">coverm_abundance_filtered.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Filtered abundance table written: </span><span class="si">{</span><span class="n">df</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s"> vOTUs × </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">ra_cols</span><span class="p">)</span><span class="si">}</span><span class="s"> samples</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This script is provided as <code class="language-plaintext highlighter-rouge">filter_coverm_abundance.py</code> in the repository.</p>
+
+<hr>
+
+<h2 id="part-7--merging-taxonomy-and-abundance">Part 7 — Merging taxonomy and abundance</h2>
+
+<p>You now have two key tables:</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">master_taxonomy.tsv</code> — vOTU ID → family → order → class → realm → classification method</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">coverm_abundance_filtered.tsv</code> — vOTU ID × sample abundance matrix</li>
+</ul>
+
+<p>Joining them gives you the complete ecological picture:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Quick join in bash (for a first look)</span>
+<span class="nb">join</span> <span class="nt">-t</span> <span class="s1">$'</span><span class="se">\t</span><span class="s1">'</span> <span class="se">\</span>
+  &lt;<span class="o">(</span><span class="nb">sort </span>master_taxonomy.tsv<span class="o">)</span> <span class="se">\</span>
+  &lt;<span class="o">(</span><span class="nb">sort </span>coverm_abundance_filtered.tsv<span class="o">)</span> <span class="se">\</span>
+  <span class="o">&gt;</span> taxonomy_abundance_combined.tsv
+</code></pre></div></div>
+
+<p>With this combined table you can ask questions like:</p>
+
+<ul>
+  <li>Which viral families dominate by abundance (not just by count of OTUs)?</li>
+  <li>Are particular families more abundant in treatment vs control samples?</li>
+  <li>Which vOTUs are core (present in all samples) vs rare (present in one or two)?</li>
+  <li>How does viral community composition change along an environmental gradient?</li>
+</ul>
+
+<p>The <code class="language-plaintext highlighter-rouge">merge_taxonomy_abundance.py</code> script in the repository handles the join cleanly and outputs both a wide matrix and a long-format table ready for R or Python plotting.</p>
+
+<hr>
+
+<h2 id="part-8--quick-visualisation-ideas">Part 8 — Quick visualisation ideas</h2>
+
+<p>Once you have the merged table, a few standard plots communicate the results clearly:</p>
+
+<h3 id="stacked-bar-chart-of-relative-abundance-by-taxonomy">Stacked bar chart of relative abundance by taxonomy</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">taxonomy_abundance_combined.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Collapse to family level, sum relative abundance per sample
+</span><span class="n">family_abund</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">"</span><span class="s">family</span><span class="sh">"</span><span class="p">)[</span><span class="n">sample_cols</span><span class="p">].</span><span class="nf">sum</span><span class="p">()</span>
+<span class="n">family_abund</span><span class="p">.</span><span class="n">T</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="sh">"</span><span class="s">bar</span><span class="sh">"</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">colormap</span><span class="o">=</span><span class="sh">"</span><span class="s">tab20</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">ylabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Relative abundance</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Sample</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="sh">"</span><span class="s">upper left</span><span class="sh">"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">"</span><span class="s">family_abundance_barplot.pdf</span><span class="sh">"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="heatmap-of-top-30-votus">Heatmap of top 30 vOTUs</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="n">top30</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">nlargest</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">sample_cols</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">).</span><span class="n">name</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">clustermap</span><span class="p">(</span>
+    <span class="n">top30</span><span class="p">[</span><span class="n">sample_cols</span><span class="p">],</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">YlOrRd</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="n">yticklabels</span><span class="o">=</span><span class="n">top30</span><span class="p">[</span><span class="sh">"</span><span class="s">family</span><span class="sh">"</span><span class="p">].</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">standard_scale</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">"</span><span class="s">top30_vOTU_heatmap.pdf</span><span class="sh">"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="alpha-diversity-richness-per-sample">Alpha diversity (richness per sample)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Count vOTUs present (relative abundance &gt; 0) per sample
+</span><span class="n">richness</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">sample_cols</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">).</span><span class="nf">sum</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">richness</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>These are starting points. The companion repository includes a full <code class="language-plaintext highlighter-rouge">day2/scripts/plot_taxonomy_abundance.py</code> script that generates publication-ready versions of these figures.</p>
+
+<hr>
+
+<h2 id="part-9--common-questions-and-pitfalls">Part 9 — Common questions and pitfalls</h2>
+
+<p><strong>Q: Most of my vOTUs come back as “Unknown”. Is something wrong?</strong></p>
+
+<p>No. This is normal, especially in underexplored environments. A recent large-scale ocean virome study found that ~70% of vOTUs had no family-level classification. Unknown vOTUs are not failures — they represent novel viral diversity. Document them, note their abundance, and consider whether any are abundant enough to warrant deeper investigation.</p>
+
+<p><strong>Q: My mapping rates are very low (&lt;0.1%). Should I be worried?</strong></p>
+
+<p>Not necessarily. Viral sequences are a small fraction of total environmental DNA, so most reads in a bulk metagenome come from bacteria and archaea. Mapping rates to viral references of 0.1–5% are typical. Very low rates (&lt;0.01%) can sometimes indicate that your samples were not viral-enriched and the assembly recovered very few viral contigs to begin with — check the size of <code class="language-plaintext highlighter-rouge">vOTUs.fa</code> relative to your full assembly.</p>
+
+<p><strong>Q: Some vOTUs have extremely high relative abundance in one sample and zero in all others. Is that real?</strong></p>
+
+<p>Possibly. Viral populations can be highly dynamic — a lytic phage can cause a bloom in one sample that wipes out its host, resulting in extremely high viral abundance followed by a crash. Check the covered fraction for that vOTU in the high-abundance sample (should be close to 1.0 for a genuine bloom) and check whether the read depth is consistent across the genome (genuine signal tends to be relatively uniform; false positives often show spiky coverage).</p>
+
+<p><strong>Q: Should I use <code class="language-plaintext highlighter-rouge">relative_abundance</code> or <code class="language-plaintext highlighter-rouge">mean</code> coverage for downstream statistics?</strong></p>
+
+<p>For between-sample comparisons, use <code class="language-plaintext highlighter-rouge">relative_abundance</code> — it accounts for differences in sequencing depth between samples. For within-sample comparisons of viral replication activity, <code class="language-plaintext highlighter-rouge">mean</code> coverage can be informative. For ordination (PCoA, NMDS) and diversity analyses, use <code class="language-plaintext highlighter-rouge">relative_abundance</code>.</p>
+
+<hr>
+
+<h2 id="what-we-have-built">What we have built</h2>
+
+<p>At the end of this post you have a complete taxonomy + abundance characterisation of your viral community:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">genomad_output/vOTUs_summary/vOTUs_virus_summary.tsv</code></td>
+      <td>geNomad taxonomy and scores</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">blastp_vs_refseq.txt</code></td>
+      <td>raw BLAST hits</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">master_taxonomy.tsv</code></td>
+      <td>reconciled taxonomy from both methods</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*_sorted.bam</code></td>
+      <td>read mappings per sample</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">coverm_abundance_all_samples.tsv</code></td>
+      <td>raw abundance matrix</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">coverm_abundance_filtered.tsv</code></td>
+      <td>abundance matrix after coverage filter</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">taxonomy_abundance_combined.tsv</code></td>
+      <td>merged final table</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In the next post we shift from <em>who</em> the viruses are to <em>what they do</em> — identifying auxiliary metabolic genes (AMGs) and understanding how viruses reshape host metabolism mid-infection.</p>
+
+<hr>
+
+<blockquote>
+  <p><strong>Companion repository:</strong> <a href="https://github.com/jojyjohn28/metagenome-to-viromics" rel="external nofollow noopener" target="_blank">metagenome-to-viromics</a>
+Scripts, toy data, and install guides for every step in this series live here. Day 2 materials are in <code class="language-plaintext highlighter-rouge">day2/</code>.</p>
+</blockquote>
+
+<p><img src="/assets/img/vir-d2.png" alt="see_your_plot"></p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      © Copyright 2026
+      Jojy
+      
+      John. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+      
+      
+    </div>
+  </footer>
+
+
+
+    <!-- ========================= -->
+    <!-- JavaScripts (IMPORTANT ORDER) -->
+    <!-- ========================= -->
+
+    <!-- jQuery MUST load first -->
+    <!-- jQuery -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+
+    <!-- Bootstrap depends on jQuery -->
+    <!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/assets/js/mdb.min.js"></script> -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+
+    <!-- Other scripts -->
+    
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  <!-- Medium Zoom JS -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+<!-- Bootstrap Table -->
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+    
+  
+    <!-- MathJax -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          tags: 'ams',
+        },
+      };
+    </script>
+    <script defer type="text/javascript" id="MathJax-script" src="" integrity="" crossorigin="anonymous"></script>
+    <script defer src="" crossorigin="anonymous"></script>
+  
+
+
+    
+
+    
+
+
+
+    
+  <!-- Scrolling Progress Bar -->
+  <script type="text/javascript">
+    /*
+     * This JavaScript code has been adapted from the article
+     * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar,
+     * published on the website https://css-tricks.com on the 7th of May, 2014.
+     * Couple of changes were made to the original code to make it compatible
+     * with the `al-foio` theme.
+     */
+    const progressBar = $('#progress');
+    /*
+     * We set up the bar after all elements are done loading.
+     * In some cases, if the images in the page are larger than the intended
+     * size they'll have on the page, they'll be resized via CSS to accomodate
+     * the desired size. This mistake, however, breaks the computations as the
+     * scroll size is computed as soon as the elements finish loading.
+     * To account for this, a minimal delay was introduced before computing the
+     * values.
+     */
+    window.onload = function () {
+      setTimeout(progressBarSetup, 50);
+    };
+    /*
+     * We set up the bar according to the browser.
+     * If the browser supports the progress element we use that.
+     * Otherwise, we resize the bar thru CSS styling
+     */
+    function progressBarSetup() {
+      if ('max' in document.createElement('progress')) {
+        initializeProgressElement();
+        $(document).on('scroll', function () {
+          progressBar.attr({ value: getCurrentScrollPosition() });
+        });
+        $(window).on('resize', initializeProgressElement);
+      } else {
+        resizeProgressBar();
+        $(document).on('scroll', resizeProgressBar);
+        $(window).on('resize', resizeProgressBar);
+      }
+    }
+    /*
+     * The vertical scroll position is the same as the number of pixels that
+     * are hidden from view above the scrollable area. Thus, a value > 0 is
+     * how much the user has scrolled from the top
+     */
+    function getCurrentScrollPosition() {
+      return $(window).scrollTop();
+    }
+
+    function initializeProgressElement() {
+      let navbarHeight = $('#navbar').outerHeight(true);
+      $('body').css({ 'padding-top': navbarHeight });
+      $('progress-container').css({ 'padding-top': navbarHeight });
+      progressBar.css({ top: navbarHeight });
+      progressBar.attr({
+        max: getDistanceToScroll(),
+        value: getCurrentScrollPosition(),
+      });
+    }
+    /*
+     * The offset between the html document height and the browser viewport
+     * height will be greater than zero if vertical scroll is possible.
+     * This is the distance the user can scroll
+     */
+    function getDistanceToScroll() {
+      return $(document).height() - $(window).height();
+    }
+
+    function resizeProgressBar() {
+      progressBar.css({ width: getWidthPercentage() + '%' });
+    }
+    // The scroll ratio equals the percentage to resize the bar
+    function getWidthPercentage() {
+      return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+    }
+  </script>
+
+
+    
+
+    
+
+    
+
+    
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+    
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?601a2d3465e2a52bec38b600518d5f70"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script>
+    let searchTheme = determineComputedTheme();
+    const ninjaKeys = document.querySelector('ninja-keys');
+
+    if (searchTheme === 'dark') {
+      ninjaKeys.classList.add('dark');
+    } else {
+      ninjaKeys.classList.remove('dark');
+    }
+
+    const openSearchModal = () => {
+      // collapse navbarNav if expanded on mobile
+      const $navbarNav = $('#navbarNav');
+      if ($navbarNav.hasClass('show')) {
+        $navbarNav.collapse('hide');
+      }
+      ninjaKeys.open();
+    };
+  </script>
+  <script>
+    // get the ninja-keys element
+    const ninja = document.querySelector('ninja-keys');
+
+    // add the home and posts menu items
+    ninja.data = [{
+        id: "nav-",
+        title: "",
+        section: "Navigation",
+        handler: () => {
+          window.location.href = "/";
+        },
+      },{id: "nav-publications",
+              title: "Publications",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/publications/";
+              },
+            },{id: "nav-blog",
+              title: "Blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "nav-projects",
+              title: "Projects",
+              description: "Research projects spanning microbial ecology, genomics, and multi-omics..",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/projects/";
+              },
+            },{id: "nav-mentoring",
+              title: "Mentoring",
+              description: "Graduate, undergraduate, and intern research mentorship in microbial ecology, bioinformatics, and multi-omics analysis.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/mentoring/";
+              },
+            },{id: "nav-collaboration",
+              title: "Collaboration",
+              description: "Interdisciplinary research collaborations in microbial ecology, genomics, bioinformatics, and environmental biotechnology.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/collaborations/";
+              },
+            },{id: "nav-teaching",
+              title: "Teaching",
+              description: "Teaching experience from 2014",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/teaching/";
+              },
+            },{id: "nav-repositories",
+              title: "Repositories",
+              description: "Research code, bioinformatics pipelines, and reproducible workflows.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/repositories/";
+              },
+            },{id: "post-",
+          
+            title: "",
+          
+          description: "",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026-02-11-day6-specialized-functions/";
+            
+          },
+        },{id: "post-who-are-these-viruses-taxonomy-and-abundance-from-viral-otus",
+          
+            title: "Who Are These Viruses? Taxonomy and Abundance from Viral OTUs",
+          
+          description: "You have your vOTUs — now what? This second post in the viromics series walks through classifying viral genomes using geNomad and BLAST, then estimating their abundance across samples using Bowtie2 and CoverM. Beginner-friendly, with every command explained.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/viromics-day2-taxonomy-abundance/";
+            
+          },
+        },{id: "post-from-metagenome-to-viral-otus-identifying-filtering-and-clustering-viral-genomes",
+          
+            title: "From Metagenome to Viral OTUs: Identifying, Filtering, and Clustering Viral Genomes",
+          
+          description: "Viruses outnumber every other biological entity on Earth, yet most metagenomic workflows ignore them. This post walks through the full first stage of a viromics pipeline — from assembled contigs to quality-filtered viral OTUs — using VirSorter2, VITAP, CD-HIT, and CheckV.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/viromics-day1-metagenome-to-votus/";
+            
+          },
+        },{id: "post-building-a-custom-gtdbtk-database-for-humann3-a-gene-catalogue-approach-for-environmental-metagenomics",
+          
+            title: "Building a Custom GTDBtk Database for HUMAnN3 — A Gene Catalogue Approach for...",
+          
+          description: "HUMAnN3&#39;s default ChocoPhlAn database was built for the human gut. If you run it on an estuary, soil, or ocean sample, most of your community ends up as &#39;unclassified&#39;. This post walks through building a fully custom HUMAnN3-ready database from GTDB r220 using STRUO2 — and why this changes everything for environmental metagenomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/custom-gtdb-humann3-gene-catalogue/";
+            
+          },
+        },{id: "post-genome-coverage-what-it-is-why-it-matters-and-how-to-calculate-it-for-ncbi-submission",
+          
+            title: "Genome Coverage — What It Is, Why It Matters, and How to Calculate...",
+          
+          description: "Coverage is one of the first numbers reviewers and NCBI look for when you submit a genome. This beginner-friendly guide explains what coverage actually means, why 30x is different from 100x, how Illumina and ONT reads contribute differently, and includes a complete Python script to calculate coverage for Illumina-only, ONT-only, and hybrid assemblies.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-coverage-calculation-ncbi-submission/";
+            
+          },
+        },{id: "post-what-is-a-metadata-file-and-why-does-your-microbiome-analysis-depend-on-it",
+          
+            title: "What is a Metadata File — and Why Does Your Microbiome Analysis Depend...",
+          
+          description: "A metadata file is the table that tells QIIME 2 what each of your samples actually is. Without it, you have sequences but no story. This beginner-friendly guide explains what metadata is, how to build one, how it drives alpha and beta diversity, and what it looks like when you add real environmental variables like salinity, temperature, and bay location.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metadata-file-qiime2-diversity-beginner/";
+            
+          },
+        },{id: "post-genome-annotation-tools-from-rast-39-s-19-to-a-complete-picture-with-pgap-eggnog-dram-and-interproscan",
+          
+            title: "Genome Annotation Tools — From RAST&#39;s 19% to a Complete Picture with PGAP,...",
+          
+          description: "You annotated your genome with RAST and only 19% of genes got a subsystem assignment. Sound familiar? This beginner-friendly guide walks through why that happens and how to fix it using PGAP, eggNOG-mapper, DRAM, and InterProScan — with a complete R visualization script for your manuscript figures.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-annotation-tools-pgap-eggnog-dram/";
+            
+          },
+        },{id: "post-from-qiime-2-to-r-visualizing-your-16s-amplicon-results",
+          
+            title: "From QIIME 2 to R — Visualizing Your 16S Amplicon Results",
+          
+          description: "You finished your QIIME 2 amplicon analysis. Now what? This beginner-friendly guide walks through exactly how to export your QIIME 2 artifacts, convert BIOM tables to TSV, and build publication-quality diversity plots and taxonomy figures in R — step by step, with every command explained.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/qiime2-to-r-visualization/";
+            
+          },
+        },{id: "post-genome-visualization-tools-a-beginner-39-s-guide-to-seeing-your-genome",
+          
+            title: "Genome Visualization Tools — A Beginner&#39;s Guide to Seeing Your Genome",
+          
+          description: "You have a genome file and no idea how to visualize it. This beginner-friendly guide walks through four tools — Proksee, gbdraw, Artemis, and Bandage — that take you from raw FASTA or GenBank files to beautiful, publication-ready circular maps and genome browsers, with zero programming required for most of them.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-visualization-tools-beginners-guide/";
+            
+          },
+        },{id: "post-co-occurrence-networks-from-genome-abundance-data-a-complete-r-workflow",
+          
+            title: "Co-occurrence Networks from Genome Abundance Data — A Complete R Workflow",
+          
+          description: "From raw genome relative abundance tables to Spearman-based co-occurrence networks, keystone taxa detection, and module ecology tests. A step-by-step walkthrough using NetCoMi, igraph, and the Zi-Pi framework in R — with real estuarine metagenome data.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/cooccurrence-network-genome-data/";
+            
+          },
+        },{id: "post-conda-mamba-micromamba-what-39-s-the-difference-and-what-you-should-actually-use",
+          
+            title: "Conda, Mamba, Micromamba — What&#39;s the Difference (and What You Should Actually Use)...",
+          
+          description: "You ran conda install and now your environment is broken. Sound familiar? This beginner-friendly guide explains exactly what conda, mamba, and micromamba are, when to use each one, and the common mistakes that silently destroy bioinformatics environments.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/conda-mamba-micromamba-guide/";
+            
+          },
+        },{id: "post-day-5-from-counts-to-biology-normalization-deseq2-dna-rna-ratios-and-ecological-interpretation",
+          
+            title: "Day 5 — From Counts to Biology: Normalization, DESeq2, DNA:RNA Ratios, and Ecological...",
+          
+          description: "The day most tutorials stop — and the day that matters most. A complete walkthrough of TPM normalization, DESeq2 differential expression across PA and FL estuarine sites, DNA:RNA ratio calculation, functional redundancy analysis, and how to connect every number back to ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-metatranscriptomics-counts-to-biology/";
+            
+          },
+        },{id: "post-day-4-reads-meet-reference-the-mapping-amp-quantification-pipeline",
+          
+            title: "Day 4 — Reads Meet Reference: The Mapping &amp; Quantification Pipeline",
+          
+          description: "Every command, every output, every flag explained — from Bowtie2 mapping to featureCounts. With the real alignment statistics from our estuarine dataset and a beginner-friendly guide to reading what those numbers actually mean.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day4-metatranscriptomics-mapping-quantification/";
+            
+          },
+        },{id: "post-day-3-the-reference-problem-your-database-defines-your-biology",
+          
+            title: "Day 3 — The Reference Problem: Your Database Defines Your Biology",
+          
+          description: "The most consequential decision in metatranscriptomics isn&#39;t which mapper you use — it&#39;s what you map against. A beginner-friendly guide to MAGs, reference genomes, and gene catalogs, with the commands to build each one and the SLURM scripts to run them on HPC.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day3-metatranscriptomics-reference-strategy/";
+            
+          },
+        },{id: "post-day-2-clean-your-rna-qc-amp-preprocessing-for-metatranscriptomics",
+          
+            title: "Day 2 — Clean Your RNA : QC &amp; Preprocessing for Metatranscriptomics",
+          
+          description: "The step most tutorials skip — and the one that decides your mapping success rate before Bowtie2 ever runs. A complete walkthrough of FastQC, fastp, SortMeRNA, and bbduk with real commands for HPC.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day2-metatranscriptomics-qc-preprocessing/";
+            
+          },
+        },{id: "post-day-1-who-is-active-not-just-present-an-introduction-to-metatranscriptomics",
+          
+            title: "Day 1 — Who Is Active, Not Just Present? An Introduction to Metatranscriptomics...",
+          
+          description: "DNA is a blueprint. RNA is a timesheet. This opening post sets the conceptual foundation for the series — what metatranscriptomics actually measures, why activity and abundance are not the same thing, and why your estuarine samples are the perfect system to teach it.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day1-metatranscriptomics-introduction/";
+            
+          },
+        },{id: "post-pangenome-analysis-with-anvi-39-o-from-hpc-to-publication-ready-figures",
+          
+            title: "Pangenome Analysis with Anvi&#39;o: From HPC to Publication-Ready Figures",
+          
+          description: "A complete beginner&#39;s guide to building and visualising a bacterial pangenome using Anvi&#39;o — running heavy computation on HPC and generating publication-quality figures with R on your laptop.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/pangenome-anvio-hpc/";
+            
+          },
+        },{id: "post-day-6-moving-your-data-scp-rsync-sftp-and-globus-connect",
+          
+            title: "Day 6 — Moving Your Data: scp, rsync, SFTP, and Globus Connect",
+          
+          description: "Your pipeline is ready, your HPC account is set up — but how do you actually move 300 GB of raw sequencing reads onto the cluster? A practical guide to every data transfer method you&#39;ll use in bioinformatics, from quick one-liners to terabyte-scale transfers.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day6-data-transfer/";
+            
+          },
+        },{id: "post-day-5-reproducible-pipelines-snakemake-and-nextflow",
+          
+            title: "Day 5 — Reproducible Pipelines: Snakemake and Nextflow",
+          
+          description: "Shell scripts work — until they don&#39;t. Here&#39;s how to graduate from manual job submissions to proper workflow managers that track dependencies, restart from failures, scale to HPC, and make your analysis reproducible by anyone, anywhere.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-pipelines/";
+            
+          },
+        },{id: "post-day-4-scaling-analysis-for-loops-vs-slurm-job-arrays",
+          
+            title: "Day 4 — Scaling Analysis: For Loops vs SLURM Job Arrays",
+          
+          description: "200 samples × 15 minutes = 50 hours sequential. Or 15 minutes parallel. Here&#39;s exactly how job arrays work, why they are the single biggest productivity unlock on HPC, and every pattern you need to handle real-world datasets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day4-job-arrays/";
+            
+          },
+        },{id: "post-day-3-running-jobs-terminal-bash-loops-and-slurm",
+          
+            title: "Day 3 — Running Jobs: Terminal, Bash Loops, and SLURM",
+          
+          description: "The biggest mindset shift in HPC: you don&#39;t run commands, you submit jobs. Why the login node is off-limits, what actually happens when you type sbatch, and how to go from a laptop bash loop to a proper SLURM script.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day3-running-jobs/";
+            
+          },
+        },{id: "post-day-2-software-installation-sudo-vs-module-load-vs-conda",
+          
+            title: "Day 2 — Software Installation: sudo vs module load vs conda",
+          
+          description: "The first real shock of HPC life: you can&#39;t install software the way you&#39;re used to. Here&#39;s why, and three progressively better solutions — explained step by step for beginners.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day2-software-installation/";
+            
+          },
+        },{id: "post-day-1-laptop-vs-hpc-why-bioinformatics-needs-both",
+          
+            title: "Day 1 — Laptop vs HPC: Why Bioinformatics Needs Both",
+          
+          description: "Your laptop crashed on a 50-sample microbiome run. Here&#39;s what that means, why it happens, and how HPC clusters solve it — explained from scratch for beginners.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day1-laptop-vs-hpc/";
+            
+          },
+        },{id: "post-day-8-from-raw-data-to-paper-figures-a-complete-microbiome-stats-workflow",
+          
+            title: "Day 8 — From Raw Data to Paper Figures: A Complete Microbiome Stats...",
+          
+          description: "Every method from Days 1–7, assembled into the actual order you run them, with the biological question that justifies each step — and the checklist you copy into every new project.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day8-complete-microbiome-stats-workflow/";
+            
+          },
+        },{id: "post-day-7-correlation-analysis-amp-mantel-test-linking-mags-to-environment",
+          
+            title: "Day 7 — Correlation Analysis &amp; Mantel Test: Linking MAGs to Environment",
+          
+          description: "Spearman correlation asks which environmental variables each MAG tracks. The Mantel test asks something deeper — does community dissimilarity itself scale with environmental dissimilarity?",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day7-correlation-mantel-test-microbiome/";
+            
+          },
+        },{id: "post-day-6-wgcna-for-microbiome-co-abundance-networks-from-individual-mags-to-modules",
+          
+            title: "Day 6 — WGCNA for Microbiome Co-Abundance Networks: From Individual MAGs to Modules...",
+          
+          description: "WGCNA moves you from 61 individual Wilcoxon tests to a handful of ecological guilds — each with a name, a size, and a direct relationship to the environmental gradient that drives it.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day6-wgcna-mag-coabundance-networks/";
+            
+          },
+        },{id: "post-day-5-multiple-regression-for-mag-abundance-linking-genomics-to-environment",
+          
+            title: "Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment",
+          
+          description: "This is multiple regression — the bridge from discrete group comparisons to the continuous environmental gradients that actually structure microbial communities in estuaries.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-multiple-regression-mag-abundance/";
+            
+          },
+        },{id: "post-day-4-non-parametric-tests-for-microbiome-data-wilcoxon-kruskal-wallis-amp-effect-sizes",
+          
+            title: "Day 4 — Non-Parametric Tests for Microbiome Data: Wilcoxon, Kruskal-Wallis &amp; Effect Sizes...",
+          
+          description: "After three days of community-level analysis, we step down to the taxon level — testing which individual MAGs differ between seasons, size fractions, and salinity regimes. Covers Wilcoxon, Kruskal-Wallis, FDR correction, and Cliff&#39;s delta effect size.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day4-nonparametric-tests-wilcoxon-kruskal-wallis/";
+            
+          },
+        },{id: "post-day-3-permanova-with-adonis2-testing-real-community-differences",
+          
+            title: "Day 3 — PERMANOVA with adonis2: Testing Real Community Differences",
+          
+          description: "You&#39;ve seen the groups separate in the RDA triplot. Now we test whether those differences are statistically real — using PERMANOVA, the permutation-based test built for multivariate community data. Includes the critical betadisper assumption test most papers skip.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day3-permanova-adonis2-microbiome/";
+            
+          },
+        },{id: "post-day-2-constrained-ordination-rda-amp-dbrda-for-microbiome-community-analysis",
+          
+            title: "Day 2 — Constrained Ordination: RDA &amp; dbRDA for Microbiome Community Analysis",
+          
+          description: "Learn how to run RDA with Hellinger-transformed MAG abundance data and interpret the resulting triplot — arrows, points, axes, and variance explained — using real Chesapeake and Delaware Bay metagenomes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day2-rda-dbrda-microbiome-ordination/";
+            
+          },
+        },{id: "post-day-1-why-normal-statistics-fail-for-microbiome-data-and-what-we-use-instead",
+          
+            title: "Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We...",
+          
+          description: "Before we run a single ordination or permutation test, we need to understand why standard statistics break down for microbiome and genomics data. This is your foundation for the entire 7-day series.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day1-why-normal-stats-fail-microbiome/";
+            
+          },
+        },{id: "post-from-messy-subfolders-to-analysis-ready-fasta-rename-with-python-collect-with-linux-find",
+          
+            title: "From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with Linux...",
+          
+          description: "A practical mini-workflow: add sample names to files inside many subfolders using a custom Python script, then use Linux find to gather all .fa files into one directory for downstream analysis (Prokka → InterProScan, DIAMOND → final tables).",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/python-rename-and-linux-find-collect-fasta/";
+            
+          },
+        },{id: "post-day-5-substrate-uptake-amp-utilization-in-size-fractionated-estuarine-microbiomes",
+          
+            title: "Day 5: Substrate Uptake &amp; Utilization in Size-Fractionated Estuarine Microbiomes",
+          
+          description: "From gene catalogs to carbon currency: a step-by-step functional workflow for analyzing CAZymes, ABC transporters, and TonB-dependent transporters in size-fractionated metagenomes and metatranscriptomes. Covers concatenated gene catalogs, dbCAN annotation, transporter filtering, read mapping, normalization, and heatmap visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-substrate-uptake-patterns/";
+            
+          },
+        },{id: "post-metagenome-analysis-graduate-course-materials",
+          
+            title: "Metagenome Analysis - Graduate Course Materials",
+          
+          description: "Beginner-friendly graduate course materials for metagenome analysis. Includes toy datasets (&lt;100MB), complete workflows, and hands-on tutorials covering QC, assembly, binning, taxonomy, and phylogenetics. Perfect for students new to bioinformatics with step-by-step guidance and realistic expectations.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-graduate-course/";
+            
+          },
+        },{id: "post-10-day-metagenome-analysis-series-complete-summary",
+          
+            title: "10-Day Metagenome Analysis Series - Complete Summary",
+          
+          description: "Complete metagenome analysis workflow from raw sequencing to publication: QC, assembly, binning, annotation, specialized functions, comparative genomics, automation, visualization, and multi-omics integration. Master 50+ tools in 10 comprehensive days with step-by-step tutorials.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-10day-complete-summary/";
+            
+          },
+        },{id: "post-day-10-multi-omics-integration-metagenomics-amp-metatranscriptomics",
+          
+            title: "Day 10: Multi-Omics Integration - Metagenomics &amp; Metatranscriptomics",
+          
+          description: "Master multi-omics integration: combine metagenomics (DNA) and metatranscriptomics (RNA) data to reveal active functions. Learn DESeq2 differential expression, expression ratio modeling, comparative heatmaps, pathway activity analysis, and taxonomic integration. Complete guide from count tables to biological insights.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day10-multiomics-integration/";
+            
+          },
+        },{id: "post-day-9-visualization-amp-publication-making-data-tell-stories",
+          
+            title: "Day 9: Visualization &amp; Publication - Making Data Tell Stories",
+          
+          description: "Create publication-quality figures for metagenomics: R/ggplot2, Python/matplotlib/seaborn, Krona taxonomic wheels, Circos genome comparisons, interactive Anvi&#39;o plots, network visualizations, and heatmaps. Complete guide to visual storytelling with your data.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day9-visualization/";
+            
+          },
+        },{id: "post-day-8-workflow-wrappers-amp-web-platforms-streamlining-metagenome-analysis",
+          
+            title: "Day 8: Workflow Wrappers &amp; Web Platforms - Streamlining Metagenome Analysis",
+          
+          description: "Master automated workflows with MetaWRAP, Anvi&#39;o, and nf-core/mag. Explore web-based platforms: Galaxy, KBase, IMG/M, and BV-BRC (PATRIC). Complete guide to streamlined metagenomics without the command-line complexity.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day8-workflows-platforms/";
+            
+          },
+        },{id: "post-day-7-comparative-genomics-amp-statistical-analysis-connecting-genomes-to-environment",
+          
+            title: "Day 7: Comparative Genomics &amp; Statistical Analysis - Connecting Genomes to Environment",
+          
+          description: "Master pangenome analysis (PanX, Anvi&#39;o, Roary, BPGA), statistical ecology (PERMANOVA, RDA, dbRDA), co-occurrence networks (WGCNA, SparCC), and environmental associations. Complete guide to understanding how metadata influences microbiomes and comparative genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day7-comparative-statistical/";
+            
+          },
+        },{id: "post-day-5-genome-annotation-understanding-metabolic-potential",
+          
+            title: "Day 5: Genome Annotation - Understanding Metabolic Potential",
+          
+          description: "Complete guide to genome annotation from basic (Prodigal, Prokka) to advanced (DRAM, METABOLIC). Learn to predict genes, assign functions, and reconstruct metabolic pathways from MAGs. Includes practical workflows for laptops and HPC.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day5-annotation/";
+            
+          },
+        },{id: "post-day-4-genome-dereplication-amp-taxonomic-classification-from-mags-to-species",
+          
+            title: "Day 4: Genome Dereplication &amp; Taxonomic Classification - From MAGs to Species",
+          
+          description: "Master genome dereplication with dRep and taxonomic classification with GTDB-Tk. Learn to identify unique species, remove redundancy, construct phylogenetic trees with iTOL and ggtree, and select species representatives from metagenomic datasets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day4-dereplication-taxonomy/";
+            
+          },
+        },{id: "post-day-3-genome-binning-recovering-individual-genomes-mags-from-metagenomes",
+          
+            title: "Day 3: Genome Binning - Recovering Individual Genomes (MAGs) from Metagenomes",
+          
+          description: "Master genome binning with modern MetaWRAP workflows, MetaBAT2, MaxBin2, and CONCOCT. Learn bin refinement, CheckM2 quality assessment, and MAG classification. Includes Python 3 setup, laptop-friendly workflows, and deep learning with SemiBin2.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day3-binning/";
+            
+          },
+        },{id: "post-day-2-metagenome-assembly-reconstructing-genomes-from-short-reads",
+          
+            title: "Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads",
+          
+          description: "A comprehensive guide to assembling metagenomic data using metaSPAdes and MEGAHIT, with quality assessment, parameter optimization, and comparison strategies. Includes desktop-friendly workflows and multi-language analysis scripts.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day2-assembly/";
+            
+          },
+        },{id: "post-day-1-quality-control-contamination-removal-and-read-based-taxonomic-analysis",
+          
+            title: "Day 1: Quality Control, Contamination Removal, and Read-Based Taxonomic Analysis",
+          
+          description: "A comprehensive guide to preprocessing metagenomic sequencing data, from raw reads to clean, taxonomically profiled datasets ready for assembly. Includes workflows for HPC, personal desktop, Linux, and Windows environments.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day1-qc-taxonomy/";
+            
+          },
+        },{id: "post-genome-resolved-metabolism-from-metabolic-potential-to-co-metabolism-networks",
+          
+            title: "Genome-Resolved Metabolism: From Metabolic Potential to Co-Metabolism Networks",
+          
+          description: "A comprehensive workflow for analyzing metabolic flexibility, co-energy metabolism, and co-metabolism networks in hydrocarbon-degrading MAGs using heatmaps and network visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-resolved-metabolism-co-metabolism/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-4-gene-catalog-construction-amp-functional-annotation",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp; Functional Annotation",
+          
+          description: "Day 4 of the size-fractionated microbiome series: Building a non-redundant prokaryotic gene catalog from metagenomes using Prodigal, CD-HIT clustering, and eggNOG functional annotation.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day4/";
+            
+          },
+        },{id: "post-bridging-clinical-and-ecological-ml-from-heart-disease-to-soil-ecosystem-multifunctionality",
+          
+            title: "Bridging Clinical and Ecological ML: From Heart Disease to Soil Ecosystem Multifunctionality",
+          
+          description: "Revisiting my masters in datascience project on heart disease prediction to explore Random Forest applications in microbial ecosystem multifunctionality research. A comprehensive comparison of 5 ML algorithms with real results and lessons learned.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/heart-disease-prediction-ml-random-forest/";
+            
+          },
+        },{id: "post-building-custom-humann3-databases-with-struo2-and-gtdb-a-realistic-guide-from-the-trenches",
+          
+            title: "Building Custom HUMAnN3 Databases with Struo2 and GTDB: A Realistic Guide from the...",
+          
+          description: "A comprehensive, honest guide to building custom HUMAnN3 databases using Struo2 with GTDB r220, including all the troubleshooting, workarounds, and lessons learned from 40 hours in the trenches.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/building-custom-humann3-databases-struo2-gtdb/";
+            
+          },
+        },{id: "post-visualize-your-data-day-5-bubble-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 5: Bubble Plots in Bioinformatics",
+          
+          description: "Day 5 of the Visualize Your Data series: using bubble plots to visualize multi-dimensional relationships in genomics and functional ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day5-bubble-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-4-volcano-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 4: Volcano Plots in Bioinformatics",
+          
+          description: "Day 4 of the Visualize Your Data series: mastering volcano plots for differential expression and abundance analysis in bioinformatics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day4-volcano-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-3-ordination-plots-pca-pcoa-nmds-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 3: Ordination Plots (PCA, PCoA, NMDS) in Bioinformatics...",
+          
+          description: "Day 3 of the Visualize Your Data series: exploring PCA, PCoA, and NMDS to visualize sample relationships and community structure in bioinformatics and microbial ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day3-ordination/";
+            
+          },
+        },{id: "post-visualize-your-data-day-2-heatmaps-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 2: Heatmaps in Bioinformatics",
+          
+          description: "Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps,  commonly used in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day2-heatmaps/";
+            
+          },
+        },{id: "post-visualize-your-data-day-1-box-plot-vs-violin-plot-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics...",
+          
+          description: "Day 1 of the Visualize Your Data series: understanding when and how to use box plots and violin plots to visualize data distributions in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day1-box-vs-violin/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-5-comparative-amp-downstream-genomic-analyses",
+          
+            title: "Whole Genome Sequencing — Day 5: Comparative &amp; Downstream Genomic Analyses",
+          
+          description: "Day 5 of the WGS series: moving from individual genomes to comparative insights through pangenome analysis, secondary metabolite screening, and pathogen detection",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day5-comparative-genomics/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-4-genome-annotation-amp-functional-potential",
+          
+            title: "Whole Genome Sequencing — Day 4: Genome Annotation &amp; Functional Potential",
+          
+          description: "Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day4-annotation-function/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-3-taxonomy-phylogeny-amp-genome-similarity",
+          
+            title: "Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp; Genome Similarity",
+          
+          description: "Day 3 of the WGS series: genome-based taxonomy using GTDB-Tk, phylogenomic tree construction, and species/genus boundary testing using ANI, AAI, and dDDH across large genome sets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day3-taxonomy-phylogeny/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-2-genome-assembly-quality-assessment-and-topology",
+          
+            title: "Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology",
+          
+          description: "Day 2 of the WGS series: short- and long-read genome assembly using SPAdes, MEGAHIT, Shovill, and Flye, followed by assembly evaluation with QUAST, GC content visualization, topology assessment, and graph inspection with Bandage.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day2-genome-assembly/";
+            
+          },
+        },{id: "post-whole-genome-analysis-day-1-from-raw-reads-to-clean-assembly-ready-data",
+          
+            title: "Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data...",
+          
+          description: "Day 1 of a whole-genome analysis series covering raw Illumina and Nanopore reads, integrity checks, quality control with FastQC and NanoPlot, and read trimming using Trimmomatic and Cutadapt.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day1-raw-reads-qc/";
+            
+          },
+        },{id: "post-exploring-the-pan-genome-with-panx-a-practical-workflow-for-darpa-isolates",
+          
+            title: "Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates",
+          
+          description: "5 complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/panx-pangenome-analysis/";
+            
+          },
+        },{id: "post-extracting-full-length-16s-rrna-from-bacterial-genomes-using-barrnap",
+          
+            title: "Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap",
+          
+          description: "A quick and reproducible workflow to extract 16S rRNA genes from assembled genomes and validate taxonomy using NCBI BLAST.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/barrnap-16s-extraction/";
+            
+          },
+        },{id: "post-from-genome-assembly-to-novel-species-a-step-by-step-genomic-workflow",
+          
+            title: "From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow",
+          
+          description: "How do we confidently determine whether a newly sequenced genome represents a novel bacterial species?",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/novel-species-a-step-by-step-guide/";
+            
+          },
+        },{id: "post-using-syncthing-tmux-and-git-to-sync-my-bioinformatics-workflow-across-devices",
+          
+            title: "Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices",
+          
+          description: "How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/syncthing-tmux-git-workflow/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-3-species-level-profiling-with-motus",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs",
+          
+          description: "Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day3/";
+            
+          },
+        },{id: "post-genome-topology-and-genome-announcement-reports-a-practical-reviewer-safe-workflow",
+          
+            title: "Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow",
+          
+          description: "A step-by-step guide to answering NCBI genome topology questions and generating a complete, automated genome report table for Genome Resource Announcements.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-topology-and-genome-report/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-2-kaiju-classification-and-extraction-of-bacterial-amp-archaeal-reads",
+          
+            title: "Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial...",
+          
+          description: "Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day2/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-anlaysis-day-1-from-raw-reads-to-clean-data",
+          
+            title: "Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data...",
+          
+          description: "Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day1/";
+            
+          },
+        },{id: "post-amplicon-week-day-6-wrap-up-from-reads-to-insights",
+          
+            title: "Amplicon Week — Day 6: Wrap-Up: From Reads to Insights",
+          
+          description: "Day 6 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day6/";
+            
+          },
+        },{id: "post-amplicon-week-day-5-web-based-microbiome-analysis-with-easy16s",
+          
+            title: "Amplicon Week — Day 5: Web-based microbiome analysis with easy16S",
+          
+          description: "Day 5 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day5/";
+            
+          },
+        },{id: "post-amplicon-week-day-4-functional-prediction-from-amplicon-data-picrust2-tax4fun2-faprotax",
+          
+            title: "Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)...",
+          
+          description: "Day 4 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day4/";
+            
+          },
+        },{id: "post-amplicon-week-day-3-visualization-amp-ecological-analysis-using-qiime2-microeco-r",
+          
+            title: "Amplicon Week — Day 3: Visualization &amp; Ecological Analysis Using QIIME2 + Microeco...",
+          
+          description: "Day 3 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day3/";
+            
+          },
+        },{id: "post-amplicon-week-day-2-qiime2-setup-importing-data-amp-classifier-training",
+          
+            title: "Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training",
+          
+          description: "Day 2 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day2/";
+            
+          },
+        },{id: "post-amplicon-week-day-1-introduction-to-16s-its-18s-12s-and-coi-metabarcoding",
+          
+            title: "Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI...",
+          
+          description: "Day 1 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day1/";
+            
+          },
+        },{id: "post-cleaning-and-preparing-genomes-for-ncbi-submission-a-complete-workflow",
+          
+            title: "Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow",
+          
+          description: "Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/ncbi-submission-cleaning/";
+            
+          },
+        },{id: "post-machine-learning-mag-binning-with-semibin2-and-snakemake-soil-metagenomes",
+          
+            title: "Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)",
+          
+          description: "How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/semibin-snakemake-soil-mag-workflow/";
+            
+          },
+        },{id: "post-installing-amp-setting-up-my-new-linux-laptop-a-real-journey-through-dual-boot-partitions-amp-persistence",
+          
+            title: "Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot,...",
+          
+          description: "A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/dual-booting-with-linux/";
+            
+          },
+        },{id: "post-gtdb-tk-complete-workflow",
+          
+            title: "GTDB-Tk Complete Workflow",
+          
+          description: "A practical walkthrough of GTDB-Tk Complete Workflow",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/gtdbtk-tree-custom/";
+            
+          },
+        },{id: "post-genome-assembly-day-shovill-for-illumina-amp-flye-for-nanopore-reads",
+          
+            title: "Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads",
+          
+          description: "A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-assembly-day/";
+            
+          },
+        },{id: "post-visualizing-genome-assemblies-with-bandage-building-from-source-on-linux",
+          
+            title: "Visualizing Genome Assemblies with Bandage: Building from Source on Linux",
+          
+          description: "A practical guide to installing Bandage from source using Qt and visualizing assembly graphs generated by Flye and Shovill.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-visualization/";
+            
+          },
+        },{id: "post-re-working-figure-5-visualizing-functional-redundancy-fred-across-bays-seasons-and-salinity",
+          
+            title: "Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity",
+          
+          description: "Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/reworking-a-figure-manuscript-revision-story/";
+            
+          },
+        },{id: "post-my-journey-into-microbiology-the-deep-sea-and-bioinformatics",
+          
+            title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics",
+          
+          description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics/";
+            
+          },
+        },{id: "news-aaas-membership-and-science-magazine-subscription-nominated-by-cynthia-y-young-dean-of-college-of-science-clemson-university",
+              title: 'AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of...',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-asm-2025-los-angeles-usa",
+              title: 'Abstract accepted for **ASM 2025**, Los Angeles, USA.',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-aslo-2025-charlotte-usa",
+              title: 'Abstract accepted for **ASLO 2025**, Charlotte, USA',
+              description: "",
+              section: "News",},{id: "news-188-whole-genome-sequences-submitted-to-ncbi",
+              title: '188 whole-genome sequences submitted to NCBI.',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-baseline-evaluation-of-the-toxicity-potential-of-steel-slag-using-the-green-mussel-perna-viridis-for-sustainable-marine-reuse-applications-this-work-was-originally-completed-during-2019-2020-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Baseline evaluation of the toxicity potential of steel...',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-comparative-genomic-and-phenotypic-analysis-of-streptomyces-rochei-sosist-3-isolated-from-the-southern-ocean-this-work-is-a-part-of-colloboration-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Comparative genomic and phenotypic analysis of Streptomyces rochei...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-accepted-𝐀-𝐯𝐞𝐫𝐲-𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥-𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞-today-i-m-sharing-some-happy-news-𝐦𝐲-𝐟𝐢𝐫𝐬𝐭-𝐩𝐨𝐬𝐭𝐝𝐨𝐜𝐭𝐨𝐫𝐚𝐥-𝐩𝐚𝐩𝐞𝐫-𝐡𝐚𝐬-𝐛𝐞𝐞𝐧-𝐚𝐜𝐜𝐞𝐩𝐭𝐞𝐝-𝐢𝐧-𝐈𝐒𝐌𝐄-𝐂𝐨𝐦𝐦𝐮𝐧𝐢𝐜𝐚𝐭𝐢𝐨𝐧𝐬",
+              title: '**A new paper accepted!** “✨ 𝐀 𝐯𝐞𝐫𝐲 𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥 𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞 ✨ Today, I’m sharing...',
+              description: "",
+              section: "News",},{id: "news-the-accepted-version-available-online-quot-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays-quot-doi-https-doi-org-10-1093-ismeco-ycag021-link-https-academic-oup-com-ismecommun-advance-article-doi-10-1093-ismeco-ycag021-8454622",
+              title: '**The accepted version available online!** &quot;Functional redundancy and metabolic flexibility of microbial communities...',
+              description: "",
+              section: "News",},{id: "news-another-manuscript-accepted-quot-draft-genome-sequence-of-a-novel-species-of-winogradskyella-strain-pc-d3-3-isolated-from-a-red-antarctic-macroalgae-quot-in-microbiology-resource-announcements",
+              title: 'Another manuscript **accepted** &quot;Draft Genome Sequence of a novel species of Winogradskyella (strain...',
+              description: "",
+              section: "News",},{id: "news-another-manuscript-accepted-with-minor-revision-quot-genomic-insights-into-carbohydrate-active-enzymes-in-a-novel-radiobacillus-strain-from-the-antarctic-red-macroalga-pyropia-endiviifolia-quot-in-world-journal-of-microbiology-and-biotechnology-revision-submitted-back",
+              title: 'Another manuscript **accepted** with minor revision &quot;Genomic insights into carbohydrate-active enzymes in a...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-is-online-𝐍𝐚𝐧𝐨𝐥𝐢𝐩𝐨𝐬𝐨𝐦𝐞-𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐝-𝐜𝐨-𝐝𝐞𝐥𝐢𝐯𝐞𝐫𝐲-𝐨𝐟-𝐚𝐦𝐨𝐱𝐢𝐜𝐢𝐥𝐥𝐢𝐧-𝐚𝐧𝐝-𝐭𝐚𝐳𝐨𝐛𝐚𝐜𝐭𝐚𝐦-𝐫𝐞𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐬-𝐢𝐧𝐭𝐫𝐚𝐜𝐞𝐥𝐥𝐮𝐥𝐚𝐫-𝐢𝐧𝐟𝐞𝐜𝐭𝐢𝐨𝐧-𝐛𝐲-𝐦𝐮𝐥𝐭𝐢𝐝𝐫𝐮𝐠-𝐫𝐞𝐬𝐢𝐬𝐭𝐚𝐧𝐭-𝐒𝐚𝐥𝐦𝐨𝐧𝐞𝐥𝐥𝐚-𝐞𝐧𝐭𝐞𝐫𝐢𝐜𝐚-𝐬𝐞𝐫𝐨𝐯𝐚𝐫-𝐓𝐲𝐩𝐡𝐢𝐦𝐮𝐫𝐢𝐮𝐦-read-full-here-https-www-nature-com-articles-s41429-026-00903-5-citeas",
+              title: 'A new paper is online “𝐍𝐚𝐧𝐨𝐥𝐢𝐩𝐨𝐬𝐨𝐦𝐞-𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐝 𝐜𝐨-𝐝𝐞𝐥𝐢𝐯𝐞𝐫𝐲 𝐨𝐟 𝐚𝐦𝐨𝐱𝐢𝐜𝐢𝐥𝐥𝐢𝐧 𝐚𝐧𝐝 𝐭𝐚𝐳𝐨𝐛𝐚𝐜𝐭𝐚𝐦 𝐫𝐞𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐬 𝐢𝐧𝐭𝐫𝐚𝐜𝐞𝐥𝐥𝐮𝐥𝐚𝐫...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-is-online-draft-genome-sequence-of-a-novel-species-of-winogradskyella-strain-pc-d3-3-isolated-from-a-red-antarctic-macroalgae-read-full-here-https-journals-asm-org-doi-10-1128-mra-00055-26",
+              title: 'A new paper is online “Draft genome sequence of a novel species of...',
+              description: "",
+              section: "News",},{id: "news-a-new-prprint-is-online-environmental-gradients-shape-the-hydrocarbon-degrading-microbiome-in-two-mid-atlantic-bays-read-full-here-https-www-biorxiv-org-content-10-64898-2026-03-25-714183v1-abstract",
+              title: 'A new prprint is online “Environmental Gradients Shape the Hydrocarbon-Degrading Microbiome in Two...',
+              description: "",
+              section: "News",},{id: "projects-genome-resolved-characterization-of-novel-antarctic-microbial-lineages",
+              title: 'Genome-Resolved Characterization of Novel Antarctic Microbial Lineages',
+              description: "Integrative genomics and phylogenomics to characterize novel microbial taxa from Antarctic and Southern Ocean ecosystems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Antarctic-Microbial-Diversity/";
+                },},{id: "projects-bacteriophages-and-auxiliary-metabolic-genes-of-the-chesapeake-and-delaware-bays",
+              title: 'Bacteriophages and Auxiliary Metabolic Genes of the Chesapeake and Delaware Bays',
+              description: "Integrative viromics using metagenomes, metatranscriptomes, and viral fractions to characterize viral taxonomy, auxiliary metabolic genes, host interactions, and ecosystem function in estuarine systems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Estury_Virome/";
+                },},{id: "projects-gut-microbiome-responses-to-food-borne-nanoplastics-exposure",
+              title: 'Gut Microbiome Responses to Food-Borne Nanoplastics Exposure',
+              description: "Multi-omics investigation of how pristine and digested nanoplastics alter gut microbial communities in healthy individuals and inflammatory bowel disease patients.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Gut_microbiome_nanoplastics/";
+                },},{id: "projects-microbial-biofouling-interactions-on-autonomous-navy-gliders",
+              title: 'Microbial Biofouling Interactions on Autonomous Navy Gliders',
+              description: "Genome-resolved and metagenomic analysis of marine biofilm communities on autonomous underwater vehicles to design a stable, invasion-resistant synthetic biofilm.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/darpa-biofouling-gliders/";
+                },},{id: "projects-diversity-genomic-studies-and-resistance-mechanisms-of-moderately-halophilic-bacteria",
+              title: 'Diversity, Genomic Studies, and Resistance Mechanisms of Moderately Halophilic Bacteria',
+              description: "Genomic and physiological characterization of halophilic bacteria from salt pan ecosystems to understand stress adaptation, resistance mechanisms, and biotechnological potential.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/diversity_and_genomics/";
+                },},{id: "projects-biological-and-microbial-responses-to-deep-sea-mining-hypoxia-and-anthropogenic-disturbance",
+              title: 'Biological and Microbial Responses to Deep-Sea Mining, Hypoxia, and Anthropogenic Disturbance',
+              description: "Environmental impact assessment of deep-sea mining, monsoon-driven hypoxia, and industrial disturbance using molecular and genomic approaches.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/environmental-impact-assessment/";
+                },},{id: "projects-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays",
+              title: 'Functional Redundancy and Metabolic Flexibility of Microbial Communities in Two Mid-Atlantic Bays',
+              description: "Genome-resolved metagenomic and metatranscriptomic analysis of functional redundancy and metabolic flexibility in estuarine microbial communities from the Chesapeake and Delaware Bays.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/functional-redundancy/";
+                },},{id: "projects-co-metabolism-and-co-expression-networks-of-hydrocarbon-degrading-estuarine-microbiomes",
+              title: 'Co-Metabolism and Co-Expression Networks of Hydrocarbon-Degrading Estuarine Microbiomes',
+              description: "Genome-resolved analysis of hydrocarbon-degrading MAGs across two Mid-Atlantic estuaries, linking metabolic potential, co-energy pathways, and co-metabolism networks using metagenomic and metatranscriptomic data.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/hydrocarbon-estury/";
+                },},{id: "projects-functional-redundancy-and-synthetic-biofilm-design-in-marine-communities-under-environmental-stress",
+              title: 'Functional Redundancy and Synthetic Biofilm Design in Marine Communities under Environmental Stress',
+              description: "Genome-guided analysis and design of marine synthetic biofilm communities to evaluate functional redundancy, biofilm formation potential, and resilience under environmental stress.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/marine_biofilm/";
+                },},{id: "projects-resource-partitioning-and-co-occurrence-of-size-fractionated-microbiomes-in-the-delaware-and-chesapeake-bays",
+              title: 'Resource Partitioning and Co-occurrence of Size-Fractionated Microbiomes in the Delaware and Chesapeake Bays...',
+              description: "Integrative metagenomic and metatranscriptomic analysis of free-living and particle-associated microbial communities to understand resource partitioning, co-occurrence patterns, and functional redundancy in estuarine ecosystems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/size-fractionated-resource-partitioning/";
+                },},{id: "projects-functional-redundancy-in-soil-microbiomes-under-cover-crop-agroecosystems",
+              title: 'Functional Redundancy in Soil Microbiomes under Cover Crop Agroecosystems',
+              description: "Genome-resolved metagenomics and metatranscriptomics reveal microbial functional redundancy across agricultural soils under different cover crop systems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/soil_microbiome/";
+                },},{
+            id: 'socials-email',
+            title: 'Send email',
+            section: 'Socials',
+            handler: () => {
+              window.open("mailto:%6A%6F%6A%79%6A@%63%6C%65%6D%73%6F%6E.%65%64%75", "_blank");
+            },
+          },{
+            id: 'socials-orcid',
+            title: 'ORCID',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://orcid.org/0000-0002-8739-9741", "_blank");
+            },
+          },{
+            id: 'socials-google-scholar',
+            title: 'Google Scholar',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://scholar.google.com/citations?user=w74rUUAAAAAJ", "_blank");
+            },
+          },{
+            id: 'socials-github',
+            title: 'GitHub',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://github.com/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-linkedin',
+            title: 'LinkedIn',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://www.linkedin.com/in/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-x',
+            title: 'X',
+            description: 'Twitter',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://twitter.com/JojyJon", "_blank");
+            },
+          },{
+            id: 'socials-rss',
+            title: 'RSS Feed',
+            section: 'Socials',
+            handler: () => {
+              window.open("/feed.xml", "_blank");
+            },
+          },{
+          id: 'light-theme',
+          title: 'Change theme to light',
+          description: 'Change the theme of the site to Light',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("light");
+          },
+        },
+        {
+          id: 'dark-theme',
+          title: 'Change theme to dark',
+          description: 'Change the theme of the site to Dark',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("dark");
+          },
+        },
+        {
+          id: 'system-theme',
+          title: 'Use system default theme',
+          description: 'Change the theme of the site to System Default',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("system");
+          },
+        },];
+  </script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+  </body>
+</html>

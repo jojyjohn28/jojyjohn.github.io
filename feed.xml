@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-04T16:23:15-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-05-04T16:23:15-04:00</published><updated>2026-05-04T16:23:15-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-06T14:31:56-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-05-06T14:31:56-04:00</published><updated>2026-05-06T14:31:56-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,759 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">From Metagenome to Viral OTUs: Identifying, Filtering, and Clustering Viral Genomes</title><link href="https://jojyjohn28.github.io/blog/viromics-day1-metagenome-to-votus/" rel="alternate" type="text/html" title="From Metagenome to Viral OTUs: Identifying, Filtering, and Clustering Viral Genomes" /><published>2026-05-04T00:00:00-04:00</published><updated>2026-05-04T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/viromics-day1-metagenome-to-votus</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/viromics-day1-metagenome-to-votus/"><![CDATA[<h2 id="part-1--why-viromics">Part 1 — Why Viromics?</h2>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Who Are These Viruses? Taxonomy and Abundance from Viral OTUs</title><link href="https://jojyjohn28.github.io/blog/viromics-day2-taxonomy-abundance/" rel="alternate" type="text/html" title="Who Are These Viruses? Taxonomy and Abundance from Viral OTUs" /><published>2026-05-06T00:00:00-04:00</published><updated>2026-05-06T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/day2-taxonomy-abundance</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/viromics-day2-taxonomy-abundance/"><![CDATA[<p><em>🧬 𝐷𝑎𝑦 79 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 desk</em></p>
+
+<h2 id="where-we-left-off">Where we left off</h2>
+
+<p>In the previous post we went from a raw metagenomic assembly to a set of representative viral genomes — our <strong>vOTUs</strong> (<code class="language-plaintext highlighter-rouge">vOTUs.fa</code>), quality-assessed with CheckV. We know these sequences look viral. We do not yet know <em>what</em> viruses they are or <em>how abundant</em> each one is across our samples.</p>
+
+<p>That is exactly what this post addresses.</p>
+
+<p>By the end you will have:</p>
+
+<ul>
+  <li>A taxonomy table telling you which viral family (or order, or realm) each vOTU belongs to</li>
+  <li>A per-sample abundance matrix showing how many reads map to each vOTU</li>
+  <li>The biological intuition to interpret both</li>
+</ul>
+
+<hr />
+
+<h2 id="part-1--why-taxonomy-is-hard-for-viruses">Part 1 — Why taxonomy is hard for viruses</h2>
+
+<p>Before diving into tools, it helps to understand why viral taxonomy is genuinely difficult — and why we use two complementary approaches rather than one.</p>
+
+<h3 id="viruses-evolve-fast-and-recombine-freely">Viruses evolve fast and recombine freely</h3>
+
+<p>Bacterial 16S rRNA genes evolve slowly enough that a single marker gene reliably places an organism in a lineage. Viral genomes evolve orders of magnitude faster, and many viruses regularly swap genomic modules through recombination. A single phage genome might have a capsid protein that looks like one family and a tail fibre that looks like another. This <strong>genome mosaicism</strong> is real biology, not an artefact, and it means that no single gene reliably represents “the whole virus”.</p>
+
+<h3 id="the-reference-database-is-deeply-incomplete">The reference database is deeply incomplete</h3>
+
+<p>The vast majority of environmental viral diversity has never been cultured, sequenced as an isolate, or formally described. Even the best viral reference databases capture only a fraction of what exists in nature. Studies consistently find that 50–80% of environmental viral contigs cannot be classified at the family level. This is not a failure of the tools — it reflects genuine novelty in the samples.</p>
+
+<h3 id="two-methods-combined">Two methods, combined</h3>
+
+<p>Because of these challenges, we use two approaches:</p>
+
+<ol>
+  <li><strong>geNomad</strong> — a modern machine learning + HMM-based classifier that works at the genome level, placing contigs into ICTV-recognised lineages using a comprehensive marker gene database.</li>
+  <li><strong>Gene-based BLAST</strong> — translates each vOTU into predicted proteins, BLASTs them against the NCBI viral RefSeq protein database, and assigns taxonomy by consensus across all ORFs. This catches cases where geNomad’s markers are absent but individual genes still match known viruses.</li>
+</ol>
+
+<p>When both methods agree, confidence is high. When they disagree, we flag the assignment as provisional. When neither can classify a vOTU, it is recorded as “Unknown” — which in environmental viromics is entirely expected and often the most scientifically interesting outcome.</p>
+
+<hr />
+
+<h2 id="part-2--genomad-genome-based-viral-classification">Part 2 — geNomad: genome-based viral classification</h2>
+
+<h3 id="what-genomad-does">What geNomad does</h3>
+
+<p>geNomad identifies viral sequences and assigns taxonomy in a single run. It uses a combination of:</p>
+
+<ul>
+  <li>A large set of viral and cellular marker gene HMMs</li>
+  <li>A neural network classifier trained on known viral and cellular genomes</li>
+  <li>The ICTV taxonomy hierarchy (realm → kingdom → phylum → class → order → family → genus)</li>
+</ul>
+
+<p>It is fast, handles fragmented genomes well, and is regularly updated to track ICTV reclassifications. If you have already run VITAP in Day 1, you will notice that VITAP also outputs geNomad-style taxonomy — that is because VITAP uses geNomad internally for the taxonomy step. If you used VITAP, you already have geNomad taxonomy for contigs that VITAP assigned. However, running geNomad independently on your final vOTUs gives a clean, consistent classification for the representative set.</p>
+
+<h3 id="installation">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load anaconda3/2023.09-0
+
+conda create <span class="se">\</span>
+  <span class="nt">-p</span> /your/tools/dir/genomad_env <span class="se">\</span>
+  <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda <span class="se">\</span>
+  genomad <span class="se">\</span>
+  <span class="nt">-y</span>
+
+conda activate /your/tools/dir/genomad_env
+genomad <span class="nt">--version</span>
+</code></pre></div></div>
+
+<p>Download the database (~3 GB):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> /your/db/dir/genomad_db
+
+conda activate /your/tools/dir/genomad_env
+genomad download-database /your/db/dir/genomad_db
+</code></pre></div></div>
+
+<p>The database directory will contain a folder called <code class="language-plaintext highlighter-rouge">genomad_db/</code> with HMM profiles and marker gene references. The download takes 10–20 minutes.</p>
+
+<h3 id="running-genomad">Running geNomad</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate /your/tools/dir/genomad_env
+
+genomad end-to-end <span class="se">\</span>
+  vOTUs.fa <span class="se">\</span>
+  genomad_output <span class="se">\</span>
+  /your/db/dir/genomad_db <span class="se">\</span>
+  <span class="nt">--threads</span> 16 <span class="se">\</span>
+  <span class="nt">--cleanup</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--cleanup</code> removes large intermediate files after the run — useful on HPC systems with tight quotas.</p>
+
+<h3 id="key-output-files">Key output files</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>genomad_output/
+  vOTUs_summary/
+    vOTUs_virus_summary.tsv      ← per-vOTU classification and scores
+    vOTUs_taxonomy.tsv           ← full lineage string per vOTU
+    vOTUs_virus_genes.tsv        ← per-gene annotations and marker matches
+</code></pre></div></div>
+
+<p><strong>The most useful file is <code class="language-plaintext highlighter-rouge">vOTUs_virus_summary.tsv</code>.</strong> It contains one row per viral sequence with columns including:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">seq_name</code></td>
+      <td>vOTU ID</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">taxonomy</code></td>
+      <td>full ICTV lineage string</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">taxonomy_agreement</code></td>
+      <td>fraction of marker genes supporting the assignment</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">virus_score</code></td>
+      <td>confidence that the sequence is viral (0–1)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">n_genes</code></td>
+      <td>number of predicted genes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">topology</code></td>
+      <td>linear or circular (circular = likely complete genome)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A quick look at the taxonomy distribution:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Count vOTUs per viral family</span>
+<span class="nb">awk</span> <span class="nt">-F</span><span class="s1">'\t'</span> <span class="s1">'NR&gt;1 {print $NF}'</span> <span class="se">\</span>
+  genomad_output/vOTUs_summary/vOTUs_virus_summary.tsv | <span class="se">\</span>
+  <span class="nb">grep</span> <span class="nt">-oP</span> <span class="s1">'(?&lt;=;)[^;]+$'</span> | <span class="se">\</span>
+  <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-rn</span> | <span class="nb">head</span> <span class="nt">-20</span>
+</code></pre></div></div>
+
+<h3 id="interpreting-genomad-taxonomy-strings">Interpreting geNomad taxonomy strings</h3>
+
+<p>geNomad returns semicolon-separated lineage strings following the ICTV hierarchy:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Duplodnaviria;Heunggongvirae;Uroviricota;Caudoviricetes;Caudovirales;Drexlerviridae
+</code></pre></div></div>
+
+<p>Reading right to left: family → order → class → phylum → kingdom → realm.</p>
+
+<p>In environmental metagenomes, most classified phages belong to <strong>Caudoviricetes</strong> — the class encompassing all tailed phages (historically called myoviruses, siphoviruses, and podoviruses, though ICTV no longer recognises these as formal families). Within Caudoviricetes, you will typically see families like Drexlerviridae, Demerecviridae, Straboviridae, Schitoviridae, and many others depending on your environment.</p>
+
+<hr />
+
+<h2 id="part-3--blast-based-gene-taxonomy">Part 3 — BLAST-based gene taxonomy</h2>
+
+<p>Gene-based BLAST taxonomy acts as a second opinion. It is especially useful for:</p>
+
+<ul>
+  <li>Highly divergent viruses that geNomad misses because their marker genes are too distant from references</li>
+  <li>Confirming geNomad assignments at the family level using a different database (NCBI RefSeq vs geNomad’s own markers)</li>
+  <li>Catching mosaic genomes where different genomic regions match different lineages</li>
+</ul>
+
+<h3 id="step-1--predict-orfs-with-prodigal">Step 1 — Predict ORFs with Prodigal</h3>
+
+<p>Prodigal (<code class="language-plaintext highlighter-rouge">-p meta</code> mode) is the standard tool for predicting open reading frames in metagenomic sequences. It does not require training data and handles fragmented genomes well.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load prodigal/2.6.3
+
+prodigal <span class="se">\</span>
+  <span class="nt">-i</span> vOTUs.fa <span class="se">\</span>
+  <span class="nt">-a</span> vOTUs_orfs.faa <span class="se">\</span>
+  <span class="nt">-d</span> vOTUs_orfs.fna <span class="se">\</span>
+  <span class="nt">-p</span> meta <span class="se">\</span>
+  <span class="nt">-m</span> <span class="nt">-c</span> <span class="se">\</span>
+  <span class="nt">-f</span> gff <span class="se">\</span>
+  <span class="nt">-o</span> vOTUs_prodigal.gff
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-a</code></td>
+      <td>output predicted protein sequences (amino acid)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-d</code></td>
+      <td>output predicted nucleotide ORF sequences</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-p meta</code></td>
+      <td>metagenome mode (no model training)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-m</code></td>
+      <td>do not use RBS motif model (recommended for short contigs)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-c</code></td>
+      <td>closed ends — do not allow partial genes at contig edges</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-f gff</code></td>
+      <td>GFF3 format coordinate output</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Check how many ORFs were predicted:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"^&gt;"</span> vOTUs_orfs.faa
+</code></pre></div></div>
+
+<p>You should see several ORFs per vOTU on average — typically 5–50 depending on genome length.</p>
+
+<h3 id="step-2--blast-against-viral-refseq-protein-database">Step 2 — BLAST against viral RefSeq protein database</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load ncbi-blast+/2.17.0
+
+blastp <span class="se">\</span>
+  <span class="nt">-query</span> vOTUs_orfs.faa <span class="se">\</span>
+  <span class="nt">-db</span> /your/db/dir/viral_refseq/viral_refseq_db <span class="se">\</span>
+  <span class="nt">-evalue</span> 1e-5 <span class="se">\</span>
+  <span class="nt">-outfmt</span> <span class="s2">"6 qseqid sseqid pident length evalue bitscore staxids sscinames"</span> <span class="se">\</span>
+  <span class="nt">-num_threads</span> 16 <span class="se">\</span>
+  <span class="nt">-max_target_seqs</span> 5 <span class="se">\</span>
+  <span class="nt">-out</span> blastp_vs_refseq.txt
+</code></pre></div></div>
+
+<p><strong>Output format columns</strong> (<code class="language-plaintext highlighter-rouge">-outfmt 6</code> custom):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">qseqid</code></td>
+      <td>your ORF ID</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">sseqid</code></td>
+      <td>RefSeq protein ID</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">pident</code></td>
+      <td>percent identity</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">length</code></td>
+      <td>alignment length</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">evalue</code></td>
+      <td>E-value</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">bitscore</code></td>
+      <td>bit score</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">staxids</code></td>
+      <td>NCBI taxonomy ID</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">sscinames</code></td>
+      <td>scientific name of the match</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A quick sanity check — how many ORFs got hits?</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cut</span> <span class="nt">-f1</span> blastp_vs_refseq.txt | <span class="nb">sort</span> <span class="nt">-u</span> | <span class="nb">wc</span> <span class="nt">-l</span>
+</code></pre></div></div>
+
+<p>In environmental samples, expect 20–60% of ORFs to get hits, depending on how similar your environment is to cultured virus hosts.</p>
+
+<h3 id="step-3--assign-family-level-taxonomy-by-consensus">Step 3 — Assign family-level taxonomy by consensus</h3>
+
+<p>The core logic: for each vOTU, collect all the BLAST hits for all its ORFs, extract the family-level assignment for each hit, and assign the family that represents more than 50% of hits. This handles mosaic genomes by requiring majority support.</p>
+
+<p>A simple bash approach to extract the family counts:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># First, check what your hits look like</span>
+<span class="nb">head</span> <span class="nt">-5</span> blastp_vs_refseq.txt
+</code></pre></div></div>
+
+<p>For a proper consensus assignment, use the Python script <code class="language-plaintext highlighter-rouge">assign_blast_taxonomy.py</code> provided in the companion repository (<code class="language-plaintext highlighter-rouge">day2/scripts/</code>). It:</p>
+
+<ol>
+  <li>Parses the BLAST tabular output</li>
+  <li>Queries the NCBI taxonomy hierarchy for each hit using the taxid</li>
+  <li>Extracts the family-level assignment</li>
+  <li>Assigns consensus taxonomy per vOTU at the ≥50% threshold</li>
+  <li>Flags conflicting assignments</li>
+</ol>
+
+<h3 id="step-4--reconcile-genomad-and-blast-taxonomy">Step 4 — Reconcile geNomad and BLAST taxonomy</h3>
+
+<p>Once you have both taxonomy tables, reconcile them:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Both agree on family     →  assign that family (high confidence)
+Only geNomad assigns     →  keep as provisional
+Only BLAST assigns       →  keep as provisional
+Both assign, disagree    →  flag as "Conflicting", investigate manually
+Neither assigns          →  "Unknown" (expected for novel viruses)
+</code></pre></div></div>
+
+<p>The reconciliation script <code class="language-plaintext highlighter-rouge">reconcile_taxonomy.py</code> in the repository handles this automatically and outputs a single master taxonomy table.</p>
+
+<hr />
+
+<h2 id="part-4--what-your-taxonomy-tells-you-ecologically">Part 4 — What your taxonomy tells you ecologically</h2>
+
+<p>Before moving on to abundance, it is worth pausing on what taxonomy actually tells you.</p>
+
+<p><strong>Family-level classification</strong> reveals broad ecological patterns:</p>
+
+<ul>
+  <li><em>Caudoviricetes</em> phages (tailed phages) dominate most bacterial-associated environments</li>
+  <li><em>Microviridae</em> (small ssDNA phages) are often abundant in gut and wastewater samples</li>
+  <li><em>Inoviridae</em> (filamentous phages) are common in marine sediment and associated with chronic infections rather than lysis</li>
+  <li>RNA viruses (Riboviria) can be highly dynamic seasonally and are often overlooked in DNA-only extractions</li>
+</ul>
+
+<p><strong>Unknown viruses are informative.</strong> A high proportion of unknowns in your dataset is not a sign of failure — it often means your environment harbours genuinely novel viral diversity. This is especially true in deep sea sediments, hypersaline environments, and unexplored soils. Documenting and describing novel viral lineages is a contribution in itself.</p>
+
+<p><strong>Taxonomy without abundance is half the story.</strong> Knowing that Drexlerviridae are present tells you little about their ecological impact. A rare Drexlerviridae phage and an extremely abundant one have very different roles in the community. That is what we measure next.</p>
+
+<hr />
+
+<h2 id="part-5--read-mapping-with-bowtie2">Part 5 — Read mapping with Bowtie2</h2>
+
+<p>Abundance estimation works by mapping the original short reads from each sample back to the vOTU representative genomes. The more reads that map to a given vOTU, the more abundant that virus was in that sample.</p>
+
+<p>This requires two steps:</p>
+
+<ol>
+  <li>Build a Bowtie2 index from your vOTUs FASTA</li>
+  <li>Map each sample’s reads to that index</li>
+</ol>
+
+<h3 id="why-bowtie2-instead-of-bwa-or-minimap2">Why Bowtie2 instead of BWA or Minimap2?</h3>
+
+<p>Bowtie2 is the standard choice for short-read mapping to viral genomes in metagenomics for a few reasons:</p>
+
+<ul>
+  <li>It handles the short, fragmented nature of viral genomes well</li>
+  <li>It has been extensively validated in viromics workflows</li>
+  <li>CoverM (the tool we use for abundance calculation) has native support for Bowtie2-formatted BAM files</li>
+  <li>It is fast and memory-efficient for genome-scale references</li>
+</ul>
+
+<p>BWA-MEM is also acceptable and produces compatible output. The key is consistency — use the same mapper for all samples.</p>
+
+<h3 id="installation-1">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load anaconda3/2023.09-0
+
+conda create <span class="se">\</span>
+  <span class="nt">-p</span> /your/tools/dir/bowtie2_env <span class="se">\</span>
+  <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda <span class="se">\</span>
+  bowtie2 samtools <span class="se">\</span>
+  <span class="nt">-y</span>
+
+conda activate /your/tools/dir/bowtie2_env
+bowtie2 <span class="nt">--version</span>
+samtools <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h3 id="step-1--build-the-bowtie2-index">Step 1 — Build the Bowtie2 index</h3>
+
+<p>This only needs to be done once for your vOTUs:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate /your/tools/dir/bowtie2_env
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> bowtie2_index
+
+bowtie2-build <span class="se">\</span>
+  vOTUs.fa <span class="se">\</span>
+  bowtie2_index/vOTUs <span class="se">\</span>
+  <span class="nt">--threads</span> 16
+</code></pre></div></div>
+
+<p>This creates six index files (<code class="language-plaintext highlighter-rouge">vOTUs.1.bt2</code>, <code class="language-plaintext highlighter-rouge">.2.bt2</code>, <code class="language-plaintext highlighter-rouge">.3.bt2</code>, <code class="language-plaintext highlighter-rouge">.4.bt2</code>, <code class="language-plaintext highlighter-rouge">.rev.1.bt2</code>, <code class="language-plaintext highlighter-rouge">.rev.2.bt2</code>) in the <code class="language-plaintext highlighter-rouge">bowtie2_index/</code> directory.</p>
+
+<h3 id="step-2--map-reads-from-each-sample">Step 2 — Map reads from each sample</h3>
+
+<p>For each sample you want to include in the abundance table:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate /your/tools/dir/bowtie2_env
+
+<span class="nv">SAMPLE</span><span class="o">=</span><span class="s2">"Control_23_R1_S13"</span>
+<span class="nv">R1</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_R1.fastq.gz"</span>
+<span class="nv">R2</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_R2.fastq.gz"</span>
+
+bowtie2 <span class="se">\</span>
+  <span class="nt">-x</span> bowtie2_index/vOTUs <span class="se">\</span>
+  <span class="nt">-1</span> <span class="s2">"</span><span class="nv">$R1</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">-2</span> <span class="s2">"</span><span class="nv">$R2</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--end-to-end</span> <span class="se">\</span>
+  <span class="nt">--very-sensitive</span> <span class="se">\</span>
+  <span class="nt">-p</span> 16 <span class="se">\</span>
+  <span class="nt">--no-unal</span> <span class="se">\</span>
+  2&gt; <span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_bowtie2.log"</span> | <span class="se">\</span>
+  samtools <span class="nb">sort</span> -@ 4 <span class="nt">-o</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_sorted.bam"</span>
+
+samtools index <span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_sorted.bam"</span>
+</code></pre></div></div>
+
+<p><strong>Key flags explained:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-x</code></td>
+      <td>index prefix (without file extensions)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-1 / -2</code></td>
+      <td>paired-end read files</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--end-to-end</code></td>
+      <td>full read alignment (recommended for abundance, avoids soft-clipping artefacts)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--very-sensitive</code></td>
+      <td>most thorough alignment preset</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-unal</code></td>
+      <td>do not output unmapped reads (keeps BAM files manageable)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-unal</code></td>
+      <td>do not output unmapped reads</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The output is a sorted, indexed BAM file ready for CoverM.</p>
+
+<p><strong>Check mapping rate</strong> from the log:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="s2">_bowtie2.log"</span>
+</code></pre></div></div>
+
+<p>Typical viral mapping rates in environmental metagenomes are 0.5–10% — most reads come from bacteria and archaea, so a low mapping rate to viral references is expected and normal.</p>
+
+<h3 id="running-for-multiple-samples">Running for multiple samples</h3>
+
+<p>In practice you will have many samples. The batch script <code class="language-plaintext highlighter-rouge">05_bowtie2_mapping.sh</code> in the repository loops over all samples automatically. The loop pattern looks like:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>SAMPLE <span class="k">in </span>Control_23 Control_36 Treatment_A Treatment_B<span class="p">;</span> <span class="k">do
+  </span>bowtie2 <span class="nt">-x</span> bowtie2_index/vOTUs <span class="se">\</span>
+    <span class="nt">-1</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_R1.fastq.gz <span class="se">\</span>
+    <span class="nt">-2</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_R2.fastq.gz <span class="se">\</span>
+    <span class="nt">--end-to-end</span> <span class="nt">--very-sensitive</span> <span class="nt">-p</span> 16 <span class="nt">--no-unal</span> <span class="se">\</span>
+    2&gt; <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_bowtie2.log | <span class="se">\</span>
+    samtools <span class="nb">sort</span> -@ 4 <span class="nt">-o</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_sorted.bam
+  samtools index <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_sorted.bam
+<span class="k">done</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="part-6--abundance-estimation-with-coverm">Part 6 — Abundance estimation with CoverM</h2>
+
+<p>Bowtie2 gives you BAM files. CoverM reads those BAM files and calculates meaningful abundance metrics per vOTU per sample. It is the tool that turns raw mapping data into an ecology-ready abundance table.</p>
+
+<h3 id="what-abundance-metrics-mean">What abundance metrics mean</h3>
+
+<p>CoverM can report several metrics. The three most useful for viromics are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>What it measures</th>
+      <th>When to use it</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mean</code></td>
+      <td>average depth of coverage across the genome</td>
+      <td>assessing replication activity; highly active viruses have deep coverage</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">relative_abundance</code></td>
+      <td>fraction of all mapped reads going to this vOTU, normalised to genome length</td>
+      <td>comparing viruses across samples; accounts for genome size differences</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">covered_fraction</code></td>
+      <td>fraction of the vOTU sequence covered by at least one read</td>
+      <td>quality check — low covered fraction suggests a false-positive mapping</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>A practical rule:</strong> require <code class="language-plaintext highlighter-rouge">covered_fraction ≥ 0.75</code> before treating a vOTU as truly present in a sample. If less than 75% of the genome is covered, the mapping hits are likely artefactual (short conserved regions attracting reads from non-viral sources).</p>
+
+<h3 id="installation-2">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module load anaconda3/2023.09-0
+
+conda create <span class="se">\</span>
+  <span class="nt">-p</span> /your/tools/dir/coverm_env <span class="se">\</span>
+  <span class="nt">-c</span> conda-forge <span class="nt">-c</span> bioconda <span class="se">\</span>
+  coverm <span class="se">\</span>
+  <span class="nt">-y</span>
+
+conda activate /your/tools/dir/coverm_env
+coverm <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h3 id="running-coverm-in-bam-mode">Running CoverM in BAM mode</h3>
+
+<p>Once you have sorted BAM files from Bowtie2, CoverM genome mode reads them directly:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate /your/tools/dir/coverm_env
+
+coverm genome <span class="se">\</span>
+  <span class="nt">--bam-files</span> <span class="k">*</span>_sorted.bam <span class="se">\</span>
+  <span class="nt">--genome-fasta-files</span> vOTUs.fa <span class="se">\</span>
+  <span class="nt">-m</span> mean relative_abundance covered_fraction <span class="se">\</span>
+  <span class="nt">--min-covered-fraction</span> 0 <span class="se">\</span>
+  <span class="nt">-t</span> 16 <span class="se">\</span>
+  <span class="nt">--output-file</span> coverm_abundance_all_samples.tsv
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--min-covered-fraction 0</code> tells CoverM to report all vOTUs including those with zero coverage in a sample — important for keeping the matrix complete with zeros rather than missing values.</p>
+
+<p>The output <code class="language-plaintext highlighter-rouge">coverm_abundance_all_samples.tsv</code> is a matrix with vOTU IDs as rows and one column per sample per metric.</p>
+
+<h3 id="alternative-coverm-with-paired-reads-directly">Alternative: CoverM with paired reads directly</h3>
+
+<p>If you prefer to skip the separate Bowtie2 step, CoverM can do the mapping internally:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coverm genome <span class="se">\</span>
+  <span class="nt">--coupled</span> sample1_R1.fastq.gz sample1_R2.fastq.gz <span class="se">\</span>
+  <span class="nt">--genome-fasta-files</span> vOTUs.fa <span class="se">\</span>
+  <span class="nt">-m</span> mean relative_abundance covered_fraction <span class="se">\</span>
+  <span class="nt">-t</span> 16 <span class="se">\</span>
+  <span class="nt">--output-file</span> coverm_sample1.tsv
+</code></pre></div></div>
+
+<p>This is convenient for single samples but gives you less control over mapping parameters. For large multi-sample projects, running Bowtie2 separately and then feeding BAM files to CoverM is more flexible and lets you reuse the BAM files for other analyses (such as transcript counting in Day 6).</p>
+
+<h3 id="post-processing-applying-the-covered-fraction-filter">Post-processing: applying the covered-fraction filter</h3>
+
+<p>After CoverM runs, apply the 75% covered-fraction threshold to set low-confidence presence calls to zero:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">coverm_abundance_all_samples.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Extract covered_fraction columns
+</span><span class="n">cf_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="sh">"</span><span class="s">Covered_Fraction</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">c</span><span class="p">]</span>
+<span class="n">ra_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="sh">"</span><span class="s">Relative_Abundance</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">c</span><span class="p">]</span>
+
+<span class="c1"># For each sample, zero out relative abundance where covered fraction &lt; 0.75
+</span><span class="k">for</span> <span class="n">cf_col</span><span class="p">,</span> <span class="n">ra_col</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">cf_cols</span><span class="p">,</span> <span class="n">ra_cols</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cf_col</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.75</span>
+    <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="n">ra_col</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="n">df</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">coverm_abundance_filtered.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Filtered abundance table written: </span><span class="si">{</span><span class="n">df</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s"> vOTUs × </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">ra_cols</span><span class="p">)</span><span class="si">}</span><span class="s"> samples</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This script is provided as <code class="language-plaintext highlighter-rouge">filter_coverm_abundance.py</code> in the repository.</p>
+
+<hr />
+
+<h2 id="part-7--merging-taxonomy-and-abundance">Part 7 — Merging taxonomy and abundance</h2>
+
+<p>You now have two key tables:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">master_taxonomy.tsv</code> — vOTU ID → family → order → class → realm → classification method</li>
+  <li><code class="language-plaintext highlighter-rouge">coverm_abundance_filtered.tsv</code> — vOTU ID × sample abundance matrix</li>
+</ul>
+
+<p>Joining them gives you the complete ecological picture:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Quick join in bash (for a first look)</span>
+<span class="nb">join</span> <span class="nt">-t</span> <span class="s1">$'</span><span class="se">\t</span><span class="s1">'</span> <span class="se">\</span>
+  &lt;<span class="o">(</span><span class="nb">sort </span>master_taxonomy.tsv<span class="o">)</span> <span class="se">\</span>
+  &lt;<span class="o">(</span><span class="nb">sort </span>coverm_abundance_filtered.tsv<span class="o">)</span> <span class="se">\</span>
+  <span class="o">&gt;</span> taxonomy_abundance_combined.tsv
+</code></pre></div></div>
+
+<p>With this combined table you can ask questions like:</p>
+
+<ul>
+  <li>Which viral families dominate by abundance (not just by count of OTUs)?</li>
+  <li>Are particular families more abundant in treatment vs control samples?</li>
+  <li>Which vOTUs are core (present in all samples) vs rare (present in one or two)?</li>
+  <li>How does viral community composition change along an environmental gradient?</li>
+</ul>
+
+<p>The <code class="language-plaintext highlighter-rouge">merge_taxonomy_abundance.py</code> script in the repository handles the join cleanly and outputs both a wide matrix and a long-format table ready for R or Python plotting.</p>
+
+<hr />
+
+<h2 id="part-8--quick-visualisation-ideas">Part 8 — Quick visualisation ideas</h2>
+
+<p>Once you have the merged table, a few standard plots communicate the results clearly:</p>
+
+<h3 id="stacked-bar-chart-of-relative-abundance-by-taxonomy">Stacked bar chart of relative abundance by taxonomy</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">taxonomy_abundance_combined.tsv</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Collapse to family level, sum relative abundance per sample
+</span><span class="n">family_abund</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">"</span><span class="s">family</span><span class="sh">"</span><span class="p">)[</span><span class="n">sample_cols</span><span class="p">].</span><span class="nf">sum</span><span class="p">()</span>
+<span class="n">family_abund</span><span class="p">.</span><span class="n">T</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="sh">"</span><span class="s">bar</span><span class="sh">"</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">colormap</span><span class="o">=</span><span class="sh">"</span><span class="s">tab20</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">ylabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Relative abundance</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">"</span><span class="s">Sample</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="sh">"</span><span class="s">upper left</span><span class="sh">"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">"</span><span class="s">family_abundance_barplot.pdf</span><span class="sh">"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="heatmap-of-top-30-votus">Heatmap of top 30 vOTUs</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="n">top30</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">nlargest</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">sample_cols</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">).</span><span class="n">name</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">clustermap</span><span class="p">(</span>
+    <span class="n">top30</span><span class="p">[</span><span class="n">sample_cols</span><span class="p">],</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">YlOrRd</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="n">yticklabels</span><span class="o">=</span><span class="n">top30</span><span class="p">[</span><span class="sh">"</span><span class="s">family</span><span class="sh">"</span><span class="p">].</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">standard_scale</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">"</span><span class="s">top30_vOTU_heatmap.pdf</span><span class="sh">"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="alpha-diversity-richness-per-sample">Alpha diversity (richness per sample)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Count vOTUs present (relative abundance &gt; 0) per sample
+</span><span class="n">richness</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">sample_cols</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">).</span><span class="nf">sum</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">richness</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>These are starting points. The companion repository includes a full <code class="language-plaintext highlighter-rouge">day2/scripts/plot_taxonomy_abundance.py</code> script that generates publication-ready versions of these figures.</p>
+
+<hr />
+
+<h2 id="part-9--common-questions-and-pitfalls">Part 9 — Common questions and pitfalls</h2>
+
+<p><strong>Q: Most of my vOTUs come back as “Unknown”. Is something wrong?</strong></p>
+
+<p>No. This is normal, especially in underexplored environments. A recent large-scale ocean virome study found that ~70% of vOTUs had no family-level classification. Unknown vOTUs are not failures — they represent novel viral diversity. Document them, note their abundance, and consider whether any are abundant enough to warrant deeper investigation.</p>
+
+<p><strong>Q: My mapping rates are very low (&lt;0.1%). Should I be worried?</strong></p>
+
+<p>Not necessarily. Viral sequences are a small fraction of total environmental DNA, so most reads in a bulk metagenome come from bacteria and archaea. Mapping rates to viral references of 0.1–5% are typical. Very low rates (&lt;0.01%) can sometimes indicate that your samples were not viral-enriched and the assembly recovered very few viral contigs to begin with — check the size of <code class="language-plaintext highlighter-rouge">vOTUs.fa</code> relative to your full assembly.</p>
+
+<p><strong>Q: Some vOTUs have extremely high relative abundance in one sample and zero in all others. Is that real?</strong></p>
+
+<p>Possibly. Viral populations can be highly dynamic — a lytic phage can cause a bloom in one sample that wipes out its host, resulting in extremely high viral abundance followed by a crash. Check the covered fraction for that vOTU in the high-abundance sample (should be close to 1.0 for a genuine bloom) and check whether the read depth is consistent across the genome (genuine signal tends to be relatively uniform; false positives often show spiky coverage).</p>
+
+<p><strong>Q: Should I use <code class="language-plaintext highlighter-rouge">relative_abundance</code> or <code class="language-plaintext highlighter-rouge">mean</code> coverage for downstream statistics?</strong></p>
+
+<p>For between-sample comparisons, use <code class="language-plaintext highlighter-rouge">relative_abundance</code> — it accounts for differences in sequencing depth between samples. For within-sample comparisons of viral replication activity, <code class="language-plaintext highlighter-rouge">mean</code> coverage can be informative. For ordination (PCoA, NMDS) and diversity analyses, use <code class="language-plaintext highlighter-rouge">relative_abundance</code>.</p>
+
+<hr />
+
+<h2 id="what-we-have-built">What we have built</h2>
+
+<p>At the end of this post you have a complete taxonomy + abundance characterisation of your viral community:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">genomad_output/vOTUs_summary/vOTUs_virus_summary.tsv</code></td>
+      <td>geNomad taxonomy and scores</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">blastp_vs_refseq.txt</code></td>
+      <td>raw BLAST hits</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">master_taxonomy.tsv</code></td>
+      <td>reconciled taxonomy from both methods</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*_sorted.bam</code></td>
+      <td>read mappings per sample</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">coverm_abundance_all_samples.tsv</code></td>
+      <td>raw abundance matrix</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">coverm_abundance_filtered.tsv</code></td>
+      <td>abundance matrix after coverage filter</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">taxonomy_abundance_combined.tsv</code></td>
+      <td>merged final table</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In the next post we shift from <em>who</em> the viruses are to <em>what they do</em> — identifying auxiliary metabolic genes (AMGs) and understanding how viruses reshape host metabolism mid-infection.</p>
+
+<hr />
+
+<blockquote>
+  <p><strong>Companion repository:</strong> <a href="https://github.com/jojyjohn28/metagenome-to-viromics">metagenome-to-viromics</a>
+Scripts, toy data, and install guides for every step in this series live here. Day 2 materials are in <code class="language-plaintext highlighter-rouge">day2/</code>.</p>
+</blockquote>
+
+<p><img src="/assets/img/vir-d2.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="viromics" /><category term="taxonomy" /><category term="geNomad" /><category term="BLAST" /><category term="CoverM" /><category term="Bowtie2" /><category term="vOTU" /><category term="abundance" /><category term="viral-metagenomics" /><category term="environmental-microbiome" /><category term="bioinformatics" /><category term="beginners" /><summary type="html"><![CDATA[You have your vOTUs — now what? This second post in the viromics series walks through classifying viral genomes using geNomad and BLAST, then estimating their abundance across samples using Bowtie2 and CoverM. Beginner-friendly, with every command explained.]]></summary></entry><entry><title type="html">From Metagenome to Viral OTUs: Identifying, Filtering, and Clustering Viral Genomes</title><link href="https://jojyjohn28.github.io/blog/viromics-day1-metagenome-to-votus/" rel="alternate" type="text/html" title="From Metagenome to Viral OTUs: Identifying, Filtering, and Clustering Viral Genomes" /><published>2026-05-04T00:00:00-04:00</published><updated>2026-05-04T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/viromics-day1-metagenome-to-votus</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/viromics-day1-metagenome-to-votus/"><![CDATA[<h2 id="part-1--why-viromics">Part 1 — Why Viromics?</h2>
 
 <p><em>🧬 𝐷𝑎𝑦 78 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 desk</em></p>
 
@@ -4690,374 +5442,4 @@ DE_S1_FL   Delaware     Free Living        Spring  18.4
 
 <hr />
 
-<p><img src="/assets/img/network.png" alt="see_your_network" /></p>]]></content><author><name></name></author><category term="genomics" /><category term="co-occurrence" /><category term="network-analysis" /><category term="Spearman" /><category term="SparCC" /><category term="NetCoMi" /><category term="igraph" /><category term="functional-redundancy" /><category term="estuarine" /><category term="metagenomics" /><category term="keystone-taxa" /><category term="GTDB" /><summary type="html"><![CDATA[From raw genome relative abundance tables to Spearman-based co-occurrence networks, keystone taxa detection, and module ecology tests. A step-by-step walkthrough using NetCoMi, igraph, and the Zi-Pi framework in R — with real estuarine metagenome data.]]></summary></entry><entry><title type="html">Conda, Mamba, Micromamba — What’s the Difference (and What You Should Actually Use)</title><link href="https://jojyjohn28.github.io/blog/conda-mamba-micromamba-guide/" rel="alternate" type="text/html" title="Conda, Mamba, Micromamba — What’s the Difference (and What You Should Actually Use)" /><published>2026-04-10T00:00:00-04:00</published><updated>2026-04-10T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/conda-mamba-micromamba-guide</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/conda-mamba-micromamba-guide/"><![CDATA[<h2 id="conda-mamba-micromamba--whats-the-difference">Conda, Mamba, Micromamba — What’s the Difference</h2>
-
-<p><em>🧬 𝐷𝑎𝑦 70 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠</em>
-You ran <code class="language-plaintext highlighter-rouge">conda install</code> on something.</p>
-
-<p>Now your environment takes eight minutes to solve. Or it can’t solve at all. Or everything was working yesterday, and today you get a wall of red text about conflicting dependencies. Or — the most demoralizing outcome — your <code class="language-plaintext highlighter-rouge">base</code> environment is broken and you don’t know how it happened.</p>
-
-<p>If any of that sounds familiar, this post is for you. We’re going to cut through the confusion around conda, mamba, and micromamba, explain exactly what each one does, and give you a workflow that will save you hours of frustration.</p>
-
-<hr />
-
-<h2 id="what-is-conda-and-why-does-bioinformatics-depend-on-it">What is conda, and why does bioinformatics depend on it?</h2>
-
-<p><strong>conda</strong> is two things at once: a <strong>package manager</strong> (it downloads and installs software) and an <strong>environment manager</strong> (it creates isolated software containers so your tools don’t conflict with each other).</p>
-
-<p>Bioinformatics depends on it for one simple reason: the tools we use have complex, often incompatible dependencies. FastQC needs a specific version of Java. Bowtie2 needs a specific version of Python. GATK needs yet another. If you tried to install all of these into one global environment, they would constantly conflict — one tool’s required library version would break another tool entirely.</p>
-
-<p>Conda solves this by creating <strong>environments</strong>: isolated boxes where each project gets exactly the software versions it needs, completely separated from everything else. You can have ten different projects on one computer, each with their own Python version and tools, and they will never interfere with each other.</p>
-
-<hr />
-
-<h2 id="the-two-commands-everyone-confuses-conda-create-vs-conda-install">The two commands everyone confuses: <code class="language-plaintext highlighter-rouge">conda create</code> vs <code class="language-plaintext highlighter-rouge">conda install</code></h2>
-
-<p>This confusion is the source of more broken environments than anything else.</p>
-
-<h3 id="conda-create--makes-a-new-isolated-environment"><code class="language-plaintext highlighter-rouge">conda create</code> — makes a new isolated environment</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> myenv <span class="nv">python</span><span class="o">=</span>3.10
-</code></pre></div></div>
-
-<p>This creates a brand new, empty environment called <code class="language-plaintext highlighter-rouge">myenv</code> with Python 3.10 inside it. Nothing else. It does not install anything into your current environment. It does not touch <code class="language-plaintext highlighter-rouge">base</code>. It is a clean slate.</p>
-
-<p>Think of it like creating a new project folder. You do this once per project, at the beginning.</p>
-
-<h3 id="conda-install--installs-a-package-into-the-currently-active-environment"><code class="language-plaintext highlighter-rouge">conda install</code> — installs a package into the currently active environment</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate myenv
-conda <span class="nb">install </span>fastqc
-</code></pre></div></div>
-
-<p>This installs FastQC into <code class="language-plaintext highlighter-rouge">myenv</code> — the environment you activated. If you run <code class="language-plaintext highlighter-rouge">conda install</code> without activating an environment first, conda installs into <code class="language-plaintext highlighter-rouge">base</code>. This is almost always a mistake.</p>
-
-<p><strong>The rule that will save your setup:</strong></p>
-
-<blockquote>
-  <p><strong>Never install research software into <code class="language-plaintext highlighter-rouge">base</code>.</strong> Base is conda’s home environment — it manages conda itself. If you break it by installing conflicting packages, you may have to reinstall conda from scratch.</p>
-</blockquote>
-
-<p>Always create a new environment for each project, activate it, then install.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># The correct order, every time:</span>
-conda create <span class="nt">-n</span> metatranscriptomics <span class="nv">python</span><span class="o">=</span>3.10
-conda activate metatranscriptomics
-conda <span class="nb">install </span>fastqc bowtie2 samtools
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="the-problem-with-conda-it-is-slow">The problem with conda: it is slow</h2>
-
-<p>Here is why conda frustrates people. Its <strong>dependency solver</strong> — the part that figures out which exact versions of packages are compatible with each other — is written in Python and is genuinely slow. For complex bioinformatics environments with 20+ packages, it can take 10–30 minutes to solve. Sometimes it fails entirely with a message like:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Solving environment: failed with initial frozen solve. Retrying with flexible solve.
-Solving environment: failed with repodata from current_repodata.json...
-</code></pre></div></div>
-
-<p>This is not your fault. This is conda’s solver hitting its limits. The solution is mamba.</p>
-
-<hr />
-
-<h2 id="mamba-conda-but-fast">Mamba: conda but fast</h2>
-
-<p><strong>Mamba</strong> is a drop-in replacement for conda that uses a C++ dependency solver instead of conda’s Python-based solver. It is dramatically faster — solving environments in seconds instead of minutes — and more reliable at finding solutions that conda fails to find.</p>
-
-<p>The key thing to understand: <strong>mamba uses exactly the same commands as conda.</strong> You do not need to learn anything new. Just replace the word <code class="language-plaintext highlighter-rouge">conda</code> with <code class="language-plaintext highlighter-rouge">mamba</code>:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Instead of this (slow):</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda fastqc bowtie2 samtools
-
-<span class="c"># Do this (fast):</span>
-mamba <span class="nb">install</span> <span class="nt">-c</span> bioconda fastqc bowtie2 samtools
-</code></pre></div></div>
-
-<p>Same channels, same package names, same flags. Just faster.</p>
-
-<h3 id="installing-mamba">Installing mamba</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install mamba into your base environment once</span>
-conda <span class="nb">install</span> <span class="nt">-n</span> base <span class="nt">-c</span> conda-forge mamba
-</code></pre></div></div>
-
-<blockquote>
-  <p><strong>Note:</strong> As of conda 23.x, you can also enable the fast solver directly without installing mamba as a separate tool: <code class="language-plaintext highlighter-rouge">conda config --set solver libmamba</code>. Either approach gives you the speed benefit.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="micromamba-built-for-hpc-and-containers">Micromamba: built for HPC and containers</h2>
-
-<p><strong>Micromamba</strong> is a standalone, self-contained binary that reimplements the mamba functionality without requiring a base conda installation at all. It has no <code class="language-plaintext highlighter-rouge">base</code> environment and no conda dependency — you download one file and it works.</p>
-
-<p>This makes it ideal for two situations:</p>
-
-<p><strong>HPC clusters:</strong> Many clusters have an older system-wide conda or none at all. Installing micromamba in your home directory gives you full environment management without needing admin access or touching anything system-wide.</p>
-
-<p><strong>Containers:</strong> In Docker or Singularity containers, you want the smallest possible footprint. Micromamba adds almost nothing to container size compared to a full Miniconda installation.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install micromamba (Linux / HPC)</span>
-<span class="s2">"</span><span class="k">${</span><span class="nv">SHELL</span><span class="k">}</span><span class="s2">"</span> &lt;<span class="o">(</span>curl <span class="nt">-L</span> micro.mamba.pm/install.sh<span class="o">)</span>
-
-<span class="c"># Usage is identical to mamba/conda</span>
-micromamba create <span class="nt">-n</span> myenv <span class="nv">python</span><span class="o">=</span>3.10
-micromamba activate myenv
-micromamba <span class="nb">install</span> <span class="nt">-c</span> bioconda fastqc bowtie2
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="conda-vs-mamba-vs-micromamba--the-comparison">Conda vs Mamba vs Micromamba — the comparison</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th> </th>
-      <th>conda</th>
-      <th>mamba</th>
-      <th>micromamba</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>What it is</strong></td>
-      <td>Original package + environment manager</td>
-      <td>Faster drop-in replacement</td>
-      <td>Standalone binary, no base needed</td>
-    </tr>
-    <tr>
-      <td><strong>Solver speed</strong></td>
-      <td>Slow</td>
-      <td>Fast</td>
-      <td>Fast</td>
-    </tr>
-    <tr>
-      <td><strong>Installation</strong></td>
-      <td>Comes with Anaconda / Miniconda</td>
-      <td>Install into base conda</td>
-      <td>Single binary download</td>
-    </tr>
-    <tr>
-      <td><strong>Commands</strong></td>
-      <td><code class="language-plaintext highlighter-rouge">conda install</code> etc.</td>
-      <td>Same — just type <code class="language-plaintext highlighter-rouge">mamba</code></td>
-      <td>Same — just type <code class="language-plaintext highlighter-rouge">micromamba</code></td>
-    </tr>
-    <tr>
-      <td><strong>Base environment</strong></td>
-      <td>Yes</td>
-      <td>Yes (uses conda’s base)</td>
-      <td>No — fully standalone</td>
-    </tr>
-    <tr>
-      <td><strong>Best for</strong></td>
-      <td>Learning the concepts</td>
-      <td>Daily bioinformatics work</td>
-      <td>HPC clusters · containers</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>The recommendation:</strong></p>
-
-<ul>
-  <li><strong>Just starting out?</strong> Use conda. The slowness teaches patience, and understanding conda makes mamba trivial.</li>
-  <li><strong>Daily bioinformatics work?</strong> Switch to mamba. Install it once, use it everywhere.</li>
-  <li><strong>Working on HPC or in containers?</strong> Use micromamba. No installation politics, no base environment to protect.</li>
-</ul>
-
-<hr />
-
-<h2 id="a-real-workflow-from-scratch">A real workflow from scratch</h2>
-
-<p>Here is the complete pattern to memorize for starting any new bioinformatics project:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Step 1: Create a dedicated environment</span>
-<span class="c"># Give it a meaningful name — not "test" or "env1"</span>
-conda create <span class="nt">-n</span> metatranscriptomics <span class="nv">python</span><span class="o">=</span>3.10
-
-<span class="c"># Step 2: Activate it</span>
-conda activate metatranscriptomics
-
-<span class="c"># Step 3: Install tools using mamba (fast)</span>
-mamba <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge <span class="se">\</span>
-  fastqc <span class="se">\</span>
-  fastp <span class="se">\</span>
-  sortmerna <span class="se">\</span>
-  bowtie2 <span class="se">\</span>
-  samtools <span class="se">\</span>
-  subread
-
-<span class="c"># Step 4: Export your environment for reproducibility</span>
-conda <span class="nb">env export</span> <span class="o">&gt;</span> environment.yml
-
-<span class="c"># Step 5: Deactivate when done</span>
-conda deactivate
-</code></pre></div></div>
-
-<p>That <code class="language-plaintext highlighter-rouge">environment.yml</code> file is critical. Commit it to your git repository immediately. Anyone — including future you — can recreate your exact environment with:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">env </span>create <span class="nt">-f</span> environment.yml
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="what-an-environmentyml-looks-like">What an <code class="language-plaintext highlighter-rouge">environment.yml</code> looks like</h2>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">metatranscriptomics</span>
-<span class="na">channels</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">bioconda</span>
-  <span class="pi">-</span> <span class="s">conda-forge</span>
-  <span class="pi">-</span> <span class="s">defaults</span>
-<span class="na">dependencies</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">python=3.10</span>
-  <span class="pi">-</span> <span class="s">fastqc=0.12.1</span>
-  <span class="pi">-</span> <span class="s">fastp=0.23.4</span>
-  <span class="pi">-</span> <span class="s">sortmerna=4.3.6</span>
-  <span class="pi">-</span> <span class="s">bowtie2=2.5.4</span>
-  <span class="pi">-</span> <span class="s">samtools=1.19</span>
-  <span class="pi">-</span> <span class="s">subread=2.0.6</span>
-</code></pre></div></div>
-
-<p>This single file makes your computational environment fully reproducible — months later, on a different computer, on a collaborator’s machine, on a new HPC allocation.</p>
-
-<hr />
-
-<h2 id="channels-the-part-nobody-explains-clearly">Channels: the part nobody explains clearly</h2>
-
-<p>Packages come from <strong>channels</strong> — online repositories. The three you need to know:</p>
-
-<p><strong><code class="language-plaintext highlighter-rouge">conda-forge</code></strong> is the largest community channel. It has the most packages and the most up-to-date versions. Use it as your first choice for general packages.</p>
-
-<p><strong><code class="language-plaintext highlighter-rouge">bioconda</code></strong> is the bioinformatics-specific channel. FastQC, Bowtie2, SAMtools, GATK, DESeq2 — all here. Always pair it with conda-forge.</p>
-
-<p><strong><code class="language-plaintext highlighter-rouge">defaults</code></strong> is Anaconda’s official channel. Used automatically if you specify nothing. Sometimes has older versions than conda-forge.</p>
-
-<p>The right way to install bioinformatics tools:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mamba <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge samtools
-</code></pre></div></div>
-
-<p>Or set them globally once so you never need to type <code class="language-plaintext highlighter-rouge">-c</code> again:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda config <span class="nt">--add</span> channels conda-forge
-conda config <span class="nt">--add</span> channels bioconda
-conda config <span class="nt">--set</span> channel_priority strict
-</code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">channel_priority strict</code> setting is important — it tells conda to respect the channel order you specified and not mix package versions across channels randomly. Mixing channels is one of the main causes of broken environments.</p>
-
-<hr />
-
-<h2 id="common-mistakes-that-break-environments">Common mistakes that break environments</h2>
-
-<p><strong>Installing everything into <code class="language-plaintext highlighter-rouge">base</code></strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># BAD — pollutes base, hard to recover</span>
-conda <span class="nb">install </span>samtools bowtie2
-
-<span class="c"># GOOD — create a dedicated environment first</span>
-conda create <span class="nt">-n</span> myproject
-conda activate myproject
-mamba <span class="nb">install </span>samtools bowtie2
-</code></pre></div></div>
-
-<p><strong>Mixing channels inconsistently</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># BAD — installs packages from different channels without order</span>
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda samtools
-conda <span class="nb">install</span> <span class="nt">-c</span> defaults python
-
-<span class="c"># GOOD — specify channels consistently every time</span>
-mamba <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge samtools python
-</code></pre></div></div>
-
-<p><strong>Never exporting the environment</strong></p>
-
-<p>You finish a project, everything works. Six months later, on a new machine, you cannot remember what you installed. Always export:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">env export</span> <span class="o">&gt;</span> environment.yml
-git add environment.yml
-git commit <span class="nt">-m</span> <span class="s2">"add environment file"</span>
-</code></pre></div></div>
-
-<p><strong>One giant environment for everything</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># BAD — 50 tools from three projects, one broken dependency breaks all of them</span>
-conda activate everything_env
-
-<span class="c"># GOOD — one focused environment per project</span>
-conda activate metatranscriptomics
-</code></pre></div></div>
-
-<p>Smaller environments solve faster, break less, and are easier to debug. A focused environment with 10 tools is far more maintainable than a kitchen-sink environment with 50.</p>
-
-<p><strong>Running <code class="language-plaintext highlighter-rouge">conda update --all</code> without thinking</strong></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># RISKY — updates every package in your environment at once</span>
-conda update <span class="nt">--all</span>
-
-<span class="c"># SAFER — update only what you specifically need</span>
-mamba <span class="nb">install </span><span class="nv">samtools</span><span class="o">=</span>1.20
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="on-hpc-conda-vs-module-load">On HPC: conda vs module load</h2>
-
-<p>Many HPC systems offer tools through the module system (<code class="language-plaintext highlighter-rouge">module load bowtie2</code>). When should you use modules versus conda?</p>
-
-<p>Use <strong>module load</strong> when you need a tool that your HPC admin has specifically compiled and optimized for that cluster’s hardware — this can be meaningfully faster for compute-intensive tools.</p>
-
-<p>Use <strong>conda / micromamba</strong> when you need a specific version not available in the module system, you need reproducibility across different clusters, you need Python packages, or you are building a pipeline that others need to run elsewhere.</p>
-
-<p>On Palmetto and similar clusters, a practical hybrid works well: <code class="language-plaintext highlighter-rouge">module load</code> for heavy compute steps (Bowtie2 alignment, STAR), and a micromamba environment for Python-based analysis (Snakemake, custom scripts, downstream R via conda-installed R packages).</p>
-
-<hr />
-
-<h2 id="quick-reference-card">Quick reference card</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create</span>
-conda create <span class="nt">-n</span> myenv <span class="nv">python</span><span class="o">=</span>3.10
-
-<span class="c"># Activate</span>
-conda activate myenv
-
-<span class="c"># Install fast</span>
-mamba <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge fastqc bowtie2 samtools
-
-<span class="c"># List all environments</span>
-conda <span class="nb">env </span>list
-
-<span class="c"># List packages in active environment</span>
-conda list
-
-<span class="c"># Export</span>
-conda <span class="nb">env export</span> <span class="o">&gt;</span> environment.yml
-
-<span class="c"># Recreate from file</span>
-conda <span class="nb">env </span>create <span class="nt">-f</span> environment.yml
-
-<span class="c"># Remove an environment</span>
-conda <span class="nb">env </span>remove <span class="nt">-n</span> myenv
-
-<span class="c"># Deactivate</span>
-conda deactivate
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="the-one-line-summary">The one-line summary</h2>
-
-<blockquote>
-  <p>Use <strong>mamba</strong> for daily work. Use <strong>micromamba</strong> on HPC. Never install into <code class="language-plaintext highlighter-rouge">base</code>. One environment per project. Always export <code class="language-plaintext highlighter-rouge">environment.yml</code>.</p>
-</blockquote>
-
-<p>That is everything you need. The edge cases will come — a package that only exists on one channel, a conflict that requires pinning a specific version, a tool that needs a separate environment entirely — but you will debug those one at a time, and the conda-forge and bioconda GitHub issues are surprisingly helpful when you do.</p>
-
-<hr />
-
-<p><em>Have a broken environment story or a tool installation question? Drop it in the comments.</em></p>
-
-<p><img src="/assets/img/conda_in.png" alt="Conda Install" /></p>]]></content><author><name></name></author><category term="linux" /><category term="conda" /><category term="mamba" /><category term="micromamba" /><category term="environment-management" /><category term="bioinformatics" /><category term="beginner" /><category term="HPC" /><category term="reproducibility" /><summary type="html"><![CDATA[You ran conda install and now your environment is broken. Sound familiar? This beginner-friendly guide explains exactly what conda, mamba, and micromamba are, when to use each one, and the common mistakes that silently destroy bioinformatics environments.]]></summary></entry></feed>
+<p><img src="/assets/img/network.png" alt="see_your_network" /></p>]]></content><author><name></name></author><category term="genomics" /><category term="co-occurrence" /><category term="network-analysis" /><category term="Spearman" /><category term="SparCC" /><category term="NetCoMi" /><category term="igraph" /><category term="functional-redundancy" /><category term="estuarine" /><category term="metagenomics" /><category term="keystone-taxa" /><category term="GTDB" /><summary type="html"><![CDATA[From raw genome relative abundance tables to Spearman-based co-occurrence networks, keystone taxa detection, and module ecology tests. A step-by-step walkthrough using NetCoMi, igraph, and the Zi-Pi framework in R — with real estuarine metagenome data.]]></summary></entry></feed>
