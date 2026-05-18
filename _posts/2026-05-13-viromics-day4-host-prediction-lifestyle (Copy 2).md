@@ -593,6 +593,6 @@ In the next post — the final one in this series — we shift from DNA to RNA. 
 ---
 
 > **Companion repository:** [metagenome-to-viromics](https://github.com/jojyjohn28/metagenome-to-viromics)
-> Scripts, and install guides for every step in this series live here. Day 2 materials are in `day4/`.
+> Scripts, and install guides for every step in this series live here. Day 2 materials are in `day3/`.
 
 ![see_your_plot](/assets/img/vir-d4.png)
