@@ -7,7 +7,7 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/viromics-day6-active-viral-communities/
-cseries: viromics
+series: viromics
 order: 6
 tags:
   [
