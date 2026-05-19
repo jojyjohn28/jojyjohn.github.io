@@ -592,5 +592,5 @@ In the final post — Day 6 — we add the last layer of information: **activity
 
 > **Companion repository:** [metagenome-to-viromics](https://github.com/jojyjohn28/metagenome-to-viromics)
 > Scripts, and install guides for every step in this series live here. Day 2 materials are in `day5/`.
-
-![see_your_plot](/assets/img/vir-d5.png)
+> _Today’s image is a simplified toy visualization created for demonstration purposes only._
+> ![see_your_plot](/assets/img/vir-d5.png)
