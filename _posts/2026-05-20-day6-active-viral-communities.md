@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Who Is Actually Active? Uncovering Active Viral Communities from Metatranscriptomes"
-date: 2026-06-09
+date: 2026-05-19
 description: "A virus detected in a metagenome might be dormant, dead, or relic DNA. A virus detected in a metatranscriptome is alive, active, and doing something right now. This final post in the viromics series maps metatranscriptomic reads to viral genomes, quantifies active viruses, identifies expressed auxiliary metabolic genes, and shows what viral activity reveals about ecosystem function that DNA alone never could."
 comments: true
 giscus_comments: true
