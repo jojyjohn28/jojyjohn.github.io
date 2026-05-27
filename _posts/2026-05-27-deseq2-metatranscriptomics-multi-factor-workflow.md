@@ -16,11 +16,8 @@ tags:
     R,
     bioinformatics,
     normalization,
-    salinity,
     environmental-microbiome,
     volcano-plot,
-    CAZymes,
-    metabolic-markers,
     reproducibility,
     RNA-seq,
   ]
