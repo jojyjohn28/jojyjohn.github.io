@@ -6,6 +6,8 @@ description: "A virus detected in a metagenome might be dormant, dead, or relic 
 comments: true
 giscus_comments: true
 featured: true
+series: viromics
+order: 6
 permalink: /blog/viromics-day6-active-viral-communities/
 tags:
   [
