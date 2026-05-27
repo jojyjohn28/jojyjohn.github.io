@@ -52,7 +52,7 @@ There is a better way. Several better ways, in fact. This post covers every tool
 | `scp`          | Single files, quick uploads          | ❌ No              | MobaXterm, Cyberduck | Good       |
 | `rsync`        | Folders, large batches, repeat syncs | ✅ Yes             | ❌ CLI only          | Good–Great |
 | `sftp`         | Interactive browsing + transfer      | ❌ No              | MobaXterm, FileZilla | Good       |
-| Globus Connect | Multi-TB, HPC↔HPC, unattended       | ✅ Yes             | ✅ Web UI + CLI      | Excellent  |
+| Globus Connect | Multi-TB, HPC↔HPC, unattended        | ✅ Yes             | ✅ Web UI + CLI      | Excellent  |
 
 > 💡 **Quick decision rule:** Small file, one-off → `scp`. Large folder or repeat syncs → `rsync`. Prefer clicking to typing → `sftp` with a GUI. Terabytes, long-distance, or must-not-fail → **Globus**.
 
