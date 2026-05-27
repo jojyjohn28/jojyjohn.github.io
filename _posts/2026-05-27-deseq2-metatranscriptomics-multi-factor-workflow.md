@@ -6,6 +6,7 @@ description: "A raw count table is just noise until the statistics are done righ
 comments: true
 giscus_comments: true
 featured: true
+categories: [R]
 permalink: /blog/deseq2-metatranscriptomics-multi-factor-workflow/
 tags:
   [
@@ -22,7 +23,6 @@ tags:
     metabolic-markers,
     reproducibility,
     RNA-seq,
-    beginners,
   ]
 ---
 
