@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-27T13:58:14-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-05-27T13:58:14-04:00</published><updated>2026-05-27T13:58:14-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-06-01T10:42:57-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-06-01T10:42:57-04:00</published><updated>2026-06-01T10:42:57-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,599 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">From Counts to Biology: A Rigorous DESeq2 Workflow for Multi-Factor Environmental Metatranscriptomics</title><link href="https://jojyjohn28.github.io/blog/deseq2-metatranscriptomics-multi-factor-workflow/" rel="alternate" type="text/html" title="From Counts to Biology: A Rigorous DESeq2 Workflow for Multi-Factor Environmental Metatranscriptomics" /><published>2026-05-27T00:00:00-04:00</published><updated>2026-05-27T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/deseq2-metatranscriptomics-multi-factor-workflow</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/deseq2-metatranscriptomics-multi-factor-workflow/"><![CDATA[<p><em>🧬 𝐷𝑎𝑦 84 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 desk</em></p>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Finding Fungi in Shotgun Metagenomes: A Kaiju-Based Mycobiome Workflow</title><link href="https://jojyjohn28.github.io/blog/kaiju-fungal-mycobiome-shotgun-metagenomes/" rel="alternate" type="text/html" title="Finding Fungi in Shotgun Metagenomes: A Kaiju-Based Mycobiome Workflow" /><published>2026-06-01T00:00:00-04:00</published><updated>2026-06-01T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/kaiju-fungal-mycobiome-shotgun-metagenomes</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/kaiju-fungal-mycobiome-shotgun-metagenomes/"><![CDATA[<p>🧬 𝐷𝑎𝑦 𝟪𝟨 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 𝖽𝖾𝗌𝗄</p>
+
+<p>Standard metagenomic pipelines are optimized for bacteria. Kraken2, MetaPhlAn, HUMAnN — they are all built around prokaryotic reference databases, and fungi rarely appear in their output even when fungal DNA is clearly present. This is not because fungi are absent from the samples. It is because the tools are not looking for them. This post documents a workflow that does look: Kaiju with the <code class="language-plaintext highlighter-rouge">nr_euk</code> database, applied to five stool metagenomes from an ulcerative colitis FMT cohort. The pilot detected fungi in all five samples, found a ~55-fold bloom in one FMT recipient between baseline and week 8, and produced everything needed to scale the analysis to 285 samples on a SLURM cluster.</p>
+
+<hr />
+
+<h2 id="why-kaiju-and-why-protein-level-classification">Why Kaiju, and why protein-level classification?</h2>
+
+<p>Most taxonomic classifiers work at the nucleotide level — they match k-mers from sequencing reads against a reference genome database. This works well for well-represented organisms like gut bacteria, but breaks down for fungi for two reasons. First, fungal genomes are underrepresented in standard bacterial databases. Second, fungi are evolutionarily distant from bacteria, so nucleotide-level similarity between a query read and a reference sequence is often too low to confidently classify.</p>
+
+<p>Kaiju takes a different approach: it translates sequencing reads into all six amino acid reading frames and searches against a protein database. Protein sequences are more conserved than DNA sequences across evolutionary distance, which makes Kaiju substantially more sensitive for divergent eukaryotes. The <code class="language-plaintext highlighter-rouge">nr_euk</code> database — built from NCBI’s non-redundant protein database, filtered to fungi, protists, and other microbial eukaryotes — provides the reference.</p>
+
+<blockquote>
+  <p>A read that shares 40% nucleotide identity with a fungal gene might share 70% amino acid identity with the same gene’s protein product. Kaiju finds the second match. k-mer classifiers miss it.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="dataset">Dataset</h2>
+
+<p><strong>Study:</strong> ERP108339 — Shotgun metagenomes from a multi-donor FMT trial for active ulcerative colitis (University of New South Wales)</p>
+
+<p><strong>Pilot cohort:</strong> Five stool metagenomes</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sample</th>
+      <th>Total Fungal Reads</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ERR2589084</td>
+      <td>94</td>
+    </tr>
+    <tr>
+      <td>ERR2589087</td>
+      <td>154</td>
+    </tr>
+    <tr>
+      <td>ERR2589089</td>
+      <td>8,517</td>
+    </tr>
+    <tr>
+      <td>ERR2589095</td>
+      <td>42</td>
+    </tr>
+    <tr>
+      <td>ERR2589100</td>
+      <td>2,471</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The range — from 42 reads to 8,517 — immediately signals that fungal load is highly variable between individuals, which is consistent with what is known about the gut mycobiome. ERR2589089 is particularly interesting: it is the week-8 sample from participant 1035, whose baseline sample (ERR2589087) had only 154 fungal reads. That is a ~55-fold increase following FMT.</p>
+
+<hr />
+
+<h2 id="database">Database</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju_db_nr_euk_2023-05-10
+</code></pre></div></div>
+
+<p>Three files are required:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju_db_nr_euk.fmi   # Burrows-Wheeler index of protein sequences
+nodes.dmp             # NCBI taxonomy tree
+names.dmp             # Human-readable taxon names
+</code></pre></div></div>
+
+<p>Set a database directory variable at the top of every script to avoid hardcoding paths:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">DBDIR</span><span class="o">=</span>/project/bcampb7/camplab/Jojy/other/kaiju
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="step-1--run-kaiju-classification">Step 1 — Run Kaiju classification</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">SAMPLE</span><span class="o">=</span>ERR2589084
+
+kaiju <span class="se">\</span>
+  <span class="nt">-t</span> <span class="nv">$DBDIR</span>/nodes.dmp <span class="se">\</span>
+  <span class="nt">-f</span> <span class="nv">$DBDIR</span>/kaiju_db_nr_euk.fmi <span class="se">\</span>
+  <span class="nt">-i</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_1.fastq.gz <span class="se">\</span>
+  <span class="nt">-j</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_2.fastq.gz <span class="se">\</span>
+  <span class="nt">-o</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.out <span class="se">\</span>
+  <span class="nt">-z</span> 16 <span class="se">\</span>
+  <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">-z 16</code> sets the thread count. <code class="language-plaintext highlighter-rouge">-v</code> enables verbose output so you can monitor progress. The output <code class="language-plaintext highlighter-rouge">${SAMPLE}.out</code> contains a line per read: classified/unclassified flag, read ID, and taxonomic ID. The IDs are NCBI integers at this stage — not human-readable yet.</p>
+
+<hr />
+
+<h2 id="step-2--add-taxonomic-names">Step 2 — Add taxonomic names</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju-addTaxonNames <span class="se">\</span>
+  <span class="nt">-t</span> <span class="nv">$DBDIR</span>/nodes.dmp <span class="se">\</span>
+  <span class="nt">-n</span> <span class="nv">$DBDIR</span>/names.dmp <span class="se">\</span>
+  <span class="nt">-i</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.out <span class="se">\</span>
+  <span class="nt">-o</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.names.out <span class="se">\</span>
+  <span class="nt">-r</span> superkingdom,phylum,class,order,family,genus,species
+</code></pre></div></div>
+
+<p>This converts the raw taxonomic IDs into a full lineage string. The <code class="language-plaintext highlighter-rouge">-r</code> argument controls which ranks are included in the output. A classified fungal read will now look like:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Eukaryota; Ascomycota; Saccharomycetes; Saccharomycetales; Pichiaceae; Pichia; Pichia kudriavzevii
+</code></pre></div></div>
+
+<p>This lineage string is what all downstream <code class="language-plaintext highlighter-rouge">grep</code> and <code class="language-plaintext highlighter-rouge">awk</code> steps parse.</p>
+
+<hr />
+
+<h2 id="step-3--summarize-phylum-level-composition">Step 3 — Summarize phylum-level composition</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kaiju2table <span class="se">\</span>
+  <span class="nt">-t</span> <span class="nv">$DBDIR</span>/nodes.dmp <span class="se">\</span>
+  <span class="nt">-n</span> <span class="nv">$DBDIR</span>/names.dmp <span class="se">\</span>
+  <span class="nt">-r</span> phylum <span class="se">\</span>
+  <span class="nt">-m</span> 0.001 <span class="se">\</span>
+  <span class="nt">-o</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_phylum_summary.tsv <span class="se">\</span>
+  <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.out
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">-m</code> threshold sets the minimum percentage of reads a taxon must represent to appear in the output. <strong>Use <code class="language-plaintext highlighter-rouge">-m 0.001</code>, not the default <code class="language-plaintext highlighter-rouge">-m 1.0</code>.</strong> At <code class="language-plaintext highlighter-rouge">-m 1.0</code>, a phylum needs to account for at least 1% of all reads in the sample to be reported — in a stool metagenome where fungi may be 0.01% of the total reads, that threshold silently hides every fungal phylum. The permissive threshold is essential for any low-abundance group.</p>
+
+<hr />
+
+<h2 id="step-4--count-reads-per-fungal-phylum">Step 4 — Count reads per fungal phylum</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"Eukaryota; Ascomycota"</span>    <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.names.out
+<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"Eukaryota; Mucoromycota"</span>  <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.names.out
+<span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"Eukaryota; Basidiomycota"</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.names.out
+</code></pre></div></div>
+
+<p>Combine into a summary table:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sample | Ascomycota | Mucoromycota | Basidiomycota | Total_Fungal
+</code></pre></div></div>
+
+<p>This table drives Figure 1 and Figure 2 in R downstream.</p>
+
+<hr />
+
+<h2 id="step-5--extract-genus-level-abundance">Step 5 — Extract genus-level abundance</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="s2">"Eukaryota; Ascomycota</span><span class="se">\|</span><span class="s2">Eukaryota; Basidiomycota</span><span class="se">\|</span><span class="s2">Eukaryota; Mucoromycota"</span> <span class="se">\</span>
+  <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.names.out <span class="se">\</span>
+| <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">';'</span> <span class="s1">'{gsub(/^ +| +$/,"",$6); if($6!="NA" &amp;&amp; $6!="") print $6}'</span> <span class="se">\</span>
+| <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-nr</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">awk</code> command splits the lineage on semicolons, strips whitespace from field 6 (genus), and drops empty or <code class="language-plaintext highlighter-rouge">NA</code> entries. This produces a ranked count of genera per sample — the raw material for the genus abundance table.</p>
+
+<hr />
+
+<h2 id="step-6--build-a-long-format-table-for-r">Step 6 — Build a long-format table for R</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="s2">"Eukaryota; Ascomycota</span><span class="se">\|</span><span class="s2">Eukaryota; Basidiomycota</span><span class="se">\|</span><span class="s2">Eukaryota; Mucoromycota"</span> <span class="se">\</span>
+  <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.names.out <span class="se">\</span>
+| <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">';'</span> <span class="s1">'{gsub(/^ +| +$/,"",$6); if($6!="NA" &amp;&amp; $6!="") print $6}'</span> <span class="se">\</span>
+| <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-nr</span> <span class="se">\</span>
+| <span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">sample</span><span class="o">=</span><span class="nv">$SAMPLE</span> <span class="s1">'BEGIN{OFS="\t"; print "Sample","Genus","Reads"} {print sample,$2,$1}'</span> <span class="se">\</span>
+<span class="o">&gt;</span> <span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>_fungal_genera_long.tsv
+</code></pre></div></div>
+
+<p>Merge all samples into one file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>ERR<span class="k">*</span>_fungal_genera_long.tsv <span class="se">\</span>
+| <span class="nb">awk</span> <span class="s1">'NR==1 || $1!="Sample"'</span> <span class="se">\</span>
+<span class="o">&gt;</span> fungal_genera_long.tsv
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">awk</code> guard keeps only the header from the first file, preventing duplicate header rows when concatenating.</p>
+
+<hr />
+
+<h2 id="step-7--visualization-in-r">Step 7 — Visualization in R</h2>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">RColorBrewer</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">patchwork</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span><span class="w">
+
+</span><span class="n">phylum</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"fungal_phylum_summary.tsv"</span><span class="p">)</span><span class="w">
+</span><span class="n">genus_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"fungal_genera_long.tsv"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="figure-1-total-fungal-reads-per-sample">Figure 1: Total fungal reads per sample</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">phylum</span><span class="p">,</span><span class="w">
+             </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reorder</span><span class="p">(</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">Total_Fungal</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Total_Fungal</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#3DA5FF"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.75</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Total fungal reads detected"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fungal reads"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"Fig1_total_fungal_reads.png"</span><span class="p">,</span><span class="w"> </span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="figure-2-phylum-composition">Figure 2: Phylum composition</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">phylum_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">phylum</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">Ascomycota</span><span class="p">,</span><span class="w"> </span><span class="n">Mucoromycota</span><span class="p">,</span><span class="w"> </span><span class="n">Basidiomycota</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Phylum"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Reads"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">Sample</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Relative_Abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Reads</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Reads</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w">
+
+</span><span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">phylum_long</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Relative_Abundance</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Phylum</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.85</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">percent</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_brewer</span><span class="p">(</span><span class="n">palette</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Set2"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fungal phylum composition"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Relative abundance"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"FigA_fungal_phylum_composition.png"</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="figure-3-genus-composition">Figure 3: Genus composition</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">top_genera</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">genus_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">Total_Reads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Reads</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">Total_Reads</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">slice_head</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pull</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span><span class="w">
+
+</span><span class="n">genus_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">genus_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">Genus</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">top_genera</span><span class="p">,</span><span class="w"> </span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="s2">"Others"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">Genus</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">Reads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Reads</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">Sample</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Relative_Abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Reads</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Reads</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w">
+
+</span><span class="n">p3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">genus_plot</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Relative_Abundance</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Genus</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.85</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">percent</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fungal genus composition"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Relative abundance"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"FigB_fungal_genus_composition.png"</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5.5</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="figure-4-participant-1035-before-and-after-fmt">Figure 4: Participant 1035 before and after FMT</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">reads_1035</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tibble</span><span class="p">(</span><span class="w">
+  </span><span class="n">Timepoint</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Baseline"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Week 8"</span><span class="p">),</span><span class="w">
+  </span><span class="n">Fungal_Reads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">154</span><span class="p">,</span><span class="w"> </span><span class="m">8517</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">reads_1035</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">Timepoint</span><span class="p">,</span><span class="w"> </span><span class="n">Fungal_Reads</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#2C7FB8"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">comma</span><span class="p">(</span><span class="n">Fungal_Reads</span><span class="p">)),</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Participant 1035 fungal abundance"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Baseline vs Week 8"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>154 reads at baseline. 8,517 at week 8. A ~55-fold increase following FMT. Whether this reflects donor-derived fungal engraftment, transient expansion of a resident strain, or a diet effect cannot be determined from five samples — but it is exactly the kind of signal that justifies scaling to the full 285-sample cohort.</p>
+
+<hr />
+
+<h2 id="biological-interpretation-what-kaiju-can-and-cannot-tell-you">Biological interpretation: what Kaiju can and cannot tell you</h2>
+
+<p>Kaiju detects DNA. DNA detection does not confirm active growth, colonization, or clinical relevance. This distinction matters especially for the environmental and dietary fungi that appear consistently in gut metagenomes:</p>
+
+<p><strong>Environmental/dietary taxa</strong> — likely transient, no colonization implied:</p>
+
+<ul>
+  <li><em>Rhizopus</em> (common bread mold)</li>
+  <li><em>Hanseniaspora</em> (fermentation yeast, found in fruit)</li>
+  <li><em>Gigaspora</em>, <em>Claroideoglomus</em> (soil arbuscular mycorrhizal fungi)</li>
+</ul>
+
+<p><strong>Host-associated taxa</strong> — more likely to reflect true gut mycobiome members:</p>
+
+<ul>
+  <li><em>Candida</em>, <em>Pichia</em>, <em>Geotrichum</em> — commensal yeasts</li>
+  <li><em>Malassezia</em> — skin-associated but detectable in stool</li>
+  <li><em>Saccharomyces</em> — common in fermented food, can persist in gut</li>
+</ul>
+
+<p>This distinction should inform how you interpret differential abundance between FMT and placebo, or baseline and week 8. A bloom in <em>Rhizopus</em> may reflect a dietary change. A bloom in <em>Candida</em> is more likely to be biologically meaningful in an IBD context.</p>
+
+<hr />
+
+<h2 id="scaling-to-285-samples-on-slurm">Scaling to 285 samples on SLURM</h2>
+
+<h3 id="download-fastq-files-from-ena">Download FASTQ files from ENA</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># From ENA FTP file report</span>
+<span class="nb">cut</span> <span class="nt">-f</span>&lt;fastq_ftp_col&gt; filereport_read_run_PRJEB26357.tsv <span class="se">\</span>
+| <span class="nb">tail</span> <span class="nt">-n</span> +2 <span class="se">\</span>
+| <span class="nb">tr</span> <span class="s1">';'</span> <span class="s1">'\n'</span> <span class="se">\</span>
+| <span class="nb">sed</span> <span class="s1">'s#^#https://#'</span> <span class="se">\</span>
+| xargs <span class="nt">-n</span> 1 <span class="nt">-P</span> 6 wget <span class="nt">-c</span>
+</code></pre></div></div>
+
+<p>Or using <code class="language-plaintext highlighter-rouge">enaDataGet</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> ena_download <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge ena-browser-tools <span class="nt">-y</span>
+conda activate ena_download
+
+<span class="nb">cut</span> <span class="nt">-f1</span> filereport_read_run_PRJEB26357.tsv | <span class="nb">tail</span> <span class="nt">-n</span> +2 <span class="o">&gt;</span> run_accessions.txt
+
+<span class="k">while </span><span class="nb">read </span>RUN<span class="p">;</span> <span class="k">do
+  </span>enaDataGet <span class="nt">-f</span> fastq <span class="nv">$RUN</span>
+<span class="k">done</span> &lt; run_accessions.txt
+</code></pre></div></div>
+
+<h3 id="build-a-sample-sheet">Build a sample sheet</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="k">*</span>_1.fastq.gz | <span class="nb">sed</span> <span class="s1">'s/_1.fastq.gz//'</span> <span class="o">&gt;</span> sample_ids.txt
+
+<span class="nb">awk</span> <span class="s1">'BEGIN{OFS="\t"} {print $1, $1"_1.fastq.gz", $1"_2.fastq.gz"}'</span> <span class="se">\</span>
+  sample_ids.txt <span class="o">&gt;</span> samples.tsv
+
+<span class="nb">wc</span> <span class="nt">-l</span> samples.tsv  <span class="c"># should be 285</span>
+</code></pre></div></div>
+
+<h3 id="slurm-array-job--one-job-per-sample">SLURM array job — one job per sample</h3>
+
+<p>A loop script running 285 samples sequentially would take days. A SLURM array runs them in parallel, one job per sample:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=kaiju_array</span>
+<span class="c">#SBATCH --array=1-285%10</span>
+<span class="c">#SBATCH --cpus-per-task=16</span>
+<span class="c">#SBATCH --mem=180G</span>
+<span class="c">#SBATCH --time=24:00:00</span>
+<span class="c">#SBATCH --output=logs/kaiju_array_%A_%a.out</span>
+<span class="c">#SBATCH --error=logs/kaiju_array_%A_%a.err</span>
+
+module load kaiju/1.10.1
+
+<span class="nv">BASE</span><span class="o">=</span>/scratch/jojyj/binod
+<span class="nv">RAWDIR</span><span class="o">=</span><span class="nv">$BASE</span>/raw_data
+<span class="nv">OUTDIR</span><span class="o">=</span><span class="nv">$BASE</span>/kaiju_all_results
+<span class="nv">DBDIR</span><span class="o">=</span>/project/bcampb7/camplab/Jojy/other/kaiju
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$OUTDIR</span> logs
+
+<span class="nv">LINE</span><span class="o">=</span><span class="si">$(</span><span class="nb">sed</span> <span class="nt">-n</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SLURM_ARRAY_TASK_ID</span><span class="k">}</span><span class="s2">p"</span> <span class="nv">$RAWDIR</span>/samples.tsv<span class="si">)</span>
+<span class="nv">SAMPLE</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="nv">$LINE</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="si">)</span>
+<span class="nv">R1</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="nv">$LINE</span> |     <span class="nb">awk</span> <span class="s1">'{print $2}'</span><span class="si">)</span>
+<span class="nv">R2</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="nv">$LINE</span> |     <span class="nb">awk</span> <span class="s1">'{print $3}'</span><span class="si">)</span>
+
+<span class="nb">echo</span> <span class="s2">"Processing: </span><span class="nv">$SAMPLE</span><span class="s2">"</span>
+
+kaiju <span class="se">\</span>
+  <span class="nt">-t</span> <span class="nv">$DBDIR</span>/nodes.dmp <span class="se">\</span>
+  <span class="nt">-f</span> <span class="nv">$DBDIR</span>/kaiju_db_nr_euk.fmi <span class="se">\</span>
+  <span class="nt">-i</span> <span class="nv">$RAWDIR</span>/<span class="nv">$R1</span> <span class="se">\</span>
+  <span class="nt">-j</span> <span class="nv">$RAWDIR</span>/<span class="nv">$R2</span> <span class="se">\</span>
+  <span class="nt">-o</span> <span class="nv">$OUTDIR</span>/<span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.out <span class="se">\</span>
+  <span class="nt">-z</span> 16 <span class="nt">-v</span>
+
+kaiju-addTaxonNames <span class="se">\</span>
+  <span class="nt">-t</span> <span class="nv">$DBDIR</span>/nodes.dmp <span class="se">\</span>
+  <span class="nt">-n</span> <span class="nv">$DBDIR</span>/names.dmp <span class="se">\</span>
+  <span class="nt">-i</span> <span class="nv">$OUTDIR</span>/<span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.out <span class="se">\</span>
+  <span class="nt">-o</span> <span class="nv">$OUTDIR</span>/<span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span>.names.out <span class="se">\</span>
+  <span class="nt">-r</span> superkingdom,phylum,class,order,family,genus,species
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--array=1-285%10</code> submits all 285 tasks but runs at most 10 simultaneously — useful for being a polite cluster user when the database loading is memory-intensive.</p>
+
+<p>Submit and monitor:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbatch run_kaiju_array.sh
+squeue <span class="nt">-u</span> jojyj
+<span class="nb">tail</span> <span class="nt">-f</span> logs/kaiju_array_JOBID_1.out
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="aggregating-results-across-all-285-samples">Aggregating results across all 285 samples</h2>
+
+<h3 id="phylum-summary-table">Phylum summary table</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"Sample</span><span class="se">\t</span><span class="s2">Ascomycota</span><span class="se">\t</span><span class="s2">Mucoromycota</span><span class="se">\t</span><span class="s2">Basidiomycota</span><span class="se">\t</span><span class="s2">Total_Fungal"</span> <span class="se">\</span>
+  <span class="o">&gt;</span> fungal_phylum_summary_all.tsv
+
+<span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>.names.out<span class="p">;</span> <span class="k">do
+  </span><span class="nv">SAMPLE</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="nv">$f</span> .names.out<span class="si">)</span>
+  <span class="nv">ASC</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"Eukaryota; Ascomycota"</span>    <span class="nv">$f</span><span class="si">)</span>
+  <span class="nv">MUC</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"Eukaryota; Mucoromycota"</span>  <span class="nv">$f</span><span class="si">)</span>
+  <span class="nv">BAS</span><span class="o">=</span><span class="si">$(</span><span class="nb">grep</span> <span class="nt">-c</span> <span class="s2">"Eukaryota; Basidiomycota"</span> <span class="nv">$f</span><span class="si">)</span>
+  <span class="nv">TOTAL</span><span class="o">=</span><span class="k">$((</span>ASC+MUC+BAS<span class="k">))</span>
+  <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SAMPLE</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">ASC</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">MUC</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">BAS</span><span class="k">}</span><span class="se">\t</span><span class="k">${</span><span class="nv">TOTAL</span><span class="k">}</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="o">&gt;&gt;</span> fungal_phylum_summary_all.tsv
+<span class="k">done</span>
+</code></pre></div></div>
+
+<h3 id="genus-matrix-wide-format-for-r">Genus matrix (wide format for R)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"Sample</span><span class="se">\t</span><span class="s2">Genus</span><span class="se">\t</span><span class="s2">Reads"</span> <span class="o">&gt;</span> fungal_genera_long_all.tsv
+
+<span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>.names.out<span class="p">;</span> <span class="k">do
+  </span><span class="nv">SAMPLE</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="nv">$f</span> .names.out<span class="si">)</span>
+  <span class="nb">grep</span> <span class="s2">"Eukaryota; Ascomycota</span><span class="se">\|</span><span class="s2">Eukaryota; Basidiomycota</span><span class="se">\|</span><span class="s2">Eukaryota; Mucoromycota"</span> <span class="nv">$f</span> <span class="se">\</span>
+  | <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">';'</span> <span class="s1">'{gsub(/^ +| +$/,"",$6); if($6!="NA" &amp;&amp; $6!="") print $6}'</span> <span class="se">\</span>
+  | <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-nr</span> <span class="se">\</span>
+  | <span class="nb">awk</span> <span class="nt">-v</span> <span class="nv">sample</span><span class="o">=</span><span class="nv">$SAMPLE</span> <span class="s1">'BEGIN{OFS="\t"} {print sample,$2,$1}'</span> <span class="se">\</span>
+  <span class="o">&gt;&gt;</span> fungal_genera_long_all.tsv
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>Convert to wide matrix in R:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">genus_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"fungal_genera_long_all.tsv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">genus_matrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">genus_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_wider</span><span class="p">(</span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Reads</span><span class="p">,</span><span class="w"> </span><span class="n">values_fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+
+</span><span class="n">write_tsv</span><span class="p">(</span><span class="n">genus_matrix</span><span class="p">,</span><span class="w"> </span><span class="s2">"fungal_genus_matrix_all.tsv"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="diversity-analysis">Diversity analysis</h2>
+
+<p>Once the genus matrix is merged with metadata, standard community ecology statistics apply directly:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span><span class="w">
+
+</span><span class="n">taxa_matrix</span><span class="w">      </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">genus</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">select</span><span class="p">(</span><span class="n">where</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">))</span><span class="w">
+</span><span class="n">sample_metadata</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">genus</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">select</span><span class="p">(</span><span class="n">any_of</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Sample"</span><span class="p">,</span><span class="s2">"participant"</span><span class="p">,</span><span class="s2">"group"</span><span class="p">,</span><span class="s2">"timepoint"</span><span class="p">,</span><span class="s2">"response"</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1"># Alpha diversity</span><span class="w">
+</span><span class="n">sample_metadata</span><span class="o">$</span><span class="n">Observed_Genera</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">specnumber</span><span class="p">(</span><span class="n">taxa_matrix</span><span class="p">)</span><span class="w">
+</span><span class="n">sample_metadata</span><span class="o">$</span><span class="n">Shannon</span><span class="w">          </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">diversity</span><span class="p">(</span><span class="n">taxa_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"shannon"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Beta diversity</span><span class="w">
+</span><span class="n">bray</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vegdist</span><span class="p">(</span><span class="n">taxa_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bray"</span><span class="p">)</span><span class="w">
+</span><span class="n">pcoa</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cmdscale</span><span class="p">(</span><span class="n">bray</span><span class="p">,</span><span class="w"> </span><span class="n">eig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># PERMANOVA</span><span class="w">
+</span><span class="n">adonis2</span><span class="p">(</span><span class="n">bray</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">timepoint</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_metadata</span><span class="p">,</span><span class="w"> </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="identifying-fungal-rich-samples-for-genome-recovery">Identifying fungal-rich samples for genome recovery</h2>
+
+<p>Most samples will have too few fungal reads for assembly. A practical threshold for exploring fungal MAG recovery is &gt;10,000 fungal reads; a more realistic threshold for actually obtaining a binnable fungal genome is &gt;100,000 reads. Filter early:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fungal_rich</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">phylum</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">Total_Fungal</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">Total_Fungal</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">10000</span><span class="p">)</span><span class="w">
+
+</span><span class="n">write_tsv</span><span class="p">(</span><span class="n">fungal_rich</span><span class="p">,</span><span class="w"> </span><span class="s2">"fungal_rich_samples.tsv"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>For samples that pass the threshold, the workflow extends into eukaryotic assembly and binning:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Recommended tools</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Fungal read extraction</td>
+      <td>seqtk, BBTools</td>
+    </tr>
+    <tr>
+      <td>Assembly</td>
+      <td>MEGAHIT, metaSPAdes</td>
+    </tr>
+    <tr>
+      <td>Eukaryotic contig detection</td>
+      <td>EukRep, Tiara</td>
+    </tr>
+    <tr>
+      <td>Binning</td>
+      <td>CONCOCT, MetaBAT2</td>
+    </tr>
+    <tr>
+      <td>Completeness assessment</td>
+      <td>BUSCO, EukCC</td>
+    </tr>
+    <tr>
+      <td>Gene annotation</td>
+      <td>funannotate, eggNOG-mapper</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="proposed-next-steps-for-the-full-erp108339-cohort">Proposed next steps for the full ERP108339 cohort</h2>
+
+<p>The pilot validates the approach. Scaling it produces the data needed to answer the biological question: does FMT alter the gut mycobiome, and does the direction of change predict treatment response in UC?</p>
+
+<p><strong>Phase 1 — Cohort-wide mycobiome profiling:</strong> 285 metagenomes → Kaiju → genus matrix → prevalence analysis → alpha/beta diversity → identify fungal-rich samples.</p>
+
+<p><strong>Phase 2 — Clinical associations:</strong> FMT vs placebo, baseline vs week 8, treatment response stratification, candidate fungal biomarker identification. Cross-validate significant associations with Kraken2/Bracken using a eukaryote-inclusive database.</p>
+
+<p><strong>Phase 3 — Genome-resolved mycobiome:</strong> Select fungal-rich samples → extract fungal reads → assemble → EukRep/Tiara for contig filtering → bin → BUSCO/EukCC quality → annotate.</p>
+
+<hr />
+
+<h2 id="future-direction-toward-genome-resolved-fungal-analysis">Future direction: toward genome-resolved fungal analysis</h2>
+
+<p>This workflow is the foundation, not the destination. Read-level classification tells you <em>what fungi are present</em> and in <em>what relative proportions</em> — but it cannot tell you anything about the functional capacity of those fungi, their genetic diversity, or whether the same <em>Candida</em> strain persists across timepoints or is replaced by a phylogenetically distinct isolate after FMT. Answering those questions requires genomes.</p>
+
+<p>The roadmap from this pilot to genome-resolved fungal analysis has three stages, each building directly on the outputs of the last:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────┐
+│ Pilot Study                 │
+│ 5 samples · Kaiju · nr_euk  │
+│ Proof of concept            │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│ Phase 1 · Mycobiome         │
+│ Profiling                   │
+│                             │
+│ • Kaiju → 285 metagenomes   │
+│ • Genus/phylum abundance    │
+│ • Alpha &amp; beta diversity    │
+│ • Prevalence analysis       │
+│ • Identify fungal-rich      │
+│   samples                   │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│ Phase 2 · Validation &amp;      │
+│ Clinical Associations       │
+│                             │
+│ • FMT vs Placebo            │
+│ • Baseline vs Week 8        │
+│ • Treatment response        │
+│ • Candidate biomarkers      │
+│ • Kraken2/Bracken cross-    │
+│   validation                │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│ Phase 3 · Fungal Genomics   │
+│ (future work)               │
+│                             │
+│ • Extract fungal reads      │
+│ • Assemble (MEGAHIT /       │
+│   metaSPAdes)               │
+│ • Eukaryotic contig ID      │
+│   (EukRep, Tiara)           │
+│ • MAG binning (MetaBAT2,    │
+│   CONCOCT)                  │
+│ • Quality: BUSCO, EukCC     │
+│ • Annotation: funannotate,  │
+│   eggNOG-mapper             │
+└─────────────────────────────┘
+</code></pre></div></div>
+
+<p>Phase 3 is where this analysis becomes genuinely novel. Genome-resolved mycobiome analysis in human gut metagenomes is still a largely open field — most published studies stop at read-level classification. Recovering high-quality fungal MAGs from stool metagenomes, linking them to treatment response in IBD, and characterizing their functional gene content would represent a meaningful contribution.</p>
+
+<p>Getting there requires Phase 1 and Phase 2 to work first. The fungal-rich samples that Phase 1 identifies are the input to Phase 3. The clinical associations that Phase 2 establishes determine which samples and which organisms are worth the computational investment of assembly and binning. This post covers Phase 1 in full. Phases 2 and 3 will be documented as the work develops.</p>
+
+<p><em>This section will be updated as the genome-resolved analysis progresses.</em></p>
+
+<hr />
+
+<h2 id="expected-outputs">Expected outputs</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fungal_phylum_summary_all.tsv
+fungal_genera_long_all.tsv
+fungal_genus_matrix_all.tsv
+fungal_phylum_summary_with_metadata.tsv
+fungal_genus_matrix_with_metadata.tsv
+fungal_alpha_diversity.tsv
+fungal_genus_prevalence.tsv
+fungal_rich_samples.tsv
+</code></pre></div></div>
+
+<hr />
+
+<p><em>Kaiju reference: Menzel P, Ng KL, Krogh A. “Fast and sensitive taxonomic classification for metagenomics with Kaiju.” Nature Communications 7:11257 (2016). Database: <code class="language-plaintext highlighter-rouge">kaiju_db_nr_euk_2023-05-10</code>. Study cohort: ERP108339 / PRJEB26357.</em></p>
+
+<p><img src="/assets/img/myco-day1.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="mycobiome" /><category term="kaiju" /><category term="fungi" /><category term="shotgun-metagenomics" /><category term="FMT" /><category term="ulcerative-colitis" /><category term="taxonomic-classification" /><category term="nr-euk" /><category term="SLURM" /><category term="HPC" /><category term="R" /><category term="ggplot2" /><category term="alpha-diversity" /><category term="beta-diversity" /><category term="PERMANOVA" /><category term="bioinformatics" /><category term="beginners" /><summary type="html"><![CDATA[Shotgun metagenomes are routinely analyzed for bacteria and archaea, but fungal DNA is sitting right there in the same data — overlooked by most standard pipelines. This post walks through a complete Kaiju-based workflow for detecting, quantifying, and visualizing fungal communities from shotgun metagenomes, using a pilot study of five stool samples from the ERP108339 ulcerative colitis FMT cohort. From protein-level classification to genus-level abundance tables, phylum composition plots, and a ~55-fold fungal bloom in a single FMT recipient — and how to scale the whole thing to 285 samples on a SLURM cluster.]]></summary></entry><entry><title type="html">From Counts to Biology: A Rigorous DESeq2 Workflow for Multi-Factor Environmental Metatranscriptomics</title><link href="https://jojyjohn28.github.io/blog/deseq2-metatranscriptomics-multi-factor-workflow/" rel="alternate" type="text/html" title="From Counts to Biology: A Rigorous DESeq2 Workflow for Multi-Factor Environmental Metatranscriptomics" /><published>2026-05-27T00:00:00-04:00</published><updated>2026-05-27T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/deseq2-metatranscriptomics-multi-factor-workflow</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/deseq2-metatranscriptomics-multi-factor-workflow/"><![CDATA[<p><em>🧬 𝐷𝑎𝑦 84 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 desk</em></p>
 
 <p>A virus detected in a metagenome might be dormant. A transcript detected in a metatranscriptome is evidence of something happening <em>right now</em>. The same logic applies to any functional gene: presence in DNA tells you what a community <em>could</em> do; expression in RNA tells you what it <em>is</em> doing. Differential expression analysis is how we move from that RNA signal to a ranked, statistically credible list of genes that respond to an environmental gradient. This post documents a complete DESeq2 workflow across three factors — salinity, season, and bay of origin — and covers every decision that determines whether the results are trustworthy.</p>
 
@@ -5729,265 +6321,4 @@ checkv end_to_end <span class="se">\</span>
 Toy assembly, batch scripts, the combine Python script, and installation guides for every tool used here.</p>
 </blockquote>
 
-<p><img src="/assets/img/vir-d1.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="viromics" /><category term="viral-metagenomics" /><category term="VirSorter2" /><category term="VITAP" /><category term="CD-HIT" /><category term="CheckV" /><category term="vOTU" /><category term="metagenome-assembly" /><category term="phage" /><category term="AMG" /><category term="bioinformatics" /><category term="beginners" /><summary type="html"><![CDATA[Viruses outnumber every other biological entity on Earth, yet most metagenomic workflows ignore them. This post walks through the full first stage of a viromics pipeline — from assembled contigs to quality-filtered viral OTUs — using VirSorter2, VITAP, CD-HIT, and CheckV.]]></summary></entry><entry><title type="html">Building a Custom GTDBtk Database for HUMAnN3 — A Gene Catalogue Approach for Environmental Metagenomics</title><link href="https://jojyjohn28.github.io/blog/custom-gtdb-humann3-gene-catalogue/" rel="alternate" type="text/html" title="Building a Custom GTDBtk Database for HUMAnN3 — A Gene Catalogue Approach for Environmental Metagenomics" /><published>2026-04-30T00:00:00-04:00</published><updated>2026-04-30T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/custom-gtdb-humann3-gene-catalogue</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/custom-gtdb-humann3-gene-catalogue/"><![CDATA[<h2 id="building-a-custom-gtdbtk-database-for-humann3--a-gene-catalogue-approach-for-environmental-metagenomics">Building a custom GTDBtk database for HUMAnN3 — a gene catalogue approach for environmental metagenomics</h2>
-
-<p><em>🧬 𝐷𝑎𝑦 77 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 desk</em></p>
-
-<p>If you work with environmental microbial communities — estuaries, soils, marine systems — you have probably run into the same frustration: HUMAnN3’s default ChocoPhlAn database was built for the human gut. Use it on an estuary sample and you will miss most of the community.</p>
-
-<p>The coverage problem is concrete. In our Chesapeake and Delaware Bay metagenomes, HUMAnN3 with ChocoPhlAn left the majority of reads unclassified at the species level and relegated them to an “unmapped” or “unintegrated” catch-all. Using a custom database built from GTDB release 220 (113,104 bacterial and archaeal genomes), we went from fragmented community profiles to species-resolved gene families covering the organisms that actually matter in that environment.</p>
-
-<p>A custom database also gives you something the default workflow cannot: <strong>full taxonomic context linked to GTDB phylogeny</strong>. Every gene family output by HUMAnN3 carries a species label traceable back to a GTDB lineage, enabling downstream analyses that require knowing <em>who</em> is doing <em>what</em>.</p>
-
-<hr />
-
-<h2 id="why-gtdb-over-silva-or-ncbi-for-this-purpose">Why GTDB over SILVA or NCBI for this purpose?</h2>
-
-<p>Before diving into the workflow, it is worth explaining the choice of GTDB (Genome Taxonomy Database) as the reference framework.</p>
-
-<p><strong>Genome-resolved taxonomy:</strong> GTDB is built from whole-genome phylogenetics, not marker genes. Species boundaries are based on average nucleotide identity (ANI), making them more reproducible and less subject to historical naming inconsistencies.</p>
-
-<p><strong>Environmental breadth:</strong> GTDB r220 includes 113,104 bacterial and archaeal genomes spanning virtually every biome sequenced to date — far broader representation of environmental taxa than gut-focused catalogues.</p>
-
-<p><strong>GTDB-Tk integration:</strong> GTDB-Tk annotates query genomes and assigns them to the GTDB tree, so your reference database and your sample taxonomy live in the same coordinate system.</p>
-
-<p><strong>Cross-study comparability:</strong> GTDB lineage labels are stable and versioned, making your gene catalogue directly comparable to other GTDB-based studies.</p>
-
-<hr />
-
-<h2 id="step-1-building-the-humann3-friendly-database-with-struo2">Step 1: Building the HUMAnN3-friendly database with STRUO2</h2>
-
-<p><a href="https://github.com/leylabmpi/STRUO2">STRUO2</a> (Streamlined Update of Omics Reference material) is a Snakemake pipeline that takes a genome collection and produces exactly the files HUMAnN3 needs: a custom ChocoPhlAn-equivalent nucleotide database and a DIAMOND-formatted protein database with UniRef50 annotations.</p>
-
-<h3 id="what-struo2-needs">What STRUO2 needs</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Input</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Genome directory</td>
-      <td>GTDB genomes in <code class="language-plaintext highlighter-rouge">GCA/XXX/XXX/XXX/</code> structure</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">genome_metadata.tsv</code></td>
-      <td>Columns: genome name, species, NCBI taxid</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">genome_reps_filt_annot.tsv.gz</code></td>
-      <td>Gene → UniRef50 ID mapping from GTDB-Tk/eggNOG</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="running-struo2">Running STRUO2</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Configure in config.yaml:</span>
-<span class="c"># genomes_dir: /path/to/gtdb_release220/genomes/</span>
-<span class="c"># genome_table: genome_metadata.tsv</span>
-<span class="c"># annot_file: genome_reps_filt_annot.tsv.gz</span>
-<span class="c"># output_dir: /path/to/gtdb_for_humann3/</span>
-
-snakemake <span class="nt">--snakefile</span> Snakefile <span class="se">\</span>
-          <span class="nt">--configfile</span> config.yaml <span class="se">\</span>
-          <span class="nt">--cores</span> 64 <span class="se">\</span>
-          <span class="nt">--use-conda</span>
-</code></pre></div></div>
-
-<h3 id="key-outputs">Key outputs</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gtdb_for_humann3/
-├── uniref50/
-│   └── uniref50_201901b.dmnd      # DIAMOND protein database
-├── chocophlan/
-│   └── *.ffn.gz                   # Nucleotide marker genes
-└── genome_reps_filt_annot.tsv.gz  # Gene annotation table
-</code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">uniref50/</code> directory is what you pass to HUMAnN3’s <code class="language-plaintext highlighter-rouge">--protein-database</code> flag. For our GTDB r220 build this produced ~696,000 unique annotated genes.</p>
-
-<hr />
-
-<h2 id="step-2-running-humann3-with-the-custom-database">Step 2: Running HUMAnN3 with the custom database</h2>
-
-<p>With the custom database in hand, HUMAnN3 runs identically to a standard analysis — you simply point it to your database directory.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>humann <span class="se">\</span>
-  <span class="nt">--input</span> sample_R1_R2_cat.fastq <span class="se">\</span>
-  <span class="nt">--output</span> humann_output/ <span class="se">\</span>
-  <span class="nt">--threads</span> 32 <span class="se">\</span>
-  <span class="nt">--nucleotide-database</span> /path/to/gtdb_for_humann3/chocophlan/ <span class="se">\</span>
-  <span class="nt">--protein-database</span> /path/to/gtdb_for_humann3/uniref50/uniref50_201901b.dmnd <span class="se">\</span>
-  <span class="nt">--taxonomic-profile</span> sample_metaphlan.tsv   <span class="c"># optional: speeds up nucleotide step</span>
-</code></pre></div></div>
-
-<p>A few practical notes: concatenate paired-end reads before passing them in (<code class="language-plaintext highlighter-rouge">cat R1.fastq R2.fastq &gt; merged.fastq</code>). If you have a MetaPhlAn4 profile generated against GTDB already, pass it with <code class="language-plaintext highlighter-rouge">--taxonomic-profile</code> to skip the nucleotide search and save time. For large sample sets, wrap this in a SLURM array — each sample is fully independent.</p>
-
-<p>In our 36-sample dataset (Chesapeake + Delaware Bay metagenomes) this detected <strong>335,121 unique UniRef gene families</strong> with species stratification.</p>
-
-<hr />
-
-<h2 id="step-3-understanding-the-humann3-outputs">Step 3: Understanding the HUMAnN3 outputs</h2>
-
-<p>Each sample produces three files.</p>
-
-<h3 id="_genefamiliestsv--the-core-output"><code class="language-plaintext highlighter-rouge">*_genefamilies.tsv</code> — the core output</h3>
-
-<p>Rows are gene families (UniRef50 IDs), values are RPK (reads per kilobase). Critically, each UniRef entry is broken into species-stratified rows:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Gene Family                               Sample_Abundance
-UniRef50_A0A000|unclassified                142.3
-UniRef50_A0A000|s__Marinobacter_adhaerens    98.7
-UniRef50_A0A000|s__Alteromonas_macleodii     43.6
-</code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">|unclassified</code> row captures reads mapping to that gene family but not assignable to a species in your database. With a gut database on an estuary sample this fraction is huge (&gt;60%); with a GTDB-based custom database it drops dramatically.</p>
-
-<h3 id="_pathabundancetsv"><code class="language-plaintext highlighter-rouge">*_pathabundance.tsv</code></h3>
-
-<p>MetaCyc pathway abundances summed across contributing gene families, also species-stratified. Useful for rapid pathway-level summaries and comparing metabolic potential across samples.</p>
-
-<h3 id="_pathcoveragetsv"><code class="language-plaintext highlighter-rouge">*_pathcoverage.tsv</code></h3>
-
-<p>The fraction of genes detected per pathway (0–1). Coverage &lt; 1 means a pathway is only partially present; coverage = 1 means every expected gene was detected. Useful for filtering complete vs incomplete pathways before downstream analysis.</p>
-
-<h3 id="merging-and-normalizing-across-samples">Merging and normalizing across samples</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Merge all samples into a single table</span>
-humann_join_tables <span class="se">\</span>
-  <span class="nt">--input</span> humann_output/ <span class="se">\</span>
-  <span class="nt">--output</span> merged_genefamilies.tsv <span class="se">\</span>
-  <span class="nt">--file_name</span> genefamilies
-
-<span class="c"># Normalize to copies per million</span>
-humann_renorm_table <span class="se">\</span>
-  <span class="nt">--input</span> merged_genefamilies.tsv <span class="se">\</span>
-  <span class="nt">--output</span> merged_genefamilies_cpm.tsv <span class="se">\</span>
-  <span class="nt">--units</span> cpm
-</code></pre></div></div>
-
-<p>Normalization is essential before any cross-sample comparison — raw RPK values are confounded by sequencing depth.</p>
-
-<hr />
-
-<h2 id="step-4-mapping-uniref50-to-kegg-orthology">Step 4: Mapping UniRef50 to KEGG Orthology</h2>
-
-<p>HUMAnN3 outputs UniRef50 IDs — functional sequence clusters. For ecological interpretation, it is more useful to work at the <strong>KEGG Orthology (KO)</strong> level. KOs group proteins by biological function and carry pathway and module context.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>humann_regroup_table <span class="se">\</span>
-  <span class="nt">--input</span> merged_genefamilies_cpm.tsv <span class="se">\</span>
-  <span class="nt">--output</span> merged_KOs.tsv <span class="se">\</span>
-  <span class="nt">--groups</span> uniref50_ko
-</code></pre></div></div>
-
-<p>In our dataset this reduced 335,121 UniRef gene families to roughly <strong>5,000–15,000 biologically meaningful KO groups</strong> — a ~95% reduction in matrix size with no meaningful loss of ecological signal. The KO table is faster to compute, easier to interpret, and directly usable in pathway enrichment analyses.</p>
-
-<hr />
-
-<h2 id="step-5-building-the-genome--ko-trait-table">Step 5: Building the genome × KO trait table</h2>
-
-<p>For genome-resolved analyses — functional redundancy, niche differentiation — you need to link HUMAnN3’s species-stratified outputs back to individual reference genomes and produce a binary <strong>genome × KO trait matrix</strong>.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ko_table</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"merged_KOs.tsv"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Keep only species-stratified rows, drop unclassified</span><span class="w">
-</span><span class="n">ko_species</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ko_table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">`# Gene Family`</span><span class="p">,</span><span class="w"> </span><span class="s2">"\\|"</span><span class="p">),</span><span class="w">
-         </span><span class="o">!</span><span class="n">str_detect</span><span class="p">(</span><span class="n">`# Gene Family`</span><span class="p">,</span><span class="w"> </span><span class="s2">"unclassified"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">separate</span><span class="p">(</span><span class="n">`# Gene Family`</span><span class="p">,</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"KO"</span><span class="p">,</span><span class="w"> </span><span class="s2">"species"</span><span class="p">),</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\\|"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Build binary presence/absence matrix</span><span class="w">
-</span><span class="n">trait_matrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ko_species</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">group_by</span><span class="p">(</span><span class="n">species</span><span class="p">,</span><span class="w"> </span><span class="n">KO</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">summarise</span><span class="p">(</span><span class="n">present</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">pivot_wider</span><span class="p">(</span><span class="n">names_from</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">KO</span><span class="p">,</span><span class="w">
-              </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">present</span><span class="p">,</span><span class="w">
-              </span><span class="n">values_fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>This matrix — 1,000 genomes × ~10,000 KOs in our case — is the gene catalogue. Each row is a reference genome, each column a function, and the binary values encode functional potential.</p>
-
-<hr />
-
-<h3 id="taxonomy-conjugation">Taxonomy conjugation</h3>
-
-<p>Because your HUMAnN3 species labels are GTDB lineages, you can seamlessly combine functional profiles with phylogenetic trees from GTDB-Tk, comparative genomics databases, and diversity metrics that require a consistent taxonomy. This cross-linking is not possible when your functional profiles use one taxonomy (MetaPhlAn/SILVA) and your genomic analyses use another (GTDB).</p>
-
-<hr />
-
-<h2 id="performance-comparison-custom-gtdb-vs-default-chocophlan">Performance comparison: custom GTDB vs. default ChocoPhlAn</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Metric</th>
-      <th>Default ChocoPhlAn</th>
-      <th>Custom GTDB DB</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Unclassified reads</td>
-      <td>~60–70% in environmental samples</td>
-      <td>~15–25%</td>
-    </tr>
-    <tr>
-      <td>Species detected</td>
-      <td>Gut-biased, low diversity</td>
-      <td>Environment-matched</td>
-    </tr>
-    <tr>
-      <td>Taxonomy framework</td>
-      <td>MetaPhlAn/SILVA</td>
-      <td>GTDB (genome-resolved)</td>
-    </tr>
-    <tr>
-      <td>KEGG annotation</td>
-      <td>Via HUMAnN3 utility</td>
-      <td>Via HUMAnN3 utility</td>
-    </tr>
-    <tr>
-      <td>Cross-study comparability</td>
-      <td>Limited (gut studies)</td>
-      <td>High (GTDB-based)</td>
-    </tr>
-    <tr>
-      <td>Database build time</td>
-      <td>N/A (pre-built)</td>
-      <td>~24–48 hrs for GTDB r220</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The upfront cost of building the custom database — one-time, around 48 hours on 64 cores — is dwarfed by the gains in classification rate and ecological interpretability.</p>
-
-<hr />
-
-<h2 id="summary">Summary</h2>
-
-<p>Building a custom GTDBtk-based database for HUMAnN3 is not just a technical improvement — it is the correct approach for environmental metagenomics. The workflow is:</p>
-
-<ol>
-  <li><strong>STRUO2</strong> — build HUMAnN3-compatible nucleotide + protein databases from GTDB genomes</li>
-  <li><strong>HUMAnN3</strong> — run gene family profiling pointing to your custom database directories</li>
-  <li><strong>Outputs</strong> — interpret gene families, pathway abundances, and pathway coverage; species-stratified tables link functions to organisms</li>
-  <li><strong>KEGG annotation</strong> — regroup UniRef50 → KO for biological interpretability</li>
-  <li><strong>Gene catalogue</strong> — build the genome × KO binary trait matrix for downstream analyses</li>
-  <li><strong>Ecology</strong> — functional redundancy (Rao’s Q), niche differentiation (DNA/RNA), taxonomy conjugation</li>
-</ol>
-
-<p>For environmental microbiome researchers, this pipeline provides the species resolution and taxonomic consistency that ecological analyses demand.</p>
-
-<hr />
-
-<p><em>This workflow was developed for the Functional Redundancy Analysis of Estuarine Bacterial Communities project, studying free-living vs. particle-attached fractions across Chesapeake and Delaware Bay. Database: GTDB r220, 113,104 genomes. Samples: 36 metagenomes + 30 metatranscriptomes.</em></p>
-
-<hr />
-
-<p><img src="/assets/img/h3-gtdb.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="databases" /><category term="HUMAnN3" /><category term="GTDB" /><category term="STRUO2" /><category term="metagenomics" /><category term="functional-redundancy" /><category term="gene-catalogue" /><category term="KEGG" /><category term="UniRef" /><category term="environmental-microbiome" /><category term="ChocoPhlAn" /><category term="bioinformatics" /><summary type="html"><![CDATA[HUMAnN3's default ChocoPhlAn database was built for the human gut. If you run it on an estuary, soil, or ocean sample, most of your community ends up as 'unclassified'. This post walks through building a fully custom HUMAnN3-ready database from GTDB r220 using STRUO2 — and why this changes everything for environmental metagenomics.]]></summary></entry></feed>
+<p><img src="/assets/img/vir-d1.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="viromics" /><category term="viral-metagenomics" /><category term="VirSorter2" /><category term="VITAP" /><category term="CD-HIT" /><category term="CheckV" /><category term="vOTU" /><category term="metagenome-assembly" /><category term="phage" /><category term="AMG" /><category term="bioinformatics" /><category term="beginners" /><summary type="html"><![CDATA[Viruses outnumber every other biological entity on Earth, yet most metagenomic workflows ignore them. This post walks through the full first stage of a viromics pipeline — from assembled contigs to quality-filtered viral OTUs — using VirSorter2, VITAP, CD-HIT, and CheckV.]]></summary></entry></feed>
