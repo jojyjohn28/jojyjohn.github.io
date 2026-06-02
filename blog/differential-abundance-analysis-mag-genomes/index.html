@@ -1,0 +1,3165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Differential Abundance Analysis for MAGs: DESeq2, ANCOM-BC, ALDEx2, and MaAsLin2 | Jojy John
+    
+  
+</title>
+<meta name="author" content="Jojy John">
+<meta name="description" content="You have a table of 2,000 MAG relative abundances across dozens of samples. Community composition tells you who is there. Differential abundance analysis tells you which genomes change significantly between conditions — free-living vs particle-associated, spring vs summer, control vs treatment. This post walks through four methods (DESeq2, ANCOM-BC, ALDEx2, and MaAsLin2), explains when to use each, shows a real FL vs PA example from an estuarine dataset, and documents the most common mistakes that quietly invalidate results.">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="" integrity="" crossorigin="anonymous">
+
+<!-- Bootstrap Table -->
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" type="text/css" href="">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+<!-- pseudocode -->
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://jojyjohn28.github.io/blog/differential-abundance-analysis-mag-genomes/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+<!-- GeoJSON support via Leaflet -->
+
+
+<!-- diff2html -->
+
+
+
+
+
+
+<!-- GoatCounter analytics -->
+<script data-goatcounter="https://jojyjohn28.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <nav id="navbar" class="fixed-top" role="navigation">
+    <div class="simple-nav-wrapper">
+      <a class="simple-brand" href="/">
+        
+          
+            <span class="font-weight-bold">Jojy</span>
+          
+          
+          John
+        
+      </a>
+
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <div class="simple-nav-menu">
+        <a href="/">About</a>
+
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+              
+              <a href="/publications/">Publications</a>
+            
+          
+        
+          
+            
+              
+              <a href="/blog/">Blog</a>
+            
+          
+        
+          
+            
+              
+              <a href="/projects/">Projects</a>
+            
+          
+        
+          
+        
+          
+        
+          
+            
+              
+              <a href="/mentoring/">Mentoring</a>
+            
+          
+        
+          
+            
+              
+              <a href="/collaborations/">Collaboration</a>
+            
+          
+        
+          
+        
+          
+            
+              
+              <a href="/teaching/">Teaching</a>
+            
+          
+        
+          
+        
+          
+            
+              
+              <a href="/repositories/">Repositories</a>
+            
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Differential Abundance Analysis for MAGs: DESeq2, ANCOM-BC, ALDEx2, and MaAsLin2</h1>
+    <p class="post-meta">
+      Created in June 05, 2026
+      
+      
+      
+    </p>
+
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/tag/differential-abundance"> <i class="fa-solid fa-hashtag fa-sm"></i> differential-abundance </a>
+          
+           
+        
+          
+            <a href="/blog/tag/mags"> <i class="fa-solid fa-hashtag fa-sm"></i> MAGs </a>
+          
+           
+        
+          
+            <a href="/blog/tag/deseq2"> <i class="fa-solid fa-hashtag fa-sm"></i> DESeq2 </a>
+          
+           
+        
+          
+            <a href="/blog/tag/ancom-bc"> <i class="fa-solid fa-hashtag fa-sm"></i> ANCOM-BC </a>
+          
+           
+        
+          
+            <a href="/blog/tag/aldex2"> <i class="fa-solid fa-hashtag fa-sm"></i> ALDEx2 </a>
+          
+           
+        
+          
+            <a href="/blog/tag/maaslin2"> <i class="fa-solid fa-hashtag fa-sm"></i> MaAsLin2 </a>
+          
+           
+        
+          
+            <a href="/blog/tag/metagenomics"> <i class="fa-solid fa-hashtag fa-sm"></i> metagenomics </a>
+          
+           
+        
+          
+            <a href="/blog/tag/compositional-data"> <i class="fa-solid fa-hashtag fa-sm"></i> compositional-data </a>
+          
+           
+        
+          
+            <a href="/blog/tag/r"> <i class="fa-solid fa-hashtag fa-sm"></i> R </a>
+          
+           
+        
+          
+            <a href="/blog/tag/bioinformatics"> <i class="fa-solid fa-hashtag fa-sm"></i> bioinformatics </a>
+          
+           
+        
+          
+            <a href="/blog/tag/estuarine"> <i class="fa-solid fa-hashtag fa-sm"></i> estuarine </a>
+          
+           
+        
+          
+            <a href="/blog/tag/free-living"> <i class="fa-solid fa-hashtag fa-sm"></i> free-living </a>
+          
+           
+        
+          
+            <a href="/blog/tag/particle-associated"> <i class="fa-solid fa-hashtag fa-sm"></i> particle-associated </a>
+          
+           
+        
+          
+            <a href="/blog/tag/volcano-plot"> <i class="fa-solid fa-hashtag fa-sm"></i> volcano-plot </a>
+          
+           
+        
+          
+            <a href="/blog/tag/microbiome"> <i class="fa-solid fa-hashtag fa-sm"></i> microbiome </a>
+          
+           
+        
+          
+            <a href="/blog/tag/beginners"> <i class="fa-solid fa-hashtag fa-sm"></i> beginners </a>
+          
+          
+        
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/category/genomics">
+              <i class="fa-solid fa-tag fa-sm"></i> genomics
+            </a>
+          
+          
+        
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    <div id="markdown-content">
+      <p>🧬 𝐷𝑎𝑦 𝟪9 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 𝖽𝖾𝗌𝗄</p>
+
+<p>Community composition tells you <em>who is there</em>. A relative abundance table of 2,000 MAGs tells you, for each sample, what fraction of the sequencing signal each genome contributes. That is valuable — but it does not answer the question that usually matters most: <em>which genomes are actually changing between my conditions?</em> Which MAGs are consistently more abundant in particle-associated communities than free-living ones? Which respond to seasonal shifts? Which distinguish a disturbed estuary from a reference site?</p>
+
+<p>That question belongs to differential abundance analysis. And in the world of metagenomics, choosing the right method for it is genuinely important — not just a technical nicety — because the nature of sequencing data breaks several assumptions that classical statistics rely on.</p>
+
+<p>This post covers four methods: DESeq2, ANCOM-BC, ALDEx2, and MaAsLin2. For each one I explain what it does, when it is appropriate, and how to run it. I also show a real example from an estuarine FL vs PA dataset, document the most common mistakes, and give you a decision table for choosing which method to reach for given your data type and study design.</p>
+
+<hr>
+
+<h2 id="why-standard-statistics-fail-on-abundance-data">Why standard statistics fail on abundance data</h2>
+
+<p>Before getting into methods, it is worth understanding why a t-test or linear model on relative abundances is problematic. The issue is <strong>compositionality</strong>: in a sequencing experiment, you observe proportions, not absolute counts. If genome A increases in absolute abundance but everything else stays the same, its relative abundance goes up. But if genome B doubles, genome A’s relative abundance goes <em>down</em> — even though genome A did nothing. Every feature is coupled to every other feature through the constant-sum constraint.</p>
+
+<p>A toy example:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genome</th>
+      <th>Sample 1 (absolute)</th>
+      <th>Sample 2 (absolute)</th>
+      <th>Sample 1 (relative)</th>
+      <th>Sample 2 (relative)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MAG_001</td>
+      <td>100</td>
+      <td>100</td>
+      <td>50%</td>
+      <td>33%</td>
+    </tr>
+    <tr>
+      <td>MAG_002</td>
+      <td>50</td>
+      <td>100</td>
+      <td>25%</td>
+      <td>33%</td>
+    </tr>
+    <tr>
+      <td>MAG_003</td>
+      <td>50</td>
+      <td>100</td>
+      <td>25%</td>
+      <td>33%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>MAG_001 did not change at all in absolute terms. But its relative abundance dropped from 50% to 33% because MAG_002 and MAG_003 doubled. A naive differential test on relative abundances would flag MAG_001 as significantly decreased — a false positive driven entirely by compositional coupling.</p>
+
+<p>Methods like ANCOM-BC and ALDEx2 are specifically designed to handle this. DESeq2, which operates on raw counts, sidesteps it differently. Understanding this distinction drives almost every decision in differential abundance analysis.</p>
+
+<hr>
+
+<h2 id="input-data-what-you-need">Input data: what you need</h2>
+
+<p>Regardless of method, you need two files:</p>
+
+<p><strong>1. Abundance table</strong> — MAGs as rows, samples as columns. The format varies by method:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>           Sample_1   Sample_2   Sample_3   Sample_4
+MAG_001      1240        880       2100        560
+MAG_002       430        210        880        120
+MAG_003         0         90        430         80
+...
+</code></pre></div></div>
+
+<p>For DESeq2: <strong>raw integer read counts</strong> (from featureCounts, CoverM, or similar).
+For ANCOM-BC, ALDEx2, MaAsLin2: raw counts are preferred; relative abundances work for ALDEx2 and MaAsLin2 but raw counts are better when available.</p>
+
+<p><strong>2. Metadata</strong> — samples as rows, covariates as columns:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>           Fraction   Bay          Season   Salinity
+Sample_1   PA         Chesapeake   Spring   Low
+Sample_2   FL         Chesapeake   Spring   Low
+Sample_3   PA         Delaware     Summer   High
+Sample_4   FL         Delaware     Summer   High
+</code></pre></div></div>
+
+<p>Before running any method, verify alignment:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">all</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span><span class="w">  </span><span class="c1"># must return TRUE</span><span class="w">
+</span></code></pre></div></div>
+
+<hr>
+
+<h2 id="method-1-deseq2">Method 1: DESeq2</h2>
+
+<p>DESeq2 was developed for RNA-seq and is the most widely used differential abundance method in genomics. It models count data using a <strong>negative binomial distribution</strong> — which handles the overdispersion typical in sequencing data better than a Poisson model — and uses a shrinkage estimator for fold-change to stabilize estimates for low-count features.</p>
+
+<h3 id="when-to-use-it">When to use it</h3>
+
+<p>DESeq2 is well suited for MAG differential abundance when you have raw read counts, a relatively balanced experimental design, and want well-characterized statistical behavior. It handles complex multi-factor designs cleanly and integrates well with the tidyverse visualization ecosystem.</p>
+
+<p><strong>Do not use DESeq2 on relative abundances.</strong> The negative binomial model requires integer counts. Feeding it proportions breaks the model silently — it will run and produce numbers, but those numbers are not statistically valid.</p>
+
+<h3 id="installation">Installation</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">require</span><span class="p">(</span><span class="s2">"BiocManager"</span><span class="p">,</span><span class="w"> </span><span class="n">quietly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w">
+    </span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"BiocManager"</span><span class="p">)</span><span class="w">
+</span><span class="n">BiocManager</span><span class="o">::</span><span class="n">install</span><span class="p">(</span><span class="s2">"DESeq2"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="running-deseq2">Running DESeq2</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">DESeq2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Load data</span><span class="w">
+</span><span class="n">counts</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"mag_counts.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"metadata.csv"</span><span class="p">,</span><span class="w">   </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Verify alignment</span><span class="w">
+</span><span class="n">stopifnot</span><span class="p">(</span><span class="nf">all</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1"># Set reference level explicitly</span><span class="w">
+</span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"PA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"FL"</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># Build DESeqDataSet</span><span class="w">
+</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="w">
+  </span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counts</span><span class="p">,</span><span class="w">
+  </span><span class="n">colData</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">
+  </span><span class="n">design</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Fraction</span><span class="w">        </span><span class="c1"># adjust for additional factors: ~ Bay + Season + Fraction</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Optional: filter low-count MAGs before running</span><span class="w">
+</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dds</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="n">counts</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="c1"># Run</span><span class="w">
+</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeq</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w">
+</span><span class="n">resultsNames</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w">   </span><span class="c1"># always check contrast names before extracting</span><span class="w">
+
+</span><span class="c1"># Extract results</span><span class="w">
+</span><span class="n">res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">dds</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fraction_FL_vs_PA"</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w">
+</span><span class="n">res_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">rownames_to_column</span><span class="p">(</span><span class="s2">"MAG"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">padj</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Significant MAGs</span><span class="w">
+</span><span class="n">sig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">log2FoldChange</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">res_df</span><span class="p">,</span><span class="w"> </span><span class="s2">"DESeq2_FL_vs_PA_all.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span><span class="w">    </span><span class="s2">"DESeq2_FL_vs_PA_significant.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="volcano-plot">Volcano plot</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
+
+</span><span class="n">volcano_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">padj</span><span class="p">),</span><span class="w"> </span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">log2FoldChange</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">significant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">log2FoldChange</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+    </span><span class="n">direction</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
+      </span><span class="n">significant</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Enriched in FL"</span><span class="p">,</span><span class="w">
+      </span><span class="n">significant</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Enriched in PA"</span><span class="p">,</span><span class="w">
+      </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Not significant"</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">top_labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">volcano_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">significant</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">slice_min</span><span class="p">(</span><span class="n">padj</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">volcano_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">direction</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text_repel</span><span class="p">(</span><span class="w">
+    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">top_labels</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAG</span><span class="p">),</span><span class="w">
+    </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.8</span><span class="p">,</span><span class="w"> </span><span class="n">max.overlaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w">
+    </span><span class="n">box.padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">segment.color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey60"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w">  </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"Enriched in FL"</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"#3182BD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Enriched in PA"</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"#E6550D"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Not significant"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey75"</span><span class="w">
+  </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">legend.position</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">x</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 Fold Change (FL vs PA)"</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 Adjusted P-value"</span><span class="p">,</span><span class="w">
+    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Differential MAG abundance: Free-living vs Particle-associated"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Points to the right (positive log2FC) are enriched in FL; points to the left are enriched in PA. The dashed lines mark the significance threshold (horizontal) and the ±1 fold-change filter (vertical). Only points in the upper-left and upper-right quadrants — beyond both lines — are the confident, biologically relevant hits.</p>
+
+<hr>
+
+<h2 id="method-2-ancom-bc-and-ancom-bc2">Method 2: ANCOM-BC (and ANCOM-BC2)</h2>
+
+<p>ANCOM-BC (Analysis of Compositions of Microbiomes with Bias Correction) was developed specifically for compositional microbiome data. Its key insight is that the observed log-ratio between two samples contains not just the true biological signal but also a <strong>sampling fraction bias</strong> — the fact that different samples were sequenced to different depths. ANCOM-BC estimates and removes this bias before testing for differences.</p>
+
+<p>ANCOM-BC2 (the current recommended version) extends this with better handling of rare features, improved type I error control, and support for more complex study designs.</p>
+
+<h3 id="when-to-use-it-1">When to use it</h3>
+
+<p>ANCOM-BC is the right choice when you are concerned about compositional effects and want a method with strong theoretical grounding in the statistics of relative abundance data. It is particularly well suited for datasets where sequencing depth varies substantially between samples.</p>
+
+<h3 id="installation-1">Installation</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BiocManager</span><span class="o">::</span><span class="n">install</span><span class="p">(</span><span class="s2">"ANCOMBC"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="running-ancom-bc2">Running ANCOM-BC2</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ANCOMBC</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">TreeSummarizedExperiment</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># ANCOM-BC2 expects a SummarizedExperiment or TreeSummarizedExperiment object</span><span class="w">
+</span><span class="n">tse</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">TreeSummarizedExperiment</span><span class="p">(</span><span class="w">
+  </span><span class="n">assays</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">counts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">counts</span><span class="p">)),</span><span class="w">
+  </span><span class="n">colData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Run ANCOM-BC2</span><span class="w">
+</span><span class="n">out</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ancombc2</span><span class="p">(</span><span class="w">
+  </span><span class="n">data</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="n">tse</span><span class="p">,</span><span class="w">
+  </span><span class="n">assay_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"counts"</span><span class="p">,</span><span class="w">
+  </span><span class="n">fix_formula</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fraction"</span><span class="p">,</span><span class="w">       </span><span class="c1"># adjust: "Bay + Season + Fraction"</span><span class="w">
+  </span><span class="n">p_adj_method</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"BH"</span><span class="p">,</span><span class="w">
+  </span><span class="n">prv_cut</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="m">0.10</span><span class="p">,</span><span class="w">             </span><span class="c1"># exclude MAGs present in &lt; 10% of samples</span><span class="w">
+  </span><span class="n">lib_cut</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w">             </span><span class="c1"># exclude samples with &lt; 1000 counts</span><span class="w">
+  </span><span class="n">alpha</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w">
+  </span><span class="n">global</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+  </span><span class="n">n_cl</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Results</span><span class="w">
+</span><span class="n">res_ancombc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">out</span><span class="o">$</span><span class="n">res</span><span class="w">
+
+</span><span class="n">sig_ancombc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_ancombc</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">diff_FractionFL</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">q_FractionFL</span><span class="p">)</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">res_ancombc</span><span class="p">,</span><span class="w"> </span><span class="s2">"ANCOMBC2_FL_vs_PA_all.csv"</span><span class="p">,</span><span class="w">         </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">sig_ancombc</span><span class="p">,</span><span class="w"> </span><span class="s2">"ANCOMBC2_FL_vs_PA_significant.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">prv_cut</code> argument is important: MAGs that appear in fewer than 10% of samples are excluded from testing. This is a prevalence filter that reduces the burden of testing rare features that have insufficient data to support reliable inference.</p>
+
+<hr>
+
+<h2 id="method-3-aldex2">Method 3: ALDEx2</h2>
+
+<p>ALDEx2 (ANOVA-Like Differential Expression for high-throughput sequencing data) uses a Bayesian approach grounded in the <strong>Aitchison geometry</strong> of compositional data. Rather than working with counts or proportions directly, it transforms data using the centered log-ratio (CLR) transformation, which maps compositional data into a standard Euclidean space where ordinary statistics apply without the coupling problem.</p>
+
+<p>The key feature of ALDEx2 is that it explicitly models <strong>count uncertainty</strong>: for each sample and each feature, it generates multiple Monte Carlo instances of the true count distribution (using a Dirichlet prior), runs the statistical test on each instance, and reports the median result. This makes it conservative — it is less likely to call false positives than DESeq2 — but also less powerful when sample sizes are small.</p>
+
+<h3 id="when-to-use-it-2">When to use it</h3>
+
+<p>ALDEx2 is well suited for relative abundance tables when raw counts are unavailable, or when you want a compositionally correct analysis that accounts for count uncertainty. It is often used as a cross-validation method alongside DESeq2 — features significant in both are high-confidence hits.</p>
+
+<h3 id="installation-2">Installation</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BiocManager</span><span class="o">::</span><span class="n">install</span><span class="p">(</span><span class="s2">"ALDEx2"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="running-aldex2">Running ALDEx2</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ALDEx2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># ALDEx2 requires the group variable as a vector aligned to column order</span><span class="w">
+</span><span class="n">group_vector</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="w">   </span><span class="c1"># must match column order of counts matrix</span><span class="w">
+
+</span><span class="c1"># Generate Monte Carlo CLR samples and run Welch t-test + Wilcoxon test</span><span class="w">
+</span><span class="n">aldex_out</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">aldex</span><span class="p">(</span><span class="w">
+  </span><span class="n">reads</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">counts</span><span class="p">),</span><span class="w">
+  </span><span class="n">conditions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group_vector</span><span class="p">,</span><span class="w">
+  </span><span class="n">mc.samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">128</span><span class="p">,</span><span class="w">              </span><span class="c1"># number of Monte Carlo instances</span><span class="w">
+  </span><span class="n">test</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"t"</span><span class="p">,</span><span class="w">
+  </span><span class="n">effect</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+  </span><span class="n">denom</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"all"</span><span class="w">             </span><span class="c1"># use all features for CLR denominator</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Significant features (both tests, BH-corrected)</span><span class="w">
+</span><span class="n">sig_aldex</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">aldex_out</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">rownames_to_column</span><span class="p">(</span><span class="s2">"MAG"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">wi.eBH</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">effect</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">wi.eBH</span><span class="p">)</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">aldex_out</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">rownames_to_column</span><span class="p">(</span><span class="s2">"MAG"</span><span class="p">),</span><span class="w">
+          </span><span class="s2">"ALDEx2_FL_vs_PA_all.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">sig_aldex</span><span class="p">,</span><span class="w"> </span><span class="s2">"ALDEx2_FL_vs_PA_significant.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">wi.eBH</code> is the Wilcoxon test q-value (BH corrected). <code class="language-plaintext highlighter-rouge">effect</code> is ALDEx2’s effect size — the median difference between groups divided by the median dispersion within groups. An effect size &gt; 1 is conventionally considered biologically meaningful.</p>
+
+<hr>
+
+<h2 id="method-4-maaslin2-and-maaslin3">Method 4: MaAsLin2 (and MaAsLin3)</h2>
+
+<p>MaAsLin2 (Multivariable Association Discovery in Population-scale Meta-omics Studies) is the most flexible of the four methods when it comes to study design. It is built as a generalized linear model framework that supports multiple fixed effects, random effects for repeated measures, and multiple normalization and transformation options. If your dataset has more than one covariate — for example, you want to test fraction while controlling for bay, season, and salinity simultaneously — MaAsLin2 handles this more naturally than the other three methods.</p>
+
+<h3 id="when-to-use-it-3">When to use it</h3>
+
+<p>MaAsLin2 is the right choice for complex multi-factor designs, repeated measures, or datasets where you want to jointly model multiple metadata variables. It is what you would use if you wanted to ask: “Which MAGs are associated with salinity gradient, after controlling for fraction, bay, and season?”</p>
+
+<h3 id="installation-3">Installation</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BiocManager</span><span class="o">::</span><span class="n">install</span><span class="p">(</span><span class="s2">"Maaslin2"</span><span class="p">)</span><span class="w">
+</span><span class="c1"># Or for MaAsLin3:</span><span class="w">
+</span><span class="n">devtools</span><span class="o">::</span><span class="n">install_github</span><span class="p">(</span><span class="s2">"biobakery/maaslin3"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="running-maaslin2">Running MaAsLin2</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">Maaslin2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># MaAsLin2 expects features as rows, samples as columns for input_data</span><span class="w">
+</span><span class="c1"># and samples as rows, covariates as columns for input_metadata</span><span class="w">
+
+</span><span class="n">fit_maaslin</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Maaslin2</span><span class="p">(</span><span class="w">
+  </span><span class="n">input_data</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">counts</span><span class="p">,</span><span class="w">                          </span><span class="c1"># features × samples</span><span class="w">
+  </span><span class="n">input_metadata</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">                        </span><span class="c1"># samples × covariates</span><span class="w">
+  </span><span class="n">output</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s2">"maaslin2_FL_vs_PA"</span><span class="p">,</span><span class="w">
+  </span><span class="n">fixed_effects</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Fraction"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Bay"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Season"</span><span class="p">),</span><span class="w">  </span><span class="c1"># adjust as needed</span><span class="w">
+  </span><span class="n">random_effects</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">                            </span><span class="c1"># add subject ID if repeated measures</span><span class="w">
+  </span><span class="n">normalization</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"TSS"</span><span class="p">,</span><span class="w">                           </span><span class="c1"># total sum scaling</span><span class="w">
+  </span><span class="n">transform</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"LOG"</span><span class="p">,</span><span class="w">
+  </span><span class="n">min_prevalence</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="m">0.10</span><span class="p">,</span><span class="w">
+  </span><span class="n">min_abundance</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="m">0.0</span><span class="p">,</span><span class="w">
+  </span><span class="n">max_significance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w">                           </span><span class="c1"># MaAsLin default; tighten to 0.05 for publication</span><span class="w">
+  </span><span class="n">cores</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The output folder contains <code class="language-plaintext highlighter-rouge">all_results.tsv</code> with coefficients, standard errors, p-values, and q-values for every feature × metadata term combination.</p>
+
+<hr>
+
+<h2 id="which-method-should-i-use">Which method should I use?</h2>
+
+<p>The honest answer is: it depends on your data type, study design, and how conservative you want to be. Here is a practical decision guide:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>DESeq2</th>
+      <th>ANCOM-BC2</th>
+      <th>ALDEx2</th>
+      <th>MaAsLin2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Requires raw counts</strong></td>
+      <td>Yes</td>
+      <td>Preferred</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Relative abundance OK</strong></td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td><strong>Multi-factor design</strong></td>
+      <td>Yes</td>
+      <td>Moderate</td>
+      <td>Limited</td>
+      <td>Excellent</td>
+    </tr>
+    <tr>
+      <td><strong>Repeated measures</strong></td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td><strong>Compositionally aware</strong></td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Partial</td>
+    </tr>
+    <tr>
+      <td><strong>Handles rare features</strong></td>
+      <td>With filtering</td>
+      <td>Built-in</td>
+      <td>Conservative</td>
+      <td>With filtering</td>
+    </tr>
+    <tr>
+      <td><strong>Computation speed</strong></td>
+      <td>Fast</td>
+      <td>Moderate</td>
+      <td>Slow (Monte Carlo)</td>
+      <td>Moderate</td>
+    </tr>
+    <tr>
+      <td><strong>Best for</strong></td>
+      <td>Count data, clean design</td>
+      <td>Compositional correction</td>
+      <td>Cross-validation</td>
+      <td>Complex multi-covariate models</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>My practical recommendation for MAG differential abundance:</strong></p>
+
+<ol>
+  <li>
+<strong>Start with DESeq2</strong> if you have raw counts and a clean two-group design. It is well-characterized, widely cited, and produces interpretable output.</li>
+  <li>
+<strong>Cross-validate with ALDEx2</strong> or <strong>ANCOM-BC2</strong> for features you want to report as significant. Hits that appear in both DESeq2 and a compositionally aware method are much more credible than hits from either alone.</li>
+  <li>
+<strong>Use MaAsLin2</strong> when you have multiple covariates or want to test associations across a continuous environmental gradient (salinity, temperature) while controlling for other factors.</li>
+</ol>
+
+<hr>
+
+<h2 id="a-real-example-free-living-vs-particle-associated-in-an-estuarine-dataset">A real example: Free-living vs Particle-associated in an estuarine dataset</h2>
+
+<p>The dataset used here contains relative abundance profiles of MAGs from estuarine samples across two bays, three seasons, and two size fractions. The FL vs PA comparison is the cleanest two-group test in the dataset.</p>
+
+<p>The ecological expectation is that particle-associated communities should be enriched in genomes capable of polymer degradation — organisms that can attach to particles and break down complex organic matter. Free-living communities should be enriched in smaller, more streamlined genomes adapted to dilute, oligotrophic conditions.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">DESeq2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
+
+</span><span class="n">counts</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"mag_counts.csv"</span><span class="p">,</span><span class="w">   </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"metadata.csv"</span><span class="p">,</span><span class="w">     </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"PA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"FL"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="w">
+  </span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counts</span><span class="p">,</span><span class="w">
+  </span><span class="n">colData</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">
+  </span><span class="n">design</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Bay</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Season</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Fraction</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Pre-filter: keep MAGs present in at least 3 samples with &gt;= 10 reads</span><span class="w">
+</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dds</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="n">counts</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+
+</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeq</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w">
+</span><span class="n">res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">dds</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fraction_FL_vs_PA"</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w">
+
+</span><span class="n">res_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">rownames_to_column</span><span class="p">(</span><span class="s2">"MAG"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">padj</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
+      </span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">&gt;</span><span class="w">  </span><span class="m">1</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"FL-enriched"</span><span class="p">,</span><span class="w">
+      </span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">-1</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"PA-enriched"</span><span class="p">,</span><span class="w">
+      </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"ns"</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Summary</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"FL-enriched MAGs:"</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">res_df</span><span class="o">$</span><span class="n">direction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"FL-enriched"</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"PA-enriched MAGs:"</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">res_df</span><span class="o">$</span><span class="n">direction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"PA-enriched"</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Volcano</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">res_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w">   </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"FL-enriched"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#3182BD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"PA-enriched"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#E6550D"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ns"</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey75"</span><span class="w">
+  </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">x</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 Fold Change (FL vs PA)"</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 Adjusted P-value"</span><span class="p">,</span><span class="w">
+    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"MAG differential abundance: Free-living vs Particle-associated"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The design formula <code class="language-plaintext highlighter-rouge">~ Bay + Season + Fraction</code> is critical here. Without accounting for bay and season, the FL vs PA comparison is confounded by the fact that samples from different bays and seasons differ in both fraction composition and environmental conditions. Including them as covariates means the <code class="language-plaintext highlighter-rouge">Fraction_FL_vs_PA</code> coefficient represents the fraction effect after those confounders are removed.</p>
+
+<hr>
+
+<h2 id="common-mistakes--and-how-to-avoid-them">Common mistakes — and how to avoid them</h2>
+
+<h3 id="1-using-relative-abundances-in-deseq2">1. Using relative abundances in DESeq2</h3>
+
+<p>DESeq2 uses the negative binomial distribution, which requires raw integer counts. Relative abundances are not integers, and the variance structure of proportions is fundamentally different from count data. DESeq2 will accept and process a relative abundance matrix without error — the output just will not be statistically valid.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># WRONG</span><span class="w">
+</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">relative_abundance_table</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># RIGHT — use raw counts from featureCounts, CoverM, or equivalent</span><span class="w">
+</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">raw_read_counts</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="2-skipping-multiple-testing-correction">2. Skipping multiple testing correction</h3>
+
+<p>With 2,000 MAGs tested, a raw p-value threshold of 0.05 produces ~100 false positives by chance alone. Always filter on <code class="language-plaintext highlighter-rouge">padj</code> (Benjamini-Hochberg adjusted q-value), never on raw <code class="language-plaintext highlighter-rouge">pvalue</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># WRONG</span><span class="w">
+</span><span class="n">sig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">pvalue</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># RIGHT</span><span class="w">
+</span><span class="n">sig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="3-not-setting-reference-levels-explicitly">3. Not setting reference levels explicitly</h3>
+
+<p>DESeq2 defaults to alphabetical factor ordering. “FL” comes before “PA” alphabetically, so without <code class="language-plaintext highlighter-rouge">relevel()</code>, your log2FC represents FL/PA when you may have intended PA/FL. The sign of every fold-change — and therefore every biological interpretation — is inverted.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Always set the reference level explicitly</span><span class="w">
+</span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"PA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"FL"</span><span class="p">))</span><span class="w">
+</span><span class="c1"># Now: positive log2FC = higher in FL (relative to PA reference)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="4-not-filtering-rare-mags">4. Not filtering rare MAGs</h3>
+
+<p>MAGs present in only one or two samples have insufficient data for reliable variance estimation. Including them inflates the number of tests, reduces statistical power, and can produce extreme but unreliable fold-changes. Filter before running any method.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Keep only MAGs present with &gt;= 10 reads in at least 3 samples</span><span class="w">
+</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dds</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="n">counts</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="5-interpreting-significance-as-ecological-importance">5. Interpreting significance as ecological importance</h3>
+
+<p>A MAG can be statistically significantly different between FL and PA and still represent 0.001% of the community. It changed — but does that change matter ecologically? Statistical significance scales with sample size; biological importance does not. Always report effect size (log2FC, ALDEx2 effect, or similar) alongside p-values, and consider the absolute abundance and prevalence of significant MAGs before drawing ecological conclusions.</p>
+
+<h3 id="6-mismatched-sample-order">6. Mismatched sample order</h3>
+
+<p>If the column order of the count matrix does not match the row order of the metadata, every sample is assigned the wrong group label. The analysis will run without errors and produce plausible-looking but completely wrong results.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># This must return TRUE — run it before every analysis</span><span class="w">
+</span><span class="n">stopifnot</span><span class="p">(</span><span class="nf">all</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)))</span><span class="w">
+</span></code></pre></div></div>
+
+<hr>
+
+<h2 id="reproducibility-checklist">Reproducibility checklist</h2>
+
+<ol>
+  <li>
+<code class="language-plaintext highlighter-rouge">stopifnot(all(colnames(counts) == rownames(metadata)))</code> returns TRUE.</li>
+  <li>Reference levels set explicitly with <code class="language-plaintext highlighter-rouge">factor(..., levels = ...)</code> before building any model.</li>
+  <li>Pre-filtering applied and documented — minimum count threshold and minimum prevalence recorded.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">resultsNames()</code> verified before any DESeq2 <code class="language-plaintext highlighter-rouge">results()</code> call.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">padj</code> used for filtering, never raw <code class="language-plaintext highlighter-rouge">pvalue</code>.</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>Both statistical threshold (padj &lt; 0.05) and effect size threshold (</td>
+          <td>log2FC</td>
+          <td>&gt; 1 or ALDEx2 effect &gt; 1) applied.</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>Method choice documented — including normalization method and transformation for MaAsLin2/ALDEx2.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">sessionInfo()</code> saved alongside all result files.</li>
+</ol>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sessionInfo</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<hr>
+
+<h2 id="summary">Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>What to check</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Input format</td>
+      <td>Raw counts for DESeq2; counts or relative abundance for others</td>
+    </tr>
+    <tr>
+      <td>Sample alignment</td>
+      <td><code class="language-plaintext highlighter-rouge">all(colnames(counts) == rownames(metadata))</code></td>
+    </tr>
+    <tr>
+      <td>Reference levels</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">factor(..., levels = ...)</code> before modeling</td>
+    </tr>
+    <tr>
+      <td>Pre-filtering</td>
+      <td>Prevalence filter applied before testing</td>
+    </tr>
+    <tr>
+      <td>Significance threshold</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">padj &lt; 0.05</code> + <code class="language-plaintext highlighter-rouge">\|log2FC\| &gt; 1</code>
+</td>
+    </tr>
+    <tr>
+      <td>Cross-validation</td>
+      <td>Run DESeq2 + one compositionally aware method</td>
+    </tr>
+    <tr>
+      <td>Interpretation</td>
+      <td>Effect size alongside p-value; absolute abundance in context</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Differential abundance analysis is not the end of the analysis — it is the beginning of the biological interpretation. A list of significant MAGs becomes interesting when you ask what those genomes do, what pathways they carry, and whether their enrichment in FL vs PA communities is consistent with what is known about the ecology of those microhabitats. The statistics narrow the field; the biology gives it meaning.</p>
+
+<hr>
+
+<p><em>Analysis performed using DESeq2 (Love, Huber &amp; Anders 2014), ANCOM-BC2 (Lin &amp; Peddada 2020), ALDEx2 (Fernandes et al. 2014), and MaAsLin2 (Mallick et al. 2021). MAG abundance estimated by read mapping with CoverM or featureCounts. Dataset: estuarine metagenomes from Chesapeake Bay and Delaware Bay.</em></p>
+
+<p><img src="/assets/img/da_anlysis.png" alt="see_your_plot"></p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+
+  
+    <div id="giscus_thread" style="max-width: 930px; margin: 0 auto;">
+  <script src="https://giscus.app/client.js" data-repo="jojyjohn28/jojy-discussion" data-repo-id="R_kgDOQV2nnw" data-category="General" data-category-id="DIC_kwDOQV2nn84CxzCG" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script>
+
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://giscus.app" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a>
+  </noscript>
+</div>
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      © Copyright 2026
+      Jojy
+      
+      John. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+      
+      
+    </div>
+  </footer>
+
+
+
+    <!-- ========================= -->
+    <!-- JavaScripts (IMPORTANT ORDER) -->
+    <!-- ========================= -->
+
+    <!-- jQuery MUST load first -->
+    <!-- jQuery -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+
+    <!-- Bootstrap depends on jQuery -->
+    <!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/assets/js/mdb.min.js"></script> -->
+<script src="" integrity="" crossorigin="anonymous"></script>
+
+
+    <!-- Other scripts -->
+    
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  <!-- Medium Zoom JS -->
+  <script defer src="" integrity="" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+<!-- Bootstrap Table -->
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+    
+  
+    <!-- MathJax -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          tags: 'ams',
+        },
+      };
+    </script>
+    <script defer type="text/javascript" id="MathJax-script" src="" integrity="" crossorigin="anonymous"></script>
+    <script defer src="" crossorigin="anonymous"></script>
+  
+
+
+    
+
+    
+
+
+
+    
+  <!-- Scrolling Progress Bar -->
+  <script type="text/javascript">
+    /*
+     * This JavaScript code has been adapted from the article
+     * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar,
+     * published on the website https://css-tricks.com on the 7th of May, 2014.
+     * Couple of changes were made to the original code to make it compatible
+     * with the `al-foio` theme.
+     */
+    const progressBar = $('#progress');
+    /*
+     * We set up the bar after all elements are done loading.
+     * In some cases, if the images in the page are larger than the intended
+     * size they'll have on the page, they'll be resized via CSS to accomodate
+     * the desired size. This mistake, however, breaks the computations as the
+     * scroll size is computed as soon as the elements finish loading.
+     * To account for this, a minimal delay was introduced before computing the
+     * values.
+     */
+    window.onload = function () {
+      setTimeout(progressBarSetup, 50);
+    };
+    /*
+     * We set up the bar according to the browser.
+     * If the browser supports the progress element we use that.
+     * Otherwise, we resize the bar thru CSS styling
+     */
+    function progressBarSetup() {
+      if ('max' in document.createElement('progress')) {
+        initializeProgressElement();
+        $(document).on('scroll', function () {
+          progressBar.attr({ value: getCurrentScrollPosition() });
+        });
+        $(window).on('resize', initializeProgressElement);
+      } else {
+        resizeProgressBar();
+        $(document).on('scroll', resizeProgressBar);
+        $(window).on('resize', resizeProgressBar);
+      }
+    }
+    /*
+     * The vertical scroll position is the same as the number of pixels that
+     * are hidden from view above the scrollable area. Thus, a value > 0 is
+     * how much the user has scrolled from the top
+     */
+    function getCurrentScrollPosition() {
+      return $(window).scrollTop();
+    }
+
+    function initializeProgressElement() {
+      let navbarHeight = $('#navbar').outerHeight(true);
+      $('body').css({ 'padding-top': navbarHeight });
+      $('progress-container').css({ 'padding-top': navbarHeight });
+      progressBar.css({ top: navbarHeight });
+      progressBar.attr({
+        max: getDistanceToScroll(),
+        value: getCurrentScrollPosition(),
+      });
+    }
+    /*
+     * The offset between the html document height and the browser viewport
+     * height will be greater than zero if vertical scroll is possible.
+     * This is the distance the user can scroll
+     */
+    function getDistanceToScroll() {
+      return $(document).height() - $(window).height();
+    }
+
+    function resizeProgressBar() {
+      progressBar.css({ width: getWidthPercentage() + '%' });
+    }
+    // The scroll ratio equals the percentage to resize the bar
+    function getWidthPercentage() {
+      return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+    }
+  </script>
+
+
+    
+
+    
+
+    
+
+    
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+    
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?601a2d3465e2a52bec38b600518d5f70"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script>
+    let searchTheme = determineComputedTheme();
+    const ninjaKeys = document.querySelector('ninja-keys');
+
+    if (searchTheme === 'dark') {
+      ninjaKeys.classList.add('dark');
+    } else {
+      ninjaKeys.classList.remove('dark');
+    }
+
+    const openSearchModal = () => {
+      // collapse navbarNav if expanded on mobile
+      const $navbarNav = $('#navbarNav');
+      if ($navbarNav.hasClass('show')) {
+        $navbarNav.collapse('hide');
+      }
+      ninjaKeys.open();
+    };
+  </script>
+  <script>
+    // get the ninja-keys element
+    const ninja = document.querySelector('ninja-keys');
+
+    // add the home and posts menu items
+    ninja.data = [{
+        id: "nav-",
+        title: "",
+        section: "Navigation",
+        handler: () => {
+          window.location.href = "/";
+        },
+      },{id: "nav-publications",
+              title: "Publications",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/publications/";
+              },
+            },{id: "nav-blog",
+              title: "Blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "nav-projects",
+              title: "Projects",
+              description: "Research projects spanning microbial ecology, genomics, and multi-omics..",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/projects/";
+              },
+            },{id: "nav-mentoring",
+              title: "Mentoring",
+              description: "Graduate, undergraduate, and intern research mentorship in microbial ecology, bioinformatics, and multi-omics analysis.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/mentoring/";
+              },
+            },{id: "nav-collaboration",
+              title: "Collaboration",
+              description: "Interdisciplinary research collaborations in microbial ecology, genomics, bioinformatics, and environmental biotechnology.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/collaborations/";
+              },
+            },{id: "nav-teaching",
+              title: "Teaching",
+              description: "Teaching experience from 2014",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/teaching/";
+              },
+            },{id: "nav-repositories",
+              title: "Repositories",
+              description: "Research code, bioinformatics pipelines, and reproducible workflows.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/repositories/";
+              },
+            },{id: "post-linux-commands-i-use-every-day-as-a-bioinformatician",
+          
+            title: "Linux Commands I Use Every Day as a Bioinformatician",
+          
+          description: "You do not need to memorize 500 Linux commands to be effective at the command line. You need maybe 20, used well and combined creatively. This post covers the commands I reach for every single day — find, grep, awk, sed, wc, sort, uniq, xargs, parallel, rsync, and a handful of others — with real bioinformatics examples for each one. There is also a short section at the end for Windows users who want to get started without dual-booting: WSL (Windows Subsystem for Linux) puts a full Linux terminal on your Windows machine in about ten minutes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/linux-commands-bioinformatician-everyday/";
+            
+          },
+        },{id: "post-differential-abundance-analysis-for-mags-deseq2-ancom-bc-aldex2-and-maaslin2",
+          
+            title: "Differential Abundance Analysis for MAGs: DESeq2, ANCOM-BC, ALDEx2, and MaAsLin2",
+          
+          description: "You have a table of 2,000 MAG relative abundances across dozens of samples. Community composition tells you who is there. Differential abundance analysis tells you which genomes change significantly between conditions — free-living vs particle-associated, spring vs summer, control vs treatment. This post walks through four methods (DESeq2, ANCOM-BC, ALDEx2, and MaAsLin2), explains when to use each, shows a real FL vs PA example from an estuarine dataset, and documents the most common mistakes that quietly invalidate results.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/differential-abundance-analysis-mag-genomes/";
+            
+          },
+        },{id: "post-who-shared-what-with-whom-detecting-horizontal-gene-transfer-in-estuarine-metagenomes-with-localhgt",
+          
+            title: "Who Shared What With Whom? Detecting Horizontal Gene Transfer in Estuarine Metagenomes with...",
+          
+          description: "Horizontal gene transfer is one of the most powerful forces shaping microbial evolution — it lets a bacterium acquire in hours what vertical evolution might take millennia to produce. But detecting it in complex, multi-species metagenomic datasets is non-trivial. This post walks through a complete LocalHGT-based HGT detection workflow applied to estuarine microbial communities, linking gene transfer patterns to functional redundancy, ecological compartment, and environmental gradients. Includes installation, a brief survey of alternative tools (MetaCHIP, HGTector, anvi&#39;o), and an honest account of what the data did and did not support.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/horizontal-gene-transfer-metagenomes-localhgt/";
+            
+          },
+        },{id: "post-pangenomes-biosynthetic-potential-and-population-structure-a-population-genomics-workflow",
+          
+            title: "Pangenomes, Biosynthetic Potential, and Population Structure: A Population Genomics Workflow",
+          
+          description: "Not all members of a species are the same. Two Staphylococcus  strains can share a 16S rRNA gene that looks identical at the sequencing read level, yet carry entirely different sets of accessory genes that define how they survive, compete, and interact with the host. This post walks through a complete population genomics workflow — from GenBank files to pangenome construction, population-specific gene enrichment, secondary metabolite prediction with antiSMASH, and gene cluster family clustering with BiG-SCAPE — using S. capitis as the model organism.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/population-genomics-antismash-bigscape/";
+            
+          },
+        },{id: "post-",
+          
+            title: "",
+          
+          description: "",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026-02-11-day6-specialized-functions/";
+            
+          },
+        },{id: "post-finding-fungi-in-shotgun-metagenomes-a-kaiju-based-mycobiome-workflow",
+          
+            title: "Finding Fungi in Shotgun Metagenomes: A Kaiju-Based Mycobiome Workflow",
+          
+          description: "Shotgun metagenomes are routinely analyzed for bacteria and archaea, but fungal DNA is sitting right there in the same data — overlooked by most standard pipelines. This post walks through a complete Kaiju-based workflow for detecting, quantifying, and visualizing fungal communities from shotgun metagenomes, using a pilot study of five stool samples from the ERP108339 ulcerative colitis FMT cohort. From protein-level classification to genus-level abundance tables, phylum composition plots, and a ~55-fold fungal bloom in a single FMT recipient — and how to scale the whole thing to 285 samples on a SLURM cluster.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/kaiju-fungal-mycobiome-shotgun-metagenomes/";
+            
+          },
+        },{id: "post-beyond-expression-normalizing-metatranscriptomic-signal-with-mtxmodel",
+          
+            title: "Beyond Expression: Normalizing Metatranscriptomic Signal with MTXmodel",
+          
+          description: "RNA expression in a microbial community is not just about transcription — it is confounded by how many copies of that gene exist in the first place. MTXmodel solves this by adjusting DNA abundance as a continuous covariate for every feature, separating true transcriptional response from gene copy number effects. This post walks through the full workflow: installation, input preparation, sample and feature alignment, running MaAsLin 3 on raw RNA, and why estuarine data needs a lighter metadata design than a human gut study.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/mtx-modelling-metatranscriptomics/";
+            
+          },
+        },{id: "post-from-counts-to-biology-a-rigorous-deseq2-workflow-for-multi-factor-environmental-metatranscriptomics",
+          
+            title: "From Counts to Biology: A Rigorous DESeq2 Workflow for Multi-Factor Environmental Metatranscriptomics",
+          
+          description: "A raw count table is just noise until the statistics are done right. This post walks through a complete, reproducible DESeq2 workflow applied to metatranscriptomic data across three environmental gradients covering experimental design, normalization, metadata alignment, statistical thresholds, functional annotation, and the ten reproducibility checks that separate a credible result from a convincing-looking mistake.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/deseq2-metatranscriptomics-multi-factor-workflow/";
+            
+          },
+        },{id: "post-who-is-actually-active-uncovering-active-viral-communities-from-metatranscriptomes",
+          
+            title: "Who Is Actually Active? Uncovering Active Viral Communities from Metatranscriptomes",
+          
+          description: "A virus detected in a metagenome might be dormant, dead, or relic DNA. A virus detected in a metatranscriptome is alive, active, and doing something right now. This final post in the viromics series maps metatranscriptomic reads to viral genomes, quantifies active viruses, identifies expressed auxiliary metabolic genes, and shows what viral activity reveals about ecosystem function that DNA alone never could.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/viromics-day6-active-viral-communities/";
+            
+          },
+        },{id: "post-what-do-viruses-do-auxiliary-metabolic-genes-and-viral-metabolism-with-dram-v",
+          
+            title: "What Do Viruses Do? Auxiliary Metabolic Genes and Viral Metabolism with DRAM-v",
+          
+          description: "Viruses are not just predators — they are metabolic engineers. This third post in the viromics series covers identifying auxiliary metabolic genes (AMGs) using DRAM-v, mapping viral functions to taxonomy using VITAP outputs, and interpreting what viral AMGs tell us about ecosystem processes. Beginner-friendly, with every step explained.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/viromics-day3-amgs-dram-v/";
+            
+          },
+        },{id: "post-mapping-the-viral-universe-network-analysis-of-viral-communities-with-vcontact2-and-cytoscape",
+          
+            title: "Mapping the Viral Universe: Network Analysis of Viral Communities with vConTACT2 and Cytoscape...",
+          
+          description: "Taxonomy labels tell you what family a virus belongs to, but a protein-sharing network shows you how all the viruses in your community relate to each other and to the known viral universe. This fifth post in the viromics series walks through building viral genome networks with vConTACT2, visualising them in Cytoscape, and decorating the network with ecology metadata.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/viromics-day5-network-analysis/";
+            
+          },
+        },{id: "post-who-do-viruses-infect-host-prediction-with-iphop-blast-and-viral-lifestyle-with-phabox2",
+          
+            title: "Who Do Viruses Infect? Host Prediction with iPHoP, BLAST, and Viral Lifestyle with...",
+          
+          description: "Knowing a virus exists is one thing. Knowing who it infects and whether it kills or hides inside its host is another entirely. This fourth post in the viromics series walks through predicting virus–host interactions using iPHoP and BLAST, then determining viral lifestyle — lytic or lysogenic — using PhaBOX2. Beginner-friendly, with every concept and command explained.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/viromics-day4-host-prediction-lifestyle/";
+            
+          },
+        },{id: "post-who-are-these-viruses-taxonomy-and-abundance-from-viral-otus",
+          
+            title: "Who Are These Viruses? Taxonomy and Abundance from Viral OTUs",
+          
+          description: "You have your vOTUs — now what? This second post in the viromics series walks through classifying viral genomes using geNomad and BLAST, then estimating their abundance across samples using Bowtie2 and CoverM. Beginner-friendly, with every command explained.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/viromics-day2-taxonomy-abundance/";
+            
+          },
+        },{id: "post-from-metagenome-to-viral-otus-identifying-filtering-and-clustering-viral-genomes",
+          
+            title: "From Metagenome to Viral OTUs: Identifying, Filtering, and Clustering Viral Genomes",
+          
+          description: "Viruses outnumber every other biological entity on Earth, yet most metagenomic workflows ignore them. This post walks through the full first stage of a viromics pipeline — from assembled contigs to quality-filtered viral OTUs — using VirSorter2, VITAP, CD-HIT, and CheckV.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/viromics-day1-metagenome-to-votus/";
+            
+          },
+        },{id: "post-building-a-custom-gtdbtk-database-for-humann3-a-gene-catalogue-approach-for-environmental-metagenomics",
+          
+            title: "Building a Custom GTDBtk Database for HUMAnN3 — A Gene Catalogue Approach for...",
+          
+          description: "HUMAnN3&#39;s default ChocoPhlAn database was built for the human gut. If you run it on an estuary, soil, or ocean sample, most of your community ends up as &#39;unclassified&#39;. This post walks through building a fully custom HUMAnN3-ready database from GTDB r220 using STRUO2 — and why this changes everything for environmental metagenomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/custom-gtdb-humann3-gene-catalogue/";
+            
+          },
+        },{id: "post-genome-coverage-what-it-is-why-it-matters-and-how-to-calculate-it-for-ncbi-submission",
+          
+            title: "Genome Coverage — What It Is, Why It Matters, and How to Calculate...",
+          
+          description: "Coverage is one of the first numbers reviewers and NCBI look for when you submit a genome. This beginner-friendly guide explains what coverage actually means, why 30x is different from 100x, how Illumina and ONT reads contribute differently, and includes a complete Python script to calculate coverage for Illumina-only, ONT-only, and hybrid assemblies.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-coverage-calculation-ncbi-submission/";
+            
+          },
+        },{id: "post-what-is-a-metadata-file-and-why-does-your-microbiome-analysis-depend-on-it",
+          
+            title: "What is a Metadata File — and Why Does Your Microbiome Analysis Depend...",
+          
+          description: "A metadata file is the table that tells QIIME 2 what each of your samples actually is. Without it, you have sequences but no story. This beginner-friendly guide explains what metadata is, how to build one, how it drives alpha and beta diversity, and what it looks like when you add real environmental variables like salinity, temperature, and bay location.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metadata-file-qiime2-diversity-beginner/";
+            
+          },
+        },{id: "post-genome-annotation-tools-from-rast-39-s-19-to-a-complete-picture-with-pgap-eggnog-dram-and-interproscan",
+          
+            title: "Genome Annotation Tools — From RAST&#39;s 19% to a Complete Picture with PGAP,...",
+          
+          description: "You annotated your genome with RAST and only 19% of genes got a subsystem assignment. Sound familiar? This beginner-friendly guide walks through why that happens and how to fix it using PGAP, eggNOG-mapper, DRAM, and InterProScan — with a complete R visualization script for your manuscript figures.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-annotation-tools-pgap-eggnog-dram/";
+            
+          },
+        },{id: "post-from-qiime-2-to-r-visualizing-your-16s-amplicon-results",
+          
+            title: "From QIIME 2 to R — Visualizing Your 16S Amplicon Results",
+          
+          description: "You finished your QIIME 2 amplicon analysis. Now what? This beginner-friendly guide walks through exactly how to export your QIIME 2 artifacts, convert BIOM tables to TSV, and build publication-quality diversity plots and taxonomy figures in R — step by step, with every command explained.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/qiime2-to-r-visualization/";
+            
+          },
+        },{id: "post-genome-visualization-tools-a-beginner-39-s-guide-to-seeing-your-genome",
+          
+            title: "Genome Visualization Tools — A Beginner&#39;s Guide to Seeing Your Genome",
+          
+          description: "You have a genome file and no idea how to visualize it. This beginner-friendly guide walks through four tools — Proksee, gbdraw, Artemis, and Bandage — that take you from raw FASTA or GenBank files to beautiful, publication-ready circular maps and genome browsers, with zero programming required for most of them.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-visualization-tools-beginners-guide/";
+            
+          },
+        },{id: "post-co-occurrence-networks-from-genome-abundance-data-a-complete-r-workflow",
+          
+            title: "Co-occurrence Networks from Genome Abundance Data — A Complete R Workflow",
+          
+          description: "From raw genome relative abundance tables to Spearman-based co-occurrence networks, keystone taxa detection, and module ecology tests. A step-by-step walkthrough using NetCoMi, igraph, and the Zi-Pi framework in R — with real estuarine metagenome data.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/cooccurrence-network-genome-data/";
+            
+          },
+        },{id: "post-conda-mamba-micromamba-what-39-s-the-difference-and-what-you-should-actually-use",
+          
+            title: "Conda, Mamba, Micromamba — What&#39;s the Difference (and What You Should Actually Use)...",
+          
+          description: "You ran conda install and now your environment is broken. Sound familiar? This beginner-friendly guide explains exactly what conda, mamba, and micromamba are, when to use each one, and the common mistakes that silently destroy bioinformatics environments.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/conda-mamba-micromamba-guide/";
+            
+          },
+        },{id: "post-day-5-from-counts-to-biology-normalization-deseq2-dna-rna-ratios-and-ecological-interpretation",
+          
+            title: "Day 5 — From Counts to Biology: Normalization, DESeq2, DNA:RNA Ratios, and Ecological...",
+          
+          description: "The day most tutorials stop — and the day that matters most. A complete walkthrough of TPM normalization, DESeq2 differential expression across PA and FL estuarine sites, DNA:RNA ratio calculation, functional redundancy analysis, and how to connect every number back to ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-metatranscriptomics-counts-to-biology/";
+            
+          },
+        },{id: "post-day-4-reads-meet-reference-the-mapping-amp-quantification-pipeline",
+          
+            title: "Day 4 — Reads Meet Reference: The Mapping &amp; Quantification Pipeline",
+          
+          description: "Every command, every output, every flag explained — from Bowtie2 mapping to featureCounts. With the real alignment statistics from our estuarine dataset and a beginner-friendly guide to reading what those numbers actually mean.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day4-metatranscriptomics-mapping-quantification/";
+            
+          },
+        },{id: "post-day-3-the-reference-problem-your-database-defines-your-biology",
+          
+            title: "Day 3 — The Reference Problem: Your Database Defines Your Biology",
+          
+          description: "The most consequential decision in metatranscriptomics isn&#39;t which mapper you use — it&#39;s what you map against. A beginner-friendly guide to MAGs, reference genomes, and gene catalogs, with the commands to build each one and the SLURM scripts to run them on HPC.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day3-metatranscriptomics-reference-strategy/";
+            
+          },
+        },{id: "post-day-2-clean-your-rna-qc-amp-preprocessing-for-metatranscriptomics",
+          
+            title: "Day 2 — Clean Your RNA : QC &amp; Preprocessing for Metatranscriptomics",
+          
+          description: "The step most tutorials skip — and the one that decides your mapping success rate before Bowtie2 ever runs. A complete walkthrough of FastQC, fastp, SortMeRNA, and bbduk with real commands for HPC.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day2-metatranscriptomics-qc-preprocessing/";
+            
+          },
+        },{id: "post-day-1-who-is-active-not-just-present-an-introduction-to-metatranscriptomics",
+          
+            title: "Day 1 — Who Is Active, Not Just Present? An Introduction to Metatranscriptomics...",
+          
+          description: "DNA is a blueprint. RNA is a timesheet. This opening post sets the conceptual foundation for the series — what metatranscriptomics actually measures, why activity and abundance are not the same thing, and why your estuarine samples are the perfect system to teach it.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day1-metatranscriptomics-introduction/";
+            
+          },
+        },{id: "post-pangenome-analysis-with-anvi-39-o-from-hpc-to-publication-ready-figures",
+          
+            title: "Pangenome Analysis with Anvi&#39;o: From HPC to Publication-Ready Figures",
+          
+          description: "A complete beginner&#39;s guide to building and visualising a bacterial pangenome using Anvi&#39;o — running heavy computation on HPC and generating publication-quality figures with R on your laptop.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/pangenome-anvio-hpc/";
+            
+          },
+        },{id: "post-day-6-moving-your-data-scp-rsync-sftp-and-globus-connect",
+          
+            title: "Day 6 — Moving Your Data: scp, rsync, SFTP, and Globus Connect",
+          
+          description: "Your pipeline is ready, your HPC account is set up — but how do you actually move 300 GB of raw sequencing reads onto the cluster? A practical guide to every data transfer method you&#39;ll use in bioinformatics, from quick one-liners to terabyte-scale transfers.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day6-data-transfer/";
+            
+          },
+        },{id: "post-day-5-reproducible-pipelines-snakemake-and-nextflow",
+          
+            title: "Day 5 — Reproducible Pipelines: Snakemake and Nextflow",
+          
+          description: "Shell scripts work — until they don&#39;t. Here&#39;s how to graduate from manual job submissions to proper workflow managers that track dependencies, restart from failures, scale to HPC, and make your analysis reproducible by anyone, anywhere.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-pipelines/";
+            
+          },
+        },{id: "post-day-4-scaling-analysis-for-loops-vs-slurm-job-arrays",
+          
+            title: "Day 4 — Scaling Analysis: For Loops vs SLURM Job Arrays",
+          
+          description: "200 samples × 15 minutes = 50 hours sequential. Or 15 minutes parallel. Here&#39;s exactly how job arrays work, why they are the single biggest productivity unlock on HPC, and every pattern you need to handle real-world datasets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day4-job-arrays/";
+            
+          },
+        },{id: "post-day-3-running-jobs-terminal-bash-loops-and-slurm",
+          
+            title: "Day 3 — Running Jobs: Terminal, Bash Loops, and SLURM",
+          
+          description: "The biggest mindset shift in HPC: you don&#39;t run commands, you submit jobs. Why the login node is off-limits, what actually happens when you type sbatch, and how to go from a laptop bash loop to a proper SLURM script.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day3-running-jobs/";
+            
+          },
+        },{id: "post-day-2-software-installation-sudo-vs-module-load-vs-conda",
+          
+            title: "Day 2 — Software Installation: sudo vs module load vs conda",
+          
+          description: "The first real shock of HPC life: you can&#39;t install software the way you&#39;re used to. Here&#39;s why, and three progressively better solutions — explained step by step for beginners.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day2-software-installation/";
+            
+          },
+        },{id: "post-day-1-laptop-vs-hpc-why-bioinformatics-needs-both",
+          
+            title: "Day 1 — Laptop vs HPC: Why Bioinformatics Needs Both",
+          
+          description: "Your laptop crashed on a 50-sample microbiome run. Here&#39;s what that means, why it happens, and how HPC clusters solve it — explained from scratch for beginners.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day1-laptop-vs-hpc/";
+            
+          },
+        },{id: "post-day-8-from-raw-data-to-paper-figures-a-complete-microbiome-stats-workflow",
+          
+            title: "Day 8 — From Raw Data to Paper Figures: A Complete Microbiome Stats...",
+          
+          description: "Every method from Days 1–7, assembled into the actual order you run them, with the biological question that justifies each step — and the checklist you copy into every new project.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day8-complete-microbiome-stats-workflow/";
+            
+          },
+        },{id: "post-day-7-correlation-analysis-amp-mantel-test-linking-mags-to-environment",
+          
+            title: "Day 7 — Correlation Analysis &amp; Mantel Test: Linking MAGs to Environment",
+          
+          description: "Spearman correlation asks which environmental variables each MAG tracks. The Mantel test asks something deeper — does community dissimilarity itself scale with environmental dissimilarity?",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day7-correlation-mantel-test-microbiome/";
+            
+          },
+        },{id: "post-day-6-wgcna-for-microbiome-co-abundance-networks-from-individual-mags-to-modules",
+          
+            title: "Day 6 — WGCNA for Microbiome Co-Abundance Networks: From Individual MAGs to Modules...",
+          
+          description: "WGCNA moves you from 61 individual Wilcoxon tests to a handful of ecological guilds — each with a name, a size, and a direct relationship to the environmental gradient that drives it.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day6-wgcna-mag-coabundance-networks/";
+            
+          },
+        },{id: "post-day-5-multiple-regression-for-mag-abundance-linking-genomics-to-environment",
+          
+            title: "Day 5 — Multiple Regression for MAG Abundance: Linking Genomics to Environment",
+          
+          description: "This is multiple regression — the bridge from discrete group comparisons to the continuous environmental gradients that actually structure microbial communities in estuaries.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-multiple-regression-mag-abundance/";
+            
+          },
+        },{id: "post-day-4-non-parametric-tests-for-microbiome-data-wilcoxon-kruskal-wallis-amp-effect-sizes",
+          
+            title: "Day 4 — Non-Parametric Tests for Microbiome Data: Wilcoxon, Kruskal-Wallis &amp; Effect Sizes...",
+          
+          description: "After three days of community-level analysis, we step down to the taxon level — testing which individual MAGs differ between seasons, size fractions, and salinity regimes. Covers Wilcoxon, Kruskal-Wallis, FDR correction, and Cliff&#39;s delta effect size.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day4-nonparametric-tests-wilcoxon-kruskal-wallis/";
+            
+          },
+        },{id: "post-day-3-permanova-with-adonis2-testing-real-community-differences",
+          
+            title: "Day 3 — PERMANOVA with adonis2: Testing Real Community Differences",
+          
+          description: "You&#39;ve seen the groups separate in the RDA triplot. Now we test whether those differences are statistically real — using PERMANOVA, the permutation-based test built for multivariate community data. Includes the critical betadisper assumption test most papers skip.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day3-permanova-adonis2-microbiome/";
+            
+          },
+        },{id: "post-day-2-constrained-ordination-rda-amp-dbrda-for-microbiome-community-analysis",
+          
+            title: "Day 2 — Constrained Ordination: RDA &amp; dbRDA for Microbiome Community Analysis",
+          
+          description: "Learn how to run RDA with Hellinger-transformed MAG abundance data and interpret the resulting triplot — arrows, points, axes, and variance explained — using real Chesapeake and Delaware Bay metagenomes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day2-rda-dbrda-microbiome-ordination/";
+            
+          },
+        },{id: "post-day-1-why-normal-statistics-fail-for-microbiome-data-and-what-we-use-instead",
+          
+            title: "Day 1 — Why Normal Statistics Fail for Microbiome Data (And What We...",
+          
+          description: "Before we run a single ordination or permutation test, we need to understand why standard statistics break down for microbiome and genomics data. This is your foundation for the entire 7-day series.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day1-why-normal-stats-fail-microbiome/";
+            
+          },
+        },{id: "post-from-messy-subfolders-to-analysis-ready-fasta-rename-with-python-collect-with-linux-find",
+          
+            title: "From Messy Subfolders to Analysis-Ready FASTA: Rename with Python + Collect with Linux...",
+          
+          description: "A practical mini-workflow: add sample names to files inside many subfolders using a custom Python script, then use Linux find to gather all .fa files into one directory for downstream analysis (Prokka → InterProScan, DIAMOND → final tables).",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/python-rename-and-linux-find-collect-fasta/";
+            
+          },
+        },{id: "post-day-5-substrate-uptake-amp-utilization-in-size-fractionated-estuarine-microbiomes",
+          
+            title: "Day 5: Substrate Uptake &amp; Utilization in Size-Fractionated Estuarine Microbiomes",
+          
+          description: "From gene catalogs to carbon currency: a step-by-step functional workflow for analyzing CAZymes, ABC transporters, and TonB-dependent transporters in size-fractionated metagenomes and metatranscriptomes. Covers concatenated gene catalogs, dbCAN annotation, transporter filtering, read mapping, normalization, and heatmap visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/day5-substrate-uptake-patterns/";
+            
+          },
+        },{id: "post-metagenome-analysis-graduate-course-materials",
+          
+            title: "Metagenome Analysis - Graduate Course Materials",
+          
+          description: "Beginner-friendly graduate course materials for metagenome analysis. Includes toy datasets (&lt;100MB), complete workflows, and hands-on tutorials covering QC, assembly, binning, taxonomy, and phylogenetics. Perfect for students new to bioinformatics with step-by-step guidance and realistic expectations.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-graduate-course/";
+            
+          },
+        },{id: "post-10-day-metagenome-analysis-series-complete-summary",
+          
+            title: "10-Day Metagenome Analysis Series - Complete Summary",
+          
+          description: "Complete metagenome analysis workflow from raw sequencing to publication: QC, assembly, binning, annotation, specialized functions, comparative genomics, automation, visualization, and multi-omics integration. Master 50+ tools in 10 comprehensive days with step-by-step tutorials.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-10day-complete-summary/";
+            
+          },
+        },{id: "post-day-10-multi-omics-integration-metagenomics-amp-metatranscriptomics",
+          
+            title: "Day 10: Multi-Omics Integration - Metagenomics &amp; Metatranscriptomics",
+          
+          description: "Master multi-omics integration: combine metagenomics (DNA) and metatranscriptomics (RNA) data to reveal active functions. Learn DESeq2 differential expression, expression ratio modeling, comparative heatmaps, pathway activity analysis, and taxonomic integration. Complete guide from count tables to biological insights.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day10-multiomics-integration/";
+            
+          },
+        },{id: "post-day-9-visualization-amp-publication-making-data-tell-stories",
+          
+            title: "Day 9: Visualization &amp; Publication - Making Data Tell Stories",
+          
+          description: "Create publication-quality figures for metagenomics: R/ggplot2, Python/matplotlib/seaborn, Krona taxonomic wheels, Circos genome comparisons, interactive Anvi&#39;o plots, network visualizations, and heatmaps. Complete guide to visual storytelling with your data.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day9-visualization/";
+            
+          },
+        },{id: "post-day-8-workflow-wrappers-amp-web-platforms-streamlining-metagenome-analysis",
+          
+            title: "Day 8: Workflow Wrappers &amp; Web Platforms - Streamlining Metagenome Analysis",
+          
+          description: "Master automated workflows with MetaWRAP, Anvi&#39;o, and nf-core/mag. Explore web-based platforms: Galaxy, KBase, IMG/M, and BV-BRC (PATRIC). Complete guide to streamlined metagenomics without the command-line complexity.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day8-workflows-platforms/";
+            
+          },
+        },{id: "post-day-7-comparative-genomics-amp-statistical-analysis-connecting-genomes-to-environment",
+          
+            title: "Day 7: Comparative Genomics &amp; Statistical Analysis - Connecting Genomes to Environment",
+          
+          description: "Master pangenome analysis (PanX, Anvi&#39;o, Roary, BPGA), statistical ecology (PERMANOVA, RDA, dbRDA), co-occurrence networks (WGCNA, SparCC), and environmental associations. Complete guide to understanding how metadata influences microbiomes and comparative genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day7-comparative-statistical/";
+            
+          },
+        },{id: "post-day-5-genome-annotation-understanding-metabolic-potential",
+          
+            title: "Day 5: Genome Annotation - Understanding Metabolic Potential",
+          
+          description: "Complete guide to genome annotation from basic (Prodigal, Prokka) to advanced (DRAM, METABOLIC). Learn to predict genes, assign functions, and reconstruct metabolic pathways from MAGs. Includes practical workflows for laptops and HPC.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day5-annotation/";
+            
+          },
+        },{id: "post-day-4-genome-dereplication-amp-taxonomic-classification-from-mags-to-species",
+          
+            title: "Day 4: Genome Dereplication &amp; Taxonomic Classification - From MAGs to Species",
+          
+          description: "Master genome dereplication with dRep and taxonomic classification with GTDB-Tk. Learn to identify unique species, remove redundancy, construct phylogenetic trees with iTOL and ggtree, and select species representatives from metagenomic datasets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day4-dereplication-taxonomy/";
+            
+          },
+        },{id: "post-day-3-genome-binning-recovering-individual-genomes-mags-from-metagenomes",
+          
+            title: "Day 3: Genome Binning - Recovering Individual Genomes (MAGs) from Metagenomes",
+          
+          description: "Master genome binning with modern MetaWRAP workflows, MetaBAT2, MaxBin2, and CONCOCT. Learn bin refinement, CheckM2 quality assessment, and MAG classification. Includes Python 3 setup, laptop-friendly workflows, and deep learning with SemiBin2.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day3-binning/";
+            
+          },
+        },{id: "post-day-2-metagenome-assembly-reconstructing-genomes-from-short-reads",
+          
+            title: "Day 2: Metagenome Assembly - Reconstructing Genomes from Short Reads",
+          
+          description: "A comprehensive guide to assembling metagenomic data using metaSPAdes and MEGAHIT, with quality assessment, parameter optimization, and comparison strategies. Includes desktop-friendly workflows and multi-language analysis scripts.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day2-assembly/";
+            
+          },
+        },{id: "post-day-1-quality-control-contamination-removal-and-read-based-taxonomic-analysis",
+          
+            title: "Day 1: Quality Control, Contamination Removal, and Read-Based Taxonomic Analysis",
+          
+          description: "A comprehensive guide to preprocessing metagenomic sequencing data, from raw reads to clean, taxonomically profiled datasets ready for assembly. Includes workflows for HPC, personal desktop, Linux, and Windows environments.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/metagenome-analysis-day1-qc-taxonomy/";
+            
+          },
+        },{id: "post-genome-resolved-metabolism-from-metabolic-potential-to-co-metabolism-networks",
+          
+            title: "Genome-Resolved Metabolism: From Metabolic Potential to Co-Metabolism Networks",
+          
+          description: "A comprehensive workflow for analyzing metabolic flexibility, co-energy metabolism, and co-metabolism networks in hydrocarbon-degrading MAGs using heatmaps and network visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-resolved-metabolism-co-metabolism/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-4-gene-catalog-construction-amp-functional-annotation",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 4: Gene Catalog Construction &amp; Functional Annotation",
+          
+          description: "Day 4 of the size-fractionated microbiome series: Building a non-redundant prokaryotic gene catalog from metagenomes using Prodigal, CD-HIT clustering, and eggNOG functional annotation.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day4/";
+            
+          },
+        },{id: "post-bridging-clinical-and-ecological-ml-from-heart-disease-to-soil-ecosystem-multifunctionality",
+          
+            title: "Bridging Clinical and Ecological ML: From Heart Disease to Soil Ecosystem Multifunctionality",
+          
+          description: "Revisiting my masters in datascience project on heart disease prediction to explore Random Forest applications in microbial ecosystem multifunctionality research. A comprehensive comparison of 5 ML algorithms with real results and lessons learned.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/heart-disease-prediction-ml-random-forest/";
+            
+          },
+        },{id: "post-building-custom-humann3-databases-with-struo2-and-gtdb-a-realistic-guide-from-the-trenches",
+          
+            title: "Building Custom HUMAnN3 Databases with Struo2 and GTDB: A Realistic Guide from the...",
+          
+          description: "A comprehensive, honest guide to building custom HUMAnN3 databases using Struo2 with GTDB r220, including all the troubleshooting, workarounds, and lessons learned from 40 hours in the trenches.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/building-custom-humann3-databases-struo2-gtdb/";
+            
+          },
+        },{id: "post-visualize-your-data-day-5-bubble-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 5: Bubble Plots in Bioinformatics",
+          
+          description: "Day 5 of the Visualize Your Data series: using bubble plots to visualize multi-dimensional relationships in genomics and functional ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day5-bubble-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-4-volcano-plots-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 4: Volcano Plots in Bioinformatics",
+          
+          description: "Day 4 of the Visualize Your Data series: mastering volcano plots for differential expression and abundance analysis in bioinformatics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day4-volcano-plots/";
+            
+          },
+        },{id: "post-visualize-your-data-day-3-ordination-plots-pca-pcoa-nmds-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 3: Ordination Plots (PCA, PCoA, NMDS) in Bioinformatics...",
+          
+          description: "Day 3 of the Visualize Your Data series: exploring PCA, PCoA, and NMDS to visualize sample relationships and community structure in bioinformatics and microbial ecology.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day3-ordination/";
+            
+          },
+        },{id: "post-visualize-your-data-day-2-heatmaps-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 2: Heatmaps in Bioinformatics",
+          
+          description: "Day 2 of the Visualize Your Data series: understanding heatmaps, scaling, clustering, interactive heatmaps,  commonly used in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day2-heatmaps/";
+            
+          },
+        },{id: "post-visualize-your-data-day-1-box-plot-vs-violin-plot-in-bioinformatics",
+          
+            title: "Visualize Your Data — Day 1: Box Plot vs Violin Plot in Bioinformatics...",
+          
+          description: "Day 1 of the Visualize Your Data series: understanding when and how to use box plots and violin plots to visualize data distributions in bioinformatics and molecular genomics.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/visualize-your-data-day1-box-vs-violin/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-5-comparative-amp-downstream-genomic-analyses",
+          
+            title: "Whole Genome Sequencing — Day 5: Comparative &amp; Downstream Genomic Analyses",
+          
+          description: "Day 5 of the WGS series: moving from individual genomes to comparative insights through pangenome analysis, secondary metabolite screening, and pathogen detection",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day5-comparative-genomics/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-4-genome-annotation-amp-functional-potential",
+          
+            title: "Whole Genome Sequencing — Day 4: Genome Annotation &amp; Functional Potential",
+          
+          description: "Day 4 of the WGS series: gene prediction and functional annotation using Prokka, Prodigal, InterProScan, and DRAM to reconstruct metabolic pathways and genome-scale functional potential.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day4-annotation-function/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-3-taxonomy-phylogeny-amp-genome-similarity",
+          
+            title: "Whole Genome Sequencing — Day 3: Taxonomy, Phylogeny &amp; Genome Similarity",
+          
+          description: "Day 3 of the WGS series: genome-based taxonomy using GTDB-Tk, phylogenomic tree construction, and species/genus boundary testing using ANI, AAI, and dDDH across large genome sets.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day3-taxonomy-phylogeny/";
+            
+          },
+        },{id: "post-whole-genome-sequencing-day-2-genome-assembly-quality-assessment-and-topology",
+          
+            title: "Whole Genome Sequencing — Day 2: Genome Assembly, Quality Assessment, and Topology",
+          
+          description: "Day 2 of the WGS series: short- and long-read genome assembly using SPAdes, MEGAHIT, Shovill, and Flye, followed by assembly evaluation with QUAST, GC content visualization, topology assessment, and graph inspection with Bandage.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day2-genome-assembly/";
+            
+          },
+        },{id: "post-whole-genome-analysis-day-1-from-raw-reads-to-clean-assembly-ready-data",
+          
+            title: "Whole Genome Analysis — Day 1: From Raw Reads to Clean, Assembly-Ready Data...",
+          
+          description: "Day 1 of a whole-genome analysis series covering raw Illumina and Nanopore reads, integrity checks, quality control with FastQC and NanoPlot, and read trimming using Trimmomatic and Cutadapt.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/wgs-day1-raw-reads-qc/";
+            
+          },
+        },{id: "post-exploring-the-pan-genome-with-panx-a-practical-workflow-for-darpa-isolates",
+          
+            title: "Exploring the Pan-Genome with panX: A Practical Workflow for DARPA Isolates",
+          
+          description: "5 complete walkthrough using panX to analyze the pan-genome of 20 DARPA isolates—annotation, pipeline execution, interactive visualization, and core/pan gene extraction.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/panx-pangenome-analysis/";
+            
+          },
+        },{id: "post-extracting-full-length-16s-rrna-from-bacterial-genomes-using-barrnap",
+          
+            title: "Extracting Full-Length 16S rRNA from Bacterial Genomes Using Barrnap",
+          
+          description: "A quick and reproducible workflow to extract 16S rRNA genes from assembled genomes and validate taxonomy using NCBI BLAST.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/barrnap-16s-extraction/";
+            
+          },
+        },{id: "post-from-genome-assembly-to-novel-species-a-step-by-step-genomic-workflow",
+          
+            title: "From Genome Assembly to Novel Species: A Step-by-Step Genomic Workflow",
+          
+          description: "How do we confidently determine whether a newly sequenced genome represents a novel bacterial species?",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/novel-species-a-step-by-step-guide/";
+            
+          },
+        },{id: "post-using-syncthing-tmux-and-git-to-sync-my-bioinformatics-workflow-across-devices",
+          
+            title: "Using Syncthing, tmux, and Git to Sync My Bioinformatics Workflow Across Devices",
+          
+          description: "How I synchronize files, terminal sessions, and version-controlled projects across my Linux desktop and laptop.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/syncthing-tmux-git-workflow/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-3-species-level-profiling-with-motus",
+          
+            title: "Size-Fractionated Microbiome Analysis — Day 3: Species-Level Profiling with mOTUs",
+          
+          description: "Day 3 of the size-fractionated microbiome series: mOTUs-based species-level profiling, batch processing, manual merging of profiles, and visualization.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day3/";
+            
+          },
+        },{id: "post-genome-topology-and-genome-announcement-reports-a-practical-reviewer-safe-workflow",
+          
+            title: "Genome Topology and Genome Announcement Reports: A Practical, Reviewer-Safe Workflow",
+          
+          description: "A step-by-step guide to answering NCBI genome topology questions and generating a complete, automated genome report table for Genome Resource Announcements.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-topology-and-genome-report/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-analysis-day-2-kaiju-classification-and-extraction-of-bacterial-amp-archaeal-reads",
+          
+            title: "Size Fractionated Microbiome Analysis — Day 2: Kaiju Classification and Extraction of Bacterial...",
+          
+          description: "Day 2 of a metagenomics series: Kaiju-based taxonomic classification, generation of heatmap-ready summary tables, and extraction of bacterial and archaeal reads for downstream analyses.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day2/";
+            
+          },
+        },{id: "post-size-fractionated-microbiome-anlaysis-day-1-from-raw-reads-to-clean-data",
+          
+            title: "Size Fractionated Microbiome Anlaysis — Day 1: From Raw Reads to Clean Data...",
+          
+          description: "Day 1 of a new metagenomics series focusing on raw read quality control and preprocessing for total community profiling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/size-fractionated-microbiome-analysis-day1/";
+            
+          },
+        },{id: "post-amplicon-week-day-6-wrap-up-from-reads-to-insights",
+          
+            title: "Amplicon Week — Day 6: Wrap-Up: From Reads to Insights",
+          
+          description: "Day 6 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day6/";
+            
+          },
+        },{id: "post-amplicon-week-day-5-web-based-microbiome-analysis-with-easy16s",
+          
+            title: "Amplicon Week — Day 5: Web-based microbiome analysis with easy16S",
+          
+          description: "Day 5 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day5/";
+            
+          },
+        },{id: "post-amplicon-week-day-4-functional-prediction-from-amplicon-data-picrust2-tax4fun2-faprotax",
+          
+            title: "Amplicon Week — Day 4: Functional Prediction from Amplicon Data (PICRUSt2, Tax4Fun2, FAPROTAX)...",
+          
+          description: "Day 4 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day4/";
+            
+          },
+        },{id: "post-amplicon-week-day-3-visualization-amp-ecological-analysis-using-qiime2-microeco-r",
+          
+            title: "Amplicon Week — Day 3: Visualization &amp; Ecological Analysis Using QIIME2 + Microeco...",
+          
+          description: "Day 3 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day3/";
+            
+          },
+        },{id: "post-amplicon-week-day-2-qiime2-setup-importing-data-amp-classifier-training",
+          
+            title: "Amplicon Week — Day 2: QIIME2 Setup, Importing Data &amp; Classifier Training",
+          
+          description: "Day 2 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day2/";
+            
+          },
+        },{id: "post-amplicon-week-day-1-introduction-to-16s-its-18s-12s-and-coi-metabarcoding",
+          
+            title: "Amplicon Week — Day 1: Introduction to 16S, ITS, 18S, 12S, and COI...",
+          
+          description: "Day 1 of Amplicon sequencing and analyis.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/amplicon-day1/";
+            
+          },
+        },{id: "post-cleaning-and-preparing-genomes-for-ncbi-submission-a-complete-workflow",
+          
+            title: "Cleaning and Preparing Genomes for NCBI Submission — A Complete Workflow",
+          
+          description: "Step-by-step guide for fixing adapter contamination, removing unwanted contigs, renaming FASTA headers, renumbering contigs, and preparing high-quality genomes for NCBI submission.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/ncbi-submission-cleaning/";
+            
+          },
+        },{id: "post-machine-learning-mag-binning-with-semibin2-and-snakemake-soil-metagenomes",
+          
+            title: "Machine-learning MAG binning with SemiBin2 and Snakemake (soil metagenomes)",
+          
+          description: "How I used SemiBin2 and a Snakemake workflow to recover high-quality MAGs from fragmented, high-diversity soil metagenomes.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/semibin-snakemake-soil-mag-workflow/";
+            
+          },
+        },{id: "post-installing-amp-setting-up-my-new-linux-laptop-a-real-journey-through-dual-boot-partitions-amp-persistence",
+          
+            title: "Installing &amp; Setting Up My New Linux Laptop: A Real Journey Through Dual-Boot,...",
+          
+          description: "A complete walkthrough of dual-booting Ubuntu with Windows on a modern Dell NVMe laptop — from partition problems to corrupted USB drives and manual GParted rescue.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/dual-booting-with-linux/";
+            
+          },
+        },{id: "post-gtdb-tk-complete-workflow",
+          
+            title: "GTDB-Tk Complete Workflow",
+          
+          description: "A practical walkthrough of GTDB-Tk Complete Workflow",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/gtdbtk-tree-custom/";
+            
+          },
+        },{id: "post-genome-assembly-day-shovill-for-illumina-amp-flye-for-nanopore-reads",
+          
+            title: "Genome Assembly Day: Shovill for Illumina &amp; Flye for Nanopore Reads",
+          
+          description: "A practical walkthrough of assembling bacterial genomes using Shovill (Illumina short reads) and Flye (Nanopore long reads) on the Palmetto HPC cluster.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-assembly-day/";
+            
+          },
+        },{id: "post-visualizing-genome-assemblies-with-bandage-building-from-source-on-linux",
+          
+            title: "Visualizing Genome Assemblies with Bandage: Building from Source on Linux",
+          
+          description: "A practical guide to installing Bandage from source using Qt and visualizing assembly graphs generated by Flye and Shovill.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/genome-visualization/";
+            
+          },
+        },{id: "post-re-working-figure-5-visualizing-functional-redundancy-fred-across-bays-seasons-and-salinity",
+          
+            title: "Re-working Figure 5: Visualizing Functional Redundancy (FRed) Across Bays, Seasons, and Salinity",
+          
+          description: "Final version of my R-based figure for the FRed manuscript revision, including data cleaning, outlier filtering, and multi-layered ggplot styling.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/reworking-a-figure-manuscript-revision-story/";
+            
+          },
+        },{id: "post-my-journey-into-microbiology-the-deep-sea-and-bioinformatics",
+          
+            title: "My Journey into Microbiology, the Deep Sea, and Bioinformatics",
+          
+          description: "From traditional medicine to deep-sea expeditions to becoming a computational microbial ecologist — this is my story.",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/my-journey-into-microbiology-and-bioinformatics/";
+            
+          },
+        },{id: "news-aaas-membership-and-science-magazine-subscription-nominated-by-cynthia-y-young-dean-of-college-of-science-clemson-university",
+              title: 'AAAS Membership and SCIENCE Magazine Subscription nominated by Cynthia Y. Young Dean of...',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-asm-2025-los-angeles-usa",
+              title: 'Abstract accepted for **ASM 2025**, Los Angeles, USA.',
+              description: "",
+              section: "News",},{id: "news-abstract-accepted-for-aslo-2025-charlotte-usa",
+              title: 'Abstract accepted for **ASLO 2025**, Charlotte, USA',
+              description: "",
+              section: "News",},{id: "news-188-whole-genome-sequences-submitted-to-ncbi",
+              title: '188 whole-genome sequences submitted to NCBI.',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-baseline-evaluation-of-the-toxicity-potential-of-steel-slag-using-the-green-mussel-perna-viridis-for-sustainable-marine-reuse-applications-this-work-was-originally-completed-during-2019-2020-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Baseline evaluation of the toxicity potential of steel...',
+              description: "",
+              section: "News",},{id: "news-a-new-publication-is-out-comparative-genomic-and-phenotypic-analysis-of-streptomyces-rochei-sosist-3-isolated-from-the-southern-ocean-this-work-is-a-part-of-colloboration-and-it-s-great-to-finally-see-it-published",
+              title: '**A new publication is out!** “Comparative genomic and phenotypic analysis of Streptomyces rochei...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-accepted-𝐀-𝐯𝐞𝐫𝐲-𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥-𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞-today-i-m-sharing-some-happy-news-𝐦𝐲-𝐟𝐢𝐫𝐬𝐭-𝐩𝐨𝐬𝐭𝐝𝐨𝐜𝐭𝐨𝐫𝐚𝐥-𝐩𝐚𝐩𝐞𝐫-𝐡𝐚𝐬-𝐛𝐞𝐞𝐧-𝐚𝐜𝐜𝐞𝐩𝐭𝐞𝐝-𝐢𝐧-𝐈𝐒𝐌𝐄-𝐂𝐨𝐦𝐦𝐮𝐧𝐢𝐜𝐚𝐭𝐢𝐨𝐧𝐬",
+              title: '**A new paper accepted!** “✨ 𝐀 𝐯𝐞𝐫𝐲 𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥 𝐦𝐢𝐥𝐞𝐬𝐭𝐨𝐧𝐞 ✨ Today, I’m sharing...',
+              description: "",
+              section: "News",},{id: "news-the-accepted-version-available-online-quot-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays-quot-doi-https-doi-org-10-1093-ismeco-ycag021-link-https-academic-oup-com-ismecommun-advance-article-doi-10-1093-ismeco-ycag021-8454622",
+              title: '**The accepted version available online!** &quot;Functional redundancy and metabolic flexibility of microbial communities...',
+              description: "",
+              section: "News",},{id: "news-another-manuscript-accepted-quot-draft-genome-sequence-of-a-novel-species-of-winogradskyella-strain-pc-d3-3-isolated-from-a-red-antarctic-macroalgae-quot-in-microbiology-resource-announcements",
+              title: 'Another manuscript **accepted** &quot;Draft Genome Sequence of a novel species of Winogradskyella (strain...',
+              description: "",
+              section: "News",},{id: "news-another-manuscript-accepted-with-minor-revision-quot-genomic-insights-into-carbohydrate-active-enzymes-in-a-novel-radiobacillus-strain-from-the-antarctic-red-macroalga-pyropia-endiviifolia-quot-in-world-journal-of-microbiology-and-biotechnology-revision-submitted-back",
+              title: 'Another manuscript **accepted** with minor revision &quot;Genomic insights into carbohydrate-active enzymes in a...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-is-online-𝐍𝐚𝐧𝐨𝐥𝐢𝐩𝐨𝐬𝐨𝐦𝐞-𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐝-𝐜𝐨-𝐝𝐞𝐥𝐢𝐯𝐞𝐫𝐲-𝐨𝐟-𝐚𝐦𝐨𝐱𝐢𝐜𝐢𝐥𝐥𝐢𝐧-𝐚𝐧𝐝-𝐭𝐚𝐳𝐨𝐛𝐚𝐜𝐭𝐚𝐦-𝐫𝐞𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐬-𝐢𝐧𝐭𝐫𝐚𝐜𝐞𝐥𝐥𝐮𝐥𝐚𝐫-𝐢𝐧𝐟𝐞𝐜𝐭𝐢𝐨𝐧-𝐛𝐲-𝐦𝐮𝐥𝐭𝐢𝐝𝐫𝐮𝐠-𝐫𝐞𝐬𝐢𝐬𝐭𝐚𝐧𝐭-𝐒𝐚𝐥𝐦𝐨𝐧𝐞𝐥𝐥𝐚-𝐞𝐧𝐭𝐞𝐫𝐢𝐜𝐚-𝐬𝐞𝐫𝐨𝐯𝐚𝐫-𝐓𝐲𝐩𝐡𝐢𝐦𝐮𝐫𝐢𝐮𝐦-read-full-here-https-www-nature-com-articles-s41429-026-00903-5-citeas",
+              title: 'A new paper is online “𝐍𝐚𝐧𝐨𝐥𝐢𝐩𝐨𝐬𝐨𝐦𝐞-𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐝 𝐜𝐨-𝐝𝐞𝐥𝐢𝐯𝐞𝐫𝐲 𝐨𝐟 𝐚𝐦𝐨𝐱𝐢𝐜𝐢𝐥𝐥𝐢𝐧 𝐚𝐧𝐝 𝐭𝐚𝐳𝐨𝐛𝐚𝐜𝐭𝐚𝐦 𝐫𝐞𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐬 𝐢𝐧𝐭𝐫𝐚𝐜𝐞𝐥𝐥𝐮𝐥𝐚𝐫...',
+              description: "",
+              section: "News",},{id: "news-a-new-paper-is-online-draft-genome-sequence-of-a-novel-species-of-winogradskyella-strain-pc-d3-3-isolated-from-a-red-antarctic-macroalgae-read-full-here-https-journals-asm-org-doi-10-1128-mra-00055-26",
+              title: 'A new paper is online “Draft genome sequence of a novel species of...',
+              description: "",
+              section: "News",},{id: "news-a-new-prprint-is-online-environmental-gradients-shape-the-hydrocarbon-degrading-microbiome-in-two-mid-atlantic-bays-read-full-here-https-www-biorxiv-org-content-10-64898-2026-03-25-714183v1-abstract",
+              title: 'A new prprint is online “Environmental Gradients Shape the Hydrocarbon-Degrading Microbiome in Two...',
+              description: "",
+              section: "News",},{id: "projects-genome-resolved-characterization-of-novel-antarctic-microbial-lineages",
+              title: 'Genome-Resolved Characterization of Novel Antarctic Microbial Lineages',
+              description: "Integrative genomics and phylogenomics to characterize novel microbial taxa from Antarctic and Southern Ocean ecosystems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Antarctic-Microbial-Diversity/";
+                },},{id: "projects-bacteriophages-and-auxiliary-metabolic-genes-of-the-chesapeake-and-delaware-bays",
+              title: 'Bacteriophages and Auxiliary Metabolic Genes of the Chesapeake and Delaware Bays',
+              description: "Integrative viromics using metagenomes, metatranscriptomes, and viral fractions to characterize viral taxonomy, auxiliary metabolic genes, host interactions, and ecosystem function in estuarine systems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Estury_Virome/";
+                },},{id: "projects-gut-microbiome-responses-to-food-borne-nanoplastics-exposure",
+              title: 'Gut Microbiome Responses to Food-Borne Nanoplastics Exposure',
+              description: "Multi-omics investigation of how pristine and digested nanoplastics alter gut microbial communities in healthy individuals and inflammatory bowel disease patients.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/Gut_microbiome_nanoplastics/";
+                },},{id: "projects-microbial-biofouling-interactions-on-autonomous-navy-gliders",
+              title: 'Microbial Biofouling Interactions on Autonomous Navy Gliders',
+              description: "Genome-resolved and metagenomic analysis of marine biofilm communities on autonomous underwater vehicles to design a stable, invasion-resistant synthetic biofilm.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/darpa-biofouling-gliders/";
+                },},{id: "projects-diversity-genomic-studies-and-resistance-mechanisms-of-moderately-halophilic-bacteria",
+              title: 'Diversity, Genomic Studies, and Resistance Mechanisms of Moderately Halophilic Bacteria',
+              description: "Genomic and physiological characterization of halophilic bacteria from salt pan ecosystems to understand stress adaptation, resistance mechanisms, and biotechnological potential.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/diversity_and_genomics/";
+                },},{id: "projects-biological-and-microbial-responses-to-deep-sea-mining-hypoxia-and-anthropogenic-disturbance",
+              title: 'Biological and Microbial Responses to Deep-Sea Mining, Hypoxia, and Anthropogenic Disturbance',
+              description: "Environmental impact assessment of deep-sea mining, monsoon-driven hypoxia, and industrial disturbance using molecular and genomic approaches.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/environmental-impact-assessment/";
+                },},{id: "projects-functional-redundancy-and-metabolic-flexibility-of-microbial-communities-in-two-mid-atlantic-bays",
+              title: 'Functional Redundancy and Metabolic Flexibility of Microbial Communities in Two Mid-Atlantic Bays',
+              description: "Genome-resolved metagenomic and metatranscriptomic analysis of functional redundancy and metabolic flexibility in estuarine microbial communities from the Chesapeake and Delaware Bays.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/functional-redundancy/";
+                },},{id: "projects-co-metabolism-and-co-expression-networks-of-hydrocarbon-degrading-estuarine-microbiomes",
+              title: 'Co-Metabolism and Co-Expression Networks of Hydrocarbon-Degrading Estuarine Microbiomes',
+              description: "Genome-resolved analysis of hydrocarbon-degrading MAGs across two Mid-Atlantic estuaries, linking metabolic potential, co-energy pathways, and co-metabolism networks using metagenomic and metatranscriptomic data.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/hydrocarbon-estury/";
+                },},{id: "projects-functional-redundancy-and-synthetic-biofilm-design-in-marine-communities-under-environmental-stress",
+              title: 'Functional Redundancy and Synthetic Biofilm Design in Marine Communities under Environmental Stress',
+              description: "Genome-guided analysis and design of marine synthetic biofilm communities to evaluate functional redundancy, biofilm formation potential, and resilience under environmental stress.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/marine_biofilm/";
+                },},{id: "projects-resource-partitioning-and-co-occurrence-of-size-fractionated-microbiomes-in-the-delaware-and-chesapeake-bays",
+              title: 'Resource Partitioning and Co-occurrence of Size-Fractionated Microbiomes in the Delaware and Chesapeake Bays...',
+              description: "Integrative metagenomic and metatranscriptomic analysis of free-living and particle-associated microbial communities to understand resource partitioning, co-occurrence patterns, and functional redundancy in estuarine ecosystems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/size-fractionated-resource-partitioning/";
+                },},{id: "projects-functional-redundancy-in-soil-microbiomes-under-cover-crop-agroecosystems",
+              title: 'Functional Redundancy in Soil Microbiomes under Cover Crop Agroecosystems',
+              description: "Genome-resolved metagenomics and metatranscriptomics reveal microbial functional redundancy across agricultural soils under different cover crop systems.",
+              section: "Projects",handler: () => {
+                  window.location.href = "/projects/soil_microbiome/";
+                },},{
+            id: 'socials-email',
+            title: 'Send email',
+            section: 'Socials',
+            handler: () => {
+              window.open("mailto:%6A%6F%6A%79%6A@%63%6C%65%6D%73%6F%6E.%65%64%75", "_blank");
+            },
+          },{
+            id: 'socials-orcid',
+            title: 'ORCID',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://orcid.org/0000-0002-8739-9741", "_blank");
+            },
+          },{
+            id: 'socials-google-scholar',
+            title: 'Google Scholar',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://scholar.google.com/citations?user=w74rUUAAAAAJ", "_blank");
+            },
+          },{
+            id: 'socials-github',
+            title: 'GitHub',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://github.com/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-linkedin',
+            title: 'LinkedIn',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://www.linkedin.com/in/jojyjohn28", "_blank");
+            },
+          },{
+            id: 'socials-x',
+            title: 'X',
+            description: 'Twitter',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://twitter.com/JojyJon", "_blank");
+            },
+          },{
+            id: 'socials-rss',
+            title: 'RSS Feed',
+            section: 'Socials',
+            handler: () => {
+              window.open("/feed.xml", "_blank");
+            },
+          },{
+          id: 'light-theme',
+          title: 'Change theme to light',
+          description: 'Change the theme of the site to Light',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("light");
+          },
+        },
+        {
+          id: 'dark-theme',
+          title: 'Change theme to dark',
+          description: 'Change the theme of the site to Dark',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("dark");
+          },
+        },
+        {
+          id: 'system-theme',
+          title: 'Use system default theme',
+          description: 'Change the theme of the site to System Default',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("system");
+          },
+        },];
+  </script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+  </body>
+</html>
