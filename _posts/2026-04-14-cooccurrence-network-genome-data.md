@@ -7,7 +7,9 @@ comments: true
 giscus_comments: true
 featured: true
 permalink: /blog/cooccurrence-network-genome-data/
-categories: [genomics]
+series: size-fractionated
+series_title: "Size-Fractionated Microbiome Series"
+order: 6
 tags: [co-occurrence, network-analysis, Spearman, SparCC, NetCoMi, igraph, functional-redundancy, estuarine, metagenomics, keystone-taxa, GTDB]
 ---
 
@@ -478,6 +480,10 @@ In our estuarine dataset, the main questions were:
 **Keystone taxa:** Connector nodes identified by Zi-Pi analysis were enriched in Planktomycetota and Bacteroidota — phyla known for their roles in particle degradation and cross-ecosystem carbon cycling.
 
 ---
+
+---
+
+## A companion [github repo](https://github.com/jojyjohn28/Size_Fractionated_Microbiome_Analysis/tree/main/day06_co-occurance_network)
 
 _This workflow uses R packages `NetCoMi`, `igraph`, `tidygraph`, `ggraph`, `microeco`, and `patchwork`. Data: 36 estuarine metagenomes from Chesapeake and Delaware Bay. Genomes: 1,000 reference genomes from GTDB r220._
 
