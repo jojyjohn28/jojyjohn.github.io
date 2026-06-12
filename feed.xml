@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-06-10T15:42:52-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-06-10T15:42:52-04:00</published><updated>2026-06-10T15:42:52-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-06-12T10:56:04-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-06-12T10:56:04-04:00</published><updated>2026-06-12T10:56:04-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,375 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Who Eats Particles and Who Lives Free? CAZyme and Transporter Analysis Across 1,824 Estuarine Genomes</title><link href="https://jojyjohn28.github.io/blog/fl-pa-cazyme-transporter-genome-analysis/" rel="alternate" type="text/html" title="Who Eats Particles and Who Lives Free? CAZyme and Transporter Analysis Across 1,824 Estuarine Genomes" /><published>2026-06-10T00:00:00-04:00</published><updated>2026-06-10T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/fl-pa-cazyme-transporter-genome-analysis</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/fl-pa-cazyme-transporter-genome-analysis/"><![CDATA[<p>A particle of organic matter sinking through an estuary is not just food — it is a habitat. Bacteria that colonize it can anchor themselves to a surface enriched in polymers, produce extracellular enzymes to break those polymers down, and capture the liberated sugars and amino acids through specialized transporters. The free-living bacterium suspended in the water column next to them faces a completely different challenge: the dissolved organic matter it depends on is dilute, chemically diverse, and constantly changing. These two lifestyles impose different selective pressures on genome content.</p>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Free-living or Particle-attached? Classifying 2,000 Estuarine Genomes by Lifestyle from Paired Metagenomes</title><link href="https://jojyjohn28.github.io/blog/fl-pa-genome-lifestyle-classification/" rel="alternate" type="text/html" title="Free-living or Particle-attached? Classifying 2,000 Estuarine Genomes by Lifestyle from Paired Metagenomes" /><published>2026-06-12T00:00:00-04:00</published><updated>2026-06-12T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/fl-Classifying-Genomes-by-Lifestyle</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/fl-pa-genome-lifestyle-classification/"><![CDATA[<p>You ran a metagenome from a size-fractionated water sample. The particle-associated (PA) fraction — everything retained on a larger filter — went into one library. The free-living (FL) fraction — the smaller cells that passed through — went into another. You assembled, binned, and dereplicated everything into about 2,000 representative genomes. Now you want to know: which of these genomes actually belongs to the particle-associated lifestyle, and which is free-living?</p>
+
+<p>The genomes themselves do not carry a label. A genome binned from a PA library might be from an organism that is genuinely PA-adapted — anchored to particles, producing extracellular enzymes — or it might just be a free-living organism that happened to be captured in the PA fraction that day. The way to separate these is not to look at where the genome came from during assembly. It is to look at how the genome’s <em>abundance</em> behaves across many samples: does it consistently show up at higher levels in PA fractions, or FL fractions, or does it not care?</p>
+
+<p>This post documents exactly that classification workflow, applied to a dataset of 2,000 genomes across 36 paired PA/FL metagenomes from Chesapeake and Delaware Bay. The output — a lifestyle assignment for each genome — feeds directly into downstream functional comparisons of genome size, CAZyme content, and transporter repertoires.</p>
+
+<p>All scripts are in the <a href="https://github.com/jojyjohn28/Size_Fractionated_Microbiome_Analysis/tree/main/day08_lifestyle_classification">companion repository</a></p>
+
+<hr />
+
+<h2 id="the-core-logic">The core logic</h2>
+
+<p>For each genome, we have an abundance value in every sample. Samples come in matched PA-FL pairs: <code class="language-plaintext highlighter-rouge">CP_Spr01G08</code> (PA) and <code class="language-plaintext highlighter-rouge">CP_Spr01L08</code> (FL) are the two fractions of the same water sample collected at the same time and location.</p>
+
+<p>The classification uses three complementary metrics:</p>
+
+<p><strong>1. Mean abundance comparison</strong> — Is the average abundance across all PA samples higher than the average across all FL samples?</p>
+
+<p><strong>2. Log₂ fold-change</strong> — How large is the difference? log₂(mean_PA / mean_FL) &gt; 0 means PA-biased; &lt; 0 means FL-biased.</p>
+
+<p><strong>3. Paired dominance count</strong> — In how many <em>matched pairs</em> was this genome more abundant in the PA sample than in the FL sample from the same collection event? This accounts for the temporal and spatial structure of the sampling design.</p>
+
+<p>Together these metrics tell you not just <em>which</em> fraction a genome prefers on average, but <em>how consistently</em> it expresses that preference across independent sampling events.</p>
+
+<hr />
+
+<h2 id="sample-naming-convention">Sample naming convention</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CP_Spr01G08  →  G08 suffix = Particle-Associated (PA)
+CP_Spr01L08  →  L08 suffix = Free-Living (FL)
+</code></pre></div></div>
+
+<p>The base before the suffix (<code class="language-plaintext highlighter-rouge">CP_Spr01</code>) identifies the matched pair. This base-name extraction is how the pairing is done programmatically.</p>
+
+<hr />
+
+<h2 id="input-file">Input file</h2>
+
+<p>The abundance table is an Excel file with:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Genome</code> — genome identifier (matching the genome FASTA filename without extension)</li>
+  <li><code class="language-plaintext highlighter-rouge">Genome_size_Mbp</code> — total genome size in megabases</li>
+  <li><code class="language-plaintext highlighter-rouge">Num_contigs</code> — number of contigs in the assembly</li>
+  <li>One column per sample — relative abundance values from CoverM</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| Genome           | Genome_size_Mbp | Num_contigs | CP_Spr01G08 | CP_Spr01L08 | ... |
+|------------------|-----------------|-------------|-------------|-------------|-----|
+| GB_GCA_000153445 | 2.14            | 32          | 0.0012      | 0.0001      | ... |
+| GB_GCA_000153745 | 1.81            | 19          | 0.0001      | 0.0045      | ... |
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="r-workflow">R workflow</h2>
+
+<h3 id="libraries">Libraries</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">openxlsx</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="step-1--read-the-abundance-table">Step 1 — Read the abundance table</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="w">
+  </span><span class="s2">"Abd_updated_new.xlsx"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Identify PA and FL sample columns by suffix</span><span class="w">
+</span><span class="n">pa_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">grep</span><span class="p">(</span><span class="s2">"G08$"</span><span class="p">,</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">df</span><span class="p">),</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">fl_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">grep</span><span class="p">(</span><span class="s2">"L08$"</span><span class="p">,</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">df</span><span class="p">),</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"PA columns:"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">pa_cols</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">   </span><span class="c1"># 19</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"FL columns:"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">fl_cols</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">   </span><span class="c1"># 17</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The dataset has 19 PA columns and 17 FL columns. This is common: not every PA sample has a surviving FL library and vice versa. The unequal column count does not prevent the mean calculation — <code class="language-plaintext highlighter-rouge">rowMeans()</code> handles it cleanly — but it does mean that only 17 matched pairs exist for the paired dominance analysis.</p>
+
+<h3 id="step-2--mean-abundance-prevalence-and-log-fold-change">Step 2 — Mean abundance, prevalence, and log₂ fold-change</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="c1"># Mean abundance across all samples in each fraction</span><span class="w">
+    </span><span class="n">Mean_PA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rowMeans</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">all_of</span><span class="p">(</span><span class="n">pa_cols</span><span class="p">)),</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+    </span><span class="n">Mean_FL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rowMeans</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">all_of</span><span class="p">(</span><span class="n">fl_cols</span><span class="p">)),</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+
+    </span><span class="c1"># Prevalence: how many samples was this genome detected in?</span><span class="w">
+    </span><span class="n">Prev_PA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rowSums</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">all_of</span><span class="p">(</span><span class="n">pa_cols</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+    </span><span class="n">Prev_FL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rowSums</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">all_of</span><span class="p">(</span><span class="n">fl_cols</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+
+    </span><span class="n">Total_Prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Prev_PA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Prev_FL</span><span class="p">,</span><span class="w">
+
+    </span><span class="c1"># Log2 fold-change: positive = PA-biased, negative = FL-biased</span><span class="w">
+    </span><span class="c1"># Pseudocount prevents log(0)</span><span class="w">
+    </span><span class="n">log2_PA_FL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2</span><span class="p">((</span><span class="n">Mean_PA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1e-9</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">Mean_FL</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1e-9</span><span class="p">))</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The pseudocount <code class="language-plaintext highlighter-rouge">1e-9</code> is small enough to be negligible for genomes with real signal, but prevents <code class="language-plaintext highlighter-rouge">log(0/0) = NaN</code> for genomes that were absent from one fraction entirely.</p>
+
+<p><strong>Important distinction:</strong> <code class="language-plaintext highlighter-rouge">Prev_PA = 19</code> does not mean the genome was more abundant in PA than FL in 19 samples. It means it was <em>detected</em> (abundance &gt; 0) in 19 PA samples. A genome could be detected in all PA samples but still have higher FL abundance in most of them. The paired dominance count in Step 4 is what captures actual directional dominance.</p>
+
+<h3 id="step-3--lifestyle-classification">Step 3 — Lifestyle classification</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df2</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">Lifestyle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
+      </span><span class="n">Mean_PA</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Mean_FL</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"PA_associated"</span><span class="p">,</span><span class="w">
+      </span><span class="n">Mean_FL</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Mean_PA</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"FL_associated"</span><span class="p">,</span><span class="w">
+      </span><span class="kc">TRUE</span><span class="w">              </span><span class="o">~</span><span class="w"> </span><span class="s2">"Equal"</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">table</span><span class="p">(</span><span class="n">df2</span><span class="o">$</span><span class="n">Lifestyle</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FL_associated   PA_associated
+          233             767
+</code></pre></div></div>
+
+<p>767 genomes show higher average abundance in the PA fraction; 233 show higher average abundance in FL. The PA-heavy skew reflects the composition of the sampling design — PA filters capture a larger and more diverse biomass than the FL fraction in most estuarine environments.</p>
+
+<h3 id="step-4--paired-dominance-analysis">Step 4 — Paired dominance analysis</h3>
+
+<p>This step asks: <em>in matched sample pairs, how consistently does this genome favour one fraction?</em></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Match PA and FL columns by base name</span><span class="w">
+</span><span class="n">pa_base</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sub</span><span class="p">(</span><span class="s2">"G08$"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">pa_cols</span><span class="p">)</span><span class="w">
+</span><span class="n">fl_base</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sub</span><span class="p">(</span><span class="s2">"L08$"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">fl_cols</span><span class="p">)</span><span class="w">
+</span><span class="n">common_base</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">intersect</span><span class="p">(</span><span class="n">pa_base</span><span class="p">,</span><span class="w"> </span><span class="n">fl_base</span><span class="p">)</span><span class="w">
+
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Matched pairs:"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">common_base</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">   </span><span class="c1"># 17</span><span class="w">
+
+</span><span class="n">matched_pa_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="n">common_base</span><span class="p">,</span><span class="w"> </span><span class="s2">"G08"</span><span class="p">)</span><span class="w">
+</span><span class="n">matched_fl_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="n">common_base</span><span class="p">,</span><span class="w"> </span><span class="s2">"L08"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Initialise counters</span><span class="w">
+</span><span class="n">df2</span><span class="o">$</span><span class="n">PA_Higher_Count</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span><span class="n">df2</span><span class="o">$</span><span class="n">FL_Higher_Count</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span><span class="n">df2</span><span class="o">$</span><span class="n">Equal_Count</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w">
+
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nf">seq_along</span><span class="p">(</span><span class="n">matched_pa_cols</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">pa_vec</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df2</span><span class="p">[[</span><span class="n">matched_pa_cols</span><span class="p">[</span><span class="n">i</span><span class="p">]]]</span><span class="w">
+  </span><span class="n">fl_vec</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df2</span><span class="p">[[</span><span class="n">matched_fl_cols</span><span class="p">[</span><span class="n">i</span><span class="p">]]]</span><span class="w">
+
+  </span><span class="n">df2</span><span class="o">$</span><span class="n">PA_Higher_Count</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df2</span><span class="o">$</span><span class="n">PA_Higher_Count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">pa_vec</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">fl_vec</span><span class="p">)</span><span class="w">
+  </span><span class="n">df2</span><span class="o">$</span><span class="n">FL_Higher_Count</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df2</span><span class="o">$</span><span class="n">FL_Higher_Count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">fl_vec</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">pa_vec</span><span class="p">)</span><span class="w">
+  </span><span class="n">df2</span><span class="o">$</span><span class="n">Equal_Count</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df2</span><span class="o">$</span><span class="n">Equal_Count</span><span class="w">     </span><span class="o">+</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">pa_vec</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fl_vec</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">df2</span><span class="o">$</span><span class="n">Total_Paired_Comparisons</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df2</span><span class="o">$</span><span class="n">PA_Higher_Count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">df2</span><span class="o">$</span><span class="n">FL_Higher_Count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">df2</span><span class="o">$</span><span class="n">Equal_Count</span><span class="w">
+
+</span><span class="n">df2</span><span class="o">$</span><span class="n">PA_Dominance_Percent</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">
+  </span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">df2</span><span class="o">$</span><span class="n">PA_Higher_Count</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">df2</span><span class="o">$</span><span class="n">Total_Paired_Comparisons</span><span class="w">
+
+</span><span class="n">df2</span><span class="o">$</span><span class="n">FL_Dominance_Percent</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">
+  </span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">df2</span><span class="o">$</span><span class="n">FL_Higher_Count</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">df2</span><span class="o">$</span><span class="n">Total_Paired_Comparisons</span><span class="w">
+</span></code></pre></div></div>
+
+<p>A genome with <code class="language-plaintext highlighter-rouge">PA_Higher_Count = 15</code> out of 17 pairs (88%) is reliably PA-associated across the full temporal and spatial range of the dataset. A genome with <code class="language-plaintext highlighter-rouge">PA_Higher_Count = 9</code> out of 17 (53%) is barely tilted toward PA — its lifestyle classification is much less confident.</p>
+
+<p>This paired dominance metric is the one to report alongside the mean-based <code class="language-plaintext highlighter-rouge">Lifestyle</code> column when describing individual genomes of interest in the manuscript.</p>
+
+<h3 id="step-5--save-outputs">Step 5 — Save outputs</h3>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Full table with all new columns</span><span class="w">
+</span><span class="n">write.xlsx</span><span class="p">(</span><span class="w">
+  </span><span class="n">df2</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Abd_updated_new_with_lifestyle.xlsx"</span><span class="p">,</span><span class="w">
+  </span><span class="n">overwrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span><span class="w"> </span><span class="s2">"Abd_updated_new_with_lifestyle.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Reduced metadata file — for merging with CAZyme and transporter results</span><span class="w">
+</span><span class="n">metadata_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df2</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="w">
+    </span><span class="n">Genome</span><span class="p">,</span><span class="w"> </span><span class="n">Genome_size_Mbp</span><span class="p">,</span><span class="w"> </span><span class="n">Num_contigs</span><span class="p">,</span><span class="w">
+    </span><span class="n">Mean_PA</span><span class="p">,</span><span class="w"> </span><span class="n">Mean_FL</span><span class="p">,</span><span class="w"> </span><span class="n">Prev_PA</span><span class="p">,</span><span class="w"> </span><span class="n">Prev_FL</span><span class="p">,</span><span class="w"> </span><span class="n">Total_Prev</span><span class="p">,</span><span class="w">
+    </span><span class="n">log2_PA_FL</span><span class="p">,</span><span class="w"> </span><span class="n">Lifestyle</span><span class="p">,</span><span class="w">
+    </span><span class="n">PA_Higher_Count</span><span class="p">,</span><span class="w"> </span><span class="n">FL_Higher_Count</span><span class="p">,</span><span class="w"> </span><span class="n">Equal_Count</span><span class="p">,</span><span class="w">
+    </span><span class="n">Total_Paired_Comparisons</span><span class="p">,</span><span class="w"> </span><span class="n">PA_Dominance_Percent</span><span class="p">,</span><span class="w"> </span><span class="n">FL_Dominance_Percent</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">metadata_df</span><span class="p">,</span><span class="w"> </span><span class="s2">"genome_metadata_lifestyle.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="merging-lifestyle-assignments-with-functional-annotations-python">Merging lifestyle assignments with functional annotations (Python)</h2>
+
+<p>Once lifestyle assignments exist in <code class="language-plaintext highlighter-rouge">genome_metadata_lifestyle.csv</code>, they need to be joined with CAZyme counts (from dbCAN) and transporter counts (from TCDB DIAMOND hits). Python pandas handles this cleanly.</p>
+
+<h3 id="merge-cazyme-counts-with-lifestyle">Merge CAZyme counts with lifestyle</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="c1"># Load feature table (CAZyme counts per genome)
+</span><span class="n">cazy</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_excel</span><span class="p">(</span><span class="sh">'</span><span class="s">cazy_genome.xlsx</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Load lifestyle reference
+</span><span class="n">lifestyle</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_excel</span><span class="p">(</span><span class="sh">'</span><span class="s">life_style_reference.xlsx</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Clean column names and IDs — essential step
+</span><span class="n">cazy</span><span class="p">.</span><span class="n">columns</span>      <span class="o">=</span> <span class="n">cazy</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="nb">str</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+<span class="n">lifestyle</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">lifestyle</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="nb">str</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+
+<span class="c1"># IDs must be strings — Excel sometimes reads genome accessions as floats
+</span><span class="n">cazy</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cazy</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">).</span><span class="nb">str</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+<span class="n">lifestyle</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">lifestyle</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">).</span><span class="nb">str</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+
+<span class="c1"># Merge on Genome ID
+</span><span class="n">merged</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">cazy</span><span class="p">,</span> <span class="n">lifestyle</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">'</span><span class="s">left</span><span class="sh">'</span><span class="p">,</span> <span class="n">indicator</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Check how many matched
+</span><span class="nf">print</span><span class="p">(</span><span class="n">merged</span><span class="p">[</span><span class="sh">'</span><span class="s">_merge</span><span class="sh">'</span><span class="p">].</span><span class="nf">value_counts</span><span class="p">())</span>
+
+<span class="c1"># Keep matched rows only
+</span><span class="n">matched</span> <span class="o">=</span> <span class="n">merged</span><span class="p">[</span><span class="n">merged</span><span class="p">[</span><span class="sh">'</span><span class="s">_merge</span><span class="sh">'</span><span class="p">]</span> <span class="o">==</span> <span class="sh">'</span><span class="s">both</span><span class="sh">'</span><span class="p">].</span><span class="nf">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="sh">'</span><span class="s">_merge</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">matched</span><span class="p">.</span><span class="nf">to_excel</span><span class="p">(</span><span class="sh">'</span><span class="s">CAZy_with_lifestyle.xlsx</span><span class="sh">'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Saved </span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">matched</span><span class="p">)</span><span class="si">}</span><span class="s"> genomes with lifestyle annotations.</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="merge-transporter-counts-with-lifestyle">Merge transporter counts with lifestyle</h3>
+
+<p>The same pattern applies to transporter counts. The transporter file (<code class="language-plaintext highlighter-rouge">transporters.tsv</code>) has one row per genome with summarized counts per TCDB family:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Load transporter summary (from DIAMOND TCDB hits, summarized per genome)
+</span><span class="n">transporters</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">transporters.tsv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="se">\t</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">lifestyle</span>     <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">genome_metadata_lifestyle.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Clean IDs
+</span><span class="n">transporters</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">transporters</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">).</span><span class="nb">str</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+<span class="n">lifestyle</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">]</span>    <span class="o">=</span> <span class="n">lifestyle</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">].</span><span class="nf">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">).</span><span class="nb">str</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+
+<span class="c1"># Merge
+</span><span class="n">transport_lifestyle</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span>
+    <span class="n">transporters</span><span class="p">,</span> <span class="n">lifestyle</span><span class="p">[[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Lifestyle</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">log2_PA_FL</span><span class="sh">'</span><span class="p">,</span>
+                              <span class="sh">'</span><span class="s">PA_Dominance_Percent</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Genome_size_Mbp</span><span class="sh">'</span><span class="p">]],</span>
+    <span class="n">on</span><span class="o">=</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="sh">'</span><span class="s">left</span><span class="sh">'</span>
+<span class="p">)</span>
+
+<span class="c1"># Save
+</span><span class="n">transport_lifestyle</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">transporters_with_lifestyle.csv</span><span class="sh">'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Quick summary: mean ABC transporter count by lifestyle
+</span><span class="nf">print</span><span class="p">(</span>
+    <span class="n">transport_lifestyle</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">'</span><span class="s">Lifestyle</span><span class="sh">'</span><span class="p">)[</span><span class="sh">'</span><span class="s">ABC_gene_count</span><span class="sh">'</span><span class="p">].</span><span class="nf">describe</span><span class="p">()</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">indicator=True</code> + <code class="language-plaintext highlighter-rouge">_merge</code> check is the pandas equivalent of R’s alignment check — always run it. If many rows are <code class="language-plaintext highlighter-rouge">left_only</code> (present in the feature table but not in the lifestyle reference), it means there is an ID mismatch that needs tracing before proceeding.</p>
+
+<h3 id="common-id-mismatch-causes">Common ID mismatch causes</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Diagnose mismatches: find IDs in CAZy table not in lifestyle reference
+</span><span class="n">unmatched</span> <span class="o">=</span> <span class="n">cazy</span><span class="p">[</span><span class="o">~</span><span class="n">cazy</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">].</span><span class="nf">isin</span><span class="p">(</span><span class="n">lifestyle</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">])]</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="nf">len</span><span class="p">(</span><span class="n">unmatched</span><span class="p">)</span><span class="si">}</span><span class="s"> genomes in CAZy not found in lifestyle reference</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">unmatched</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">].</span><span class="nf">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Common causes:
+# 1. Trailing whitespace — fixed by .str.strip() above
+# 2. Version suffix mismatch: "GB_GCA_000153445.1" vs "GB_GCA_000153445"
+#    Fix: strip version
+</span><span class="n">cazy</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cazy</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sa">r</span><span class="sh">'</span><span class="s">\.\d+$</span><span class="sh">'</span><span class="p">,</span> <span class="sh">''</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">lifestyle</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">lifestyle</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sa">r</span><span class="sh">'</span><span class="s">\.\d+$</span><span class="sh">'</span><span class="p">,</span> <span class="sh">''</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># 3. Excel float conversion: "1234567.0" instead of "1234567"
+#    Fix: convert to int first
+</span><span class="n">cazy</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cazy</span><span class="p">[</span><span class="sh">'</span><span class="s">Genome</span><span class="sh">'</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sa">r</span><span class="sh">'</span><span class="s">\.0$</span><span class="sh">'</span><span class="p">,</span> <span class="sh">''</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="what-the-output-looks-like">What the output looks like</h2>
+
+<p>From the images above, the final merged table has:</p>
+
+<ul>
+  <li>Each genome in its own row with the lifestyle assignment (<code class="language-plaintext highlighter-rouge">PA_associated</code> or <code class="language-plaintext highlighter-rouge">FL_associated</code>)</li>
+  <li>Genome name in GTDB format (e.g., <code class="language-plaintext highlighter-rouge">s__Luminipleurotus</code> → cyanobacteria, <code class="language-plaintext highlighter-rouge">s__HIMB30</code> → SAR11, a canonical free-living marine oligotroph)</li>
+  <li>Functional counts (ABC transporter gene count, CAZyme family counts) alongside the lifestyle label</li>
+</ul>
+
+<p>This table is the input to every downstream statistical comparison: Wilcoxon tests comparing genome size, total GH count, TBDT count, and ABC transporter count between PA and FL lifestyle groups.</p>
+
+<hr />
+
+<h2 id="output-columns-reference">Output columns reference</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Genome</code></td>
+      <td>Genome identifier</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Genome_size_Mbp</code></td>
+      <td>Total assembled genome size (Mbp)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Mean_PA</code></td>
+      <td>Mean relative abundance across all PA samples</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Mean_FL</code></td>
+      <td>Mean relative abundance across all FL samples</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Prev_PA</code></td>
+      <td>Number of PA samples where the genome was detected (abundance &gt; 0)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Prev_FL</code></td>
+      <td>Number of FL samples where the genome was detected</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Total_Prev</code></td>
+      <td>Total sample detections (PA + FL combined)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">log2_PA_FL</code></td>
+      <td>log₂(mean_PA / mean_FL) — positive = PA-biased, negative = FL-biased</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Lifestyle</code></td>
+      <td>Final classification: <code class="language-plaintext highlighter-rouge">PA_associated</code> or <code class="language-plaintext highlighter-rouge">FL_associated</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">PA_Higher_Count</code></td>
+      <td>Matched pairs where PA abundance &gt; FL abundance</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">FL_Higher_Count</code></td>
+      <td>Matched pairs where FL abundance &gt; PA abundance</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Equal_Count</code></td>
+      <td>Matched pairs where abundances were equal</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Total_Paired_Comparisons</code></td>
+      <td>Total matched pairs (17 in this dataset)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">PA_Dominance_Percent</code></td>
+      <td>% of matched pairs where genome was PA-dominant</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">FL_Dominance_Percent</code></td>
+      <td>% of matched pairs where genome was FL-dominant</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p><em>This analysis is still on going , so changes in the workflow can be expected.</em></p>
+
+<p><img src="/assets/img/life-style.png" alt="See your plot" /></p>]]></content><author><name></name></author><category term="free-living" /><category term="particle-associated" /><category term="genome-classification" /><category term="lifestyle" /><category term="metagenomics" /><category term="MAGs" /><category term="CAZymes" /><category term="transporters" /><category term="R" /><category term="Python" /><category term="pandas" /><category term="estuarine" /><category term="abundance" /><category term="log2-fold-change" /><category term="bioinformatics" /><category term="beginners" /><summary type="html"><![CDATA[You have 2,000 genomes retrieved from metagenomes that sampled two size fractions simultaneously — particle-associated (PA) and free-living (FL). The genomes do not come labelled. How do you know which lifestyle each one actually belongs to? This post walks through a complete genome lifestyle classification workflow: calculating mean abundance and prevalence across fractions, computing log2 fold-change, counting how often each genome dominates in matched PA-FL sample pairs, and then merging those lifestyle assignments with CAZyme and transporter counts using Python. Includes the R and Python scripts, a worked example from real data, and a methods paragraph ready for the manuscript.]]></summary></entry><entry><title type="html">Who Eats Particles and Who Lives Free? CAZyme and Transporter Analysis Across 1,824 Estuarine Genomes</title><link href="https://jojyjohn28.github.io/blog/fl-pa-cazyme-transporter-genome-analysis/" rel="alternate" type="text/html" title="Who Eats Particles and Who Lives Free? CAZyme and Transporter Analysis Across 1,824 Estuarine Genomes" /><published>2026-06-10T00:00:00-04:00</published><updated>2026-06-10T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/fl-pa-cazyme-transporter-genome-analysis</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/fl-pa-cazyme-transporter-genome-analysis/"><![CDATA[<p>A particle of organic matter sinking through an estuary is not just food — it is a habitat. Bacteria that colonize it can anchor themselves to a surface enriched in polymers, produce extracellular enzymes to break those polymers down, and capture the liberated sugars and amino acids through specialized transporters. The free-living bacterium suspended in the water column next to them faces a completely different challenge: the dissolved organic matter it depends on is dilute, chemically diverse, and constantly changing. These two lifestyles impose different selective pressures on genome content.</p>
 
 <p>This post documents an ongoing analysis of 1,824 representative estuarine genomes — annotating their carbohydrate-active enzymes (CAZymes) with dbCAN and their transport systems with the TCDB database, then linking those functional profiles to observed free-living (FL) vs particle-associated (PA) abundance patterns. The hypothesis is simple: PA-associated genomes should carry more and different CAZymes, more polymer-degrading machinery, and more specialized transport systems. FL-associated genomes should be more streamlined. Whether the data supports this is what the analysis will show.</p>
 
@@ -5163,315 +5531,4 @@ fungal_rich_samples.tsv
 
 <p><em>Analysis performed using DESeq2 (Love, Huber &amp; Anders 2014, Genome Biology 15:550). All code verified against current Bioconductor documentation. Raw data, annotated scripts, and <code class="language-plaintext highlighter-rouge">sessionInfo()</code> output should accompany any publication of these results.</em></p>
 
-<p><img src="/assets/img/deseq_new.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="MT" /><category term="DESeq2" /><category term="differential-expression" /><category term="metatranscriptomics" /><category term="R" /><category term="bioinformatics" /><category term="normalization" /><category term="environmental-microbiome" /><category term="volcano-plot" /><category term="reproducibility" /><category term="RNA-seq" /><summary type="html"><![CDATA[A raw count table is just noise until the statistics are done right. This post walks through a complete, reproducible DESeq2 workflow applied to metatranscriptomic data across three environmental gradients covering experimental design, normalization, metadata alignment, statistical thresholds, functional annotation, and the ten reproducibility checks that separate a credible result from a convincing-looking mistake.]]></summary></entry><entry><title type="html">Beyond Expression: Normalizing Metatranscriptomic Signal with MTXmodel</title><link href="https://jojyjohn28.github.io/blog/mtx-modelling-metatranscriptomics/" rel="alternate" type="text/html" title="Beyond Expression: Normalizing Metatranscriptomic Signal with MTXmodel" /><published>2026-05-27T00:00:00-04:00</published><updated>2026-05-27T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/mtx-modelling-metatranscriptomics</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/mtx-modelling-metatranscriptomics/"><![CDATA[<p>🧬 𝐷𝑎𝑦 85 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 desk</p>
-
-<p>A gene that is highly transcribed in a community might just be highly abundant in the community’s DNA. If a microbe with a given metabolic gene doubles in population, its RNA output doubles too — even if transcription per cell stays flat. Standard differential expression tools like DESeq2 treat every gene independently and normalize across samples, but they do not account for this feature-level confounding. MTXmodel does. This post covers why the adjustment matters, how the tool works, and a complete R workflow for applying it to estuarine metatranscriptomic data across salinity, season, and bay gradients.</p>
-
-<hr />
-
-<h2 id="the-core-problem-rna-abundance-is-not-the-same-as-transcriptional-response">The core problem: RNA abundance is not the same as transcriptional response</h2>
-
-<p>Imagine two samples. In sample A, a sulfur oxidation gene has 1,000 RNA reads and 100 DNA copies per cell. In sample B, the same gene has 2,000 RNA reads and 200 DNA copies per cell. The RNA doubled — but so did the gene abundance. The transcription rate per gene copy is identical. A naive differential expression test flags this as significant. MTXmodel does not, because it adjusts for the DNA abundance of each feature as a continuous covariate in the linear model.</p>
-
-<p>This is the core idea behind the approach described in Zhang et al. (2021, <em>Bioinformatics</em>): incorporate feature-specific DNA abundance directly into the association model so that detected RNA changes reflect regulation, not population shifts.</p>
-
-<blockquote>
-  <p>A significant RNA change after MTXmodel adjustment is evidence of a transcriptional response. Without the adjustment, it could just be a bloom.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="installation">Installation</h2>
-
-<p>The package lives on GitHub and installs cleanly via devtools:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">devtools</span><span class="p">)</span><span class="w">
-</span><span class="n">install_github</span><span class="p">(</span><span class="s1">'biobakery/MTX_model'</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>MTXmodel is built on MaAsLin2 and inherits all of its model infrastructure — linear models, CPLM, negative binomial, zero-inflated — along with its normalization and transformation options. The key addition is the <code class="language-plaintext highlighter-rouge">input_dnadata</code> argument, which feeds per-feature DNA abundance into each feature’s model as a covariate.</p>
-
-<p>The current workflow here uses <strong>MaAsLin 3</strong> (the successor), which shares the same input structure but has updated model fitting and output formatting.</p>
-
-<hr />
-
-<h2 id="input-files-what-you-need-and-where-it-comes-from">Input files: what you need and where it comes from</h2>
-
-<p>MTXmodel requires three files. All three must share the same feature IDs and the same sample IDs — alignment across all three is the first thing to verify before any modeling.</p>
-
-<h3 id="1-rna-abundance-table">1. RNA abundance table</h3>
-
-<p>Features as rows, samples as columns. In this study, this comes from HUMAnN 2/3 pathway or gene output — the same pipeline that generates stratified community-level functional profiles. For MAG-based workflows, a similar table can be generated from read mapping back to predicted genes (e.g., via featureCounts or CoverM), which is worth exploring as an alternative to HUMAnN for genome-resolved metatranscriptomics.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             Sample_1   Sample_2   Sample_3 ...
-nirS             1240        880       2100
-dsrA              560        430        970
-mcrA              210         90        440
-...
-</code></pre></div></div>
-
-<h3 id="2-dna-abundance-table-the-covariate">2. DNA abundance table (the covariate)</h3>
-
-<p>Same dimensions, same feature IDs, same sample IDs — but from the metagenome rather than the metatranscriptome. This is the gene or pathway DNA abundance produced by HUMAnN 2/3 from the DNA fraction of the same samples. This table is what makes MTXmodel different from running MaAsLin on RNA alone.</p>
-
-<h3 id="3-metadata-file">3. Metadata file</h3>
-
-<p>Samples as rows, covariates as columns. Standard format shared with MaAsLin 2/3.</p>
-
-<p><strong>A note specific to estuarine data:</strong> MaAsLin was developed and validated primarily on human gut microbiome datasets, where metadata tends to be a handful of clinical or demographic variables (diagnosis, age, antibiotics). Estuarine datasets carry far more environmental covariates — salinity, season, bay, temperature, dissolved oxygen, chlorophyll, nutrient concentrations — and many of these are collinear. Feeding all of them into a single MaAsLin model inflates the multiple testing burden, reduces power, and can produce unstable coefficient estimates when predictors correlate.</p>
-
-<p>The practical solution: <strong>keep the metadata design as sparse as possible</strong>. Run focused models — salinity within a bay, season as the only predictor — rather than trying to explain everything in a single omnibus model. Subset the data to relevant comparisons. This is not a limitation of the tool; it is sound statistical practice for high-dimensional environmental data.</p>
-
-<hr />
-
-<h2 id="step-1--load-and-align-data">Step 1 — Load and align data</h2>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">MTXmodel</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">maaslin3</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Load data</span><span class="w">
-</span><span class="n">df_rna</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"MT_Sum.csv"</span><span class="p">,</span><span class="w">      </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span><span class="n">df_dna</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"MG_sum.csv"</span><span class="p">,</span><span class="w">      </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span><span class="n">df_meta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"metadata.csv"</span><span class="p">,</span><span class="w">    </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Align samples across all three inputs</span><span class="w">
-</span><span class="n">common_samples</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Reduce</span><span class="p">(</span><span class="n">intersect</span><span class="p">,</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="w">
-  </span><span class="n">colnames</span><span class="p">(</span><span class="n">df_rna</span><span class="p">),</span><span class="w">
-  </span><span class="n">colnames</span><span class="p">(</span><span class="n">df_dna</span><span class="p">),</span><span class="w">
-  </span><span class="n">rownames</span><span class="p">(</span><span class="n">df_meta</span><span class="p">)</span><span class="w">
-</span><span class="p">))</span><span class="w">
-
-</span><span class="n">df_rna</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_rna</span><span class="p">[,</span><span class="w"> </span><span class="n">common_samples</span><span class="p">]</span><span class="w">
-</span><span class="n">df_dna</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_dna</span><span class="p">[,</span><span class="w"> </span><span class="n">common_samples</span><span class="p">]</span><span class="w">
-</span><span class="n">df_meta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_meta</span><span class="p">[</span><span class="n">common_samples</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-
-</span><span class="c1"># Align features (genes/pathways) between RNA and DNA tables</span><span class="w">
-</span><span class="n">common_features</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">intersect</span><span class="p">(</span><span class="n">rownames</span><span class="p">(</span><span class="n">df_rna</span><span class="p">),</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">df_dna</span><span class="p">))</span><span class="w">
-</span><span class="n">df_rna</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_rna</span><span class="p">[</span><span class="n">common_features</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span><span class="n">df_dna</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_dna</span><span class="p">[</span><span class="n">common_features</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-
-</span><span class="c1"># Confirm dimensions match</span><span class="w">
-</span><span class="nf">dim</span><span class="p">(</span><span class="n">df_rna</span><span class="p">)</span><span class="w">   </span><span class="c1"># should be features × samples</span><span class="w">
-</span><span class="nf">dim</span><span class="p">(</span><span class="n">df_dna</span><span class="p">)</span><span class="w">   </span><span class="c1"># should match df_rna exactly</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">Reduce(intersect, ...)</code> call is the critical step. Samples present in RNA but absent in DNA (or metadata) are silently dropped — this is expected and safe, but you should inspect <code class="language-plaintext highlighter-rouge">common_samples</code> to confirm no unexpected losses. If a large fraction of samples disappears here, that indicates a naming inconsistency between files (e.g., <code class="language-plaintext highlighter-rouge">"Sample_1"</code> vs <code class="language-plaintext highlighter-rouge">"sample_1"</code> vs <code class="language-plaintext highlighter-rouge">"S1"</code>).</p>
-
-<hr />
-
-<h2 id="step-2--set-factor-levels-and-reference-groups">Step 2 — Set factor levels and reference groups</h2>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_meta</span><span class="o">$</span><span class="n">Bay</span><span class="w">      </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">df_meta</span><span class="o">$</span><span class="n">Bay</span><span class="p">,</span><span class="w">      </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"CP"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Delaware"</span><span class="p">))</span><span class="w">
-</span><span class="n">df_meta</span><span class="o">$</span><span class="n">Season</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">df_meta</span><span class="o">$</span><span class="n">Season</span><span class="p">,</span><span class="w">   </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Summer"</span><span class="p">))</span><span class="w">
-</span><span class="n">df_meta</span><span class="o">$</span><span class="n">Salinity</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">df_meta</span><span class="o">$</span><span class="n">Salinity</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Low"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Medium"</span><span class="p">,</span><span class="w"> </span><span class="s2">"High"</span><span class="p">))</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The first level in each <code class="language-plaintext highlighter-rouge">factor()</code> call becomes the reference group. All model coefficients are interpreted relative to these references: <code class="language-plaintext highlighter-rouge">BayDelaware</code> is Delaware vs. CP, <code class="language-plaintext highlighter-rouge">SeasonSummer</code> is Summer vs. Spring, <code class="language-plaintext highlighter-rouge">SalinityMedium</code> and <code class="language-plaintext highlighter-rouge">SalinityHigh</code> are both relative to Low. Explicit <code class="language-plaintext highlighter-rouge">levels</code> prevents alphabetical defaults from silently changing what the coefficients mean — the same principle as <code class="language-plaintext highlighter-rouge">relevel()</code> in DESeq2.</p>
-
-<hr />
-
-<h2 id="step-3--global-model-raw-rna-abundances-with-maaslin-3">Step 3 — Global model: raw RNA abundances with MaAsLin 3</h2>
-
-<p>The first model tests all three factors simultaneously across all samples. This gives a broad view of which genes associate with bay, season, or salinity, but coefficient estimates for each factor are adjusted for the others.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">maaslin3</span><span class="p">)</span><span class="w">
-
-</span><span class="n">OUT_BASE</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"~/MTX_modeling_output"</span><span class="w">
-</span><span class="n">dir.create</span><span class="p">(</span><span class="n">OUT_BASE</span><span class="p">,</span><span class="w"> </span><span class="n">showWarnings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">recursive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
-
-</span><span class="n">out_rna</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">file.path</span><span class="p">(</span><span class="n">OUT_BASE</span><span class="p">,</span><span class="w"> </span><span class="s2">"maaslin3_RNA"</span><span class="p">)</span><span class="w">
-</span><span class="n">dir.create</span><span class="p">(</span><span class="n">out_rna</span><span class="p">,</span><span class="w"> </span><span class="n">showWarnings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">recursive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
-
-</span><span class="n">set.seed</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="n">fit_maaslin_rna</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">maaslin3</span><span class="p">(</span><span class="w">
-  </span><span class="n">input_data</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">df_rna</span><span class="p">,</span><span class="w">
-  </span><span class="n">input_metadata</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">df_meta</span><span class="p">,</span><span class="w">
-  </span><span class="n">output</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="n">out_rna</span><span class="p">,</span><span class="w">
-  </span><span class="n">fixed_effects</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Bay"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Season"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Salinity"</span><span class="p">),</span><span class="w">
-  </span><span class="n">random_effects</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
-  </span><span class="n">normalization</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
-  </span><span class="n">transform</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"LOG"</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">normalization = "NONE"</code> is correct here — the DNA covariate adjustment will handle the compositional normalization when MTXmodel is run. <code class="language-plaintext highlighter-rouge">transform = "LOG"</code> applies a log transformation to stabilize variance before linear modeling, which is the recommended default for count-like abundance data. <code class="language-plaintext highlighter-rouge">set.seed(1)</code> ensures reproducibility for any permutation-based steps in the model fitting.</p>
-
-<p>The output folder will contain <code class="language-plaintext highlighter-rouge">all_results.tsv</code> with coefficients, standard errors, p-values, and q-values for every feature × metadata term combination.</p>
-
-<hr />
-
-<h2 id="step-4--focused-subset-models-for-salinity-within-each-bay--season">Step 4 — Focused subset models for salinity within each Bay × Season</h2>
-
-<p>The global model tests salinity while adjusting for bay and season, but it cannot tell you whether the salinity effect is consistent across bays and seasons — or whether it only appears in one context. Subset models answer this directly:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">run_subset_maaslin</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">bay</span><span class="p">,</span><span class="w"> </span><span class="n">season</span><span class="p">,</span><span class="w"> </span><span class="n">out_name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="n">keep</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">df_meta</span><span class="p">)[</span><span class="n">df_meta</span><span class="o">$</span><span class="n">Bay</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">bay</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">df_meta</span><span class="o">$</span><span class="n">Season</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">season</span><span class="p">]</span><span class="w">
-
-  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">keep</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="n">message</span><span class="p">(</span><span class="s2">"Not enough samples for: "</span><span class="p">,</span><span class="w"> </span><span class="n">bay</span><span class="p">,</span><span class="w"> </span><span class="s2">" / "</span><span class="p">,</span><span class="w"> </span><span class="n">season</span><span class="p">)</span><span class="w">
-    </span><span class="nf">return</span><span class="p">(</span><span class="kc">NULL</span><span class="p">)</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-
-  </span><span class="n">maaslin3</span><span class="p">(</span><span class="w">
-    </span><span class="n">input_data</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">df_rna</span><span class="p">[,</span><span class="w"> </span><span class="n">keep</span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">],</span><span class="w">
-    </span><span class="n">input_metadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_meta</span><span class="p">[</span><span class="n">keep</span><span class="p">,</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">],</span><span class="w">
-    </span><span class="n">output</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">file.path</span><span class="p">(</span><span class="n">OUT_BASE</span><span class="p">,</span><span class="w"> </span><span class="n">out_name</span><span class="p">),</span><span class="w">
-    </span><span class="n">fixed_effects</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Salinity"</span><span class="p">),</span><span class="w">
-    </span><span class="n">random_effects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="n">fit_CP_Summer</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">run_subset_maaslin</span><span class="p">(</span><span class="s2">"CP"</span><span class="p">,</span><span class="w">       </span><span class="s2">"Summer"</span><span class="p">,</span><span class="w"> </span><span class="s2">"maaslin3_RNA_CP_Summer_Salinity"</span><span class="p">)</span><span class="w">
-</span><span class="n">fit_CP_Spring</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">run_subset_maaslin</span><span class="p">(</span><span class="s2">"CP"</span><span class="p">,</span><span class="w">       </span><span class="s2">"Spring"</span><span class="p">,</span><span class="w"> </span><span class="s2">"maaslin3_RNA_CP_Spring_Salinity"</span><span class="p">)</span><span class="w">
-</span><span class="n">fit_DE_Summer</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">run_subset_maaslin</span><span class="p">(</span><span class="s2">"Delaware"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Summer"</span><span class="p">,</span><span class="w"> </span><span class="s2">"maaslin3_RNA_DE_Summer_Salinity"</span><span class="p">)</span><span class="w">
-</span><span class="n">fit_DE_Spring</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">run_subset_maaslin</span><span class="p">(</span><span class="s2">"Delaware"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Spring"</span><span class="p">,</span><span class="w"> </span><span class="s2">"maaslin3_RNA_DE_Spring_Salinity"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">length(keep) &lt; 3</code> guard prevents the function from silently fitting a model with too few samples to estimate variance — a common source of nonsense results in subset analyses. If a particular Bay × Season combination has fewer than three samples, it gets skipped with a message rather than crashing or producing unreliable output.</p>
-
-<hr />
-
-<h2 id="step-5--visualizing-results">Step 5 — Visualizing results</h2>
-
-<h3 id="coefficient-plot">Coefficient plot</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">readr</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
-
-</span><span class="n">res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="n">file.path</span><span class="p">(</span><span class="n">out_rna</span><span class="p">,</span><span class="w"> </span><span class="s2">"all_results.tsv"</span><span class="p">))</span><span class="w">
-
-</span><span class="c1"># Keep only significant associations (MaAsLin default q-value threshold: 0.25)</span><span class="w">
-</span><span class="n">res_sig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">qval</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.25</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">res_sig</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coef</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reorder</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span><span class="w"> </span><span class="n">coef</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">x</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"Coefficient (effect size)"</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"Feature"</span><span class="p">,</span><span class="w">
-    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Metadata term"</span><span class="p">,</span><span class="w">
-    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"MaAsLin 3: Raw RNA abundances"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Each point is a significant feature × metadata term association. Points to the right of zero are positively associated with the non-reference level (e.g., higher RNA in Delaware vs. CP, or in Summer vs. Spring); points to the left are negatively associated. Color distinguishes which metadata variable is driving each association.</p>
-
-<h3 id="heatmap-of-top-features">Heatmap of top features</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Select top 50 most significant features across all terms</span><span class="w">
-</span><span class="n">top_feats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_sig</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">arrange</span><span class="p">(</span><span class="n">qval</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">slice_head</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">pull</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span><span class="w">
-
-</span><span class="n">mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_rna</span><span class="p">[</span><span class="n">top_feats</span><span class="p">,</span><span class="w"> </span><span class="n">colnames</span><span class="p">(</span><span class="n">df_rna</span><span class="p">)</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">df_meta</span><span class="p">)]</span><span class="w">
-</span><span class="n">ann</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_meta</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Bay"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Season"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Salinity"</span><span class="p">),</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span><span class="w">
-
-</span><span class="n">pheatmap</span><span class="p">(</span><span class="w">
-  </span><span class="n">mat</span><span class="p">,</span><span class="w">
-  </span><span class="n">annotation_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ann</span><span class="p">,</span><span class="w">
-  </span><span class="n">scale</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s2">"row"</span><span class="p">,</span><span class="w">
-  </span><span class="n">show_rownames</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
-  </span><span class="n">main</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="s2">"Raw RNA Abundance — Top 50 Features"</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">scale = "row"</code> converts each gene’s abundances to z-scores across samples, which lets you see relative patterns rather than absolute magnitudes. Without row-scaling, highly abundant genes dominate the color range and low-abundance features become invisible.</p>
-
-<hr />
-
-<h2 id="step-6--running-mtxmodel-with-dna-covariate-adjustment">Step 6 — Running MTXmodel with DNA covariate adjustment</h2>
-
-<p>Once you have confirmed the global and subset MaAsLin models look reasonable, the full MTXmodel run adds the DNA covariate. This is the step that separates transcriptional regulation from gene copy number effects:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">MTXmodel</span><span class="p">)</span><span class="w">
-
-</span><span class="n">fit_mtx</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">MTXmodel</span><span class="p">(</span><span class="w">
-  </span><span class="n">input_data</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">df_rna</span><span class="p">,</span><span class="w">
-  </span><span class="n">input_metadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_meta</span><span class="p">,</span><span class="w">
-  </span><span class="n">output</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">file.path</span><span class="p">(</span><span class="n">OUT_BASE</span><span class="p">,</span><span class="w"> </span><span class="s2">"MTXmodel_output"</span><span class="p">),</span><span class="w">
-  </span><span class="n">fixed_effects</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Bay"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Season"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Salinity"</span><span class="p">),</span><span class="w">
-  </span><span class="n">random_effects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
-  </span><span class="n">normalization</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
-  </span><span class="n">transform</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"LOG"</span><span class="p">,</span><span class="w">
-  </span><span class="n">standardize</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
-  </span><span class="n">input_dnadata</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">df_dna</span><span class="p">,</span><span class="w">
-  </span><span class="n">rna_dna_flt</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"semi_strict"</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">rna_dna_flt</code> argument controls which samples are retained for each feature’s model. The options range from <code class="language-plaintext highlighter-rouge">none</code> (no filtering) to <code class="language-plaintext highlighter-rouge">strict</code> (require both RNA and DNA detected in every sample). <code class="language-plaintext highlighter-rouge">semi_strict</code> — the recommended starting point — excludes samples where <em>both</em> the feature’s DNA and RNA are undetected, while retaining samples where one but not both is zero. This avoids fitting models on features that are absent across large swaths of the dataset while preserving real sparse-but-present signal.</p>
-
-<p>Genes that show significant associations in the MTXmodel output but <em>not</em> in the raw MaAsLin RNA model (or vice versa) are particularly interesting: they represent cases where DNA-level confounding was masking or inflating the transcriptional signal.</p>
-
-<hr />
-
-<h2 id="what-the-output-tells-you--and-what-it-does-not">What the output tells you — and what it does not</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Column</th>
-      <th>Interpretation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">coef</code></td>
-      <td>Log-scale effect size of the metadata variable on RNA abundance, after adjusting for DNA abundance</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">pval</code></td>
-      <td>Unadjusted p-value from the linear model</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">qval</code></td>
-      <td>BH-adjusted q-value (use this for filtering, not <code class="language-plaintext highlighter-rouge">pval</code>)</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">N</code></td>
-      <td>Number of samples used for this feature’s model</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">N.not.zero</code></td>
-      <td>Samples where the feature was detected</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The default significance threshold in MaAsLin and MTXmodel is <code class="language-plaintext highlighter-rouge">qval &lt; 0.25</code>, which is more permissive than the <code class="language-plaintext highlighter-rouge">padj &lt; 0.05</code> threshold commonly used in DESeq2. This reflects the discovery-oriented framing of MaAsLin — it is designed to identify candidate associations in complex microbiome datasets where effect sizes are typically smaller than in controlled transcriptomics experiments. For a publication, you will want to apply a stricter threshold or prioritize features that are significant across multiple subset models.</p>
-
-<p>As with any association model in environmental data: a significant coefficient tells you that RNA abundance of a gene correlates with a metadata variable, after controlling for the other terms in the model and the DNA covariate. It does not tell you which organism is responding, what the downstream metabolic consequence is, or whether the association is causal. Those interpretations require additional evidence — genome-resolved analysis, targeted validation, or orthogonal datasets.</p>
-
-<hr />
-
-<h2 id="reproducibility-checklist">Reproducibility checklist</h2>
-
-<ol>
-  <li>RNA and DNA tables contain the same features (rows) and samples (columns) after alignment.</li>
-  <li><code class="language-plaintext highlighter-rouge">Reduce(intersect, ...)</code> result inspected — no unexpected sample losses.</li>
-  <li>Factor levels set explicitly with <code class="language-plaintext highlighter-rouge">factor(..., levels = ...)</code> before modeling.</li>
-  <li><code class="language-plaintext highlighter-rouge">set.seed(1)</code> called before any MaAsLin / MTXmodel run.</li>
-  <li><code class="language-plaintext highlighter-rouge">normalization = "NONE"</code> used with raw counts when DNA covariate adjustment is applied.</li>
-  <li><code class="language-plaintext highlighter-rouge">qval</code> used for filtering, not <code class="language-plaintext highlighter-rouge">pval</code>.</li>
-  <li>Subset models run for each Bay × Season combination to test consistency of salinity effects.</li>
-  <li><code class="language-plaintext highlighter-rouge">rna_dna_flt</code> argument documented — <code class="language-plaintext highlighter-rouge">semi_strict</code> recommended as default.</li>
-  <li>All output folders saved with descriptive names that encode the model specification.</li>
-  <li><code class="language-plaintext highlighter-rouge">sessionInfo()</code> saved alongside results.</li>
-</ol>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sessionInfo</span><span class="p">()</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<p><em>MTXmodel is developed by the Huttenhower Lab (biobakery/MTX_model). Cite: Zhang Y, Thompson KN, Huttenhower C, Franzosa EA. “Statistical approaches for differential expression analysis in metatranscriptomics.” Bioinformatics, 37(Suppl_1):i34–i41 (2021).</em></p>
-
-<p>This MTXmodel plot below shows how microbial functional features associate with salinity, season, and bay after correcting for DNA abundance effects. The coefficient plots show the direction and strength of associations, while the heatmaps summarize statistical significance for feature abundance and prevalence across environmental gradients.</p>
-
-<p><img src="/assets/img/mtx.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="MT" /><category term="MTXmodel" /><category term="metatranscriptomics" /><category term="MaAsLin" /><category term="differential-expression" /><category term="RNA-DNA-ratio" /><category term="HUMAnN" /><category term="normalization" /><category term="estuarine" /><category term="environmental-microbiome" /><category term="gene-copy-number" /><category term="R" /><category term="bioinformatics" /><category term="beginners" /><summary type="html"><![CDATA[RNA expression in a microbial community is not just about transcription — it is confounded by how many copies of that gene exist in the first place. MTXmodel solves this by adjusting DNA abundance as a continuous covariate for every feature, separating true transcriptional response from gene copy number effects. This post walks through the full workflow: installation, input preparation, sample and feature alignment, running MaAsLin 3 on raw RNA, and why estuarine data needs a lighter metadata design than a human gut study.]]></summary></entry></feed>
+<p><img src="/assets/img/deseq_new.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="MT" /><category term="DESeq2" /><category term="differential-expression" /><category term="metatranscriptomics" /><category term="R" /><category term="bioinformatics" /><category term="normalization" /><category term="environmental-microbiome" /><category term="volcano-plot" /><category term="reproducibility" /><category term="RNA-seq" /><summary type="html"><![CDATA[A raw count table is just noise until the statistics are done right. This post walks through a complete, reproducible DESeq2 workflow applied to metatranscriptomic data across three environmental gradients covering experimental design, normalization, metadata alignment, statistical thresholds, functional annotation, and the ten reproducibility checks that separate a credible result from a convincing-looking mistake.]]></summary></entry></feed>
