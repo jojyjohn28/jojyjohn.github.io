@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-06-12T10:56:04-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-06-12T10:56:04-04:00</published><updated>2026-06-12T10:56:04-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-06-15T09:40:29-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-06-15T09:40:29-04:00</published><updated>2026-06-15T09:40:29-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,700 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Free-living or Particle-attached? Classifying 2,000 Estuarine Genomes by Lifestyle from Paired Metagenomes</title><link href="https://jojyjohn28.github.io/blog/fl-pa-genome-lifestyle-classification/" rel="alternate" type="text/html" title="Free-living or Particle-attached? Classifying 2,000 Estuarine Genomes by Lifestyle from Paired Metagenomes" /><published>2026-06-12T00:00:00-04:00</published><updated>2026-06-12T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/fl-Classifying-Genomes-by-Lifestyle</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/fl-pa-genome-lifestyle-classification/"><![CDATA[<p>You ran a metagenome from a size-fractionated water sample. The particle-associated (PA) fraction — everything retained on a larger filter — went into one library. The free-living (FL) fraction — the smaller cells that passed through — went into another. You assembled, binned, and dereplicated everything into about 2,000 representative genomes. Now you want to know: which of these genomes actually belongs to the particle-associated lifestyle, and which is free-living?</p>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Excel Skills Every Bioinformatician Should Know (And Isn’t Embarrassed to Use)</title><link href="https://jojyjohn28.github.io/blog/excel-skills-bioinformaticians/" rel="alternate" type="text/html" title="Excel Skills Every Bioinformatician Should Know (And Isn’t Embarrassed to Use)" /><published>2026-06-13T00:00:00-04:00</published><updated>2026-06-13T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/excel-skills-bioinformaticians</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/excel-skills-bioinformaticians/"><![CDATA[<p>🧬 <em>Day 94 of Daily Bioinformatics from Jojy’s Desk</em></p>
+
+<p>Let’s get something out of the way. Many bioinformaticians act like they never open Excel. They write blog posts entirely about R and Python and bash and act like spreadsheets are a sign of weakness.</p>
+
+<p>In reality, this is how most bioinformatics projects actually work:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Metadata         →   Excel
+Quick inspection →   Excel
+Analysis         →   R
+Automation       →   Python
+HPC jobs         →   Bash
+</code></pre></div></div>
+
+<p>Metadata lives in Excel. Collaborators send Excel files. You do a quick sanity check in a spreadsheet before you write the script. That is not a failure. That is pragmatic.</p>
+
+<p>This post covers the Excel skills I use constantly when working with MAG abundance tables, taxonomy summaries, differential abundance results, and sample metadata — all the real files that come up in a microbial ecology project. No judgment. Just skills.</p>
+
+<hr />
+
+<h2 id="part-1--the-everyday-tools">Part 1 — The everyday tools</h2>
+
+<h3 id="freeze-panes">Freeze panes</h3>
+
+<p>The first thing I do when I open a large genome table or metadata file. If you scroll right or down, you lose the headers and the sample names.</p>
+
+<p><strong>How:</strong> Select the cell just below your header row AND just to the right of your ID column. For a typical genome table where column A is Genome and row 1 is the header, click cell B2.</p>
+
+<p><strong>Then:</strong> <code class="language-plaintext highlighter-rouge">View → Freeze Panes → Freeze Panes</code></p>
+
+<p>Now row 1 and column A stay visible no matter how far you scroll. For a table with 2,000 genomes and 30 samples, this is essential.</p>
+
+<hr />
+
+<h3 id="filters">Filters</h3>
+
+<p>Filters let you show only the rows that match a condition without deleting anything.</p>
+
+<p><strong>How:</strong> Click anywhere in your table → <code class="language-plaintext highlighter-rouge">Data → Filter</code> (or <code class="language-plaintext highlighter-rouge">Ctrl + Shift + L</code>)</p>
+
+<p>Arrow dropdowns appear on every column header. Click one to filter by value, text, or condition.</p>
+
+<p><strong>Real example — differential abundance results:</strong></p>
+
+<p>You have a DESeq2 output table with 2,000 MAGs. You want to see only the significant ones:</p>
+
+<ol>
+  <li>Filter the <code class="language-plaintext highlighter-rouge">padj</code> column → Number Filters → Less Than → <code class="language-plaintext highlighter-rouge">0.05</code></li>
+  <li>Filter the <code class="language-plaintext highlighter-rouge">log2FoldChange</code> column → Number Filters → Greater Than → <code class="language-plaintext highlighter-rouge">1</code></li>
+</ol>
+
+<p>Now you are looking at only the PA-enriched significant MAGs. No R required for this first pass.</p>
+
+<p><strong>Real example — taxonomy table:</strong></p>
+
+<p>You have a GTDB taxonomy table. You want to see all Proteobacteria:</p>
+
+<ol>
+  <li>Filter the <code class="language-plaintext highlighter-rouge">Phylum</code> column → Text Filters → Contains → <code class="language-plaintext highlighter-rouge">Proteobacteria</code></li>
+</ol>
+
+<hr />
+
+<h3 id="sorting">Sorting</h3>
+
+<p><strong>How:</strong> Select your data → <code class="language-plaintext highlighter-rouge">Data → Sort</code></p>
+
+<p>Multi-level sorting is the useful part. In a MAG results table:</p>
+
+<ol>
+  <li>Sort by <code class="language-plaintext highlighter-rouge">Lifestyle</code> (A→Z) to group PA and FL together</li>
+  <li>Then within each group, sort by <code class="language-plaintext highlighter-rouge">log2_PA_FL</code> (largest to smallest)</li>
+</ol>
+
+<p>This gives you a ranked list within each lifestyle category without writing a single line of R.</p>
+
+<p><strong>Quick sort:</strong> Click any cell in a column → <code class="language-plaintext highlighter-rouge">Data → Sort A→Z</code> or <code class="language-plaintext highlighter-rouge">Sort Z→A</code> for a one-click sort on that column.</p>
+
+<hr />
+
+<h3 id="conditional-formatting">Conditional formatting</h3>
+
+<p>Colour-codes cells based on their value. The fastest way to visually scan a large table.</p>
+
+<p><strong>Real example — heatmap on an abundance matrix:</strong></p>
+
+<p>You have 20 genomes × 15 samples. Select the data range (not the headers), then:</p>
+
+<p><code class="language-plaintext highlighter-rouge">Home → Conditional Formatting → Color Scales → Green-White-Red</code></p>
+
+<p>High abundance = green, zero = white, rare = red. Instant visual heatmap without ggplot2.</p>
+
+<p><strong>Real example — flag significant results:</strong></p>
+
+<p>In a DESeq2 results table, select the <code class="language-plaintext highlighter-rouge">padj</code> column:</p>
+
+<p><code class="language-plaintext highlighter-rouge">Home → Conditional Formatting → Highlight Cell Rules → Less Than → 0.05 → Red fill</code></p>
+
+<p>Now every significant result is highlighted in red. You can scan 2,000 rows in seconds.</p>
+
+<p><strong>Real example — flag PA-enriched vs FL-enriched:</strong></p>
+
+<p>Select the <code class="language-plaintext highlighter-rouge">log2FoldChange</code> column:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">New Rule → Format cells that are Greater Than → 1 → Blue fill</code> (PA-enriched)</li>
+  <li><code class="language-plaintext highlighter-rouge">New Rule → Format cells that are Less Than → -1 → Orange fill</code> (FL-enriched)</li>
+</ul>
+
+<hr />
+
+<h3 id="remove-duplicates">Remove duplicates</h3>
+
+<p>Essential when merging annotation tables where the same genome might appear multiple times.</p>
+
+<p><strong>How:</strong> Select your data → <code class="language-plaintext highlighter-rouge">Data → Remove Duplicates</code></p>
+
+<p>Choose which columns define a duplicate. If your genome table has <code class="language-plaintext highlighter-rouge">Genome</code> as the ID, check only that column. Excel will remove rows where the Genome ID appears more than once and tell you how many rows were removed.</p>
+
+<p><strong>Warning:</strong> Always work on a copy. Remove duplicates cannot be undone once you save.</p>
+
+<hr />
+
+<h3 id="text-to-columns">Text to columns</h3>
+
+<p>When you receive a file where multiple pieces of information are packed into one cell — like a GTDB taxonomy string — Text to Columns splits it into separate columns.</p>
+
+<p><strong>Example — splitting GTDB taxonomy:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Pseudomonadales;f__Pseudomonadaceae;g__Pseudomonas;s__Pseudomonas_aeruginosa
+</code></pre></div></div>
+
+<p>Select the taxonomy column → <code class="language-plaintext highlighter-rouge">Data → Text to Columns → Delimited → Semicolon → Finish</code></p>
+
+<p>Each taxonomic level lands in its own column. Then use Find &amp; Replace (below) to strip the <code class="language-plaintext highlighter-rouge">d__</code>, <code class="language-plaintext highlighter-rouge">p__</code>, <code class="language-plaintext highlighter-rouge">c__</code> prefixes.</p>
+
+<hr />
+
+<h3 id="find--replace">Find &amp; Replace</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Ctrl + H</code> opens Find &amp; Replace. The power move is using it for batch cleaning.</p>
+
+<p><strong>Strip GTDB prefixes:</strong></p>
+
+<ul>
+  <li>Find: <code class="language-plaintext highlighter-rouge">d__</code> → Replace with: <em>(nothing)</em> → Replace All</li>
+  <li>Repeat for <code class="language-plaintext highlighter-rouge">p__</code>, <code class="language-plaintext highlighter-rouge">c__</code>, <code class="language-plaintext highlighter-rouge">o__</code>, <code class="language-plaintext highlighter-rouge">f__</code>, <code class="language-plaintext highlighter-rouge">g__</code>, <code class="language-plaintext highlighter-rouge">s__</code></li>
+</ul>
+
+<p><strong>Fix Windows line ending issues in sample names:</strong></p>
+
+<ul>
+  <li>Find: <code class="language-plaintext highlighter-rouge">_</code> → Replace: <code class="language-plaintext highlighter-rouge">-</code> (or vice versa) to standardize naming</li>
+</ul>
+
+<p><strong>Clean up antiSMASH BGC class names:</strong></p>
+
+<ul>
+  <li>Find: <code class="language-plaintext highlighter-rouge">-</code> → Replace: <code class="language-plaintext highlighter-rouge">.</code> (makes <code class="language-plaintext highlighter-rouge">lanthipeptide-class-i</code> → <code class="language-plaintext highlighter-rouge">lanthipeptide.class.i</code>)</li>
+</ul>
+
+<p><strong>Replace sample name conventions:</strong></p>
+
+<ul>
+  <li>Find: <code class="language-plaintext highlighter-rouge">G08</code> → Replace: <code class="language-plaintext highlighter-rouge">PA</code> across an entire metadata file</li>
+</ul>
+
+<hr />
+
+<h3 id="data-validation--prevent-errors-before-they-happen">Data validation — prevent errors before they happen</h3>
+
+<p>Data validation restricts what can be entered in a cell. For metadata tables that feed into R or Python, this prevents the typos and inconsistencies that cause silent errors downstream.</p>
+
+<p><strong>Real example — metadata lifestyle column:</strong></p>
+
+<p>You want the <code class="language-plaintext highlighter-rouge">Lifestyle</code> column to only accept <code class="language-plaintext highlighter-rouge">PA_associated</code> or <code class="language-plaintext highlighter-rouge">FL_associated</code>.</p>
+
+<p>Select the <code class="language-plaintext highlighter-rouge">Lifestyle</code> column → <code class="language-plaintext highlighter-rouge">Data → Data Validation → Allow: List → Source: PA_associated,FL_associated</code></p>
+
+<p>Now if anyone types <code class="language-plaintext highlighter-rouge">pa associated</code> or <code class="language-plaintext highlighter-rouge">FL associated</code> by mistake, Excel blocks it.</p>
+
+<p><strong>Real example — numeric-only columns:</strong></p>
+
+<p>Select the <code class="language-plaintext highlighter-rouge">Salinity</code> column → <code class="language-plaintext highlighter-rouge">Data → Data Validation → Allow: Decimal → between 0 and 50</code></p>
+
+<p>Prevents someone accidentally typing a sample name in the salinity column.</p>
+
+<hr />
+
+<h2 id="part-2--pivot-tables-for-microbiome-and-genomics-data">Part 2 — Pivot tables for microbiome and genomics data</h2>
+
+<p>Pivot tables are the most underused feature in Excel for biological data. They let you summarize, reshape, and explore large tables without writing any code.</p>
+
+<h3 id="the-core-idea">The core idea</h3>
+
+<p>You have a long-format table (one row per observation). A pivot table collapses it into a summary matrix.</p>
+
+<p><strong>Example — taxonomy abundance table (long format):</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sample</th>
+      <th>Phylum</th>
+      <th>Abundance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>S1</td>
+      <td>Proteobacteria</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <td>S1</td>
+      <td>Bacteroidota</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <td>S2</td>
+      <td>Proteobacteria</td>
+      <td>35</td>
+    </tr>
+    <tr>
+      <td>S2</td>
+      <td>Bacteroidota</td>
+      <td>30</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>After pivot table:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Phylum</th>
+      <th>S1</th>
+      <th>S2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Proteobacteria</td>
+      <td>40</td>
+      <td>35</td>
+    </tr>
+    <tr>
+      <td>Bacteroidota</td>
+      <td>25</td>
+      <td>30</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This is your abundance matrix — the input to every R microbiome analysis — assembled in thirty seconds without any code.</p>
+
+<h3 id="how-to-create-a-pivot-table">How to create a pivot table</h3>
+
+<ol>
+  <li>Click anywhere in your data table</li>
+  <li><code class="language-plaintext highlighter-rouge">Insert → PivotTable → New Worksheet → OK</code></li>
+  <li>In the PivotTable Fields panel on the right:
+    <ul>
+      <li>Drag <code class="language-plaintext highlighter-rouge">Phylum</code> → <strong>Rows</strong></li>
+      <li>Drag <code class="language-plaintext highlighter-rouge">Sample</code> → <strong>Columns</strong></li>
+      <li>Drag <code class="language-plaintext highlighter-rouge">Abundance</code> → <strong>Values</strong> (set to Sum)</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Done. Your wide-format abundance matrix is ready.</p>
+
+<h3 id="real-bioinformatics-examples">Real bioinformatics examples</h3>
+
+<p><strong>Count genomes per phylum per lifestyle:</strong></p>
+
+<p>Columns: <code class="language-plaintext highlighter-rouge">Phylum</code>, <code class="language-plaintext highlighter-rouge">Lifestyle</code>, <code class="language-plaintext highlighter-rouge">Genome</code></p>
+
+<ul>
+  <li>Rows: <code class="language-plaintext highlighter-rouge">Phylum</code></li>
+  <li>Columns: <code class="language-plaintext highlighter-rouge">Lifestyle</code></li>
+  <li>Values: Count of <code class="language-plaintext highlighter-rouge">Genome</code></li>
+</ul>
+
+<p>Instant summary: how many PA_associated vs FL_associated genomes per phylum.</p>
+
+<p><strong>Summarize CAZyme families per lifestyle:</strong></p>
+
+<p>Columns: <code class="language-plaintext highlighter-rouge">Lifestyle</code>, <code class="language-plaintext highlighter-rouge">GH</code>, <code class="language-plaintext highlighter-rouge">GT</code>, <code class="language-plaintext highlighter-rouge">PL</code>, <code class="language-plaintext highlighter-rouge">CBM</code></p>
+
+<ul>
+  <li>Rows: <code class="language-plaintext highlighter-rouge">Lifestyle</code></li>
+  <li>Values: Average of <code class="language-plaintext highlighter-rouge">GH</code>, Average of <code class="language-plaintext highlighter-rouge">GT</code>, etc.</li>
+</ul>
+
+<p>Mean CAZyme counts per lifestyle group — the same table you would get from <code class="language-plaintext highlighter-rouge">group_by(Lifestyle) %&gt;% summarise(mean_GH = mean(GH))</code> in R, assembled in Excel in 30 seconds.</p>
+
+<p><strong>Count significant DEGs per population:</strong></p>
+
+<p>From a DESeq2 results file with a <code class="language-plaintext highlighter-rouge">Population</code> column and <code class="language-plaintext highlighter-rouge">Significant</code> column:</p>
+
+<ul>
+  <li>Rows: <code class="language-plaintext highlighter-rouge">Population</code></li>
+  <li>Values: Count of <code class="language-plaintext highlighter-rouge">Significant</code> (filtered to TRUE)</li>
+</ul>
+
+<p>Per-population significant gene count table, publication-ready in one pivot.</p>
+
+<hr />
+
+<h2 id="part-3--formulas-that-save-hours">Part 3 — Formulas that save hours</h2>
+
+<h3 id="countif--count-cells-meeting-a-condition">COUNTIF — count cells meeting a condition</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=COUNTIF(range, criteria)
+</code></pre></div></div>
+
+<p><strong>Count PA-associated genomes:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=COUNTIF(D:D, "PA_associated")
+</code></pre></div></div>
+
+<p><strong>Count significant MAGs (padj &lt; 0.05):</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=COUNTIF(E:E, "&lt;0.05")
+</code></pre></div></div>
+
+<p><strong>Count how many samples contain Proteobacteria:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=COUNTIF(B:B, "*Proteobacteria*")
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">*</code> wildcard matches any text containing the word.</p>
+
+<hr />
+
+<h3 id="sumif--sum-values-meeting-a-condition">SUMIF — sum values meeting a condition</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=SUMIF(range, criteria, sum_range)
+</code></pre></div></div>
+
+<p><strong>Total abundance of Proteobacteria across all samples:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=SUMIF(B:B, "Proteobacteria", C:C)
+</code></pre></div></div>
+
+<p><strong>Total GH CAZymes in PA-associated genomes:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=SUMIF(D:D, "PA_associated", F:F)
+</code></pre></div></div>
+
+<p>Where column D is <code class="language-plaintext highlighter-rouge">Lifestyle</code> and column F is <code class="language-plaintext highlighter-rouge">GH_count</code>.</p>
+
+<hr />
+
+<h3 id="if--conditional-logic">IF — conditional logic</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=IF(condition, value_if_true, value_if_false)
+</code></pre></div></div>
+
+<p><strong>Classify log2FC direction:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=IF(C2&gt;1, "PA-enriched", IF(C2&lt;-1, "FL-enriched", "neutral"))
+</code></pre></div></div>
+
+<p><strong>Flag significant results:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=IF(E2&lt;0.05, "significant", "ns")
+</code></pre></div></div>
+
+<p><strong>Add lifestyle label based on mean abundance comparison:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=IF(B2&gt;C2, "PA_associated", IF(C2&gt;B2, "FL_associated", "Equal"))
+</code></pre></div></div>
+
+<p>This is exactly the classification logic from the R script, implemented in Excel for a quick check.</p>
+
+<hr />
+
+<h3 id="xlookup--the-modern-replacement-for-vlookup">XLOOKUP — the modern replacement for VLOOKUP</h3>
+
+<p>XLOOKUP is VLOOKUP without the limitations. It can look left, does not need columns to be in order, and has better error handling.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found])
+</code></pre></div></div>
+
+<p><strong>Add taxonomy to a MAG results table:</strong></p>
+
+<p>You have a DESeq2 results table with genome IDs in column A. Your GTDB taxonomy table is on Sheet2 with genome IDs in column A and phylum in column B.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=XLOOKUP(A2, Sheet2!A:A, Sheet2!B:B, "Not found")
+</code></pre></div></div>
+
+<p>This pulls the phylum for each genome ID. No R merge required for a quick check.</p>
+
+<p><strong>Add lifestyle classification to a CAZyme table:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=XLOOKUP(A2, lifestyle_table!A:A, lifestyle_table!E:E, "unclassified")
+</code></pre></div></div>
+
+<p>Where <code class="language-plaintext highlighter-rouge">lifestyle_table!E:E</code> is the <code class="language-plaintext highlighter-rouge">Lifestyle</code> column of your classification output.</p>
+
+<p><strong>VLOOKUP (classic version — still works everywhere):</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=VLOOKUP(A2, Sheet2!A:B, 2, FALSE)
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">2</code> means return column 2 of the lookup range. The <code class="language-plaintext highlighter-rouge">FALSE</code> means exact match. VLOOKUP only looks right (the lookup column must be the leftmost column of your range), which is why XLOOKUP replaced it.</p>
+
+<hr />
+
+<h3 id="index--match--the-flexible-lookup-combination">INDEX + MATCH — the flexible lookup combination</h3>
+
+<p>When XLOOKUP is not available (older Excel versions), INDEX + MATCH does the same job:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=INDEX(return_range, MATCH(lookup_value, lookup_range, 0))
+</code></pre></div></div>
+
+<p><strong>Look up a genome’s phylum:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=INDEX(Sheet2!B:B, MATCH(A2, Sheet2!A:A, 0))
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">0</code> in MATCH means exact match. INDEX returns the value at the matched position.</p>
+
+<hr />
+
+<h3 id="text-functions--cleaning-biological-ids">Text functions — cleaning biological IDs</h3>
+
+<p><strong>LEFT, RIGHT, MID — extract parts of a string:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=LEFT(A2, 10)          → first 10 characters
+=RIGHT(A2, 5)          → last 5 characters
+=MID(A2, 4, 8)         → 8 characters starting at position 4
+</code></pre></div></div>
+
+<p><strong>Extract the sample base name (strip G08/L08 suffix):</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=LEFT(A2, LEN(A2)-3)
+</code></pre></div></div>
+
+<p>If <code class="language-plaintext highlighter-rouge">A2</code> = <code class="language-plaintext highlighter-rouge">CP_Spr01G08</code>, this returns <code class="language-plaintext highlighter-rouge">CP_Spr01</code>.</p>
+
+<p><strong>Extract accession number from a genome name:</strong></p>
+
+<p>If <code class="language-plaintext highlighter-rouge">A2</code> = <code class="language-plaintext highlighter-rouge">GB_GCA_000153445.1</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=MID(A2, 4, 13)        → GCA_000153445
+</code></pre></div></div>
+
+<p><strong>CONCAT / TEXTJOIN — combine text:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=CONCAT(A2, "_", B2)
+</code></pre></div></div>
+
+<p>Combine sample name and fraction: <code class="language-plaintext highlighter-rouge">CP_Spr01</code> + <code class="language-plaintext highlighter-rouge">_</code> + <code class="language-plaintext highlighter-rouge">PA</code> → <code class="language-plaintext highlighter-rouge">CP_Spr01_PA</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=TEXTJOIN(";", TRUE, B2:H2)
+</code></pre></div></div>
+
+<p>Rejoin taxonomy levels back into a GTDB string after splitting them.</p>
+
+<p><strong>UNIQUE — list unique values (Excel 365 / 2021+):</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=UNIQUE(B:B)
+</code></pre></div></div>
+
+<p>In a taxonomy column, this spills all unique phylum names into a new column. The equivalent of <code class="language-plaintext highlighter-rouge">unique()</code> in R or <code class="language-plaintext highlighter-rouge">df['Phylum'].unique()</code> in Python — useful for a fast sanity check before you run the analysis.</p>
+
+<hr />
+
+<h2 id="part-4--flash-fill">Part 4 — Flash Fill</h2>
+
+<p>Flash Fill is pattern recognition for data cleaning. You show Excel one or two examples of what you want, and it fills the rest automatically.</p>
+
+<p><strong>Example — standardize genome names:</strong></p>
+
+<p>Column A has mixed formats:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GCA_000153445.1
+GCA000153745
+gb_GCA_000156155
+</code></pre></div></div>
+
+<p>Type your desired format in column B for the first two rows:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GCA_000153445
+GCA_000153745
+</code></pre></div></div>
+
+<p>Then press <code class="language-plaintext highlighter-rouge">Ctrl + E</code>. Excel recognizes the pattern and fills the rest.</p>
+
+<p><strong>Example — extract sample IDs from file names:</strong></p>
+
+<p>Column A: <code class="language-plaintext highlighter-rouge">CP_Spr01G08_R1.fastq.gz</code></p>
+
+<p>Type in B1: <code class="language-plaintext highlighter-rouge">CP_Spr01G08</code></p>
+
+<p>Press <code class="language-plaintext highlighter-rouge">Ctrl + E</code>. Excel extracts the sample ID from every filename in the column.</p>
+
+<p>Flash Fill works remarkably well for the kind of ID standardization that you would otherwise spend 20 minutes writing a <code class="language-plaintext highlighter-rouge">sed</code> command for.</p>
+
+<hr />
+
+<h2 id="part-5--excel-vs-r-vs-python-the-honest-answer">Part 5 — Excel vs R vs Python (the honest answer)</h2>
+
+<p>This is the one nobody writes about honestly, so here it is:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Best tool</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Edit metadata, fix typos, add columns</td>
+      <td><strong>Excel</strong></td>
+      <td>Fast, visual, no code required</td>
+    </tr>
+    <tr>
+      <td>Quick look at a new file</td>
+      <td><strong>Excel</strong></td>
+      <td>Faster than <code class="language-plaintext highlighter-rouge">head</code> + <code class="language-plaintext highlighter-rouge">str()</code></td>
+    </tr>
+    <tr>
+      <td>Share data with a collaborator</td>
+      <td><strong>Excel</strong></td>
+      <td>Everyone can open it</td>
+    </tr>
+    <tr>
+      <td>Statistical analysis (DESeq2, MaAsLin)</td>
+      <td><strong>R</strong></td>
+      <td>Built for it</td>
+    </tr>
+    <tr>
+      <td>Visualization (ggplot2, pheatmap)</td>
+      <td><strong>R</strong></td>
+      <td>Much better than Excel charts</td>
+    </tr>
+    <tr>
+      <td>Microbiome community analysis</td>
+      <td><strong>R</strong></td>
+      <td>vegan, phyloseq, etc.</td>
+    </tr>
+    <tr>
+      <td>Process hundreds of files at once</td>
+      <td><strong>Python</strong></td>
+      <td>Loops, automation, pandas</td>
+    </tr>
+    <tr>
+      <td>HPC job submission</td>
+      <td><strong>Bash</strong></td>
+      <td>The only option</td>
+    </tr>
+    <tr>
+      <td>Machine learning</td>
+      <td><strong>Python</strong></td>
+      <td>scikit-learn, PyTorch</td>
+    </tr>
+    <tr>
+      <td>Quick VLOOKUP / COUNTIF across two tables</td>
+      <td><strong>Excel</strong></td>
+      <td>Faster than writing a merge</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The key insight: these tools are not competing. They are complementary. The mental model is:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Raw data from instrument / HPC
+          ↓
+     Excel — clean, inspect, share
+          ↓
+     R / Python — analyse, visualize, model
+          ↓
+     Excel — format final table for paper
+</code></pre></div></div>
+
+<p>Most published papers in microbial ecology involved Excel at some point. That is fine. The goal is to get good science done, not to prove that you never use a GUI.</p>
+
+<hr />
+
+<h2 id="summary-cheat-sheet">Summary cheat sheet</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>What it does</th>
+      <th>Bioinformatics use case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Freeze panes</td>
+      <td>Lock headers while scrolling</td>
+      <td>Any large genome or abundance table</td>
+    </tr>
+    <tr>
+      <td>Filters</td>
+      <td>Show rows matching a condition</td>
+      <td>Significant DEGs, specific phyla, one bay</td>
+    </tr>
+    <tr>
+      <td>Sort (multi-level)</td>
+      <td>Order rows by multiple columns</td>
+      <td>Sort by Lifestyle then log2FC</td>
+    </tr>
+    <tr>
+      <td>Conditional formatting</td>
+      <td>Colour-code by value</td>
+      <td>Visual heatmap, flag significant rows</td>
+    </tr>
+    <tr>
+      <td>Remove duplicates</td>
+      <td>Deduplicate rows</td>
+      <td>Clean merged annotation tables</td>
+    </tr>
+    <tr>
+      <td>Text to columns</td>
+      <td>Split one column into many</td>
+      <td>Parse GTDB taxonomy strings</td>
+    </tr>
+    <tr>
+      <td>Find &amp; Replace</td>
+      <td>Batch text substitution</td>
+      <td>Strip GTDB prefixes, fix naming</td>
+    </tr>
+    <tr>
+      <td>Data validation</td>
+      <td>Restrict cell input</td>
+      <td>Prevent metadata typos</td>
+    </tr>
+    <tr>
+      <td>Pivot table</td>
+      <td>Reshape long → wide</td>
+      <td>Build abundance matrix from long format</td>
+    </tr>
+    <tr>
+      <td>COUNTIF</td>
+      <td>Count matching cells</td>
+      <td>Count PA/FL genomes, significant MAGs</td>
+    </tr>
+    <tr>
+      <td>SUMIF</td>
+      <td>Sum with a condition</td>
+      <td>Total CAZymes per lifestyle</td>
+    </tr>
+    <tr>
+      <td>IF</td>
+      <td>Conditional value</td>
+      <td>Classify by log2FC threshold</td>
+    </tr>
+    <tr>
+      <td>XLOOKUP</td>
+      <td>Flexible lookup across tables</td>
+      <td>Add taxonomy or lifestyle to results</td>
+    </tr>
+    <tr>
+      <td>INDEX+MATCH</td>
+      <td>Same as XLOOKUP, wider compatibility</td>
+      <td>Older Excel versions</td>
+    </tr>
+    <tr>
+      <td>LEFT/RIGHT/MID</td>
+      <td>Extract substring</td>
+      <td>Strip suffixes, extract accessions</td>
+    </tr>
+    <tr>
+      <td>CONCAT/TEXTJOIN</td>
+      <td>Combine strings</td>
+      <td>Build GTDB strings, combine IDs</td>
+    </tr>
+    <tr>
+      <td>UNIQUE</td>
+      <td>List unique values</td>
+      <td>Check taxonomy levels present</td>
+    </tr>
+    <tr>
+      <td>Flash Fill</td>
+      <td>Pattern-based autofill</td>
+      <td>Standardize inconsistent IDs</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p><em>Posted as Day 94 of Daily Bioinformatics from Jojy’s Desk.</em></p>
+
+<p><img src="/assets/img/excel.png" alt="See your plot" /></p>]]></content><author><name></name></author><category term="excel" /><category term="spreadsheets" /><category term="bioinformatics" /><category term="metadata" /><category term="pivot-tables" /><category term="VLOOKUP" /><category term="XLOOKUP" /><category term="COUNTIF" /><category term="MAGs" /><category term="taxonomy" /><category term="differential-abundance" /><category term="data-wrangling" /><category term="beginners" /><category term="productivity" /><summary type="html"><![CDATA[Let's be honest. Every bioinformatician uses Excel. Metadata lives in Excel. Collaborators send Excel files. You do a quick check in Excel before you write the R code. This post covers the Excel skills I reach for every single day — filters, freeze panes, conditional formatting, pivot tables, VLOOKUP, XLOOKUP, COUNTIF, SUMIF, text functions — with real examples from MAG tables, taxonomy summaries, differential abundance results, and sample metadata. Plus: an honest answer to Excel vs R vs Python, because pretending you never use spreadsheets is just not true.]]></summary></entry><entry><title type="html">Free-living or Particle-attached? Classifying 2,000 Estuarine Genomes by Lifestyle from Paired Metagenomes</title><link href="https://jojyjohn28.github.io/blog/fl-pa-genome-lifestyle-classification/" rel="alternate" type="text/html" title="Free-living or Particle-attached? Classifying 2,000 Estuarine Genomes by Lifestyle from Paired Metagenomes" /><published>2026-06-12T00:00:00-04:00</published><updated>2026-06-12T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/fl-Classifying-Genomes-by-Lifestyle</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/fl-pa-genome-lifestyle-classification/"><![CDATA[<p>You ran a metagenome from a size-fractionated water sample. The particle-associated (PA) fraction — everything retained on a larger filter — went into one library. The free-living (FL) fraction — the smaller cells that passed through — went into another. You assembled, binned, and dereplicated everything into about 2,000 representative genomes. Now you want to know: which of these genomes actually belongs to the particle-associated lifestyle, and which is free-living?</p>
 
 <p>The genomes themselves do not carry a label. A genome binned from a PA library might be from an organism that is genuinely PA-adapted — anchored to particles, producing extracellular enzymes — or it might just be a free-living organism that happened to be captured in the PA fraction that day. The way to separate these is not to look at where the genome came from during assembly. It is to look at how the genome’s <em>abundance</em> behaves across many samples: does it consistently show up at higher levels in PA fractions, or FL fractions, or does it not care?</p>
 
@@ -5173,362 +5866,4 @@ fungal_rich_samples.tsv
 
 <p><em>Kaiju reference: Menzel P, Ng KL, Krogh A. “Fast and sensitive taxonomic classification for metagenomics with Kaiju.” Nature Communications 7:11257 (2016). Database: <code class="language-plaintext highlighter-rouge">kaiju_db_nr_euk_2023-05-10</code>. Study cohort: ERP108339 / PRJEB26357.</em></p>
 
-<p><img src="/assets/img/myco-day1.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="mycobiome" /><category term="kaiju" /><category term="fungi" /><category term="shotgun-metagenomics" /><category term="FMT" /><category term="ulcerative-colitis" /><category term="taxonomic-classification" /><category term="nr-euk" /><category term="SLURM" /><category term="HPC" /><category term="R" /><category term="ggplot2" /><category term="alpha-diversity" /><category term="beta-diversity" /><category term="PERMANOVA" /><category term="bioinformatics" /><category term="beginners" /><summary type="html"><![CDATA[Shotgun metagenomes are routinely analyzed for bacteria and archaea, but fungal DNA is sitting right there in the same data — overlooked by most standard pipelines. This post walks through a complete Kaiju-based workflow for detecting, quantifying, and visualizing fungal communities from shotgun metagenomes, using a pilot study of five stool samples from the ERP108339 ulcerative colitis FMT cohort. From protein-level classification to genus-level abundance tables, phylum composition plots, and a ~55-fold fungal bloom in a single FMT recipient — and how to scale the whole thing to 285 samples on a SLURM cluster.]]></summary></entry><entry><title type="html">From Counts to Biology: A Rigorous DESeq2 Workflow for Multi-Factor Environmental Metatranscriptomics</title><link href="https://jojyjohn28.github.io/blog/deseq2-metatranscriptomics-multi-factor-workflow/" rel="alternate" type="text/html" title="From Counts to Biology: A Rigorous DESeq2 Workflow for Multi-Factor Environmental Metatranscriptomics" /><published>2026-05-27T00:00:00-04:00</published><updated>2026-05-27T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/deseq2-metatranscriptomics-multi-factor-workflow</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/deseq2-metatranscriptomics-multi-factor-workflow/"><![CDATA[<p><em>🧬 𝐷𝑎𝑦 84 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 desk</em></p>
-
-<p>A virus detected in a metagenome might be dormant. A transcript detected in a metatranscriptome is evidence of something happening <em>right now</em>. The same logic applies to any functional gene: presence in DNA tells you what a community <em>could</em> do; expression in RNA tells you what it <em>is</em> doing. Differential expression analysis is how we move from that RNA signal to a ranked, statistically credible list of genes that respond to an environmental gradient. This post documents a complete DESeq2 workflow across three factors — salinity, season, and bay of origin — and covers every decision that determines whether the results are trustworthy.</p>
-
-<hr />
-
-<h2 id="why-deseq2-and-not-tpm-or-fold-change-on-raw-counts">Why DESeq2, and not TPM or fold-change on raw counts?</h2>
-
-<p>A common shortcut is to normalize counts to TPM or FPKM and then compare ratios between conditions. This fails for a fundamental reason: RNA-seq data is compositional. Library sizes differ between samples, the sequencing depth varies, and a small number of highly expressed genes can dominate the count distribution. Ad hoc normalization does not account for this in a statistically principled way.</p>
-
-<p>DESeq2 uses <strong>median-of-ratios normalization</strong>, which estimates a size factor for each sample from the geometric mean of all genes. This is robust to outlier genes and compositional effects. Crucially, the normalization happens <em>inside</em> <code class="language-plaintext highlighter-rouge">DESeq()</code> — you should never pre-normalize your counts before passing them to DESeq2. The model assumes raw integer counts, and feeding it floats from a pre-normalized matrix breaks the negative binomial variance structure silently.</p>
-
-<blockquote>
-  <p>Raw counts in. Normalized, size-factor-corrected, dispersion-modeled results out. Do not shortcut the middle.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="step-1--import-counts-and-metadata">Step 1 — Import counts and metadata</h2>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">DESeq2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">tibble</span><span class="p">)</span><span class="w">
-
-</span><span class="c1">### Import count table (raw integer counts, genes as rows, samples as columns)</span><span class="w">
-</span><span class="n">countData</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="w">
-  </span><span class="s2">"~/Desktop/Functional_redundancy/MT_deseq/attachments/raw_count_metabolism_updated.csv"</span><span class="p">,</span><span class="w">
-  </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="c1">### Import metadata</span><span class="w">
-</span><span class="n">colData</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.table</span><span class="p">(</span><span class="w">
-  </span><span class="s2">"~/Desktop/Functional_redundancy/MT_deseq/attachments/metadata.csv"</span><span class="p">,</span><span class="w">
-  </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Two things to confirm before proceeding:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">countData</code> should contain only numeric columns — no gene annotation columns, no empty trailing columns (<code class="language-plaintext highlighter-rouge">X</code>, <code class="language-plaintext highlighter-rouge">X.1</code>) imported from Excel. Drop them with <code class="language-plaintext highlighter-rouge">df &lt;- df[, !(names(df) %in% c("X", "X.1"))]</code>.</li>
-  <li>Row names of <code class="language-plaintext highlighter-rouge">colData</code> must correspond to column names of <code class="language-plaintext highlighter-rouge">countData</code>. If you set <code class="language-plaintext highlighter-rouge">row.names = 1</code> when reading metadata, verify this was applied correctly.</li>
-</ul>
-
-<hr />
-
-<h2 id="step-2--verify-metadata-alignment-non-negotiable">Step 2 — Verify metadata alignment (non-negotiable)</h2>
-
-<p>Sample order mismatch between the count matrix and the metadata is one of the most damaging and hardest-to-detect errors in DGE analysis. If “S1” in column 3 of your count table maps to a different row in <code class="language-plaintext highlighter-rouge">colData</code>, every comparison is scrambled — and DESeq2 will not warn you.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Both must return TRUE before building the DESeqDataSet</span><span class="w">
-</span><span class="nf">all</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">countData</span><span class="p">)</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">colData</span><span class="p">))</span><span class="w">  </span><span class="c1"># all samples present?</span><span class="w">
-</span><span class="nf">all</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">countData</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">colData</span><span class="p">))</span><span class="w">     </span><span class="c1"># same order?</span><span class="w">
-</span></code></pre></div></div>
-
-<p>If the second check fails, reorder:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">colData</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">colData</span><span class="p">[</span><span class="n">colnames</span><span class="p">(</span><span class="n">countData</span><span class="p">),</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span><span class="nf">all</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">countData</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">colData</span><span class="p">))</span><span class="w">  </span><span class="c1"># now TRUE</span><span class="w">
-</span></code></pre></div></div>
-
-<p>This is not defensive programming — it is the minimum required to trust your results.</p>
-
-<hr />
-
-<h2 id="step-3--build-deseqdataset-objects-and-set-reference-levels">Step 3 — Build DESeqDataSet objects and set reference levels</h2>
-
-<p>Three separate analyses are run, one per environmental factor. Each gets its own <code class="language-plaintext highlighter-rouge">DESeqDataSet</code> with the appropriate design formula and an explicit reference level set via <code class="language-plaintext highlighter-rouge">relevel()</code>.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">### Salinity: reference = Low</span><span class="w">
-</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="w">
-  </span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">countData</span><span class="p">,</span><span class="w">
-  </span><span class="n">colData</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">colData</span><span class="p">,</span><span class="w">
-  </span><span class="n">design</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Salinity</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span><span class="n">dds</span><span class="o">$</span><span class="n">Salinity</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">relevel</span><span class="p">(</span><span class="n">dds</span><span class="o">$</span><span class="n">Salinity</span><span class="p">,</span><span class="w"> </span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Low"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1">### Season: reference = Spring</span><span class="w">
-</span><span class="n">ddsea</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="w">
-  </span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">countData</span><span class="p">,</span><span class="w">
-  </span><span class="n">colData</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">colData</span><span class="p">,</span><span class="w">
-  </span><span class="n">design</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Season</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span><span class="n">ddsea</span><span class="o">$</span><span class="n">Season</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">relevel</span><span class="p">(</span><span class="n">ddsea</span><span class="o">$</span><span class="n">Season</span><span class="p">,</span><span class="w"> </span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Spring"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1">### Bay: reference = Chesapeake</span><span class="w">
-</span><span class="n">ddbay</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="w">
-  </span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">countData</span><span class="p">,</span><span class="w">
-  </span><span class="n">colData</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">colData</span><span class="p">,</span><span class="w">
-  </span><span class="n">design</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Bay</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span><span class="n">ddbay</span><span class="o">$</span><span class="n">Bay</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">relevel</span><span class="p">(</span><span class="n">ddbay</span><span class="o">$</span><span class="n">Bay</span><span class="p">,</span><span class="w"> </span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Chesapeake"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>Why <code class="language-plaintext highlighter-rouge">relevel()</code> matters:</strong> Without it, DESeq2 defaults to alphabetical factor ordering. “High” comes before “Low” alphabetically, so fold-changes would be reported as High/Low rather than the biologically intuitive Low-as-baseline direction. Getting this wrong does not produce an error — it inverts your fold-changes and your biological interpretation.</p>
-
-<p><strong>When to use a multi-factor design:</strong> If salinity and season are confounded in your sampling design (e.g., high-salinity samples were consistently collected in summer), a single-factor model will conflate their effects. The appropriate design in that case would be <code class="language-plaintext highlighter-rouge">design = ~ Season + Salinity</code>, which partitions variance from each factor separately. Inspect your metadata and a PCA before deciding.</p>
-
-<hr />
-
-<h2 id="step-4--run-deseq2">Step 4 — Run DESeq2</h2>
-
-<p>The core analysis is a single call. DESeq2 sequentially estimates size factors, fits dispersion, and runs the negative binomial GLM.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dds</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeq</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w">
-</span><span class="n">ddsea</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeq</span><span class="p">(</span><span class="n">ddsea</span><span class="p">)</span><span class="w">
-</span><span class="n">ddbay</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeq</span><span class="p">(</span><span class="n">ddbay</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><strong>Always call <code class="language-plaintext highlighter-rouge">resultsNames()</code> before extracting results.</strong> This verifies that DESeq2 encoded your factor levels as intended.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">resultsNames</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w">
-</span><span class="c1"># [1] "Intercept"            "Salinity_High_vs_Low" "Salinity_Medium_vs_Low"</span><span class="w">
-</span></code></pre></div></div>
-
-<p>A mislabeled contrast — or one you never noticed was inverted — means every fold-change interpretation is backwards.</p>
-
-<hr />
-
-<h2 id="step-5--extract-results-with-named-contrasts">Step 5 — Extract results with named contrasts</h2>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Default results object (last factor level vs. reference)</span><span class="w">
-</span><span class="n">res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Explicit pairwise contrasts</span><span class="w">
-</span><span class="n">res_high_vs_low</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">dds</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Salinity_High_vs_Low"</span><span class="p">)</span><span class="w">
-</span><span class="n">res_med_vs_low</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">dds</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Salinity_Medium_vs_Low"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>For downstream plotting and export, convert to data frames and add gene IDs as an explicit column:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res_df</span><span class="w">       </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w">
-</span><span class="n">res_df</span><span class="o">$</span><span class="n">gene</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">res_df</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="step-6--statistical-thresholds">Step 6 — Statistical thresholds</h2>
-
-<p>Two thresholds define a differentially expressed gene. Both must be applied together.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Threshold</th>
-      <th>Value</th>
-      <th>Rationale</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Adjusted p-value (FDR)</td>
-      <td><code class="language-plaintext highlighter-rouge">padj &lt; 0.05</code></td>
-      <td>Controls false discovery rate across genome-scale testing. Raw p-values are not appropriate — with 10,000 features tested, p &lt; 0.05 yields ~500 false positives by chance.</td>
-    </tr>
-    <tr>
-      <td>Absolute log₂ fold-change</td>
-      <td><code class="language-plaintext highlighter-rouge">abs(log2FoldChange) &gt; 1</code></td>
-      <td>Filters statistically significant but biologically trivial changes. A twofold threshold is standard; 0.58 (~1.5-fold) is used in some contexts.</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Summarize at FDR = 0.05</span><span class="w">
-</span><span class="n">summary</span><span class="p">(</span><span class="n">results</span><span class="p">(</span><span class="n">dds</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">))</span><span class="w">
-
-</span><span class="c1"># Filter significant DEGs</span><span class="w">
-</span><span class="n">sig_genes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">padj</span><span class="p">),</span><span class="w"> </span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">log2FoldChange</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>A gene that passes only one threshold is not a confident hit. High statistical significance at a trivially small fold-change is a feature of high-depth studies, not a biological signal.</p>
-
-<hr />
-
-<h2 id="step-7--combining-results-across-factors-for-comparison">Step 7 — Combining results across factors for comparison</h2>
-
-<p>To compare the transcriptional response across all three factors simultaneously, results are combined into a long-format data frame tagged by factor:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res_sal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w">   </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">mutate</span><span class="p">(</span><span class="n">Factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Salinity"</span><span class="p">,</span><span class="w"> </span><span class="n">Gene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">results</span><span class="p">(</span><span class="n">dds</span><span class="p">)))</span><span class="w">
-</span><span class="n">res_sea</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">ddsea</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">mutate</span><span class="p">(</span><span class="n">Factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Season"</span><span class="p">,</span><span class="w">   </span><span class="n">Gene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">results</span><span class="p">(</span><span class="n">ddsea</span><span class="p">)))</span><span class="w">
-</span><span class="n">res_bay</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">ddbay</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">mutate</span><span class="p">(</span><span class="n">Factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Bay"</span><span class="p">,</span><span class="w">      </span><span class="n">Gene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">results</span><span class="p">(</span><span class="n">ddbay</span><span class="p">)))</span><span class="w">
-
-</span><span class="n">res_all_clean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bind_rows</span><span class="p">(</span><span class="n">res_sal</span><span class="p">,</span><span class="w"> </span><span class="n">res_sea</span><span class="p">,</span><span class="w"> </span><span class="n">res_bay</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">padj</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-    </span><span class="n">ShortName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringr</span><span class="o">::</span><span class="n">str_extract</span><span class="p">(</span><span class="n">Gene</span><span class="p">,</span><span class="w"> </span><span class="s2">"(?&lt;=\\().+?(?=\\))"</span><span class="p">),</span><span class="w">
-    </span><span class="n">ShortName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">ShortName</span><span class="p">),</span><span class="w"> </span><span class="n">Gene</span><span class="p">,</span><span class="w"> </span><span class="n">ShortName</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">ShortName</code> extraction pulls abbreviated names from parentheses in gene identifiers (e.g., <code class="language-plaintext highlighter-rouge">"nitrite reductase (nirS)"</code> → <code class="language-plaintext highlighter-rouge">"nirS"</code>), falling back to the full gene name when no abbreviation is present. This keeps volcano plot labels readable.</p>
-
-<hr />
-
-<h2 id="step-8--integrating-functional-annotation">Step 8 — Integrating functional annotation</h2>
-
-<p>Raw gene identifiers without context have limited interpretive value. DESeq2 results are joined to a functional annotation table that classifies genes into categories — metabolic markers and CAZymes (carbohydrate-active enzymes) in this study:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">annotation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="w">
-  </span><span class="s2">"~/Desktop/Functional_redundancy/MT_deseq/attachments/Annotations.csv"</span><span class="p">,</span><span class="w">
-  </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Merge DESeq2 results with annotation</span><span class="w">
-</span><span class="n">res_annot</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">merge</span><span class="p">(</span><span class="n">res_df</span><span class="p">,</span><span class="w"> </span><span class="n">annotation</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gene"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Subset by functional category</span><span class="w">
-</span><span class="n">metabolic_res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">res_annot</span><span class="p">,</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"mmarker"</span><span class="p">)</span><span class="w">
-</span><span class="n">cazy_res</span><span class="w">      </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">res_annot</span><span class="p">,</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"CAZY"</span><span class="p">)</span><span class="w">
-
-</span><span class="n">write.csv</span><span class="p">(</span><span class="n">metabolic_res</span><span class="p">,</span><span class="w"> </span><span class="s2">"DESeq2_metabolic_markers.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span><span class="n">write.csv</span><span class="p">(</span><span class="n">cazy_res</span><span class="p">,</span><span class="w">      </span><span class="s2">"DESeq2_CAZy.csv"</span><span class="p">,</span><span class="w">              </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>This keeps every result traceable: each reported gene links back to its annotation, its fold-change, and its adjusted p-value.</p>
-
-<hr />
-
-<h2 id="step-9--visualization-faceted-volcano-plots">Step 9 — Visualization: faceted volcano plots</h2>
-
-<p>A volcano plot serves two purposes: it communicates the scale and direction of differential expression, and it functions as a quality-control check. Before interpreting biology, inspect the plot for these red flags:</p>
-
-<ul>
-  <li><strong>One-sided volcano</strong> (all hits in one direction): suggests a normalization problem or a metadata label swap.</li>
-  <li><strong>Asymmetric point cloud</strong>: can indicate batch effects or compositional biases that the single-factor model hasn’t captured.</li>
-  <li><strong>Top-labeled genes that don’t make biological sense</strong>: warrants investigation before publication.</li>
-</ul>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
-
-</span><span class="n">sig_genes_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_all_clean</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">res_all_clean</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_text_repel</span><span class="p">(</span><span class="w">
-    </span><span class="n">data</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">sig_genes_plot</span><span class="p">,</span><span class="w">
-    </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">ShortName</span><span class="p">),</span><span class="w">
-    </span><span class="n">size</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
-    </span><span class="n">max.overlaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">Inf</span><span class="p">,</span><span class="w">
-    </span><span class="n">box.padding</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w">
-    </span><span class="n">point.padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="w">
-    </span><span class="n">segment.color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey50"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">Factor</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_x"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"grey"</span><span class="p">,</span><span class="w"> </span><span class="s2">"red"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">title</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"Differential Abundance by Factor"</span><span class="p">,</span><span class="w">
-    </span><span class="n">x</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 Fold Change"</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 Adjusted P-value"</span><span class="p">,</span><span class="w">
-    </span><span class="n">color</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"Significant (padj &lt; 0.05)"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">
-    </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">legend.position</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Faceting by factor in a single figure lets reviewers immediately see which environmental variable carries the largest transcriptional signal in this dataset.</p>
-
-<hr />
-
-<h2 id="the-ten-point-reproducibility-checklist">The ten-point reproducibility checklist</h2>
-
-<p>Before sharing or submitting results, verify each of the following. These are not suggestions — they are the checks that catch the errors that invalidate analyses.</p>
-
-<ol>
-  <li><code class="language-plaintext highlighter-rouge">all(colnames(countData) == rownames(colData))</code> returns <code class="language-plaintext highlighter-rouge">TRUE</code>.</li>
-  <li>Reference levels are explicitly set with <code class="language-plaintext highlighter-rouge">relevel()</code> for all factor variables.</li>
-  <li>Contrast names are verified with <code class="language-plaintext highlighter-rouge">resultsNames()</code> before any <code class="language-plaintext highlighter-rouge">results()</code> call.</li>
-  <li>Raw integer counts are used as input — not TPM, FPKM, or pre-normalized values.</li>
-  <li>Adjusted p-values (FDR/BH) are used for filtering, not raw p-values.</li>
-  <li>Both <code class="language-plaintext highlighter-rouge">padj</code> and <code class="language-plaintext highlighter-rouge">log2FoldChange</code> thresholds are applied when defining significant DEGs.</li>
-  <li>PCA, dispersion plot, and MA plot have been visually inspected for outliers and batch effects.</li>
-  <li>Low-count genes have been filtered (e.g., <code class="language-plaintext highlighter-rouge">rowSums(counts &gt;= 10) &gt;= N</code> appropriate for your sample size) before running DESeq2.</li>
-  <li>All output files, scripts, and input data are saved with consistent, descriptive filenames.</li>
-  <li><code class="language-plaintext highlighter-rouge">sessionInfo()</code> output is saved alongside all result files.</li>
-</ol>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Always run this at the end of your analysis script</span><span class="w">
-</span><span class="n">sessionInfo</span><span class="p">()</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="biological-interpretation-what-the-numbers-actually-say">Biological interpretation: what the numbers actually say</h2>
-
-<p>Statistical significance and biological significance are not the same thing. A gene with padj = 1×10⁻²⁰ and log2FC = 0.3 is a trivially small change with enormous statistical power behind it. A gene with padj = 0.04 and log2FC = 3.2 is a large change that barely cleared the FDR threshold. Both thresholds exist because we need both: statistical rigor to control false discovery rates, and effect-size filtering to focus on changes worth interpreting.</p>
-
-<p>In environmental metatranscriptomics, the “genes” being tested are often metabolic pathway markers or functional gene families rather than single-organism transcripts. A significant increase in CAZyme-encoding transcripts under high salinity does not mean a single organism is responding — it means the <strong>community-level functional capacity shifted</strong>. Interpretation must be grounded in the ecological question.</p>
-
-<p>Treat DESeq2 output as a ranked list of candidates that are worth investigating, not a list of confirmed biological findings. Cross-check significant gene names against curated databases (KEGG, CAZy, DRAM-v), confirm pathway membership manually, and evaluate whether the biology is consistent with what is known about your system.</p>
-
-<hr />
-
-<h2 id="summary">Summary</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Step</th>
-      <th>What it does</th>
-      <th>Why it matters</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Metadata alignment check</td>
-      <td>Verifies sample order</td>
-      <td>Mismatch invalidates all results</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">relevel()</code></td>
-      <td>Sets biologically meaningful reference</td>
-      <td>Prevents inverted fold-changes</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">resultsNames()</code></td>
-      <td>Verifies contrast encoding</td>
-      <td>Catches mislabeled comparisons</td>
-    </tr>
-    <tr>
-      <td>Raw counts as input</td>
-      <td>Enables DESeq2 normalization</td>
-      <td>Pre-normalized values break the model</td>
-    </tr>
-    <tr>
-      <td>FDR threshold</td>
-      <td>Controls false discovery rate</td>
-      <td>Raw p-values are invalid at genomic scale</td>
-    </tr>
-    <tr>
-      <td>log2FC threshold</td>
-      <td>Filters trivially small changes</td>
-      <td>Large N studies produce many tiny-effect hits</td>
-    </tr>
-    <tr>
-      <td>Functional annotation merge</td>
-      <td>Connects statistics to biology</td>
-      <td>Gene IDs alone are uninterpretable</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">sessionInfo()</code></td>
-      <td>Records package versions</td>
-      <td>Required for reproducibility</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The value of a careful DESeq2 workflow is not that it answers biological questions. It is that it produces a credible, traceable, reproducible list of candidates that are worth the effort of answering.</p>
-
-<hr />
-
-<p><em>Analysis performed using DESeq2 (Love, Huber &amp; Anders 2014, Genome Biology 15:550). All code verified against current Bioconductor documentation. Raw data, annotated scripts, and <code class="language-plaintext highlighter-rouge">sessionInfo()</code> output should accompany any publication of these results.</em></p>
-
-<p><img src="/assets/img/deseq_new.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="MT" /><category term="DESeq2" /><category term="differential-expression" /><category term="metatranscriptomics" /><category term="R" /><category term="bioinformatics" /><category term="normalization" /><category term="environmental-microbiome" /><category term="volcano-plot" /><category term="reproducibility" /><category term="RNA-seq" /><summary type="html"><![CDATA[A raw count table is just noise until the statistics are done right. This post walks through a complete, reproducible DESeq2 workflow applied to metatranscriptomic data across three environmental gradients covering experimental design, normalization, metadata alignment, statistical thresholds, functional annotation, and the ten reproducibility checks that separate a credible result from a convincing-looking mistake.]]></summary></entry></feed>
+<p><img src="/assets/img/myco-day1.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="mycobiome" /><category term="kaiju" /><category term="fungi" /><category term="shotgun-metagenomics" /><category term="FMT" /><category term="ulcerative-colitis" /><category term="taxonomic-classification" /><category term="nr-euk" /><category term="SLURM" /><category term="HPC" /><category term="R" /><category term="ggplot2" /><category term="alpha-diversity" /><category term="beta-diversity" /><category term="PERMANOVA" /><category term="bioinformatics" /><category term="beginners" /><summary type="html"><![CDATA[Shotgun metagenomes are routinely analyzed for bacteria and archaea, but fungal DNA is sitting right there in the same data — overlooked by most standard pipelines. This post walks through a complete Kaiju-based workflow for detecting, quantifying, and visualizing fungal communities from shotgun metagenomes, using a pilot study of five stool samples from the ERP108339 ulcerative colitis FMT cohort. From protein-level classification to genus-level abundance tables, phylum composition plots, and a ~55-fold fungal bloom in a single FMT recipient — and how to scale the whole thing to 285 samples on a SLURM cluster.]]></summary></entry></feed>
