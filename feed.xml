@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-06-15T12:45:21-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-06-15T12:45:21-04:00</published><updated>2026-06-15T12:45:21-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-06-27T23:15:34-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-06-27T23:15:34-04:00</published><updated>2026-06-27T23:15:34-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,163 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Your Code Is a Publication: How to Make Bioinformatics Workflows Citable with Zenodo</title><link href="https://jojyjohn28.github.io/blog/zenodo-bioinformatics-workflows-citable/" rel="alternate" type="text/html" title="Your Code Is a Publication: How to Make Bioinformatics Workflows Citable with Zenodo" /><published>2026-06-15T00:00:00-04:00</published><updated>2026-06-15T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/zenodo-bioinformatics-workflows-citable</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/zenodo-bioinformatics-workflows-citable/"><![CDATA[<p>🧬 <em>Day 95 of Daily Bioinformatics from Jojy’s Desk</em></p>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">How Bioinformaticians Think: Asking the Right Questions Before Running Any Tool</title><link href="https://jojyjohn28.github.io/blog/how-bioinformaticians-think/" rel="alternate" type="text/html" title="How Bioinformaticians Think: Asking the Right Questions Before Running Any Tool" /><published>2026-06-27T00:00:00-04:00</published><updated>2026-06-27T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/how-bioinformaticians-think</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/how-bioinformaticians-think/"><![CDATA[<p>🧬 <em>Day 96 of Daily Bioinformatics from Jojy’s Desk</em></p>
+
+<p>Anyone can run a pipeline. Install the tool, point it at your FASTQ files, wait for the SLURM job to finish, get a table of results. This is true whether the pipeline is Kraken2 or DESeq2 or AlphaFold. The execution step has gotten easier every year — better documentation, conda environments, one-line installs, Docker containers that handle every dependency for you.</p>
+
+<p>What has not gotten easier, and never will, is deciding what question the pipeline should actually answer. This is the part of bioinformatics that takes years to develop, that no software update will automate, and that separates an analysis that quietly produces a table from an analysis that actually advances understanding.</p>
+
+<p>This post is not a tutorial. There is no code here. It is about the thinking that happens before you type the first command.</p>
+
+<hr />
+
+<h2 id="the-question-behind-the-question">The question behind the question</h2>
+
+<p>Most bioinformatics training focuses on the “how.” How do you run Kraken2. How do you interpret a DESeq2 results table. How do you build a co-occurrence network. These are necessary skills, but they are answers to a question that was already decided for you — usually by an advisor, a paper you are replicating, or a default workflow you found online.</p>
+
+<p>The harder and more valuable skill is recognizing when the question itself is too shallow to be useful.</p>
+
+<p><strong>Instead of:</strong> <em>Which taxa are present in my samples?</em></p>
+
+<p><strong>Ask:</strong> <em>Which taxa are driving the difference I observe between treatments?</em></p>
+
+<p>The first question is answered by any taxonomic classifier. It produces a list. The list is not wrong, but it is not interpretable on its own — every sample has taxa present, that fact alone tells you nothing about your experiment. The second question forces you to define what “difference” means (statistical? ecological? both?), forces you to choose an appropriate differential abundance method, and forces you to think about whether the taxa you find are biologically plausible drivers or just statistical artifacts of an unbalanced design.</p>
+
+<p><strong>Instead of:</strong> <em>Which genes are present in my metagenome?</em></p>
+
+<p><strong>Ask:</strong> <em>Which genes explain the ecological pattern I already observed?</em></p>
+
+<p>Again — the first question is satisfied by any annotation tool. Run Prokka, run eggNOG-mapper, get a functional profile. But “present” is almost meaningless in isolation. Almost every gene family is present in almost every reasonably complex metagenome at some level. The question that actually moves your research forward is connective: you saw something — a community shift across a salinity gradient, a bloom in a particular phylum, a change between FL and PA fractions — and you are asking which genes, mechanistically, could explain it.</p>
+
+<p>This reframing changes everything downstream. It changes which statistical test you choose, which comparisons you make, which figures you build, and most importantly, what counts as a meaningful result versus noise.</p>
+
+<h3 id="a-simple-test-for-your-own-question">A simple test for your own question</h3>
+
+<p>Before running any tool, try finishing this sentence: <em>“If this analysis works perfectly, the result will tell me ___.”</em></p>
+
+<p>If you cannot finish that sentence with something specific and falsifiable, the analysis is not ready to run yet — no matter how excited you are to see the output. “It will tell me what’s there” is not a finished sentence. “It will tell me whether genome size correlates with particle-association after controlling for phylum” is.</p>
+
+<hr />
+
+<h2 id="lesson-1-reviewing-manuscripts-taught-me-to-ask-better-questions">Lesson 1: Reviewing manuscripts taught me to ask better questions</h2>
+
+<p>The single biggest improvement in my analytical thinking did not come from a course or a textbook. It came from reviewing manuscripts for journals.</p>
+
+<p>When you review a paper, you are forced into a specific mental posture that is completely different from the posture you have when running your own analysis. As a reviewer, you naturally ask:</p>
+
+<ul>
+  <li>Is the analysis appropriate for this type of data?</li>
+  <li>Is there another explanation for this result that the authors haven’t considered?</li>
+  <li>What controls are missing?</li>
+  <li>Is this result statistically significant but biologically meaningless?</li>
+  <li>Does the conclusion actually follow from the data, or is there a gap?</li>
+</ul>
+
+<p>The strange thing is that these questions are not hard to ask. Any trained reviewer asks them automatically, almost reflexively, about someone else’s work. What is hard is asking them about your <em>own</em> work, in real time, before you have already committed to a narrative.</p>
+
+<p>Reviewing teaches you to internalize that skeptical voice and turn it inward. After you have reviewed a dozen papers and seen a dozen ways that a reasonable-looking analysis can have a hidden flaw — an unaccounted confounder, a multiple-testing problem, a sample size too small to support the claimed effect — you start running that same checklist on your own pipeline before you trust the output.</p>
+
+<p>A practical exercise: the next time you get a result you are excited about, write a one-paragraph peer review of your own analysis as if a stranger had submitted it to you. Be as skeptical as you would be of someone else’s work. You will usually find at least one question worth answering before you move forward.</p>
+
+<hr />
+
+<h2 id="lesson-2-github-issues-are-an-underrated-education">Lesson 2: GitHub issues are an underrated education</h2>
+
+<p>This is something almost nobody talks about, and it deserves more attention than it gets.</p>
+
+<p>When you are learning a tool from documentation alone, you see the idealized version: clean example data, expected output, a tutorial that works on the first try. What you do not see is the tool’s actual behavior in the messy, real-world conditions your own data will present.</p>
+
+<p>This is exactly what GitHub Issues capture. The typical pattern looks like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Tool works perfectly on the documented example
+        ↓
+A real user runs it on their own (messier) data
+        ↓
+User reports a weird, unexpected, or seemingly wrong result
+        ↓
+The developer responds, explaining a limitation, an edge case,
+or an assumption baked into the tool that isn't obvious from
+the documentation
+        ↓
+You read this exchange and learn something the manual never told you
+</code></pre></div></div>
+
+<p>This is gold, and it is free, and it is sitting in the open Issues tab of every actively maintained bioinformatics tool you use.</p>
+
+<p>A few concrete examples of the kind of thing you learn only from issues:</p>
+
+<ul>
+  <li>A tool’s default parameter assumes paired-end reads of a certain length range, and silently produces degraded results outside that range — never stated explicitly in the docs, but explained clearly in a three-comment thread from 2022</li>
+  <li>A statistical method’s p-values become unreliable below a certain sample size, something the developer mentions in response to a confused user but does not put in a warning message</li>
+  <li>Two parameters interact in a non-obvious way, and changing one without the other produces a result that looks plausible but is wrong — caught only because someone reported it and the maintainer explained the interaction</li>
+</ul>
+
+<p>None of this is information you would find by reading the methods paper or the README. It is the accumulated, hard-won troubleshooting knowledge of every person who has hit an edge case before you — and the tool author’s honest explanation of why.</p>
+
+<h3 id="how-to-actually-use-this-as-a-learning-resource">How to actually use this as a learning resource</h3>
+
+<p>Before you commit to using a tool for an important analysis, spend fifteen minutes in its GitHub Issues tab (and the Closed issues, not just Open ones — that is where resolved confusions live):</p>
+
+<ul>
+  <li>Search for your specific use case (e.g., “low coverage,” “small sample size,” “metagenome mode”)</li>
+  <li>Read a handful of issues where the user got a confusing result and the developer explained why</li>
+  <li>Note any caveats that change how you should interpret your own output</li>
+</ul>
+
+<p>This single habit will save you from more silent analytical mistakes than almost anything else you can do in fifteen minutes.</p>
+
+<hr />
+
+<h2 id="what-this-looks-like-in-practice">What this looks like in practice</h2>
+
+<p>Put together, here is roughly what a more mature analytical workflow looks like, compared to a more naive one:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Naive approach</th>
+      <th>More mature approach</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Run the tool everyone uses</td>
+      <td>Ask what question you actually need answered, then pick the tool that answers it</td>
+    </tr>
+    <tr>
+      <td>Accept the default parameters</td>
+      <td>Check the tool’s GitHub issues for known caveats at your data scale</td>
+    </tr>
+    <tr>
+      <td>Report whatever is statistically significant</td>
+      <td>Ask whether the result is also biologically and ecologically plausible</td>
+    </tr>
+    <tr>
+      <td>Trust the first result that confirms your hypothesis</td>
+      <td>Review your own analysis the way you’d review someone else’s submission</td>
+    </tr>
+    <tr>
+      <td>Treat “what is present” as the end goal</td>
+      <td>Treat “what explains the pattern I observed” as the actual goal</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>None of this replaces technical skill. You still need to know how to run the tools, interpret the statistics, and write the code. But technical skill without this layer of questioning produces a researcher who can execute pipelines competently and still draw the wrong conclusions from them — confidently.</p>
+
+<hr />
+
+<h2 id="the-habit-worth-building">The habit worth building</h2>
+
+<p>If there is one habit to take from this post, it is this: before you open a terminal, write down — in plain language, no jargon — what question you are trying to answer and what result would make you change your mind. Then go run the pipeline.</p>
+
+<p>It takes thirty seconds. It will save you from more wasted analyses than any new tool you could learn this year.</p>
+
+<hr />
+
+<p><em>Posted as Day 96 of Daily Bioinformatics from Jojy’s Desk.</em></p>
+
+<p><img src="/assets/img/bionfo.png" alt="See your plot" /></p>]]></content><author><name></name></author><category term="bioinformatics" /><category term="scientific-thinking" /><category term="study-design" /><category term="peer-review" /><category term="GitHub-issues" /><category term="career-development" /><category term="research-methodology" /><category term="critical-thinking" /><category term="metagenomics" /><category term="beginners" /><summary type="html"><![CDATA[Anyone can run a pipeline. Type the command, wait for the job to finish, get a table of results. The hard part of bioinformatics has never been execution — it is deciding what question the pipeline should actually answer. This post is not a tutorial. It is about the thinking that happens before the first command is typed: how to turn a vague curiosity into a testable question, and two underrated sources of analytical maturity that nobody talks about — reviewing manuscripts and reading GitHub issues.]]></summary></entry><entry><title type="html">Your Code Is a Publication: How to Make Bioinformatics Workflows Citable with Zenodo</title><link href="https://jojyjohn28.github.io/blog/zenodo-bioinformatics-workflows-citable/" rel="alternate" type="text/html" title="Your Code Is a Publication: How to Make Bioinformatics Workflows Citable with Zenodo" /><published>2026-06-15T00:00:00-04:00</published><updated>2026-06-15T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/zenodo-bioinformatics-workflows-citable</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/zenodo-bioinformatics-workflows-citable/"><![CDATA[<p>🧬 <em>Day 95 of Daily Bioinformatics from Jojy’s Desk</em></p>
 
 <p>Here is something that took me longer to realize than it should have: <strong>the workflow is the contribution, not just the paper that uses it</strong>.</p>
 
@@ -5046,554 +5202,4 @@ anvi-display-pan <span class="se">\</span>
 
 <p><em>LocalHGT: <a href="https://github.com/songweizhi/LocalHGT">github.com/songweizhi/LocalHGT</a>. MetaCHIP: Songweizhi et al. (2020). HGTector: Zhu et al. (2014). Analysis performed on estuarine metatranscriptomic and metagenomic data across Chesapeake Bay and Delaware Bay sampling stations.</em></p>
 
-<p><img src="/assets/img/hgt.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="genomics" /><category term="horizontal-gene-transfer" /><category term="HGT" /><category term="LocalHGT" /><category term="metagenomics" /><category term="functional-redundancy" /><category term="estuarine" /><category term="microbial-ecology" /><category term="MetaCHIP" /><category term="HGTector" /><category term="anvio" /><category term="R" /><category term="bioinformatics" /><category term="comparative-genomics" /><category term="mobile-genetic-elements" /><category term="beginners" /><summary type="html"><![CDATA[Horizontal gene transfer is one of the most powerful forces shaping microbial evolution — it lets a bacterium acquire in hours what vertical evolution might take millennia to produce. But detecting it in complex, multi-species metagenomic datasets is non-trivial. This post walks through a complete LocalHGT-based HGT detection workflow applied to estuarine microbial communities, linking gene transfer patterns to functional redundancy, ecological compartment, and environmental gradients. Includes installation, a brief survey of alternative tools (MetaCHIP, HGTector, anvi'o), and an honest account of what the data did and did not support.]]></summary></entry><entry><title type="html">Pangenomes, Biosynthetic Potential, and Population Structure: A Population Genomics Workflow</title><link href="https://jojyjohn28.github.io/blog/population-genomics-antismash-bigscape/" rel="alternate" type="text/html" title="Pangenomes, Biosynthetic Potential, and Population Structure: A Population Genomics Workflow" /><published>2026-06-03T00:00:00-04:00</published><updated>2026-06-03T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/population-genomics-antismash-bigscape</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/population-genomics-antismash-bigscape/"><![CDATA[<p>🧬 𝐷𝑎𝑦 𝟪7 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 𝖽𝖾𝗌𝗄</p>
-
-<p>Two strains of the same bacterial species can look identical at the 16S level and yet carry fundamentally different genetic toolkits. One might produce an antimicrobial peptide that its close relatives cannot. Another might carry a unique cluster of metabolic genes that lets it colonize a niche that is hostile to every other member of its species. This is the core insight behind pangenome analysis: the genome of a species is not a fixed thing. It is a distributed archive, spread across all strains, containing a shared core and a vast accessory space that defines individual and population-level differences.</p>
-
-<p>This post documents a complete population genomics workflow applied to <em>Staphylococcus capitis</em> — a coagulase-negative staphylococcus found on human skin and a clinically relevant opportunistic pathogen in neonatal intensive care units. The workflow moves from raw GenBank files through pangenome construction, population-specific gene enrichment, secondary metabolite prediction, and gene cluster family analysis. Where results from the ongoing study are not yet published, I use simplified toy examples to illustrate what each step produces and why it matters.</p>
-
-<hr />
-
-<h2 id="why-pangenomics-the-coreaccessory-framework">Why pangenomics? The core–accessory framework</h2>
-
-<p>Imagine you have genome sequences for 100 strains of the same species. You could align them all and look for single-nucleotide polymorphisms — that is phylogenomics. But pangenomics asks a different question: which genes are shared by all strains, which are shared by some, and which appear in only one or two? That partition is biologically meaningful.</p>
-
-<p>A simplified toy example with five hypothetical strains:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Gene cluster</th>
-      <th>Strain A</th>
-      <th>Strain B</th>
-      <th>Strain C</th>
-      <th>Strain D</th>
-      <th>Strain E</th>
-      <th>Frequency</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>GC_001 (ribosomal protein)</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>100% → <strong>Core</strong></td>
-    </tr>
-    <tr>
-      <td>GC_002 (cell wall synthesis)</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>100% → <strong>Core</strong></td>
-    </tr>
-    <tr>
-      <td>GC_003 (siderophore)</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✗</td>
-      <td>✗</td>
-      <td>60% → <strong>Accessory</strong></td>
-    </tr>
-    <tr>
-      <td>GC_004 (bacteriocin)</td>
-      <td>✓</td>
-      <td>✗</td>
-      <td>✗</td>
-      <td>✗</td>
-      <td>✗</td>
-      <td>20% → <strong>Rare</strong></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The core genome encodes the machinery every strain needs to survive. The accessory genome encodes everything that makes one strain different from another — virulence factors, resistance genes, metabolic specializations, biosynthetic gene clusters.</p>
-
-<p>In a real dataset of 228 <em>S. capitis</em> genomes, the pangenome expands to thousands of gene clusters distributed across core, accessory, low-frequency, and rare categories. The proportion that is core typically shrinks as more genomes are added — a hallmark of an open pangenome, which suggests ongoing horizontal gene transfer and ecological diversification.</p>
-
-<hr />
-
-<h2 id="project-structure-and-inputs">Project structure and inputs</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/scratch/jojyj/capitis_work/
-├── capitis_GenBank/     <span class="c"># input: annotated genome files (.gbk)</span>
-├── fasta/               <span class="c"># converted FASTA sequences</span>
-├── contigs_db/          <span class="c"># anvi'o contigs databases</span>
-├── pan_output/          <span class="c"># anvi'o pangenome database</span>
-├── exports/             <span class="c"># gene cluster tables</span>
-├── antismash_output/    <span class="c"># per-genome BGC predictions</span>
-├── bgc_summary/         <span class="c"># aggregated BGC tables</span>
-└── bigscape_input/      <span class="c"># antiSMASH region files for BiG-SCAPE</span>
-</code></pre></div></div>
-
-<p>The metadata assigns each genome to one of seven phylogenomic populations (SC_pop_1 through SC_pop_7), defined based on prior phylogenetic analysis. These population labels drive the enrichment analysis downstream.</p>
-
-<hr />
-
-<h2 id="step-1--convert-genbank-to-fasta">Step 1 — Convert GenBank to FASTA</h2>
-
-<p>anvi’o requires FASTA input. The GenBank files from NCBI contain both sequence and annotation, so the conversion extracts the sequence while keeping contig names consistent:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">Bio</span> <span class="kn">import</span> <span class="n">SeqIO</span>
-<span class="kn">import</span> <span class="n">glob</span><span class="p">,</span> <span class="n">os</span>
-
-<span class="n">gbk_dir</span> <span class="o">=</span> <span class="sh">"</span><span class="s">capitis_GenBank</span><span class="sh">"</span>
-<span class="n">out_dir</span> <span class="o">=</span> <span class="sh">"</span><span class="s">fasta</span><span class="sh">"</span>
-<span class="n">os</span><span class="p">.</span><span class="nf">makedirs</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">gbk</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">gbk_dir</span><span class="si">}</span><span class="s">/*.gbk</span><span class="sh">"</span><span class="p">):</span>
-    <span class="n">sample</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">basename</span><span class="p">(</span><span class="n">gbk</span><span class="p">).</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">.gbk</span><span class="sh">"</span><span class="p">,</span> <span class="sh">""</span><span class="p">)</span>
-    <span class="n">sample</span> <span class="o">=</span> <span class="n">sample</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s"> </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">_</span><span class="sh">"</span><span class="p">).</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">-</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">_</span><span class="sh">"</span><span class="p">).</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">.</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">_</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">out_dir</span><span class="si">}</span><span class="s">/</span><span class="si">{</span><span class="n">sample</span><span class="si">}</span><span class="s">.fa</span><span class="sh">"</span>
-
-    <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="sh">"</span><span class="s">w</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">record</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">SeqIO</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">gbk</span><span class="p">,</span> <span class="sh">"</span><span class="s">genbank</span><span class="sh">"</span><span class="p">),</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-            <span class="n">record</span><span class="p">.</span><span class="nb">id</span>          <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">sample</span><span class="si">}</span><span class="s">_contig_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="sh">"</span>
-            <span class="n">record</span><span class="p">.</span><span class="n">name</span>        <span class="o">=</span> <span class="n">record</span><span class="p">.</span><span class="nb">id</span>
-            <span class="n">record</span><span class="p">.</span><span class="n">description</span> <span class="o">=</span> <span class="sh">""</span>
-            <span class="n">SeqIO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="sh">"</span><span class="s">fasta</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>The renaming step — replacing spaces, hyphens, and dots with underscores — matters downstream. anvi’o is strict about special characters in genome names, and a mismatch between the name in the FASTA and the name used elsewhere in the pipeline will cause silent failures that are hard to trace.</p>
-
-<hr />
-
-<h2 id="step-2--build-the-anvio-pangenome">Step 2 — Build the anvi’o pangenome</h2>
-
-<p>anvi’o pangenomics works in four stages: build per-genome contigs databases, run COG annotation on each, merge them into a genomes storage, then run the pangenome analysis.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate anvio-9
-
-<span class="c"># Per-genome contigs databases</span>
-<span class="k">for </span>fa <span class="k">in </span>fasta/<span class="k">*</span>.fa<span class="p">;</span> <span class="k">do
-    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> .fa<span class="si">)</span>
-    anvi-gen-contigs-database <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$fa</span><span class="s2">"</span> <span class="nt">-o</span> contigs_db/<span class="k">${</span><span class="nv">sample</span><span class="k">}</span>.db <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$sample</span><span class="s2">"</span> <span class="nt">--num-threads</span> 8
-<span class="k">done</span>
-
-<span class="c"># COG functional annotation</span>
-<span class="k">for </span>db <span class="k">in </span>contigs_db/<span class="k">*</span>.db<span class="p">;</span> <span class="k">do
-    </span>anvi-run-ncbi-cogs <span class="nt">-c</span> <span class="s2">"</span><span class="nv">$db</span><span class="s2">"</span> <span class="nt">--num-threads</span> 8
-<span class="k">done</span>
-
-<span class="c"># External genomes manifest</span>
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"name</span><span class="se">\t</span><span class="s2">contigs_db_path"</span> <span class="o">&gt;</span> external-genomes.txt
-<span class="k">for </span>db <span class="k">in </span>contigs_db/<span class="k">*</span>.db<span class="p">;</span> <span class="k">do
-    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$db</span><span class="s2">"</span> .db<span class="si">)</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">sample</span><span class="k">}</span><span class="se">\t</span><span class="si">$(</span><span class="nb">realpath</span> <span class="s2">"</span><span class="nv">$db</span><span class="s2">"</span><span class="si">)</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> external-genomes.txt
-<span class="k">done</span>
-
-<span class="c"># Genomes storage</span>
-anvi-gen-genomes-storage <span class="nt">-e</span> external-genomes.txt <span class="nt">-o</span> STAPH_CAPITIS-GENOMES.db
-
-<span class="c"># Pangenome</span>
-anvi-pan-genome <span class="se">\</span>
-    <span class="nt">-g</span> STAPH_CAPITIS-GENOMES.db <span class="se">\</span>
-    <span class="nt">-n</span> STAPH_CAPITIS_PAN <span class="se">\</span>
-    <span class="nt">-o</span> pan_output <span class="se">\</span>
-    <span class="nt">--num-threads</span> 16 <span class="se">\</span>
-    <span class="nt">--minbit</span> 0.5 <span class="se">\</span>
-    <span class="nt">--mcl-inflation</span> 10 <span class="se">\</span>
-    <span class="nt">--I-know-this-is-not-a-good-idea</span>
-</code></pre></div></div>
-
-<p>The last flag — <code class="language-plaintext highlighter-rouge">--I-know-this-is-not-a-good-idea</code> — is required when the genome count exceeds anvi’o’s recommended limit. It is not a workaround; it is an explicit acknowledgment that computing the all-vs-all BLAST matrix for hundreds of genomes is computationally expensive and that the user accepts responsibility for the resource implications. The analysis is still statistically valid.</p>
-
-<p><strong><code class="language-plaintext highlighter-rouge">--minbit 0.5</code></strong> sets the minimum bit score ratio for retaining BLAST hits, controlling sensitivity. <strong><code class="language-plaintext highlighter-rouge">--mcl-inflation 10</code></strong> controls how tightly the Markov clustering algorithm groups similar sequences — higher inflation produces more, smaller, tighter gene clusters.</p>
-
-<hr />
-
-<h2 id="step-3--gene-presenceabsence-matrix">Step 3 — Gene presence–absence matrix</h2>
-
-<p>After exporting gene clusters, the raw table is converted into a binary presence–absence matrix. This is the input for everything downstream — enrichment testing, visualization, and any ecological analysis.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">exports/gene_clusters.txt</span><span class="sh">"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">"</span><span class="se">\t</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="n">gc_col</span>     <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="sh">"</span><span class="s">gene_cluster</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">c</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">genome_col</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="sh">"</span><span class="s">genome</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">c</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="n">pa</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">df</span><span class="p">[[</span><span class="n">gc_col</span><span class="p">,</span> <span class="n">genome_col</span><span class="p">]]</span>
-    <span class="p">.</span><span class="nf">drop_duplicates</span><span class="p">()</span>
-    <span class="p">.</span><span class="nf">assign</span><span class="p">(</span><span class="n">present</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="p">.</span><span class="nf">pivot_table</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">gc_col</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">genome_col</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="sh">"</span><span class="s">present</span><span class="sh">"</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<p>For each gene cluster, this matrix records 1 (present) or 0 (absent) across every genome. The frequency column — how many genomes carry a given cluster — drives the core/accessory categorization:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Frequency threshold</th>
-      <th>Category</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>≥ 95%</td>
-      <td>Core</td>
-    </tr>
-    <tr>
-      <td>15–95%</td>
-      <td>Accessory</td>
-    </tr>
-    <tr>
-      <td>5–15%</td>
-      <td>Low-frequency accessory</td>
-    </tr>
-    <tr>
-      <td>&lt; 5%</td>
-      <td>Rare</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>These thresholds are conventional, not universal. For a tightly clonal species with limited horizontal gene transfer, you might raise the core threshold. For a highly diverse species, you might lower it. The biological question should guide the cutoffs.</p>
-
-<hr />
-
-<h2 id="step-4--metadata-alignment-and-name-matching">Step 4 — Metadata alignment and name matching</h2>
-
-<p>A recurrent practical challenge in pangenomics is that genome names in the presence–absence matrix and genome names in the metadata rarely match perfectly. NCBI GenBank names include strain designations, subspecies annotations, and version suffixes that differ from the clean names used in the metadata spreadsheet.</p>
-
-<p>The fix is a systematic matching pipeline: check which names are present in both, use fuzzy matching to identify likely pairs for unmatched names, build a correction table manually for ambiguous cases, then apply corrections and merge.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">difflib</span> <span class="kn">import</span> <span class="n">get_close_matches</span>
-
-<span class="n">missing</span> <span class="o">=</span> <span class="nf">sorted</span><span class="p">(</span><span class="nf">set</span><span class="p">(</span><span class="n">pa_names</span><span class="p">)</span> <span class="o">-</span> <span class="nf">set</span><span class="p">(</span><span class="n">meta_names</span><span class="p">))</span>
-
-<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">missing</span><span class="p">:</span>
-    <span class="n">matches</span> <span class="o">=</span> <span class="nf">get_close_matches</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">meta_names</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">PA name: </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  → candidate: </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>For example:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PA name: Staphylococcus_capitis_subsp__capitis_strain_DE0241
-  → candidate: Staphylococcus_capitis_strain_DE0241
-</code></pre></div></div>
-
-<p>The correction is obvious once surfaced, but impossible to catch without running the check first. Running <code class="language-plaintext highlighter-rouge">all(pa_names %in% meta_names)</code> before every downstream step is non-negotiable.</p>
-
-<hr />
-
-<h2 id="step-5--population-specific-gene-enrichment">Step 5 — Population-specific gene enrichment</h2>
-
-<p>Once metadata is aligned, the enrichment analysis asks: for each gene cluster and each population, is that cluster significantly more prevalent in this population than in all others combined? This is a 2×2 Fisher’s exact test for every gene cluster × population combination.</p>
-
-<p>To illustrate with a toy example — imagine gene cluster GC_042 appears in 45 of 50 SC_pop_3 genomes (90%) but only in 12 of 178 genomes from all other populations combined (7%):</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                 GC_042 present   GC_042 absent
-SC_pop_3              45               5
-All others            12             166
-
-Fisher's exact test: p &lt; 0.0001, OR = 124, frequency difference = +0.83
-</code></pre></div></div>
-
-<p>That cluster is strongly enriched in SC_pop_3. Something in the biology of this lineage favors carrying this gene — whether it is positive selection, a founder effect, or a shared ecological niche would require further investigation.</p>
-
-<p>The R implementation runs this test for every gene cluster in every population:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
-
-</span><span class="n">results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">()</span><span class="w">
-
-</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">target</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">unique</span><span class="p">(</span><span class="n">meta</span><span class="o">$</span><span class="n">clade</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
-
-  </span><span class="n">res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pa_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">mutate</span><span class="p">(</span><span class="n">in_target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clade</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">group_by</span><span class="p">(</span><span class="n">gene_cluster</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">summarise</span><span class="p">(</span><span class="w">
-      </span><span class="n">target_present</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">present</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">in_target</span><span class="p">),</span><span class="w">
-      </span><span class="n">target_absent</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">present</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">in_target</span><span class="p">),</span><span class="w">
-      </span><span class="n">other_present</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">present</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">in_target</span><span class="p">),</span><span class="w">
-      </span><span class="n">other_absent</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">present</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">in_target</span><span class="p">),</span><span class="w">
-      </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="w">
-    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">rowwise</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-      </span><span class="n">fisher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">fisher.test</span><span class="p">(</span><span class="n">matrix</span><span class="p">(</span><span class="w">
-        </span><span class="nf">c</span><span class="p">(</span><span class="n">target_present</span><span class="p">,</span><span class="w"> </span><span class="n">target_absent</span><span class="p">,</span><span class="w"> </span><span class="n">other_present</span><span class="p">,</span><span class="w"> </span><span class="n">other_absent</span><span class="p">),</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="w">
-      </span><span class="p">))),</span><span class="w">
-      </span><span class="n">pvalue</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">fisher</span><span class="o">$</span><span class="n">p.value</span><span class="p">,</span><span class="w">
-      </span><span class="n">odds_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">fisher</span><span class="o">$</span><span class="n">estimate</span><span class="p">)</span><span class="w">
-    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">ungroup</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="n">fisher</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-      </span><span class="n">clade</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">,</span><span class="w">
-      </span><span class="n">target_frequency</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">target_present</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">target_present</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">target_absent</span><span class="p">),</span><span class="w">
-      </span><span class="n">other_frequency</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">other_present</span><span class="w">  </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">other_present</span><span class="w">  </span><span class="o">+</span><span class="w"> </span><span class="n">other_absent</span><span class="p">),</span><span class="w">
-      </span><span class="n">frequency_difference</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target_frequency</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">other_frequency</span><span class="p">,</span><span class="w">
-      </span><span class="n">qvalue</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="n">p.adjust</span><span class="p">(</span><span class="n">pvalue</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"BH"</span><span class="p">),</span><span class="w">
-      </span><span class="n">log2_odds_ratio</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">log2</span><span class="p">(</span><span class="n">odds_ratio</span><span class="p">)</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-
-  </span><span class="n">results</span><span class="p">[[</span><span class="n">target</span><span class="p">]]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="n">all_results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bind_rows</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="w">
-
-</span><span class="n">sig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">all_results</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="w">
-    </span><span class="n">qvalue</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w">
-    </span><span class="n">odds_ratio</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
-    </span><span class="n">target_frequency</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">0.50</span><span class="p">,</span><span class="w">      </span><span class="c1"># present in at least half the target population</span><span class="w">
-    </span><span class="n">frequency_difference</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">0.30</span><span class="w">   </span><span class="c1"># at least 30 percentage points more common</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The four-condition filter for significance is important. Statistical significance alone (qvalue &lt; 0.05) is not enough — a gene cluster that is present in 3% of one population and 0.5% of another can be highly significant with enough genomes, but is biologically uninterpretable as a population marker. The frequency and frequency-difference filters enforce biological relevance alongside statistical confidence.</p>
-
-<hr />
-
-<h2 id="step-6--visualizing-enrichment-volcano-plots">Step 6 — Visualizing enrichment: volcano plots</h2>
-
-<p>A volcano plot of log₂(odds ratio) vs. −log₁₀(FDR) shows the enrichment landscape for each population simultaneously. Points to the right represent gene clusters that are more prevalent in the target population; points above the dashed significance line passed the FDR threshold.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vol_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">all_results</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">target_frequency</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.2</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">other_frequency</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-    </span><span class="n">significant</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">qvalue</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">odds_ratio</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;</span><span class="w">
-                   </span><span class="n">target_frequency</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">0.50</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">frequency_difference</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">0.30</span><span class="p">,</span><span class="w">
-    </span><span class="n">neglog10q</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">qvalue</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="nf">is.finite</span><span class="p">(</span><span class="n">log2_odds_ratio</span><span class="p">),</span><span class="w"> </span><span class="nf">is.finite</span><span class="p">(</span><span class="n">neglog10q</span><span class="p">))</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">vol_plot</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2_odds_ratio</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">neglog10q</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">significant</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.4</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.75</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">clade</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"FALSE"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey75"</span><span class="p">,</span><span class="w"> </span><span class="s2">"TRUE"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#D73027"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">expression</span><span class="p">(</span><span class="n">log</span><span class="p">[</span><span class="m">2</span><span class="p">](</span><span class="s2">"Odds ratio"</span><span class="p">)),</span><span class="w">
-    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">expression</span><span class="p">(</span><span class="o">-</span><span class="n">log</span><span class="p">[</span><span class="m">10</span><span class="p">](</span><span class="s2">"FDR"</span><span class="p">)),</span><span class="w">
-    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The faceted layout lets you compare populations directly. A population with many red points carries a highly differentiated accessory genome. A population with few red points shares most of its gene content with others — suggesting recent divergence, or that it is a generalist without strong niche-specific adaptations.</p>
-
-<hr />
-
-<h2 id="step-7--secondary-metabolite-prediction-with-antismash">Step 7 — Secondary metabolite prediction with antiSMASH</h2>
-
-<p>The pangenome tells you which genes are present and where. antiSMASH tells you whether any of those genes are organized into biosynthetic gene clusters — coordinated sets of genes that together produce a secondary metabolite.</p>
-
-<p>Secondary metabolites are ecologically and clinically significant: they include antibiotics, siderophores (iron-scavenging compounds), quorum-sensing signals, and antimicrobial peptides like lanthipeptides. For a skin commensal like <em>S. capitis</em>, these molecules may mediate competition with <em>S. aureus</em> and other pathogens in the skin niche.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run antiSMASH for all genomes</span>
-<span class="k">for </span>gbk <span class="k">in </span>capitis_GenBank/<span class="k">*</span>.gbk<span class="p">;</span> <span class="k">do
-    </span><span class="nv">sample</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$gbk</span><span class="s2">"</span> .gbk<span class="si">)</span>
-    antismash <span class="s2">"</span><span class="nv">$gbk</span><span class="s2">"</span> <span class="se">\</span>
-        <span class="nt">--output-dir</span> <span class="s2">"antismash_output/</span><span class="nv">$sample</span><span class="s2">"</span> <span class="se">\</span>
-        <span class="nt">--genefinding-tool</span> none <span class="se">\</span>
-        <span class="nt">--cpus</span> 16 <span class="se">\</span>
-        <span class="nt">--cb-general</span> <span class="se">\</span>
-        <span class="nt">--cb-subclusters</span> <span class="se">\</span>
-        <span class="nt">--cb-knownclusters</span> <span class="se">\</span>
-        <span class="nt">--asf</span> <span class="se">\</span>
-        <span class="nt">--pfam2go</span> <span class="se">\</span>
-        <span class="nt">--smcog-trees</span>
-<span class="k">done</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">--genefinding-tool none</code> tells antiSMASH to use the existing annotation in the GenBank file rather than re-predict genes. This is essential when working with NCBI-annotated genomes — re-predicting genes from scratch can produce different gene models that conflict with the annotation used in the pangenome analysis.</p>
-
-<h3 id="what-antismash-identifies">What antiSMASH identifies</h3>
-
-<p>For each genome, antiSMASH scans for signature biosynthetic genes and reports predicted BGC regions. Each region gets assigned to a BGC class. Some common classes in staphylococci:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>BGC class</th>
-      <th>What it makes</th>
-      <th>Biological role</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>lanthipeptide</td>
-      <td>Lanthipeptides (e.g., epidermin)</td>
-      <td>Antimicrobial peptides</td>
-    </tr>
-    <tr>
-      <td>NI-siderophore</td>
-      <td>Staphyloferrin-type siderophores</td>
-      <td>Iron acquisition</td>
-    </tr>
-    <tr>
-      <td>NRPS / NRPS-like</td>
-      <td>Non-ribosomal peptides</td>
-      <td>Diverse — antibiotics, siderophores, surfactants</td>
-    </tr>
-    <tr>
-      <td>T3PKS</td>
-      <td>Type III polyketides</td>
-      <td>Pigments, signaling molecules</td>
-    </tr>
-    <tr>
-      <td>terpene / terpene precursor</td>
-      <td>Terpene-derived compounds</td>
-      <td>Membrane components, signaling</td>
-    </tr>
-    <tr>
-      <td>cyclic lactone autoinducer</td>
-      <td>RNAIII-type quorum sensing signals</td>
-      <td>Density-dependent gene regulation</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="step-8--aggregating-bgcs-across-all-genomes">Step 8 — Aggregating BGCs across all genomes</h2>
-
-<p>antiSMASH produces one output folder per genome, each containing region-level GenBank files. The summarization step extracts BGC class annotations from all regions across all genomes into a single table:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span><span class="p">,</span> <span class="n">glob</span><span class="p">,</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">from</span> <span class="n">Bio</span> <span class="kn">import</span> <span class="n">SeqIO</span>
-
-<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="sh">"</span><span class="s">antismash_output/*/*.region*.gbk</span><span class="sh">"</span><span class="p">):</span>
-    <span class="n">genome</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">basename</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
-    <span class="n">record</span> <span class="o">=</span> <span class="n">SeqIO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="sh">"</span><span class="s">genbank</span><span class="sh">"</span><span class="p">)</span>
-
-    <span class="n">bgc_classes</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">record</span><span class="p">.</span><span class="n">features</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">feature</span><span class="p">.</span><span class="nb">type</span> <span class="o">==</span> <span class="sh">"</span><span class="s">region</span><span class="sh">"</span><span class="p">:</span>
-            <span class="n">bgc_classes</span><span class="p">.</span><span class="nf">extend</span><span class="p">(</span><span class="n">feature</span><span class="p">.</span><span class="n">qualifiers</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">product</span><span class="sh">"</span><span class="p">,</span>
-                               <span class="n">feature</span><span class="p">.</span><span class="n">qualifiers</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">region_type</span><span class="sh">"</span><span class="p">,</span> <span class="p">[</span><span class="sh">"</span><span class="s">unknown</span><span class="sh">"</span><span class="p">])))</span>
-
-    <span class="k">for</span> <span class="n">bgc_class</span> <span class="ow">in</span> <span class="n">bgc_classes</span><span class="p">:</span>
-        <span class="n">rows</span><span class="p">.</span><span class="nf">append</span><span class="p">({</span><span class="sh">"</span><span class="s">genome</span><span class="sh">"</span><span class="p">:</span> <span class="n">genome</span><span class="p">,</span> <span class="sh">"</span><span class="s">bgc_class</span><span class="sh">"</span><span class="p">:</span> <span class="n">bgc_class</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">-</span><span class="sh">"</span><span class="p">,</span><span class="sh">"</span><span class="s">.</span><span class="sh">"</span><span class="p">)})</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>This produces a long-format table: one row per genome × BGC region. From this, you can derive a BGC class presence–absence matrix and classify each class as core, accessory, or rare using the same prevalence thresholds as the gene cluster analysis.</p>
-
-<p>A <strong>core BGC class</strong> (present in ≥95% of genomes) is part of the essential metabolic toolkit of the species — likely under purifying selection. An <strong>accessory BGC class</strong> (present in 15–95%) is maintained in some lineages and may reflect niche adaptation or ongoing horizontal gene transfer.</p>
-
-<hr />
-
-<h2 id="step-9--bgc-prevalence-by-population">Step 9 — BGC prevalence by population</h2>
-
-<p>With BGC presence–absence data and population metadata aligned, you can ask: does the biosynthetic potential of <em>S. capitis</em> differ between populations? Do some lineages carry more antimicrobial peptide biosynthetic clusters? Are siderophore clusters enriched in populations from iron-limited environments?</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bgc_prev</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bgc_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">group_by</span><span class="p">(</span><span class="n">clade</span><span class="p">,</span><span class="w"> </span><span class="n">bgc_class</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">summarise</span><span class="p">(</span><span class="w">
-    </span><span class="n">prevalence</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">present</span><span class="p">),</span><span class="w">
-    </span><span class="n">genomes_present</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">present</span><span class="p">),</span><span class="w">
-    </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">bgc_prev_plot</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clade</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prevalence</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bgc_class</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_col</span><span class="p">(</span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_dodge</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">),</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bgc_colors</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Population"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"BGC prevalence"</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"BGC class"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The population-level BGC enrichment statistics use the same Fisher’s exact test framework as the gene cluster enrichment, but applied to BGC class presence–absence rather than gene cluster presence–absence. Significant enrichment of a BGC class in a specific population is a hypothesis-generating finding: it suggests that lineage-specific secondary metabolite production may contribute to whatever distinguishes that population ecologically or clinically.</p>
-
-<hr />
-
-<h2 id="step-10--gene-cluster-family-analysis-with-big-scape">Step 10 — Gene cluster family analysis with BiG-SCAPE</h2>
-
-<p>antiSMASH predicts BGCs independently for each genome. Two genomes might each carry a lanthipeptide cluster, but are they the same lanthipeptide cluster or different ones that evolved separately? BiG-SCAPE answers this by comparing all BGC regions across all genomes and clustering them into Gene Cluster Families (GCFs) based on sequence similarity.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Collect all antiSMASH region files</span>
-find antismash_output <span class="nt">-name</span> <span class="s2">"*region*.gbk"</span> <span class="nt">-exec</span> <span class="nb">cp</span> <span class="o">{}</span> bigscape_input/ <span class="se">\;</span>
-
-<span class="c"># Run BiG-SCAPE</span>
-bigscape cluster <span class="se">\</span>
-    <span class="nt">-i</span> bigscape_input <span class="se">\</span>
-    <span class="nt">-o</span> bigscape_output <span class="se">\</span>
-    <span class="nt">--mix</span>
-</code></pre></div></div>
-
-<p>The output groups BGCs into families. A large GCF with members from many strains is a conserved, widespread biosynthetic pathway. A small GCF with members from only a few closely related strains may represent a recently acquired or actively diversifying pathway.</p>
-
-<p>To illustrate with a toy example: imagine you have 10 genomes, each predicted to carry a “lanthipeptide” cluster by antiSMASH. BiG-SCAPE might group them like this:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GCF_001: 8 genomes — conserved epidermin-like cluster (core)
-GCF_002: 2 genomes — divergent lanthipeptide, potentially novel
-</code></pre></div></div>
-
-<p>GCF_001 is the expected core pathway. GCF_002 is the interesting one — two strains carrying a divergent variant worth characterizing further.</p>
-
-<p>The distribution of BGCs into GCFs, stratified by biosynthetic category and by population, gives the most detailed view of biosynthetic diversity available from comparative genomics alone.</p>
-
-<hr />
-
-<h2 id="putting-it-together-the-manuscript-figure-plan">Putting it together: the manuscript figure plan</h2>
-
-<p>The workflow produces two main figures:</p>
-
-<p><strong>Figure 1 — Population-specific accessory genome differentiation</strong></p>
-
-<ul>
-  <li>1A: Phylogenetic tree colored by population</li>
-  <li>1B: Volcano plots of population-enriched gene clusters (one panel per population)</li>
-  <li>1C: Heatmap of top enriched gene clusters, samples ordered by population</li>
-</ul>
-
-<p><strong>Figure 2 — Secondary metabolite and BGC diversity</strong></p>
-
-<ul>
-  <li>2A: BGC class prevalence across all genomes, colored by core/accessory/rare</li>
-  <li>2B: BGC class prevalence broken down by population (grouped bar chart)</li>
-</ul>
-
-<p>Together, these figures tell a coherent story: the seven <em>S. capitis</em> populations are not just phylogenetically distinct — they carry different functional gene repertoires (Figure 1) and different biosynthetic potentials (Figure 2). Whether those differences are adaptive, neutral, or clinically meaningful is the next question.</p>
-
-<hr />
-
-<h2 id="what-this-analysis-can-and-cannot-tell-you">What this analysis can and cannot tell you</h2>
-
-<p>A pangenome enrichment analysis identifies which gene clusters are statistically associated with a population. It does not tell you:</p>
-
-<ul>
-  <li>Whether those genes are expressed (that requires transcriptomics)</li>
-  <li>Whether the encoded proteins are functional (that requires biochemistry or functional genomics)</li>
-  <li>Whether the association is causal or correlative (that requires experimental manipulation or natural experiments)</li>
-  <li>What the gene clusters actually do, unless they match a characterized reference</li>
-</ul>
-
-<p>The BGC analysis adds a layer: antiSMASH predictions are based on sequence similarity to characterized biosynthetic pathways. A predicted lanthipeptide cluster in <em>S. capitis</em> may or may not produce the same compound as the reference lanthipeptide used to train the model. Validation — heterologous expression, metabolomics, bioactivity assays — is required before any BGC prediction becomes a biological claim.</p>
-
-<p>This is the honest framing of comparative genomics: it generates hypotheses at scale. The experiments that test those hypotheses are a separate undertaking.</p>
-
-<hr />
-
-<h2 id="reproducibility-checklist">Reproducibility checklist</h2>
-
-<ol>
-  <li>Genome names are standardized before any anvi’o step — no spaces, hyphens, or special characters.</li>
-  <li><code class="language-plaintext highlighter-rouge">all(pa_names %in% meta_names)</code> returns TRUE before enrichment analysis.</li>
-  <li>COG annotation is confirmed to have run successfully for all contigs databases before pangenome generation.</li>
-  <li><code class="language-plaintext highlighter-rouge">--genefinding-tool none</code> used in antiSMASH when input files carry existing annotations.</li>
-  <li>Fisher’s exact test results are filtered on both statistical (FDR &lt; 0.05) and biological (frequency ≥ 0.50, frequency difference ≥ 0.30) criteria.</li>
-  <li><code class="language-plaintext highlighter-rouge">sessionInfo()</code> saved alongside all R output.</li>
-  <li>All Python scripts and SLURM submission scripts versioned alongside the result files.</li>
-</ol>
-
-<hr />
-
-<p><em>This post documents an ongoing study. Results described here are preliminary and subject to change. antiSMASH version used: current conda-forge/bioconda release. anvi’o version: 9. BiG-SCAPE: current release. Population assignments based on prior phylogenomic analysis.</em></p>
-
-<p><img src="/assets/img/pop-gen.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="pangenomics" /><category term="population-genomics" /><category term="pangenome" /><category term="anvio" /><category term="antismash" /><category term="bigscape" /><category term="Staphylococcus" /><category term="gene-enrichment" /><category term="biosynthetic-gene-clusters" /><category term="secondary-metabolites" /><category term="Fisher-test" /><category term="R" /><category term="bioinformatics" /><category term="comparative-genomics" /><category term="BGC" /><category term="RiPP" /><category term="NRPS" /><category term="beginners" /><summary type="html"><![CDATA[Not all members of a species are the same. Two Staphylococcus strains can share a 16S rRNA gene that looks identical at the sequencing read level, yet carry entirely different sets of accessory genes that define how they survive, compete, and interact with the host. This post walks through a complete population genomics workflow — from GenBank files to pangenome construction, population-specific gene enrichment, secondary metabolite prediction with antiSMASH, and gene cluster family clustering with BiG-SCAPE — using S. capitis as the model organism.]]></summary></entry></feed>
+<p><img src="/assets/img/hgt.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="genomics" /><category term="horizontal-gene-transfer" /><category term="HGT" /><category term="LocalHGT" /><category term="metagenomics" /><category term="functional-redundancy" /><category term="estuarine" /><category term="microbial-ecology" /><category term="MetaCHIP" /><category term="HGTector" /><category term="anvio" /><category term="R" /><category term="bioinformatics" /><category term="comparative-genomics" /><category term="mobile-genetic-elements" /><category term="beginners" /><summary type="html"><![CDATA[Horizontal gene transfer is one of the most powerful forces shaping microbial evolution — it lets a bacterium acquire in hours what vertical evolution might take millennia to produce. But detecting it in complex, multi-species metagenomic datasets is non-trivial. This post walks through a complete LocalHGT-based HGT detection workflow applied to estuarine microbial communities, linking gene transfer patterns to functional redundancy, ecological compartment, and environmental gradients. Includes installation, a brief survey of alternative tools (MetaCHIP, HGTector, anvi'o), and an honest account of what the data did and did not support.]]></summary></entry></feed>
