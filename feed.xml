@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-06-27T23:15:34-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-06-27T23:15:34-04:00</published><updated>2026-06-27T23:15:34-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-07-24T09:29:13-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-07-24T09:29:13-04:00</published><updated>2026-07-24T09:29:13-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,429 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">How Bioinformaticians Think: Asking the Right Questions Before Running Any Tool</title><link href="https://jojyjohn28.github.io/blog/how-bioinformaticians-think/" rel="alternate" type="text/html" title="How Bioinformaticians Think: Asking the Right Questions Before Running Any Tool" /><published>2026-06-27T00:00:00-04:00</published><updated>2026-06-27T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/how-bioinformaticians-think</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/how-bioinformaticians-think/"><![CDATA[<p>🧬 <em>Day 96 of Daily Bioinformatics from Jojy’s Desk</em></p>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">New Lab, New Machine: Switching from Linux to macOS as a Bioinformatician</title><link href="https://jojyjohn28.github.io/blog/linux-to-macos-bioinformatician-guide/" rel="alternate" type="text/html" title="New Lab, New Machine: Switching from Linux to macOS as a Bioinformatician" /><published>2026-07-24T00:00:00-04:00</published><updated>2026-07-24T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/switching-from-linux-to-macOS</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/linux-to-macos-bioinformatician-guide/"><![CDATA[<p>🎉 <em>First post from the new lab — University of Maryland School of Medicine!</em>
+Day 97 of Daily Bioinformatics from Jojy’s Desk</p>
+
+<p>After years of Linux as my primary operating system, I just moved into a new position and, for the first time, my daily machine is a MacBook.</p>
+
+<p>I had assumed the transition would be almost invisible. macOS is Unix-based. The terminal is there. Most of my tools live in conda environments that travel with me. How different could it really be?</p>
+
+<p>The answer: mostly not very different — but different enough in the first few days to be genuinely disorienting in ways I had not expected.</p>
+
+<p>The biggest surprise was not the terminal. It was my fingers.</p>
+
+<p>Years of muscle memory had trained me to reach for <strong>Ctrl</strong> without thinking — Ctrl+C to copy, Ctrl+V to paste, Ctrl+Z to undo, Ctrl+Tab to switch windows. On macOS, almost all of these involve the <strong>Command (⌘)</strong> key instead. For the first three days I pressed the wrong key constantly, caught myself, pressed the right key, and repeated. The Unix commands were fine. The keyboard shortcuts were chaos.</p>
+
+<p>This post is the guide I wish I had found on day one. It covers what actually changes when you move from Linux to macOS as a bioinformatician, what stays the same, and how to set up a proper computational biology workstation on a Mac from scratch.</p>
+
+<hr />
+
+<h2 id="the-most-important-thing-to-understand-first">The most important thing to understand first</h2>
+
+<p>macOS and Linux share a common Unix ancestor. The terminal, the filesystem structure, the core utilities (<code class="language-plaintext highlighter-rouge">ls</code>, <code class="language-plaintext highlighter-rouge">grep</code>, <code class="language-plaintext highlighter-rouge">awk</code>, <code class="language-plaintext highlighter-rouge">find</code>, <code class="language-plaintext highlighter-rouge">sed</code>) — these are all there and work almost identically. If you have spent years on the command line in Linux, you will feel at home in the macOS terminal within minutes of opening it.</p>
+
+<p>What is different is the <em>desktop</em> layer. The keyboard shortcuts, the window management, the package manager, the system defaults — these are Apple’s, not Linux’s, and they have their own logic that takes a week or so to internalize.</p>
+
+<p>The mental model that helped me: <em>the terminal is familiar, the desktop is new</em>.</p>
+
+<hr />
+
+<h2 id="1-the-command-key-is-the-new-control-key">1. The Command key is the new Control key</h2>
+
+<p>This is the core muscle memory problem. Commit this table to memory as fast as possible — it will eliminate most of your early frustration.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Linux</th>
+      <th>macOS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Copy</td>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl + C</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + C</code></td>
+    </tr>
+    <tr>
+      <td>Paste</td>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl + V</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + V</code></td>
+    </tr>
+    <tr>
+      <td>Cut</td>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl + X</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + X</code></td>
+    </tr>
+    <tr>
+      <td>Select all</td>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl + A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + A</code></td>
+    </tr>
+    <tr>
+      <td>Save</td>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl + S</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + S</code></td>
+    </tr>
+    <tr>
+      <td>Find</td>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl + F</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + F</code></td>
+    </tr>
+    <tr>
+      <td>Undo</td>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl + Z</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + Z</code></td>
+    </tr>
+    <tr>
+      <td>Redo</td>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl + Shift + Z</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + Shift + Z</code></td>
+    </tr>
+    <tr>
+      <td>New tab</td>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl + T</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + T</code></td>
+    </tr>
+    <tr>
+      <td>Close tab</td>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl + W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + W</code></td>
+    </tr>
+    <tr>
+      <td>Switch applications</td>
+      <td><code class="language-plaintext highlighter-rouge">Alt + Tab</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + Tab</code></td>
+    </tr>
+    <tr>
+      <td>Switch windows of same app</td>
+      <td>—</td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + `</code></td>
+    </tr>
+    <tr>
+      <td>Quit application</td>
+      <td><code class="language-plaintext highlighter-rouge">Alt + F4</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + Q</code></td>
+    </tr>
+    <tr>
+      <td>Force quit</td>
+      <td><code class="language-plaintext highlighter-rouge">Ctrl + Alt + Del</code></td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + Option + Esc</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>In the terminal specifically</strong>, <code class="language-plaintext highlighter-rouge">Ctrl + C</code> still works to interrupt a running job — this is one case where the Linux habit is correct on macOS too. The <code class="language-plaintext highlighter-rouge">Ctrl</code> key is not gone; it just does less at the desktop level.</p>
+
+<hr />
+
+<h2 id="2-spotlight--your-application-launcher">2. Spotlight — your application launcher</h2>
+
+<p>On Linux you might use a dock, a taskbar, or <code class="language-plaintext highlighter-rouge">dmenu</code>. On macOS the fastest way to launch anything is Spotlight:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>⌘ + Space
+</code></pre></div></div>
+
+<p>Type the first few letters of what you want — Terminal, VS Code, Chrome, Activity Monitor — and press Enter. After a day or two, this becomes faster than clicking on anything.</p>
+
+<hr />
+
+<h2 id="3-screenshots">3. Screenshots</h2>
+
+<p>I take screenshots constantly for tutorials, documentation, and blog posts. macOS has excellent built-in screenshot tools that I now prefer to any Linux equivalent.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Shortcut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Capture full screen</td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + Shift + 3</code></td>
+    </tr>
+    <tr>
+      <td>Select area to capture</td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + Shift + 4</code></td>
+    </tr>
+    <tr>
+      <td>Capture a specific window</td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + Shift + 4</code>, then <code class="language-plaintext highlighter-rouge">Space</code>, then click the window</td>
+    </tr>
+    <tr>
+      <td>Open the full screenshot tool</td>
+      <td><code class="language-plaintext highlighter-rouge">⌘ + Shift + 5</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><code class="language-plaintext highlighter-rouge">⌘ + Shift + 5</code> is worth bookmarking — it opens a toolbar that lets you record video, set a timer, choose where to save, and annotate before saving.</p>
+
+<p>Screenshots are saved to the Desktop by default. Change this in <code class="language-plaintext highlighter-rouge">⌘ + Shift + 5</code> → Options → Save to.</p>
+
+<hr />
+
+<h2 id="4-the-terminal-commands-you-already-know-still-work">4. The terminal commands you already know still work</h2>
+
+<p>This is the reassuring part. Everything from Linux transfers directly:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">pwd</span>           <span class="c"># print working directory</span>
+<span class="nb">ls</span> <span class="nt">-lh</span>        <span class="c"># list with human-readable sizes</span>
+<span class="nb">cd</span> ~/projects <span class="c"># change directory</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nb">dir</span>  <span class="c"># create directory (with parents)</span>
+<span class="nb">grep</span> <span class="nt">-r</span> <span class="s2">"pattern"</span> <span class="nb">.</span> <span class="c"># recursive search</span>
+find <span class="nb">.</span> <span class="nt">-name</span> <span class="s2">"*.fna"</span> <span class="c"># find files</span>
+<span class="nb">head</span> <span class="nt">-20</span> file.tsv    <span class="c"># first 20 lines</span>
+<span class="nb">tail</span> <span class="nt">-f</span> job.log      <span class="c"># watch a log file update</span>
+<span class="nb">cat </span>file1 file2 <span class="o">&gt;</span> combined.txt
+<span class="nb">awk</span> <span class="s1">'{print $2}'</span> table.tsv
+<span class="nb">sed</span> <span class="s1">'s/old/new/g'</span> file.txt
+<span class="nb">wc</span> <span class="nt">-l</span> results.csv
+<span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-nr</span>
+</code></pre></div></div>
+
+<p>If you wrote Bash scripts on Linux, they will run on macOS with almost no changes. The pipeline commands, SLURM submission syntax for remote jobs, rsync transfers — all identical.</p>
+
+<hr />
+
+<h2 id="5-where-things-differ-homebrew-replaces-apt">5. Where things differ: Homebrew replaces apt</h2>
+
+<p>On Ubuntu/Debian Linux, the package manager is <code class="language-plaintext highlighter-rouge">apt</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Linux</span>
+<span class="nb">sudo </span>apt <span class="nb">install </span>wget git htop tree
+</code></pre></div></div>
+
+<p>On macOS, there is no built-in package manager for command-line tools. The community solution is <a href="https://brew.sh">Homebrew</a> — and it is excellent.</p>
+
+<p><strong>Install Homebrew first, before anything else:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/bin/bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>Then use it exactly like <code class="language-plaintext highlighter-rouge">apt</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>git
+brew <span class="nb">install </span>wget
+brew <span class="nb">install </span>htop
+brew <span class="nb">install </span>tree
+brew <span class="nb">install </span>gnu-sed        <span class="c"># macOS sed is BSD sed — slightly different behavior</span>
+brew <span class="nb">install </span>coreutils      <span class="c"># GNU core utilities (gdate, gls, etc.)</span>
+</code></pre></div></div>
+
+<p><strong>The BSD vs GNU difference</strong> is one subtle gotcha. macOS ships with BSD versions of <code class="language-plaintext highlighter-rouge">sed</code>, <code class="language-plaintext highlighter-rouge">awk</code>, <code class="language-plaintext highlighter-rouge">grep</code>, and <code class="language-plaintext highlighter-rouge">date</code> that behave slightly differently from the GNU versions used on Linux. If a script that worked perfectly on Linux behaves oddly on macOS, this is usually why. Installing <code class="language-plaintext highlighter-rouge">gnu-sed</code> and <code class="language-plaintext highlighter-rouge">coreutils</code> via Homebrew and using <code class="language-plaintext highlighter-rouge">gsed</code> and <code class="language-plaintext highlighter-rouge">gdate</code> instead solves most of these issues.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check which version you have</span>
+<span class="nb">sed</span> <span class="nt">--version</span>    <span class="c"># GNU sed: "GNU sed version 4.x"</span>
+                 <span class="c"># BSD sed: no version output</span>
+
+<span class="c"># Use GNU sed on macOS after installing:</span>
+brew <span class="nb">install </span>gnu-sed
+gsed <span class="s1">'s/old/new/g'</span> file.txt
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="6-iterm2--upgrade-from-the-default-terminal-immediately">6. iTerm2 — upgrade from the default terminal immediately</h2>
+
+<p>The built-in macOS Terminal app is functional, but <a href="https://iterm2.com">iTerm2</a> is significantly better for bioinformatics work and is free.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install</span> <span class="nt">--cask</span> iterm2
+</code></pre></div></div>
+
+<p>Key features over the default Terminal:</p>
+
+<ul>
+  <li><strong>Split panes</strong> — divide the terminal window horizontally or vertically (<code class="language-plaintext highlighter-rouge">⌘ + D</code> for vertical, <code class="language-plaintext highlighter-rouge">⌘ + Shift + D</code> for horizontal). Run a job in one pane and watch its output in another</li>
+  <li><strong>Profiles</strong> — save connection profiles for your HPC clusters with pre-set SSH commands</li>
+  <li><strong>Search</strong> (<code class="language-plaintext highlighter-rouge">⌘ + F</code>) with regex support across all terminal output</li>
+  <li><strong>Autocomplete</strong> for previously typed commands</li>
+  <li><strong>Clickable URLs</strong> in terminal output</li>
+</ul>
+
+<p>For bioinformatics work where you often have a local terminal, an HPC SSH session, and a log watch running simultaneously, split panes alone justify the switch.</p>
+
+<hr />
+
+<h2 id="7-set-up-conda--mamba-immediately">7. Set up conda / mamba immediately</h2>
+
+<p>If you used conda on Linux, the setup on macOS is identical — but use the Apple Silicon (arm64) version of Miniconda or Miniforge if you have an M-series Mac (M1, M2, M3, M4):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For Apple Silicon Macs (M1/M2/M3/M4):</span>
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
+bash Miniforge3-MacOSX-arm64.sh
+
+<span class="c"># For Intel Macs:</span>
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+bash Miniconda3-latest-MacOSX-x86_64.sh
+</code></pre></div></div>
+
+<p><strong>Why this matters:</strong> Some bioinformatics tools were compiled for x86_64 (Intel) and do not have native arm64 builds yet. On M-series Macs, Rosetta 2 translates these automatically, but it is slower and occasionally causes issues. Always check whether the tool you need has an arm64 conda package before assuming a conda install will work seamlessly.</p>
+
+<p>Install mamba for faster environment solving:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-n</span> base <span class="nt">-c</span> conda-forge mamba
+</code></pre></div></div>
+
+<p>Then use <code class="language-plaintext highlighter-rouge">mamba install</code> everywhere you would use <code class="language-plaintext highlighter-rouge">conda install</code> — same syntax, much faster dependency resolution.</p>
+
+<hr />
+
+<h2 id="8-vs-code-setup-for-bioinformatics">8. VS Code setup for bioinformatics</h2>
+
+<p>Install VS Code:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install</span> <span class="nt">--cask</span> visual-studio-code
+</code></pre></div></div>
+
+<p>Then install the essential extensions for bioinformatics work:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># From command line (code must be in PATH — install from VS Code: ⌘+Shift+P → Shell Command)</span>
+code <span class="nt">--install-extension</span> ms-python.python
+code <span class="nt">--install-extension</span> REditorSupport.r
+code <span class="nt">--install-extension</span> ms-vscode-remote.remote-ssh
+code <span class="nt">--install-extension</span> timonwong.shellcheck
+code <span class="nt">--install-extension</span> mechatroner.rainbow-csv
+</code></pre></div></div>
+
+<p>The <strong>Remote - SSH</strong> extension is the one that changed my workflow the most. It lets you open a VS Code window that is connected directly to your HPC cluster — you edit files on the cluster in a local VS Code interface, with full IntelliSense, integrated terminal, and file browser. No more <code class="language-plaintext highlighter-rouge">nano</code> on the cluster for anything longer than a one-liner.</p>
+
+<p>Set up an SSH config for your cluster in <code class="language-plaintext highlighter-rouge">~/.ssh/config</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host palmetto
+    HostName login.palmetto.clemson.edu
+    User jojyj
+    IdentityFile ~/.ssh/id_ed25519
+</code></pre></div></div>
+
+<p>Then in VS Code: <code class="language-plaintext highlighter-rouge">⌘ + Shift + P</code> → <code class="language-plaintext highlighter-rouge">Remote-SSH: Connect to Host</code> → <code class="language-plaintext highlighter-rouge">palmetto</code>.</p>
+
+<hr />
+
+<h2 id="9-a-few-macos-specific-things-that-are-genuinely-useful">9. A few macOS-specific things that are genuinely useful</h2>
+
+<p><strong>Show hidden files in Finder:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>⌘ + Shift + .
+</code></pre></div></div>
+<p>Essential for working with <code class="language-plaintext highlighter-rouge">.ssh/</code>, <code class="language-plaintext highlighter-rouge">.conda/</code>, and other dotfile directories.</p>
+
+<p><strong>Copy a file’s full path:</strong>
+Right-click the file in Finder → hold <code class="language-plaintext highlighter-rouge">Option</code> → “Copy [filename] as Pathname”</p>
+
+<p><strong>Lock screen:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>⌃ + ⌘ + Q
+</code></pre></div></div>
+<p>Memorize this from day one for shared offices and coffee shops.</p>
+
+<p><strong>Check system information (for documenting software environments):</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-a</span>              <span class="c"># kernel and architecture</span>
+sw_vers               <span class="c"># macOS version</span>
+system_profiler SPHardwareDataType    <span class="c"># chip, RAM, serial number</span>
+</code></pre></div></div>
+
+<p><strong>Activity Monitor</strong> (macOS equivalent of <code class="language-plaintext highlighter-rouge">htop</code>):
+<code class="language-plaintext highlighter-rouge">⌘ + Space</code> → Activity Monitor</p>
+
+<p>Or install <code class="language-plaintext highlighter-rouge">htop</code> and use it in the terminal:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>htop
+htop
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="10-ssh-to-the-hpc--nothing-changes">10. SSH to the HPC — nothing changes</h2>
+
+<p>This was the most reassuring discovery. Everything about connecting to and working on the HPC cluster is identical:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Connect</span>
+ssh username@login.cluster.edu
+
+<span class="c"># Copy files</span>
+rsync <span class="nt">-avzP</span> local_results/ username@cluster:/scratch/username/results/
+
+<span class="c"># Submit jobs</span>
+sbatch run_pipeline.sh
+
+<span class="c"># Monitor</span>
+squeue <span class="nt">-u</span> username
+<span class="nb">tail</span> <span class="nt">-f</span> logs/job_12345.out
+</code></pre></div></div>
+
+<p>Your existing SLURM scripts, your conda environments on the cluster, your file structure — none of this changes because you switched your local machine. The HPC runs Linux regardless of what your laptop runs.</p>
+
+<hr />
+
+<h2 id="what-i-still-miss-about-linux">What I still miss about Linux</h2>
+
+<p>In the spirit of honesty: there are things about Linux that macOS does not replicate as cleanly.</p>
+
+<p><strong>Window tiling</strong> — on Linux (especially with i3 or sway), I had keyboard-driven tiling windows. macOS window management is more manual. Tools like <a href="https://rectangleapp.com">Rectangle</a> (<code class="language-plaintext highlighter-rouge">brew install --cask rectangle</code>) help significantly — snap windows to halves, thirds, and corners with keyboard shortcuts.</p>
+
+<p><strong>Package availability</strong> — the bioinformatics ecosystem on Linux (especially Ubuntu) is more complete. A handful of tools I use regularly do not have macOS builds or have macOS builds that lag behind the Linux version. For these, I do the actual runs on the HPC and just write/edit code locally.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">apt</code> muscle memory</strong> — I still sometimes type <code class="language-plaintext highlighter-rouge">sudo apt install</code> in the macOS terminal and feel briefly confused when it fails. <code class="language-plaintext highlighter-rouge">brew install</code> is the answer, but the reflex takes time.</p>
+
+<hr />
+
+<h2 id="the-setup-checklist-for-a-new-mac-in-computational-biology">The setup checklist for a new Mac in computational biology</h2>
+
+<p>If you are setting up a Mac for bioinformatics work from scratch:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Install Homebrew</span>
+/bin/bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="si">)</span><span class="s2">"</span>
+
+<span class="c"># 2. Install core tools</span>
+brew <span class="nb">install </span>git wget curl tree htop gnu-sed coreutils
+
+<span class="c"># 3. Install iTerm2</span>
+brew <span class="nb">install</span> <span class="nt">--cask</span> iterm2
+
+<span class="c"># 4. Install VS Code</span>
+brew <span class="nb">install</span> <span class="nt">--cask</span> visual-studio-code
+
+<span class="c"># 5. Install Conda (arm64 for M-series)</span>
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
+bash Miniforge3-MacOSX-arm64.sh
+
+<span class="c"># 6. Install mamba</span>
+conda <span class="nb">install</span> <span class="nt">-n</span> base <span class="nt">-c</span> conda-forge mamba
+
+<span class="c"># 7. Set up SSH key for HPC</span>
+ssh-keygen <span class="nt">-t</span> ed25519 <span class="nt">-C</span> <span class="s2">"your_email@institution.edu"</span>
+ssh-copy-id username@hpc.institution.edu
+
+<span class="c"># 8. Install Rectangle (window management)</span>
+brew <span class="nb">install</span> <span class="nt">--cask</span> rectangle
+
+<span class="c"># 9. Configure Git</span>
+git config <span class="nt">--global</span> user.name <span class="s2">"Your Name"</span>
+git config <span class="nt">--global</span> user.email <span class="s2">"your_email@institution.edu"</span>
+
+<span class="c"># 10. Clone your dotfiles or configure .zshrc with your aliases</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>The transition from Linux to macOS as a bioinformatician is genuinely smooth — with one exception. The keyboard muscle memory problem is real, takes about a week to resolve, and is mildly infuriating while it is happening. Everything else — the terminal, the scripts, the conda environments, the HPC workflow — transferred without friction.</p>
+
+<p>What surprised me positively: the macOS desktop is genuinely pleasant to work on for long days. The display, the touchpad, the build quality, the battery life on an M-series machine — these are not small things when you are spending eight or more hours a day in front of it.</p>
+
+<p>What surprised me negatively: the BSD/GNU tool differences are easy to forget and occasionally produce subtle, hard-to-debug issues in scripts that worked perfectly on Linux. Install <code class="language-plaintext highlighter-rouge">gnu-sed</code> and <code class="language-plaintext highlighter-rouge">coreutils</code> immediately and use them.</p>
+
+<p>This is the first post from the new lab. There will be more — on setting up a full bioinformatics workstation, configuring VS Code for remote HPC work, and managing multiple conda environments across a local Mac and a remote Linux cluster.</p>
+
+<p>Happy to be here. Happy coding. 🚀</p>
+
+<hr />
+
+<p>For more details about shortcuts and more please also visit:https://support.apple.com/en-us/102650</p>
+
+<p><img src="/assets/img/mac-key.png" alt="See your plot" /></p>]]></content><author><name></name></author><category term="macOS" /><category term="linux" /><category term="terminal" /><category term="homebrew" /><category term="conda" /><category term="bioinformatics" /><category term="keyboard-shortcuts" /><category term="iTerm2" /><category term="VS-Code" /><category term="new-lab" /><category term="beginners" /><category term="productivity" /><summary type="html"><![CDATA[After years of Linux as my daily operating system — running pipelines on HPC clusters, writing Bash scripts, processing terabytes of sequencing data — I just started my new position at the University of Maryland School of Medicine and, for the first time, my daily machine is a MacBook. The transition is mostly smooth (macOS is Unix-based, the terminal feels familiar), but there were enough small differences in the first few days to slow me down. This post covers the commands, shortcuts, and setup steps every Linux-trained bioinformatician needs when switching to macOS — from the keyboard muscle memory problem to Homebrew, iTerm2, Conda, and VS Code.]]></summary></entry><entry><title type="html">How Bioinformaticians Think: Asking the Right Questions Before Running Any Tool</title><link href="https://jojyjohn28.github.io/blog/how-bioinformaticians-think/" rel="alternate" type="text/html" title="How Bioinformaticians Think: Asking the Right Questions Before Running Any Tool" /><published>2026-06-27T00:00:00-04:00</published><updated>2026-06-27T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/how-bioinformaticians-think</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/how-bioinformaticians-think/"><![CDATA[<p>🧬 <em>Day 96 of Daily Bioinformatics from Jojy’s Desk</em></p>
 
 <p>Anyone can run a pipeline. Install the tool, point it at your FASTQ files, wait for the SLURM job to finish, get a table of results. This is true whether the pipeline is Kraken2 or DESeq2 or AlphaFold. The execution step has gotten easier every year — better documentation, conda environments, one-line installs, Docker containers that handle every dependency for you.</p>
 
@@ -4782,424 +5204,4 @@ Sample_4   FL         Delaware     Summer   High
 
 <p><em>Analysis performed using DESeq2 (Love, Huber &amp; Anders 2014), ANCOM-BC2 (Lin &amp; Peddada 2020), ALDEx2 (Fernandes et al. 2014), and MaAsLin2 (Mallick et al. 2021). MAG abundance estimated by read mapping with CoverM or featureCounts. Dataset: estuarine metagenomes from Chesapeake Bay and Delaware Bay.</em></p>
 
-<p><img src="/assets/img/da_anlysis.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="genomics" /><category term="differential-abundance" /><category term="MAGs" /><category term="DESeq2" /><category term="ANCOM-BC" /><category term="ALDEx2" /><category term="MaAsLin2" /><category term="metagenomics" /><category term="compositional-data" /><category term="R" /><category term="bioinformatics" /><category term="estuarine" /><category term="free-living" /><category term="particle-associated" /><category term="volcano-plot" /><category term="microbiome" /><category term="beginners" /><summary type="html"><![CDATA[You have a table of 2,000 MAG relative abundances across dozens of samples. Community composition tells you who is there. Differential abundance analysis tells you which genomes change significantly between conditions — free-living vs particle-associated, spring vs summer, control vs treatment. This post walks through four methods (DESeq2, ANCOM-BC, ALDEx2, and MaAsLin2), explains when to use each, shows a real FL vs PA example from an estuarine dataset, and documents the most common mistakes that quietly invalidate results.]]></summary></entry><entry><title type="html">Who Shared What With Whom? Detecting Horizontal Gene Transfer in Estuarine Metagenomes with LocalHGT</title><link href="https://jojyjohn28.github.io/blog/horizontal-gene-transfer-metagenomes-localhgt/" rel="alternate" type="text/html" title="Who Shared What With Whom? Detecting Horizontal Gene Transfer in Estuarine Metagenomes with LocalHGT" /><published>2026-06-04T00:00:00-04:00</published><updated>2026-06-04T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/horizontal-gene-transfer-metagenomes-localhgt</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/horizontal-gene-transfer-metagenomes-localhgt/"><![CDATA[<p>🧬 𝐷𝑎𝑦 𝟪8 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 𝖽𝖾𝗌𝗄</p>
-
-<p>A bacterium that needs a new metabolic capability has two options. It can wait for mutation and selection to produce it — a process that takes generations. Or it can acquire a gene from a neighbour that already has it — a process that can happen in a single cell division cycle. This is horizontal gene transfer (HGT): the movement of genetic material between organisms outside the normal parent-to-offspring route. It is why antibiotic resistance spreads so rapidly across clinical settings, why metabolic functions can be shared across phylogenetically distant organisms in the same environment, and why the relationship between a microbe’s phylogeny and its functional capacity is so often decoupled.</p>
-
-<p>In environmental microbiology, understanding HGT means understanding not just who is present in a community, but how actively they are exchanging genetic material — and with whom. This post documents an HGT analysis workflow for estuarine microbial communities, using LocalHGT as the primary detection tool. The analysis examines how HGT patterns relate to functional redundancy, ecological compartment (particle-associated vs. free-living), season, and bay. I also include a short overview of alternative tools for metagenome-scale HGT detection.</p>
-
-<hr />
-
-<h2 id="what-is-localhgt-and-why-use-it">What is LocalHGT and why use it?</h2>
-
-<p>LocalHGT detects HGT from metagenomic read data by identifying <strong>breakpoints</strong> — positions in a reference genome where reads from two different genomic sources meet. When a read pair maps to a region of genome A but one end also matches a region of genome B, that junction is evidence of a transfer event between the two organisms.</p>
-
-<p>This is a fundamentally different approach from phylogenetic HGT detection (which looks for incongruence between gene trees and species trees) or compositional methods (which look for unusual GC content or codon usage). LocalHGT operates directly on metagenomic reads, making it applicable to communities where no isolate genomes exist and where phylogenetic reconstruction would be impossible.</p>
-
-<p><strong>Key output metrics from LocalHGT:</strong></p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Metric</th>
-      <th>What it measures</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">Inter_BP</code></td>
-      <td>Total inter-genome HGT breakpoints — the primary measure of HGT intensity</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">Strong_BP &gt;= 5</code></td>
-      <td>High-confidence HGT events supported by ≥5 reads — reduces false positives</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">Unique_pairs</code></td>
-      <td>Number of distinct donor–recipient genome pairs — network complexity</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">Donor_div</code></td>
-      <td>Diversity of genomes donating genetic material</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">Recipient_div</code></td>
-      <td>Diversity of genomes receiving genetic material</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The distinction between <code class="language-plaintext highlighter-rouge">Inter_BP</code> (all breakpoints) and <code class="language-plaintext highlighter-rouge">Strong_BP &gt;= 5</code> (high-confidence only) is important. All breakpoints include low-coverage events that could be mapping artefacts; the stricter threshold trades sensitivity for specificity. In practice, both should be examined and their patterns compared.</p>
-
-<hr />
-
-<h2 id="installation">Installation</h2>
-
-<p>LocalHGT is available from GitHub and installs via conda or manual compilation.</p>
-
-<h3 id="option-1-conda-recommended">Option 1: conda (recommended)</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create <span class="nt">-n</span> localhgt <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge localhgt
-conda activate localhgt
-localhgt <span class="nt">--version</span>
-</code></pre></div></div>
-
-<p>If the bioconda package is unavailable for your platform:</p>
-
-<h3 id="option-2-install-from-source">Option 2: Install from source</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Dependencies</span>
-conda create <span class="nt">-n</span> localhgt <span class="nv">python</span><span class="o">=</span>3.8
-conda activate localhgt
-conda <span class="nb">install</span> <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge bwa samtools pysam
-
-<span class="c"># Clone and install</span>
-git clone https://github.com/songweizhi/LocalHGT.git
-<span class="nb">cd </span>LocalHGT
-pip <span class="nb">install</span> <span class="nb">.</span>
-
-localhgt <span class="nt">--version</span>
-</code></pre></div></div>
-
-<h3 id="input-requirements">Input requirements</h3>
-
-<p>LocalHGT requires:</p>
-
-<ol>
-  <li><strong>Metagenomic reads</strong> (paired-end FASTQ)</li>
-  <li><strong>Reference genomes or MAGs</strong> (FASTA) — the set of genomes to detect transfer between</li>
-  <li><strong>A mapping index</strong> — reads are mapped to the reference set before LocalHGT processes the alignments</li>
-</ol>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Build BWA index of your reference genome set</span>
-<span class="nb">cat </span>all_genomes/<span class="k">*</span>.fasta <span class="o">&gt;</span> combined_references.fasta
-bwa index combined_references.fasta
-
-<span class="c"># Map reads to references</span>
-bwa mem <span class="nt">-t</span> 16 combined_references.fasta <span class="se">\</span>
-    sample_R1.fastq.gz sample_R2.fastq.gz <span class="se">\</span>
-    | samtools <span class="nb">sort</span> <span class="nt">-o</span> sample.bam
-samtools index sample.bam
-
-<span class="c"># Run LocalHGT</span>
-localhgt <span class="se">\</span>
-    <span class="nt">-bam</span> sample.bam <span class="se">\</span>
-    <span class="nt">-ref</span> combined_references.fasta <span class="se">\</span>
-    <span class="nt">-o</span> localhgt_output/sample <span class="se">\</span>
-    <span class="nt">-t</span> 16
-</code></pre></div></div>
-
-<p>The output folder will contain per-sample summary files with breakpoint counts, donor–recipient pair tables, and genome-level statistics.</p>
-
-<hr />
-
-<h2 id="dataset-and-ecological-context">Dataset and ecological context</h2>
-
-<p>The dataset integrates HGT metrics, functional redundancy metrics, and environmental metadata across estuarine microbial communities sampled across two bays (Chesapeake and Delaware), three seasons (Spring, Summer, Fall), and two size fractions:</p>
-
-<ul>
-  <li><strong>Particle-associated (PA)</strong>: microbes attached to particulate matter — physically aggregated, in close contact with each other</li>
-  <li><strong>Free-living (FL)</strong>: microbes in the water column — dispersed, more exposed to environmental fluctuation</li>
-</ul>
-
-<p>The key functional redundancy metric is <strong>R*</strong> (R-star): the realized functional redundancy of a community — a measure of how many taxa in the community can perform the same functional role. High R* means many taxa share the same functions; low R* means functions are partitioned uniquely across taxa. The core hypothesis going into this analysis was that communities with higher R* would show higher HGT — gene exchange as a mechanism for maintaining shared functional capacity across taxa.</p>
-
-<hr />
-
-<h2 id="data-preparation">Data preparation</h2>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">janitor</span><span class="p">)</span><span class="w">
-
-</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"HGT_fred.csv"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">clean_names</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-    </span><span class="n">Season</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">season</span><span class="p">,</span><span class="w">   </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Spring"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Summer"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Fall"</span><span class="p">)),</span><span class="w">
-    </span><span class="n">Fraction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">fraction</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"PA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"FL"</span><span class="p">),</span><span class="w">
-                      </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Particle-associated"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Free-living"</span><span class="p">)),</span><span class="w">
-    </span><span class="n">Bay</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">bay</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"CP"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Chesapeake"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Delaware"</span><span class="p">),</span><span class="w">
-    </span><span class="c1"># Resolve duplicate salinity columns if present</span><span class="w">
-    </span><span class="n">salinity_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">salinity_5</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">janitor::clean_names()</code> standardizes column names to lowercase with underscores — a one-line fix for the mixed-case, space-containing column names that come out of many summary tools. Before any analysis, confirm there are no duplicate columns (a common issue when merging summary files from different tools), and verify that all categorical variables have the levels you expect.</p>
-
-<hr />
-
-<h2 id="core-analysis-hgt-and-functional-redundancy">Core analysis: HGT and functional redundancy</h2>
-
-<h3 id="correlation-between-hgt-and-r">Correlation between HGT and R*</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Spearman correlation — appropriate for non-normally distributed ecological data</span><span class="w">
-</span><span class="n">cor.test</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">inter_bp</span><span class="p">,</span><span class="w">     </span><span class="n">df</span><span class="o">$</span><span class="n">rstar</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"spearman"</span><span class="p">)</span><span class="w">
-</span><span class="n">cor.test</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">strong_bp_5</span><span class="p">,</span><span class="w">  </span><span class="n">df</span><span class="o">$</span><span class="n">rstar</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"spearman"</span><span class="p">)</span><span class="w">
-</span><span class="n">cor.test</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">unique_pairs</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">rstar</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"spearman"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="scatter-plots">Scatter plots</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># HGT intensity vs functional redundancy</span><span class="w">
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rstar</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inter_bp</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fraction</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bay</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lm"</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"R* (Functional Redundancy)"</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Inter-genome HGT breakpoints"</span><span class="p">,</span><span class="w">
-    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"HGT intensity vs functional redundancy"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># High-confidence HGT vs R*</span><span class="w">
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rstar</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strong_bp_5</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fraction</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bay</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lm"</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"R*"</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Strong HGT breakpoints (≥5 reads)"</span><span class="p">,</span><span class="w">
-    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"High-confidence HGT vs functional redundancy"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Network complexity vs R*</span><span class="w">
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rstar</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unique_pairs</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Season</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fraction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lm"</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"R*"</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Unique donor–recipient pairs"</span><span class="p">,</span><span class="w">
-    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"HGT network complexity vs functional redundancy"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="linear-models">Linear models</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Main model: does HGT explain R* after accounting for ecology?</span><span class="w">
-</span><span class="n">m1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">rstar</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">strong_bp_3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bay</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">season</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fraction</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">salinity_num</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">)</span><span class="w">
-</span><span class="n">summary</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Interaction: does the HGT–R* relationship differ by fraction?</span><span class="w">
-</span><span class="n">m2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">inter_bp</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">rstar</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Fraction</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Season</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Bay</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">)</span><span class="w">
-</span><span class="n">summary</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Partial correlation: does HGT–R* hold after controlling for environment?</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ppcor</span><span class="p">)</span><span class="w">
-</span><span class="n">pcor.test</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">inter_bp</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">rstar</span><span class="p">,</span><span class="w">
-          </span><span class="n">df</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"salinity_num"</span><span class="p">,</span><span class="w"> </span><span class="s2">"temperature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"season_num"</span><span class="p">)],</span><span class="w">
-          </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"spearman"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="ecological-patterns-in-hgt">Ecological patterns in HGT</h2>
-
-<h3 id="particle-associated-vs-free-living">Particle-associated vs. free-living</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Wilcoxon test: HGT differs by fraction?</span><span class="w">
-</span><span class="n">wilcox_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">group_by</span><span class="p">(</span><span class="n">Bay</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">summarise</span><span class="p">(</span><span class="w">
-    </span><span class="n">p_value</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">wilcox.test</span><span class="p">(</span><span class="n">inter_bp</span><span class="p">[</span><span class="n">Fraction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Particle-associated"</span><span class="p">],</span><span class="w">
-                             </span><span class="n">inter_bp</span><span class="p">[</span><span class="n">Fraction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Free-living"</span><span class="p">])</span><span class="o">$</span><span class="n">p.value</span><span class="p">,</span><span class="w">
-    </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"drop"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Boxplot</span><span class="w">
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fraction</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inter_bp</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fraction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="n">outlier.shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.15</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">Bay</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Inter-genome HGT breakpoints"</span><span class="p">,</span><span class="w">
-    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"HGT intensity by ecological compartment"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="seasonal-variation">Seasonal variation</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Season</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inter_bp</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Season</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="n">outlier.shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">Fraction</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Inter-genome HGT breakpoints"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="environmental-drivers">Environmental drivers</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temperature</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inter_bp</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fraction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lm"</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Temperature (°C)"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Inter-genome HGT breakpoints"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="what-the-data-actually-showed">What the data actually showed</h2>
-
-<p>I want to be transparent about what this analysis found, because the result was not what the initial hypothesis predicted — and that is worth documenting.</p>
-
-<p><strong>The original hypothesis</strong> was that R* and HGT would be positively correlated: communities with more functional redundancy would show more gene exchange, because HGT is a mechanism for spreading functional traits across taxa.</p>
-
-<p><strong>What the data showed</strong> was that the relationship between HGT and R* was weak and non-significant across all tested metrics and stratifications. The correlations were small (ρ in the range of -0.18 to +0.13) and did not survive correction for multiple testing.</p>
-
-<p><strong>What did explain variation in the data</strong> was ecological compartment. Fraction (particle-associated vs. free-living) emerged as the dominant driver of both R* and HGT — but the two variables responded differently to it:</p>
-
-<ul>
-  <li>R* was higher in <strong>particle-associated</strong> communities</li>
-  <li>HGT was higher in <strong>free-living</strong> communities</li>
-</ul>
-
-<p>This is a counterintuitive result for HGT. The conventional expectation is that physical proximity — which particle attachment provides — should promote gene transfer. The data suggests instead that free-living communities, which experience greater environmental variability and osmotic stress, may have stronger selective pressure for gene acquisition.</p>
-
-<p>The revised conceptual model:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Environment (salinity, temperature, season)
-        ↓                    ↓
-    HGT patterns       Functional redundancy
-</code></pre></div></div>
-
-<p>Rather than HGT → R*, both HGT and R* are independently structured by the same environmental drivers. Whether HGT plays an indirect, lagged, or context-dependent role in shaping functional redundancy remains an open question — one that a time-series dataset, or a metatranscriptomic analysis of HGT-associated gene expression, could help answer.</p>
-
-<hr />
-
-<h2 id="other-tools-for-hgt-detection-in-metagenomes">Other tools for HGT detection in metagenomes</h2>
-
-<p>LocalHGT is one of several approaches for detecting HGT from metagenomic data. The right tool depends on whether you have isolate genomes, assembled MAGs, or only reads — and whether you want breakpoint-level evidence, phylogenetic incongruence, or both.</p>
-
-<h3 id="metachip">MetaCHIP</h3>
-
-<p>MetaCHIP detects HGT from assembled metagenomic bins (MAGs) by combining phylogenetic incongruence with best-match genome comparisons. For each gene in each MAG, it asks: does this gene cluster phylogenetically with genes from a distantly related organism? If so, it flags a candidate HGT event.</p>
-
-<p><strong>When to use it:</strong> You have high-quality MAGs and want to identify specific transferred genes and their likely donors, rather than just quantifying transfer intensity.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install</span>
-conda create <span class="nt">-n</span> metacchip <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge metacchip
-conda activate metacchip
-
-<span class="c"># Run</span>
-MetaCHIP PI <span class="nt">-p</span> project_name <span class="nt">-r</span> reference_genomes/ <span class="nt">-g</span> MAGs/ <span class="nt">-t</span> 16
-MetaCHIP BP <span class="nt">-p</span> project_name
-</code></pre></div></div>
-
-<p>Output: a table of predicted HGT events with donor and recipient MAG assignments, gene identities, and confidence scores.</p>
-
-<hr />
-
-<h3 id="hgtector">HGTector</h3>
-
-<p>HGTector uses a taxon-based approach: for each protein in a genome, it performs a sequence similarity search and asks whether the best matches are from the same taxonomic group as the query genome. Proteins that match organisms from distant phylogenetic groups are flagged as potential HGT acquisitions.</p>
-
-<p><strong>When to use it:</strong> You have isolate genomes or high-completeness MAGs and want to characterize the historical HGT landscape — which genes were acquired from which lineages — rather than detect active transfer events in a community.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install</span>
-conda create <span class="nt">-n</span> hgtector <span class="nt">-c</span> bioconda <span class="nt">-c</span> conda-forge hgtector
-conda activate hgtector
-
-<span class="c"># Search step (DIAMOND against NCBI nr)</span>
-hgtector search <span class="nt">-i</span> proteins.faa <span class="nt">-o</span> search_results/ <span class="nt">-m</span> diamond <span class="nt">-db</span> nr_db/
-
-<span class="c"># Analyze step</span>
-hgtector analyze <span class="nt">-i</span> search_results/ <span class="nt">-o</span> hgtector_output/ <span class="nt">-t</span> taxonomy/
-</code></pre></div></div>
-
-<p>Output: scored protein list with HGT probability, donor group predictions, and summary statistics.</p>
-
-<hr />
-
-<h3 id="anvio-pan-genomic-hgt-signals">anvi’o pan-genomic HGT signals</h3>
-
-<p>anvi’o does not have a dedicated HGT detection module, but its pangenome framework can surface HGT signals indirectly. Gene clusters that are present in phylogenetically distant genomes within a pangenome — unexpected by vertical inheritance — are candidate HGT events. The anvi’o visualization interface allows you to inspect these directly, coloring the pangenome by phylogeny and manually identifying phylogenetically incongruent gene clusters.</p>
-
-<p><strong>When to use it:</strong> You are already running an anvi’o pangenome analysis and want to explore HGT in the context of the full accessory genome, without running a separate HGT-specific pipeline.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># After building the pangenome (see pangenomics post)</span>
-anvi-display-pan <span class="se">\</span>
-    <span class="nt">-g</span> GENOMES.db <span class="se">\</span>
-    <span class="nt">-p</span> pan_output/PAN.db <span class="se">\</span>
-    <span class="nt">--server-only</span>
-</code></pre></div></div>
-
-<p>In the browser interface, layer a phylogenetic tree alongside the gene cluster presence–absence matrix. Gene clusters that appear in isolated, phylogenetically distant branches of the tree, without intermediate occurrences, are visually apparent as HGT candidates.</p>
-
-<hr />
-
-<h3 id="comparison-summary">Comparison summary</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Tool</th>
-      <th>Input</th>
-      <th>Approach</th>
-      <th>Best for</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>LocalHGT</strong></td>
-      <td>Reads + reference genomes</td>
-      <td>Breakpoint detection</td>
-      <td>Quantifying active HGT in complex communities</td>
-    </tr>
-    <tr>
-      <td><strong>MetaCHIP</strong></td>
-      <td>MAGs / assembled bins</td>
-      <td>Phylogenetic incongruence</td>
-      <td>Identifying specific transferred genes between MAGs</td>
-    </tr>
-    <tr>
-      <td><strong>HGTector</strong></td>
-      <td>Isolate genomes or MAGs</td>
-      <td>Similarity-based taxonomy</td>
-      <td>Historical HGT characterization, donor identification</td>
-    </tr>
-    <tr>
-      <td><strong>anvi’o</strong></td>
-      <td>MAGs + pangenome</td>
-      <td>Visual incongruence inspection</td>
-      <td>Exploratory, in context of pangenome analysis</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>In practice, these tools are complementary rather than competing. LocalHGT quantifies transfer intensity across a community at the read level. MetaCHIP or HGTector then identify which specific genes were transferred and from where. anvi’o ties everything together in the context of the pangenome.</p>
-
-<hr />
-
-<h2 id="reproducibility-checklist">Reproducibility checklist</h2>
-
-<ol>
-  <li>All LocalHGT runs use the same reference genome set — adding or removing reference genomes changes breakpoint counts and comparisons are only valid within a consistent reference.</li>
-  <li>BAM files are sorted and indexed before LocalHGT input.</li>
-  <li><code class="language-plaintext highlighter-rouge">Strong_BP &gt;= 5</code> threshold is applied consistently and documented — the choice of cutoff affects how many events are retained.</li>
-  <li>Spearman correlation is used rather than Pearson for non-normally distributed ecological data.</li>
-  <li>Multiple testing correction applied to Wilcoxon tests across seasons and fraction comparisons.</li>
-  <li>Partial correlations computed to disentangle environmental confounders before interpreting HGT–R* relationships.</li>
-  <li><code class="language-plaintext highlighter-rouge">sessionInfo()</code> saved alongside all R output.</li>
-</ol>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sessionInfo</span><span class="p">()</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="next-steps">Next steps</h2>
-
-<p>The analysis described here is cross-sectional: one timepoint per sample, one set of ecological variables. Several extensions would substantially strengthen the biological interpretation:</p>
-
-<ul>
-  <li><strong>Metatranscriptomic integration:</strong> Do HGT-associated genes show elevated expression in particle-associated communities despite lower transfer rates? This would separate acquisition from utilization.</li>
-  <li><strong>Pathway mapping:</strong> Which metabolic functions are being transferred? Mapping breakpoint-flanking genes to KEGG or CAZy pathways would reveal whether HGT is preferentially moving carbon cycling, nutrient cycling, or other ecologically relevant functions.</li>
-  <li><strong>Donor–recipient network visualization:</strong> The <code class="language-plaintext highlighter-rouge">Unique_pairs</code> metric summarizes network complexity as a single number. Building and visualizing the actual donor–recipient network in Cytoscape or igraph would reveal whether HGT is concentrated between a few highly connected hubs or distributed broadly across the community.</li>
-  <li><strong>Time-series analysis:</strong> If samples span multiple years, does HGT intensity at time <em>t</em> predict changes in R* at time <em>t+1</em>? This lagged analysis is the most direct test of whether HGT shapes functional redundancy over time.</li>
-</ul>
-
-<hr />
-
-<p><em>LocalHGT: <a href="https://github.com/songweizhi/LocalHGT">github.com/songweizhi/LocalHGT</a>. MetaCHIP: Songweizhi et al. (2020). HGTector: Zhu et al. (2014). Analysis performed on estuarine metatranscriptomic and metagenomic data across Chesapeake Bay and Delaware Bay sampling stations.</em></p>
-
-<p><img src="/assets/img/hgt.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="genomics" /><category term="horizontal-gene-transfer" /><category term="HGT" /><category term="LocalHGT" /><category term="metagenomics" /><category term="functional-redundancy" /><category term="estuarine" /><category term="microbial-ecology" /><category term="MetaCHIP" /><category term="HGTector" /><category term="anvio" /><category term="R" /><category term="bioinformatics" /><category term="comparative-genomics" /><category term="mobile-genetic-elements" /><category term="beginners" /><summary type="html"><![CDATA[Horizontal gene transfer is one of the most powerful forces shaping microbial evolution — it lets a bacterium acquire in hours what vertical evolution might take millennia to produce. But detecting it in complex, multi-species metagenomic datasets is non-trivial. This post walks through a complete LocalHGT-based HGT detection workflow applied to estuarine microbial communities, linking gene transfer patterns to functional redundancy, ecological compartment, and environmental gradients. Includes installation, a brief survey of alternative tools (MetaCHIP, HGTector, anvi'o), and an honest account of what the data did and did not support.]]></summary></entry></feed>
+<p><img src="/assets/img/da_anlysis.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="genomics" /><category term="differential-abundance" /><category term="MAGs" /><category term="DESeq2" /><category term="ANCOM-BC" /><category term="ALDEx2" /><category term="MaAsLin2" /><category term="metagenomics" /><category term="compositional-data" /><category term="R" /><category term="bioinformatics" /><category term="estuarine" /><category term="free-living" /><category term="particle-associated" /><category term="volcano-plot" /><category term="microbiome" /><category term="beginners" /><summary type="html"><![CDATA[You have a table of 2,000 MAG relative abundances across dozens of samples. Community composition tells you who is there. Differential abundance analysis tells you which genomes change significantly between conditions — free-living vs particle-associated, spring vs summer, control vs treatment. This post walks through four methods (DESeq2, ANCOM-BC, ALDEx2, and MaAsLin2), explains when to use each, shows a real FL vs PA example from an estuarine dataset, and documents the most common mistakes that quietly invalidate results.]]></summary></entry></feed>
