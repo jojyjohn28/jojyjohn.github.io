@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-07-31T12:47:57-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-07-31T12:47:57-04:00</published><updated>2026-07-31T12:47:57-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://jojyjohn28.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jojyjohn28.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-07-31T12:55:15-04:00</updated><id>https://jojyjohn28.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html"></title><link href="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/" rel="alternate" type="text/html" title="" /><published>2026-07-31T12:55:15-04:00</published><updated>2026-07-31T12:55:15-04:00</updated><id>https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/2026-02-11-day6-specialized-functions/"><![CDATA[<h1 id="day-6-specialized-genomic-functions">Day 6: Specialized Genomic Functions</h1>
 
 <table>
   <tbody>
@@ -766,7 +766,328 @@ run_dbcan <span class="nt">--tools</span> all ...
 
 <p>Last updated: February 2026</p>
 
-<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">New Lab, New Machine: Switching from Linux to macOS as a Bioinformatician</title><link href="https://jojyjohn28.github.io/blog/linux-to-macos-bioinformatician-guide/" rel="alternate" type="text/html" title="New Lab, New Machine: Switching from Linux to macOS as a Bioinformatician" /><published>2026-07-24T00:00:00-04:00</published><updated>2026-07-24T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/switching-from-linux-to-macOS</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/linux-to-macos-bioinformatician-guide/"><![CDATA[<p>🎉 <em>First post from the new lab — University of Maryland School of Medicine!</em>
+<p><img src="/assets/img/mg_day6.png" alt="day6 mg" /></p>]]></content><author><name></name></author></entry><entry><title type="html">Daily Bioinformatics #98: Keeping Scratch Files Alive on HPC Clusters</title><link href="https://jojyjohn28.github.io/blog/keeping-scratch-files-alive/" rel="alternate" type="text/html" title="Daily Bioinformatics #98: Keeping Scratch Files Alive on HPC Clusters" /><published>2026-07-31T00:00:00-04:00</published><updated>2026-07-31T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/keeping-scratch-files-alive</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/keeping-scratch-files-alive/"><![CDATA[<h1 id="keeping-scratch-files-alive-on-hpc-clusters">Keeping Scratch Files Alive on HPC Clusters</h1>
+<p>Day 98 of daily bioinformatics from Jojy’s desk</p>
+
+<p>One of the first things I learned after joining my new lab wasn’t about sequencing, metagenomics, or statistics.</p>
+
+<p>It was about <strong>not losing my data.</strong></p>
+
+<p>Most High Performance Computing (HPC) systems provide a <strong>scratch</strong> directory for temporary storage. Scratch is fast, has plenty of space, and is ideal for intermediate files generated during analysis.</p>
+
+<p>But there is a catch.</p>
+
+<p>Many institutions automatically remove files that have not been accessed for a certain period — sometimes 7, 30, 60, or 90 days, depending on the cluster. If you leave a project untouched for too long, thousands of intermediate files may disappear overnight.</p>
+
+<hr />
+
+<h2 id="why-do-hpc-centers-do-this">Why do HPC centers do this?</h2>
+
+<p>Scratch storage is shared by hundreds or even thousands of researchers.</p>
+
+<p>Automatic cleanup helps:</p>
+
+<ul>
+  <li>free storage space</li>
+  <li>improve filesystem performance</li>
+  <li>remove abandoned projects</li>
+  <li>ensure resources remain available for active users</li>
+</ul>
+
+<p>The policy is usually based on the <strong>last access or modification time</strong> of a file. That means an inactive project can eventually be deleted even if you still need it.</p>
+
+<hr />
+
+<h2 id="the-simple-solution">The simple solution</h2>
+
+<p>If your project is still active but you simply haven’t touched it recently, you can refresh the modification timestamp of the files. Linux provides a simple command for this:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">touch </span>filename
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">touch</code> command updates a file’s timestamp without changing its contents.</p>
+
+<p>Instead of manually touching thousands of files, I wrote a small Bash script that walks my project directory, reports on usage, and refreshes timestamps on anything older than my cluster’s purge threshold — with a five-day safety margin built in.</p>
+
+<p>Here’s the script I actually run against my lab’s scratch space:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env bash</span>
+
+<span class="nb">set</span> <span class="nt">-uo</span> pipefail
+
+<span class="c">###############################################################################</span>
+<span class="c"># Weekly scratch maintenance and email report</span>
+<span class="c">###############################################################################</span>
+
+<span class="nv">SCRATCH_DIR</span><span class="o">=</span><span class="s2">"/local/scratch/jojyj"</span>
+<span class="nv">EMAIL</span><span class="o">=</span><span class="s2">"jojy.john@som.umaryland.edu"</span>
+
+<span class="c"># Touch files and directories older than five days.</span>
+<span class="c"># This provides a margin before the seven-day scratch purge threshold.</span>
+<span class="nv">AGE_DAYS</span><span class="o">=</span>5
+
+<span class="c"># Number of largest directories and files to report.</span>
+<span class="nv">TOP_N</span><span class="o">=</span>20
+
+<span class="nv">PATH</span><span class="o">=</span><span class="s2">"/usr/local/bin:/usr/bin:/bin"</span>
+<span class="nb">export </span>PATH
+
+<span class="nv">REPORT</span><span class="o">=</span><span class="si">$(</span><span class="nb">mktemp</span> <span class="s2">"/tmp/jojyj_scratch_report.XXXXXX"</span><span class="si">)</span>
+<span class="nb">trap</span> <span class="s1">'rm -f "$REPORT"'</span> EXIT
+
+<span class="nv">HOST_NAME</span><span class="o">=</span><span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span>
+<span class="nv">START_TIME</span><span class="o">=</span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span>
+<span class="nv">STATUS</span><span class="o">=</span><span class="s2">"SUCCESS"</span>
+
+<span class="o">{</span>
+    <span class="nb">echo</span> <span class="s2">"Ravel Lab Weekly Scratch Report"</span>
+    <span class="nb">echo</span> <span class="s2">"Scratch directory : </span><span class="nv">$SCRATCH_DIR</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"Touch threshold    : Older than </span><span class="nv">$AGE_DAYS</span><span class="s2"> days"</span>
+
+    <span class="k">if</span> <span class="o">[[</span> <span class="o">!</span> <span class="nt">-d</span> <span class="s2">"</span><span class="nv">$SCRATCH_DIR</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"ERROR: Scratch directory does not exist."</span>
+        <span class="nv">STATUS</span><span class="o">=</span><span class="s2">"FAILED"</span>
+    <span class="k">else
+        </span><span class="nb">df</span> <span class="nt">-h</span> <span class="s2">"</span><span class="nv">$SCRATCH_DIR</span><span class="s2">"</span>
+        <span class="nb">du</span> <span class="nt">-sh</span> <span class="s2">"</span><span class="nv">$SCRATCH_DIR</span><span class="s2">"</span> 2&gt;/dev/null
+
+        <span class="nv">OLD_FILE_COUNT</span><span class="o">=</span><span class="si">$(</span>find <span class="s2">"</span><span class="nv">$SCRATCH_DIR</span><span class="s2">"</span> <span class="nt">-xdev</span> <span class="nt">-type</span> f <span class="nt">-mtime</span> +<span class="s2">"</span><span class="nv">$AGE_DAYS</span><span class="s2">"</span> 2&gt;/dev/null | <span class="nb">wc</span> <span class="nt">-l</span><span class="si">)</span>
+        <span class="nv">OLD_DIR_COUNT</span><span class="o">=</span><span class="si">$(</span>find <span class="s2">"</span><span class="nv">$SCRATCH_DIR</span><span class="s2">"</span> <span class="nt">-xdev</span> <span class="nt">-type</span> d <span class="nt">-mtime</span> +<span class="s2">"</span><span class="nv">$AGE_DAYS</span><span class="s2">"</span> 2&gt;/dev/null | <span class="nb">wc</span> <span class="nt">-l</span><span class="si">)</span>
+
+        <span class="k">if</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$OLD_FILE_COUNT</span><span class="s2">"</span> <span class="nt">-gt</span> 0 <span class="o">]]</span><span class="p">;</span> <span class="k">then
+            </span>find <span class="s2">"</span><span class="nv">$SCRATCH_DIR</span><span class="s2">"</span> <span class="nt">-xdev</span> <span class="nt">-type</span> f <span class="nt">-mtime</span> +<span class="s2">"</span><span class="nv">$AGE_DAYS</span><span class="s2">"</span> <span class="nt">-exec</span> <span class="nb">touch</span> <span class="nt">--no-dereference</span> <span class="o">{}</span> +
+        <span class="k">fi
+
+        if</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$OLD_DIR_COUNT</span><span class="s2">"</span> <span class="nt">-gt</span> 0 <span class="o">]]</span><span class="p">;</span> <span class="k">then
+            </span>find <span class="s2">"</span><span class="nv">$SCRATCH_DIR</span><span class="s2">"</span> <span class="nt">-xdev</span> <span class="nt">-depth</span> <span class="nt">-type</span> d <span class="nt">-mtime</span> +<span class="s2">"</span><span class="nv">$AGE_DAYS</span><span class="s2">"</span> <span class="nt">-exec</span> <span class="nb">touch</span> <span class="nt">--no-dereference</span> <span class="o">{}</span> +
+        <span class="k">fi
+    fi
+
+    </span><span class="nb">echo</span> <span class="s2">"Status    : </span><span class="nv">$STATUS</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"Completed : </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
+<span class="o">}</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$REPORT</span><span class="s2">"</span> 2&gt;&amp;1
+
+<span class="c"># Email the report (falls back through mailx -&gt; mail -&gt; sendmail)</span>
+<span class="k">if </span><span class="nb">command</span> <span class="nt">-v</span> mailx <span class="o">&gt;</span>/dev/null 2&gt;&amp;1<span class="p">;</span> <span class="k">then
+    </span>mailx <span class="nt">-s</span> <span class="s2">"[Ravel Scratch Report] </span><span class="nv">$STATUS</span><span class="s2"> - </span><span class="si">$(</span><span class="nb">date</span> +%F<span class="si">)</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$EMAIL</span><span class="s2">"</span> &lt; <span class="s2">"</span><span class="nv">$REPORT</span><span class="s2">"</span>
+<span class="k">elif </span><span class="nb">command</span> <span class="nt">-v</span> mail <span class="o">&gt;</span>/dev/null 2&gt;&amp;1<span class="p">;</span> <span class="k">then
+    </span>mail <span class="nt">-s</span> <span class="s2">"[Ravel Scratch Report] </span><span class="nv">$STATUS</span><span class="s2"> - </span><span class="si">$(</span><span class="nb">date</span> +%F<span class="si">)</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$EMAIL</span><span class="s2">"</span> &lt; <span class="s2">"</span><span class="nv">$REPORT</span><span class="s2">"</span>
+<span class="k">elif </span><span class="nb">command</span> <span class="nt">-v</span> sendmail <span class="o">&gt;</span>/dev/null 2&gt;&amp;1<span class="p">;</span> <span class="k">then</span>
+    <span class="o">{</span> <span class="nb">echo</span> <span class="s2">"To: </span><span class="nv">$EMAIL</span><span class="s2">"</span><span class="p">;</span> <span class="nb">echo</span> <span class="s2">"Subject: [Ravel Scratch Report] </span><span class="nv">$STATUS</span><span class="s2"> - </span><span class="si">$(</span><span class="nb">date</span> +%F<span class="si">)</span><span class="s2">"</span><span class="p">;</span> <span class="nb">echo</span><span class="p">;</span> <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$REPORT</span><span class="s2">"</span><span class="p">;</span> <span class="o">}</span> | sendmail <span class="nt">-t</span>
+<span class="k">fi</span>
+</code></pre></div></div>
+
+<p><em>(This is a trimmed version for readability — the full script also reports the largest top-level directories, the largest individual files with human-readable sizes, and re-verifies that nothing old remains after touching. It’s built to run as a weekly cron or SLURM job and email itself to me, so I never have to remember to run it by hand.)</em></p>
+
+<h3 id="running-the-script">Running the script</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash refresh_scratch.sh
+</code></pre></div></div>
+
+<p>For long-term projects, this can be automated with a cron job or a weekly SLURM job — as long as your HPC policies allow it. I run mine on a weekly cadence, well inside the seven-day purge window on our cluster.</p>
+
+<hr />
+
+<h2 id="automating-the-process-with-cron">Automating the process with Cron</h2>
+
+<p>Remembering to run the script every few weeks is easy to forget — especially when you’re juggling multiple projects.</p>
+
+<p>A better approach is to let Linux do it automatically using <strong>cron</strong>, the built-in task scheduler available on most Unix-like systems.</p>
+
+<p>For example, I scheduled my script to run <strong>once every Sunday morning</strong>, ensuring that active project files are refreshed regularly without any manual intervention.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 8 <span class="k">*</span> <span class="k">*</span> 0 /home/username/scripts/touch_scratch_and_report.sh
+</code></pre></div></div>
+
+<p>This cron job means:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Value</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Minute</td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td>Minute (00)</td>
+    </tr>
+    <tr>
+      <td>Hour</td>
+      <td><code class="language-plaintext highlighter-rouge">8</code></td>
+      <td>8:00 AM</td>
+    </tr>
+    <tr>
+      <td>Day of month</td>
+      <td><code class="language-plaintext highlighter-rouge">*</code></td>
+      <td>Every day of the month</td>
+    </tr>
+    <tr>
+      <td>Month</td>
+      <td><code class="language-plaintext highlighter-rouge">*</code></td>
+      <td>Every month</td>
+    </tr>
+    <tr>
+      <td>Day of week</td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td>Every Sunday</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can choose any schedule that fits your workflow — weekly or biweekly is often sufficient for projects that are actively being maintained.</p>
+
+<hr />
+
+<h2 id="email-notifications">Email notifications</h2>
+
+<p>One feature I particularly like is that my script sends me a short email report after it finishes.</p>
+
+<p>The report includes information such as:</p>
+
+<ul>
+  <li>Which project directory was refreshed</li>
+  <li>How many files were updated</li>
+  <li>The execution time</li>
+  <li>Any warnings or errors encountered</li>
+</ul>
+
+<p>This gives me confidence that the script is still running as expected without having to log into the HPC cluster and check manually.</p>
+
+<p><em>(Insert screenshot of the email report here.)</em></p>
+
+<hr />
+
+<h2 id="why-automate">Why automate?</h2>
+
+<p>Automation offers several advantages:</p>
+
+<ul>
+  <li>No need to remember when scratch storage expires.</li>
+  <li>Reduces the chance of losing intermediate analysis files.</li>
+  <li>Provides a simple audit trail through email reports.</li>
+  <li>Lets you focus on research instead of routine maintenance.</li>
+</ul>
+
+<p>Like many small bioinformatics workflows, the script itself is only a few lines long — but automating it makes it much more reliable.</p>
+
+<hr />
+
+<h2 id="️-a-caution-cron-jobs-and-node-restarts">⚠️ A caution: cron jobs and node restarts</h2>
+
+<p>Cron reliability depends on <em>where</em> the job lives — and this is the part that bit me once.</p>
+
+<p>On many HPC systems, your crontab is tied to a specific <strong>login or interactive node</strong>, not to the cluster as a whole. If that node is rebooted, reimaged, taken down for maintenance, or you get load-balanced onto a different login node next time you connect, your crontab may not automatically follow you. In some cluster configurations, <code class="language-plaintext highlighter-rouge">cron</code> may not even be enabled on compute or interactive nodes at all, and the job only runs if it was submitted from the correct scheduler-aware host.</p>
+
+<p>A few practical takeaways:</p>
+
+<ul>
+  <li><strong>Check periodically that the job is still registered.</strong> Run <code class="language-plaintext highlighter-rouge">crontab -l</code> every so often — don’t assume that because you set it up once, it’s still there.</li>
+  <li><strong>Confirm the email reports are still arriving.</strong> A missing weekly email is often the first (and only) sign that the cron job silently stopped running after a node change.</li>
+  <li><strong>Know which node your crontab lives on.</strong> Some clusters have multiple login nodes behind a round-robin DNS entry; <code class="language-plaintext highlighter-rouge">crontab -e</code> on one node may not be visible from another.</li>
+  <li><strong>Ask your HPC admins about persistent scheduling options.</strong> Some centers offer a dedicated cron/scheduler node, or recommend using a recurring low-priority SLURM job instead of <code class="language-plaintext highlighter-rouge">cron</code> specifically so it survives node rotations.</li>
+  <li><strong>Re-add the crontab after any announced maintenance window.</strong> If admins send a notice about node reboots or reimaging, treat that as a cue to double check your scheduled jobs afterward.</li>
+</ul>
+
+<p>This isn’t meant to discourage automation — just to set expectations. A cron job on the wrong node is a silent failure, not a loud one, and silent failures are exactly what this script was meant to prevent in the first place.</p>
+
+<hr />
+
+<h2 id="always-follow-your-hpc-policies">Always follow your HPC policies</h2>
+
+<p>Every computing center has its own storage policy. Some systems specifically recommend updating timestamps for active projects. Others require users to move important data to permanent storage instead, and some flag or restrict scripted <code class="language-plaintext highlighter-rouge">touch</code> workarounds entirely.</p>
+
+<p>Before automating anything like this, read your institution’s documentation and, if in doubt, ask your HPC support team directly. A quick email is a lot cheaper than losing a week’s worth of intermediate files — or violating a policy you didn’t know existed.</p>
+
+<hr />
+
+<h2 id="my-workflow">My workflow</h2>
+
+<p>Personally, I treat scratch storage as working space, not permanent storage:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Raw data
+    ↓
+Scratch storage
+    ↓
+Analysis
+    ↓
+Results
+    ↓
+Permanent project storage
+    ↓
+GitHub (scripts only)
+</code></pre></div></div>
+
+<p>The touch script simply buys me peace of mind while an analysis is still in progress — it is not a substitute for actually moving finished results off scratch.</p>
+
+<hr />
+
+<h2 id="common-mistakes-to-avoid">Common mistakes to avoid</h2>
+
+<ul>
+  <li><strong>Touching everything, not just old files.</strong> Blanket-touching an entire directory tree resets timestamps you might actually want to track (e.g., for detecting stale intermediate files). Filter with <code class="language-plaintext highlighter-rouge">-mtime +N</code> first.</li>
+  <li><strong>Forgetting <code class="language-plaintext highlighter-rouge">--no-dereference</code> on symlinks.</strong> Without it, <code class="language-plaintext highlighter-rouge">touch</code> follows symlinks and can silently update the timestamp of a target file elsewhere on the filesystem — not the link itself.</li>
+  <li><strong>Assuming scratch is backed up.</strong> It almost never is. Refreshing timestamps prevents deletion; it does not protect against disk failure, quota issues, or accidental <code class="language-plaintext highlighter-rouge">rm -rf</code>.</li>
+  <li><strong>Treating a workaround as a policy exemption.</strong> Some centers actively discourage or block touch-based purge avoidance. Check first.</li>
+  <li><strong>Not verifying after the fact.</strong> Run a second <code class="language-plaintext highlighter-rouge">find ... -mtime +N</code> pass after touching to confirm nothing old remains — cron jobs fail silently more often than you’d think.</li>
+</ul>
+
+<h2 id="reproducibility-checklist">Reproducibility checklist</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Scratch path and purge threshold documented at the top of the script (<code class="language-plaintext highlighter-rouge">SCRATCH_DIR</code>, <code class="language-plaintext highlighter-rouge">AGE_DAYS</code>)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Safety margin built in before the actual purge threshold (here: 5 days vs. a 7-day policy)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><code class="language-plaintext highlighter-rouge">set -uo pipefail</code> for safer failure behavior</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Report generated to a temp file, cleaned up via <code class="language-plaintext highlighter-rouge">trap ... EXIT</code></li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Exit codes distinguish success / warnings / failure for downstream monitoring (e.g., cron alerting)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Mail fallback chain (<code class="language-plaintext highlighter-rouge">mailx</code> → <code class="language-plaintext highlighter-rouge">mail</code> → <code class="language-plaintext highlighter-rouge">sendmail</code>) so the job doesn’t fail silently if one tool is missing</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Institutional storage policy re-checked before scheduling as a recurring job</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Crontab existence spot-checked periodically (<code class="language-plaintext highlighter-rouge">crontab -l</code>), especially after node maintenance or reboots</li>
+</ul>
+
+<hr />
+
+<h2 id="the-complete-workflow">The complete workflow</h2>
+
+<p>Putting it all together, here’s the full lifecycle of an active HPC project, from upload to permanent storage:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Local computer
+      │
+      ▼
+Upload data to Scratch
+      │
+      ▼
+Run analyses
+      │
+      ▼
+Weekly cron job
+      │
+      ▼
+Touch active files
+      │
+      ▼
+Email report ✔
+      │
+      ▼
+Move final results to permanent storage
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">touch</code> script and its cron job only cover the middle of this pipeline. They keep an active project alive on scratch — they are not a substitute for eventually moving finished results to permanent storage, or for having real backups.</p>
+
+<hr />
+
+<h2 id="final-thoughts">Final thoughts</h2>
+
+<p>Sometimes the most useful bioinformatics lessons are not algorithms or software packages. They are the small workflow improvements that prevent hours — or even days — of unnecessary work.</p>
+
+<p>Learning how your HPC manages storage is one of those lessons. A short Bash script can save terabytes of data from being removed simply because a project was inactive for a few weeks.</p>
+
+<p>Happy computing! 🚀</p>
+
+<p><img src="/assets/img/report.png" alt="See your plot" /></p>]]></content><author><name></name></author><category term="hpc" /><category term="slurm" /><category term="linux" /><category term="bash" /><category term="bioinformatics" /><category term="scratch" /><category term="workflow" /><category term="storage" /><category term="daily-bioinformatics" /><summary type="html"><![CDATA[Many HPC clusters automatically delete files in scratch storage after a fixed number of days. Here's a simple touch-based workflow I learned to extend the lifetime of active projects without repeatedly copying large datasets.]]></summary></entry><entry><title type="html">New Lab, New Machine: Switching from Linux to macOS as a Bioinformatician</title><link href="https://jojyjohn28.github.io/blog/linux-to-macos-bioinformatician-guide/" rel="alternate" type="text/html" title="New Lab, New Machine: Switching from Linux to macOS as a Bioinformatician" /><published>2026-07-24T00:00:00-04:00</published><updated>2026-07-24T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/switching-from-linux-to-macOS</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/linux-to-macos-bioinformatician-guide/"><![CDATA[<p>🎉 <em>First post from the new lab — University of Maryland School of Medicine!</em>
 Day 97 of Daily Bioinformatics from Jojy’s Desk</p>
 
 <p>After years of Linux as my primary operating system, I just moved into a new position and, for the first time, my daily machine is a MacBook.</p>
@@ -4583,625 +4904,4 @@ explorer.exe <span class="nb">.</span>
 
 <p><em>All commands tested on Ubuntu 22.04 / bash 5.1. WSL installation instructions current as of June 2026 — check <code class="language-plaintext highlighter-rouge">wsl --help</code> for the latest options on your Windows version.</em></p>
 
-<p><img src="/assets/img/linux_codes.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="linux" /><category term="linux" /><category term="bash" /><category term="command-line" /><category term="bioinformatics" /><category term="grep" /><category term="awk" /><category term="sed" /><category term="find" /><category term="parallel" /><category term="rsync" /><category term="WSL" /><category term="Windows" /><category term="HPC" /><category term="beginners" /><category term="productivity" /><summary type="html"><![CDATA[You do not need to memorize 500 Linux commands to be effective at the command line. You need maybe 20, used well and combined creatively. This post covers the commands I reach for every single day — find, grep, awk, sed, wc, sort, uniq, xargs, parallel, rsync, and a handful of others — with real bioinformatics examples for each one. There is also a short section at the end for Windows users who want to get started without dual-booting: WSL (Windows Subsystem for Linux) puts a full Linux terminal on your Windows machine in about ten minutes.]]></summary></entry><entry><title type="html">Differential Abundance Analysis for MAGs: DESeq2, ANCOM-BC, ALDEx2, and MaAsLin2</title><link href="https://jojyjohn28.github.io/blog/differential-abundance-analysis-mag-genomes/" rel="alternate" type="text/html" title="Differential Abundance Analysis for MAGs: DESeq2, ANCOM-BC, ALDEx2, and MaAsLin2" /><published>2026-06-05T00:00:00-04:00</published><updated>2026-06-05T00:00:00-04:00</updated><id>https://jojyjohn28.github.io/blog/differential-abundance-analysis-mag-genomes</id><content type="html" xml:base="https://jojyjohn28.github.io/blog/differential-abundance-analysis-mag-genomes/"><![CDATA[<p>🧬 𝐷𝑎𝑦 𝟪9 𝑜𝑓 𝐷𝑎𝑖𝑙𝑦 𝐵𝑖𝑜𝑖𝑛𝑓𝑜𝑟𝑚𝑎𝑡𝑖𝑐𝑠 𝑓𝑟𝑜𝑚 𝐽𝑜𝑗𝑦’𝑠 𝖽𝖾𝗌𝗄</p>
-
-<p>Community composition tells you <em>who is there</em>. A relative abundance table of 2,000 MAGs tells you, for each sample, what fraction of the sequencing signal each genome contributes. That is valuable — but it does not answer the question that usually matters most: <em>which genomes are actually changing between my conditions?</em> Which MAGs are consistently more abundant in particle-associated communities than free-living ones? Which respond to seasonal shifts? Which distinguish a disturbed estuary from a reference site?</p>
-
-<p>That question belongs to differential abundance analysis. And in the world of metagenomics, choosing the right method for it is genuinely important — not just a technical nicety — because the nature of sequencing data breaks several assumptions that classical statistics rely on.</p>
-
-<p>This post covers four methods: DESeq2, ANCOM-BC, ALDEx2, and MaAsLin2. For each one I explain what it does, when it is appropriate, and how to run it. I also show a real example from an estuarine FL vs PA dataset, document the most common mistakes, and give you a decision table for choosing which method to reach for given your data type and study design.</p>
-
-<hr />
-
-<h2 id="why-standard-statistics-fail-on-abundance-data">Why standard statistics fail on abundance data</h2>
-
-<p>Before getting into methods, it is worth understanding why a t-test or linear model on relative abundances is problematic. The issue is <strong>compositionality</strong>: in a sequencing experiment, you observe proportions, not absolute counts. If genome A increases in absolute abundance but everything else stays the same, its relative abundance goes up. But if genome B doubles, genome A’s relative abundance goes <em>down</em> — even though genome A did nothing. Every feature is coupled to every other feature through the constant-sum constraint.</p>
-
-<p>A toy example:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Genome</th>
-      <th>Sample 1 (absolute)</th>
-      <th>Sample 2 (absolute)</th>
-      <th>Sample 1 (relative)</th>
-      <th>Sample 2 (relative)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>MAG_001</td>
-      <td>100</td>
-      <td>100</td>
-      <td>50%</td>
-      <td>33%</td>
-    </tr>
-    <tr>
-      <td>MAG_002</td>
-      <td>50</td>
-      <td>100</td>
-      <td>25%</td>
-      <td>33%</td>
-    </tr>
-    <tr>
-      <td>MAG_003</td>
-      <td>50</td>
-      <td>100</td>
-      <td>25%</td>
-      <td>33%</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>MAG_001 did not change at all in absolute terms. But its relative abundance dropped from 50% to 33% because MAG_002 and MAG_003 doubled. A naive differential test on relative abundances would flag MAG_001 as significantly decreased — a false positive driven entirely by compositional coupling.</p>
-
-<p>Methods like ANCOM-BC and ALDEx2 are specifically designed to handle this. DESeq2, which operates on raw counts, sidesteps it differently. Understanding this distinction drives almost every decision in differential abundance analysis.</p>
-
-<hr />
-
-<h2 id="input-data-what-you-need">Input data: what you need</h2>
-
-<p>Regardless of method, you need two files:</p>
-
-<p><strong>1. Abundance table</strong> — MAGs as rows, samples as columns. The format varies by method:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>           Sample_1   Sample_2   Sample_3   Sample_4
-MAG_001      1240        880       2100        560
-MAG_002       430        210        880        120
-MAG_003         0         90        430         80
-...
-</code></pre></div></div>
-
-<p>For DESeq2: <strong>raw integer read counts</strong> (from featureCounts, CoverM, or similar).
-For ANCOM-BC, ALDEx2, MaAsLin2: raw counts are preferred; relative abundances work for ALDEx2 and MaAsLin2 but raw counts are better when available.</p>
-
-<p><strong>2. Metadata</strong> — samples as rows, covariates as columns:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>           Fraction   Bay          Season   Salinity
-Sample_1   PA         Chesapeake   Spring   Low
-Sample_2   FL         Chesapeake   Spring   Low
-Sample_3   PA         Delaware     Summer   High
-Sample_4   FL         Delaware     Summer   High
-</code></pre></div></div>
-
-<p>Before running any method, verify alignment:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">all</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">))</span><span class="w">  </span><span class="c1"># must return TRUE</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="method-1-deseq2">Method 1: DESeq2</h2>
-
-<p>DESeq2 was developed for RNA-seq and is the most widely used differential abundance method in genomics. It models count data using a <strong>negative binomial distribution</strong> — which handles the overdispersion typical in sequencing data better than a Poisson model — and uses a shrinkage estimator for fold-change to stabilize estimates for low-count features.</p>
-
-<h3 id="when-to-use-it">When to use it</h3>
-
-<p>DESeq2 is well suited for MAG differential abundance when you have raw read counts, a relatively balanced experimental design, and want well-characterized statistical behavior. It handles complex multi-factor designs cleanly and integrates well with the tidyverse visualization ecosystem.</p>
-
-<p><strong>Do not use DESeq2 on relative abundances.</strong> The negative binomial model requires integer counts. Feeding it proportions breaks the model silently — it will run and produce numbers, but those numbers are not statistically valid.</p>
-
-<h3 id="installation">Installation</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">require</span><span class="p">(</span><span class="s2">"BiocManager"</span><span class="p">,</span><span class="w"> </span><span class="n">quietly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w">
-    </span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"BiocManager"</span><span class="p">)</span><span class="w">
-</span><span class="n">BiocManager</span><span class="o">::</span><span class="n">install</span><span class="p">(</span><span class="s2">"DESeq2"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="running-deseq2">Running DESeq2</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">DESeq2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Load data</span><span class="w">
-</span><span class="n">counts</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"mag_counts.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"metadata.csv"</span><span class="p">,</span><span class="w">   </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Verify alignment</span><span class="w">
-</span><span class="n">stopifnot</span><span class="p">(</span><span class="nf">all</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)))</span><span class="w">
-
-</span><span class="c1"># Set reference level explicitly</span><span class="w">
-</span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"PA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"FL"</span><span class="p">))</span><span class="w">
-
-</span><span class="c1"># Build DESeqDataSet</span><span class="w">
-</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="w">
-  </span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counts</span><span class="p">,</span><span class="w">
-  </span><span class="n">colData</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">
-  </span><span class="n">design</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Fraction</span><span class="w">        </span><span class="c1"># adjust for additional factors: ~ Bay + Season + Fraction</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Optional: filter low-count MAGs before running</span><span class="w">
-</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dds</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="n">counts</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-
-</span><span class="c1"># Run</span><span class="w">
-</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeq</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w">
-</span><span class="n">resultsNames</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w">   </span><span class="c1"># always check contrast names before extracting</span><span class="w">
-
-</span><span class="c1"># Extract results</span><span class="w">
-</span><span class="n">res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">dds</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fraction_FL_vs_PA"</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w">
-</span><span class="n">res_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">rownames_to_column</span><span class="p">(</span><span class="s2">"MAG"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">arrange</span><span class="p">(</span><span class="n">padj</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Significant MAGs</span><span class="w">
-</span><span class="n">sig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">log2FoldChange</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-
-</span><span class="n">write.csv</span><span class="p">(</span><span class="n">res_df</span><span class="p">,</span><span class="w"> </span><span class="s2">"DESeq2_FL_vs_PA_all.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span><span class="n">write.csv</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span><span class="w">    </span><span class="s2">"DESeq2_FL_vs_PA_significant.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="volcano-plot">Volcano plot</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
-
-</span><span class="n">volcano_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">padj</span><span class="p">),</span><span class="w"> </span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">log2FoldChange</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-    </span><span class="n">significant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">log2FoldChange</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
-    </span><span class="n">direction</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
-      </span><span class="n">significant</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Enriched in FL"</span><span class="p">,</span><span class="w">
-      </span><span class="n">significant</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Enriched in PA"</span><span class="p">,</span><span class="w">
-      </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"Not significant"</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-
-</span><span class="n">top_labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">volcano_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">significant</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">slice_min</span><span class="p">(</span><span class="n">padj</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)</span><span class="w">
-
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">volcano_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">direction</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_text_repel</span><span class="p">(</span><span class="w">
-    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">top_labels</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAG</span><span class="p">),</span><span class="w">
-    </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.8</span><span class="p">,</span><span class="w"> </span><span class="n">max.overlaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w">
-    </span><span class="n">box.padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">segment.color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey60"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w">  </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
-    </span><span class="s2">"Enriched in FL"</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"#3182BD"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Enriched in PA"</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"#E6550D"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Not significant"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey75"</span><span class="w">
-  </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">
-    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">legend.position</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">x</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 Fold Change (FL vs PA)"</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 Adjusted P-value"</span><span class="p">,</span><span class="w">
-    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
-    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Differential MAG abundance: Free-living vs Particle-associated"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Points to the right (positive log2FC) are enriched in FL; points to the left are enriched in PA. The dashed lines mark the significance threshold (horizontal) and the ±1 fold-change filter (vertical). Only points in the upper-left and upper-right quadrants — beyond both lines — are the confident, biologically relevant hits.</p>
-
-<hr />
-
-<h2 id="method-2-ancom-bc-and-ancom-bc2">Method 2: ANCOM-BC (and ANCOM-BC2)</h2>
-
-<p>ANCOM-BC (Analysis of Compositions of Microbiomes with Bias Correction) was developed specifically for compositional microbiome data. Its key insight is that the observed log-ratio between two samples contains not just the true biological signal but also a <strong>sampling fraction bias</strong> — the fact that different samples were sequenced to different depths. ANCOM-BC estimates and removes this bias before testing for differences.</p>
-
-<p>ANCOM-BC2 (the current recommended version) extends this with better handling of rare features, improved type I error control, and support for more complex study designs.</p>
-
-<h3 id="when-to-use-it-1">When to use it</h3>
-
-<p>ANCOM-BC is the right choice when you are concerned about compositional effects and want a method with strong theoretical grounding in the statistics of relative abundance data. It is particularly well suited for datasets where sequencing depth varies substantially between samples.</p>
-
-<h3 id="installation-1">Installation</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BiocManager</span><span class="o">::</span><span class="n">install</span><span class="p">(</span><span class="s2">"ANCOMBC"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="running-ancom-bc2">Running ANCOM-BC2</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ANCOMBC</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">TreeSummarizedExperiment</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># ANCOM-BC2 expects a SummarizedExperiment or TreeSummarizedExperiment object</span><span class="w">
-</span><span class="n">tse</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">TreeSummarizedExperiment</span><span class="p">(</span><span class="w">
-  </span><span class="n">assays</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">counts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">counts</span><span class="p">)),</span><span class="w">
-  </span><span class="n">colData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Run ANCOM-BC2</span><span class="w">
-</span><span class="n">out</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ancombc2</span><span class="p">(</span><span class="w">
-  </span><span class="n">data</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="n">tse</span><span class="p">,</span><span class="w">
-  </span><span class="n">assay_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"counts"</span><span class="p">,</span><span class="w">
-  </span><span class="n">fix_formula</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fraction"</span><span class="p">,</span><span class="w">       </span><span class="c1"># adjust: "Bay + Season + Fraction"</span><span class="w">
-  </span><span class="n">p_adj_method</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"BH"</span><span class="p">,</span><span class="w">
-  </span><span class="n">prv_cut</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="m">0.10</span><span class="p">,</span><span class="w">             </span><span class="c1"># exclude MAGs present in &lt; 10% of samples</span><span class="w">
-  </span><span class="n">lib_cut</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w">             </span><span class="c1"># exclude samples with &lt; 1000 counts</span><span class="w">
-  </span><span class="n">alpha</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w">
-  </span><span class="n">global</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
-  </span><span class="n">n_cl</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Results</span><span class="w">
-</span><span class="n">res_ancombc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">out</span><span class="o">$</span><span class="n">res</span><span class="w">
-
-</span><span class="n">sig_ancombc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_ancombc</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">diff_FractionFL</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">arrange</span><span class="p">(</span><span class="n">q_FractionFL</span><span class="p">)</span><span class="w">
-
-</span><span class="n">write.csv</span><span class="p">(</span><span class="n">res_ancombc</span><span class="p">,</span><span class="w"> </span><span class="s2">"ANCOMBC2_FL_vs_PA_all.csv"</span><span class="p">,</span><span class="w">         </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span><span class="n">write.csv</span><span class="p">(</span><span class="n">sig_ancombc</span><span class="p">,</span><span class="w"> </span><span class="s2">"ANCOMBC2_FL_vs_PA_significant.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">prv_cut</code> argument is important: MAGs that appear in fewer than 10% of samples are excluded from testing. This is a prevalence filter that reduces the burden of testing rare features that have insufficient data to support reliable inference.</p>
-
-<hr />
-
-<h2 id="method-3-aldex2">Method 3: ALDEx2</h2>
-
-<p>ALDEx2 (ANOVA-Like Differential Expression for high-throughput sequencing data) uses a Bayesian approach grounded in the <strong>Aitchison geometry</strong> of compositional data. Rather than working with counts or proportions directly, it transforms data using the centered log-ratio (CLR) transformation, which maps compositional data into a standard Euclidean space where ordinary statistics apply without the coupling problem.</p>
-
-<p>The key feature of ALDEx2 is that it explicitly models <strong>count uncertainty</strong>: for each sample and each feature, it generates multiple Monte Carlo instances of the true count distribution (using a Dirichlet prior), runs the statistical test on each instance, and reports the median result. This makes it conservative — it is less likely to call false positives than DESeq2 — but also less powerful when sample sizes are small.</p>
-
-<h3 id="when-to-use-it-2">When to use it</h3>
-
-<p>ALDEx2 is well suited for relative abundance tables when raw counts are unavailable, or when you want a compositionally correct analysis that accounts for count uncertainty. It is often used as a cross-validation method alongside DESeq2 — features significant in both are high-confidence hits.</p>
-
-<h3 id="installation-2">Installation</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BiocManager</span><span class="o">::</span><span class="n">install</span><span class="p">(</span><span class="s2">"ALDEx2"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="running-aldex2">Running ALDEx2</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ALDEx2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># ALDEx2 requires the group variable as a vector aligned to column order</span><span class="w">
-</span><span class="n">group_vector</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="w">   </span><span class="c1"># must match column order of counts matrix</span><span class="w">
-
-</span><span class="c1"># Generate Monte Carlo CLR samples and run Welch t-test + Wilcoxon test</span><span class="w">
-</span><span class="n">aldex_out</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">aldex</span><span class="p">(</span><span class="w">
-  </span><span class="n">reads</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">counts</span><span class="p">),</span><span class="w">
-  </span><span class="n">conditions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group_vector</span><span class="p">,</span><span class="w">
-  </span><span class="n">mc.samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">128</span><span class="p">,</span><span class="w">              </span><span class="c1"># number of Monte Carlo instances</span><span class="w">
-  </span><span class="n">test</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"t"</span><span class="p">,</span><span class="w">
-  </span><span class="n">effect</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
-  </span><span class="n">denom</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"all"</span><span class="w">             </span><span class="c1"># use all features for CLR denominator</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Significant features (both tests, BH-corrected)</span><span class="w">
-</span><span class="n">sig_aldex</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">aldex_out</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">rownames_to_column</span><span class="p">(</span><span class="s2">"MAG"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">wi.eBH</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">effect</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">arrange</span><span class="p">(</span><span class="n">wi.eBH</span><span class="p">)</span><span class="w">
-
-</span><span class="n">write.csv</span><span class="p">(</span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">aldex_out</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">rownames_to_column</span><span class="p">(</span><span class="s2">"MAG"</span><span class="p">),</span><span class="w">
-          </span><span class="s2">"ALDEx2_FL_vs_PA_all.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span><span class="n">write.csv</span><span class="p">(</span><span class="n">sig_aldex</span><span class="p">,</span><span class="w"> </span><span class="s2">"ALDEx2_FL_vs_PA_significant.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">wi.eBH</code> is the Wilcoxon test q-value (BH corrected). <code class="language-plaintext highlighter-rouge">effect</code> is ALDEx2’s effect size — the median difference between groups divided by the median dispersion within groups. An effect size &gt; 1 is conventionally considered biologically meaningful.</p>
-
-<hr />
-
-<h2 id="method-4-maaslin2-and-maaslin3">Method 4: MaAsLin2 (and MaAsLin3)</h2>
-
-<p>MaAsLin2 (Multivariable Association Discovery in Population-scale Meta-omics Studies) is the most flexible of the four methods when it comes to study design. It is built as a generalized linear model framework that supports multiple fixed effects, random effects for repeated measures, and multiple normalization and transformation options. If your dataset has more than one covariate — for example, you want to test fraction while controlling for bay, season, and salinity simultaneously — MaAsLin2 handles this more naturally than the other three methods.</p>
-
-<h3 id="when-to-use-it-3">When to use it</h3>
-
-<p>MaAsLin2 is the right choice for complex multi-factor designs, repeated measures, or datasets where you want to jointly model multiple metadata variables. It is what you would use if you wanted to ask: “Which MAGs are associated with salinity gradient, after controlling for fraction, bay, and season?”</p>
-
-<h3 id="installation-3">Installation</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BiocManager</span><span class="o">::</span><span class="n">install</span><span class="p">(</span><span class="s2">"Maaslin2"</span><span class="p">)</span><span class="w">
-</span><span class="c1"># Or for MaAsLin3:</span><span class="w">
-</span><span class="n">devtools</span><span class="o">::</span><span class="n">install_github</span><span class="p">(</span><span class="s2">"biobakery/maaslin3"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="running-maaslin2">Running MaAsLin2</h3>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">Maaslin2</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># MaAsLin2 expects features as rows, samples as columns for input_data</span><span class="w">
-</span><span class="c1"># and samples as rows, covariates as columns for input_metadata</span><span class="w">
-
-</span><span class="n">fit_maaslin</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Maaslin2</span><span class="p">(</span><span class="w">
-  </span><span class="n">input_data</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">counts</span><span class="p">,</span><span class="w">                          </span><span class="c1"># features × samples</span><span class="w">
-  </span><span class="n">input_metadata</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">                        </span><span class="c1"># samples × covariates</span><span class="w">
-  </span><span class="n">output</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s2">"maaslin2_FL_vs_PA"</span><span class="p">,</span><span class="w">
-  </span><span class="n">fixed_effects</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Fraction"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Bay"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Season"</span><span class="p">),</span><span class="w">  </span><span class="c1"># adjust as needed</span><span class="w">
-  </span><span class="n">random_effects</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">                            </span><span class="c1"># add subject ID if repeated measures</span><span class="w">
-  </span><span class="n">normalization</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"TSS"</span><span class="p">,</span><span class="w">                           </span><span class="c1"># total sum scaling</span><span class="w">
-  </span><span class="n">transform</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"LOG"</span><span class="p">,</span><span class="w">
-  </span><span class="n">min_prevalence</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="m">0.10</span><span class="p">,</span><span class="w">
-  </span><span class="n">min_abundance</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="m">0.0</span><span class="p">,</span><span class="w">
-  </span><span class="n">max_significance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w">                           </span><span class="c1"># MaAsLin default; tighten to 0.05 for publication</span><span class="w">
-  </span><span class="n">cores</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="w">
-</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The output folder contains <code class="language-plaintext highlighter-rouge">all_results.tsv</code> with coefficients, standard errors, p-values, and q-values for every feature × metadata term combination.</p>
-
-<hr />
-
-<h2 id="which-method-should-i-use">Which method should I use?</h2>
-
-<p>The honest answer is: it depends on your data type, study design, and how conservative you want to be. Here is a practical decision guide:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th> </th>
-      <th>DESeq2</th>
-      <th>ANCOM-BC2</th>
-      <th>ALDEx2</th>
-      <th>MaAsLin2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Requires raw counts</strong></td>
-      <td>Yes</td>
-      <td>Preferred</td>
-      <td>No</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <td><strong>Relative abundance OK</strong></td>
-      <td>No</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-    </tr>
-    <tr>
-      <td><strong>Multi-factor design</strong></td>
-      <td>Yes</td>
-      <td>Moderate</td>
-      <td>Limited</td>
-      <td>Excellent</td>
-    </tr>
-    <tr>
-      <td><strong>Repeated measures</strong></td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
-      <td>Yes</td>
-    </tr>
-    <tr>
-      <td><strong>Compositionally aware</strong></td>
-      <td>No</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Partial</td>
-    </tr>
-    <tr>
-      <td><strong>Handles rare features</strong></td>
-      <td>With filtering</td>
-      <td>Built-in</td>
-      <td>Conservative</td>
-      <td>With filtering</td>
-    </tr>
-    <tr>
-      <td><strong>Computation speed</strong></td>
-      <td>Fast</td>
-      <td>Moderate</td>
-      <td>Slow (Monte Carlo)</td>
-      <td>Moderate</td>
-    </tr>
-    <tr>
-      <td><strong>Best for</strong></td>
-      <td>Count data, clean design</td>
-      <td>Compositional correction</td>
-      <td>Cross-validation</td>
-      <td>Complex multi-covariate models</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>My practical recommendation for MAG differential abundance:</strong></p>
-
-<ol>
-  <li><strong>Start with DESeq2</strong> if you have raw counts and a clean two-group design. It is well-characterized, widely cited, and produces interpretable output.</li>
-  <li><strong>Cross-validate with ALDEx2</strong> or <strong>ANCOM-BC2</strong> for features you want to report as significant. Hits that appear in both DESeq2 and a compositionally aware method are much more credible than hits from either alone.</li>
-  <li><strong>Use MaAsLin2</strong> when you have multiple covariates or want to test associations across a continuous environmental gradient (salinity, temperature) while controlling for other factors.</li>
-</ol>
-
-<hr />
-
-<h2 id="a-real-example-free-living-vs-particle-associated-in-an-estuarine-dataset">A real example: Free-living vs Particle-associated in an estuarine dataset</h2>
-
-<p>The dataset used here contains relative abundance profiles of MAGs from estuarine samples across two bays, three seasons, and two size fractions. The FL vs PA comparison is the cleanest two-group test in the dataset.</p>
-
-<p>The ecological expectation is that particle-associated communities should be enriched in genomes capable of polymer degradation — organisms that can attach to particles and break down complex organic matter. Free-living communities should be enriched in smaller, more streamlined genomes adapted to dilute, oligotrophic conditions.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">DESeq2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
-
-</span><span class="n">counts</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"mag_counts.csv"</span><span class="p">,</span><span class="w">   </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"metadata.csv"</span><span class="p">,</span><span class="w">     </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
-
-</span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"PA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"FL"</span><span class="p">))</span><span class="w">
-
-</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="w">
-  </span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counts</span><span class="p">,</span><span class="w">
-  </span><span class="n">colData</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w">
-  </span><span class="n">design</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Bay</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Season</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Fraction</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Pre-filter: keep MAGs present in at least 3 samples with &gt;= 10 reads</span><span class="w">
-</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dds</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="n">counts</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-
-</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeq</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w">
-</span><span class="n">res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">dds</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fraction_FL_vs_PA"</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w">
-
-</span><span class="n">res_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">rownames_to_column</span><span class="p">(</span><span class="s2">"MAG"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">padj</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-    </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
-      </span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">&gt;</span><span class="w">  </span><span class="m">1</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"FL-enriched"</span><span class="p">,</span><span class="w">
-      </span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">-1</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"PA-enriched"</span><span class="p">,</span><span class="w">
-      </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"ns"</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Summary</span><span class="w">
-</span><span class="n">cat</span><span class="p">(</span><span class="s2">"FL-enriched MAGs:"</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">res_df</span><span class="o">$</span><span class="n">direction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"FL-enriched"</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
-</span><span class="n">cat</span><span class="p">(</span><span class="s2">"PA-enriched MAGs:"</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">res_df</span><span class="o">$</span><span class="n">direction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"PA-enriched"</span><span class="p">),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Volcano</span><span class="w">
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">res_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2FoldChange</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">padj</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w">   </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dashed"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
-    </span><span class="s2">"FL-enriched"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#3182BD"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"PA-enriched"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#E6550D"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"ns"</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey75"</span><span class="w">
-  </span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">x</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log2 Fold Change (FL vs PA)"</span><span class="p">,</span><span class="w">
-    </span><span class="n">y</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"-Log10 Adjusted P-value"</span><span class="p">,</span><span class="w">
-    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
-    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"MAG differential abundance: Free-living vs Particle-associated"</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The design formula <code class="language-plaintext highlighter-rouge">~ Bay + Season + Fraction</code> is critical here. Without accounting for bay and season, the FL vs PA comparison is confounded by the fact that samples from different bays and seasons differ in both fraction composition and environmental conditions. Including them as covariates means the <code class="language-plaintext highlighter-rouge">Fraction_FL_vs_PA</code> coefficient represents the fraction effect after those confounders are removed.</p>
-
-<hr />
-
-<h2 id="common-mistakes--and-how-to-avoid-them">Common mistakes — and how to avoid them</h2>
-
-<h3 id="1-using-relative-abundances-in-deseq2">1. Using relative abundances in DESeq2</h3>
-
-<p>DESeq2 uses the negative binomial distribution, which requires raw integer counts. Relative abundances are not integers, and the variance structure of proportions is fundamentally different from count data. DESeq2 will accept and process a relative abundance matrix without error — the output just will not be statistically valid.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># WRONG</span><span class="w">
-</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">relative_abundance_table</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># RIGHT — use raw counts from featureCounts, CoverM, or equivalent</span><span class="w">
-</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="n">countData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">raw_read_counts</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="2-skipping-multiple-testing-correction">2. Skipping multiple testing correction</h3>
-
-<p>With 2,000 MAGs tested, a raw p-value threshold of 0.05 produces ~100 false positives by chance alone. Always filter on <code class="language-plaintext highlighter-rouge">padj</code> (Benjamini-Hochberg adjusted q-value), never on raw <code class="language-plaintext highlighter-rouge">pvalue</code>.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># WRONG</span><span class="w">
-</span><span class="n">sig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">pvalue</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># RIGHT</span><span class="w">
-</span><span class="n">sig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">padj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="3-not-setting-reference-levels-explicitly">3. Not setting reference levels explicitly</h3>
-
-<p>DESeq2 defaults to alphabetical factor ordering. “FL” comes before “PA” alphabetically, so without <code class="language-plaintext highlighter-rouge">relevel()</code>, your log2FC represents FL/PA when you may have intended PA/FL. The sign of every fold-change — and therefore every biological interpretation — is inverted.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Always set the reference level explicitly</span><span class="w">
-</span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">metadata</span><span class="o">$</span><span class="n">Fraction</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"PA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"FL"</span><span class="p">))</span><span class="w">
-</span><span class="c1"># Now: positive log2FC = higher in FL (relative to PA reference)</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="4-not-filtering-rare-mags">4. Not filtering rare MAGs</h3>
-
-<p>MAGs present in only one or two samples have insufficient data for reliable variance estimation. Including them inflates the number of tests, reduces statistical power, and can produce extreme but unreliable fold-changes. Filter before running any method.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Keep only MAGs present with &gt;= 10 reads in at least 3 samples</span><span class="w">
-</span><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dds</span><span class="p">[</span><span class="n">rowSums</span><span class="p">(</span><span class="n">counts</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="5-interpreting-significance-as-ecological-importance">5. Interpreting significance as ecological importance</h3>
-
-<p>A MAG can be statistically significantly different between FL and PA and still represent 0.001% of the community. It changed — but does that change matter ecologically? Statistical significance scales with sample size; biological importance does not. Always report effect size (log2FC, ALDEx2 effect, or similar) alongside p-values, and consider the absolute abundance and prevalence of significant MAGs before drawing ecological conclusions.</p>
-
-<h3 id="6-mismatched-sample-order">6. Mismatched sample order</h3>
-
-<p>If the column order of the count matrix does not match the row order of the metadata, every sample is assigned the wrong group label. The analysis will run without errors and produce plausible-looking but completely wrong results.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># This must return TRUE — run it before every analysis</span><span class="w">
-</span><span class="n">stopifnot</span><span class="p">(</span><span class="nf">all</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rownames</span><span class="p">(</span><span class="n">metadata</span><span class="p">)))</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="reproducibility-checklist">Reproducibility checklist</h2>
-
-<ol>
-  <li><code class="language-plaintext highlighter-rouge">stopifnot(all(colnames(counts) == rownames(metadata)))</code> returns TRUE.</li>
-  <li>Reference levels set explicitly with <code class="language-plaintext highlighter-rouge">factor(..., levels = ...)</code> before building any model.</li>
-  <li>Pre-filtering applied and documented — minimum count threshold and minimum prevalence recorded.</li>
-  <li><code class="language-plaintext highlighter-rouge">resultsNames()</code> verified before any DESeq2 <code class="language-plaintext highlighter-rouge">results()</code> call.</li>
-  <li><code class="language-plaintext highlighter-rouge">padj</code> used for filtering, never raw <code class="language-plaintext highlighter-rouge">pvalue</code>.</li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>Both statistical threshold (padj &lt; 0.05) and effect size threshold (</td>
-          <td>log2FC</td>
-          <td>&gt; 1 or ALDEx2 effect &gt; 1) applied.</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <li>Method choice documented — including normalization method and transformation for MaAsLin2/ALDEx2.</li>
-  <li><code class="language-plaintext highlighter-rouge">sessionInfo()</code> saved alongside all result files.</li>
-</ol>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sessionInfo</span><span class="p">()</span><span class="w">
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="summary">Summary</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Step</th>
-      <th>What to check</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Input format</td>
-      <td>Raw counts for DESeq2; counts or relative abundance for others</td>
-    </tr>
-    <tr>
-      <td>Sample alignment</td>
-      <td><code class="language-plaintext highlighter-rouge">all(colnames(counts) == rownames(metadata))</code></td>
-    </tr>
-    <tr>
-      <td>Reference levels</td>
-      <td><code class="language-plaintext highlighter-rouge">factor(..., levels = ...)</code> before modeling</td>
-    </tr>
-    <tr>
-      <td>Pre-filtering</td>
-      <td>Prevalence filter applied before testing</td>
-    </tr>
-    <tr>
-      <td>Significance threshold</td>
-      <td><code class="language-plaintext highlighter-rouge">padj &lt; 0.05</code> + <code class="language-plaintext highlighter-rouge">\|log2FC\| &gt; 1</code></td>
-    </tr>
-    <tr>
-      <td>Cross-validation</td>
-      <td>Run DESeq2 + one compositionally aware method</td>
-    </tr>
-    <tr>
-      <td>Interpretation</td>
-      <td>Effect size alongside p-value; absolute abundance in context</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Differential abundance analysis is not the end of the analysis — it is the beginning of the biological interpretation. A list of significant MAGs becomes interesting when you ask what those genomes do, what pathways they carry, and whether their enrichment in FL vs PA communities is consistent with what is known about the ecology of those microhabitats. The statistics narrow the field; the biology gives it meaning.</p>
-
-<hr />
-
-<p><em>Analysis performed using DESeq2 (Love, Huber &amp; Anders 2014), ANCOM-BC2 (Lin &amp; Peddada 2020), ALDEx2 (Fernandes et al. 2014), and MaAsLin2 (Mallick et al. 2021). MAG abundance estimated by read mapping with CoverM or featureCounts. Dataset: estuarine metagenomes from Chesapeake Bay and Delaware Bay.</em></p>
-
-<p><img src="/assets/img/da_anlysis.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="genomics" /><category term="differential-abundance" /><category term="MAGs" /><category term="DESeq2" /><category term="ANCOM-BC" /><category term="ALDEx2" /><category term="MaAsLin2" /><category term="metagenomics" /><category term="compositional-data" /><category term="R" /><category term="bioinformatics" /><category term="estuarine" /><category term="free-living" /><category term="particle-associated" /><category term="volcano-plot" /><category term="microbiome" /><category term="beginners" /><summary type="html"><![CDATA[You have a table of 2,000 MAG relative abundances across dozens of samples. Community composition tells you who is there. Differential abundance analysis tells you which genomes change significantly between conditions — free-living vs particle-associated, spring vs summer, control vs treatment. This post walks through four methods (DESeq2, ANCOM-BC, ALDEx2, and MaAsLin2), explains when to use each, shows a real FL vs PA example from an estuarine dataset, and documents the most common mistakes that quietly invalidate results.]]></summary></entry></feed>
+<p><img src="/assets/img/linux_codes.png" alt="see_your_plot" /></p>]]></content><author><name></name></author><category term="linux" /><category term="linux" /><category term="bash" /><category term="command-line" /><category term="bioinformatics" /><category term="grep" /><category term="awk" /><category term="sed" /><category term="find" /><category term="parallel" /><category term="rsync" /><category term="WSL" /><category term="Windows" /><category term="HPC" /><category term="beginners" /><category term="productivity" /><summary type="html"><![CDATA[You do not need to memorize 500 Linux commands to be effective at the command line. You need maybe 20, used well and combined creatively. This post covers the commands I reach for every single day — find, grep, awk, sed, wc, sort, uniq, xargs, parallel, rsync, and a handful of others — with real bioinformatics examples for each one. There is also a short section at the end for Windows users who want to get started without dual-booting: WSL (Windows Subsystem for Linux) puts a full Linux terminal on your Windows machine in about ten minutes.]]></summary></entry></feed>
